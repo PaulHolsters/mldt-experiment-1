@@ -1,0 +1,16 @@
+<!-- todo how do I implement the position of this element? css prop= float left, float right, flexbox with spacers?-->
+<!--<img *ngIf="data && (state.display$ | async) && currentSize"
+     [style]="{'height':
+    currentSize==='sm' ? (state.sm$ | async) :
+    currentSize==='m' ? (state.m$ | async) :
+    currentSize==='l' ? (state.l$ | async) :
+    currentSize==='xl' ? (state.xl$ | async) :
+    currentSize==='xxl' ? (state.xxl$ | async) : 'auto'}" class="px-0 py-0" src="assets/{{data.src}}" alt="{{data.alt}}">-->
+
+<img
+     [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
+     [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
+     [style]="{'height': height$ | async}"
+     src="assets/{{(src$|async)}}"
+     alt="{{(alt$ | async)}}"
+>

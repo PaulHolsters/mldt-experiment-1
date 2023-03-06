@@ -1,0 +1,5 @@
+<p-button *ngIf="(label$|async) && (icon$|async)" (click)="trigger($event)" label="{{(label$|async)}}" icon="pi {{(icon$|async)}}"></p-button>
+<p-button *ngIf="(label$|async) && !(icon$|async)" (click)="trigger($event)" label="{{(label$|async)}}"></p-button>
+<p-button *ngIf="!(label$|async) && (icon$|async)" (click)="trigger($event)" icon="pi {{(icon$|async)}}"></p-button>
+
+

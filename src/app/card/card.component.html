@@ -1,0 +1,34 @@
+<!--
+de standaardbreedte is blijkbaar 96vw of iets daaromtrent of 100% met wat padding die tot de standaard stijl behoort
+-->
+<p-card [style]="getStyle()">
+  <ng-template pTemplate="header">
+    <ng-container *ngIf="headerTemplate">
+      <ng-container [ngSwitch]="headerTemplate.element">
+        <ng-container *ngSwitchCase="'img'">
+          <img src="{{headerTemplate.attr.src}}" alt="{{headerTemplate.attr.alt}}">
+        </ng-container>
+        <ng-container *ngSwitchCase="'button'">
+          <button>{{headerTemplate.attr.text}}</button>
+        </ng-container>
+        <ng-container *ngSwitchCase="'mixed'">
+          <div [innerHTML]="getHTML()"></div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'custom'">
+          <m-custom-component
+            [position]="position"
+            [dimension]="dimension"
+            [responsiveness]="responsiveness"
+            [layout]="layout"
+            [replace]="'card'"
+          >
+          </m-custom-component>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+  {{content}}
+  <ng-template pTemplate="footer">
+<!--    {{footerTemplate}}-->
+  </ng-template>
+</p-card>
