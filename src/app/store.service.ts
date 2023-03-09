@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
-import {ResponsiveLayoutStateModel} from "./models/ResponsiveLayoutStateModel";
-import {LayoutModel} from "./models/LayoutModel";
-import {ResponsiveAttributesStateModel} from "./models/ResponsiveAttributesStateModel";
-import {ResponsiveVisibilityStateModel} from "./models/ResponsiveVisibilityStateModel";
+import {ResponsivePositioningConfigModel} from "./models/Positioning/self/ResponsivePositioningConfigModel";
+import {PositioningConfigPropsModel} from "./models/Positioning/self/PositioningConfigPropsModel";
+import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
 import {BehaviorSubject, Observable} from "rxjs";
 import {StatePropertySubjectModel} from "./models/StatePropertySubject";
 import {CalculationModel} from "./models/CalculationModel";
 import {ComponentModel} from "./models/ComponentModel";
 import {ActionModel} from "./models/ActionModel";
-import {AttributesModel} from "./models/AttributesModel";
-import {VisibilityModel} from "./models/VisibilityModel";
-import {LayoutStateModel} from "./models/LayoutStateModel";
-import {AttributesStateModel} from "./models/AttributesStateModel";
-import {VisibilityStateModel} from "./models/VisibilityStateModel";
+import {AttributesConfigPropsModel} from "./models/Attributes/AttributesConfigPropsModel";
+import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
+import {PositioningComponentPropsModel} from "./models/Positioning/self/PositioningComponentPropsModel";
+import {AttributesComponentPropsModel} from "./models/Attributes/AttributesComponentPropsModel";
+import {VisibilityComponentPropsModel} from "./models/Visibility/VisibilityComponentPropsModel";
 import {State} from "./enums/states.enum"
 import {ScreenSize} from "./enums/screenSizes.enum";
 import {LayoutType} from "./enums/layoutType.enum";
@@ -24,7 +24,7 @@ export class StoreService {
   constructor() {
   }
   private statePropertySubjects: StatePropertySubjectModel[] = []
-  private translateToLayoutState(stateModel: ResponsiveLayoutStateModel, configKey: string, screenSize: ScreenSize,layoutType:number): LayoutStateModel {
+  private translateToLayoutState(stateModel: ResponsivePositioningConfigModel, configKey: string, screenSize: ScreenSize, layoutType:number): PositioningComponentPropsModel {
     //strategie
     /*
     * elk stateModel heeft per screensize een configuratie voor deze screensize
@@ -207,15 +207,15 @@ export class StoreService {
     }
     throw new Error('ContainerLayoutModel property not implemented/configured (properly)')
   }
-  private translateToAttributesState(stateModel: ResponsiveAttributesStateModel,configKey: string, screenSize: ScreenSize): AttributesStateModel {
+  private translateToAttributesState(stateModel: ResponsiveAttributesConfigModel, configKey: string, screenSize: ScreenSize): AttributesComponentPropsModel {
     // todo
     return {}
   }
-  private translateToVisibilityState(stateModel: ResponsiveVisibilityStateModel, configKey: string, screenSize: ScreenSize): VisibilityStateModel {
+  private translateToVisibilityState(stateModel: ResponsiveVisibilityConfigModel, configKey: string, screenSize: ScreenSize): VisibilityComponentPropsModel {
     // todo
     return {}
   }
-  public getLayoutState(state: State, componentName: string, stateModel: ResponsiveLayoutStateModel, screenSize: number): LayoutStateModel {
+  public getLayoutState(state: State, componentName: string, stateModel: ResponsivePositioningConfigModel, screenSize: number): PositioningComponentPropsModel {
     const newStateObj = Object.create({})
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
@@ -244,8 +244,8 @@ export class StoreService {
     }
     return newStateObj
   }
-  public getAttributesState(state: State, componentName: string, stateModel: ResponsiveAttributesStateModel, screenSize: number): AttributesStateModel {
-    const newStateObj: AttributesStateModel = {}
+  public getAttributesState(state: State, componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
+    const newStateObj: AttributesComponentPropsModel = {}
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
     while (lastScreenSize > 0) {
@@ -265,8 +265,8 @@ export class StoreService {
     }
     return newStateObj
   }
-  public getVisibilityState(state: State, componentName: string, stateModel: ResponsiveVisibilityStateModel, screenSize: number): VisibilityStateModel {
-    const newStateObj: VisibilityStateModel = {}
+  public getVisibilityState(state: State, componentName: string, stateModel: ResponsiveVisibilityConfigModel, screenSize: number): VisibilityComponentPropsModel {
+    const newStateObj: VisibilityComponentPropsModel = {}
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
     while (lastScreenSize > 0) {
@@ -286,7 +286,7 @@ export class StoreService {
     }
     return newStateObj
   }
-  public setState(componentName: string, newState: LayoutStateModel|AttributesStateModel|VisibilityStateModel): void {
+  public setState(componentName: string, newState: PositioningComponentPropsModel|AttributesComponentPropsModel|VisibilityComponentPropsModel): void {
     for (let [k, v] of Object.entries(newState)) {
       this.getStatePropertySubjects().find(subj => {
         return subj.componentName === componentName && subj.propName === k
@@ -300,7 +300,7 @@ export class StoreService {
     contentContainer.components.forEach(comp => {
       Object.keys(this.getLayoutState(State.layout, comp.name, comp.layoutState, ScreenSize.highResolution)).forEach(k => {
         // todo misschien beter een initiële waarde meegeven dan "undefined"?
-        const propSubj = new BehaviorSubject<LayoutModel | undefined>(undefined)
+        const propSubj = new BehaviorSubject<PositioningConfigPropsModel | undefined>(undefined)
         this.statePropertySubjects.push({
           componentName: comp.name, propName: k, propValue:
           propSubj, prop$: propSubj.asObservable()
@@ -308,7 +308,7 @@ export class StoreService {
       })
       if (comp.attributesState) {
         Object.keys(this.getAttributesState(State.attributes, comp.name, comp.attributesState, ScreenSize.highResolution)).forEach(k => {
-          const propSubj = new BehaviorSubject<AttributesModel | undefined>(undefined)
+          const propSubj = new BehaviorSubject<AttributesConfigPropsModel | undefined>(undefined)
           this.statePropertySubjects.push({
             componentName: comp.name, propName: k, propValue:
             propSubj, prop$: propSubj.asObservable()
@@ -317,7 +317,7 @@ export class StoreService {
       }
       if (comp.visibilityState) {
         Object.keys(this.getVisibilityState(State.visibility, comp.name, comp.visibilityState, ScreenSize.highResolution)).forEach(k => {
-          const propSubj = new BehaviorSubject<VisibilityModel | undefined>(undefined)
+          const propSubj = new BehaviorSubject<VisibilityConfigPropsModel | undefined>(undefined)
           this.statePropertySubjects.push({
             componentName: comp.name, propName: k, propValue:
             propSubj, prop$: propSubj.asObservable()
@@ -327,7 +327,7 @@ export class StoreService {
     })
   }
   public bindToStateProperty(componentName: string, propName: string):
-    Observable<LayoutModel| string | number | boolean | ResponsiveLayoutStateModel | CalculationModel> | undefined {
+    Observable<PositioningConfigPropsModel| string | number | boolean | ResponsivePositioningConfigModel | CalculationModel> | undefined {
     return this.statePropertySubjects.find(state => {
       return state.componentName === componentName && state.propName === propName
     })?.prop$

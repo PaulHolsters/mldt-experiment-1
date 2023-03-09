@@ -2,19 +2,19 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {ActionModel} from "./models/ActionModel";
 import myFunctions from "./composed-functions/myCustomFunctions";
-import {PropModel} from "./models/PropModel";
+import {CalculationConfigModel} from "./models/CalculationConfigModel";
 import comparisons from "./unit-functions/comparison-functions/comparisons";
 import {StatePropertySubjectModel} from "./models/StatePropertySubject";
 import {MixedArrayModel} from "./models/MixedArrayModel";
 import {CalculationModel} from "./models/CalculationModel";
-import {ChildLayoutModel} from "./models/ChildLayoutModel";
-import {LayoutModel} from "./models/LayoutModel";
+import {ChildDimensioningConfigModel} from "./models/Dimensioning/children/ChildDimensioningConfigModel";
+import {PositioningConfigPropsModel} from "./models/Positioning/self/PositioningConfigPropsModel";
 import {ComponentModel} from "./models/ComponentModel";
-import {ResponsiveLayoutStateModel} from "./models/ResponsiveLayoutStateModel";
-import {ResponsiveAttributesStateModel} from "./models/ResponsiveAttributesStateModel";
-import {ResponsiveVisibilityStateModel} from "./models/ResponsiveVisibilityStateModel";
-import {VisibilityModel} from "./models/VisibilityModel";
-import {AttributesModel} from "./models/AttributesModel";
+import {ResponsivePositioningConfigModel} from "./models/Positioning/self/ResponsivePositioningConfigModel";
+import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
+import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
+import {AttributesConfigPropsModel} from "./models/Attributes/AttributesConfigPropsModel";
 import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 
@@ -61,36 +61,36 @@ export class DataService {
     }
   }
   // todo welke props zijn dit dan?
-  logoSmartphoneLayout: LayoutModel = {
-    childLayout: new ChildLayoutModel({
+  logoSmartphoneLayout: PositioningConfigPropsModel = {
+    childLayout: new ChildDimensioningConfigModel({
       horPos: 'right',
       verPos: 'center'
     }, {unit: 'rem', value: 4})
   }
-  logoPortraitTabletLayout: LayoutModel = {
-    childLayout: new ChildLayoutModel({
+  logoPortraitTabletLayout: PositioningConfigPropsModel = {
+    childLayout: new ChildDimensioningConfigModel({
       horPos: 'right',
       verPos: 'center'
     }, {unit: 'rem', value: 4})
   }
-  logoTabletLayout: LayoutModel = {
-    childLayout: new ChildLayoutModel({horPos: 'right', verPos: 'center'}, {
+  logoTabletLayout: PositioningConfigPropsModel = {
+    childLayout: new ChildDimensioningConfigModel({horPos: 'right', verPos: 'center'}, {
       unit: 'rem',
       value: 4
     })
   }
-  logoLaptopLayout: LayoutModel = {
+  logoLaptopLayout: PositioningConfigPropsModel = {
     // todo horPos en verPos werken niet zoals intuïtief verwacht wanneer template op column staat!
     //  je zou dan moeten krijgen: horPos: center, verPos:top
 
     // todo onderzoek of het interessant is om alles vanuit de children te sturen ipv de parent of template
-    childLayout: new ChildLayoutModel({horPos: 'right', verPos: 'center'}, {
+    childLayout: new ChildDimensioningConfigModel({horPos: 'right', verPos: 'center'}, {
       unit: 'rem',
       value: 18
     })
   } // default
-  logoHighResolutionLayout: LayoutModel = {
-    childLayout: new ChildLayoutModel({
+  logoHighResolutionLayout: PositioningConfigPropsModel = {
+    childLayout: new ChildDimensioningConfigModel({
       horPos: 'right',
       verPos: 'center'
     }, {unit: 'rem', value: 4})
@@ -196,7 +196,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       {
         name: 'content-container',
         type: 'container',
-        layoutState: new ResponsiveLayoutStateModel(
+        layoutState: new ResponsivePositioningConfigModel(
           {
             childLayout: {},
             containerLayout: {
@@ -216,21 +216,21 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       {
         name: 'logo',
         type: 'logo',
-        attributesState: new ResponsiveAttributesStateModel(
+        attributesState: new ResponsiveAttributesConfigModel(
             {alt: 'Mouldit logo',src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png'},
             undefined,
             undefined,
             {src: 'profielfoto.jpg'},
           )
         ,
-        layoutState: new ResponsiveLayoutStateModel(
+        layoutState: new ResponsivePositioningConfigModel(
               this.logoSmartphoneLayout,
               this.logoPortraitTabletLayout,
               this.logoTabletLayout,
               this.logoLaptopLayout,
               this.logoHighResolutionLayout
             ),
-        visibilityState: new ResponsiveVisibilityStateModel({
+        visibilityState: new ResponsiveVisibilityConfigModel({
               holdSpace: false,
               visible: false
             }
@@ -244,7 +244,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       {
         name: 'test-click-action',
         type: 'button',
-        layoutState: new ResponsiveLayoutStateModel({
+        layoutState: new ResponsivePositioningConfigModel({
         childLayout:{}
       },{
           childLayout:{}
@@ -255,7 +255,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         },{
           childLayout:{}
         }),
-        attributesState: new ResponsiveAttributesStateModel({icon: 'pi-bars'},undefined,undefined,undefined,undefined)
+        attributesState: new ResponsiveAttributesConfigModel({icon: 'pi-bars'},undefined,undefined,undefined,undefined)
       }
     ],
     actions: [
@@ -374,7 +374,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       })
     }
   }
-  private conditionsMet(prop: PropModel): boolean {
+  private conditionsMet(prop: CalculationConfigModel): boolean {
     for (let [attr, val] of Object.entries(comparisons)) {
       if (attr === prop.condition?.comparison) {
         let valuesArr: any[] = []
