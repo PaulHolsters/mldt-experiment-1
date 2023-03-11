@@ -4,7 +4,7 @@ import {CrossAxisColumnPositioningConfigType} from "../../../enums/crossAxisColu
 import {VerticalPositioningConfigType} from "../../../enums/verticalPositioningConfigTypes.enum";
 import {CrossAxisRowPositioningConfigType} from "../../../enums/crossAxisRowPositioningConfigTypes.enum";
 
-export class ChildPositioningConfigPropsModel {
+export class PositioningChildrenConfigPropsModel {
   constructor(  public direction:PositionDirectionConfigType = PositionDirectionConfigType.Row,
                 public wrap: boolean = true,
                 public horPos:HorizontalPositioningConfigType|{lanes:HorizontalPositioningConfigType,children:CrossAxisColumnPositioningConfigType}

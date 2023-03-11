@@ -20,13 +20,13 @@ export class CardComponent implements OnInit,AfterViewInit {
       src: string|undefined,alt:string|undefined,text:string|undefined,html:string|undefined
     }}|undefined
   constructor(private dataService: DataService,private sanitizer: DomSanitizer) {
-    const data = dataService.getCardData();
+/*    const data = dataService.getCardData();
     this.headerText = data.headerText
     this.subheaderText = data.subheaderText
     this.content = data.content
     if(data.headerTemplate){
       this.headerTemplate = {...data.headerTemplate}
-    }
+    }*/
   }
 
   getHTML(){

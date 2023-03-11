@@ -1,22 +1,26 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
 import {ActionModel} from "./models/ActionModel";
 import myFunctions from "./composed-functions/myCustomFunctions";
 import {CalculationConfigModel} from "./models/CalculationConfigModel";
 import comparisons from "./unit-functions/comparison-functions/comparisons";
-import {StatePropertySubjectModel} from "./models/StatePropertySubject";
 import {MixedArrayModel} from "./models/MixedArrayModel";
 import {CalculationModel} from "./models/CalculationModel";
-import {ChildDimensioningConfigModel} from "./models/Dimensioning/children/ChildDimensioningConfigModel";
 import {PositioningConfigPropsModel} from "./models/Positioning/self/PositioningConfigPropsModel";
 import {ComponentModel} from "./models/ComponentModel";
 import {ResponsivePositioningConfigModel} from "./models/Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
-import {AttributesConfigPropsModel} from "./models/Attributes/AttributesConfigPropsModel";
 import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
+import {PositioningChildrenConfigPropsModel} from "./models/Positioning/children/PositioningChildrenConfigPropsModel";
+import {ComponentType} from "./enums/componentTypes.enum";
+import {PositionDirectionConfigType} from "./enums/positionDirectionConfigTypes.enum";
+import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConfigTypes.enum";
+import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
+import {CrossAxisRowPositioningConfigType} from "./enums/crossAxisRowPositioningConfigTypes.enum";
+import {CrossAxisColumnPositioningConfigType} from "./enums/crossAxisColumnPositioningConfigTypes.enum";
+import {AttributesConfigPropsModel} from "./models/Attributes/AttributesConfigPropsModel";
+import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
 
 @Injectable({
   providedIn: 'root'
@@ -25,76 +29,30 @@ export class DataService {
   // todo *** als er meerdere updates zijn binnen een component
   //  moet er een wacht mechanisme bestaan zodat de component pas
   //  na alle prop changes wordt gerenderd ***
-  // todo *** eigen code kunnen gebruiken voor de bepaling van een waarde of conditie ***
-  // todo *** uitwerken positioneringssysteem ***
   // todo *** datamodel binden aan een component  ***
   // todo *** uitwerken andere componenten ***
-  // todo *** custom component ***
+  // todo *** container component ***
   // todo *** graphQL backend + frontend zodat je frontend configuratie kan
   //  doorsturen vanuit de backend (YAML file) (hard-coded of geen datamodel) ***
-  //cardData = {headerText:'my header text', content:'content text'}
-  /*  cardData = {headerText:'my header text', subheaderText:'my SUBheader text', content:'context text'
-    , headerTemplate: {element:'img',attr:
-          {src:'../../favicon.ico', alt:'card'}
-        }}*/
-  /*  cardData:{headerText:string,subheaderText:string,content:string,headerTemplate:undefined|{element:string,
-      attr:{src:string|undefined,alt:string|undefined,text:string|undefined,html:string|undefined}}} = {headerText:'my header text', subheaderText:'my SUBheader text', content:'context text'
-      , headerTemplate: {element:'button',attr:
-          {text:'MyButton to click',src:undefined,alt:undefined,html:undefined}
-      }}*/
-  /*  cardData:{headerText:string,subheaderText:string,content:string,headerTemplate:undefined|{element:string,
-        attr:{src:string|undefined,alt:string|undefined,text:string|undefined,html:string|undefined}}} = {headerText:'my header text', subheaderText:'my SUBheader text', content:'context text'
-      , headerTemplate: {element:'mixed',attr:
-          {text:undefined,src:undefined,alt:undefined,html:'<button>Try out</button>'}
-      }}*/
-  cardData: {
-    headerText: string, subheaderText: string, content: string, headerTemplate: undefined | {
-      element: string,
-      attr: { src: string | undefined, alt: string | undefined, text: string | undefined, html: string | undefined }
-    }
-  }
-    = {
-    headerText: 'my header text', subheaderText: 'my SUBheader text', content: 'context text'
-    , headerTemplate: {
-      element: 'custom', attr:
-        {text: undefined, src: undefined, alt: undefined, html: undefined}
-    }
-  }
-  // todo welke props zijn dit dan?
-  logoSmartphoneLayout: PositioningConfigPropsModel = {
-    childLayout: new ChildDimensioningConfigModel({
-      horPos: 'right',
-      verPos: 'center'
-    }, {unit: 'rem', value: 4})
-  }
-  logoPortraitTabletLayout: PositioningConfigPropsModel = {
-    childLayout: new ChildDimensioningConfigModel({
-      horPos: 'right',
-      verPos: 'center'
-    }, {unit: 'rem', value: 4})
-  }
-  logoTabletLayout: PositioningConfigPropsModel = {
-    childLayout: new ChildDimensioningConfigModel({horPos: 'right', verPos: 'center'}, {
-      unit: 'rem',
-      value: 4
-    })
-  }
-  logoLaptopLayout: PositioningConfigPropsModel = {
-    // todo horPos en verPos werken niet zoals intuïtief verwacht wanneer template op column staat!
-    //  je zou dan moeten krijgen: horPos: center, verPos:top
-
-    // todo onderzoek of het interessant is om alles vanuit de children te sturen ipv de parent of template
-    childLayout: new ChildDimensioningConfigModel({horPos: 'right', verPos: 'center'}, {
-      unit: 'rem',
-      value: 18
-    })
-  } // default
-  logoHighResolutionLayout: PositioningConfigPropsModel = {
-    childLayout: new ChildDimensioningConfigModel({
-      horPos: 'right',
-      verPos: 'center'
-    }, {unit: 'rem', value: 4})
-  } // default
+  logoSmartphoneLayout = new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
+    PositionDirectionConfigType.Row,
+    true,
+    HorizontalPositioningConfigType.Right,
+    {lanes:VerticalPositioningConfigType.Center, children:CrossAxisRowPositioningConfigType.Baseline}))
+  // todo add a layout model that encompasses that of the children as wel as itself
+  // todo do the same for the overflow model
+  logoPortraitTabletLayout = new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
+    PositionDirectionConfigType.Column,
+    false,
+    {lanes:HorizontalPositioningConfigType.Center, children:CrossAxisColumnPositioningConfigType.Baseline},
+    VerticalPositioningConfigType.Center))
+  logoTabletLayout = new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
+    PositionDirectionConfigType.Column,
+  false,
+{lanes:HorizontalPositioningConfigType.Center, children:CrossAxisColumnPositioningConfigType.Baseline},
+VerticalPositioningConfigType.Center))
+  logoLaptopLayout = undefined
+  logoHighResolutionLayout = undefined
   contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
@@ -195,56 +153,39 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             },*/
       {
         name: 'content-container',
-        type: 'container',
-        layoutState: new ResponsivePositioningConfigModel(
-          {
-            childLayout: {},
-            containerLayout: {
-              direction: 'column',
-              wrap: true,
-              verPos: 'bottom',
-              horPos: {lines:'center',children: 'center'},
-              overflow: 'scroll'
-            }
-          },
-          undefined,
-          undefined,
-          undefined,
-          undefined
-        )
+        type: ComponentType.Container,
+        position: new ResponsivePositioningConfigModel(this.logoSmartphoneLayout)
       },
       {
         name: 'logo',
-        type: 'logo',
-        attributesState: new ResponsiveAttributesConfigModel(
-            {alt: 'Mouldit logo',src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png'},
+        type: ComponentType.Logo,
+        attributes: new ResponsiveAttributesConfigModel()
+        ,/*
+                    {alt: 'Mouldit logo',src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png'},
             undefined,
             undefined,
             {src: 'profielfoto.jpg'},
-          )
-        ,
-        layoutState: new ResponsivePositioningConfigModel(
+        */
+        position: new ResponsivePositioningConfigModel(
               this.logoSmartphoneLayout,
               this.logoPortraitTabletLayout,
               this.logoTabletLayout,
               this.logoLaptopLayout,
               this.logoHighResolutionLayout
             ),
-        visibilityState: new ResponsiveVisibilityConfigModel({
-              holdSpace: false,
-              visible: false
-            }
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)
             , undefined
             , undefined
             , {
-              visible: true
-            }
+              someshitwhatever: true
+            },
+          undefined
           )
         },
       {
         name: 'test-click-action',
-        type: 'button',
-        layoutState: new ResponsivePositioningConfigModel({
+        type: ComponentType.Button,
+        position: new ResponsivePositioningConfigModel({
         childLayout:{}
       },{
           childLayout:{}
@@ -255,7 +196,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         },{
           childLayout:{}
         }),
-        attributesState: new ResponsiveAttributesConfigModel({icon: 'pi-bars'},undefined,undefined,undefined,undefined)
+        attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'},undefined,undefined,undefined,undefined)
       }
     ],
     actions: [
@@ -395,9 +336,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       }
     }
     return true
-  }
-  getCardData() {
-    return {...this.cardData}
   }
   getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] } {
     return {...this.contentContainer}

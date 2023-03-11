@@ -1,4 +1,4 @@
-export interface ChildPositioningComponentPropsModel {
+export interface PositioningChildComponentsPropsModel {
   row?: boolean|undefined
   column?: boolean|undefined
   wrap?: boolean|undefined

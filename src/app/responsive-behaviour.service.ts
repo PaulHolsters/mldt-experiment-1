@@ -14,11 +14,12 @@ export class ResponsiveBehaviourService {
     actions: ActionModel[]
   }, screenSize:number){
     contentContainer.components.forEach(comp => {
-      this.storeService.setState(comp.name,this.storeService.getLayoutState(State.layout, comp.name,comp.layoutState,screenSize))
-      if(comp.visibilityState)
-        this.storeService.setState(comp.name,this.storeService.getVisibilityState(State.visibility, comp.name,comp.visibilityState,screenSize))
-      if(comp.attributesState)
-        this.storeService.setState(comp.name,this.storeService.getAttributesState(State.attributes, comp.name,comp.attributesState,screenSize))
+      // todo fix this mess
+      this.storeService.setState(comp.name,this.storeService.getChildPositionState(State.layout, comp.name,comp.position,screenSize))
+      if(comp.visibility)
+        this.storeService.setState(comp.name,this.storeService.getVisibilityState(State.visibility, comp.name,comp.visibility,screenSize))
+      if(comp.attributes)
+        this.storeService.setState(comp.name,this.storeService.getAttributesState(State.attributes, comp.name,comp.attributes,screenSize))
     })
   }
   public setResponsiveBehaviour(contentContainer: {

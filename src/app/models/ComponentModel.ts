@@ -1,17 +1,17 @@
 import {ResponsiveAttributesConfigModel} from "./Attributes/ResponsiveAttributesConfigModel";
 import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
-import {ResponsiveChildPositioningConfigModel} from "./Positioning/children/ResponsiveChildPositioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveDimensioningConfigModel} from "./Dimensioning/ResponsiveDimensioningConfigModel";
-import {ResponsiveChildDimensioningConfigModel} from "./Dimensioning/children/ResponsiveChildDimensioningConfigModel";
 import {ComponentType} from "../enums/componentTypes.enum";
+import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
 export interface ComponentModel {
   name:string,
   type:ComponentType,
-  positioningState:ResponsivePositioningConfigModel,
-  dimensioningState:ResponsiveDimensioningConfigModel,
-  childPositioningState:ResponsiveChildPositioningConfigModel,
-  childDimensioningState:ResponsiveChildDimensioningConfigModel,
-  attributesState?:ResponsiveAttributesConfigModel,
-  visibilityState?:ResponsiveVisibilityConfigModel
+  position?:ResponsivePositioningConfigModel,
+  dimensions?:ResponsiveDimensioningConfigModel,
+  attributes?:ResponsiveAttributesConfigModel,
+  visibility?:ResponsiveVisibilityConfigModel,
+  overflow?:ResponsiveOverflowConfigModel,
+  children?:(ComponentModel|string)[]
 }
+// todo maak hier op termijn maar een class van

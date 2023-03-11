@@ -1,5 +1,7 @@
 export enum State {
-  layout,
-  visibility,
-  attributes
+  dimensioning,
+  overflow,
+  positioning,
+  attributes,
+  visibility
 }
