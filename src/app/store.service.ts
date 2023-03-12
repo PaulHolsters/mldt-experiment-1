@@ -3,7 +3,7 @@ import {ResponsivePositioningConfigModel} from "./models/Positioning/self/Respon
 import {PositioningConfigPropsModel} from "./models/Positioning/self/PositioningConfigPropsModel";
 import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
-import {BehaviorSubject, config, Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {StatePropertySubjectModel} from "./models/StatePropertySubject";
 import {CalculationModel} from "./models/CalculationModel";
 import {ComponentModel} from "./models/ComponentModel";
@@ -20,6 +20,10 @@ import {OverflowConfigPropsModel} from "./models/Overflow/self/OverflowConfigPro
 import {ResponsiveOverflowConfigModel} from "./models/Overflow/self/ResponsiveOverflowConfigModel";
 import {CrossAxisRowPositioningConfigType} from "./enums/crossAxisRowPositioningConfigTypes.enum";
 import {CrossAxisColumnPositioningConfigType} from "./enums/crossAxisColumnPositioningConfigTypes.enum";
+import {PositioningChildrenConfigPropsModel} from "./models/Positioning/children/PositioningChildrenConfigPropsModel";
+import {PositionDirectionConfigType} from "./enums/positionDirectionConfigTypes.enum";
+import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConfigTypes.enum";
+import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -62,313 +66,60 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getPositionChildComponentsProps(componentName: string,
                                          stateModel: ResponsivePositioningConfigModel,
                                          screenSize: number): PositioningChildComponentsPropsModel {
-    /*
-    *       switch (configKey) {
-        case 'direction':
-          while (latestSize >= 0) {
-            if (stateModelObj[ScreenSize[latestSize]].containerLayout.direction) {
-              if (stateModelObj[ScreenSize[latestSize]].containerLayout.direction === 'row') {
-                return {row: true, column: false}
-              }
-              return {row: false, column: true}
-            } else {
-              latestSize--
-            }
-          }
-          throw new Error('direction not configured')
-        case 'wrap':
-          while (latestSize >= 0) {
-            if (stateModelObj[ScreenSize[latestSize]].containerLayout.wrap) {
-              if (stateModelObj[ScreenSize[latestSize]].containerLayout.wrap === true) {
-                return {wrap: true}
-              }
-              return {wrap: false}
-            } else {
-              latestSize--
-            }
-          }
-          throw new Error('wrap not configured')
-        case 'horPos':
-          while (latestSize >= 0) {
-            if (stateModelObj[ScreenSize[latestSize]].containerLayout.horPos) {
-              if (getConfigPropValue(1, 'direction') === 'row') {
-                if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'string') {
-                  return {
-                    justifyContentStart: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'left',
-                    justifyContentCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'center',
-                    justifyContentEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'right',
-                    justifyContentBetween: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'between',
-                    justifyContentEvenly: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'evenly',
-                    justifyContentAround: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'around',
-                  }
-                }
-                throw new Error('horPos not configured correctly 1')
-              }
-              if (getConfigPropValue(1, 'wrap')) {
-                if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'object') {
-                  return {
-                    alignItemsStart: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.children === 'left',
-                    alignItemsCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.children === 'center',
-                    alignItemsEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.children === 'right',
-                    alignContentStart: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'left',
-                    alignContentCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'center',
-                    alignContentEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'right',
-                    alignContentEvenly: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'evenly',
-                    alignContentAround: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'around',
-                    alignContentBetween: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'between',
-                  }
-                }
-                throw new Error('horPos not configured correctly 2')
-              }
-              if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'string') {
-                return {
-                  alignItemsStart: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'left',
-                  alignItemsCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'center',
-                  alignItemsEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'right',
-                  alignContentStart: false,
-                  alignContentCenter: false,
-                  alignContentEnd: false,
-                  alignContentEvenly: false,
-                  alignContentAround: false,
-                  alignContentBetween: false
-                }
-              }
-              throw new Error('horPos not configured correctly 3')
-            } else {
-              latestSize--
-            }
-          }
-          throw new Error('horPos not configured') // in principe kan dit niet voorvallen ....
-        case 'verPos':
-          // to do fix this => doesn t work
-          while (latestSize >= 0) {
-            if (stateModelObj[ScreenSize[latestSize]].containerLayout.verPos) {
-              if (getConfigPropValue(1, 'direction') === 'column') {
-                if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'string') {
-                  return {
-                    justifyContentStart: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'top',
-                    justifyContentCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'center',
-                    justifyContentEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'bottom',
-                    justifyContentBetween: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'between',
-                    justifyContentEvenly: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'evenly',
-                    justifyContentAround: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'around',
-                  }
-                }
-                throw new Error('verPos not configured correctly')
-              }
-              if (getConfigPropValue(1, 'wrap')) {
-                if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'object') {
-                  return {
-                    alignItemsStart: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.children === 'top',
-                    alignItemsCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.children === 'center',
-                    alignItemsEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.children === 'bottom',
-                    alignContentStart: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'top',
-                    alignContentCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'center',
-                    alignContentEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'bottom',
-                    alignContentEvenly: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'evenly',
-                    alignContentAround: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'around',
-                    alignContentBetween: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'between',
-                  }
-                }
-                throw new Error('verPos not configured correctly')
-              }
-              if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'string') {
-                return {
-                  alignItemsStart: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'top',
-                  alignItemsCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'center',
-                  alignItemsEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'bottom',
-                  alignContentStart: false,
-                  alignContentCenter: false,
-                  alignContentEnd: false,
-                  alignContentEvenly: false,
-                  alignContentAround: false,
-                  alignContentBetween: false
-                }
-              }
-              throw new Error('verPos not configured correctly')
-            } else {
-              latestSize--
-            }
-          }
-          throw new Error('verPos not configured') // in principe kan dit niet voorvallen ....
+    const translateToPositioningChildComponentsProps =
+      (positionConfig: PositioningChildrenConfigPropsModel): PositioningChildComponentsPropsModel => {
+        return new PositioningChildComponentsPropsModel(
+          positionConfig.direction === PositionDirectionConfigType.Row,
+          positionConfig.direction === PositionDirectionConfigType.Column,
+          positionConfig.wrap === true,
+          positionConfig.horPos === HorizontalPositioningConfigType.Left || positionConfig.verPos === VerticalPositioningConfigType.Top,
+          positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
+          positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
+          positionConfig.horPos === HorizontalPositioningConfigType.Between || positionConfig.verPos === VerticalPositioningConfigType.Between,
+          positionConfig.horPos === HorizontalPositioningConfigType.Evenly || positionConfig.verPos === VerticalPositioningConfigType.Evenly,
+          positionConfig.horPos === HorizontalPositioningConfigType.Around || positionConfig.verPos === VerticalPositioningConfigType.Around,
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Left) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Top),
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Center) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Center),
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Right) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Bottom),
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Left) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Top),
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Center) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Center),
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Right) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Bottom),
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Between) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Between),
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Evenly) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Evenly),
+          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Around) ||
+          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Around)
+        )
       }
-    * */
-    return {}
-  }
-  private translateToPositioningChildComponentsProps(stateModel: ResponsivePositioningConfigModel,
-                                                     configKey: string,
-                                                     screenSize: ScreenSize): PositioningChildComponentsPropsModel {
-
-    const PositioningChildComponentsPropsObj = Object.create(stateModel)
-
-    // configKey = direction etc.:stateModel=>smartphone=>childPositioning.direction of selfAlign
-    function getConfigPropValue(layoutType: number, configPropName: string): any {
-      if (layoutType === 0) {
-        throw new Error('childlayout not implemented yet')
-      } else {
-        let latestSize = screenSize
-        while (latestSize >= 0) {
-          if (stateModelObj[ScreenSize[latestSize]].containerLayout.hasOwnProperty(configPropName)) {
-            return stateModelObj[ScreenSize[latestSize]].containerLayout[configPropName]
-          } else {
-            latestSize--
-          }
-        }
-        return undefined
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]?.childPositioning) {
+        return translateToPositioningChildComponentsProps(stateModelObj[ScreenSize[lastScreenSize]]?.childPositioning)
       }
+      lastScreenSize--
     }
-
-    if (layoutType === 0) {
-      // todo
-      return {}
-    } else {
-      let latestSize = screenSize
-      switch (configKey) {
-        case 'direction':
-          while (latestSize >= 0) {
-            if (stateModelObj[ScreenSize[latestSize]].containerLayout.direction) {
-              if (stateModelObj[ScreenSize[latestSize]].containerLayout.direction === 'row') {
-                return {row: true, column: false}
-              }
-              return {row: false, column: true}
-            } else {
-              latestSize--
-            }
-          }
-          throw new Error('direction not configured')
-        case 'wrap':
-          while (latestSize >= 0) {
-            if (stateModelObj[ScreenSize[latestSize]].containerLayout.wrap) {
-              if (stateModelObj[ScreenSize[latestSize]].containerLayout.wrap === true) {
-                return {wrap: true}
-              }
-              return {wrap: false}
-            } else {
-              latestSize--
-            }
-          }
-          throw new Error('wrap not configured')
-        case 'horPos':
-          while (latestSize >= 0) {
-            if (stateModelObj[ScreenSize[latestSize]].containerLayout.horPos) {
-              if (getConfigPropValue(1, 'direction') === 'row') {
-                if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'string') {
-                  return {
-                    justifyContentStart: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'left',
-                    justifyContentCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'center',
-                    justifyContentEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'right',
-                    justifyContentBetween: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'between',
-                    justifyContentEvenly: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'evenly',
-                    justifyContentAround: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'around',
-                  }
-                }
-                throw new Error('horPos not configured correctly 1')
-              }
-              if (getConfigPropValue(1, 'wrap')) {
-                if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'object') {
-                  return {
-                    alignItemsStart: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.children === 'left',
-                    alignItemsCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.children === 'center',
-                    alignItemsEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.children === 'right',
-                    alignContentStart: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'left',
-                    alignContentCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'center',
-                    alignContentEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'right',
-                    alignContentEvenly: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'evenly',
-                    alignContentAround: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'around',
-                    alignContentBetween: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos.lines === 'between',
-                  }
-                }
-                throw new Error('horPos not configured correctly 2')
-              }
-              if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'string') {
-                return {
-                  alignItemsStart: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'left',
-                  alignItemsCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'center',
-                  alignItemsEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.horPos === 'right',
-                  alignContentStart: false,
-                  alignContentCenter: false,
-                  alignContentEnd: false,
-                  alignContentEvenly: false,
-                  alignContentAround: false,
-                  alignContentBetween: false
-                }
-              }
-              throw new Error('horPos not configured correctly 3')
-            } else {
-              latestSize--
-            }
-          }
-          throw new Error('horPos not configured') // in principe kan dit niet voorvallen ....
-        case 'verPos':
-          // to do fix this => doesn t work
-          while (latestSize >= 0) {
-            if (stateModelObj[ScreenSize[latestSize]].containerLayout.verPos) {
-              if (getConfigPropValue(1, 'direction') === 'column') {
-                if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'string') {
-                  return {
-                    justifyContentStart: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'top',
-                    justifyContentCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'center',
-                    justifyContentEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'bottom',
-                    justifyContentBetween: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'between',
-                    justifyContentEvenly: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'evenly',
-                    justifyContentAround: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'around',
-                  }
-                }
-                throw new Error('verPos not configured correctly')
-              }
-              if (getConfigPropValue(1, 'wrap')) {
-                if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'object') {
-                  return {
-                    alignItemsStart: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.children === 'top',
-                    alignItemsCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.children === 'center',
-                    alignItemsEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.children === 'bottom',
-                    alignContentStart: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'top',
-                    alignContentCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'center',
-                    alignContentEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'bottom',
-                    alignContentEvenly: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'evenly',
-                    alignContentAround: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'around',
-                    alignContentBetween: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos.lines === 'between',
-                  }
-                }
-                throw new Error('verPos not configured correctly')
-              }
-              if (typeof stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'string') {
-                return {
-                  alignItemsStart: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'top',
-                  alignItemsCenter: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'center',
-                  alignItemsEnd: stateModelObj[ScreenSize[latestSize]].containerLayout.verPos === 'bottom',
-                  alignContentStart: false,
-                  alignContentCenter: false,
-                  alignContentEnd: false,
-                  alignContentEvenly: false,
-                  alignContentAround: false,
-                  alignContentBetween: false
-                }
-              }
-              throw new Error('verPos not configured correctly')
-            } else {
-              latestSize--
-            }
-          }
-          throw new Error('verPos not configured') // in principe kan dit niet voorvallen ....
-      }
-    }
-    throw new Error('ContainerLayoutModel property not implemented/configured (properly)')
+    throw new Error('No screensize child components configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     // todo
     return {}
   }
-
   public getOverflowChildComponentsProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     // todo
     return {}
   }
-
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const newStateObj: AttributesComponentPropsModel = {}
     let lastScreenSize = screenSize
@@ -417,12 +168,10 @@ export class StoreService {
     }
     return newStateObj
   }
-
   private translateToVisibilityComponentProps(stateModel: ResponsiveVisibilityConfigModel, configKey: string, screenSize: ScreenSize): VisibilityComponentPropsModel {
     // todo
     return {}
   }
-
   public setState(componentName: string,
                   newState:
                     PositioningComponentPropsModel |
@@ -435,7 +184,6 @@ export class StoreService {
       })?.propValue.next(v)
     }
   }
-
   public createStore(contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
@@ -501,7 +249,6 @@ export class StoreService {
       }
     })
   }
-
   public bindToStateProperty(componentName: string, propName: string):
     Observable<PositioningComponentPropsModel |
       PositioningChildComponentsPropsModel |
@@ -517,7 +264,6 @@ export class StoreService {
       return state.componentName === componentName && state.propName === propName
     })?.prop$
   }
-
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
   }

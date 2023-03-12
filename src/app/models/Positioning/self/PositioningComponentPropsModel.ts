@@ -6,9 +6,10 @@ export class PositioningComponentPropsModel {
               public selfAlignBaseline: boolean | undefined = undefined) {
   }
   public setProperty(propName: string, value: boolean | undefined): void {
-    if(Reflect.has(this,propName))
-    Reflect.set(this,propName,value)
-    else throw new Error('cannot set property '+propName+' because it does not exist on the object of type PositioningComponentPropsModel')
+    if (Reflect.has(this, propName))
+      Reflect.set(this, propName, value)
+    else throw new Error('cannot set property ' + propName + ' because it does not exist on the object of type PositioningComponentPropsModel')
   }
 }
+
 // todo add z-index en relative position ...
