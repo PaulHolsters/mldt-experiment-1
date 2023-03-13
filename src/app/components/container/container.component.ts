@@ -1,6 +1,8 @@
 import { Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {StoreService} from "../store.service";
+import {StoreService} from "../../store.service";
+import {ComponentModel} from "../../models/ComponentModel";
+import {ComponentType} from "../../enums/componentTypes.enum";
 
 @Component({
   selector: 'm-container',
@@ -9,6 +11,9 @@ import {StoreService} from "../store.service";
 })
 export class ContainerComponent implements OnInit {
   @Input() name = ''
+  componentType = ComponentType
+  children$:Observable<ComponentModel[]>|undefined // de engine moet ervoor zorgen dat de hele childcomponent hierin zit, niet enkel de namen
+  // todo voeg selfAlign toe
   row$: Observable<any>|undefined
   column$: Observable<any>|undefined
   wrap$: Observable<any>|undefined
@@ -33,36 +38,12 @@ export class ContainerComponent implements OnInit {
   overflowAuto$: Observable<any>|undefined
   overflowXAuto$: Observable<any>|undefined
   overflowYAuto$: Observable<any>|undefined
-
   constructor(private storeService:StoreService) { }
-
   ngOnInit(): void {
-    // todo controleer of dit niet in een andere methode moet komen
+    // todo voeg selfAlign toe
     this.column$ = this.storeService.bindToStateProperty(this.name,'row')
     this.column$ = this.storeService.bindToStateProperty(this.name,'column')
     this.wrap$ = this.storeService.bindToStateProperty(this.name,'wrap')
-
-    this.storeService.bindToStateProperty(this.name,'justifyContentStart')?.subscribe(res=>{
-      console.log(res)
-    })
-    this.storeService.bindToStateProperty(this.name,'justifyContentCenter')?.subscribe(res=>{
-      console.log(res)
-    })
-    this.storeService.bindToStateProperty(this.name,'justifyContentEnd')?.subscribe(res=>{
-      console.log(res)
-    })
-    this.storeService.bindToStateProperty(this.name,'justifyContentBetween')?.subscribe(res=>{
-      console.log(res)
-    })
-    this.storeService.bindToStateProperty(this.name,'justifyContentEvenly')?.subscribe(res=>{
-      console.log(res)
-    })
-    this.storeService.bindToStateProperty(this.name,'justifyContentAround')?.subscribe(res=>{
-      console.log(res)
-    })
-
-
-
     this.justifyContentStart$ = this.storeService.bindToStateProperty(this.name,'justifyContentStart')
     this.justifyContentCenter$ = this.storeService.bindToStateProperty(this.name,'justifyContentCenter')
     this.justifyContentEnd$ = this.storeService.bindToStateProperty(this.name,'justifyContentEnd')

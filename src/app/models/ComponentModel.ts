@@ -4,6 +4,7 @@ import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibility
 import {ResponsiveDimensioningConfigModel} from "./Dimensioning/ResponsiveDimensioningConfigModel";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
+import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
 export interface ComponentModel {
   name:string,
   type:ComponentType,
@@ -12,6 +13,7 @@ export interface ComponentModel {
   attributes?:ResponsiveAttributesConfigModel,
   visibility?:ResponsiveVisibilityConfigModel,
   overflow?:ResponsiveOverflowConfigModel,
-  children?:(ComponentModel|string)[]
+  children?:(ComponentModel|string)[],
+  styling?:ResponsiveStylingConfigModel,
 }
 // todo maak hier op termijn maar een class van

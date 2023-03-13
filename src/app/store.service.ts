@@ -24,6 +24,9 @@ import {PositioningChildrenConfigPropsModel} from "./models/Positioning/children
 import {PositionDirectionConfigType} from "./enums/positionDirectionConfigTypes.enum";
 import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConfigTypes.enum";
 import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
+import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
+import {StylingComponentPropsModel} from "./models/Styling/StylingComponentPropsModel";
+import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
 
 @Injectable({
   providedIn: 'root'
@@ -113,7 +116,28 @@ export class StoreService {
     throw new Error('No screensize child components configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
   }
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
-    // todo
+    const translateToOverflowComponentProps =
+      (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
+        return new OverflowComponentPropsModel(
+          overflowConfig === CrossAxisRowPositioningConfigType.Top || positionConfig === CrossAxisColumnPositioningConfigType.Left,
+          overflowConfig === CrossAxisRowPositioningConfigType.Center || positionConfig === CrossAxisColumnPositioningConfigType.Center,
+          overflowConfig === CrossAxisRowPositioningConfigType.Bottom || positionConfig === CrossAxisColumnPositioningConfigType.Right,
+          overflowConfig === CrossAxisRowPositioningConfigType.Stretch || positionConfig === CrossAxisColumnPositioningConfigType.Stretch,
+          overflowConfig === CrossAxisRowPositioningConfigType.Baseline || positionConfig === CrossAxisColumnPositioningConfigType.Baseline,
+          overflowConfig ===)
+      }
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToOverflowComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
+      }
+      lastScreenSize--
+    }
+    throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
+  }
+  public getStylingComponentProps(componentName: string, stateModel: ResponsiveStylingConfigModel, screenSize: number): StylingComponentPropsModel {
+
     return {}
   }
   public getOverflowChildComponentsProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
@@ -247,6 +271,15 @@ export class StoreService {
           })
         })
       }
+      if (comp.styling){
+        Object.keys(this.getStylingComponentProps(comp.name, comp.styling, ScreenSize.highResolution)).forEach(k => {
+          const propSubj = new BehaviorSubject<StylingConfigPropsModel | undefined>(undefined)
+          this.statePropertySubjects.push({
+            componentName: comp.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
+      }
     })
   }
   public bindToStateProperty(componentName: string, propName: string):
@@ -255,6 +288,7 @@ export class StoreService {
       AttributesComponentPropsModel |
       VisibilityComponentPropsModel |
       OverflowComponentPropsModel |
+      StylingComponentPropsModel |
       string |
       number |
       boolean |

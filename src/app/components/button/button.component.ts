@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActionModel} from "../models/ActionModel";
-import {DataService} from "../data.service";
-import {StoreService} from "../store.service";
+import {ActionModel} from "../../models/ActionModel";
+import {DataService} from "../../data.service";
+import {StoreService} from "../../store.service";
 
 @Component({
   selector: 'm-button',

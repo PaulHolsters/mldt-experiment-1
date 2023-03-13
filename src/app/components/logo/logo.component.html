@@ -1,0 +1,7 @@
+<img
+     [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
+     [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
+     [style]="{'height': height$ | async}"
+     src="assets/{{(src$|async)}}"
+     alt="{{(alt$ | async)}}"
+>

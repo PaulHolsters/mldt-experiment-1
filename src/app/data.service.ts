@@ -19,8 +19,14 @@ import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConf
 import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
 import {CrossAxisRowPositioningConfigType} from "./enums/crossAxisRowPositioningConfigTypes.enum";
 import {CrossAxisColumnPositioningConfigType} from "./enums/crossAxisColumnPositioningConfigTypes.enum";
-import {AttributesConfigPropsModel} from "./models/Attributes/AttributesConfigPropsModel";
 import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
+import {DimensioningConfigPropsModel} from "./models/Dimensioning/DimensioningConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {FixedDimensioningConfigModel} from "./models/Dimensioning/FixedDimensioningConfigModel";
+import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
+import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
+import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
+import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -38,19 +44,17 @@ export class DataService {
     PositionDirectionConfigType.Row,
     true,
     HorizontalPositioningConfigType.Right,
-    {lanes:VerticalPositioningConfigType.Center, children:CrossAxisRowPositioningConfigType.Baseline}))
-  // todo add a layout model that encompasses that of the children as wel as itself
-  // todo do the same for the overflow model
+    {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Baseline}))
   logoPortraitTabletLayout = new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
     PositionDirectionConfigType.Column,
     false,
-    {lanes:HorizontalPositioningConfigType.Center, children:CrossAxisColumnPositioningConfigType.Baseline},
+    {lanes: HorizontalPositioningConfigType.Center, children: CrossAxisColumnPositioningConfigType.Baseline},
     VerticalPositioningConfigType.Center))
   logoTabletLayout = new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
     PositionDirectionConfigType.Column,
-  false,
-{lanes:HorizontalPositioningConfigType.Center, children:CrossAxisColumnPositioningConfigType.Baseline},
-VerticalPositioningConfigType.Center))
+    false,
+    {lanes: HorizontalPositioningConfigType.Center, children: CrossAxisColumnPositioningConfigType.Baseline},
+    VerticalPositioningConfigType.Center))
   logoLaptopLayout = undefined
   logoHighResolutionLayout = undefined
   contentContainer: {
@@ -154,49 +158,68 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       {
         name: 'content-container',
         type: ComponentType.Container,
-        position: new ResponsivePositioningConfigModel(this.logoSmartphoneLayout)
+        position: new ResponsivePositioningConfigModel(this.logoSmartphoneLayout),
+        children: [
+          {
+            name: 'block-1',
+            type: ComponentType.Block,
+            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded,
+                  4,
+                  DimensionUnitConfigType.REM))),
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+          }, {
+            name: 'block-2',
+            type: ComponentType.Block,
+            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded,
+                  4,
+                  DimensionUnitConfigType.REM))),
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+          }
+        ]
       },
       {
         name: 'logo',
         type: ComponentType.Logo,
-        attributes: new ResponsiveAttributesConfigModel()
-        ,/*
-                    {alt: 'Mouldit logo',src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png'},
-            undefined,
-            undefined,
-            {src: 'profielfoto.jpg'},
-        */
+        attributes: new ResponsiveAttributesConfigModel(),
         position: new ResponsivePositioningConfigModel(
-              this.logoSmartphoneLayout,
-              this.logoPortraitTabletLayout,
-              this.logoTabletLayout,
-              this.logoLaptopLayout,
-              this.logoHighResolutionLayout
-            ),
-        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)
-            , undefined
-            , undefined
-            , {
-              someshitwhatever: true
-            },
+          this.logoSmartphoneLayout,
+          this.logoPortraitTabletLayout,
+          this.logoTabletLayout,
+          this.logoLaptopLayout,
+          this.logoHighResolutionLayout
+        ),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)
+          , undefined
+          , undefined
+          , new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true, false)),
           undefined
-          )
-        },
+        )
+      },
       {
         name: 'test-click-action',
         type: ComponentType.Button,
         position: new ResponsivePositioningConfigModel({
-        childLayout:{}
-      },{
-          childLayout:{}
-        },{
-          childLayout:{}
-        },{
-          childLayout:{}
-        },{
-          childLayout:{}
+          childLayout: {}
+        }, {
+          childLayout: {}
+        }, {
+          childLayout: {}
+        }, {
+          childLayout: {}
+        }, {
+          childLayout: {}
         }),
-        attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'},undefined,undefined,undefined,undefined)
+        attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
       }
     ],
     actions: [
@@ -246,10 +269,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     ]
   }
 
-  constructor(private storeService:StoreService, private responsiveBehaviourService:ResponsiveBehaviourService) {
+  constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
     this.storeService.createStore(this.contentContainer)
     this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
   }
+
   private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []
     for (let v of value.values) {
@@ -279,6 +303,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     }
     throw ('no calculation found to be executed for ' + value.calc)
   }
+
   private emitNewPropValueFor(componentName: string, propName: string, value: string | boolean | number | CalculationModel) {
     let valueToSet
     if (typeof value === 'object') {
@@ -290,6 +315,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       return subj.componentName === componentName && subj.propName === propName
     })?.propValue.next(valueToSet)
   }
+
   executeAction(action: ActionModel) {
     if (action.action === 'set') {
       action.props.forEach(prop => {
@@ -315,6 +341,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       })
     }
   }
+
   private conditionsMet(prop: CalculationConfigModel): boolean {
     for (let [attr, val] of Object.entries(comparisons)) {
       if (attr === prop.condition?.comparison) {
@@ -337,6 +364,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     }
     return true
   }
+
   getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] } {
     return {...this.contentContainer}
   }

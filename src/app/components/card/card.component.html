@@ -15,14 +15,6 @@ de standaardbreedte is blijkbaar 96vw of iets daaromtrent of 100% met wat paddin
           <div [innerHTML]="getHTML()"></div>
         </ng-container>
         <ng-container *ngSwitchCase="'custom'">
-          <m-custom-component
-            [position]="position"
-            [dimension]="dimension"
-            [responsiveness]="responsiveness"
-            [layout]="layout"
-            [replace]="'card'"
-          >
-          </m-custom-component>
         </ng-container>
       </ng-container>
     </ng-container>
