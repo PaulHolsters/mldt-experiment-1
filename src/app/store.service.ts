@@ -27,6 +27,15 @@ import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTy
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 import {StylingComponentPropsModel} from "./models/Styling/StylingComponentPropsModel";
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
+import {OverflowValueConfigType} from "./enums/overflowValueConfigTypes.enum";
+import {OverflowChildConfigPropsModel} from "./models/Overflow/children/OverflowChildConfigPropsModel";
+import {ColorType} from "./enums/colorType.enum";
+import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningComponentPropsModel} from "./models/Dimensioning/DimensioningComponentPropsModel";
+import {DimensioningConfigPropsModel} from "./models/Dimensioning/DimensioningConfigPropsModel";
+import {FixedDimensioningConfigModel} from "./models/Dimensioning/FixedDimensioningConfigModel";
+import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
+import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +43,6 @@ import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel"
 export class StoreService {
   constructor() {
   }
-
   /*const getConfigPropValue = (layoutType: number, configPropName: string): any => {
       let latestSize = screenSize
       while (latestSize >= 0) {
@@ -46,7 +54,6 @@ export class StoreService {
       return undefined
   } */
   private statePropertySubjects: StatePropertySubjectModel[] = []
-
   public getPositionComponentProps(componentName: string,
                                    stateModel: ResponsivePositioningConfigModel,
                                    screenSize: number): PositioningComponentPropsModel {
@@ -69,7 +76,6 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getPositionChildComponentsProps(componentName: string,
                                          stateModel: ResponsivePositioningConfigModel,
                                          screenSize: number): PositioningChildComponentsPropsModel {
@@ -119,12 +125,12 @@ export class StoreService {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
         return new OverflowComponentPropsModel(
-          overflowConfig === CrossAxisRowPositioningConfigType.Top || positionConfig === CrossAxisColumnPositioningConfigType.Left,
-          overflowConfig === CrossAxisRowPositioningConfigType.Center || positionConfig === CrossAxisColumnPositioningConfigType.Center,
-          overflowConfig === CrossAxisRowPositioningConfigType.Bottom || positionConfig === CrossAxisColumnPositioningConfigType.Right,
-          overflowConfig === CrossAxisRowPositioningConfigType.Stretch || positionConfig === CrossAxisColumnPositioningConfigType.Stretch,
-          overflowConfig === CrossAxisRowPositioningConfigType.Baseline || positionConfig === CrossAxisColumnPositioningConfigType.Baseline,
-          overflowConfig ===)
+          overflowConfig.overflow === OverflowValueConfigType.Scroll,
+          overflowConfig.overflow === OverflowValueConfigType.Hidden,
+          overflowConfig.horizontalOverflow === OverflowValueConfigType.Hidden,
+          overflowConfig.verticalOverflow === OverflowValueConfigType.Hidden,
+          overflowConfig.horizontalOverflow === OverflowValueConfigType.Scroll,
+          overflowConfig.verticalOverflow === OverflowValueConfigType.Scroll)
       }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
@@ -136,13 +142,93 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
   }
-  public getStylingComponentProps(componentName: string, stateModel: ResponsiveStylingConfigModel, screenSize: number): StylingComponentPropsModel {
-
-    return {}
-  }
   public getOverflowChildComponentsProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
-    // todo
-    return {}
+    const translateToOverflowComponentProps =
+      (overflowConfig: OverflowChildConfigPropsModel): OverflowComponentPropsModel => {
+        return new OverflowComponentPropsModel(
+          overflowConfig.overflow === OverflowValueConfigType.Scroll,
+          overflowConfig.overflow === OverflowValueConfigType.Hidden,
+          overflowConfig.horizontalOverflow === OverflowValueConfigType.Hidden,
+          overflowConfig.verticalOverflow === OverflowValueConfigType.Hidden,
+          overflowConfig.horizontalOverflow === OverflowValueConfigType.Scroll,
+          overflowConfig.verticalOverflow === OverflowValueConfigType.Scroll)
+      }
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToOverflowComponentProps(stateModelObj[ScreenSize[lastScreenSize]].childOverflowConfig)
+      }
+      lastScreenSize--
+    }
+    throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
+  }
+  public getStylingComponentProps(componentName: string, stateModel: ResponsiveStylingConfigModel, screenSize: number): StylingComponentPropsModel {
+    const translateToStylingComponentProps =
+      (stylingConfig: StylingConfigPropsModel): StylingComponentPropsModel => {
+        return new StylingComponentPropsModel(
+          stylingConfig.backgroundColor === ColorType.primary)
+      }
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToStylingComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
+      }
+      lastScreenSize--
+    }
+    throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
+  }
+  //FixedDimensioningConfigModel|DynamicDimensioningConfigModel
+  public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
+    const translateToDimensioningComponentProps =
+      (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
+      const compPropsObj = new DimensioningComponentPropsModel()
+      if(dimensionsConfig.height){
+        if(dimensionsConfig.height instanceof FixedDimensioningConfigModel){
+          switch (dimensionsConfig.height.type){
+            case DimensionValueConfigType.Hardcoded:
+              switch (dimensionsConfig.height.unit){
+                case DimensionUnitConfigType.REM:
+                  compPropsObj.height = dimensionsConfig.height.value+'rem'
+                  break
+                case DimensionUnitConfigType.PX:
+                  compPropsObj.height = dimensionsConfig.height.value+'px'
+                  break
+                case DimensionUnitConfigType.Percentage:
+                  compPropsObj.height = dimensionsConfig.height.value+'%'
+                  break
+              }
+              break
+            case DimensionValueConfigType.Calculated:
+              // todo dit gaat met een style class gebeuren...css variables nodig!
+              compPropsObj.calcHeight = dimensionsConfig.height.value?.toString()
+              break
+            case DimensionValueConfigType.Content:
+              break
+          }
+
+        } else{
+
+        }
+      }
+        if(dimensionsConfig.width){
+          if(dimensionsConfig.width instanceof FixedDimensioningConfigModel){
+
+          } else{
+
+          }
+        }
+      }
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToDimensioningComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
+      }
+      lastScreenSize--
+    }
+    throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
   }
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const newStateObj: AttributesComponentPropsModel = {}

@@ -1,3 +1,9 @@
+/*
+stel dat je hier een variabele in krijgt ...
+.calcHeight{
+  height: calc()
+}
+*/
 .app-wrapper{
   width: calc(100vw - 16px);
   height: calc(100vh - 16px);
