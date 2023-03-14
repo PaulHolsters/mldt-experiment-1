@@ -1,0 +1,13 @@
+.calc2Addition{
+  height:calc(var(--heightVal1) + var(--heightVal2) - (100vh + 20px))
+}
+.visibilityHidden{
+  visibility: hidden;
+}
+.displayNone{
+  display: none;
+}
+:host{
+  --heightVal1:100vw;
+  --heightVal2:100vh;
+}
