@@ -1,6 +1,6 @@
 export class DimensioningComponentPropsModel {
-  constructor(public height?: string | undefined,
-              public width?: string | undefined,
+  constructor(public height?: boolean|string | undefined,
+              public width?: boolean|string | undefined,
               public grow?: string | undefined, // main axis
               public shrink?: string | undefined, // main axis
               public stretch?: boolean | undefined, // cross axis

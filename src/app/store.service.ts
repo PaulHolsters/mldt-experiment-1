@@ -191,24 +191,33 @@ export class StoreService {
               switch (dimensionsConfig.height.unit){
                 case DimensionUnitConfigType.REM:
                   compPropsObj.height = dimensionsConfig.height.value+'rem'
+                  compPropsObj.calcHeight = undefined
                   break
                 case DimensionUnitConfigType.PX:
                   compPropsObj.height = dimensionsConfig.height.value+'px'
+                  compPropsObj.calcHeight = undefined
                   break
                 case DimensionUnitConfigType.Percentage:
                   compPropsObj.height = dimensionsConfig.height.value+'%'
+                  compPropsObj.calcHeight = undefined
                   break
               }
               break
             case DimensionValueConfigType.Calculated:
-              // todo dit gaat met een style class gebeuren...css variables nodig!
-              compPropsObj.calcHeight = dimensionsConfig.height.value?.toString()
+              if(typeof dimensionsConfig.height.value === 'string')
+              compPropsObj.calcHeight = dimensionsConfig.height.value
+              compPropsObj.height = undefined
               break
             case DimensionValueConfigType.Content:
+              // todo dit is misschien niet nodig maar misschien wel bv. om een vorige waarde te resetten
+              //  wanneer de hoogte on the fly bepaald wordt
+              compPropsObj.height=true
+              compPropsObj.calcHeight = undefined
               break
           }
 
         } else{
+          // height is dynamic
 
         }
       }
@@ -228,7 +237,7 @@ export class StoreService {
       }
       lastScreenSize--
     }
-    throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
+    throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const newStateObj: AttributesComponentPropsModel = {}

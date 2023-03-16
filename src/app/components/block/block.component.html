@@ -5,7 +5,7 @@
   [style.height]="height$ | async"
   [style.width]="width$ | async"
   [class.bg-primary]="backgroundColorPrimary$ | async"
-  [class.calc2Addition]="calc2$|async"
+  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
 #block>
 </div>
 <!-- todo pas de method aan zodat px niet gebruikt worden maar enkel primeng classes-->

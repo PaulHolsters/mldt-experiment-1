@@ -179,9 +179,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded,
-                  4,
-                  DimensionUnitConfigType.REM))),
+                  DimensionValueConfigType.Calculated,
+                  '(100vh - 16px)'))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
           }

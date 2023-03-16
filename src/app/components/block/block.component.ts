@@ -14,7 +14,7 @@ export class BlockComponent implements OnInit {
   backgroundColorPrimary$: Observable<any>|undefined
   visible$: Observable<any>|undefined
   holdSpace$: Observable<any>|undefined
-  heightValCalc1$: Observable<any>|undefined
+  calcHeight$: Observable<any>|undefined
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
     this.height$ = this.storeService.bindToStateProperty(this.name,'height')
@@ -22,9 +22,14 @@ export class BlockComponent implements OnInit {
     this.backgroundColorPrimary$ = this.storeService.bindToStateProperty(this.name,'backgroundColorPrimary')
     this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
     this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
-    this.storeService.bindToStateProperty(this.name,'heightValCalc1')?.subscribe(res=>{
-      this.block?.style.setProperty('--heightVal1',res.toString())
-    })
+    this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+  }
+  setCalculatedHeight(val:string):boolean{
+    if(typeof val === 'string'){
+      this.block?.style.setProperty('--heightVal',val)
+      return true
+    }
+    return false
   }
 
 }
