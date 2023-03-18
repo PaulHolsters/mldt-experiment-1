@@ -15,6 +15,11 @@ export class BlockComponent implements OnInit {
   visible$: Observable<any>|undefined
   holdSpace$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined
+  calcWidth$: Observable<any>|undefined
+  fitContentHeight$: Observable<any>|undefined
+  fitContentWidth$: Observable<any>|undefined
+  grow$: Observable<any>|undefined
+  shrink$: Observable<any>|undefined
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
     this.height$ = this.storeService.bindToStateProperty(this.name,'height')
@@ -23,10 +28,21 @@ export class BlockComponent implements OnInit {
     this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
     this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    this.fitContentHeight$ = this.storeService.bindToStateProperty(this.name,'fitContentHeight')
+    this.fitContentWidth$ = this.storeService.bindToStateProperty(this.name,'fitContentWidth')
+    this.grow$ = this.storeService.bindToStateProperty(this.name,'grow')
+    this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
   }
   setCalculatedHeight(val:string):boolean{
     if(typeof val === 'string'){
       this.block?.style.setProperty('--heightVal',val)
+      return true
+    }
+    return false
+  }
+  setCalculatedWidth(val:string):boolean{
+    if(typeof val === 'string'){
+      this.block?.style.setProperty('--widthVal',val)
       return true
     }
     return false

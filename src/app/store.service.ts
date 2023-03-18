@@ -43,17 +43,10 @@ import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 export class StoreService {
   constructor() {
   }
-  /*const getConfigPropValue = (layoutType: number, configPropName: string): any => {
-      let latestSize = screenSize
-      while (latestSize >= 0) {
-        if (stateModelObj[ScreenSize[latestSize]].selfAlign.hasOwnProperty(configPropName)) {
-          return stateModelObj[ScreenSize[latestSize]].selfAlign[configPropName]
-        }
-        latestSize--
-      }
-      return undefined
-  } */
+
   private statePropertySubjects: StatePropertySubjectModel[] = []
+
+  // volgende methodes zijn pure opstartwaarden, zij geven niet de runtime waarden van de props terug, bv wanneer deze gewijzigd moeten worden!
   public getPositionComponentProps(componentName: string,
                                    stateModel: ResponsivePositioningConfigModel,
                                    screenSize: number): PositioningComponentPropsModel {
@@ -76,6 +69,7 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getPositionChildComponentsProps(componentName: string,
                                          stateModel: ResponsivePositioningConfigModel,
                                          screenSize: number): PositioningChildComponentsPropsModel {
@@ -121,6 +115,7 @@ export class StoreService {
     }
     throw new Error('No screensize child components configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
@@ -142,6 +137,7 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getOverflowChildComponentsProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowChildConfigPropsModel): OverflowComponentPropsModel => {
@@ -163,6 +159,7 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getStylingComponentProps(componentName: string, stateModel: ResponsiveStylingConfigModel, screenSize: number): StylingComponentPropsModel {
     const translateToStylingComponentProps =
       (stylingConfig: StylingConfigPropsModel): StylingComponentPropsModel => {
@@ -179,56 +176,78 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
   }
-  //FixedDimensioningConfigModel|DynamicDimensioningConfigModel
+
   public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
-    const translateToDimensioningComponentProps =
-      (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
+    const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
-      if(dimensionsConfig.height){
-        if(dimensionsConfig.height instanceof FixedDimensioningConfigModel){
-          switch (dimensionsConfig.height.type){
+      if (dimensionsConfig.height) {
+        if (dimensionsConfig.height instanceof FixedDimensioningConfigModel) {
+          switch (dimensionsConfig.height.type) {
             case DimensionValueConfigType.Hardcoded:
-              switch (dimensionsConfig.height.unit){
+              switch (dimensionsConfig.height.unit) {
                 case DimensionUnitConfigType.REM:
-                  compPropsObj.height = dimensionsConfig.height.value+'rem'
-                  compPropsObj.calcHeight = undefined
+                  compPropsObj.height = dimensionsConfig.height.value + 'rem'
                   break
                 case DimensionUnitConfigType.PX:
-                  compPropsObj.height = dimensionsConfig.height.value+'px'
-                  compPropsObj.calcHeight = undefined
+                  compPropsObj.height = dimensionsConfig.height.value + 'px'
                   break
                 case DimensionUnitConfigType.Percentage:
-                  compPropsObj.height = dimensionsConfig.height.value+'%'
-                  compPropsObj.calcHeight = undefined
+                  compPropsObj.height = dimensionsConfig.height.value + '%'
                   break
               }
               break
             case DimensionValueConfigType.Calculated:
-              if(typeof dimensionsConfig.height.value === 'string')
-              compPropsObj.calcHeight = dimensionsConfig.height.value
-              compPropsObj.height = undefined
+              if (typeof dimensionsConfig.height.value === 'string')
+                compPropsObj.calcHeight = dimensionsConfig.height.value
               break
             case DimensionValueConfigType.Content:
-              // todo dit is misschien niet nodig maar misschien wel bv. om een vorige waarde te resetten
-              //  wanneer de hoogte on the fly bepaald wordt
-              compPropsObj.height=true
-              compPropsObj.calcHeight = undefined
+              compPropsObj.fitContentHeight = true
               break
           }
-
-        } else{
-          // height is dynamic
-
-        }
-      }
-        if(dimensionsConfig.width){
-          if(dimensionsConfig.width instanceof FixedDimensioningConfigModel){
-
-          } else{
-
+        } else {
+          if (dimensionsConfig.height.grow) {
+            compPropsObj.grow = dimensionsConfig.height.grow
+          }
+          if (dimensionsConfig.height.shrink) {
+            compPropsObj.shrink = dimensionsConfig.height.shrink
           }
         }
       }
+      if (dimensionsConfig.width) {
+        if (dimensionsConfig.width instanceof FixedDimensioningConfigModel) {
+          switch (dimensionsConfig.width.type) {
+            case DimensionValueConfigType.Hardcoded:
+              switch (dimensionsConfig.width.unit) {
+                case DimensionUnitConfigType.REM:
+                  compPropsObj.width = dimensionsConfig.width.value + 'rem'
+                  break
+                case DimensionUnitConfigType.PX:
+                  compPropsObj.width = dimensionsConfig.width.value + 'px'
+                  break
+                case DimensionUnitConfigType.Percentage:
+                  compPropsObj.width = dimensionsConfig.width.value + '%'
+                  break
+              }
+              break
+            case DimensionValueConfigType.Calculated:
+              if (typeof dimensionsConfig.width.value === 'string')
+                compPropsObj.calcWidth = dimensionsConfig.width.value
+              break
+            case DimensionValueConfigType.Content:
+              compPropsObj.fitContentWidth = true
+              break
+          }
+        } else {
+          if (dimensionsConfig.width.grow) {
+            compPropsObj.grow = dimensionsConfig.width.grow
+          }
+          if (dimensionsConfig.width.shrink) {
+            compPropsObj.shrink = dimensionsConfig.width.shrink
+          }
+        }
+      }
+      return compPropsObj
+    }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
     while (lastScreenSize >= 0) {
@@ -239,6 +258,7 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
+  // todo
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const newStateObj: AttributesComponentPropsModel = {}
     let lastScreenSize = screenSize
@@ -260,12 +280,10 @@ export class StoreService {
     }
     return newStateObj
   }
-
   private translateToAttributesComponentProps(stateModel: ResponsiveAttributesConfigModel, configKey: string, screenSize: ScreenSize): AttributesComponentPropsModel {
     // todo
     return {}
   }
-
   public getVisibilityComponentProps(componentName: string, stateModel: ResponsiveVisibilityConfigModel, screenSize: number): VisibilityComponentPropsModel {
     const newStateObj: VisibilityComponentPropsModel = {}
     let lastScreenSize = screenSize
@@ -291,6 +309,7 @@ export class StoreService {
     // todo
     return {}
   }
+
   public setState(componentName: string,
                   newState:
                     PositioningComponentPropsModel |
@@ -309,6 +328,14 @@ export class StoreService {
   }) {
     contentContainer.components.forEach(comp => {
       if (comp.position) {
+        // todo volgens mij is dit niet correct, maar zal dit wel werken
+        // qua type moet hier komen volgens mij:
+        /*      string |
+      number |
+      boolean |
+      CalculationModel
+        *
+        * */
         Object.keys(this.getPositionComponentProps(comp.name, comp.position, ScreenSize.highResolution)).forEach(k => {
           const propSubj = new BehaviorSubject<PositioningConfigPropsModel | undefined>(undefined)
           this.statePropertySubjects.push({
@@ -326,6 +353,15 @@ export class StoreService {
               })
             })
           }
+        })
+      }
+      if (comp.dimensions){
+        Object.keys(this.getDimensionsComponentProps(comp.name, comp.dimensions, ScreenSize.highResolution)).forEach(k => {
+          const propSubj = new BehaviorSubject<DimensioningConfigPropsModel | undefined>(undefined)
+          this.statePropertySubjects.push({
+            componentName: comp.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
         })
       }
       if (comp.overflow) {
@@ -366,7 +402,7 @@ export class StoreService {
           })
         })
       }
-      if (comp.styling){
+      if (comp.styling) {
         Object.keys(this.getStylingComponentProps(comp.name, comp.styling, ScreenSize.highResolution)).forEach(k => {
           const propSubj = new BehaviorSubject<StylingConfigPropsModel | undefined>(undefined)
           this.statePropertySubjects.push({
@@ -377,6 +413,7 @@ export class StoreService {
       }
     })
   }
+
   public bindToStateProperty(componentName: string, propName: string):
     Observable<PositioningComponentPropsModel |
       PositioningChildComponentsPropsModel |
@@ -393,6 +430,7 @@ export class StoreService {
       return state.componentName === componentName && state.propName === propName
     })?.prop$
   }
+
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
   }

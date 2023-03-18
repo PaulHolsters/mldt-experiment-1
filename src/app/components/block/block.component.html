@@ -1,11 +1,14 @@
 <!-- todo verander dit en gebruik zoveel mogelijk primeng classes!-->
-<div
+<!-- todo voeg hier een conditional claas toe of flex-grow-0-->
+<div [class]="['flex-shrink-'+(shrink$|async) === undefined ? 0 : (shrink$|async),'flex-grow-'+(grow$|async)=== undefined ? 0 : (grow$|async)]"
   [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
   [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
   [style.height]="height$ | async"
   [style.width]="width$ | async"
   [class.bg-primary]="backgroundColorPrimary$ | async"
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+  [class.flex-none]="fitContentHeight$|async"
 #block>
 </div>
 <!-- todo pas de method aan zodat px niet gebruikt worden maar enkel primeng classes-->

@@ -13,7 +13,7 @@ export class ContainerComponent implements OnInit {
   @Input() name = ''
   componentType = ComponentType
   children$:Observable<ComponentModel[]>|undefined // de engine moet ervoor zorgen dat de hele childcomponent hierin zit, niet enkel de namen
-  // todo voeg selfAlign toe
+  // todo voeg selfAlign toe en alles ivm dimensions
   row$: Observable<any>|undefined
   column$: Observable<any>|undefined
   wrap$: Observable<any>|undefined
@@ -40,7 +40,7 @@ export class ContainerComponent implements OnInit {
   overflowYAuto$: Observable<any>|undefined
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
-    // todo voeg selfAlign toe
+    // todo voeg selfAlign toe en dimensions props : later nog te refactoren want dit is "buggy" met zoveel props
     this.column$ = this.storeService.bindToStateProperty(this.name,'row')
     this.column$ = this.storeService.bindToStateProperty(this.name,'column')
     this.wrap$ = this.storeService.bindToStateProperty(this.name,'wrap')

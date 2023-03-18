@@ -1,6 +1,9 @@
 .calcHeight{
   height:var(--heightVal)
 }
+.calcWidth{
+  height:var(--widthVal)
+}
 .visibilityHidden{
   visibility: hidden;
 }
