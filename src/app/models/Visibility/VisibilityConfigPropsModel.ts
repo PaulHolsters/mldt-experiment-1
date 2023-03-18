@@ -1,6 +1,6 @@
 export class VisibilityConfigPropsModel {
-  constructor(visible: boolean = true,
-              holdSpace: boolean = false) {
+  constructor(public visible: boolean = true,
+              public holdSpace: boolean = false) {
   }
 
 }

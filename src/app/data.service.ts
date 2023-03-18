@@ -158,7 +158,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       {
         name: 'content-container',
         type: ComponentType.Container,
-        position: new ResponsivePositioningConfigModel(this.logoSmartphoneLayout),
+        position: new ResponsivePositioningConfigModel(
+          new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
+          PositionDirectionConfigType.Row,
+          true,
+          HorizontalPositioningConfigType.Right,
+          {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Baseline}))),
         children: [
           {
             name: 'block-1',
@@ -186,7 +191,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           }
         ]
       },
-      {
+/*      {
         name: 'logo',
         type: ComponentType.Logo,
         attributes: new ResponsiveAttributesConfigModel(),
@@ -219,7 +224,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           childLayout: {}
         }),
         attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
-      }
+      }*/
     ],
     actions: [
       // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op

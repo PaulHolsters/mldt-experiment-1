@@ -26,6 +26,7 @@ export class ResponsiveBehaviourService {
     components: ComponentModel[],
     actions: ActionModel[]
   }) {
+    // todo debug
     const mqSM1 = window.matchMedia("(max-width: 480px)") //smartphone
     const mqPT1 = window.matchMedia("(min-width: 481px)") //portrait-tablet
     const mqPT2 = window.matchMedia("(max-width: 799px)") //portrait-tablet

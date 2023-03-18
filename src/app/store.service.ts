@@ -36,16 +36,28 @@ import {DimensioningConfigPropsModel} from "./models/Dimensioning/DimensioningCo
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
-
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
   constructor() {
   }
-
   private statePropertySubjects: StatePropertySubjectModel[] = []
-
+  private hasScreenSizeProperty(stateModel:
+                                  ResponsivePositioningConfigModel|ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|ResponsiveDimensioningConfigModel|ResponsiveAttributesConfigModel
+                                |ResponsiveVisibilityConfigModel,property:string):boolean{
+    let lastScreenSize = ScreenSize.highResolution
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]
+        && stateModelObj[ScreenSize[lastScreenSize]].hasOwnProperty(property)
+        && stateModelObj[ScreenSize[lastScreenSize]][property]!==undefined) {
+        return true
+      }
+      lastScreenSize--
+    }
+    return false
+  }
   // volgende methodes zijn pure opstartwaarden, zij geven niet de runtime waarden van de props terug, bv wanneer deze gewijzigd moeten worden!
   public getPositionComponentProps(componentName: string,
                                    stateModel: ResponsivePositioningConfigModel,
@@ -59,63 +71,66 @@ export class StoreService {
           positionConfig === CrossAxisRowPositioningConfigType.Stretch || positionConfig === CrossAxisColumnPositioningConfigType.Stretch,
           positionConfig === CrossAxisRowPositioningConfigType.Baseline || positionConfig === CrossAxisColumnPositioningConfigType.Baseline)
       }
-    let lastScreenSize = screenSize
-    const stateModelObj = Object.create(stateModel)
-    while (lastScreenSize >= 0) {
-      if (stateModelObj[ScreenSize[lastScreenSize]]?.selfAlign) {
-        return translateToPositioningComponentProps(stateModelObj[ScreenSize[lastScreenSize]]?.selfAlign)
+    if(this.hasScreenSizeProperty(stateModel,'selfAlign')){
+      let lastScreenSize = screenSize
+      const stateModelObj = Object.create(stateModel)
+      while (lastScreenSize >= 0) {
+        if (stateModelObj[ScreenSize[lastScreenSize]]?.selfAlign) {
+          return translateToPositioningComponentProps(stateModelObj[ScreenSize[lastScreenSize]]?.selfAlign)
+        }
+        lastScreenSize--
       }
-      lastScreenSize--
-    }
-    throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
+      throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
+    } else return new PositioningComponentPropsModel()
   }
-
   public getPositionChildComponentsProps(componentName: string,
                                          stateModel: ResponsivePositioningConfigModel,
                                          screenSize: number): PositioningChildComponentsPropsModel {
+    // todo fix this: er komt niets terug!!!
     const translateToPositioningChildComponentsProps =
       (positionConfig: PositioningChildrenConfigPropsModel): PositioningChildComponentsPropsModel => {
-        return new PositioningChildComponentsPropsModel(
-          positionConfig.direction === PositionDirectionConfigType.Row,
-          positionConfig.direction === PositionDirectionConfigType.Column,
-          positionConfig.wrap === true,
-          positionConfig.horPos === HorizontalPositioningConfigType.Left || positionConfig.verPos === VerticalPositioningConfigType.Top,
-          positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
-          positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
-          positionConfig.horPos === HorizontalPositioningConfigType.Between || positionConfig.verPos === VerticalPositioningConfigType.Between,
-          positionConfig.horPos === HorizontalPositioningConfigType.Evenly || positionConfig.verPos === VerticalPositioningConfigType.Evenly,
-          positionConfig.horPos === HorizontalPositioningConfigType.Around || positionConfig.verPos === VerticalPositioningConfigType.Around,
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Left) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Top),
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Center) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Center),
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Right) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Bottom),
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Left) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Top),
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Center) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Center),
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Right) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Bottom),
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Between) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Between),
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Evenly) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Evenly),
-          (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Around) ||
-          (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Around)
-        )
+      return new PositioningChildComponentsPropsModel(
+        positionConfig.direction === PositionDirectionConfigType.Row,
+        positionConfig.direction === PositionDirectionConfigType.Column,
+        positionConfig.wrap === true,
+        positionConfig.horPos === HorizontalPositioningConfigType.Left || positionConfig.verPos === VerticalPositioningConfigType.Top,
+        positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
+        positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
+        positionConfig.horPos === HorizontalPositioningConfigType.Between || positionConfig.verPos === VerticalPositioningConfigType.Between,
+        positionConfig.horPos === HorizontalPositioningConfigType.Evenly || positionConfig.verPos === VerticalPositioningConfigType.Evenly,
+        positionConfig.horPos === HorizontalPositioningConfigType.Around || positionConfig.verPos === VerticalPositioningConfigType.Around,
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Left) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Top),
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Center) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Center),
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Right) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Bottom),
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Left) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Top),
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Center) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Center),
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Right) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Bottom),
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Between) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Between),
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Evenly) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Evenly),
+        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Around) ||
+        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Around)
+      )
       }
-    let lastScreenSize = screenSize
-    const stateModelObj = Object.create(stateModel)
-    while (lastScreenSize >= 0) {
-      if (stateModelObj[ScreenSize[lastScreenSize]]?.childPositioning) {
-        return translateToPositioningChildComponentsProps(stateModelObj[ScreenSize[lastScreenSize]]?.childPositioning)
-      }
-      lastScreenSize--
-    }
-    throw new Error('No screensize child components configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
+      if(this.hasScreenSizeProperty(stateModel,'childPositioning')){
+        let lastScreenSize = screenSize
+        const stateModelObj = Object.create(stateModel)
+        while (lastScreenSize >= 0) {
+          if (stateModelObj[ScreenSize[lastScreenSize]]?.childPositioning) {
+            return translateToPositioningChildComponentsProps(stateModelObj[ScreenSize[lastScreenSize]]?.childPositioning)
+          }
+          lastScreenSize--
+        }
+        throw new Error('No screensize child components configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
+      } else return new PositioningChildComponentsPropsModel()
   }
-
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
@@ -137,7 +152,6 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getOverflowChildComponentsProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowChildConfigPropsModel): OverflowComponentPropsModel => {
@@ -149,17 +163,18 @@ export class StoreService {
           overflowConfig.horizontalOverflow === OverflowValueConfigType.Scroll,
           overflowConfig.verticalOverflow === OverflowValueConfigType.Scroll)
       }
-    let lastScreenSize = screenSize
-    const stateModelObj = Object.create(stateModel)
-    while (lastScreenSize >= 0) {
-      if (stateModelObj[ScreenSize[lastScreenSize]]) {
-        return translateToOverflowComponentProps(stateModelObj[ScreenSize[lastScreenSize]].childOverflowConfig)
+    if(this.hasScreenSizeProperty(stateModel,'childOverflowConfig')){
+      let lastScreenSize = screenSize
+      const stateModelObj = Object.create(stateModel)
+      while (lastScreenSize >= 0) {
+        if (stateModelObj[ScreenSize[lastScreenSize]]) {
+          return translateToOverflowComponentProps(stateModelObj[ScreenSize[lastScreenSize]].childOverflowConfig)
+        }
+        lastScreenSize--
       }
-      lastScreenSize--
-    }
-    throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
+      throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
+    } else return new OverflowComponentPropsModel()
   }
-
   public getStylingComponentProps(componentName: string, stateModel: ResponsiveStylingConfigModel, screenSize: number): StylingComponentPropsModel {
     const translateToStylingComponentProps =
       (stylingConfig: StylingConfigPropsModel): StylingComponentPropsModel => {
@@ -176,7 +191,6 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
     const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
@@ -258,58 +272,42 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
-  // todo
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
-    const newStateObj: AttributesComponentPropsModel = {}
+    const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
+      const compPropsObj = new AttributesComponentPropsModel()
+      Object.entries(attributesConfig).forEach(([k,v])=>{
+        compPropsObj.setProperty(k,v)
+      })
+      return compPropsObj
+    }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
-    while (lastScreenSize > 0) {
-      if (stateModelObj[ScreenSize[screenSize]]) {
-        Object.keys(stateModelObj[ScreenSize[screenSize]]).forEach(configKey => {
-          const propsObj = Object.create(this.translateToAttributesComponentProps(stateModel, configKey, lastScreenSize))
-          Object.keys(this.translateToAttributesComponentProps(stateModel, configKey, lastScreenSize)).forEach((k) => {
-            if (newStateObj.hasOwnProperty(k)) {
-              delete propsObj[k]
-            }
-          })
-          if (Object.keys(propsObj).length > 0)
-            Object.assign(newStateObj, propsObj)
-        })
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToAttributesComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
       }
       lastScreenSize--
     }
-    return newStateObj
-  }
-  private translateToAttributesComponentProps(stateModel: ResponsiveAttributesConfigModel, configKey: string, screenSize: ScreenSize): AttributesComponentPropsModel {
-    // todo
-    return {}
+    throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and screen ' + ScreenSize[screenSize])
   }
   public getVisibilityComponentProps(componentName: string, stateModel: ResponsiveVisibilityConfigModel, screenSize: number): VisibilityComponentPropsModel {
-    const newStateObj: VisibilityComponentPropsModel = {}
+    const translateToVisibilityComponentProps = (visibilityConfig: VisibilityConfigPropsModel): VisibilityComponentPropsModel => {
+      const compPropsObj = new VisibilityComponentPropsModel()
+      Object.entries(visibilityConfig).forEach(([k,v])=>{
+        compPropsObj.setProperty(k,v)
+      })
+      return compPropsObj
+    }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
-    while (lastScreenSize > 0) {
-      if (stateModelObj[ScreenSize[screenSize]]) {
-        Object.keys(stateModelObj[ScreenSize[screenSize]]).forEach(configKey => {
-          const propsObj = Object.create(this.translateToVisibilityComponentProps(stateModel, configKey, lastScreenSize))
-          Object.keys(this.translateToVisibilityComponentProps(stateModel, configKey, lastScreenSize)).forEach((k) => {
-            if (newStateObj.hasOwnProperty(k)) {
-              delete propsObj[k]
-            }
-          })
-          if (Object.keys(propsObj).length > 0)
-            Object.assign(newStateObj, propsObj)
-        })
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToVisibilityComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
       }
       lastScreenSize--
     }
-    return newStateObj
+    throw new Error('No screensize configuration was found for given ResponsiveVisibilityConfigModel and screen ' + ScreenSize[screenSize])
   }
-  private translateToVisibilityComponentProps(stateModel: ResponsiveVisibilityConfigModel, configKey: string, screenSize: ScreenSize): VisibilityComponentPropsModel {
-    // todo
-    return {}
-  }
-
   public setState(componentName: string,
                   newState:
                     PositioningComponentPropsModel |
@@ -413,7 +411,6 @@ export class StoreService {
       }
     })
   }
-
   public bindToStateProperty(componentName: string, propName: string):
     Observable<PositioningComponentPropsModel |
       PositioningChildComponentsPropsModel |
@@ -430,7 +427,6 @@ export class StoreService {
       return state.componentName === componentName && state.propName === propName
     })?.prop$
   }
-
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
   }
