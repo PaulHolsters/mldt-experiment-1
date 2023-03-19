@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {ComponentModel} from "../../models/ComponentModel";
@@ -11,6 +11,7 @@ import {ComponentType} from "../../enums/componentTypes.enum";
 })
 export class ContainerComponent implements OnInit {
   @Input() name = ''
+  @ViewChild('container') container:HTMLDivElement|undefined
   componentType = ComponentType
   // todo de engine moet ervoor zorgen dat de hele childcomponent hierin zit, niet enkel de namen
   children$:Observable<any>|undefined
@@ -40,6 +41,17 @@ export class ContainerComponent implements OnInit {
   overflowAuto$: Observable<any>|undefined
   overflowXAuto$: Observable<any>|undefined
   overflowYAuto$: Observable<any>|undefined
+
+  height$: Observable<any>|undefined
+  width$: Observable<any>|undefined
+  fitContentHeight$: Observable<any>|undefined
+  fitContentWidth$: Observable<any>|undefined
+  backgroundColorPrimary$: Observable<any>|undefined
+  backgroundColorWhite$: Observable<any>|undefined
+  visible$: Observable<any>|undefined
+  holdSpace$: Observable<any>|undefined
+  calcHeight$: Observable<any>|undefined
+  calcWidth$: Observable<any>|undefined
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
     this.children$ = this.storeService.bindToStateProperty(this.name,'children')
@@ -68,6 +80,31 @@ export class ContainerComponent implements OnInit {
     this.overflowAuto$ = this.storeService.bindToStateProperty(this.name,'overflowAuto')
     this.overflowXAuto$ = this.storeService.bindToStateProperty(this.name,'overflowXAuto')
     this.overflowYAuto$ = this.storeService.bindToStateProperty(this.name,'overflowYAuto')
+    // todo code duplication => refactor obviously is needed!
+    this.height$ = this.storeService.bindToStateProperty(this.name,'height')
+    this.width$ = this.storeService.bindToStateProperty(this.name,'width')
+    this.fitContentHeight$ = this.storeService.bindToStateProperty(this.name,'fitContentHeight')
+    this.fitContentWidth$ = this.storeService.bindToStateProperty(this.name,'fitContentWidth')
+    this.backgroundColorPrimary$ = this.storeService.bindToStateProperty(this.name,'backgroundColorPrimary')
+    this.backgroundColorWhite$ = this.storeService.bindToStateProperty(this.name,'backgroundColorWhite')
+    this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
+    this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
+    this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+  }
+
+  setCalculatedHeight(val:string):boolean{
+    if(typeof val === 'string'){
+      this.container?.style?.setProperty('--heightVal',val)
+      return true
+    }
+    return false
+  }
+  setCalculatedWidth(val:string):boolean{
+    if(typeof val === 'string'){
+      this.container?.style?.setProperty('--widthVal',val)
+      return true
+    }
+    return false
   }
 
 

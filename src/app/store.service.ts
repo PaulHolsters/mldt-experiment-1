@@ -178,7 +178,8 @@ export class StoreService {
     const translateToStylingComponentProps =
       (stylingConfig: StylingConfigPropsModel): StylingComponentPropsModel => {
         return new StylingComponentPropsModel(
-          stylingConfig.backgroundColor === ColorType.primary)
+          stylingConfig.backgroundColor === ColorType.primary,
+          stylingConfig.backgroundColor === ColorType.white)
       }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)

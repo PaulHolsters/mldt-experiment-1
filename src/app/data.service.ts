@@ -25,6 +25,7 @@ import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
+import {ColorType} from "./enums/colorType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -161,15 +162,18 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         type: ComponentType.Container,
         position: new ResponsivePositioningConfigModel(
           new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
-          PositionDirectionConfigType.Column,
+          PositionDirectionConfigType.Row,
           true,
-            {lanes: HorizontalPositioningConfigType.Right, children: CrossAxisColumnPositioningConfigType.Right},
-          VerticalPositioningConfigType.Bottom
+            HorizontalPositioningConfigType.Right,
+      {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Center},
+            // todo dit moet een justifyContent geven maar die is niet te zien
           ))
         ),
         visibility: new ResponsiveVisibilityConfigModel(),
-        dimensions: new ResponsiveDimensioningConfigModel(),
-        styling: new ResponsiveStylingConfigModel(),
+        dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+          new FixedDimensioningConfigModel(
+            DimensionValueConfigType.Hardcoded,900,DimensionUnitConfigType.PX))),
+        styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
           {
             name: 'block-1',
@@ -179,7 +183,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               new DimensioningConfigPropsModel(
                 new FixedDimensioningConfigModel(
                   DimensionValueConfigType.Hardcoded,
-                  4,
+                  8,
+                  DimensionUnitConfigType.REM),
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded,
+                  8,
                   DimensionUnitConfigType.REM))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
@@ -191,8 +199,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Calculated,
-                  '(30vh - 16px)'))),
+                  DimensionValueConfigType.Hardcoded,
+                  200,DimensionUnitConfigType.PX),
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded,
+                  200,DimensionUnitConfigType.PX))),
             // todo fix bug background
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()

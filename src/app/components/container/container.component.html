@@ -25,7 +25,16 @@
   [class.overflow-auto]="(overflowAuto$|async)"
   [class.overflow-auto-x]="(overflowXAuto$|async)"
   [class.overflow-auto-y]="(overflowYAuto$|async)"
->
+  [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
+  [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
+  [style.height]="height$ | async"
+  [style.width]="width$ | async"
+  [class.bg-primary]="backgroundColorPrimary$ | async"
+  [class.bg-white]="backgroundColorWhite$ | async"
+  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+  [class.flex-none]="fitContentHeight$|async"
+#container>
   <ng-container *ngFor="let child of children$|async">
     <!-- todo fix the problem with the extra div -->
     <div class="flex" [ngSwitch]="child.type">
