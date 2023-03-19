@@ -4,6 +4,9 @@ import {ActionModel} from "./models/ActionModel";
 import {StoreService} from "./store.service";
 import {State} from "./enums/states.enum";
 import {ScreenSize} from "./enums/screenSizes.enum";
+import {BehaviorSubject} from "rxjs";
+import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
+import {PositioningConfigPropsModel} from "./models/Positioning/self/PositioningConfigPropsModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -16,10 +19,39 @@ export class ResponsiveBehaviourService {
     contentContainer.components.forEach(comp => {
       if(comp.position)
       this.storeService.setState(comp.name,this.storeService.getPositionComponentProps(comp.name,comp.position,screenSize))
+      if (comp.children && comp.children.length > 0 && comp.position) {
+        this.storeService.setState(comp.name,this.storeService.getPositionChildComponentsProps(comp.name,comp.position,screenSize))
+      }
       if(comp.visibility)
         this.storeService.setState(comp.name,this.storeService.getVisibilityComponentProps(comp.name,comp.visibility,screenSize))
       if(comp.attributes)
         this.storeService.setState(comp.name,this.storeService.getAttributesComponentProps( comp.name,comp.attributes,screenSize))
+      if(comp.styling)
+        this.storeService.setState(comp.name,this.storeService.getStylingComponentProps( comp.name,comp.styling,screenSize))
+      if(comp.dimensions)
+        this.storeService.setState(comp.name,this.storeService.getDimensionsComponentProps( comp.name,comp.dimensions,screenSize))
+      if(comp.overflow)
+        this.storeService.setState(comp.name,this.storeService.getOverflowComponentProps( comp.name,comp.overflow,screenSize))
+      if (comp.children && comp.children.length > 0) {
+        comp.children.forEach(child => {
+          if(typeof child === 'string'){
+          } else{
+            if(child.position)
+              this.storeService.setState(child.name,this.storeService.getPositionComponentProps(child.name,child.position,screenSize))
+            if(child.visibility)
+              this.storeService.setState(child.name,this.storeService.getVisibilityComponentProps(child.name,child.visibility,screenSize))
+            if(child.attributes)
+              this.storeService.setState(child.name,this.storeService.getAttributesComponentProps( child.name,child.attributes,screenSize))
+            if(child.styling)
+              this.storeService.setState(child.name,this.storeService.getStylingComponentProps( child.name,child.styling,screenSize))
+            if(child.dimensions)
+              this.storeService.setState(child.name,this.storeService.getDimensionsComponentProps( child.name,child.dimensions,screenSize))
+            if(child.overflow)
+              this.storeService.setState(child.name,this.storeService.getOverflowComponentProps( child.name,child.overflow,screenSize))
+          }
+        })
+        this.storeService.setState(comp.name,comp.children as ComponentModel[])
+      }
     })
   }
   public setResponsiveBehaviour(contentContainer: {

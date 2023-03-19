@@ -86,7 +86,6 @@ export class StoreService {
   public getPositionChildComponentsProps(componentName: string,
                                          stateModel: ResponsivePositioningConfigModel,
                                          screenSize: number): PositioningChildComponentsPropsModel {
-    // todo fix this: er komt niets terug!!!
     const translateToPositioningChildComponentsProps =
       (positionConfig: PositioningChildrenConfigPropsModel): PositioningChildComponentsPropsModel => {
       return new PositioningChildComponentsPropsModel(
@@ -309,15 +308,31 @@ export class StoreService {
     throw new Error('No screensize configuration was found for given ResponsiveVisibilityConfigModel and screen ' + ScreenSize[screenSize])
   }
   public setState(componentName: string,
-                  newState:
-                    PositioningComponentPropsModel |
+                  newState:(PositioningComponentPropsModel |
                     PositioningChildComponentsPropsModel |
                     AttributesComponentPropsModel |
-                    VisibilityComponentPropsModel): void {
-    for (let [k, v] of Object.entries(newState)) {
+                    VisibilityComponentPropsModel) |
+                    StylingComponentPropsModel |
+                    DimensioningComponentPropsModel|
+                    OverflowComponentPropsModel|
+                    (ComponentModel[])): void {
+    if(newState instanceof PositioningComponentPropsModel ||
+      newState instanceof PositioningChildComponentsPropsModel ||
+      newState instanceof AttributesComponentPropsModel ||
+      newState instanceof VisibilityComponentPropsModel ||
+      newState instanceof StylingComponentPropsModel ||
+      newState instanceof DimensioningComponentPropsModel||
+      newState instanceof OverflowComponentPropsModel
+      ){
+      for (let [k, v] of Object.entries(newState)) {
+        this.getStatePropertySubjects().find(subj => {
+          return subj.componentName === componentName && subj.propName === k
+        })?.propValue.next(v)
+      }
+    } else{
       this.getStatePropertySubjects().find(subj => {
-        return subj.componentName === componentName && subj.propName === k
-      })?.propValue.next(v)
+        return subj.componentName === componentName && subj.propName === 'children'
+      })?.propValue.next(newState)
     }
   }
   public createStore(contentContainer: {
@@ -325,15 +340,13 @@ export class StoreService {
     actions: ActionModel[]
   }) {
     contentContainer.components.forEach(comp => {
+      // todo: zie dat styling geupdate wordt alsook de justify content stuff van de container alsook row en wrap en zo
       if (comp.position) {
         // todo volgens mij is dit niet correct, maar zal dit wel werken
-        // qua type moet hier komen volgens mij:
-        /*      string |
-      number |
-      boolean |
-      CalculationModel
-        *
-        * */
+        //  qua type moet hier komen volgens mij: string |
+        //       number |
+        //       boolean |
+        //       CalculationModel
         Object.keys(this.getPositionComponentProps(comp.name, comp.position, ScreenSize.highResolution)).forEach(k => {
           const propSubj = new BehaviorSubject<PositioningConfigPropsModel | undefined>(undefined)
           this.statePropertySubjects.push({
@@ -341,17 +354,17 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
-        Object.keys(this.getPositionChildComponentsProps(comp.name, comp.position, ScreenSize.highResolution)).forEach(k => {
-          if (comp.children && comp.children.length > 0) {
-            comp.children.forEach(child => {
-              const propSubj = new BehaviorSubject<PositioningConfigPropsModel | undefined>(undefined)
-              this.statePropertySubjects.push({
-                componentName: typeof child === 'string' ? child : child.name, propName: k, propValue:
-                propSubj, prop$: propSubj.asObservable()
-              })
-            })
-          }
-        })
+        if (comp.children && comp.children.length > 0) {
+          Object.keys(this.getPositionChildComponentsProps(comp.name, comp.position, ScreenSize.highResolution)).forEach(k => {
+                const propSubj = new BehaviorSubject<PositioningConfigPropsModel | undefined>(undefined)
+                this.statePropertySubjects.push({
+                  componentName: comp.name, propName: k, propValue:
+                  propSubj, prop$: propSubj.asObservable()
+                })
+          })
+        }
+        // todo je moet ook eventuele kinderen zetten indien deze volledig in de array zitten (wat voorlopig dan de enige optie is)
+        //   de bedoeling is dat je kinderen maar 1 diep mag nesten vanaf dan MOET je met strings werken
       }
       if (comp.dimensions){
         Object.keys(this.getDimensionsComponentProps(comp.name, comp.dimensions, ScreenSize.highResolution)).forEach(k => {
@@ -361,6 +374,22 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
+        if (comp.children && comp.children.length > 0) {
+          comp.children.forEach(child => {
+            if(typeof child === 'string'){
+              // todo
+            } else{
+              if(child.dimensions)
+              Object.keys(this.getDimensionsComponentProps(child.name, child.dimensions, ScreenSize.highResolution)).forEach(k => {
+                const propSubj = new BehaviorSubject<DimensioningConfigPropsModel | undefined>(undefined)
+                this.statePropertySubjects.push({
+                  componentName: child.name, propName: k, propValue:
+                  propSubj, prop$: propSubj.asObservable()
+                })
+              })
+            }
+          })
+        }
       }
       if (comp.overflow) {
         Object.keys(this.getOverflowComponentProps(comp.name, comp.overflow, ScreenSize.highResolution)).forEach(k => {
@@ -370,17 +399,16 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
-        Object.keys(this.getOverflowChildComponentsProps(comp.name, comp.overflow, ScreenSize.highResolution)).forEach(k => {
-          if (comp.children && comp.children.length > 0) {
-            comp.children.forEach(child => {
-              const propSubj = new BehaviorSubject<OverflowConfigPropsModel | undefined>(undefined)
-              this.statePropertySubjects.push({
-                componentName: typeof child === 'string' ? child : child.name, propName: k, propValue:
-                propSubj, prop$: propSubj.asObservable()
-              })
+        if (comp.children && comp.children.length > 0) {
+          Object.keys(this.getOverflowChildComponentsProps(comp.name, comp.overflow, ScreenSize.highResolution)).forEach(k => {
+            const propSubj = new BehaviorSubject<OverflowChildConfigPropsModel | undefined>(undefined)
+            this.statePropertySubjects.push({
+              componentName: comp.name, propName: k, propValue:
+              propSubj, prop$: propSubj.asObservable()
             })
-          }
-        })
+          })
+        }
+        // todo je moet ook eventuele kinderen zetten indien deze volledig in de array zitten (wat voorlopig dan de enige optie is)
       }
       if (comp.attributes) {
         Object.keys(this.getAttributesComponentProps(comp.name, comp.attributes, ScreenSize.highResolution)).forEach(k => {
@@ -390,6 +418,7 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
+        // todo je moet ook eventuele kinderen zetten indien deze volledig in de array zitten (wat voorlopig dan de enige optie is)
       }
       if (comp.visibility) {
         Object.keys(this.getVisibilityComponentProps(comp.name, comp.visibility, ScreenSize.highResolution)).forEach(k => {
@@ -399,6 +428,22 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
+        if (comp.children && comp.children.length > 0) {
+          comp.children.forEach(child => {
+            if(typeof child === 'string'){
+              // todo
+            } else{
+              if(child.visibility)
+                Object.keys(this.getVisibilityComponentProps(child.name, child.visibility, ScreenSize.highResolution)).forEach(k => {
+                  const propSubj = new BehaviorSubject<VisibilityConfigPropsModel | undefined>(undefined)
+                  this.statePropertySubjects.push({
+                    componentName: child.name, propName: k, propValue:
+                    propSubj, prop$: propSubj.asObservable()
+                  })
+                })
+            }
+          })
+        }
       }
       if (comp.styling) {
         Object.keys(this.getStylingComponentProps(comp.name, comp.styling, ScreenSize.highResolution)).forEach(k => {
@@ -408,11 +453,36 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
+        if (comp.children && comp.children.length > 0) {
+          comp.children.forEach(child => {
+            if(typeof child === 'string'){
+              // todo => dan moet je eigenlijk niets doen!
+            } else{
+              if(child.styling){
+                Object.keys(this.getStylingComponentProps(child.name, child.styling, ScreenSize.highResolution)).forEach(k => {
+                  const propSubj = new BehaviorSubject<StylingConfigPropsModel | undefined>(undefined)
+                  this.statePropertySubjects.push({
+                    componentName: child.name, propName: k, propValue:
+                    propSubj, prop$: propSubj.asObservable()
+                  })
+                })
+              }
+            }
+          })
+        }
+      }
+      if(comp.children && comp.children.length > 0){
+        const propSubj = new BehaviorSubject<ComponentModel[] | undefined>(undefined)
+        this.statePropertySubjects.push({
+          componentName: comp.name, propName: 'children', propValue:
+          propSubj, prop$: propSubj.asObservable()
+        })
       }
     })
   }
   public bindToStateProperty(componentName: string, propName: string):
-    Observable<PositioningComponentPropsModel |
+    Observable<
+      PositioningComponentPropsModel |
       PositioningChildComponentsPropsModel |
       AttributesComponentPropsModel |
       VisibilityComponentPropsModel |
@@ -421,8 +491,10 @@ export class StoreService {
       string |
       number |
       boolean |
-      CalculationModel> |
+      CalculationModel |
+      ComponentModel[]> |
     undefined {
+    // todo create a union type to denote this
     return this.statePropertySubjects.find(state => {
       return state.componentName === componentName && state.propName === propName
     })?.prop$
@@ -431,3 +503,5 @@ export class StoreService {
     return this.statePropertySubjects.slice()
   }
 }
+
+//selfAlignStart,width, height, grow, shrink

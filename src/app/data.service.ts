@@ -8,7 +8,6 @@ import {CalculationModel} from "./models/CalculationModel";
 import {PositioningConfigPropsModel} from "./models/Positioning/self/PositioningConfigPropsModel";
 import {ComponentModel} from "./models/ComponentModel";
 import {ResponsivePositioningConfigModel} from "./models/Positioning/self/ResponsivePositioningConfigModel";
-import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
 import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
@@ -19,7 +18,6 @@ import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConf
 import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
 import {CrossAxisRowPositioningConfigType} from "./enums/crossAxisRowPositioningConfigTypes.enum";
 import {CrossAxisColumnPositioningConfigType} from "./enums/crossAxisColumnPositioningConfigTypes.enum";
-import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
 import {DimensioningConfigPropsModel} from "./models/Dimensioning/DimensioningConfigPropsModel";
 import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/ResponsiveDimensioningConfigModel";
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/FixedDimensioningConfigModel";
@@ -155,15 +153,23 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 {property: 'xxl', value: "220px"}
               ]
             },*/
+      // todo maak de verschillende configprops verplicht: je vergeet al gauw bv visibillity waardoor je kinderen niet
+      //  zichtbaar zijn en je je afvraagt wat er mis is met de kinderen, het dwingt je om overal aan te denken!, of je zet overal
+      //  defaults...
       {
         name: 'content-container',
         type: ComponentType.Container,
         position: new ResponsivePositioningConfigModel(
           new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
-          PositionDirectionConfigType.Row,
+          PositionDirectionConfigType.Column,
           true,
-          HorizontalPositioningConfigType.Right,
-          {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Baseline}))),
+            {lanes: HorizontalPositioningConfigType.Right, children: CrossAxisColumnPositioningConfigType.Right},
+          VerticalPositioningConfigType.Bottom
+          ))
+        ),
+        visibility: new ResponsiveVisibilityConfigModel(),
+        dimensions: new ResponsiveDimensioningConfigModel(),
+        styling: new ResponsiveStylingConfigModel(),
         children: [
           {
             name: 'block-1',
@@ -176,18 +182,20 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   4,
                   DimensionUnitConfigType.REM))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+            visibility: new ResponsiveVisibilityConfigModel()
           }, {
             name: 'block-2',
             type: ComponentType.Block,
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
+            // todo fix bug calculated height
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new FixedDimensioningConfigModel(
                   DimensionValueConfigType.Calculated,
-                  '(100vh - 16px)'))),
+                  '(30vh - 16px)'))),
+            // todo fix bug background
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+            visibility: new ResponsiveVisibilityConfigModel()
           }
         ]
       },

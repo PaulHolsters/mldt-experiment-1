@@ -12,7 +12,9 @@ import {ComponentType} from "../../enums/componentTypes.enum";
 export class ContainerComponent implements OnInit {
   @Input() name = ''
   componentType = ComponentType
-  children$:Observable<ComponentModel[]>|undefined // de engine moet ervoor zorgen dat de hele childcomponent hierin zit, niet enkel de namen
+  // todo de engine moet ervoor zorgen dat de hele childcomponent hierin zit, niet enkel de namen
+  children$:Observable<any>|undefined
+  children:ComponentModel[]|undefined
   // todo voeg selfAlign toe en alles ivm dimensions
   row$: Observable<any>|undefined
   column$: Observable<any>|undefined
@@ -40,8 +42,9 @@ export class ContainerComponent implements OnInit {
   overflowYAuto$: Observable<any>|undefined
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
+    this.children$ = this.storeService.bindToStateProperty(this.name,'children')
     // todo voeg selfAlign toe en dimensions props : later nog te refactoren want dit is "buggy" met zoveel props
-    this.column$ = this.storeService.bindToStateProperty(this.name,'row')
+    this.row$ = this.storeService.bindToStateProperty(this.name,'row') // todo de bind werkt niet
     this.column$ = this.storeService.bindToStateProperty(this.name,'column')
     this.wrap$ = this.storeService.bindToStateProperty(this.name,'wrap')
     this.justifyContentStart$ = this.storeService.bindToStateProperty(this.name,'justifyContentStart')

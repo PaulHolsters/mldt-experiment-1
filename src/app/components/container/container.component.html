@@ -1,6 +1,6 @@
 <!-- todo add self align-->
 <div
-  class="app-wrapper flex"
+  class="flex"
   [class.flex-row]="(row$|async)"
   [class.flex-column]="(column$|async)"
   [class.flex-wrap]="(wrap$|async)"
@@ -26,14 +26,11 @@
   [class.overflow-auto-x]="(overflowXAuto$|async)"
   [class.overflow-auto-y]="(overflowYAuto$|async)"
 >
-<ng-container *ngFor="let child of children$|async">
-  <ng-container *ngSwitch="child.type">
-    <ng-container *ngSwitchCase="componentType.Block">
-      <m-block [name]="child.name"></m-block>
-    </ng-container>
-    <ng-container *ngSwitchCase="componentType.Logo">
-      <m-logo [name]="child.name"></m-logo>
-    </ng-container>
+  <ng-container *ngFor="let child of children$|async">
+    <!-- todo fix the problem with the extra div -->
+    <div class="flex" [ngSwitch]="child.type">
+      <m-block *ngSwitchCase="componentType.Block" [name]="child.name"></m-block>
+      <m-logo *ngSwitchCase="componentType.Logo" [name]="child.name"></m-logo>
+    </div>
   </ng-container>
-</ng-container>
 </div>

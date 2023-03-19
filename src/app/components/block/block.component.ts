@@ -35,14 +35,14 @@ export class BlockComponent implements OnInit {
   }
   setCalculatedHeight(val:string):boolean{
     if(typeof val === 'string'){
-      this.block?.style.setProperty('--heightVal',val)
+      this.block?.style?.setProperty('--heightVal',val)
       return true
     }
     return false
   }
   setCalculatedWidth(val:string):boolean{
     if(typeof val === 'string'){
-      this.block?.style.setProperty('--widthVal',val)
+      this.block?.style?.setProperty('--widthVal',val)
       return true
     }
     return false
