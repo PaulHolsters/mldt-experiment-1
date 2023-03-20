@@ -21,10 +21,12 @@ Op termijn zullen hier de voorgeprogrammeerde Mouldit templates komen. Voor elk 
 Het maken van een frontend voor een Mouldit app gebeurt volledig via een configuratie object (data.service.ts). Elk van de aspecten beschreven in het onderdeel Models kan je daarin configureren volgens een vast stramien, dat telkens per model beschreven staat onder het puntje Configuratie. Wanneer vervolgens met ng serve de software wordt gebuild en gestart zal de code in de services de app renderen met al haar functionaliteit. Voorlopig is enkel het responsive behaviour grotendeels in orde. Je kan ook al interacties configureren tussen de componenten en tussen componenten en de gebruiker van de app, maar dat moet opnieuw gereviseerd worden wegens de vele grote refactorings van de laatste weken. De precies werking van de services staat onder het puntje Werking van elke service.
 ## Configuratie
 Elk onderdeel (zie Models) wordt geconfigureerd d.m.v. een property in het configuratieObject. De naam van de variabele speelt geen rol zolang deze (voorlopig) van het volgende type is:
+
     contentContainer: {
       components: ComponentModel[],
       actions: ActionModel[]
     } 
+    
 Hier is contentContainer de naam van de variabele en daarachter heb je het TypeScript type. De modellen waarvan sprake vind je in de models folder terug. Omdat "actions" nog onder constructie is, behandelen we hierna enkel components.
 ### Components
 In het ComponentModel vind je de verschillende properties die je nodig hebt voor je configuratie. 
