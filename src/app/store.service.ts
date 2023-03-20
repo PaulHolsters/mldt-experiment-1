@@ -86,6 +86,12 @@ export class StoreService {
   public getPositionChildComponentsProps(componentName: string,
                                          stateModel: ResponsivePositioningConfigModel,
                                          screenSize: number): PositioningChildComponentsPropsModel {
+    /*
+    *           PositionDirectionConfigType.Row,
+          true,
+            HorizontalPositioningConfigType.Right,
+      {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Center},
+    * */
     const translateToPositioningChildComponentsProps =
       (positionConfig: PositioningChildrenConfigPropsModel): PositioningChildComponentsPropsModel => {
       return new PositioningChildComponentsPropsModel(
@@ -94,7 +100,7 @@ export class StoreService {
         positionConfig.wrap === true,
         positionConfig.horPos === HorizontalPositioningConfigType.Left || positionConfig.verPos === VerticalPositioningConfigType.Top,
         positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
-        positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
+        positionConfig.horPos === HorizontalPositioningConfigType.Right || positionConfig.verPos === VerticalPositioningConfigType.Bottom,
         positionConfig.horPos === HorizontalPositioningConfigType.Between || positionConfig.verPos === VerticalPositioningConfigType.Between,
         positionConfig.horPos === HorizontalPositioningConfigType.Evenly || positionConfig.verPos === VerticalPositioningConfigType.Evenly,
         positionConfig.horPos === HorizontalPositioningConfigType.Around || positionConfig.verPos === VerticalPositioningConfigType.Around,

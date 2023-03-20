@@ -162,11 +162,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         type: ComponentType.Container,
         position: new ResponsivePositioningConfigModel(
           new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
-          PositionDirectionConfigType.Row,
+          PositionDirectionConfigType.Column,
           true,
-            HorizontalPositioningConfigType.Right,
-      {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Center},
-            // todo dit moet een justifyContent geven maar die is niet te zien
+            {lanes: HorizontalPositioningConfigType.Evenly, children: CrossAxisColumnPositioningConfigType.Center},
+            VerticalPositioningConfigType.Center,
+            // todo stretch en baseline doet niet wat het moet doen
+            // todo door automatisch scroll te zetten ga je geen crossaxis herschikking hebben => no-scroll of auto?
           ))
         ),
         visibility: new ResponsiveVisibilityConfigModel(),
