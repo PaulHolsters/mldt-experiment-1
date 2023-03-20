@@ -35,6 +35,7 @@ In het ComponentModel vind je de verschillende properties die je nodig hebt voor
 - tablet (min-width: 800px, max-width: 1024px)
 - desktop (min-width: 1025px, max-width: 1280px)
 - high resolution (min-width: 1281px)
+
 Een voorbeeld:
 
               dimensions: new ResponsiveDimensioningConfigModel(
