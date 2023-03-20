@@ -11,6 +11,10 @@ Hierin vind je de modellen terug die de eerste feature van Mouldit, het Responsi
 - Visibility: deze modellen bepalen alles omtreznt de zichtbaarheid van een component, met als meest rudimentaire bepaling of een component al dan niet zichtbaar is
 ### Enums
 Hier bevinden zich alle binnen Mouldit gebruikte enums. De bedoeling van deze enums is hoofdzakelijk om als gebruiker snel een bepaalde configuratie te kunnen doen, zonder dat je strings moet gaan gebruiken. (Kan je in een YAML file ook enums gebruiken, want het zou stom zijn moest je daar ineens terug strings moet gaan zitten typen niet?)
-# Components
-Alle UI componenten die je kan gebruiken zitten in deze folder. Voorlopig zijn dit er nog maar een paar, namelijk net zoveel als ik nodig heb om nieuw ontwikkelde zaken te kunnen maken en testen. Aldus zal deze verzameling componenten langzaamhand groter en groter worden te samen met het aantal opties wat betreft configuratie van deze componenten.
+### Components
+Alle UI componenten die je kan gebruiken zitten in deze folder. Voorlopig zijn dit er nog maar een paar, namelijk net zoveel als ik nodig heb om nieuw ontwikkelde zaken te kunnen maken en testen. Aldus zal deze verzameling componenten langzamerhand groter worden te samen met het aantal opties wat betreft configuratie van deze componenten.
+### Services
+Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verandering onderhevig zijn. Wel zijn er momenteel twee belangrijke services geïmplementeerd: de store en de responsive behaviour service.
+### Templates
+Op termijn zullen hier de voorgeprogrammeerde Mouldit templates komen. 
 
