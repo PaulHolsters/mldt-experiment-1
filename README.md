@@ -1,27 +1,12 @@
-# MoulditExperiment1
+# Mouldit
+## Code structure
+Elk onderdeel van Mouldit zit in een aprate directory - of zal nog in een aparte directory komen te zitten. Hieronder volgen deze mappen met een korte beschirjving wat er in zit en wat het doet.
+### Models
+Hierin vind je de modellen terug die de eerste feature van Mouldit, het Responsive Behaviour System, volledig beschrijven. Het systeem kent (voorlopig) de volgende onderdelen:
+- Attributes: dit zijn HTML attributen die specifiek voor bepaalde componenten bestaan, maar niet per se voor andere. Voorbeeld: het src attributen van een img tag.
+- Diemnsioning: deze modellen bepalen de dimensies van een component, meerbepaald de hoogte en/of de breedte.
+- Overflow: deze modellen bepalen alles i.v.m. overflow, bijvoorbeeld wanneer de scrollfucntie moet getoond worden
+- Positioning: deze modellen bepalen waar de componenten op de pagina gerendered moeten worden.
+- Styling: deze modellen bepalen het uiterlijk van de component, zaken zoals de kleur van de achtergrond, ...
+- 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to compose the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to compose the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
