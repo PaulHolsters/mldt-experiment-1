@@ -29,8 +29,25 @@ Elk onderdeel (zie Models) wordt geconfigureerd d.m.v. een property in het confi
     
 Hier is contentContainer de naam van de variabele en daarachter heb je het TypeScript type. De modellen waarvan sprake vind je in de models folder terug. Omdat "actions" nog onder constructie is, behandelen we hierna enkel components.
 ### Components - Responsive Behaviour
-In het ComponentModel vind je de verschillende properties die je nodig hebt voor je configuratie. Deze properties moet je configureren zodanig dat Mouldit weet hoe het de component moet renderen en dit op elk mogelijk formaat van scherm. Dit systeem wordt het *Responsive Behaviour System* genoemd. 
+In het ComponentModel vind je de verschillende properties die je nodig hebt voor je configuratie. Deze properties moet je configureren zodanig dat Mouldit weet hoe het de component moet renderen en dit op elk mogelijk formaat van scherm. Dit systeem wordt het *Responsive Behaviour System* genoemd. Je gebruikt het model at hand en creëert een nieuw object met als parameter eveneens het juiste model en dit voor elk type scherm. Dat zijn er momenteel 5:
+- smartphone (max-width: 480px)
+- portrait-tablet (min-width: 481px, max-width: 799px)
+- tablet (min-width: 800px, max-width: 1024px)
+- desktop (min-width: 1025px, max-width: 1280px)
+- high resolution (min-width: 1281px)
+Een voorbeeld:
 
+              dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded,
+                  8,
+                  DimensionUnitConfigType.REM),
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded,
+                  8,
+                  DimensionUnitConfigType.REM))),
+                  
 We behandelen hierna elk aspect (property).
 #### Dimensions
 
