@@ -220,9 +220,6 @@ export class StoreService {
               if (typeof dimensionsConfig.height.value === 'string')
                 compPropsObj.calcHeight = dimensionsConfig.height.value
               break
-            case DimensionValueConfigType.Content:
-              compPropsObj.fitContentHeight = true
-              break
           }
         } else {
           if (dimensionsConfig.height.grow) {
@@ -230,6 +227,15 @@ export class StoreService {
           }
           if (dimensionsConfig.height.shrink) {
             compPropsObj.shrink = dimensionsConfig.height.shrink
+          }
+          if (dimensionsConfig.height.followContent) {
+            compPropsObj.fitContentHeight = true
+          }
+          if (dimensionsConfig.height.stretch) {
+            compPropsObj.alignSelfStretch = true
+          }
+          if (dimensionsConfig.height.stretchChildren) {
+            compPropsObj.alignItemsStretch = true
           }
         }
       }
@@ -253,9 +259,6 @@ export class StoreService {
               if (typeof dimensionsConfig.width.value === 'string')
                 compPropsObj.calcWidth = dimensionsConfig.width.value
               break
-            case DimensionValueConfigType.Content:
-              compPropsObj.fitContentWidth = true
-              break
           }
         } else {
           if (dimensionsConfig.width.grow) {
@@ -263,6 +266,15 @@ export class StoreService {
           }
           if (dimensionsConfig.width.shrink) {
             compPropsObj.shrink = dimensionsConfig.width.shrink
+          }
+          if (dimensionsConfig.width.followContent) {
+            compPropsObj.fitContentHeight = true
+          }
+          if (dimensionsConfig.width.stretch) {
+            compPropsObj.alignSelfStretch = true
+          }
+          if (dimensionsConfig.width.stretchChildren) {
+            compPropsObj.alignItemsStretch = true
           }
         }
       }

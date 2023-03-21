@@ -26,6 +26,7 @@ import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 import {ColorType} from "./enums/colorType.enum";
+import {DynamicDimensioningConfigModel} from "./models/Dimensioning/DynamicDimensioningConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -162,11 +163,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         type: ComponentType.Container,
         position: new ResponsivePositioningConfigModel(
           new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
-          PositionDirectionConfigType.Column,
+          PositionDirectionConfigType.Row,
           true,
-            {lanes: HorizontalPositioningConfigType.Evenly, children: CrossAxisColumnPositioningConfigType.Center},
-            VerticalPositioningConfigType.Center,
-            // todo stretch en baseline doet niet wat het moet doen
+            HorizontalPositioningConfigType.Center,
+            {lanes: VerticalPositioningConfigType.Bottom, children: CrossAxisRowPositioningConfigType.Stretch},
+
+            // todo stretch doet niet wat het moet doen
             // todo door automatisch scroll te zetten ga je geen crossaxis herschikking hebben => no-scroll of auto?
           ))
         ),
@@ -182,14 +184,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded,
-                  8,
-                  DimensionUnitConfigType.REM),
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded,
-                  8,
-                  DimensionUnitConfigType.REM))),
+                new DynamicDimensioningConfigModel(DimensionValueConfigType.FollowContent),
+                new DynamicDimensioningConfigModel(DimensionValueConfigType.FollowContent))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }, {
@@ -198,14 +194,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             // todo fix bug calculated height
             dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded,
-                  200,DimensionUnitConfigType.PX),
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded,
-                  200,DimensionUnitConfigType.PX))),
-            // todo fix bug background
+              new DimensioningConfigPropsModel(new DynamicDimensioningConfigModel(DimensionValueConfigType.FollowContent),
+                new DynamicDimensioningConfigModel(DimensionValueConfigType.FollowContent))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }

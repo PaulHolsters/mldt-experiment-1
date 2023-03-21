@@ -3,7 +3,8 @@ export class DimensioningComponentPropsModel {
               public width?: string | undefined,
               public grow?: number | undefined, // main axis
               public shrink?: number | undefined, // main axis
-              public stretch?: boolean | undefined, // cross axis
+              public alignSelfStretch?: boolean | undefined, // cross axis
+              public alignItemsStretch?: boolean|undefined, // cross axis
               public fitContentHeight?: boolean |undefined,
               public fitContentWidth?: boolean |undefined,
               public calcHeight?: string | undefined,
