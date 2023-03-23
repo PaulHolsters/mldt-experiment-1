@@ -4,5 +4,6 @@ export enum HorizontalPositioningConfigType{
   Right,
   Between,
   Around,
-  Evenly
+  Evenly,
+  NA
 }

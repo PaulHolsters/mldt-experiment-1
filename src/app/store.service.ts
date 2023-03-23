@@ -30,12 +30,16 @@ import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel"
 import {OverflowValueConfigType} from "./enums/overflowValueConfigTypes.enum";
 import {OverflowChildConfigPropsModel} from "./models/Overflow/children/OverflowChildConfigPropsModel";
 import {ColorType} from "./enums/colorType.enum";
-import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/ResponsiveDimensioningConfigModel";
-import {DimensioningComponentPropsModel} from "./models/Dimensioning/DimensioningComponentPropsModel";
-import {DimensioningConfigPropsModel} from "./models/Dimensioning/DimensioningConfigPropsModel";
-import {FixedDimensioningConfigModel} from "./models/Dimensioning/FixedDimensioningConfigModel";
+import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
+import {DimensioningComponentPropsModel} from "./models/Dimensioning/self/DimensioningComponentPropsModel";
+import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/DimensioningConfigPropsModel";
+import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
+import {
+  DimensioningChildComponentsPropsModel
+} from "./models/Dimensioning/children/DimensioningChildComponentsPropsModel";
+import {DimensioningChildConfigPropsModel} from "./models/Dimensioning/children/DimensioningChildConfigPropsModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -68,7 +72,6 @@ export class StoreService {
           positionConfig === CrossAxisRowPositioningConfigType.Top || positionConfig === CrossAxisColumnPositioningConfigType.Left,
           positionConfig === CrossAxisRowPositioningConfigType.Center || positionConfig === CrossAxisColumnPositioningConfigType.Center,
           positionConfig === CrossAxisRowPositioningConfigType.Bottom || positionConfig === CrossAxisColumnPositioningConfigType.Right,
-          positionConfig === CrossAxisRowPositioningConfigType.Stretch || positionConfig === CrossAxisColumnPositioningConfigType.Stretch,
           positionConfig === CrossAxisRowPositioningConfigType.Baseline || positionConfig === CrossAxisColumnPositioningConfigType.Baseline)
       }
     if(this.hasScreenSizeProperty(stateModel,'selfAlign')){
@@ -198,6 +201,7 @@ export class StoreService {
     throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
   }
   public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
+    // todo fix this again
     const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
       if (dimensionsConfig.height) {
@@ -234,9 +238,6 @@ export class StoreService {
           if (dimensionsConfig.height.stretch) {
             compPropsObj.alignSelfStretch = true
           }
-          if (dimensionsConfig.height.stretchChildren) {
-            compPropsObj.alignItemsStretch = true
-          }
         }
       }
       if (dimensionsConfig.width) {
@@ -268,13 +269,10 @@ export class StoreService {
             compPropsObj.shrink = dimensionsConfig.width.shrink
           }
           if (dimensionsConfig.width.followContent) {
-            compPropsObj.fitContentHeight = true
+            compPropsObj.fitContentWidth = true
           }
           if (dimensionsConfig.width.stretch) {
             compPropsObj.alignSelfStretch = true
-          }
-          if (dimensionsConfig.width.stretchChildren) {
-            compPropsObj.alignItemsStretch = true
           }
         }
       }
@@ -285,6 +283,23 @@ export class StoreService {
     while (lastScreenSize >= 0) {
       if (stateModelObj[ScreenSize[lastScreenSize]]) {
         return translateToDimensioningComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
+      }
+      lastScreenSize--
+    }
+    throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
+  }
+  public getDimensionsChildComponentsProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningChildComponentsPropsModel {
+    const translateToDimensioningChildComponentsProps = (dimensionsChildComponentsConfig: DimensioningChildConfigPropsModel): DimensioningChildComponentsPropsModel => {
+      if(dimensionsChildComponentsConfig.stretch){
+        return new DimensioningChildComponentsPropsModel(true)
+      }
+      return new DimensioningChildComponentsPropsModel()
+    }
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]?.childDimensioning) {
+        return translateToDimensioningChildComponentsProps(stateModelObj[ScreenSize[lastScreenSize]].childDimensioning)
       }
       lastScreenSize--
     }
@@ -333,6 +348,7 @@ export class StoreService {
                     VisibilityComponentPropsModel) |
                     StylingComponentPropsModel |
                     DimensioningComponentPropsModel|
+                    DimensioningChildComponentsPropsModel |
                     OverflowComponentPropsModel|
                     (ComponentModel[])): void {
     if(newState instanceof PositioningComponentPropsModel ||
@@ -341,6 +357,7 @@ export class StoreService {
       newState instanceof VisibilityComponentPropsModel ||
       newState instanceof StylingComponentPropsModel ||
       newState instanceof DimensioningComponentPropsModel||
+      newState instanceof DimensioningChildComponentsPropsModel||
       newState instanceof OverflowComponentPropsModel
       ){
       for (let [k, v] of Object.entries(newState)) {
@@ -382,7 +399,8 @@ export class StoreService {
                 })
           })
         }
-        // todo je moet ook eventuele kinderen zetten indien deze volledig in de array zitten (wat voorlopig dan de enige optie is)
+        // todo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NOW NOW NOW
+        //  je moet ook eventuele kinderen zetten indien deze volledig in de array zitten (wat voorlopig dan de enige optie is)
         //   de bedoeling is dat je kinderen maar 1 diep mag nesten vanaf dan MOET je met strings werken
       }
       if (comp.dimensions){
@@ -394,21 +412,15 @@ export class StoreService {
           })
         })
         if (comp.children && comp.children.length > 0) {
-          comp.children.forEach(child => {
-            if(typeof child === 'string'){
-              // todo
-            } else{
-              if(child.dimensions)
-              Object.keys(this.getDimensionsComponentProps(child.name, child.dimensions, ScreenSize.highResolution)).forEach(k => {
-                const propSubj = new BehaviorSubject<DimensioningConfigPropsModel | undefined>(undefined)
-                this.statePropertySubjects.push({
-                  componentName: child.name, propName: k, propValue:
-                  propSubj, prop$: propSubj.asObservable()
-                })
-              })
-            }
+          Object.keys(this.getDimensionsChildComponentsProps(comp.name, comp.dimensions, ScreenSize.highResolution)).forEach(k => {
+            const propSubj = new BehaviorSubject<DimensioningConfigPropsModel | undefined>(undefined)
+            this.statePropertySubjects.push({
+              componentName: comp.name, propName: k, propValue:
+              propSubj, prop$: propSubj.asObservable()
+            })
           })
         }
+        // todo je moet ook eventuele kinderen zetten indien deze volledig in de array zitten (wat voorlopig dan de enige optie is)
       }
       if (comp.overflow) {
         Object.keys(this.getOverflowComponentProps(comp.name, comp.overflow, ScreenSize.highResolution)).forEach(k => {
@@ -419,7 +431,10 @@ export class StoreService {
           })
         })
         if (comp.children && comp.children.length > 0) {
+          debugger
           Object.keys(this.getOverflowChildComponentsProps(comp.name, comp.overflow, ScreenSize.highResolution)).forEach(k => {
+            console.log(k)
+            debugger
             const propSubj = new BehaviorSubject<OverflowChildConfigPropsModel | undefined>(undefined)
             this.statePropertySubjects.push({
               componentName: comp.name, propName: k, propValue:

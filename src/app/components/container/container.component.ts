@@ -13,10 +13,9 @@ export class ContainerComponent implements OnInit {
   @Input() name = ''
   @ViewChild('container') container:HTMLDivElement|undefined
   componentType = ComponentType
-  // todo de engine moet ervoor zorgen dat de hele childcomponent hierin zit, niet enkel de namen
   children$:Observable<any>|undefined
   children:ComponentModel[]|undefined
-  // todo voeg selfAlign toe en alles ivm dimensions
+  //  todo voeg baseline align toe
   row$: Observable<any>|undefined
   column$: Observable<any>|undefined
   wrap$: Observable<any>|undefined
@@ -41,7 +40,6 @@ export class ContainerComponent implements OnInit {
   overflowAuto$: Observable<any>|undefined
   overflowXAuto$: Observable<any>|undefined
   overflowYAuto$: Observable<any>|undefined
-
   height$: Observable<any>|undefined
   width$: Observable<any>|undefined
   fitContentHeight$: Observable<any>|undefined
@@ -52,10 +50,12 @@ export class ContainerComponent implements OnInit {
   holdSpace$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined
   calcWidth$: Observable<any>|undefined
+  alignSelfStretch$: Observable<any>|undefined
+  alignItemsStretch$: Observable<any>|undefined
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
     this.children$ = this.storeService.bindToStateProperty(this.name,'children')
-    // todo voeg selfAlign toe en dimensions props : later nog te refactoren want dit is "buggy" met zoveel props
+    // todo later nog te refactoren want dit is "buggy" met zoveel props
     this.row$ = this.storeService.bindToStateProperty(this.name,'row') // todo de bind werkt niet
     this.column$ = this.storeService.bindToStateProperty(this.name,'column')
     this.wrap$ = this.storeService.bindToStateProperty(this.name,'wrap')
@@ -80,7 +80,6 @@ export class ContainerComponent implements OnInit {
     this.overflowAuto$ = this.storeService.bindToStateProperty(this.name,'overflowAuto')
     this.overflowXAuto$ = this.storeService.bindToStateProperty(this.name,'overflowXAuto')
     this.overflowYAuto$ = this.storeService.bindToStateProperty(this.name,'overflowYAuto')
-    // todo code duplication => refactor obviously is needed!
     this.height$ = this.storeService.bindToStateProperty(this.name,'height')
     this.width$ = this.storeService.bindToStateProperty(this.name,'width')
     this.fitContentHeight$ = this.storeService.bindToStateProperty(this.name,'fitContentHeight')
@@ -90,6 +89,8 @@ export class ContainerComponent implements OnInit {
     this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
     this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    this.alignSelfStretch$ = this.storeService.bindToStateProperty(this.name,'alignSelfStretch')
+    this.alignItemsStretch$ = this.storeService.bindToStateProperty(this.name,'alignItemsStretch')
   }
 
   setCalculatedHeight(val:string):boolean{

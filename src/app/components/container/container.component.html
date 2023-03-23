@@ -13,6 +13,7 @@
   [class.align-items-start]="(alignItemsStart$|async)"
   [class.align-items-center]="(alignItemsCenter$|async)"
   [class.align-items-end]="(alignItemsEnd$|async)"
+  [class.align-items-stretch]="(alignItemsStretch$|async)"
   [class.align-content-start]="(alignContentStart$|async)"
   [class.align-content-center]="(alignContentCenter$|async)"
   [class.align-content-end]="(alignContentEnd$|async)"
@@ -34,12 +35,14 @@
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [class.flex-none]="fitContentHeight$|async"
+  [style]="{'border':'2px solid blue'}"
 #container>
+  <!-- todo stretch lukt niet gaat niet verder door naar de children...-->
   <ng-container *ngFor="let child of children$|async">
     <!-- todo fix the problem with the extra div -->
-    <div class="flex" [ngSwitch]="child.type">
-      <m-block *ngSwitchCase="componentType.Block" [name]="child.name"></m-block>
-      <m-logo *ngSwitchCase="componentType.Logo" [name]="child.name"></m-logo>
+    <div class="flex" [ngSwitch]="child.type" [style]="{'border':'2px solid red'}">
+      <m-block class="flex" *ngSwitchCase="componentType.Block" [name]="child.name"></m-block>
+      <m-logo class="flex" *ngSwitchCase="componentType.Logo" [name]="child.name"></m-logo>
     </div>
   </ng-container>
 </div>

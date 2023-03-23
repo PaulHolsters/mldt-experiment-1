@@ -1,5 +1,5 @@
-import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
-import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
+import {DimensionUnitConfigType} from "../../../enums/dimensionUnitConfigTypes.enum";
+import {DimensionValueConfigType} from "../../../enums/dimensionValueConfigTypes.enum";
 export class FixedDimensioningConfigModel {
   constructor(public type: DimensionValueConfigType,
               public value?: number | string,

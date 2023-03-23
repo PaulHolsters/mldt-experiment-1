@@ -4,7 +4,6 @@ export class DimensioningComponentPropsModel {
               public grow?: number | undefined, // main axis
               public shrink?: number | undefined, // main axis
               public alignSelfStretch?: boolean | undefined, // cross axis
-              public alignItemsStretch?: boolean|undefined, // cross axis
               public fitContentHeight?: boolean |undefined,
               public fitContentWidth?: boolean |undefined,
               public calcHeight?: string | undefined,

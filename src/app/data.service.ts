@@ -18,15 +18,16 @@ import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConf
 import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
 import {CrossAxisRowPositioningConfigType} from "./enums/crossAxisRowPositioningConfigTypes.enum";
 import {CrossAxisColumnPositioningConfigType} from "./enums/crossAxisColumnPositioningConfigTypes.enum";
-import {DimensioningConfigPropsModel} from "./models/Dimensioning/DimensioningConfigPropsModel";
-import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/ResponsiveDimensioningConfigModel";
-import {FixedDimensioningConfigModel} from "./models/Dimensioning/FixedDimensioningConfigModel";
+import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/DimensioningConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
+import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 import {ColorType} from "./enums/colorType.enum";
-import {DynamicDimensioningConfigModel} from "./models/Dimensioning/DynamicDimensioningConfigModel";
+import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
+import {DimensioningChildConfigPropsModel} from "./models/Dimensioning/children/DimensioningChildConfigPropsModel";
 
 @Injectable({
   providedIn: 'root'
@@ -165,17 +166,19 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
           PositionDirectionConfigType.Row,
           true,
-            HorizontalPositioningConfigType.Center,
-            {lanes: VerticalPositioningConfigType.Bottom, children: CrossAxisRowPositioningConfigType.Stretch},
-
-            // todo stretch doet niet wat het moet doen
+            HorizontalPositioningConfigType.Right,
+            {lanes: VerticalPositioningConfigType.NA, children: CrossAxisRowPositioningConfigType.NA},
+            // todo stretch doet niet wat het moet doen: TEST
             // todo door automatisch scroll te zetten ga je geen crossaxis herschikking hebben => no-scroll of auto?
           ))
         ),
         visibility: new ResponsiveVisibilityConfigModel(),
-        dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-          new FixedDimensioningConfigModel(
-            DimensionValueConfigType.Hardcoded,900,DimensionUnitConfigType.PX))),
+        dimensions: new ResponsiveDimensioningConfigModel(
+          new DimensioningConfigPropsModel(
+            new FixedDimensioningConfigModel(
+              DimensionValueConfigType.Hardcoded,900,DimensionUnitConfigType.PX),
+            undefined,
+            new DimensioningChildConfigPropsModel(true))),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
           {
@@ -184,18 +187,18 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
-                new DynamicDimensioningConfigModel(DimensionValueConfigType.FollowContent),
-                new DynamicDimensioningConfigModel(DimensionValueConfigType.FollowContent))),
+                new DynamicDimensioningConfigModel(true),
+                new DynamicDimensioningConfigModel(true))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }, {
             name: 'block-2',
             type: ComponentType.Block,
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
-            // todo fix bug calculated height
+            // todo fix bug calculated height: NEXT
             dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(new DynamicDimensioningConfigModel(DimensionValueConfigType.FollowContent),
-                new DynamicDimensioningConfigModel(DimensionValueConfigType.FollowContent))),
+              new DimensioningConfigPropsModel(new DynamicDimensioningConfigModel(true),
+                new DynamicDimensioningConfigModel(true))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }

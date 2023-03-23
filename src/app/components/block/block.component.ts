@@ -20,6 +20,7 @@ export class BlockComponent implements OnInit {
   fitContentWidth$: Observable<any>|undefined
   grow$: Observable<any>|undefined
   shrink$: Observable<any>|undefined
+  alignSelfStretch$: Observable<any>|undefined
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
     this.height$ = this.storeService.bindToStateProperty(this.name,'height')
@@ -32,6 +33,7 @@ export class BlockComponent implements OnInit {
     this.fitContentWidth$ = this.storeService.bindToStateProperty(this.name,'fitContentWidth')
     this.grow$ = this.storeService.bindToStateProperty(this.name,'grow')
     this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
+    this.alignSelfStretch$ = this.storeService.bindToStateProperty(this.name,'alignSelfStretch')
   }
   setCalculatedHeight(val:string):boolean{
     if(typeof val === 'string'){

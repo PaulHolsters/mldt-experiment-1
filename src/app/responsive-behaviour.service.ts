@@ -17,10 +17,21 @@ export class ResponsiveBehaviourService {
     actions: ActionModel[]
   }, screenSize:number){
     contentContainer.components.forEach(comp => {
+      // todo aanvullen ivm dimensioning etc
       if(comp.position)
       this.storeService.setState(comp.name,this.storeService.getPositionComponentProps(comp.name,comp.position,screenSize))
       if (comp.children && comp.children.length > 0 && comp.position) {
         this.storeService.setState(comp.name,this.storeService.getPositionChildComponentsProps(comp.name,comp.position,screenSize))
+      }
+      if(comp.dimensions)
+        this.storeService.setState(comp.name,this.storeService.getDimensionsComponentProps( comp.name,comp.dimensions,screenSize))
+      if (comp.children && comp.children.length > 0 && comp.dimensions) {
+        this.storeService.setState(comp.name,this.storeService.getDimensionsChildComponentsProps(comp.name,comp.dimensions,screenSize))
+      }
+      if(comp.overflow)
+        this.storeService.setState(comp.name,this.storeService.getOverflowComponentProps( comp.name,comp.overflow,screenSize))
+      if (comp.children && comp.children.length > 0 && comp.overflow) {
+        this.storeService.setState(comp.name,this.storeService.getOverflowChildComponentsProps(comp.name,comp.overflow,screenSize))
       }
       if(comp.visibility)
         this.storeService.setState(comp.name,this.storeService.getVisibilityComponentProps(comp.name,comp.visibility,screenSize))
@@ -28,10 +39,7 @@ export class ResponsiveBehaviourService {
         this.storeService.setState(comp.name,this.storeService.getAttributesComponentProps( comp.name,comp.attributes,screenSize))
       if(comp.styling)
         this.storeService.setState(comp.name,this.storeService.getStylingComponentProps( comp.name,comp.styling,screenSize))
-      if(comp.dimensions)
-        this.storeService.setState(comp.name,this.storeService.getDimensionsComponentProps( comp.name,comp.dimensions,screenSize))
-      if(comp.overflow)
-        this.storeService.setState(comp.name,this.storeService.getOverflowComponentProps( comp.name,comp.overflow,screenSize))
+
       if (comp.children && comp.children.length > 0) {
         comp.children.forEach(child => {
           if(typeof child === 'string'){
