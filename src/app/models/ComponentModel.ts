@@ -5,15 +5,18 @@ import {ResponsiveDimensioningConfigModel} from "./Dimensioning/self/ResponsiveD
 import {ComponentType} from "../enums/componentTypes.enum";
 import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
-export interface ComponentModel {
-  name:string,
-  type:ComponentType,
-  position?:ResponsivePositioningConfigModel,
-  dimensions?:ResponsiveDimensioningConfigModel,
-  attributes?:ResponsiveAttributesConfigModel,
-  visibility?:ResponsiveVisibilityConfigModel,
-  overflow?:ResponsiveOverflowConfigModel,
-  children?:(ComponentModel|string)[],
-  styling?:ResponsiveStylingConfigModel,
+export class ComponentModel {
+  constructor(  public name:string,
+                public type:ComponentType,
+                public position?:ResponsivePositioningConfigModel,
+                public dimensions?:ResponsiveDimensioningConfigModel,
+                public attributes?:ResponsiveAttributesConfigModel,
+                public visibility?:ResponsiveVisibilityConfigModel,
+                public overflow?:ResponsiveOverflowConfigModel,
+                public children?:(ComponentModel|string)[],
+                public styling?:ResponsiveStylingConfigModel) {
+    // todo toevoegen constraints
+  }
+
+
 }
-// todo maak hier op termijn maar een class van

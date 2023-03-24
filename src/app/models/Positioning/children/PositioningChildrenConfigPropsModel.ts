@@ -21,8 +21,8 @@ export class PositioningChildrenConfigPropsModel {
     if(direction === PositionDirectionConfigType.Column && !horPos.hasOwnProperty('lanes')) throw new Error('If direction is set to "column" ' +
       'you need to configure the horizontal positioning of lanes')
     // todo add constraints die aangeven dat je geen lanes kan hebben als je geen wrap hebt!!! => NA
-    // add constraints die aangeeft dat als child dimensioning gelijk is aan stretch dat je geen lanes en kinderen hie rkan hebben
-    // todo oplossing: wrapper rond alle configs!
+    // todo add constraints die aangeeft dat als child dimensioning gelijk is aan stretch dat je geen lanes en kinderen hie rkan hebben
+    // todo oplossing: wrapper rond alle configs! oplossing in TYPESCRIPT voor eerste zaak?
 
   }
 }
