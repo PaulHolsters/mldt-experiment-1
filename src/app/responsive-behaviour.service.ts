@@ -39,11 +39,12 @@ export class ResponsiveBehaviourService {
         this.storeService.setState(comp.name,this.storeService.getAttributesComponentProps( comp.name,comp.attributes,screenSize))
       if(comp.styling)
         this.storeService.setState(comp.name,this.storeService.getStylingComponentProps( comp.name,comp.styling,screenSize))
-
       if (comp.children && comp.children.length > 0) {
         comp.children.forEach(child => {
           if(typeof child === 'string'){
+
           } else{
+            // todo controleer of alles goed verloopt
             if(child.position)
               this.storeService.setState(child.name,this.storeService.getPositionComponentProps(child.name,child.position,screenSize))
             if(child.visibility)

@@ -166,9 +166,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
           PositionDirectionConfigType.Row,
           true,
-            HorizontalPositioningConfigType.Right,
-            {lanes: VerticalPositioningConfigType.NA, children: CrossAxisRowPositioningConfigType.NA},
-            // todo stretch doet niet wat het moet doen: TEST
+            HorizontalPositioningConfigType.Right, // dit maakt strech items
+            {lanes: VerticalPositioningConfigType.Top, children: CrossAxisRowPositioningConfigType.Top}, // todo fix bug hier dan NA zorgt voor inconsequent gedrag
             // todo door automatisch scroll te zetten ga je geen crossaxis herschikking hebben => no-scroll of auto?
           ))
         ),
@@ -176,9 +175,9 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         dimensions: new ResponsiveDimensioningConfigModel(
           new DimensioningConfigPropsModel(
             new FixedDimensioningConfigModel(
-              DimensionValueConfigType.Hardcoded,900,DimensionUnitConfigType.PX),
-            undefined,
-            new DimensioningChildConfigPropsModel(true))),
+              DimensionValueConfigType.Calculated,'(100vh - 16px)'),
+            undefined,// todo ofwel child dimensioning ofwel via positie maar is dat dan nog positie????
+          )),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
           {
@@ -187,18 +186,37 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
-                new DynamicDimensioningConfigModel(true),
-                new DynamicDimensioningConfigModel(true))),
+                undefined,
+                new DynamicDimensioningConfigModel(false,0))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }, {
             name: 'block-2',
             type: ComponentType.Block,
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
-            // todo fix bug calculated height: NEXT
             dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(new DynamicDimensioningConfigModel(true),
-                new DynamicDimensioningConfigModel(true))),
+              new DimensioningConfigPropsModel(undefined,
+                new DynamicDimensioningConfigModel(false,0))),
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel()
+          },
+          {
+            name: 'block-3',
+            type: ComponentType.Block,
+            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(undefined,
+                new DynamicDimensioningConfigModel(false,0))), // todo zorg dat je ook grow 2-3-4 etc hebt...
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel()
+          },
+          {
+            name: 'block-4',
+            type: ComponentType.Block,
+            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(undefined,
+                new DynamicDimensioningConfigModel(false,0))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }

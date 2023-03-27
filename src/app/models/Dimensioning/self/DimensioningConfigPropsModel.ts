@@ -2,8 +2,8 @@ import {FixedDimensioningConfigModel} from "./FixedDimensioningConfigModel";
 import {DynamicDimensioningConfigModel} from "./DynamicDimensioningConfigModel";
 import {DimensioningChildConfigPropsModel} from "../children/DimensioningChildConfigPropsModel";
 export class DimensioningConfigPropsModel {
-  constructor(  public height?:FixedDimensioningConfigModel|DynamicDimensioningConfigModel,
-                public width?:FixedDimensioningConfigModel|DynamicDimensioningConfigModel,
+  constructor(  public height?:FixedDimensioningConfigModel|DynamicDimensioningConfigModel|undefined,
+                public width?:FixedDimensioningConfigModel|DynamicDimensioningConfigModel|undefined,
                 public childDimensioning?:DimensioningChildConfigPropsModel
                 // todo later nog de mogelijkheid van een ratio toevoegen
   ){

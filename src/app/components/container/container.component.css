@@ -1,0 +1,10 @@
+:host{
+  --heightVal: 0;
+  --widthVal: 0;
+}
+.calcHeight{
+  height:var(--heightVal)
+}
+.calcWidth{
+  width:var(--widthVal)
+}

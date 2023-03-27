@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {ComponentModel} from "../../models/ComponentModel";
@@ -11,10 +11,9 @@ import {ComponentType} from "../../enums/componentTypes.enum";
 })
 export class ContainerComponent implements OnInit {
   @Input() name = ''
-  @ViewChild('container') container:HTMLDivElement|undefined
+  @ViewChild('container') container:ElementRef|undefined
   componentType = ComponentType
   children$:Observable<any>|undefined
-  children:ComponentModel[]|undefined
   //  todo voeg baseline align toe
   row$: Observable<any>|undefined
   column$: Observable<any>|undefined
@@ -52,11 +51,14 @@ export class ContainerComponent implements OnInit {
   calcWidth$: Observable<any>|undefined
   alignSelfStretch$: Observable<any>|undefined
   alignItemsStretch$: Observable<any>|undefined
+  grow$: Observable<any>|undefined
+  shrink$: Observable<any>|undefined
+
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
-    this.children$ = this.storeService.bindToStateProperty(this.name,'children')
     // todo later nog te refactoren want dit is "buggy" met zoveel props
-    this.row$ = this.storeService.bindToStateProperty(this.name,'row') // todo de bind werkt niet
+    this.children$ = this.storeService.bindToStateProperty(this.name,'children')
+    this.row$ = this.storeService.bindToStateProperty(this.name,'row')
     this.column$ = this.storeService.bindToStateProperty(this.name,'column')
     this.wrap$ = this.storeService.bindToStateProperty(this.name,'wrap')
     this.justifyContentStart$ = this.storeService.bindToStateProperty(this.name,'justifyContentStart')
@@ -89,24 +91,31 @@ export class ContainerComponent implements OnInit {
     this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
     this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.alignSelfStretch$ = this.storeService.bindToStateProperty(this.name,'alignSelfStretch')
     this.alignItemsStretch$ = this.storeService.bindToStateProperty(this.name,'alignItemsStretch')
+    // todo subscribe on the correct child component
+    this.grow$ = this.storeService.bindToStateProperty(this.name,'grow')
+    this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
   }
-
   setCalculatedHeight(val:string):boolean{
     if(typeof val === 'string'){
-      this.container?.style?.setProperty('--heightVal',val)
+      this.container?.nativeElement.style.setProperty('--heightVal','calc'+val+'')
       return true
     }
     return false
   }
   setCalculatedWidth(val:string):boolean{
     if(typeof val === 'string'){
-      this.container?.style?.setProperty('--widthVal',val)
+      this.container?.nativeElement.style.setProperty('--widthVal','calc'+val+'')
       return true
     }
     return false
   }
-
-
+  getShrinkVal(componentName:string):Observable<number>{
+    return this.storeService.bindToStateProperty(componentName,'shrink') as Observable<number>
+  }
+  getGrowVal(componentName:string):Observable<number>{
+    return this.storeService.bindToStateProperty(componentName,'grow') as Observable<number>
+  }
 }
