@@ -25,9 +25,6 @@ export class ResponsiveBehaviourService {
       }
       if(comp.dimensions)
         this.storeService.setState(comp.name,this.storeService.getDimensionsComponentProps( comp.name,comp.dimensions,screenSize))
-      if (comp.children && comp.children.length > 0 && comp.dimensions) {
-        this.storeService.setState(comp.name,this.storeService.getDimensionsChildComponentsProps(comp.name,comp.dimensions,screenSize))
-      }
       if(comp.overflow)
         this.storeService.setState(comp.name,this.storeService.getOverflowComponentProps( comp.name,comp.overflow,screenSize))
       if (comp.children && comp.children.length > 0 && comp.overflow) {

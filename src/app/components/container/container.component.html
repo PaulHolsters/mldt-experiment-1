@@ -1,4 +1,4 @@
-<!-- todo add self align-->
+<!-- todo check the influence of flex-none-->
 <div
   class="flex"
   [class.flex-row]="(row$|async)"
@@ -37,16 +37,17 @@
   [class.flex-none]="fitContentHeight$|async"
   [style]="{'border':'2px solid blue'}"
 #container>
+  <!-- todo onderzoek wat de invloed is van align-content-... -->
   <ng-container *ngFor="let child of children$|async">
     <div
-         [class]="['flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         [class]="['flex','flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
          [ngSwitch]="child.type" [style]="{'border':'2px solid red'}">
-      <m-block       [class]="['flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+      <m-block       [class]="['flex','flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                *ngSwitchCase="componentType.Block"
                [name]="child.name"></m-block>
-      <m-logo          [class]="['flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+      <m-logo          [class]="['flex','flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
               *ngSwitchCase="componentType.Logo"
               [name]="child.name"></m-logo>

@@ -94,7 +94,6 @@ export class ContainerComponent implements OnInit {
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.alignSelfStretch$ = this.storeService.bindToStateProperty(this.name,'alignSelfStretch')
     this.alignItemsStretch$ = this.storeService.bindToStateProperty(this.name,'alignItemsStretch')
-    // todo subscribe on the correct child component
     this.grow$ = this.storeService.bindToStateProperty(this.name,'grow')
     this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
   }

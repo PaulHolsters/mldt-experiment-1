@@ -27,7 +27,6 @@ import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel"
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 import {ColorType} from "./enums/colorType.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
-import {DimensioningChildConfigPropsModel} from "./models/Dimensioning/children/DimensioningChildConfigPropsModel";
 
 @Injectable({
   providedIn: 'root'
@@ -167,16 +166,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           PositionDirectionConfigType.Row,
           true,
             HorizontalPositioningConfigType.Right, // dit maakt strech items
-            {lanes: VerticalPositioningConfigType.Top, children: CrossAxisRowPositioningConfigType.Top}, // todo fix bug hier dan NA zorgt voor inconsequent gedrag
+            {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Stretch},
             // todo door automatisch scroll te zetten ga je geen crossaxis herschikking hebben => no-scroll of auto?
+            // todo bij strecth of baseline is niet én lanes én children nodig blijkbaar???
           ))
         ),
         visibility: new ResponsiveVisibilityConfigModel(),
         dimensions: new ResponsiveDimensioningConfigModel(
           new DimensioningConfigPropsModel(
             new FixedDimensioningConfigModel(
-              DimensionValueConfigType.Calculated,'(100vh - 16px)'),
-            undefined,// todo ofwel child dimensioning ofwel via positie maar is dat dan nog positie????
+              DimensionValueConfigType.Calculated,'(100vh - 16px)')
           )),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
@@ -187,7 +186,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 undefined,
-                new DynamicDimensioningConfigModel(false,0))),
+                new DynamicDimensioningConfigModel(1))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }, {
@@ -196,7 +195,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(undefined,
-                new DynamicDimensioningConfigModel(false,0))),
+                new DynamicDimensioningConfigModel(0))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           },
@@ -206,7 +205,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(undefined,
-                new DynamicDimensioningConfigModel(false,0))), // todo zorg dat je ook grow 2-3-4 etc hebt...
+                new DynamicDimensioningConfigModel(0))), // todo zorg dat je ook grow 2-3-4 etc hebt...
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           },
@@ -216,7 +215,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(undefined,
-                new DynamicDimensioningConfigModel(false,0))),
+                new DynamicDimensioningConfigModel(0))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }

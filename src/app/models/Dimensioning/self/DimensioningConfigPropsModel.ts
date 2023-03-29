@@ -1,10 +1,8 @@
 import {FixedDimensioningConfigModel} from "./FixedDimensioningConfigModel";
 import {DynamicDimensioningConfigModel} from "./DynamicDimensioningConfigModel";
-import {DimensioningChildConfigPropsModel} from "../children/DimensioningChildConfigPropsModel";
 export class DimensioningConfigPropsModel {
   constructor(  public height?:FixedDimensioningConfigModel|DynamicDimensioningConfigModel|undefined,
-                public width?:FixedDimensioningConfigModel|DynamicDimensioningConfigModel|undefined,
-                public childDimensioning?:DimensioningChildConfigPropsModel
+                public width?:FixedDimensioningConfigModel|DynamicDimensioningConfigModel|undefined
                 // todo later nog de mogelijkheid van een ratio toevoegen
   ){
      // todo constraint toevoegen in de code die laat weten als je een component een dimensie meegeeft in de cross axis

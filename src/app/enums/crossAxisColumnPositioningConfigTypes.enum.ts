@@ -3,5 +3,5 @@ export enum CrossAxisColumnPositioningConfigType{
   Center,
   Right,
   Baseline,
-  NA
+  Stretch
 }

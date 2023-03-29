@@ -11,6 +11,8 @@ export class PositioningChildComponentsPropsModel {
               public alignItemsStart: boolean | undefined = undefined,
               public alignItemsCenter: boolean | undefined = undefined,
               public alignItemsEnd: boolean | undefined = undefined,
+              public alignItemsBaseline: boolean | undefined = undefined,
+              public alignItemsStretch: boolean | undefined = undefined,
               public alignContentStart: boolean | undefined = undefined,
               public alignContentCenter: boolean | undefined = undefined,
               public alignContentEnd: boolean | undefined = undefined,

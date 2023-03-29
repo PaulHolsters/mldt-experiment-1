@@ -5,5 +5,7 @@ export enum VerticalPositioningConfigType{
   Between,
   Around,
   Evenly,
-  NA
+  // todo onderzoek de bedoeling van align-content!!!
+  Stretch,
+  Baseline
 }
