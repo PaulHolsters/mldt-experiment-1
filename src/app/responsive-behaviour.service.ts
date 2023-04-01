@@ -2,11 +2,7 @@ import {Injectable} from '@angular/core';
 import {ComponentModel} from "./models/ComponentModel";
 import {ActionModel} from "./models/ActionModel";
 import {StoreService} from "./store.service";
-import {State} from "./enums/states.enum";
 import {ScreenSize} from "./enums/screenSizes.enum";
-import {BehaviorSubject} from "rxjs";
-import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
-import {PositioningConfigPropsModel} from "./models/Positioning/self/PositioningConfigPropsModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -20,9 +16,6 @@ export class ResponsiveBehaviourService {
       // todo aanvullen ivm dimensioning etc
       if(comp.position)
       this.storeService.setState(comp.name,this.storeService.getPositionComponentProps(comp.name,comp.position,screenSize))
-      if (comp.children && comp.children.length > 0 && comp.position) {
-        this.storeService.setState(comp.name,this.storeService.getPositionChildComponentsProps(comp.name,comp.position,screenSize))
-      }
       if(comp.dimensions)
         this.storeService.setState(comp.name,this.storeService.getDimensionsComponentProps( comp.name,comp.dimensions,screenSize))
       if(comp.overflow)

@@ -11,22 +11,24 @@ import {ResponsivePositioningConfigModel} from "./models/Positioning/self/Respon
 import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
 import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
-import {PositioningChildrenConfigPropsModel} from "./models/Positioning/children/PositioningChildrenConfigPropsModel";
 import {ComponentType} from "./enums/componentTypes.enum";
-import {PositionDirectionConfigType} from "./enums/positionDirectionConfigTypes.enum";
 import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConfigTypes.enum";
 import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
-import {CrossAxisRowPositioningConfigType} from "./enums/crossAxisRowPositioningConfigTypes.enum";
-import {CrossAxisColumnPositioningConfigType} from "./enums/crossAxisColumnPositioningConfigTypes.enum";
 import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/DimensioningConfigPropsModel";
 import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
-import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 import {ColorType} from "./enums/colorType.enum";
+import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
+import {ResponsiveChildLayoutConfigModel} from "./models/ChildLayout/ResponsiveChildLayoutConfigModel"
+import {ChildLayoutConfigPropsModel} from "./models/ChildLayout/ChildLayoutConfigPropsModel"
+import {HorizontalLayoutConfigPropsModel} from "./models/ChildLayout/HorizontalLayoutConfigPropsModel";
+import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayoutConfigPropsModel";
+import {AxisConfigType} from "./enums/axisConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
+import {CrossAxisVerticalConfigType} from "./enums/crossAxisVerticalConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -40,23 +42,6 @@ export class DataService {
   // todo *** container component ***
   // todo *** graphQL backend + frontend zodat je frontend configuratie kan
   //  doorsturen vanuit de backend (YAML file) (hard-coded of geen datamodel) ***
-  logoSmartphoneLayout = new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
-    PositionDirectionConfigType.Row,
-    true,
-    HorizontalPositioningConfigType.Right,
-    {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Baseline}))
-  logoPortraitTabletLayout = new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
-    PositionDirectionConfigType.Column,
-    false,
-    {lanes: HorizontalPositioningConfigType.Center, children: CrossAxisColumnPositioningConfigType.Baseline},
-    VerticalPositioningConfigType.Center))
-  logoTabletLayout = new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
-    PositionDirectionConfigType.Column,
-    false,
-    {lanes: HorizontalPositioningConfigType.Center, children: CrossAxisColumnPositioningConfigType.Baseline},
-    VerticalPositioningConfigType.Center))
-  logoLaptopLayout = undefined
-  logoHighResolutionLayout = undefined
   contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
@@ -162,31 +147,57 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         name: 'content-container',
         type: ComponentType.Container,
         position: new ResponsivePositioningConfigModel(
-          new PositioningConfigPropsModel(new PositioningChildrenConfigPropsModel(
-          PositionDirectionConfigType.Row,
-          true,
-            HorizontalPositioningConfigType.Right, // dit maakt strech items
-            {lanes: VerticalPositioningConfigType.Center, children: CrossAxisRowPositioningConfigType.Stretch},
-            // todo door automatisch scroll te zetten ga je geen crossaxis herschikking hebben => no-scroll of auto?
-            // todo bij strecth of baseline is niet én lanes én children nodig blijkbaar???
-          ))
-        ),
+          new PositioningConfigPropsModel()),
         visibility: new ResponsiveVisibilityConfigModel(),
         dimensions: new ResponsiveDimensioningConfigModel(
           new DimensioningConfigPropsModel(
             new FixedDimensioningConfigModel(
-              DimensionValueConfigType.Calculated,'(100vh - 16px)')
+              DimensionValueConfigType.Calculated, '(100vh - 16px)')
           )),
+        childLayout: new ResponsiveChildLayoutConfigModel(
+          new ChildLayoutConfigPropsModel(
+            new HorizontalLayoutConfigPropsModel(
+              AxisConfigType.Main,
+              true,
+              true,
+              HorizontalPositioningConfigType.Right,
+              new DynamicDimensioningConfigModel(
+                // todo zorg dat je ook grow 2-3-4 etc hebt...
+                0,
+                0,
+                undefined
+              ),
+              undefined
+            ),
+            new VerticalLayoutConfigPropsModel(
+              AxisConfigType.Cross,
+              undefined,
+              true,
+              CrossAxisVerticalConfigType.Bottom,
+              new DynamicDimensioningConfigModel(
+                undefined,
+                undefined,
+                true
+              ),
+              VerticalPositioningConfigType.Evenly
+            )
+          )
+        ),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
           {
+            // todo regel override van position en dimension:
+            //  bv als je hier een dimensie meegeeft, dan moet je checken wat er in de parent is geconfigureerd anders
+            //  kan dat ongewenste resultaten geven maw wat hier staat moet overriden wat in de parent staat,
+            //  tenzij het er prefect mee zou samengaan zoals grow en shrink => expliciet override gebruiklen (is enkel bij stretch het geval denk ik)
             name: 'block-1',
             type: ComponentType.Block,
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
-                undefined,
-                new DynamicDimensioningConfigModel(1))),
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
+                // component rules?
+                new FixedDimensioningConfigModel(DimensionValueConfigType.ComponentRules))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }, {
@@ -194,8 +205,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             type: ComponentType.Block,
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(undefined,
-                new DynamicDimensioningConfigModel(0))),
+              new DimensioningConfigPropsModel(
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded,
+                  400,
+                  DimensionUnitConfigType.PX
+                ),
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.ComponentRules
+                )
+              )),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           },
@@ -204,8 +223,9 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             type: ComponentType.Block,
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(undefined,
-                new DynamicDimensioningConfigModel(0))), // todo zorg dat je ook grow 2-3-4 etc hebt...
+              new DimensioningConfigPropsModel(
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
+                new FixedDimensioningConfigModel(DimensionValueConfigType.ComponentRules))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           },
@@ -214,47 +234,48 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             type: ComponentType.Block,
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(undefined,
-                new DynamicDimensioningConfigModel(0))),
+              new DimensioningConfigPropsModel(
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
+                new FixedDimensioningConfigModel(DimensionValueConfigType.ComponentRules))),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }
         ]
       },
-/*      {
-        name: 'logo',
-        type: ComponentType.Logo,
-        attributes: new ResponsiveAttributesConfigModel(),
-        position: new ResponsivePositioningConfigModel(
-          this.logoSmartphoneLayout,
-          this.logoPortraitTabletLayout,
-          this.logoTabletLayout,
-          this.logoLaptopLayout,
-          this.logoHighResolutionLayout
-        ),
-        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)
-          , undefined
-          , undefined
-          , new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true, false)),
-          undefined
-        )
-      },
-      {
-        name: 'test-click-action',
-        type: ComponentType.Button,
-        position: new ResponsivePositioningConfigModel({
-          childLayout: {}
-        }, {
-          childLayout: {}
-        }, {
-          childLayout: {}
-        }, {
-          childLayout: {}
-        }, {
-          childLayout: {}
-        }),
-        attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
-      }*/
+      /*      {
+              name: 'logo',
+              type: ComponentType.Logo,
+              attributes: new ResponsiveAttributesConfigModel(),
+              position: new ResponsivePositioningConfigModel(
+                this.logoSmartphoneLayout,
+                this.logoPortraitTabletLayout,
+                this.logoTabletLayout,
+                this.logoLaptopLayout,
+                this.logoHighResolutionLayout
+              ),
+              visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)
+                , undefined
+                , undefined
+                , new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true, false)),
+                undefined
+              )
+            },
+            {
+              name: 'test-click-action',
+              type: ComponentType.Button,
+              position: new ResponsivePositioningConfigModel({
+                childLayout: {}
+              }, {
+                childLayout: {}
+              }, {
+                childLayout: {}
+              }, {
+                childLayout: {}
+              }, {
+                childLayout: {}
+              }),
+              attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
+            }*/
     ],
     actions: [
       // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op

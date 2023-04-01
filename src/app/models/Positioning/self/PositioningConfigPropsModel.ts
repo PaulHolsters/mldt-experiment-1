@@ -1,8 +1,9 @@
-import {CrossAxisRowPositioningConfigType} from "../../../enums/crossAxisRowPositioningConfigTypes.enum";
-import {CrossAxisColumnPositioningConfigType} from "../../../enums/crossAxisColumnPositioningConfigTypes.enum";
-import {PositioningChildrenConfigPropsModel} from "../children/PositioningChildrenConfigPropsModel";
+import {
+  CrossAxisHorizontalConfigType
+} from "../../../enums/crossAxisHorizontalConfigTypes.enum";
+import {CrossAxisVerticalConfigType} from "../../../enums/crossAxisVerticalConfigTypes.enum";
 export class PositioningConfigPropsModel {
-  constructor(public childPositioning?:PositioningChildrenConfigPropsModel, public selfAlign?:CrossAxisRowPositioningConfigType|CrossAxisColumnPositioningConfigType) {
+  constructor(public selfAlign?:CrossAxisVerticalConfigType|CrossAxisHorizontalConfigType) {
     // todo add relative position
     // todo why TS accept some random interface here???
   }

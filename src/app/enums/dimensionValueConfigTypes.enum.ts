@@ -1,5 +1,5 @@
 export enum DimensionValueConfigType {
   Calculated,
   Hardcoded,
-  FollowContent
+  ComponentRules
 }

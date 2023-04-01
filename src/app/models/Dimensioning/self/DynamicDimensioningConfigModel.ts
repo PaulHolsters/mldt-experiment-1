@@ -2,8 +2,9 @@ import {DimensionValueConfigType} from "../../../enums/dimensionValueConfigTypes
 
 export class DynamicDimensioningConfigModel {
   constructor(
-    public grow: number = 0,
-    public shrink: number = 0,
+    public grow: number|undefined,
+    public shrink: number|undefined,
+    public stretch:boolean|undefined
   ) {
   }
 }

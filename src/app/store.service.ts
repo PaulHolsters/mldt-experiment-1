@@ -13,14 +13,9 @@ import {PositioningComponentPropsModel} from "./models/Positioning/self/Position
 import {AttributesComponentPropsModel} from "./models/Attributes/AttributesComponentPropsModel";
 import {VisibilityComponentPropsModel} from "./models/Visibility/VisibilityComponentPropsModel";
 import {ScreenSize} from "./enums/screenSizes.enum";
-import {PositioningChildComponentsPropsModel} from "./models/Positioning/children/PositioningChildComponentsPropsModel";
 import {OverflowComponentPropsModel} from "./models/Overflow/self/OverflowComponentPropsModel";
 import {OverflowConfigPropsModel} from "./models/Overflow/self/OverflowConfigPropsModel";
 import {ResponsiveOverflowConfigModel} from "./models/Overflow/self/ResponsiveOverflowConfigModel";
-import {CrossAxisRowPositioningConfigType} from "./enums/crossAxisRowPositioningConfigTypes.enum";
-import {CrossAxisColumnPositioningConfigType} from "./enums/crossAxisColumnPositioningConfigTypes.enum";
-import {PositioningChildrenConfigPropsModel} from "./models/Positioning/children/PositioningChildrenConfigPropsModel";
-import {PositionDirectionConfigType} from "./enums/positionDirectionConfigTypes.enum";
 import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConfigTypes.enum";
 import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
@@ -35,6 +30,8 @@ import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/Dimension
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
+import {CrossAxisVerticalConfigType} from "./enums/crossAxisVerticalConfigTypes.enum";
+import {CrossAxisHorizontalConfigType} from "./enums/crossAxisHorizontalConfigTypes.enum";
 @Injectable({
   providedIn: 'root'
 })
@@ -62,13 +59,12 @@ export class StoreService {
                                    stateModel: ResponsivePositioningConfigModel,
                                    screenSize: number): PositioningComponentPropsModel {
     const translateToPositioningComponentProps =
-      (positionConfig: CrossAxisRowPositioningConfigType | CrossAxisColumnPositioningConfigType): PositioningComponentPropsModel => {
+      (positionConfig: CrossAxisVerticalConfigType|CrossAxisHorizontalConfigType): PositioningComponentPropsModel => {
         return new PositioningComponentPropsModel(
-          positionConfig === CrossAxisRowPositioningConfigType.Top || positionConfig === CrossAxisColumnPositioningConfigType.Left,
-          positionConfig === CrossAxisRowPositioningConfigType.Center || positionConfig === CrossAxisColumnPositioningConfigType.Center,
-          positionConfig === CrossAxisRowPositioningConfigType.Bottom || positionConfig === CrossAxisColumnPositioningConfigType.Right,
-          positionConfig === CrossAxisRowPositioningConfigType.Baseline || positionConfig === CrossAxisColumnPositioningConfigType.Baseline,
-          positionConfig === CrossAxisRowPositioningConfigType.Stretch || positionConfig === CrossAxisColumnPositioningConfigType.Stretch)
+          positionConfig === CrossAxisVerticalConfigType.Top || positionConfig === CrossAxisHorizontalConfigType.Left,
+          positionConfig === CrossAxisVerticalConfigType.Center || positionConfig === CrossAxisHorizontalConfigType.Center,
+          positionConfig === CrossAxisVerticalConfigType.Bottom || positionConfig === CrossAxisHorizontalConfigType.Right,
+          positionConfig === CrossAxisVerticalConfigType.Baseline || positionConfig === CrossAxisHorizontalConfigType.Baseline)
       }
     if(this.hasScreenSizeProperty(stateModel,'selfAlign')){
       let lastScreenSize = screenSize
@@ -81,57 +77,6 @@ export class StoreService {
       }
       throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
     } else return new PositioningComponentPropsModel()
-  }
-  public getPositionChildComponentsProps(componentName: string,
-                                         stateModel: ResponsivePositioningConfigModel,
-                                         screenSize: number): PositioningChildComponentsPropsModel {
-    const translateToPositioningChildComponentsProps =
-      (positionConfig: PositioningChildrenConfigPropsModel): PositioningChildComponentsPropsModel => {
-      return new PositioningChildComponentsPropsModel(
-        positionConfig.direction === PositionDirectionConfigType.Row,
-        positionConfig.direction === PositionDirectionConfigType.Column,
-        positionConfig.wrap === true,
-        positionConfig.horPos === HorizontalPositioningConfigType.Left || positionConfig.verPos === VerticalPositioningConfigType.Top,
-        positionConfig.horPos === HorizontalPositioningConfigType.Center || positionConfig.verPos === VerticalPositioningConfigType.Center,
-        positionConfig.horPos === HorizontalPositioningConfigType.Right || positionConfig.verPos === VerticalPositioningConfigType.Bottom,
-        positionConfig.horPos === HorizontalPositioningConfigType.Between || positionConfig.verPos === VerticalPositioningConfigType.Between,
-        positionConfig.horPos === HorizontalPositioningConfigType.Evenly || positionConfig.verPos === VerticalPositioningConfigType.Evenly,
-        positionConfig.horPos === HorizontalPositioningConfigType.Around || positionConfig.verPos === VerticalPositioningConfigType.Around,
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Left) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Top),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Center) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Center),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Right) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Bottom),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Baseline) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Baseline),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.children === CrossAxisColumnPositioningConfigType.Stretch) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.children === CrossAxisRowPositioningConfigType.Stretch),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Left) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Top),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Center) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Center),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Right) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Bottom),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Between) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Between),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Evenly) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Evenly),
-        (typeof positionConfig.horPos === 'object' && positionConfig.horPos.lanes === HorizontalPositioningConfigType.Around) ||
-        (typeof positionConfig.verPos === 'object' && positionConfig.verPos.lanes === VerticalPositioningConfigType.Around)
-      )
-      }
-      if(this.hasScreenSizeProperty(stateModel,'childPositioning')){
-        let lastScreenSize = screenSize
-        const stateModelObj = Object.create(stateModel)
-        while (lastScreenSize >= 0) {
-          if (stateModelObj[ScreenSize[lastScreenSize]]?.childPositioning) {
-            return translateToPositioningChildComponentsProps(stateModelObj[ScreenSize[lastScreenSize]]?.childPositioning)
-          }
-          lastScreenSize--
-        }
-        throw new Error('No screensize child components configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
-      } else return new PositioningChildComponentsPropsModel()
   }
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
@@ -219,10 +164,10 @@ export class StoreService {
               break
           }
         } else {
-          if (!isNaN(dimensionsConfig.height.grow)) {
+          if (dimensionsConfig.height.grow && !isNaN(dimensionsConfig.height.grow)) {
             compPropsObj.grow = dimensionsConfig.height.grow
           }
-          if (!isNaN(dimensionsConfig.height.shrink)) {
+          if (dimensionsConfig.height.shrink && !isNaN(dimensionsConfig.height.shrink)) {
             compPropsObj.shrink = dimensionsConfig.height.shrink
           }
         }
@@ -249,10 +194,10 @@ export class StoreService {
               break
           }
         } else {
-          if (!isNaN(dimensionsConfig.width.grow)) {
+          if (dimensionsConfig.width.grow && !isNaN(dimensionsConfig.width.grow)) {
             compPropsObj.grow = dimensionsConfig.width.grow
           }
-          if (!isNaN(dimensionsConfig.width.shrink)) {
+          if (dimensionsConfig.width.shrink && !isNaN(dimensionsConfig.width.shrink)) {
             compPropsObj.shrink = dimensionsConfig.width.shrink
           }
         }
@@ -307,7 +252,6 @@ export class StoreService {
   }
   public setState(componentName: string,
                   newState:(PositioningComponentPropsModel |
-                    PositioningChildComponentsPropsModel |
                     AttributesComponentPropsModel |
                     VisibilityComponentPropsModel) |
                     StylingComponentPropsModel |
@@ -315,7 +259,6 @@ export class StoreService {
                     OverflowComponentPropsModel|
                     (ComponentModel[])): void {
     if(newState instanceof PositioningComponentPropsModel ||
-      newState instanceof PositioningChildComponentsPropsModel ||
       newState instanceof AttributesComponentPropsModel ||
       newState instanceof VisibilityComponentPropsModel ||
       newState instanceof StylingComponentPropsModel ||
@@ -338,6 +281,7 @@ export class StoreService {
     actions: ActionModel[]
   }) {
     contentContainer.components.forEach(comp => {
+      // children
       if(comp.children && comp.children.length>0){
         (comp.children as ComponentModel[]).forEach(child=>{
           if(child.position){
@@ -348,15 +292,6 @@ export class StoreService {
                 propSubj, prop$: propSubj.asObservable()
               })
             })
-            if (child.children && child.children.length > 0) {
-              Object.keys(this.getPositionChildComponentsProps(comp.name, child.position, ScreenSize.highResolution)).forEach(k => {
-                const propSubj = new BehaviorSubject<any | undefined>(undefined)
-                this.statePropertySubjects.push({
-                  componentName: child.name, propName: k, propValue:
-                  propSubj, prop$: propSubj.asObservable()
-                })
-              })
-            }
           }
           if (child.dimensions){
             Object.keys(this.getDimensionsComponentProps(child.name, child.dimensions, ScreenSize.highResolution)).forEach(k => {
@@ -387,6 +322,7 @@ export class StoreService {
           }
         })
       }
+      // self
       if (comp.position) {
         Object.keys(this.getPositionComponentProps(comp.name, comp.position, ScreenSize.highResolution)).forEach(k => {
           const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -395,15 +331,6 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
-        if (comp.children && comp.children.length > 0) {
-          Object.keys(this.getPositionChildComponentsProps(comp.name, comp.position, ScreenSize.highResolution)).forEach(k => {
-                const propSubj = new BehaviorSubject<any | undefined>(undefined)
-                this.statePropertySubjects.push({
-                  componentName: comp.name, propName: k, propValue:
-                  propSubj, prop$: propSubj.asObservable()
-                })
-          })
-        }
       }
       if (comp.dimensions){
         Object.keys(this.getDimensionsComponentProps(comp.name, comp.dimensions, ScreenSize.highResolution)).forEach(k => {
@@ -504,7 +431,6 @@ export class StoreService {
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |
-      PositioningChildComponentsPropsModel |
       AttributesComponentPropsModel |
       VisibilityComponentPropsModel |
       OverflowComponentPropsModel |
