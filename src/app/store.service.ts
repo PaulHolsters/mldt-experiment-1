@@ -276,7 +276,7 @@ export class StoreService {
           })
         }
       })
-      Object.entries(childLayoutConfig.verticalLayout).forEach(([k,v])=>{
+      Object.entries(childLayoutConfig.verticalLayout).forEach(([k])=>{
         if(childLayoutConfig.verticalLayout.isParent(k)){
           childLayoutConfig.verticalLayout.getComponentProperties(k).forEach(v=>{
             parentPropsObj.setProperty(v)

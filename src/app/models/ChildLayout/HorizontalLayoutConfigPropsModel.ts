@@ -40,7 +40,7 @@ export class HorizontalLayoutConfigPropsModel {
             [ 'alignItemsCenter',this.position === CrossAxisHorizontalPositioningConfigType.Center],
             [ 'alignItemsEnd',this.position === CrossAxisHorizontalPositioningConfigType.Right],
             [ 'alignItemsBaseline',this.position === CrossAxisHorizontalPositioningConfigType.Baseline]]
-      case 'dimension':
+      case 'width':
         if(this.width instanceof DynamicDimensioningConfigModel && this.width.stretch){
           return [
             [ 'alignItemsStretch',true]]
@@ -60,6 +60,6 @@ export class HorizontalLayoutConfigPropsModel {
           ['alignContentEvenly',this.position===MainAxisHorizontalPositioningConfigType.Evenly],
           ['alignContentAround',this.position===MainAxisHorizontalPositioningConfigType.Around]]
     }
-    throw new Error('Property '+propName+' does not exist HorizontalLayoutConfigPropsModel')
+    throw new Error('Property ?'+propName+'? does not exist HorizontalLayoutConfigPropsModel')
   }
 }

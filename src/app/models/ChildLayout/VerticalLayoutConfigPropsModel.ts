@@ -39,7 +39,7 @@ export class VerticalLayoutConfigPropsModel {
           [ 'alignItemsCenter',this.position === CrossAxisVerticalPositioningConfigType.Center],
           [ 'alignItemsEnd',this.position === CrossAxisVerticalPositioningConfigType.Bottom],
           [ 'alignItemsBaseline',this.position === CrossAxisVerticalPositioningConfigType.Baseline]]
-      case 'dimension':
+      case 'height':
         if(this.height instanceof DynamicDimensioningConfigModel && this.height.stretch){
           return [
             [ 'alignItemsStretch',true]]
