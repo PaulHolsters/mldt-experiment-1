@@ -6,7 +6,8 @@ export class ChildComponentsPropsModel {
     public calcHeight:string|undefined=undefined,
     public width:string|undefined=undefined,
     public calcWidth:string|undefined=undefined,
-    public scroll:boolean=false,
+    public horizontalScrolling:boolean=false,
+    public verticalScrolling:boolean=false,
   ) {
   }
   public setProperty(arr:any[]): void {

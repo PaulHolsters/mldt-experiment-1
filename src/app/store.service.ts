@@ -263,26 +263,14 @@ export class StoreService {
       const parentPropsObj = new ParentComponentPropsModel()
       const childPropsObj = new ChildComponentsPropsModel()
 
-      // todo het probleem hier is nu dat de verticale mapping de horizontal mapping kan gaan overschrijven!!
-
       Object.entries(childLayoutConfig.horizontalLayout).forEach(([k])=>{
         if(childLayoutConfig.horizontalLayout.isParent(k)){
-          childLayoutConfig.horizontalLayout.getComponentProperties(k).forEach(v=>{
+          // todo  fiw width komt hier binnen maar dat is niet per se voor Parent
+          childLayoutConfig.horizontalLayout.getComponentProperties(k,childLayoutConfig.verticalLayout).forEach(v=>{
             parentPropsObj.setProperty(v)
           })
         } else{
-          childLayoutConfig.horizontalLayout.getComponentProperties(k).forEach(v=>{
-            childPropsObj.setProperty(v)
-          })
-        }
-      })
-      Object.entries(childLayoutConfig.verticalLayout).forEach(([k])=>{
-        if(childLayoutConfig.verticalLayout.isParent(k)){
-          childLayoutConfig.verticalLayout.getComponentProperties(k).forEach(v=>{
-            parentPropsObj.setProperty(v)
-          })
-        } else{
-          childLayoutConfig.verticalLayout.getComponentProperties(k).forEach(v=>{
+          childLayoutConfig.horizontalLayout.getComponentProperties(k,childLayoutConfig.verticalLayout).forEach(v=>{
             childPropsObj.setProperty(v)
           })
         }
