@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActionModel} from "../../models/ActionModel";
 import {DataService} from "../../data.service";
 import {StoreService} from "../../store.service";
-
 @Component({
   selector: 'm-button',
   templateUrl: './button.component.html',
@@ -15,19 +14,13 @@ export class ButtonComponent implements OnInit {
     icon?:string,
     triggers:ActionModel[]
   }|undefined
-
   name='button'
   icon$ = this.storeService.bindToStateProperty(this.name,'src')
   label$ = this.storeService.bindToStateProperty(this.name,'label')
-
   constructor(private storeService:StoreService,private dataService:DataService) {
-
   }
-
   ngOnInit(): void {
-
   }
-
   trigger(event: Event){
     this.data?.triggers?.filter(trigger=>{
       return trigger.trigger === event.type
@@ -35,5 +28,4 @@ export class ButtonComponent implements OnInit {
       this.dataService.executeAction(trigger)
     })
   }
-
 }

@@ -16,8 +16,8 @@ import {ScreenSize} from "./enums/screenSizes.enum";
 import {OverflowComponentPropsModel} from "./models/Overflow/self/OverflowComponentPropsModel";
 import {OverflowConfigPropsModel} from "./models/Overflow/self/OverflowConfigPropsModel";
 import {ResponsiveOverflowConfigModel} from "./models/Overflow/self/ResponsiveOverflowConfigModel";
-import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConfigTypes.enum";
-import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
+import {MainAxisHorizontalPositioningConfigType} from "./enums/mainAxisHorizontalPositioningConfigTypes.enum";
+import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 import {StylingComponentPropsModel} from "./models/Styling/StylingComponentPropsModel";
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
@@ -30,8 +30,15 @@ import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/Dimension
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
-import {CrossAxisVerticalConfigType} from "./enums/crossAxisVerticalConfigTypes.enum";
-import {CrossAxisHorizontalConfigType} from "./enums/crossAxisHorizontalConfigTypes.enum";
+import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
+import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizontalPositioningConfigTypes.enum";
+import {ChildLayoutComponentsPropsModel} from "./models/ChildLayout/ChildLayoutComponentsPropsModel";
+import {ResponsiveChildLayoutConfigModel} from "./models/ChildLayout/ResponsiveChildLayoutConfigModel";
+import {ChildLayoutConfigPropsModel} from "./models/ChildLayout/ChildLayoutConfigPropsModel";
+import {ParentComponentPropsModel} from "./models/ChildLayout/ParentComponentsPropsModel";
+import {ChildComponentsPropsModel} from "./models/ChildLayout/ChildComponentsPropsModel";
+import {HorizontalLayoutConfigPropsModel} from "./models/ChildLayout/HorizontalLayoutConfigPropsModel";
+import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayoutConfigPropsModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -59,12 +66,12 @@ export class StoreService {
                                    stateModel: ResponsivePositioningConfigModel,
                                    screenSize: number): PositioningComponentPropsModel {
     const translateToPositioningComponentProps =
-      (positionConfig: CrossAxisVerticalConfigType|CrossAxisHorizontalConfigType): PositioningComponentPropsModel => {
+      (positionConfig: CrossAxisVerticalPositioningConfigType|CrossAxisHorizontalPositioningConfigType): PositioningComponentPropsModel => {
         return new PositioningComponentPropsModel(
-          positionConfig === CrossAxisVerticalConfigType.Top || positionConfig === CrossAxisHorizontalConfigType.Left,
-          positionConfig === CrossAxisVerticalConfigType.Center || positionConfig === CrossAxisHorizontalConfigType.Center,
-          positionConfig === CrossAxisVerticalConfigType.Bottom || positionConfig === CrossAxisHorizontalConfigType.Right,
-          positionConfig === CrossAxisVerticalConfigType.Baseline || positionConfig === CrossAxisHorizontalConfigType.Baseline)
+          positionConfig === CrossAxisVerticalPositioningConfigType.Top || positionConfig === CrossAxisHorizontalPositioningConfigType.Left,
+          positionConfig === CrossAxisVerticalPositioningConfigType.Center || positionConfig === CrossAxisHorizontalPositioningConfigType.Center,
+          positionConfig === CrossAxisVerticalPositioningConfigType.Bottom || positionConfig === CrossAxisHorizontalPositioningConfigType.Right,
+          positionConfig === CrossAxisVerticalPositioningConfigType.Baseline || positionConfig === CrossAxisHorizontalPositioningConfigType.Baseline)
       }
     if(this.hasScreenSizeProperty(stateModel,'selfAlign')){
       let lastScreenSize = screenSize
@@ -250,6 +257,49 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveVisibilityConfigModel and screen ' + ScreenSize[screenSize])
   }
+  public getChildLayoutComponentProps(componentName: string, stateModel: ResponsiveChildLayoutConfigModel, screenSize: number): ChildLayoutComponentsPropsModel {
+    // diegene die deze methode aanroept moet ervoor zorgen dat de properties effectief naar de bedoelde childComponents gaan, indien van toepassing
+    const translateToChildLayoutComponentsProps = (childLayoutConfig: ChildLayoutConfigPropsModel): ChildLayoutComponentsPropsModel => {
+      const parentPropsObj = new ParentComponentPropsModel()
+      const childPropsObj = new ChildComponentsPropsModel()
+
+      // todo het probleem hier is nu dat de verticale mapping de horizontal mapping kan gaan overschrijven!!
+
+      Object.entries(childLayoutConfig.horizontalLayout).forEach(([k])=>{
+        if(childLayoutConfig.horizontalLayout.isParent(k)){
+          childLayoutConfig.horizontalLayout.getComponentProperties(k).forEach(v=>{
+            parentPropsObj.setProperty(v)
+          })
+        } else{
+          childLayoutConfig.horizontalLayout.getComponentProperties(k).forEach(v=>{
+            childPropsObj.setProperty(v)
+          })
+        }
+      })
+      Object.entries(childLayoutConfig.verticalLayout).forEach(([k,v])=>{
+        if(childLayoutConfig.verticalLayout.isParent(k)){
+          childLayoutConfig.verticalLayout.getComponentProperties(k).forEach(v=>{
+            parentPropsObj.setProperty(v)
+          })
+        } else{
+          childLayoutConfig.verticalLayout.getComponentProperties(k).forEach(v=>{
+            childPropsObj.setProperty(v)
+          })
+        }
+      })
+      return new ChildLayoutComponentsPropsModel(parentPropsObj,childPropsObj)
+    }
+
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToChildLayoutComponentsProps(stateModelObj[ScreenSize[lastScreenSize]])
+      }
+      lastScreenSize--
+    }
+    throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
+  }
   public setState(componentName: string,
                   newState:(PositioningComponentPropsModel |
                     AttributesComponentPropsModel |
@@ -281,9 +331,30 @@ export class StoreService {
     actions: ActionModel[]
   }) {
     contentContainer.components.forEach(comp => {
-      // children
+      // children: indien child components inlined zijn zodat ze niet vergeten worden om te initialisezeren
       if(comp.children && comp.children.length>0){
         (comp.children as ComponentModel[]).forEach(child=>{
+          if(child.childLayout){
+            // voorlopig in het configObject niet het geval
+          }
+          if(child.visibility){
+            Object.keys(this.getVisibilityComponentProps(child.name, child.visibility, ScreenSize.highResolution)).forEach(k => {
+              const propSubj = new BehaviorSubject<any | undefined>(undefined)
+              this.statePropertySubjects.push({
+                componentName: child.name, propName: k, propValue:
+                propSubj, prop$: propSubj.asObservable()
+              })
+            })
+          }
+          if(child.styling){
+            Object.keys(this.getStylingComponentProps(child.name, child.styling, ScreenSize.highResolution)).forEach(k => {
+              const propSubj = new BehaviorSubject<any | undefined>(undefined)
+              this.statePropertySubjects.push({
+                componentName: child.name, propName: k, propValue:
+                propSubj, prop$: propSubj.asObservable()
+              })
+            })
+          }
           if(child.position){
             Object.keys(this.getPositionComponentProps(child.name, child.position, ScreenSize.highResolution)).forEach(k => {
               const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -310,6 +381,7 @@ export class StoreService {
                 propSubj, prop$: propSubj.asObservable()
               })
             })
+            // todo dit moet in een aparte config prop komen childOverflow
             if (child.children && child.children.length > 0) {
               Object.keys(this.getOverflowChildComponentsProps(child.name, child.overflow, ScreenSize.highResolution)).forEach(k => {
                 const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -323,6 +395,15 @@ export class StoreService {
         })
       }
       // self
+      if(comp.childLayout){
+        Object.keys(this.getChildLayoutComponentProps(comp.name, comp.childLayout, ScreenSize.highResolution)).forEach(k => {
+          const propSubj = new BehaviorSubject<any | undefined>(undefined)
+          this.statePropertySubjects.push({
+            componentName: comp.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
+      }
       if (comp.position) {
         Object.keys(this.getPositionComponentProps(comp.name, comp.position, ScreenSize.highResolution)).forEach(k => {
           const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -349,6 +430,7 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
+        // todo dit moet in een aparte config prop komen childOverflow
         if (comp.children && comp.children.length > 0) {
           Object.keys(this.getOverflowChildComponentsProps(comp.name, comp.overflow, ScreenSize.highResolution)).forEach(k => {
             const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -376,22 +458,6 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
-        if (comp.children && comp.children.length > 0) {
-          comp.children.forEach(child => {
-            if(typeof child === 'string'){
-              // todo
-            } else{
-              if(child.visibility)
-                Object.keys(this.getVisibilityComponentProps(child.name, child.visibility, ScreenSize.highResolution)).forEach(k => {
-                  const propSubj = new BehaviorSubject<any | undefined>(undefined)
-                  this.statePropertySubjects.push({
-                    componentName: child.name, propName: k, propValue:
-                    propSubj, prop$: propSubj.asObservable()
-                  })
-                })
-            }
-          })
-        }
       }
       if (comp.styling) {
         Object.keys(this.getStylingComponentProps(comp.name, comp.styling, ScreenSize.highResolution)).forEach(k => {
@@ -401,23 +467,6 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
-        if (comp.children && comp.children.length > 0) {
-          comp.children.forEach(child => {
-            if(typeof child === 'string'){
-              // todo => dan moet je eigenlijk niets doen!
-            } else{
-              if(child.styling){
-                Object.keys(this.getStylingComponentProps(child.name, child.styling, ScreenSize.highResolution)).forEach(k => {
-                  const propSubj = new BehaviorSubject<any | undefined>(undefined)
-                  this.statePropertySubjects.push({
-                    componentName: child.name, propName: k, propValue:
-                    propSubj, prop$: propSubj.asObservable()
-                  })
-                })
-              }
-            }
-          })
-        }
       }
       if(comp.children && comp.children.length > 0){
         const propSubj = new BehaviorSubject<ComponentModel[] | undefined>(undefined)

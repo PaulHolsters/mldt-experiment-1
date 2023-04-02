@@ -1,4 +1,4 @@
-export enum HorizontalPositioningConfigType{
+export enum MainAxisHorizontalPositioningConfigType{
   Left,
   Center,
   Right,

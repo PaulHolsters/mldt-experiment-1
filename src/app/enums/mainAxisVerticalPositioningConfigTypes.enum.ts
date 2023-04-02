@@ -1,4 +1,4 @@
-export enum VerticalPositioningConfigType{
+export enum MainAxisVerticalPositioningConfigType{
   Top,
   Center,
   Bottom,

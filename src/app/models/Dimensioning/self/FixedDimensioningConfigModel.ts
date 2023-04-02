@@ -18,4 +18,16 @@ export class FixedDimensioningConfigModel {
       // todo voeg ook een format toe aan de calculated versie !!!}
     }
   }
+  public getDimension(){
+    if(this.type===DimensionValueConfigType.Hardcoded && this.value && this.unit){
+      return this.value+this.unit
+    }
+    return undefined
+  }
+  public getDimensionCalc(){
+    if(this.type === DimensionValueConfigType.Calculated && this.value){
+      return '('+this.value+')'
+    }
+    return undefined
+  }
 }

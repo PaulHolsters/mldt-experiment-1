@@ -12,8 +12,8 @@ import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVis
 import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {ComponentType} from "./enums/componentTypes.enum";
-import {HorizontalPositioningConfigType} from "./enums/horizontalPositioningConfigTypes.enum";
-import {VerticalPositioningConfigType} from "./enums/verticalPositioningConfigTypes.enum";
+import {MainAxisHorizontalPositioningConfigType} from "./enums/mainAxisHorizontalPositioningConfigTypes.enum";
+import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/DimensioningConfigPropsModel";
 import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
@@ -28,7 +28,8 @@ import {HorizontalLayoutConfigPropsModel} from "./models/ChildLayout/HorizontalL
 import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayoutConfigPropsModel";
 import {AxisConfigType} from "./enums/axisConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
-import {CrossAxisVerticalConfigType} from "./enums/crossAxisVerticalConfigTypes.enum";
+import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
+import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizontalPositioningConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -160,7 +161,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               AxisConfigType.Main,
               true,
               true,
-              HorizontalPositioningConfigType.Right,
+              MainAxisHorizontalPositioningConfigType.Right,
               new DynamicDimensioningConfigModel(
                 // todo zorg dat je ook grow 2-3-4 etc hebt...
                 0,
@@ -173,13 +174,13 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               AxisConfigType.Cross,
               undefined,
               true,
-              CrossAxisVerticalConfigType.Bottom,
+              CrossAxisVerticalPositioningConfigType.Bottom,
               new DynamicDimensioningConfigModel(
                 undefined,
                 undefined,
                 true
               ),
-              VerticalPositioningConfigType.Evenly
+              MainAxisVerticalPositioningConfigType.Evenly
             )
           )
         ),
@@ -196,8 +197,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
-                // component rules?
-                new FixedDimensioningConfigModel(DimensionValueConfigType.ComponentRules))),
+                undefined)),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }, {
@@ -211,9 +211,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   400,
                   DimensionUnitConfigType.PX
                 ),
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.ComponentRules
-                )
+                undefined
               )),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
@@ -225,7 +223,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
-                new FixedDimensioningConfigModel(DimensionValueConfigType.ComponentRules))),
+                undefined)),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           },
@@ -235,8 +233,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
-                new FixedDimensioningConfigModel(DimensionValueConfigType.ComponentRules))),
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),undefined)),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }

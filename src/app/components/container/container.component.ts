@@ -41,8 +41,6 @@ export class ContainerComponent implements OnInit {
   overflowYAuto$: Observable<any>|undefined
   height$: Observable<any>|undefined
   width$: Observable<any>|undefined
-  fitContentHeight$: Observable<any>|undefined
-  fitContentWidth$: Observable<any>|undefined
   backgroundColorPrimary$: Observable<any>|undefined
   backgroundColorWhite$: Observable<any>|undefined
   visible$: Observable<any>|undefined
@@ -84,8 +82,6 @@ export class ContainerComponent implements OnInit {
     this.overflowYAuto$ = this.storeService.bindToStateProperty(this.name,'overflowYAuto')
     this.height$ = this.storeService.bindToStateProperty(this.name,'height')
     this.width$ = this.storeService.bindToStateProperty(this.name,'width')
-    this.fitContentHeight$ = this.storeService.bindToStateProperty(this.name,'fitContentHeight')
-    this.fitContentWidth$ = this.storeService.bindToStateProperty(this.name,'fitContentWidth')
     this.backgroundColorPrimary$ = this.storeService.bindToStateProperty(this.name,'backgroundColorPrimary')
     this.backgroundColorWhite$ = this.storeService.bindToStateProperty(this.name,'backgroundColorWhite')
     this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')

@@ -30,8 +30,6 @@ export class BlockComponent implements OnInit {
     this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
-    this.fitContentHeight$ = this.storeService.bindToStateProperty(this.name,'fitContentHeight')
-    this.fitContentWidth$ = this.storeService.bindToStateProperty(this.name,'fitContentWidth')
     this.grow$ = this.storeService.bindToStateProperty(this.name,'grow') // je zou deze ook naar boven kunnen vuren??
     this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
     this.alignSelfStretch$ = this.storeService.bindToStateProperty(this.name,'alignSelfStretch')
