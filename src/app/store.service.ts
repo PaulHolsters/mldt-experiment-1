@@ -284,6 +284,11 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
+  private getParentComponentConfig(compName:string):ComponentModel|undefined{
+    return this.components?.find(comp=>{
+      return comp.name === compName
+    })
+  }
   public setState(componentName: string,
                   newState:(PositioningComponentPropsModel |
                     AttributesComponentPropsModel |
@@ -306,17 +311,45 @@ export class StoreService {
         })?.propValue.next(v)
       }
     } else if(newState instanceof ChildLayoutComponentsPropsModel){
-      // todo
+      if(newState.parentProps){
+        for (let [k, v] of Object.entries(newState.parentProps)) {
+          this.getStatePropertySubjects().find(subj => {
+            return subj.componentName === componentName && subj.propName === k
+          })?.propValue.next(v)
+        }
+      }
+      if(newState.childProps){
+        for (let [k, v] of Object.entries(newState.childProps)) {
+          const parent = this.getParentComponentConfig(componentName)
+          if(parent?.children){
+            if(parent.children?.length > 0 && typeof parent.children[0] === 'string'){
+              (parent.children as string[]).forEach(childName=>{
+                this.getStatePropertySubjects().find(subj => {
+                  return subj.componentName === childName && subj.propName === k
+                })?.propValue.next(v)
+              })
+            } else{
+              (parent.children as ComponentModel[]).forEach(childComp=>{
+                this.getStatePropertySubjects().find(subj => {
+                  return subj.componentName === childComp.name && subj.propName === k
+                })?.propValue.next(v)
+              })
+            }
+          }
+        }
+      }
     }else{
       this.getStatePropertySubjects().find(subj => {
         return subj.componentName === componentName && subj.propName === 'children'
       })?.propValue.next(newState)
     }
   }
+  private components:ComponentModel[]|undefined
   public createStore(contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
   }) {
+    this.components = [...contentContainer.components]
     contentContainer.components.forEach(comp => {
       // children: indien child components inlined zijn zodat ze niet vergeten worden om te initialisezeren
       if(comp.children && comp.children.length>0){
