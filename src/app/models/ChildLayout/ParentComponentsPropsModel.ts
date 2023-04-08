@@ -22,9 +22,11 @@ export class ParentComponentPropsModel {
     public alignContentAround: boolean=false,
   ) {
   }
-  public setProperty(arr:any[]): void {
-    if (Reflect.has(this, arr[0]))
-      Reflect.set(this, arr[0], arr[1])
-    else throw new Error('cannot set property ' + arr[0] + ' because it does not exist on the object of type ParentComponentPropsModel')
+  public setProperties(arr:any[]): void {
+    arr.forEach(prop=>{
+      if (Reflect.has(this, prop[0]))
+        Reflect.set(this, prop[0], prop[1])
+      else throw new Error('cannot set property ' + prop[0] + ' because it does not exist on the object of type ParentComponentPropsModel')
+    })
   }
 }

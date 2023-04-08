@@ -13,7 +13,6 @@ export class ResponsiveBehaviourService {
     actions: ActionModel[]
   }, screenSize:number){
     contentContainer.components.forEach(comp => {
-      // todo aanvullen ivm dimensioning etc
       if(comp.position)
       this.storeService.setState(comp.name,this.storeService.getPositionComponentProps(comp.name,comp.position,screenSize))
       if(comp.dimensions)
@@ -29,6 +28,8 @@ export class ResponsiveBehaviourService {
         this.storeService.setState(comp.name,this.storeService.getAttributesComponentProps( comp.name,comp.attributes,screenSize))
       if(comp.styling)
         this.storeService.setState(comp.name,this.storeService.getStylingComponentProps( comp.name,comp.styling,screenSize))
+      if(comp.childLayout)
+        this.storeService.setState(comp.name,this.storeService.getChildLayoutComponentProps(comp.name,comp.childLayout,screenSize))
       if (comp.children && comp.children.length > 0) {
         comp.children.forEach(child => {
           if(typeof child === 'string'){

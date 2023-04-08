@@ -29,7 +29,6 @@ import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayou
 import {AxisConfigType} from "./enums/axisConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
 import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizontalPositioningConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -141,9 +140,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 {property: 'xxl', value: "220px"}
               ]
             },*/
-      // todo maak de verschillende configprops verplicht: je vergeet al gauw bv visibillity waardoor je kinderen niet
-      //  zichtbaar zijn en je je afvraagt wat er mis is met de kinderen, het dwingt je om overal aan te denken!, of je zet overal
-      //  defaults...
       {
         name: 'content-container',
         type: ComponentType.Container,
@@ -162,12 +158,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               true,
               MainAxisHorizontalPositioningConfigType.Right,
-              new DynamicDimensioningConfigModel(
-                // todo zorg dat je ook grow 2-3-4 etc hebt...
-                0,
-                0,
-                undefined
-              ),
+              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,400,DimensionUnitConfigType.PX),
               undefined
             ),
             new VerticalLayoutConfigPropsModel(
@@ -193,47 +184,23 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             //  tenzij het er prefect mee zou samengaan zoals grow en shrink => expliciet override gebruiklen (is enkel bij stretch het geval denk ik)
             name: 'block-1',
             type: ComponentType.Block,
-            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
-                undefined)),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }, {
             name: 'block-2',
             type: ComponentType.Block,
-            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded,
-                  400,
-                  DimensionUnitConfigType.PX
-                ),
-                undefined
-              )),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           },
           {
             name: 'block-3',
             type: ComponentType.Block,
-            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
-                undefined)),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           },
           {
             name: 'block-4',
             type: ComponentType.Block,
-            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel()),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),undefined)),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }

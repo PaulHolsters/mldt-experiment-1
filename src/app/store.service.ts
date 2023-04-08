@@ -262,17 +262,13 @@ export class StoreService {
     const translateToChildLayoutComponentsProps = (childLayoutConfig: ChildLayoutConfigPropsModel): ChildLayoutComponentsPropsModel => {
       const parentPropsObj = new ParentComponentPropsModel()
       const childPropsObj = new ChildComponentsPropsModel()
-
       Object.entries(childLayoutConfig.horizontalLayout).forEach(([k])=>{
-        if(childLayoutConfig.horizontalLayout.isParent(k)){
-          // todo  fiw width komt hier binnen maar dat is niet per se voor Parent
-          childLayoutConfig.horizontalLayout.getComponentProperties(k,childLayoutConfig.verticalLayout).forEach(v=>{
-            parentPropsObj.setProperty(v)
-          })
-        } else{
-          childLayoutConfig.horizontalLayout.getComponentProperties(k,childLayoutConfig.verticalLayout).forEach(v=>{
-            childPropsObj.setProperty(v)
-          })
+        const layout = childLayoutConfig.horizontalLayout.getComponentProperties(k,childLayoutConfig.verticalLayout)
+        if(layout.parent){
+          parentPropsObj.setProperties(layout.parent)
+        }
+        if(layout.children){
+          childPropsObj.setProperties(layout.children)
         }
       })
       return new ChildLayoutComponentsPropsModel(parentPropsObj,childPropsObj)
@@ -295,6 +291,7 @@ export class StoreService {
                     StylingComponentPropsModel |
                     DimensioningComponentPropsModel|
                     OverflowComponentPropsModel|
+                    ChildLayoutComponentsPropsModel |
                     (ComponentModel[])): void {
     if(newState instanceof PositioningComponentPropsModel ||
       newState instanceof AttributesComponentPropsModel ||
@@ -308,7 +305,9 @@ export class StoreService {
           return subj.componentName === componentName && subj.propName === k
         })?.propValue.next(v)
       }
-    } else{
+    } else if(newState instanceof ChildLayoutComponentsPropsModel){
+      // todo
+    }else{
       this.getStatePropertySubjects().find(subj => {
         return subj.componentName === componentName && subj.propName === 'children'
       })?.propValue.next(newState)
@@ -384,14 +383,36 @@ export class StoreService {
       }
       // self
       if(comp.childLayout){
-        Object.keys(this.getChildLayoutComponentProps(comp.name, comp.childLayout, ScreenSize.highResolution)).forEach(k => {
+        const childLayout= this.getChildLayoutComponentProps(comp.name, comp.childLayout, ScreenSize.highResolution)
+        Object.keys(childLayout.parentProps).forEach(propName=>{
           const propSubj = new BehaviorSubject<any | undefined>(undefined)
           this.statePropertySubjects.push({
-            componentName: comp.name, propName: k, propValue:
+            componentName: comp.name, propName: propName, propValue:
             propSubj, prop$: propSubj.asObservable()
           })
         })
-      }
+        if(childLayout.childProps)
+        Object.keys(childLayout.childProps).forEach(propName=>{
+          if(comp.children){
+            if(comp.children?.length > 0 && typeof comp.children[0] === 'string'){
+              (comp.children as string[]).forEach(childName=>{
+                const propSubj = new BehaviorSubject<any | undefined>(undefined)
+                this.statePropertySubjects.push({
+                  componentName: childName, propName: propName, propValue:
+                  propSubj, prop$: propSubj.asObservable()
+                })
+              })
+            } else{
+              (comp.children as ComponentModel[]).forEach(childComp=>{
+                const propSubj = new BehaviorSubject<any | undefined>(undefined)
+                this.statePropertySubjects.push({
+                  componentName: childComp.name, propName: propName, propValue:
+                  propSubj, prop$: propSubj.asObservable()
+                })
+            })
+          }
+        }
+      })}
       if (comp.position) {
         Object.keys(this.getPositionComponentProps(comp.name, comp.position, ScreenSize.highResolution)).forEach(k => {
           const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -488,4 +509,3 @@ export class StoreService {
   }
 }
 
-//selfAlignStart,width, height, grow, shrink
