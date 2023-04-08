@@ -1,8 +1,9 @@
 export enum MainAxisHorizontalPositioningConfigType{
-  Left,
-  Center,
-  Right,
-  Between,
-  Around,
-  Evenly
+  Left='MainHorizontalLeft',
+  Center='MainHorizontalCenter',
+  Right='MainHorizontalRight',
+  Between='MainHorizontalBetween',
+  Around='MainHorizontalAround',
+  Evenly='MainHorizontalEvenly',
+  NA='MainHorizontalNA'
 }

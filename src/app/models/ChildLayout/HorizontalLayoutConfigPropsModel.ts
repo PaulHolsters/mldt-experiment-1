@@ -11,7 +11,7 @@ export class HorizontalLayoutConfigPropsModel {
     public axis: AxisConfigType,
     public wrap: boolean | undefined,
     public scroll: boolean,
-    public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType,
+    public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType|undefined,
     public width: FixedDimensioningConfigModel | DynamicDimensioningConfigModel |undefined,
     public lanes: MainAxisHorizontalPositioningConfigType | undefined) {
     // todo add constraints
@@ -77,12 +77,13 @@ export class HorizontalLayoutConfigPropsModel {
         }
         return layout
       case 'lanes':
-        return {parent:[['alignContentStart', this.position === MainAxisHorizontalPositioningConfigType.Left],
-          ['alignContentCenter', this.position === MainAxisHorizontalPositioningConfigType.Center],
-          ['alignContentEnd', this.position === MainAxisHorizontalPositioningConfigType.Right],
-          ['alignContentBetween', this.position === MainAxisHorizontalPositioningConfigType.Between],
-          ['alignContentEvenly', this.position === MainAxisHorizontalPositioningConfigType.Evenly],
-          ['alignContentAround', this.position === MainAxisHorizontalPositioningConfigType.Around]]}
+        return {parent:[
+          ['alignContentStart', this.lanes === MainAxisHorizontalPositioningConfigType.Left],
+          ['alignContentCenter', this.lanes === MainAxisHorizontalPositioningConfigType.Center],
+          ['alignContentEnd', this.lanes === MainAxisHorizontalPositioningConfigType.Right],
+          ['alignContentBetween', this.lanes === MainAxisHorizontalPositioningConfigType.Between],
+          ['alignContentEvenly', this.lanes === MainAxisHorizontalPositioningConfigType.Evenly],
+          ['alignContentAround', this.lanes === MainAxisHorizontalPositioningConfigType.Around]]}
     }
     throw new Error('Property ?' + propName + '? does not exist HorizontalLayoutConfigPropsModel')
   }

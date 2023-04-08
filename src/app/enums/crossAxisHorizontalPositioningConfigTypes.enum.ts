@@ -1,6 +1,6 @@
 export enum CrossAxisHorizontalPositioningConfigType{
-  Left,
-  Center,
-  Right,
-  Baseline
+  Left= 'CrossHorizontalLeft',
+  Center= 'CrossHorizontalCenter',
+  Right= 'CrossHorizontalRight',
+  Baseline= 'CrossHorizontalBaseline',
 }

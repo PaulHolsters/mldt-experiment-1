@@ -13,7 +13,6 @@ import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {ComponentType} from "./enums/componentTypes.enum";
 import {MainAxisHorizontalPositioningConfigType} from "./enums/mainAxisHorizontalPositioningConfigTypes.enum";
-import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/DimensioningConfigPropsModel";
 import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
@@ -28,7 +27,6 @@ import {HorizontalLayoutConfigPropsModel} from "./models/ChildLayout/HorizontalL
 import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayoutConfigPropsModel";
 import {AxisConfigType} from "./enums/axisConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
-import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -157,21 +155,20 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               AxisConfigType.Main,
               true,
               true,
-              MainAxisHorizontalPositioningConfigType.Right,
-              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,400,DimensionUnitConfigType.PX),
-              undefined
+              MainAxisHorizontalPositioningConfigType.Left,
+              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.PX),
+              MainAxisHorizontalPositioningConfigType.NA
             ),
             new VerticalLayoutConfigPropsModel(
               AxisConfigType.Cross,
               undefined,
               true,
-              CrossAxisVerticalPositioningConfigType.Bottom,
+              undefined,
               new DynamicDimensioningConfigModel(
                 undefined,
                 undefined,
                 true
-              ),
-              MainAxisVerticalPositioningConfigType.Evenly
+              ),undefined
             )
           )
         ),
