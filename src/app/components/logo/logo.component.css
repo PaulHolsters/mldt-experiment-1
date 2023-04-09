@@ -1,6 +1,25 @@
+.calcHeight{
+  height:var(--heightVal)
+}
+.calcWidth{
+  width:var(--widthVal)
+}
 .visibilityHidden{
   visibility: hidden;
 }
 .displayNone{
   display: none;
 }
+:host{
+  --heightVal:0;
+  --widthVal:0;
+  --widthImg:auto;
+  --heightImg:auto;
+}
+.imgHeight{
+  height: 100%;
+}
+.imgWidth{
+  width: 100%;
+}
+

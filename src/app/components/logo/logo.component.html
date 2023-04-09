@@ -1,7 +1,15 @@
-<img
-     [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
-     [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
-     [style]="{'height': height$ | async}"
-     src="assets/{{(src$|async)}}"
-     alt="{{(alt$ | async)}}"
->
+<div  [class]="['flex-shrink-'+((shrink$|async) === undefined? 0 : (shrink$|async)),'flex-grow-'+((grow$|async)=== undefined ? 0 : (grow$|async))]"
+      [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
+      [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
+      [style.height]="height$ | async"
+      [style.width]="width$ | async"
+      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      #logo>
+  <img       src="assets/{{(src$|async)}}"
+             alt="{{(alt$ | async)}}"
+             [class.heightImg]="isColumn$ | async"
+             [class.widthImg]="isRow$ | async"
+  >
+</div>
+

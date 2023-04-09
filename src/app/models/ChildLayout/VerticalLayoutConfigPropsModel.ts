@@ -9,6 +9,6 @@ export class VerticalLayoutConfigPropsModel {
                   public scroll:boolean,
                   public position:MainAxisVerticalPositioningConfigType|CrossAxisVerticalPositioningConfigType|undefined,
                   public height:FixedDimensioningConfigModel|DynamicDimensioningConfigModel|undefined,
-                  public lanes:MainAxisVerticalPositioningConfigType|undefined ) {
+                  public lanes:MainAxisVerticalPositioningConfigType) {
   }
 }

@@ -20,13 +20,16 @@ import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 import {ColorType} from "./enums/colorType.enum";
-import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 import {ResponsiveChildLayoutConfigModel} from "./models/ChildLayout/ResponsiveChildLayoutConfigModel"
 import {ChildLayoutConfigPropsModel} from "./models/ChildLayout/ChildLayoutConfigPropsModel"
 import {HorizontalLayoutConfigPropsModel} from "./models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayoutConfigPropsModel";
 import {AxisConfigType} from "./enums/axisConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
+import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
+import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
+import { ResponsiveAttributesConfigModel } from './models/Attributes/ResponsiveAttributesConfigModel';
+import { AttributesConfigPropsModel } from './models/Attributes/AttributesConfigPropsModel';
 
 @Injectable({
   providedIn: 'root'
@@ -149,6 +152,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             new FixedDimensioningConfigModel(
               DimensionValueConfigType.Calculated, '(100vh - 16px)')
           )),
+
         childLayout: new ResponsiveChildLayoutConfigModel(
           new ChildLayoutConfigPropsModel(
             new HorizontalLayoutConfigPropsModel(
@@ -156,7 +160,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               true,
               MainAxisHorizontalPositioningConfigType.Left,
-              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.PX),
+              new DynamicDimensioningConfigModel(1,1,undefined),
+              //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
               MainAxisHorizontalPositioningConfigType.NA
             ),
             new VerticalLayoutConfigPropsModel(
@@ -168,10 +173,31 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 undefined,
                 undefined,
                 true
-              ),undefined
+              ), MainAxisVerticalPositioningConfigType.NA
+            )
+          ),undefined,undefined,new ChildLayoutConfigPropsModel(
+            new HorizontalLayoutConfigPropsModel(
+              AxisConfigType.Cross,
+              undefined,
+              true,
+              undefined,
+              new DynamicDimensioningConfigModel(
+                undefined,
+                undefined,
+                true
+              ), MainAxisHorizontalPositioningConfigType.NA
+            ),new VerticalLayoutConfigPropsModel(
+              AxisConfigType.Main,
+              true,
+              true,
+              MainAxisVerticalPositioningConfigType.Top,
+              new DynamicDimensioningConfigModel(1,1,undefined),
+              //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
+              MainAxisVerticalPositioningConfigType.NA
             )
           )
         ),
+
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
           {
@@ -190,10 +216,13 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             visibility: new ResponsiveVisibilityConfigModel()
           },
           {
-            name: 'block-3',
-            type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel()
+            name: 'logo',
+            type: ComponentType.Logo,
+            attributes: new ResponsiveAttributesConfigModel(
+              new AttributesConfigPropsModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
+            dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(undefined,
+              new DynamicDimensioningConfigModel(undefined,1,undefined))),
+            visibility: new ResponsiveVisibilityConfigModel(),
           },
           {
             name: 'block-4',

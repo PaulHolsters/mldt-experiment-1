@@ -13,15 +13,8 @@ export class HorizontalLayoutConfigPropsModel {
     public scroll: boolean,
     public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType|undefined,
     public width: FixedDimensioningConfigModel | DynamicDimensioningConfigModel |undefined,
-    public lanes: MainAxisHorizontalPositioningConfigType | undefined) {
+    public lanes: MainAxisHorizontalPositioningConfigType) {
     // todo add constraints
-  }
-  public isParent(propName: string): boolean {
-    if (Reflect.has(this, propName)) {
-      return ['wrap', 'axis', 'position', 'lanes'].includes(propName) || (propName === 'width'
-        && (this.width instanceof DynamicDimensioningConfigModel) && this.width.stretch !== undefined)
-    }
-    throw new Error('propName' + propName + ' does not exist HorizontalLayoutConfigPropsModel')
   }
   public getComponentProperties(propName: string, verticalLayout: VerticalLayoutConfigPropsModel): {parent?:any[][],children?:any[][]} {
     switch (propName) {

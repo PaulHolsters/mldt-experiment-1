@@ -354,6 +354,15 @@ export class StoreService {
       // children: indien child components inlined zijn zodat ze niet vergeten worden om te initialisezeren
       if(comp.children && comp.children.length>0){
         (comp.children as ComponentModel[]).forEach(child=>{
+          if(child.attributes){
+            Object.keys(this.getAttributesComponentProps(child.name, child.attributes, ScreenSize.highResolution)).forEach(k => {
+              const propSubj = new BehaviorSubject<any | undefined>(undefined)
+              this.statePropertySubjects.push({
+                componentName: child.name, propName: k, propValue:
+                propSubj, prop$: propSubj.asObservable()
+              })
+            })
+          }
           if(child.childLayout){
             // voorlopig in het configObject niet het geval
           }
@@ -426,6 +435,7 @@ export class StoreService {
         })
         if(childLayout.childProps)
         Object.keys(childLayout.childProps).forEach(propName=>{
+
           if(comp.children){
             if(comp.children?.length > 0 && typeof comp.children[0] === 'string'){
               (comp.children as string[]).forEach(childName=>{
