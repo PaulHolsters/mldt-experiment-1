@@ -313,9 +313,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     this.storeService.createStore(this.contentContainer)
     this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
   }
-
-  private testFunc(){}
-
   private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []
     for (let v of value.values) {
