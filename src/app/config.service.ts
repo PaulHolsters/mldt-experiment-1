@@ -27,9 +27,11 @@ import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayou
 import {AxisConfigType} from "./enums/axisConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
 import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
-import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
 import {AttributesConfigPropsModel} from './models/Attributes/AttributesConfigPropsModel';
+import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
+import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizontalPositioningConfigTypes.enum";
+import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -194,19 +196,19 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               MainAxisHorizontalPositioningConfigType.Left,
               new DynamicDimensioningConfigModel(1, 1, undefined),
+              // todo fix dit lanes moet in de verticale sectie staan als de main axis de horziontale is en vise versa
+              MainAxisHorizontalPositioningConfigType.Left
               //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
-              MainAxisHorizontalPositioningConfigType.NA
+              // todo ook omgekeerd een constraint maken als er NA bij lanes staat dan moet er ergens ... staan ook!!
             ),
             new VerticalLayoutConfigPropsModel(
               AxisConfigType.Cross,
               undefined,
               true,
-              undefined,
-              new DynamicDimensioningConfigModel(
-                undefined,
-                undefined,
-                true
-              ), MainAxisVerticalPositioningConfigType.NA
+              // todo ook omgekeerd een constraint maken als er NA staat dan moet er ergens stretch staan ook!!
+              CrossAxisVerticalPositioningConfigType.Top,
+              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX)
+              , MainAxisVerticalPositioningConfigType.NA
             )
           ), undefined, undefined,
           new ChildLayoutConfigPropsModel(
@@ -214,7 +216,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               AxisConfigType.Cross,
               undefined,
               true,
-              undefined,
+              CrossAxisHorizontalPositioningConfigType.NA,
               new DynamicDimensioningConfigModel(
                 undefined,
                 undefined,
@@ -242,8 +244,30 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             name: 'block-2',
             type: ComponentType.Block,
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel()
+            visibility: new ResponsiveVisibilityConfigModel(),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.PX)
+              )),
           },
+/*          {
+            name:'innercontainer',
+            type:ComponentType.Container,
+            position: new ResponsivePositioningConfigModel(
+              new PositioningConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
+                new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.PX)
+              )),
+            styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.danger))
+          },*/
           {
             name: 'logo',
             type: ComponentType.Logo,

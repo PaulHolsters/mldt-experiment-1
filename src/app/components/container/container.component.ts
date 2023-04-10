@@ -43,6 +43,7 @@ export class ContainerComponent implements OnInit {
   width$: Observable<any>|undefined
   backgroundColorPrimary$: Observable<any>|undefined
   backgroundColorWhite$: Observable<any>|undefined
+  backgroundColorDanger$: Observable<any>|undefined
   visible$: Observable<any>|undefined
   holdSpace$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined
@@ -84,6 +85,7 @@ export class ContainerComponent implements OnInit {
     this.width$ = this.storeService.bindToStateProperty(this.name,'width')
     this.backgroundColorPrimary$ = this.storeService.bindToStateProperty(this.name,'backgroundColorPrimary')
     this.backgroundColorWhite$ = this.storeService.bindToStateProperty(this.name,'backgroundColorWhite')
+    this.backgroundColorDanger$ = this.storeService.bindToStateProperty(this.name,'backgroundColorDanger')
     this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
     this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')

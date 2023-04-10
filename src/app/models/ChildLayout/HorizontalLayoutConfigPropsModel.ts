@@ -11,7 +11,7 @@ export class HorizontalLayoutConfigPropsModel {
     public axis: AxisConfigType,
     public wrap: boolean | undefined,
     public scroll: boolean,
-    public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType|undefined,
+    public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType,
     public width: FixedDimensioningConfigModel | DynamicDimensioningConfigModel |undefined,
     public lanes: MainAxisHorizontalPositioningConfigType) {
     // todo add constraints

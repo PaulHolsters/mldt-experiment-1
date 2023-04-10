@@ -32,6 +32,7 @@
   [style.width]="width$ | async"
   [class.bg-primary]="backgroundColorPrimary$ | async"
   [class.bg-white]="backgroundColorWhite$ | async"
+  [class.bg-orange-400]="backgroundColorDanger$ | async"
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [style]="{'border':'2px solid blue'}"
@@ -44,6 +45,7 @@
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
          [ngSwitch]="child.type" [style]="{'border':'2px solid red'}">
+<!-- todo fix problem: ofwel stretch ofwel vaste hoogte/breedte maar dan moet er op deze div height of width: fit-content komen!-->
       <m-block       [class]="[
       'flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
@@ -56,6 +58,10 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
               *ngSwitchCase="componentType.Logo"
               [name]="child.name"></m-logo>
+        <m-container *ngSwitchCase="componentType.Container" [name]="child.name"  [class]="[
+      'flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"></m-container>
     </div>
   </ng-container>
 </div>

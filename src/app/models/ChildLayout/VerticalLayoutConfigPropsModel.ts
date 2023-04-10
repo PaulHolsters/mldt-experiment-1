@@ -7,7 +7,7 @@ export class VerticalLayoutConfigPropsModel {
   constructor(    public axis:AxisConfigType,
                   public wrap:boolean|undefined,
                   public scroll:boolean,
-                  public position:MainAxisVerticalPositioningConfigType|CrossAxisVerticalPositioningConfigType|undefined,
+                  public position:MainAxisVerticalPositioningConfigType|CrossAxisVerticalPositioningConfigType,
                   public height:FixedDimensioningConfigModel|DynamicDimensioningConfigModel|undefined,
                   public lanes:MainAxisVerticalPositioningConfigType) {
   }

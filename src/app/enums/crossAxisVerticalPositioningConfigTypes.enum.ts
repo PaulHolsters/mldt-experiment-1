@@ -2,5 +2,6 @@ export enum CrossAxisVerticalPositioningConfigType{
   Top = 'CrossVerticalTop',
   Center= 'CrossVerticalCenter',
   Bottom= 'CrossVerticalBottom',
-  Baseline= 'CrossVerticalBaseline'
+  Baseline= 'CrossVerticalBaseline',
+  NA = 'CrossVerticalNA'
 }

@@ -3,4 +3,5 @@ export enum CrossAxisHorizontalPositioningConfigType{
   Center= 'CrossHorizontalCenter',
   Right= 'CrossHorizontalRight',
   Baseline= 'CrossHorizontalBaseline',
+  NA = 'CrossHorizontalNA'
 }

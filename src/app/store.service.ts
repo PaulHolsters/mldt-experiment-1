@@ -37,8 +37,6 @@ import {ResponsiveChildLayoutConfigModel} from "./models/ChildLayout/ResponsiveC
 import {ChildLayoutConfigPropsModel} from "./models/ChildLayout/ChildLayoutConfigPropsModel";
 import {ParentComponentPropsModel} from "./models/ChildLayout/ParentComponentsPropsModel";
 import {ChildComponentsPropsModel} from "./models/ChildLayout/ChildComponentsPropsModel";
-import {HorizontalLayoutConfigPropsModel} from "./models/ChildLayout/HorizontalLayoutConfigPropsModel";
-import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayoutConfigPropsModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -134,7 +132,9 @@ export class StoreService {
       (stylingConfig: StylingConfigPropsModel): StylingComponentPropsModel => {
         return new StylingComponentPropsModel(
           stylingConfig.backgroundColor === ColorType.primary,
-          stylingConfig.backgroundColor === ColorType.white)
+          stylingConfig.backgroundColor === ColorType.white,
+          stylingConfig.backgroundColor === ColorType.danger,
+          )
       }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
