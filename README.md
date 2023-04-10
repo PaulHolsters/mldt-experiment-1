@@ -286,4 +286,10 @@ Hiermee kan je enkel een childLayout configuratie overschrijven. Het gaat in kwe
 Voorlopig kan je hiermee enkel maar de achtergrond kleur van een component wijzigen. De details kan je vinden in de constructor van het desbetreffende model.
 #### Visibility
 Qua configuratie kan je hier voorlopig twee dingen doen. Zeggen of een component zichtbaar moet zijn alsook of de ruimte ingenomen door de component bewaard moet blijvebn indien de component niet zichtbaar is. M.a.w. dit heeft puur te maken met de css properties *display* en *visibility*. De details kan je vinden in de constructor van het desbetreffende model.
-
+## De verschillende componenten
+### Block
+Een block is wat de naam suggereert. Een block met een achtergrond kleur naar keuze en dimensies ook naar keuze. Deze component is voorlopig enkel bedoeld om mee te experimenteren, juist vanwege zijn eenvoud.
+### Logo
+Deze component is bedoeld om te gebruiken voor het logo van je firma. Het aanvaard de url van een bestand en verder ofwel een breedte ofwel een hoogte (zodat de verhouding niet in de war gaat). Uiteraard is dit allemaal nog zeer rudimentair en eerder bedoeld als een manier om zaken uit te proberen. Dit is dus verre van de definitieve versie.
+### Container
+Dit is binnen Mouldit een cruciale component. Dit is (voorlopig) de enige component die toelaat om er andere componenten in onder te brengen. Positie en dimensie van deze child components kan je dan configureren via de childLayout property binnen het *RBS*. Uiteraard kan je deze component zelf ook nog configureren binnen het *RBS*. Het is de bedoeling om op termijn toe te laten dat je een Container kan onderbrengen binnen een parent Container alsook de Container te gebruiken als een "ankerpunt" binnen een bestaande component waar je via de configuratie kinderen in kan injecteren. Dit laatste lijkt mij een absoluut noodzakelijke feature indien je een waarlijk customizable frontend wilt kunnen maken met Mouldit.
