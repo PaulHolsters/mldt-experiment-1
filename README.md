@@ -14,7 +14,7 @@ Hier bevinden zich alle binnen Mouldit gebruikte enums. De bedoeling van deze en
 ### Components
 Alle UI componenten die je kan gebruiken zitten in deze folder. Voorlopig zijn dit er nog maar een paar, namelijk net zoveel als ik nodig heb om nieuw ontwikkelde zaken te kunnen maken en testen. Aldus zal deze verzameling componenten langzamerhand groter worden te samen met het aantal opties wat betreft configuratie van deze componenten.
 ### Services
-Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verandering onderhevig zijn. Wel zijn er momenteel twee belangrijke services geïmplementeerd: de store en de responsive behaviour service. In de data service zit het javascript configuratie object. Met dit object configureer je de Mouldit frontend bij elkaar. In het app.component.html bestand zit dan ook maar 1 component, namelijk een container component die als start dient voor je applicatie. Voor de duidelijkheid hieronder een vooorbeeld van het configuratieobject:
+Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verandering onderhevig zijn. Wel zijn er momenteel twee belangrijke services geïmplementeerd: de store en de responsive behaviour service. In de data service zit het javascript configuratie object. Met dit object configureer je de Mouldit frontend bij elkaar. In het app.component.html bestand zit dan ook maar 1 component, namelijk een container component die als start dient voor je applicatie. Voor de duidelijkheid hieronder een voorbeeld van het configuratieobject:
 
     contentContainer: {
     components: ComponentModel[],
