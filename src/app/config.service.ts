@@ -28,13 +28,13 @@ import {AxisConfigType} from "./enums/axisConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
 import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
-import { ResponsiveAttributesConfigModel } from './models/Attributes/ResponsiveAttributesConfigModel';
-import { AttributesConfigPropsModel } from './models/Attributes/AttributesConfigPropsModel';
+import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
+import {AttributesConfigPropsModel} from './models/Attributes/AttributesConfigPropsModel';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class ConfigService {
   // todo *** als er meerdere updates zijn binnen een component
   //  moet er een wacht mechanisme bestaan zodat de component pas
   //  na alle prop changes wordt gerenderd ***
@@ -43,11 +43,33 @@ export class DataService {
   // todo *** container component ***
   // todo *** graphQL backend + frontend zodat je frontend configuratie kan
   //  doorsturen vanuit de backend (YAML file) (hard-coded of geen datamodel) ***
-  contentContainer: {
-    components: ComponentModel[],
-    actions: ActionModel[]
-  } = {
-    /*
+  /*      {
+        name: 'logo',
+        type: 'logo',
+        responsiveness: {
+          smartphone: {dimension: 'sm', position: {region:'ur',shift:['-5px','-50px']}},
+          portraitTablet: {dimension: 'm', position: {region:'ul',shift:['5px','50px']}},
+          tablet: {dimension: 'l', position: {region:'mc',shift:['-5px','-50px']}},
+          laptop: {dimension: 'xl', position: {region:'ml',shift:['5px','-50px']}},
+          highResolution: {dimension: 'xxl', position: {region:'br',shift:['-5px','10px']}},
+        },
+        configuration: {
+          src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
+          alt: 'Mouldit logo'
+        },
+        // dit stelt de state mogelijkheden van het logo voor
+        // in geval van het logo zal de waarde van value gekoppeld worden
+        // aan de waarde voor property bv. 70px aan m (medium)
+        // deze waarden worden gebruikt voor de property dimension
+        // dimension is de property die de grootte van een component voorstelt
+        // in geval van het logo is er maar 1 dimensie namelijk de hoogte
+        // dit is arbitrair dit had namelijk evengoed de breedte kunnen zijn,
+        // voor een logo gaat Mouldit er voorlopig van uit dat dit er onmiddellijk goed uitziet
+        // en dus enkel de grootte moet bepaald worden binnen elk scherm
+        // dimension en position gebruik je binnen een responsiveness property
+        // tenzij er geen verschillen zijn m.b.t. tot de grootte van het scherm
+        // todo we gaan dit nu uitbreiden naar position
+            /*
     * Main-Content-container => POSITIONING
 ----------------------
 In eerste instantie kiest de gebruiker bij het configureren van de app-template component
@@ -98,49 +120,61 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
   keuze = SCROLL WHEN NOT ENOUGH SPACE HORIZONTALLY (ipv WRAP)
   -------------------------------------------------
     * */
+  /*
+  * mogelijke waarden voor position van het logo
+  * --------------------------------------------
+  * Er is een moeilijkheid wanneer het gaat om positie. Er is namelijk een verschil of er
+  * binnen de parent nog een element is of niet, maw welk deel laat je bepalen door de parent
+  * en welk deel mag de component zelf bepalen?
+  * *!/
+  state: [
+    {property: 'display', value: true},
+    {property: 'sm', value: "40px"},
+    {property: 'm', value: "70px"},
+    {property: 'l', value: "110px"},
+    {property: 'xl', value: "160px"},
+    {property: 'xxl', value: "220px"}
+  ]
+},*/
+  /*      {
+        name: 'logo',
+        type: ComponentType.Logo,
+        attributes: new ResponsiveAttributesConfigModel(),
+        position: new ResponsivePositioningConfigModel(
+          this.logoSmartphoneLayout,
+          this.logoPortraitTabletLayout,
+          this.logoTabletLayout,
+          this.logoLaptopLayout,
+          this.logoHighResolutionLayout
+        ),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)
+          , undefined
+          , undefined
+          , new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true, false)),
+          undefined
+        )
+      },
+      {
+        name: 'test-click-action',
+        type: ComponentType.Button,
+        position: new ResponsivePositioningConfigModel({
+          childLayout: {}
+        }, {
+          childLayout: {}
+        }, {
+          childLayout: {}
+        }, {
+          childLayout: {}
+        }, {
+          childLayout: {}
+        }),
+        attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
+      }*/
+  contentContainer: {
+    components: ComponentModel[],
+    actions: ActionModel[]
+  } = {
     components: [
-      /*      {
-              name: 'logo',
-              type: 'logo',
-              responsiveness: {
-                smartphone: {dimension: 'sm', position: {region:'ur',shift:['-5px','-50px']}},
-                portraitTablet: {dimension: 'm', position: {region:'ul',shift:['5px','50px']}},
-                tablet: {dimension: 'l', position: {region:'mc',shift:['-5px','-50px']}},
-                laptop: {dimension: 'xl', position: {region:'ml',shift:['5px','-50px']}},
-                highResolution: {dimension: 'xxl', position: {region:'br',shift:['-5px','10px']}},
-              },
-              configuration: {
-                src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
-                alt: 'Mouldit logo'
-              },
-              // dit stelt de state mogelijkheden van het logo voor
-              // in geval van het logo zal de waarde van value gekoppeld worden
-              // aan de waarde voor property bv. 70px aan m (medium)
-              // deze waarden worden gebruikt voor de property dimension
-              // dimension is de property die de grootte van een component voorstelt
-              // in geval van het logo is er maar 1 dimensie namelijk de hoogte
-              // dit is arbitrair dit had namelijk evengoed de breedte kunnen zijn,
-              // voor een logo gaat Mouldit er voorlopig van uit dat dit er onmiddellijk goed uitziet
-              // en dus enkel de grootte moet bepaald worden binnen elk scherm
-              // dimension en position gebruik je binnen een responsiveness property
-              // tenzij er geen verschillen zijn m.b.t. tot de grootte van het scherm
-              // todo we gaan dit nu uitbreiden naar position
-              /!*
-              * mogelijke waarden voor position van het logo
-              * --------------------------------------------
-              * Er is een moeilijkheid wanneer het gaat om positie. Er is namelijk een verschil of er
-              * binnen de parent nog een element is of niet, maw welk deel laat je bepalen door de parent
-              * en welk deel mag de component zelf bepalen?
-              * *!/
-              state: [
-                {property: 'display', value: true},
-                {property: 'sm', value: "40px"},
-                {property: 'm', value: "70px"},
-                {property: 'l', value: "110px"},
-                {property: 'xl', value: "160px"},
-                {property: 'xxl', value: "220px"}
-              ]
-            },*/
       {
         name: 'content-container',
         type: ComponentType.Container,
@@ -152,7 +186,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             new FixedDimensioningConfigModel(
               DimensionValueConfigType.Calculated, '(100vh - 16px)')
           )),
-
         childLayout: new ResponsiveChildLayoutConfigModel(
           new ChildLayoutConfigPropsModel(
             new HorizontalLayoutConfigPropsModel(
@@ -160,7 +193,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               true,
               MainAxisHorizontalPositioningConfigType.Left,
-              new DynamicDimensioningConfigModel(1,1,undefined),
+              new DynamicDimensioningConfigModel(1, 1, undefined),
               //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
               MainAxisHorizontalPositioningConfigType.NA
             ),
@@ -175,7 +208,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 true
               ), MainAxisVerticalPositioningConfigType.NA
             )
-          ),undefined,undefined,new ChildLayoutConfigPropsModel(
+          ), undefined, undefined,
+          new ChildLayoutConfigPropsModel(
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross,
               undefined,
@@ -186,25 +220,20 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 undefined,
                 true
               ), MainAxisHorizontalPositioningConfigType.NA
-            ),new VerticalLayoutConfigPropsModel(
+            ), new VerticalLayoutConfigPropsModel(
               AxisConfigType.Main,
               true,
               true,
               MainAxisVerticalPositioningConfigType.Top,
-              new DynamicDimensioningConfigModel(1,1,undefined),
+              new DynamicDimensioningConfigModel(1, 1, undefined),
               //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
               MainAxisVerticalPositioningConfigType.NA
             )
           )
         ),
-
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
           {
-            // todo regel override van position en dimension:
-            //  bv als je hier een dimensie meegeeft, dan moet je checken wat er in de parent is geconfigureerd anders
-            //  kan dat ongewenste resultaten geven maw wat hier staat moet overriden wat in de parent staat,
-            //  tenzij het er prefect mee zou samengaan zoals grow en shrink => expliciet override gebruiklen (is enkel bij stretch het geval denk ik)
             name: 'block-1',
             type: ComponentType.Block,
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
@@ -220,8 +249,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             type: ComponentType.Logo,
             attributes: new ResponsiveAttributesConfigModel(
               new AttributesConfigPropsModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
-            dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(undefined,
-              new DynamicDimensioningConfigModel(undefined,1,undefined))),
+            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(undefined,
+              new DynamicDimensioningConfigModel(undefined, 1, undefined))),
             visibility: new ResponsiveVisibilityConfigModel(),
           },
           {
@@ -232,66 +261,32 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           }
         ]
       },
-      /*      {
-              name: 'logo',
-              type: ComponentType.Logo,
-              attributes: new ResponsiveAttributesConfigModel(),
-              position: new ResponsivePositioningConfigModel(
-                this.logoSmartphoneLayout,
-                this.logoPortraitTabletLayout,
-                this.logoTabletLayout,
-                this.logoLaptopLayout,
-                this.logoHighResolutionLayout
-              ),
-              visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)
-                , undefined
-                , undefined
-                , new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true, false)),
-                undefined
-              )
-            },
-            {
-              name: 'test-click-action',
-              type: ComponentType.Button,
-              position: new ResponsivePositioningConfigModel({
-                childLayout: {}
-              }, {
-                childLayout: {}
-              }, {
-                childLayout: {}
-              }, {
-                childLayout: {}
-              }, {
-                childLayout: {}
-              }),
-              attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
-            }*/
     ],
     actions: [
       // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
       // de condities zoals gedefinieerd in de overeekomstige actie
-      /*      {
-              source: 'test-click-action',
-              target: 'logo',
-              trigger: 'click',
-              action: 'set',
-              props: [
-                {
-                  name: 'xxl',
-                  value: {calc: 'myCalc3', values: ['590px']},
-                  condition: {
-                    comparison: 'propIsGreaterThan',
-                    values: [{calc: 'myCalc1', values: [{target: 'logo', prop: 'l'}]}, '50px']
-                  }
-                }]
-            },*/
+      {
+        source: 'test-click-action',
+        target: 'logo',
+        trigger: 'click',
+        action: 'set',
+        props: [
+          {
+            name: 'xxl',
+            value: {calc: 'myCalc3', values: ['590px']},
+            condition: {
+              comparison: 'propIsGreaterThan',
+              values: [{calc: 'myCalc1', values: [{target: 'logo', prop: 'l'}]}, '50px']
+            }
+          }]
+      },
       {
         source: 'test-click-action',
         target: 'logo',
         trigger: 'click',
         action: 'toggle',
         props: [{
-          name: 'display', /*condition:
+          name: 'display', condition:
             {
               comparison: 'propIsSmallerThan',
               values:
@@ -307,7 +302,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                     ]
                   }
                 ]
-            }*/
+            }
         }
         ]
       },
@@ -318,6 +313,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     this.storeService.createStore(this.contentContainer)
     this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
   }
+
+  private testFunc(){}
 
   private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []

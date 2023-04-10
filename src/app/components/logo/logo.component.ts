@@ -24,7 +24,7 @@ export class LogoComponent implements OnInit {
   constructor(private storeService: StoreService) {
   }
   ngOnInit(): void{
-    this.grow$ = this.storeService.bindToStateProperty(this.name,'grow') // je zou deze ook naar boven kunnen vuren??
+    this.grow$ = this.storeService.bindToStateProperty(this.name,'grow')
     this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
     this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
     this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')

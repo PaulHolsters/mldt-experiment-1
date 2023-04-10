@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {DataService} from "../../data.service";
+import {ConfigService} from "../../config.service";
 import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
@@ -19,7 +19,7 @@ export class CardComponent implements OnInit,AfterViewInit {
   headerTemplate: {element:string,attr:{
       src: string|undefined,alt:string|undefined,text:string|undefined,html:string|undefined
     }}|undefined
-  constructor(private dataService: DataService,private sanitizer: DomSanitizer) {
+  constructor(private dataService: ConfigService, private sanitizer: DomSanitizer) {
 /*    const data = dataService.getCardData();
     this.headerText = data.headerText
     this.subheaderText = data.subheaderText

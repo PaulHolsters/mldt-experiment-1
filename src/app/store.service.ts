@@ -273,7 +273,6 @@ export class StoreService {
       })
       return new ChildLayoutComponentsPropsModel(parentPropsObj,childPropsObj)
     }
-
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
     while (lastScreenSize >= 0) {

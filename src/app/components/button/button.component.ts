@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActionModel} from "../../models/ActionModel";
-import {DataService} from "../../data.service";
+import {ConfigService} from "../../config.service";
 import {StoreService} from "../../store.service";
 @Component({
   selector: 'm-button',
@@ -17,7 +17,7 @@ export class ButtonComponent implements OnInit {
   name='button'
   icon$ = this.storeService.bindToStateProperty(this.name,'src')
   label$ = this.storeService.bindToStateProperty(this.name,'label')
-  constructor(private storeService:StoreService,private dataService:DataService) {
+  constructor(private storeService:StoreService,private dataService:ConfigService) {
   }
   ngOnInit(): void {
   }

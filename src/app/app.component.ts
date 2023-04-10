@@ -1,5 +1,5 @@
 import {Component, OnInit,} from '@angular/core'
-import {DataService} from "./data.service";
+import {ConfigService} from "./config.service";
 import {ComponentModel} from "./models/ComponentModel";
 import {ActionModel} from "./models/ActionModel";
 
@@ -10,7 +10,7 @@ import {ActionModel} from "./models/ActionModel";
 })
 export class AppComponent implements OnInit {
   data:{components:ComponentModel[],actions:ActionModel[]}|undefined
-  constructor(private dataService:DataService) {
+  constructor(private dataService:ConfigService) {
     this.data = dataService.getAppTemplateData()
   }
 
