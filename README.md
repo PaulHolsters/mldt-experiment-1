@@ -260,6 +260,7 @@ Hoewel verbetering hier zeker nog mogelijk is qua "clean code", is dit toch al b
 - position
 - height/width
 - lanes
+
 De Store service zal deze configuratie omzetten naar properties bedoeld voor de parent en properties bedoeld voor de children (*ParentComponentPropsModel*/*ChildComponentsPropsModel*). Belangrijk om weten is dat je de configuratie in ChildLayout steeds kan overschrijven op component niveau. Stel dat je in ChildLayout bijvoorbeeld hebt meegegeven dat alle children een breedte van 400 pixels moeten hebben dan kan je dit ook nog is per child overschrijven naar een andere breedte. De regel is: wat je configureerd hebt op child niveau heeft steeds voorrang op wat je hebt geconfigureerd op parent niveau. 
 
 ##### axis
