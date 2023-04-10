@@ -6,7 +6,7 @@ Hierin vind je de modellen terug die de eerste feature van Mouldit, het Responsi
 - Attributes: dit zijn HTML attributen die specifiek voor bepaalde componenten bestaan, maar niet per se voor andere. Voorbeeld: het src attribuut van een img tag.
 - ChildLayout: Dit zijn de modellen waar een Container component gebruik van maakt. Hiermee kan je als gebruiker aangeven hoe de child components zich moeten gedragen wat betreft positie en dimensies.
 - Dimensioning: deze modellen bepalen de dimensies van een component, meerbepaald de hoogte en/of de breedte.
-- Overflow: deze modellen bepalen alles i.v.m. overflow, bijvoorbeeld wanneer de scrollfucntie moet getoond worden (deze feature werkt nog niet).
+- Overflow: deze modellen bepalen alles i.v.m. overflow, bijvoorbeeld wanneer de scrollfunctie moet getoond worden (deze feature werkt nog niet).
 - Positioning: deze modellen bepalen waar de componenten op de pagina gerendered moeten worden.
 - Styling: deze modellen bepalen het uiterlijk van de component, zaken zoals de kleur van de achtergrond, ...
 - Visibility: deze modellen bepalen alles omtrent de zichtbaarheid van een component, met als meest rudimentaire bepaling of een component al dan niet zichtbaar is
@@ -275,7 +275,7 @@ Voor de verticale layout geldt hetzelfde principe. Daar gaat het dan om de hoogt
 ##### lanes
 De configuratie voor *lanes* is enkel nodig indien de desbetreffende layout de hoofdrichting is. Dit gaat de postie van de lijnen bepalen waarvan sprake in *Wrap*. De mogelijkheden zijn bepaald door het enum *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType*. In het andere geval geef je het de *NA* enum waarde.
 #### Dimensioning
-
+Zoals reeds aangehaald zijn er twee opties: een vaste waarde meegeven of een dynamische. De dynamische werd reeds besproken onder *ChildLayout*->*height/width*. Voor de vaste zijn er weer twee mogelijkheden: een letterlijke waarde (*hardcoded*) of een berekende (*calculated*). De parameters mee te geven in de constructor van een *FixedDimensioningConfigModel* instantie zijn *type*, *value* en *unit*. In het type geef je aan of het hardcoded is dan wel calculated. Voor calculated geef je een string meer zoals dat nodig is bij css calculated values. Een voorbeeld is de string "(100vh - 16px)". Dit is nu nog rudimentair maar zal in de toekomst meer configuratie mogelijkheden moeten hebben. Bij de calculated versie geef je geen unit mee. Voor een letterlijke waarde geef je als type natuurlijk *hardcoded* mee. Dan een numerieke waarde voor value en tot slot maak je een keuze uit de unit enum waarden (*DimensionUnitConfigType*).
 #### Overflow
 Onder constructie
 #### Position
