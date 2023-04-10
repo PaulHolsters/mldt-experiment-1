@@ -16,10 +16,10 @@ Alle UI componenten die je kan gebruiken zitten in deze folder. Voorlopig zijn d
 ### Services
 Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verandering onderhevig zijn. Wel zijn er momenteel twee belangrijke services geïmplementeerd: de store en de responsive behaviour service. In de data service zit het javascript configuratie object. Met dit object configureer je de Mouldit frontend bij elkaar. In het app.component.html bestand zit dan ook maar 1 component, namelijk een container component die als start dient voor je applicatie. Voor de duidelijkheid hieronder een voorbeeld van het configuratieobject:
 
-    contentContainer: {
+  contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
-     } = {
+  } = {
     components: [
       {
         name: 'content-container',
@@ -32,7 +32,6 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
             new FixedDimensioningConfigModel(
               DimensionValueConfigType.Calculated, '(100vh - 16px)')
           )),
-
         childLayout: new ResponsiveChildLayoutConfigModel(
           new ChildLayoutConfigPropsModel(
             new HorizontalLayoutConfigPropsModel(
@@ -40,7 +39,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
               true,
               true,
               MainAxisHorizontalPositioningConfigType.Left,
-              new DynamicDimensioningConfigModel(1,1,undefined),
+              new DynamicDimensioningConfigModel(1, 1, undefined),
               //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
               MainAxisHorizontalPositioningConfigType.NA
             ),
@@ -55,7 +54,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 true
               ), MainAxisVerticalPositioningConfigType.NA
             )
-          ),undefined,undefined,new ChildLayoutConfigPropsModel(
+          ), undefined, undefined, new ChildLayoutConfigPropsModel(
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross,
               undefined,
@@ -66,12 +65,12 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 undefined,
                 true
               ), MainAxisHorizontalPositioningConfigType.NA
-            ),new VerticalLayoutConfigPropsModel(
+            ), new VerticalLayoutConfigPropsModel(
               AxisConfigType.Main,
               true,
               true,
               MainAxisVerticalPositioningConfigType.Top,
-              new DynamicDimensioningConfigModel(1,1,undefined),
+              new DynamicDimensioningConfigModel(1, 1, undefined),
               //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
               MainAxisVerticalPositioningConfigType.NA
             )
@@ -95,8 +94,8 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
             type: ComponentType.Logo,
             attributes: new ResponsiveAttributesConfigModel(
               new AttributesConfigPropsModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
-            dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(undefined,
-              new DynamicDimensioningConfigModel(undefined,1,undefined))),
+            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(undefined,
+              new DynamicDimensioningConfigModel(undefined, 1, undefined))),
             visibility: new ResponsiveVisibilityConfigModel(),
           },
           {
@@ -105,55 +104,55 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }
+        ]
+      },
+    ],
+    actions: [
+      // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
+      // de condities zoals gedefinieerd in de overeekomstige actie
+      {
+        source: 'test-click-action',
+        target: 'logo',
+        trigger: 'click',
+        action: 'set',
+        props: [
+          {
+            name: 'xxl',
+            value: {calc: 'myCalc3', values: ['590px']},
+            condition: {
+              comparison: 'propIsGreaterThan',
+              values: [{calc: 'myCalc1', values: [{target: 'logo', prop: 'l'}]}, '50px']
+            }
+          }]
+      },
+      {
+        source: 'test-click-action',
+        target: 'logo',
+        trigger: 'click',
+        action: 'toggle',
+        props: [{
+          name: 'display', condition:
+            {
+              comparison: 'propIsSmallerThan',
+              values:
+                [
+                  {target: 'logo', prop: 'xxl'},
+                  {
+                    calc: 'myCalc2',
+                    values: [
+                      {calc: 'myCalc3', values: ['30px']},
+                      {target: 'logo', prop: 'l'},
+                      {target: 'logo', prop: 'xxl'},
+                      '50px'
+                    ]
+                  }
                 ]
-              },
-            ],
-            actions: [
-              // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
-              // de condities zoals gedefinieerd in de overeekomstige actie
-                    {
-                      source: 'test-click-action',
-                      target: 'logo',
-                      trigger: 'click',
-                      action: 'set',
-                      props: [
-                        {
-                          name: 'xxl',
-                          value: {calc: 'myCalc3', values: ['590px']},
-                          condition: {
-                            comparison: 'propIsGreaterThan',
-                            values: [{calc: 'myCalc1', values: [{target: 'logo', prop: 'l'}]}, '50px']
-                          }
-                        }]
-                    },
-              {
-                source: 'test-click-action',
-                target: 'logo',
-                trigger: 'click',
-                action: 'toggle',
-                props: [{
-                  name: 'display', condition:
-                    {
-                      comparison: 'propIsSmallerThan',
-                      values:
-                        [
-                          {target: 'logo', prop: 'xxl'},
-                          {
-                            calc: 'myCalc2',
-                            values: [
-                              {calc: 'myCalc3', values: ['30px']},
-                              {target: 'logo', prop: 'l'},
-                              {target: 'logo', prop: 'xxl'},
-                              '50px'
-                            ]
-                          }
-                        ]
-                    }
-                }
-                ]
-              },
-            ]
-          }
+            }
+        }
+        ]
+      },
+    ]
+  }
   
 ### Templates
 Op termijn zullen hier de voorgeprogrammeerde Mouldit templates komen. Voor elk type (administratieve) applicatie zou je dan kunnen kiezen voor een bepaalde template die daar speciefiek werd voor ontworpen. Deze templates zijn, net zoals elke andere component, geen verplichting. Je kan met Mouldit perfect je eigen template gebruiken. En je kan Mouldit templates en componenten met je eigen (Angular) componenten gebruiken. De bedoeling echter is dat dit normaliter niet nodig gaat zijn. Deze laatste optie is vooral bedoeld indien Mouldit geïntegreerd moet worden in een bestaande code base. De app.component.html wordt voorlopig gebruikt als startpunt waarin ik de verschillende componenten plak die ik wil gebruiken. In principe moet je enkel vertrekken van een container component - die standaard klaar zit. In deze component worden dan alle overige componenten genest. Dit nesten moet je niet zelf doen, hiervoor gebruik je het configuratie object te vinden in het data.service.ts bestand. Op termijn zal de configuratie moeten kunnen gebeuren via een YAML document. Nog later ook via een UI.
