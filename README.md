@@ -252,11 +252,16 @@ We behandelen nu voor elk der properties de configuratiemogelijkheden in detail.
 #### Attributes
 Dit is eenvoudig. Bij aanmaak van een instantie geef je gewoon de waarden in van elk HTML attribuut bv. een waarde voor het src attribuut, het alt attribuut enz. 
 #### ChildLayout
+
 #### Dimensioning
+
 #### Overflow
 Onder constructie
 #### Position
+
 #### Styling
+
 #### Visibility
+
 
 
