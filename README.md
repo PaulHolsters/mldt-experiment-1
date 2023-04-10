@@ -19,7 +19,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
     contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
-  } = {
+     } = {
     components: [
       {
         name: 'content-container',
@@ -105,55 +105,55 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           }
-        ]
-      },
-    ],
-    actions: [
-      // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
-      // de condities zoals gedefinieerd in de overeekomstige actie
-            {
-              source: 'test-click-action',
-              target: 'logo',
-              trigger: 'click',
-              action: 'set',
-              props: [
-                {
-                  name: 'xxl',
-                  value: {calc: 'myCalc3', values: ['590px']},
-                  condition: {
-                    comparison: 'propIsGreaterThan',
-                    values: [{calc: 'myCalc1', values: [{target: 'logo', prop: 'l'}]}, '50px']
-                  }
-                }]
-            },
-      {
-        source: 'test-click-action',
-        target: 'logo',
-        trigger: 'click',
-        action: 'toggle',
-        props: [{
-          name: 'display', condition:
-            {
-              comparison: 'propIsSmallerThan',
-              values:
-                [
-                  {target: 'logo', prop: 'xxl'},
-                  {
-                    calc: 'myCalc2',
-                    values: [
-                      {calc: 'myCalc3', values: ['30px']},
-                      {target: 'logo', prop: 'l'},
-                      {target: 'logo', prop: 'xxl'},
-                      '50px'
-                    ]
-                  }
                 ]
-            }
-        }
-        ]
-      },
-    ]
-  }
+              },
+            ],
+            actions: [
+              // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
+              // de condities zoals gedefinieerd in de overeekomstige actie
+                    {
+                      source: 'test-click-action',
+                      target: 'logo',
+                      trigger: 'click',
+                      action: 'set',
+                      props: [
+                        {
+                          name: 'xxl',
+                          value: {calc: 'myCalc3', values: ['590px']},
+                          condition: {
+                            comparison: 'propIsGreaterThan',
+                            values: [{calc: 'myCalc1', values: [{target: 'logo', prop: 'l'}]}, '50px']
+                          }
+                        }]
+                    },
+              {
+                source: 'test-click-action',
+                target: 'logo',
+                trigger: 'click',
+                action: 'toggle',
+                props: [{
+                  name: 'display', condition:
+                    {
+                      comparison: 'propIsSmallerThan',
+                      values:
+                        [
+                          {target: 'logo', prop: 'xxl'},
+                          {
+                            calc: 'myCalc2',
+                            values: [
+                              {calc: 'myCalc3', values: ['30px']},
+                              {target: 'logo', prop: 'l'},
+                              {target: 'logo', prop: 'xxl'},
+                              '50px'
+                            ]
+                          }
+                        ]
+                    }
+                }
+                ]
+              },
+            ]
+          }
   
 ### Templates
 Op termijn zullen hier de voorgeprogrammeerde Mouldit templates komen. Voor elk type (administratieve) applicatie zou je dan kunnen kiezen voor een bepaalde template die daar speciefiek werd voor ontworpen. Deze templates zijn, net zoals elke andere component, geen verplichting. Je kan met Mouldit perfect je eigen template gebruiken. En je kan Mouldit templates en componenten met je eigen (Angular) componenten gebruiken. De bedoeling echter is dat dit normaliter niet nodig gaat zijn. Deze laatste optie is vooral bedoeld indien Mouldit geïntegreerd moet worden in een bestaande code base. De app.component.html wordt voorlopig gebruikt als startpunt waarin ik de verschillende componenten plak die ik wil gebruiken. In principe moet je enkel vertrekken van een container component - die standaard klaar zit. In deze component worden dan alle overige componenten genest. Dit nesten moet je niet zelf doen, hiervoor gebruik je het configuratie object te vinden in het data.service.ts bestand. Op termijn zal de configuratie moeten kunnen gebeuren via een YAML document. Nog later ook via een UI.
