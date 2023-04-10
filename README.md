@@ -8,7 +8,7 @@ Hierin vind je de modellen terug die de eerste feature van Mouldit, het Responsi
 - Overflow: deze modellen bepalen alles i.v.m. overflow, bijvoorbeeld wanneer de scrollfucntie moet getoond worden (deze feature werkt nog niet).
 - Positioning: deze modellen bepalen waar de componenten op de pagina gerendered moeten worden.
 - Styling: deze modellen bepalen het uiterlijk van de component, zaken zoals de kleur van de achtergrond, ...
-- Visibility: deze modellen bepalen alles omtreznt de zichtbaarheid van een component, met als meest rudimentaire bepaling of een component al dan niet zichtbaar is
+- Visibility: deze modellen bepalen alles omtrent de zichtbaarheid van een component, met als meest rudimentaire bepaling of een component al dan niet zichtbaar is
 ### Enums
 Hier bevinden zich alle binnen Mouldit gebruikte enums. De bedoeling van deze enums is hoofdzakelijk om als gebruiker snel een bepaalde configuratie te kunnen doen, zonder dat je strings moet gaan gebruiken. (Kan je in een YAML file ook enums gebruiken, want het zou stom zijn moest je daar ineens terug strings moet gaan zitten typen niet?)
 ### Components
