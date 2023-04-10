@@ -190,5 +190,12 @@ Een voorbeeld:
 
 Het ResponsiveDimensioningConfigModel verwacht maximaal 5 parameters, één voor elke schermgrootte, te beginnen bij het kleinste, de smartphone. Geen enkele parameter is verplicht. Voor elk zulk model is er voor de smartphone telkens een default waarde. Van zodra er voor een bepaalde schermgrootte een waarde is meegegeven geldt deze voor elk groter scherm, tenzij daar wel een parameter voor bestaat.
 We behandelen nu voor elk der properties de configuratiemogelijkheden in detail.
-#### Dimensions
+#### Attributes
+#### ChildLayout
+#### Dimensioning
+#### Overflow
+#### Position
+#### Styling
+#### Visibility
+
 
