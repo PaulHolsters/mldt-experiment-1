@@ -6,7 +6,7 @@ Hierin vind je de modellen terug die de eerste feature van Mouldit, het Responsi
 - Attributes: dit zijn HTML attributen die specifiek voor bepaalde componenten bestaan, maar niet per se voor andere. Voorbeeld: het src attribuut van een img tag.
 - ChildLayout: Dit zijn de modellen waar een Container component gebruik van maakt. Hiermee kan je als gebruiker aangeven hoe de child components zich moeten gedragen wat betreft positie en dimensies.
 - Dimensioning: deze modellen bepalen de dimensies van een component, meerbepaald de hoogte en/of de breedte.
-- Overflow: deze modellen bepalen alles i.v.m. overflow, bijvoorbeeld wanneer de scrollfucntie moet getoond worden (deze feature werkt nog niet).
+- Overflow: deze modellen bepalen alles i.v.m. overflow, bijvoorbeeld wanneer de scrollfunctie moet getoond worden (deze feature werkt nog niet).
 - Positioning: deze modellen bepalen waar de componenten op de pagina gerendered moeten worden.
 - Styling: deze modellen bepalen het uiterlijk van de component, zaken zoals de kleur van de achtergrond, ...
 - Visibility: deze modellen bepalen alles omtrent de zichtbaarheid van een component, met als meest rudimentaire bepaling of een component al dan niet zichtbaar is
@@ -253,15 +253,45 @@ We behandelen nu voor elk der properties de configuratiemogelijkheden in detail.
 #### Attributes
 Dit is eenvoudig. Bij aanmaak van een instantie geef je gewoon de waarden in van elk HTML attribuut bv. een waarde voor het src attribuut, het alt attribuut enz. 
 #### ChildLayout
+Hoewel verbetering hier zeker nog mogelijk is qua "clean code", is dit toch al behoorlijk. De essentie is dat je als parent component (voorlopig is er maar 1 component die van deze responsive property gebruikt maakt, namelijk de Container component) gaat configureren wat er met je directe children moet gebeuren op vlak van dimensionering en positionering. Dit doe je door enerzijds configuratie mee te geven op vlak van horizontale layout - in deze context wordt met "layout" bedoeld het totaal pakket van positionering en dimensionering - alsook op vlak van verticale layout (*HorizontalLayoutConfigPropsModel* en *VerticalLayoutConfigPropsModel* repectievelijk). Momenteel zijn er wat dat betreft telkens 6 properties die je als parameters voor de constructor moet meegeven:
+- axis
+- wrap
+- scroll
+- position
+- height/width
+- lanes
 
+De Store service zal deze configuratie omzetten naar properties bedoeld voor de parent en properties bedoeld voor de children (*ParentComponentPropsModel*/*ChildComponentsPropsModel*). Belangrijk om weten is dat je de configuratie in ChildLayout steeds kan overschrijven op component niveau. Stel dat je in ChildLayout bijvoorbeeld hebt meegegeven dat alle children een breedte van 400 pixels moeten hebben dan kan je dit ook nog is per child overschrijven naar een andere breedte. De regel is: wat je configureerd hebt op child niveau heeft steeds voorrang op wat je hebt geconfigureerd op parent niveau. 
+
+##### axis
+Indien je voor de horizontale layout hier de waarde *Main* kiest, dan is de horizontale richting de hoofd-as. Dit betekent dat de children in een rij gepositioneerd worden (flex-row). Om een column positionering te hebben geef je deze waarde aan de axis van de verticale layout. Dit betekent natuurlijk dat de waarde voor axis van horizontale en verticale layout steeds tegengesteld is. Is dit *Main* voor de horizontale layout, dan is dit *Cross* voor de verticale en visa versa.
+##### wrap
+Deze eigenschap heeft een boolean waarde voor de layout (horizontaal of verticaal) indien deze de hoofd-as is, in het andere geval is de waarde *undefined*. Indien *true*, dan worden de children op een volgende horizontale/verticale lijn geplaatst van zodra er onvoldoende ruimte is om een child nog achter een vorig kind te plaatsen.
+##### scroll
+Deze eigenschap dient voor beide layout types een boolean waarde te hebben. Dit is echter nog onder constructie.
+##### position
+De mogelijke waarden worden gegeven door de twee enum soorten *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType* of *CrossAxisHorizontalPositioningConfigType*/*CrossAxisVerticalPositioningConfigType* afhankelijk of een bepaalde richting de hoofd-as is of niet. In bepaalde gevallen is het nodig om hier voor de "Cross"-as de enum waarde *NA* mee te geven, namelijk wanneer onder width/height gekozen is voor stretch. Mouldit heeft gekozen om stretch niet te laten vallen onder dezelfde css properties waar ook de positionering properties onder vallen (start, end, center en baseline). De verantwoording voor deze keuze is dat *stretch* de dimensionering van een component wijzigt en de overige css properties puur de positionering van de children bepalen. Ze uiteentrekken is beter voor het begrip van de niet-technisch onderlegde gebruiker.
+##### height/width
+Voor de horizontale layout geef je een configuratie mee voor de *width* of breedte van de children. Deze waarde wordt dan automatisch toegekend aan alle directe children van de parent. Wat betreft configuratie kan je kiezen tussen een vaste waarde (*FixedDimensioningConfigModel*) voor deze breedte of een dynamische (*DynamicDimensioningConfigModel.ts*). De opties wat betreft vaste waarden worden besproken in het onderdeel *Dimensioning* hieronder. Wat betreft een dynamische waarde hangen de mogelijkheden of de horizontale richting de hoofrichting is of niet. Indien het de hoofdrichting is dan kan je kiezen om de breedte te laten groeien of slinken afhankelijk of er ruimte over is dan wel te kort (*grow*/*shrink*). Indien de horizontale richting niet de hoofdrichting is dan moet je kiezen voor stretch als enige overblijvende optie. Dit doet wat je als css developer zou verwachten dat het doet.  
+Voor de verticale layout geldt hetzelfde principe. Daar gaat het dan om de hoogte of *height* natuurlijk.
+##### lanes
+De configuratie voor *lanes* is enkel nodig indien de desbetreffende layout de hoofdrichting is. Dit gaat de postie van de lijnen bepalen waarvan sprake in *Wrap*. De mogelijkheden zijn bepaald door het enum *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType*. In het andere geval geef je het de *NA* enum waarde.
 #### Dimensioning
-
+Zoals reeds aangehaald zijn er twee opties: een vaste waarde meegeven of een dynamische. De dynamische werd reeds besproken onder *ChildLayout*->*height/width*. Voor de vaste zijn er weer twee mogelijkheden: een letterlijke waarde (*hardcoded*) of een berekende (*calculated*). De parameters mee te geven in de constructor van een *FixedDimensioningConfigModel* instantie zijn *type*, *value* en *unit*. In het type geef je aan of het hardcoded is dan wel calculated. Voor calculated geef je een string meer zoals dat nodig is bij css calculated values. Een voorbeeld is de string "(100vh - 16px)". Dit is nu nog rudimentair maar zal in de toekomst meer configuratie mogelijkheden moeten hebben. Bij de calculated versie geef je geen unit mee. Voor een letterlijke waarde geef je als type natuurlijk *hardcoded* mee. Vervolgens een numerieke waarde voor value en tot slot maak je een keuze uit de unit enum waarden (*DimensionUnitConfigType*).
 #### Overflow
 Onder constructie
 #### Position
-
+Hiermee kan je enkel een childLayout configuratie overschrijven. Het gaat in kwestie om de css properties die te maken hebben met *seflalign*.
 #### Styling
-
+Voorlopig kan je hiermee enkel maar de achtergrond kleur van een component wijzigen. De details kan je vinden in de constructor van het desbetreffende model.
 #### Visibility
-
-
+Qua configuratie kan je hier voorlopig twee dingen doen. Zeggen of een component zichtbaar moet zijn alsook of de ruimte ingenomen door de component bewaard moet blijvebn indien de component niet zichtbaar is. M.a.w. dit heeft puur te maken met de css properties *display* en *visibility*. De details kan je vinden in de constructor van het desbetreffende model.
+## De verschillende componenten
+Zoals reeds vermeld kan je alle Mouldit componenten vinden in de *components* map.
+### Block
+Een block is wat de naam suggereert. Een block met een achtergrond kleur naar keuze en dimensies ook naar keuze. Deze component is voorlopig enkel bedoeld om mee te experimenteren, juist vanwege zijn eenvoud.
+### Logo
+Deze component is bedoeld om te gebruiken voor het logo van je firma. Het aanvaard de url van een bestand en verder ofwel een breedte ofwel een hoogte (zodat de verhouding niet in de war gaat). Uiteraard is dit allemaal nog zeer rudimentair en eerder bedoeld als een manier om zaken uit te proberen. Dit is dus verre van de definitieve versie.
+### Container
+Dit is binnen Mouldit een cruciale component. Dit is (voorlopig) de enige component die toelaat om er andere componenten in onder te brengen. Positie en dimensie van deze child components kan je dan configureren via de childLayout property binnen het *RBS*. Uiteraard kan je deze component zelf ook nog configureren binnen het *RBS*. Het is de bedoeling om op termijn toe te laten dat je een Container kan onderbrengen binnen een parent Container alsook de Container te gebruiken als een "ankerpunt" binnen een bestaande component waar je via de configuratie kinderen in kan injecteren. Dit laatste lijkt mij een absoluut noodzakelijke feature indien je een waarlijk customizable frontend wilt kunnen maken met Mouldit.  
+Een Container heeft een *children* property. De mogelijke waarde van deze property is ofwel een array met strings waar de strings de namen zijn van de childcomponents. Ofwel komt hier de volledige configuratie van elk kind. Elk kind is dan het het *ComponentModel* type. Een mix is (voorlopig) niet mogelijk. Voorlopig kan je maar één diep nesten in deze property. Dat wil zeggen dat als je een Container binnen een Container wil nesten dat je dan verplicht bent om met een array van strings te werken.
