@@ -264,9 +264,12 @@ Hoewel verbetering hier zeker nog mogelijk is qua "clean code", is dit toch al b
 ##### axis
 Indien je voor de horizontale layout hier de waarde *Main* kiest, dan is de horizontale richting de hoofd-as. Dit betekent dat de children in een rij gepositioneerd worden (flex-row). Om een column positionering te hebben geef je deze waarde aan de axis van de verticale layout. Dit betekent natuurlijk dat de waarde voor axis van horizontale en verticale layout steeds tegengesteld is. Is dit *Main* voor de horizontale layout, dan is dit *Cross* voor de verticale en visa versa.
 ##### wrap
-
+Deze eigenschap heeft een boolean waarde voor de layout (horizontaal of verticaal) indien deze de hoofd-as is, in het andere geval is de waarde *undefined*. Indien *true*, dan worden de children op een volgende horizontale/verticale lijn geplaatst van zodra er onvoldoende ruimte is om een child nog achter een vorig kind te plaatsen.
 ##### scroll
+Deze eigenschap dient voor beide layout types een boolean waarde te hebben. Dit is echter nog onder constructie.
 ##### position
+De mogelijke waarden worden gegeven door de twee enum soorten *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType* of *CrossAxisHorizontalPositioningConfigType*/*CrossAxisVerticalPositioningConfigType* afhankelijk of een bepaalde richting de hoofd-as is of niet. In bepaalde gevallen is het nodig om hier de enumwaarde *NA* mee te geven. Dit is het geval in volgende situaties:
+
 ##### height/width
 ##### lanes
 
