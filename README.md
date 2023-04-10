@@ -14,7 +14,7 @@ Hier bevinden zich alle binnen Mouldit gebruikte enums. De bedoeling van deze en
 ### Components
 Alle UI componenten die je kan gebruiken zitten in deze folder. Voorlopig zijn dit er nog maar een paar, namelijk net zoveel als ik nodig heb om nieuw ontwikkelde zaken te kunnen maken en testen. Aldus zal deze verzameling componenten langzamerhand groter worden te samen met het aantal opties wat betreft configuratie van deze componenten.
 ### Services
-Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verandering onderhevig zijn. Wel zijn er momenteel twee belangrijke services geïmplementeerd: de store en de responsive behaviour service. In de data service zit het javascript configuratie object. Met dit object configureer je de Mouldit frontend bij elkaar. In het app.component.html bestand zit dan ook maar 1 component, namelijk een container component die als start dient voor je applicatie. Voor de duidelijkheid hieronder een voorbeeld van het configuratieobject:
+Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verandering onderhevig zijn. Wel zijn er momenteel twee belangrijke services geïmplementeerd: de store en de responsive behaviour service. In de config service zit het javascript configuratie object. Met dit object configureer je de Mouldit frontend bij elkaar. In het app.component.html bestand zit dan ook maar 1 component, namelijk een container component die als start dient voor je applicatie. Voor de duidelijkheid hieronder een voorbeeld van het configuratieobject:
 
     contentContainer: {
       components: ComponentModel[],
@@ -154,6 +154,35 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
       ]
     }
   
+#### Config service
+Hier bevindt zich zoals reeds gezegd het configuratieobject. Hier wordt ook de engine van Mouldit opgestart in de constructor. Eerst wordt er een nieuwe store aangemaakt. Vervolgens wordt het responsive behaviour van elk der componenten in het configuratieobject geinitialiseerd.
+
+    constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
+      this.storeService.createStore(this.contentContainer)
+      this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
+    }
+
+Bij deze initialisatie worden de verschillende properties der componenten in de store geplaatst alsook een initiële waarde (meestal *undefined*). 
+#### Responsive Behaviour service
+Bij het laden van de pagina worden de waarden voor de properties van de componenten door onderhavige service geinitialiseerd door middel van het broadcasten van deze waarden. Elk der componenten heeft een subscription op zo'n property en dit voor elke property die van belang is voor deze component. Dit maakt dat deze opstartwaarde de component(en) bereikt zodat deze correct gerendered worden. Deze subscription zit er typisch als volgt uit:
+
+    ngOnInit(): void{
+    this.grow$ = this.storeService.bindToStateProperty(this.name,'grow')
+    this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
+    this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
+    this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
+    this.height$ = this.storeService.bindToStateProperty(this.name,'height')
+    this.width$ = this.storeService.bindToStateProperty(this.name,'width')
+    this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
+    this.src$ = this.storeService.bindToStateProperty(this.name,'src')
+    this.alt$ = this.storeService.bindToStateProperty(this.name,'alt')
+    this.isColumn$ = this.storeService.bindToStateProperty(this.name,'isColumn')
+    this.isRow$ = this.storeService.bindToStateProperty(this.name,'isRow')
+    }
+
+Ook wanneer het scherm tijdens de executie van het programma door de gebruiker zou gewijzigd worden worden de waarden van elk der properties opnieuw berekend. De subscription zorgt er dan voor dat de componenten opnieuw gerendered gaan worden.
+#### Store service
 ### Templates
 Op termijn zullen hier de voorgeprogrammeerde Mouldit templates komen. Voor elk type (administratieve) applicatie zou je dan kunnen kiezen voor een bepaalde template die daar speciefiek werd voor ontworpen. Deze templates zijn, net zoals elke andere component, geen verplichting. Je kan met Mouldit perfect je eigen template gebruiken. En je kan Mouldit templates en componenten met je eigen (Angular) componenten gebruiken. De bedoeling echter is dat dit normaliter niet nodig gaat zijn. Deze laatste optie is vooral bedoeld indien Mouldit geïntegreerd moet worden in een bestaande code base. De app.component.html wordt voorlopig gebruikt als startpunt waarin ik de verschillende componenten plak die ik wil gebruiken. In principe moet je enkel vertrekken van een container component - die standaard klaar zit. In deze component worden dan alle overige componenten genest. Dit nesten moet je niet zelf doen, hiervoor gebruik je het configuratie object te vinden in het data.service.ts bestand. Op termijn zal de configuratie moeten kunnen gebeuren via een YAML document. Nog later ook via een UI.
 ## Werking
@@ -191,7 +220,7 @@ Een voorbeeld:
 Het *ResponsiveDimensioningConfigModel* verwacht maximaal 5 parameters, één voor elke schermgrootte, te beginnen bij het kleinste, de smartphone. Geen enkele parameter is verplicht. Voor elk zulk model is er voor de smartphone telkens een default waarde. Van zodra er voor een bepaalde schermgrootte een waarde is meegegeven geldt deze voor elk groter scherm, tenzij daar wel een parameter voor bestaat. De parameter in kwestie is telkens een *...ConfigPropsModel* instantie. Voor het dimenisoneren van een component is dat bijvoorbeeld het *DimensioningConfigPropsModel*. Typescript laat ook toe om elke property van zulk een model expliciet te benoemen bij aanmaak. Dat maakt het configuratieobject bevattelijker, bijvoorbeeld voor maintenance achteraf. Zo zie je in het voorbeeld van het configuratieobject zoals hierboven afgebeeld dat je properties als *name*, *type*, *position*, *visibility* hebt bij aanmaak van een specieke component. Dit is dan in plaats van het *new* keyword. **M.a.w. als je kan steeds kiezen of je de syntax van een TypeScript interface gebruikt dan wel een JavaScript class.**   
 We behandelen nu voor elk der properties de configuratiemogelijkheden in detail.
 #### Attributes
-
+Dit is eenvoudig. Bij aanmaak van een instantie geef je gewoon de waarden in van elk HTML attribuut bv. een waarde voor het src attribuut, het alt attribuut enz. 
 #### ChildLayout
 #### Dimensioning
 #### Overflow
