@@ -277,13 +277,13 @@ Voor de verticale layout geldt hetzelfde principe. Daar gaat het dan om de hoogt
 ##### lanes
 De configuratie voor *lanes* is enkel nodig indien de desbetreffende layout de hoofdrichting is. Dit gaat de postie van de lijnen bepalen waarvan sprake in *Wrap*. De mogelijkheden zijn bepaald door het enum *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType*. In het andere geval geef je het de *NA* enum waarde.
 #### Dimensioning
-Zoals reeds aangehaald zijn er twee opties: een vaste waarde meegeven of een dynamische. De dynamische werd reeds besproken onder *ChildLayout*->*height/width*. Voor de vaste zijn er weer twee mogelijkheden: een letterlijke waarde (*hardcoded*) of een berekende (*calculated*). De parameters mee te geven in de constructor van een *FixedDimensioningConfigModel* instantie zijn *type*, *value* en *unit*. In het type geef je aan of het hardcoded is dan wel calculated. Voor calculated geef je een string meer zoals dat nodig is bij css calculated values. Een voorbeeld is de string "(100vh - 16px)". Dit is nu nog rudimentair maar zal in de toekomst meer configuratie mogelijkheden moeten hebben. Bij de calculated versie geef je geen unit mee. Voor een letterlijke waarde geef je als type natuurlijk *hardcoded* mee. Dan een numerieke waarde voor value en tot slot maak je een keuze uit de unit enum waarden (*DimensionUnitConfigType*).
+Zoals reeds aangehaald zijn er twee opties: een vaste waarde meegeven of een dynamische. De dynamische werd reeds besproken onder *ChildLayout*->*height/width*. Voor de vaste zijn er weer twee mogelijkheden: een letterlijke waarde (*hardcoded*) of een berekende (*calculated*). De parameters mee te geven in de constructor van een *FixedDimensioningConfigModel* instantie zijn *type*, *value* en *unit*. In het type geef je aan of het hardcoded is dan wel calculated. Voor calculated geef je een string meer zoals dat nodig is bij css calculated values. Een voorbeeld is de string "(100vh - 16px)". Dit is nu nog rudimentair maar zal in de toekomst meer configuratie mogelijkheden moeten hebben. Bij de calculated versie geef je geen unit mee. Voor een letterlijke waarde geef je als type natuurlijk *hardcoded* mee. Vervolgens een numerieke waarde voor value en tot slot maak je een keuze uit de unit enum waarden (*DimensionUnitConfigType*).
 #### Overflow
 Onder constructie
 #### Position
-
+Hiermee kan je enkel een childLayout configuratie overschrijven. Het gaat in kwestie om de css properties die te maken hebben met *seflalign*.
 #### Styling
-
+Voorlopig kan je hiermee enkel maar de achtergrond kleur van een component wijzigen. De details kan je vinden in de constructor van het desbetreffende model.
 #### Visibility
-
+Qua configuratie kan je hier voorlopig twee dingen doen. Zeggen of een component zichtbaar moet zijn alsook of de ruimte ingenomen door de component bewaard moet blijvebn indien de component niet zichtbaar is. M.a.w. dit heeft puur te maken met de css properties *display* en *visibility*. De details kan je vinden in de constructor van het desbetreffende model.
 
