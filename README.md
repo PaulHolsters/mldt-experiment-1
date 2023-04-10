@@ -260,7 +260,15 @@ Hoewel verbetering hier zeker nog mogelijk is qua "clean code", is dit toch al b
 - position
 - height/width
 - lanes
-#####axis
+
+##### axis
+Indien je voor de horizontale layout hier de waarde *Main* kiest, dan is de horizontale richting de hoofd-as. Dit betekent dat de children in een rij gepositioneerd worden (flex-row). Om een column positionering te hebben geef je deze waarde aan de axis van de verticale layout. Dit betekent natuurlijk dat de waarde voor axis van horizontale en verticale layout steeds tegengesteld is. Is dit *Main* voor de horizontale layout, dan is dit *Cross* voor de verticale en visa versa.
+##### wrap
+
+##### scroll
+##### position
+##### height/width
+##### lanes
 
 
 
