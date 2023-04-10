@@ -308,7 +308,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       },
     ]
   }
-
   constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
     this.storeService.createStore(this.contentContainer)
     this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
