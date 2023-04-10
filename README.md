@@ -253,7 +253,16 @@ We behandelen nu voor elk der properties de configuratiemogelijkheden in detail.
 #### Attributes
 Dit is eenvoudig. Bij aanmaak van een instantie geef je gewoon de waarden in van elk HTML attribuut bv. een waarde voor het src attribuut, het alt attribuut enz. 
 #### ChildLayout
-Hoewel verbetering hier zeker nog mogelijk is qua "clean code", is dit toch al behoorlijk. De essentie is dat je als parent component (voorlopig is er maar 1 component die van deze responsive property gebruikt maakt, namelijk de Container component) gaat configureren wat er met je directe children moet gebeuren op vlak van dimensionering en positionering. Dit doe je door enerzijds configuratie mee te geven op vlak van horizontale layout - in deze context wordt met "layout" bedoeld het totaal pakket van positionering en dimensionering - alsook op vlak van verticale layout (*HorizontalLayoutConfigPropsModel* en *VerticalLayoutConfigPropsModel* repectievelijk).
+Hoewel verbetering hier zeker nog mogelijk is qua "clean code", is dit toch al behoorlijk. De essentie is dat je als parent component (voorlopig is er maar 1 component die van deze responsive property gebruikt maakt, namelijk de Container component) gaat configureren wat er met je directe children moet gebeuren op vlak van dimensionering en positionering. Dit doe je door enerzijds configuratie mee te geven op vlak van horizontale layout - in deze context wordt met "layout" bedoeld het totaal pakket van positionering en dimensionering - alsook op vlak van verticale layout (*HorizontalLayoutConfigPropsModel* en *VerticalLayoutConfigPropsModel* repectievelijk). Momenteel zijn er wat dat betreft telkens 6 properties die je als parameters voor de constructor moet meegeven:
+- axis
+- wrap
+- scroll
+- position
+- height/width
+- lanes
+#####axis
+
+
 
 #### Dimensioning
 
