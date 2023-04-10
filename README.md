@@ -192,7 +192,31 @@ Het maken van een frontend voor een Mouldit app gebeurt volledig via een configu
 ### Principe
 Alles vertrekt natuurlijk van de config service. Op basis van het configuratieobject wordt de store aangemaakt met de nodige observables. Elke observable in de store stelt een property voor zoals deze geconsumeerd zal worden in de view of component. De aanmaak van deze observables is gebaseerd op de manier hoe de verschillende modellen horende bij een bepaald onderdeel van de frontend (zie *Models*) werken. Je hebt een config model en daar mee gelieerd een component model. In de store service heb je per onderdeel een methode die de omzetting doet van properties in een config model naar de properties van het respectievelijke component model. Het zijn de properties van het componentmodel die in de store komen en waar de views op subscriben. Een voorbeeld:  
   
-De *getChildLayoutComponentProps* methode zal een childLayout configuratie gaan omzetten naar de juiste component properties waarop de respectievelijke componenten kunnen subscriben. In de configuratie ga je dan een *ChildLayoutConfigPropsModel* gebruiken. Dat model zal dan door deze methode omgezet worden in een *ChildLayoutComponentPropsModel* dat vervolgens gebruikt wordt om de nodige obbservables in de store te zetten en de juiste waarden te streamen om geconsumeerd te worden door de views (componenten).
+De *getChildLayoutComponentProps* methode zal een childLayout configuratie gaan omzetten naar de juiste component properties waarop de respectievelijke componenten kunnen subscriben. In de configuratie ga je dan een *ChildLayoutConfigPropsModel* gebruiken. Dat model zal dan door deze methode omgezet worden in een *ChildLayoutComponentPropsModel* dat vervolgens gebruikt wordt om de nodige obbservables in de store te zetten en de juiste waarden te streamen om geconsumeerd te worden door de views (componenten).  
+De views of componenten zelf subscriben op deze stream aan waarden door middel van de *bindToStateProperty* methode. Doordat deze methode een naam verwacht, namelijk de naam van de component (elke component moet dus een unieke naam hebben), kan de engine ervoor zorgen dat elke component de juiste waarde krijgt (en niet bijvoorbeeld deze bedoeld voor een andere component).  
+Het gebruik van deze waarden in de respectievelijke component verschilt van component tot component. Dat wil zeggen de render logica zelf is dus puur component gebonden. Dit neemt echter niet weg dat elke component grotendeels eenzelfde stramien volgt hierin:
+
+- Boolean properties die ervoor zorgen dat een bepaalde css-klasse op een html tag gezet zal worden of niet. Dit kan een primeng klasse zijn of een klasse gedefinieerd in het css bestand van de component. 
+- String of number properties die een bepaalde style property de juiste waarde geven.
+- Sommmige css-klasses of style properties worden berekend door methodes in de component zelf omdat ze afhankelijk zijn van zaken die niet op voorhand vastgelegd kunnen worden.  
+  
+Een voorbeeld:
+
+      <div
+        [class]="['flex-shrink-'+((shrink$|async) === undefined? 0 : (shrink$|async)),'flex-grow-'+((grow$|async)=== undefined ? 0 : (grow$|async))]"
+        [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
+        [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
+        [style.height]="height$ | async"
+        [style.width]="width$ | async"
+        [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+        [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      #logo>
+        <img src="assets/{{(src$|async)}}"
+             alt="{{(alt$ | async)}}"
+             [class.imgHeight]="isColumn$ | async"
+             [class.imgWidth]="isRow$ | async">
+      </div>
+
 ## Configuratie
 Elk onderdeel (zie Models) wordt geconfigureerd d.m.v. een property in het configuratieObject. De naam van de variabele speelt geen rol zolang deze (voorlopig) van het volgende type is:
 
