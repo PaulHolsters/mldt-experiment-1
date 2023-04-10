@@ -19,7 +19,8 @@ export class HorizontalLayoutConfigPropsModel {
   public getComponentProperties(propName: string, verticalLayout: VerticalLayoutConfigPropsModel): {parent?:any[][],children?:any[][]} {
     switch (propName) {
       case 'axis':
-        return {parent:[['row', this.axis === AxisConfigType.Main], ['column', this.axis === AxisConfigType.Cross]]}
+        return {parent:[['row', this.axis === AxisConfigType.Main], ['column', this.axis === AxisConfigType.Cross]],children:[
+          ['isRow',this.axis === AxisConfigType.Main],['isColumn',this.axis === AxisConfigType.Cross]]}
       case 'wrap':
         return {parent:[['wrap', this.wrap]]}
       case 'scroll':

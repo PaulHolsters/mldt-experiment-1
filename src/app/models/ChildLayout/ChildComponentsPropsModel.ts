@@ -8,7 +8,9 @@ export class ChildComponentsPropsModel {
     public calcWidth:string|undefined=undefined,
     public horizontalScrolling:boolean=false,
     public verticalScrolling:boolean=false,
-    public scroll:boolean=false
+    public scroll:boolean=false,
+    public isRow:boolean|undefined=undefined,
+    public isColumn:boolean|undefined=undefined,
   ) {
   }
   public setProperties(arr:any[]): void {
