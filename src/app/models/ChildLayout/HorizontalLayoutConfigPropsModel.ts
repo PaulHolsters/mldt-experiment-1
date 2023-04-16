@@ -53,10 +53,10 @@ export class HorizontalLayoutConfigPropsModel {
         const layout:{parent:any[],children:any[]} = {parent:[],children:[]}
         if ((this.width instanceof WidthConfigPropsModel
             && this.width.dynamic instanceof DynamicDimensioningConfigModel
-            && this.width.dynamic.stretch)
+            && this.width.dynamic.stretch===true)
           || (verticalLayout.height instanceof HeightConfigPropsModel
             && verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel
-            && verticalLayout.height.dynamic.stretch)) {
+            && verticalLayout.height.dynamic.stretch===true)) {
           Object.assign(layout,{parent:[['alignItemsStretch', true]]})
         }
         if(this.width instanceof WidthConfigPropsModel

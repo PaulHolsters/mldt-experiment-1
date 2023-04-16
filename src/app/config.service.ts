@@ -25,17 +25,18 @@ import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAtt
 import {HeightConfigPropsModel} from './models/Dimensioning/self/HeightConfigPropsModel';
 import {WidthConfigPropsModel} from "./models/Dimensioning/self/WidthConfigPropsModel";
 import {CrossAxisVerticalPositioningConfigType} from './enums/crossAxisVerticalPositioningConfigTypes.enum';
-import { DimensionUnitConfigType } from './enums/dimensionUnitConfigTypes.enum';
-import { MainAxisVerticalPositioningConfigType } from './enums/mainAxisVerticalPositioningConfigTypes.enum';
-import { VerticalLayoutConfigPropsModel } from './models/ChildLayout/VerticalLayoutConfigPropsModel';
-import { StylingConfigPropsModel } from './models/Styling/StylingConfigPropsModel';
-import { ColorType } from './enums/colorType.enum';
-import { AttributesConfigPropsModel } from './models/Attributes/AttributesConfigPropsModel';
-import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizontalPositioningConfigTypes.enum";
+import {DimensionUnitConfigType} from './enums/dimensionUnitConfigTypes.enum';
+import {VerticalLayoutConfigPropsModel} from './models/ChildLayout/VerticalLayoutConfigPropsModel';
+import {StylingConfigPropsModel} from './models/Styling/StylingConfigPropsModel';
+import {ColorType} from './enums/colorType.enum';
+import {AttributesConfigPropsModel} from './models/Attributes/AttributesConfigPropsModel';
 import {
   CrossAxisHorizontalLanesPositioningConfigType
 } from "./enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
-import { CrossAxisVerticalLanesPositioningConfigType } from './enums/crossAxisVerticalLanesPositioningConfigTypes.enum';
+import {CrossAxisVerticalLanesPositioningConfigType} from './enums/crossAxisVerticalLanesPositioningConfigTypes.enum';
+import { ResponsiveOverflowConfigModel } from './models/Overflow/self/ResponsiveOverflowConfigModel';
+import { OverflowConfigPropsModel } from './models/Overflow/self/OverflowConfigPropsModel';
+import {OverflowValueConfigType} from "./enums/overflowValueConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -181,17 +182,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     actions: ActionModel[]
   } = {
     components: [
-      // todo opkuisen geen undefined maar NA
-      // todo overkoepelend RBHS model met constraints
       {
         name: 'content-container',
         type: ComponentType.Container,
         visibility: new ResponsiveVisibilityConfigModel(),
+        overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NA,OverflowValueConfigType.NA,OverflowValueConfigType.NC)),
         dimensions: new ResponsiveDimensioningConfigModel(
           new DimensioningConfigPropsModel(
             new HeightConfigPropsModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Calculated, '(100vh - 16px)'),DimensionValueConfigType.NC),
-            undefined
+            DimensionValueConfigType.NC
           )),
         childLayout: new ResponsiveChildLayoutConfigModel(
           new ChildLayoutConfigPropsModel(
@@ -200,9 +200,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               true,
               MainAxisHorizontalPositioningConfigType.Left,
-              // todo opsplitsen in verschillende types
+              // todo opsplitsen in verschillende types!!!!
               new WidthConfigPropsModel(DimensionValueConfigType.NC, new DynamicDimensioningConfigModel(1, 1, DimensionValueConfigType.NA)),
-              // todo fix dit lanes moet in de verticale sectie staan als de main axis de horziontale is en vise versa
               CrossAxisHorizontalLanesPositioningConfigType.NA
             ),
             new VerticalLayoutConfigPropsModel(
@@ -210,33 +209,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               undefined,
               true,
               CrossAxisVerticalPositioningConfigType.Top,
-              new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
+              new HeightConfigPropsModel(
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
                 DimensionValueConfigType.NC),
               CrossAxisVerticalLanesPositioningConfigType.Top
             )
           )
-/*          , undefined, undefined,
-          new ChildLayoutConfigPropsModel(
-            new HorizontalLayoutConfigPropsModel(
-              AxisConfigType.Cross,
-              undefined,
-              true,
-              CrossAxisHorizontalPositioningConfigType.NA,
-              new DynamicDimensioningConfigModel(
-                undefined,
-                undefined,
-                true
-              ), MainAxisHorizontalPositioningConfigType.NA
-            ), new VerticalLayoutConfigPropsModel(
-              AxisConfigType.Main,
-              true,
-              true,
-              MainAxisVerticalPositioningConfigType.Top,
-              new DynamicDimensioningConfigModel(1, 1, undefined),*/
-              //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
-/*              MainAxisVerticalPositioningConfigType.NA
-            )*/
-          // )
         ),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
@@ -252,40 +230,61 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             visibility: new ResponsiveVisibilityConfigModel(),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
-                new HeightConfigPropsModel(new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),DimensionValueConfigType.Parent),
-                new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.PX),DimensionValueConfigType.Parent)
+                new HeightConfigPropsModel(
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
+                  DimensionValueConfigType.Parent),
+                new WidthConfigPropsModel(
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.PX),
+                  DimensionValueConfigType.Parent)
               )),
-          },
-/*          {
-            name:'innercontainer',
-            type:ComponentType.Container,
-            position: new ResponsivePositioningConfigModel(
-              new PositioningConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel(),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.PX)
-              )),
-            styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.danger))
-          },*/
-          {
-            // todo aangeven dat niet alles in een model undefined mag zijn
-            name: 'logo',
-            type: ComponentType.Logo,
-            attributes: new ResponsiveAttributesConfigModel(
-              new AttributesConfigPropsModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
-            visibility: new ResponsiveVisibilityConfigModel(),
           },
           {
             name: 'block-4',
             type: ComponentType.Block,
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
+          },
+          {
+            name: 'block-5',
+            type: ComponentType.Block,
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(
+                new HeightConfigPropsModel(
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
+                  DimensionValueConfigType.Parent),
+                new WidthConfigPropsModel(
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 500,DimensionUnitConfigType.PX),
+                  DimensionValueConfigType.Parent)
+              )),
+          },
+          {
+            name: 'block-6',
+            type: ComponentType.Block,
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel()
+          },
+          {
+            name: 'block-7',
+            type: ComponentType.Block,
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel()
+          },
+          {
+            name: 'block-8',
+            type: ComponentType.Block,
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(
+                new HeightConfigPropsModel(
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
+                  DimensionValueConfigType.Parent),
+                new WidthConfigPropsModel(
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 300,DimensionUnitConfigType.PX),
+                  DimensionValueConfigType.Parent)
+              )),
           }
         ]
       },

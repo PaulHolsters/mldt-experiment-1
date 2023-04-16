@@ -1,12 +1,9 @@
 import {OverflowValueConfigType} from "../../../enums/overflowValueConfigTypes.enum";
 import {OverflowChildConfigPropsModel} from "../children/OverflowChildConfigPropsModel";
 export class OverflowConfigPropsModel {
-  constructor(public overflow?: OverflowValueConfigType,
-              public horizontalOverflow?: OverflowValueConfigType,
-              public verticalOverflow?: OverflowValueConfigType,
-              public childOverflowConfig?: OverflowChildConfigPropsModel) {
-    if (overflow && (verticalOverflow || horizontalOverflow)) {
-      throw new Error('Or you configure the overflow property or you use vertical/horizontal overflow property, but not both')
-    }
+  constructor(public overflow: OverflowValueConfigType|OverflowValueConfigType.NA,
+              public horizontalOverflow: OverflowValueConfigType|OverflowValueConfigType.NA,
+              public verticalOverflow: OverflowValueConfigType|OverflowValueConfigType.NA,
+              public childOverflowConfig: OverflowChildConfigPropsModel|OverflowValueConfigType.NC|OverflowValueConfigType.NA) {
   }
 }

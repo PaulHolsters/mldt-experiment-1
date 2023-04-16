@@ -36,6 +36,8 @@ import {ChildLayoutConfigPropsModel} from "./models/ChildLayout/ChildLayoutConfi
 import {ParentComponentPropsModel} from "./models/ChildLayout/ParentComponentsPropsModel";
 import {ChildComponentsPropsModel} from "./models/ChildLayout/ChildComponentsPropsModel";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
+import {HeightConfigPropsModel} from "./models/Dimensioning/self/HeightConfigPropsModel";
+import {WidthConfigPropsModel} from "./models/Dimensioning/self/WidthConfigPropsModel";
 
 @Injectable({
   providedIn: 'root'
@@ -86,13 +88,14 @@ export class StoreService {
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
-        return new OverflowComponentPropsModel(
-          overflowConfig.overflow === OverflowValueConfigType.Scroll,
-          overflowConfig.overflow === OverflowValueConfigType.Hidden,
-          overflowConfig.horizontalOverflow === OverflowValueConfigType.Hidden,
-          overflowConfig.verticalOverflow === OverflowValueConfigType.Hidden,
-          overflowConfig.horizontalOverflow === OverflowValueConfigType.Scroll,
-          overflowConfig.verticalOverflow === OverflowValueConfigType.Scroll)
+      const newMod = new OverflowComponentPropsModel(
+        overflowConfig.overflow === OverflowValueConfigType.Scroll,
+        overflowConfig.overflow === OverflowValueConfigType.Hidden,
+        overflowConfig.horizontalOverflow === OverflowValueConfigType.Hidden,
+        overflowConfig.verticalOverflow === OverflowValueConfigType.Hidden,
+        overflowConfig.horizontalOverflow === OverflowValueConfigType.Scroll,
+        overflowConfig.verticalOverflow === OverflowValueConfigType.Scroll)
+        return newMod
       }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
@@ -149,8 +152,8 @@ export class StoreService {
   public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
     const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
-      if (dimensionsConfig.height) {
-        if (dimensionsConfig.height.fixed && dimensionsConfig.height.fixed instanceof FixedDimensioningConfigModel) {
+      if (dimensionsConfig.height && dimensionsConfig.height instanceof HeightConfigPropsModel) {
+        if (dimensionsConfig.height.fixed  && dimensionsConfig.height.fixed instanceof FixedDimensioningConfigModel) {
           switch (dimensionsConfig.height.fixed.type) {
             case DimensionValueConfigType.Hardcoded:
               switch (dimensionsConfig.height.fixed.unit) {
@@ -189,7 +192,7 @@ export class StoreService {
           compPropsObj.shrink = DimensionValueConfigType.Parent
         }
       }
-      if (dimensionsConfig.width ) {
+      if (dimensionsConfig.width && dimensionsConfig.width instanceof WidthConfigPropsModel) {
         if (dimensionsConfig.width.fixed && dimensionsConfig.width.fixed instanceof FixedDimensioningConfigModel) {
           switch (dimensionsConfig.width.fixed.type) {
             case DimensionValueConfigType.Hardcoded:
@@ -372,7 +375,6 @@ export class StoreService {
   }) {
     this.components = [...contentContainer.components]
     contentContainer.components.forEach(comp => {
-      // todo fix het feit dat je nu bij dimensions ofwel hardcoded ofwel shrink hebt terwijl die perfect samen mogen!!!
       // children: indien child components inlined zijn zodat ze niet vergeten worden om te initialisezeren
       if(comp.children && comp.children.length>0){
         (comp.children as ComponentModel[]).forEach(child=>{
@@ -432,16 +434,6 @@ export class StoreService {
                 propSubj, prop$: propSubj.asObservable()
               })
             })
-            // todo dit moet in een aparte config prop komen childOverflow
-            if (child.children && child.children.length > 0) {
-              Object.keys(this.getOverflowChildComponentsProps(child.name, child.overflow, ScreenSize.highResolution)).forEach(k => {
-                const propSubj = new BehaviorSubject<any | undefined>(undefined)
-                this.statePropertySubjects.push({
-                  componentName: child.name, propName: k, propValue:
-                  propSubj, prop$: propSubj.asObservable()
-                })
-              })
-            }
           }
         })
       }
@@ -503,16 +495,6 @@ export class StoreService {
             propSubj, prop$: propSubj.asObservable()
           })
         })
-        // todo dit moet in een aparte config prop komen childOverflow
-        if (comp.children && comp.children.length > 0) {
-          Object.keys(this.getOverflowChildComponentsProps(comp.name, comp.overflow, ScreenSize.highResolution)).forEach(k => {
-            const propSubj = new BehaviorSubject<any | undefined>(undefined)
-            this.statePropertySubjects.push({
-              componentName: comp.name, propName: k, propValue:
-              propSubj, prop$: propSubj.asObservable()
-            })
-          })
-        }
       }
       if (comp.attributes) {
         Object.keys(this.getAttributesComponentProps(comp.name, comp.attributes, ScreenSize.highResolution)).forEach(k => {

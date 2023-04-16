@@ -33,18 +33,17 @@ export class ContainerComponent implements OnInit {
   alignContentBetween$: Observable<any>|undefined
   alignContentEvenly$: Observable<any>|undefined
   alignContentAround$: Observable<any>|undefined
+  overflowScroll$: Observable<any>|undefined
+  overflowXScroll$: Observable<any>|undefined
   overflowHidden$: Observable<any>|undefined
   overflowXHidden$: Observable<any>|undefined
-  overflowYHidden$: Observable<any>|undefined
   overflowAuto$: Observable<any>|undefined
   overflowXAuto$: Observable<any>|undefined
-  overflowYAuto$: Observable<any>|undefined
   height$: Observable<any>|undefined
   width$: Observable<any>|undefined
   backgroundColorPrimary$: Observable<any>|undefined
   backgroundColorWhite$: Observable<any>|undefined
   backgroundColorDanger$: Observable<any>|undefined
-  // todo deze lijken standaard visible te zijn
   visible$: Observable<any>|undefined
   holdSpace$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined
@@ -78,10 +77,13 @@ export class ContainerComponent implements OnInit {
     this.alignContentAround$ = this.storeService.bindToStateProperty(this.name,'alignContentAround')
     this.overflowHidden$ = this.storeService.bindToStateProperty(this.name,'overflowHidden')
     this.overflowXHidden$ = this.storeService.bindToStateProperty(this.name,'overflowXHidden')
-    this.overflowYHidden$ = this.storeService.bindToStateProperty(this.name,'overflowYHidden')
+    this.overflowScroll$ = this.storeService.bindToStateProperty(this.name,'overflowScroll')
+    this.storeService.bindToStateProperty(this.name,'overflowScroll')?.subscribe(res=>{
+      console.log(res)
+    })
+    this.overflowXScroll$ = this.storeService.bindToStateProperty(this.name,'overflowXScroll')
     this.overflowAuto$ = this.storeService.bindToStateProperty(this.name,'overflowAuto')
     this.overflowXAuto$ = this.storeService.bindToStateProperty(this.name,'overflowXAuto')
-    this.overflowYAuto$ = this.storeService.bindToStateProperty(this.name,'overflowYAuto')
     this.height$ = this.storeService.bindToStateProperty(this.name,'height')
     this.width$ = this.storeService.bindToStateProperty(this.name,'width')
     this.backgroundColorPrimary$ = this.storeService.bindToStateProperty(this.name,'backgroundColorPrimary')

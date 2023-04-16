@@ -19,9 +19,6 @@ export class ResponsiveBehaviourService {
         this.storeService.setState(comp.name,this.storeService.getDimensionsComponentProps( comp.name,comp.dimensions,screenSize))
       if(comp.overflow)
         this.storeService.setState(comp.name,this.storeService.getOverflowComponentProps( comp.name,comp.overflow,screenSize))
-      if (comp.children && comp.children.length > 0 && comp.overflow) {
-        this.storeService.setState(comp.name,this.storeService.getOverflowChildComponentsProps(comp.name,comp.overflow,screenSize))
-      }
       if(comp.visibility)
         this.storeService.setState(comp.name,this.storeService.getVisibilityComponentProps(comp.name,comp.visibility,screenSize))
       if(comp.attributes)
