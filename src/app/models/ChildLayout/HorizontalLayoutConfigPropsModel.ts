@@ -12,6 +12,9 @@ import {HeightConfigPropsModel} from "../Dimensioning/self/HeightConfigPropsMode
 import {
   CrossAxisHorizontalLanesPositioningConfigType
 } from "../../enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
+import {
+  CrossAxisVerticalLanesPositioningConfigType
+} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 
 export class HorizontalLayoutConfigPropsModel {
   constructor(
@@ -105,12 +108,12 @@ export class HorizontalLayoutConfigPropsModel {
         return layout
       case 'lanes':
         return {parent:[
-          ['alignContentStart', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Left],
-          ['alignContentCenter', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Center],
-          ['alignContentEnd', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Right],
-          ['alignContentBetween', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Between],
-          ['alignContentEvenly', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Evenly],
-          ['alignContentAround', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Around]]}
+          ['alignContentStart', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Left || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Top],
+          ['alignContentCenter', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Center || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Center],
+          ['alignContentEnd', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Right || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Bottom],
+          ['alignContentBetween', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Between || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Between],
+          ['alignContentEvenly', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Evenly || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Evenly],
+          ['alignContentAround', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Around || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Around]]}
     }
     throw new Error('Property ?' + propName + '? does not exist HorizontalLayoutConfigPropsModel')
   }
