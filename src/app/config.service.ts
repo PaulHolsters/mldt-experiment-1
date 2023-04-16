@@ -10,7 +10,6 @@ import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVis
 import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {ComponentType} from "./enums/componentTypes.enum";
-import {MainAxisHorizontalPositioningConfigType} from "./enums/mainAxisHorizontalPositioningConfigTypes.enum";
 import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/DimensioningConfigPropsModel";
 import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
@@ -20,23 +19,23 @@ import {ResponsiveChildLayoutConfigModel} from "./models/ChildLayout/ResponsiveC
 import {ChildLayoutConfigPropsModel} from "./models/ChildLayout/ChildLayoutConfigPropsModel"
 import {HorizontalLayoutConfigPropsModel} from "./models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "./enums/axisConfigTypes.enum";
-import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
-import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
 import {HeightConfigPropsModel} from './models/Dimensioning/self/HeightConfigPropsModel';
 import {WidthConfigPropsModel} from "./models/Dimensioning/self/WidthConfigPropsModel";
-import {CrossAxisVerticalPositioningConfigType} from './enums/crossAxisVerticalPositioningConfigTypes.enum';
 import {DimensionUnitConfigType} from './enums/dimensionUnitConfigTypes.enum';
 import {VerticalLayoutConfigPropsModel} from './models/ChildLayout/VerticalLayoutConfigPropsModel';
 import {StylingConfigPropsModel} from './models/Styling/StylingConfigPropsModel';
 import {ColorType} from './enums/colorType.enum';
-import {AttributesConfigPropsModel} from './models/Attributes/AttributesConfigPropsModel';
 import {
   CrossAxisHorizontalLanesPositioningConfigType
 } from "./enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
 import {CrossAxisVerticalLanesPositioningConfigType} from './enums/crossAxisVerticalLanesPositioningConfigTypes.enum';
-import { ResponsiveOverflowConfigModel } from './models/Overflow/self/ResponsiveOverflowConfigModel';
-import { OverflowConfigPropsModel } from './models/Overflow/self/OverflowConfigPropsModel';
+import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
+import {WidthValueConfigType} from "./enums/WidthValueConfigTypes.enum";
+import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
+import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizontalPositioningConfigTypes.enum";
+import {OverflowConfigPropsModel} from "./models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "./enums/overflowValueConfigTypes.enum";
+import {ResponsiveOverflowConfigModel} from './models/Overflow/self/ResponsiveOverflowConfigModel';
 
 @Injectable({
   providedIn: 'root'
@@ -183,36 +182,43 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
   } = {
     components: [
       {
+        // todo start adding constraints
         name: 'content-container',
         type: ComponentType.Container,
         visibility: new ResponsiveVisibilityConfigModel(),
-        overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NA,OverflowValueConfigType.NA,OverflowValueConfigType.NC)),
+        overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NA)),
         dimensions: new ResponsiveDimensioningConfigModel(
           new DimensioningConfigPropsModel(
-            new HeightConfigPropsModel(new FixedDimensioningConfigModel(
-            DimensionValueConfigType.Calculated, '(100vh - 16px)'),DimensionValueConfigType.NC),
-            DimensionValueConfigType.NC
-          )),
+            new HeightConfigPropsModel(
+              new FixedDimensioningConfigModel(
+                DimensionValueConfigType.Calculated, '(100vh - 16px)'),
+              DynamicDimensionValueConfigType.NC),
+            WidthValueConfigType.NC
+          )
+        ),
         childLayout: new ResponsiveChildLayoutConfigModel(
           new ChildLayoutConfigPropsModel(
             new HorizontalLayoutConfigPropsModel(
-              AxisConfigType.Main,
-              true,
-              true,
-              MainAxisHorizontalPositioningConfigType.Left,
-              // todo opsplitsen in verschillende types!!!!
-              new WidthConfigPropsModel(DimensionValueConfigType.NC, new DynamicDimensioningConfigModel(1, 1, DimensionValueConfigType.NA)),
-              CrossAxisHorizontalLanesPositioningConfigType.NA
-            ),
-            new VerticalLayoutConfigPropsModel(
               AxisConfigType.Cross,
               undefined,
               true,
-              CrossAxisVerticalPositioningConfigType.Top,
+              CrossAxisHorizontalPositioningConfigType.Left,
+              new WidthConfigPropsModel(
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.PX),
+                DynamicDimensionValueConfigType.NA
+              ),
+              CrossAxisHorizontalLanesPositioningConfigType.Between
+            ),
+            new VerticalLayoutConfigPropsModel(
+              AxisConfigType.Main,
+              true,
+              true,
+              MainAxisVerticalPositioningConfigType.Evenly,
               new HeightConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
-                DimensionValueConfigType.NC),
-              CrossAxisVerticalLanesPositioningConfigType.Top
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.PX),
+                DynamicDimensionValueConfigType.NC
+              ),
+              CrossAxisVerticalLanesPositioningConfigType.NA
             )
           )
         ),
@@ -231,11 +237,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
-                  DimensionValueConfigType.Parent),
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 600, DimensionUnitConfigType.PX),
+                  DynamicDimensionValueConfigType.Parent),
                 new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.PX),
-                  DimensionValueConfigType.Parent)
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.PX),
+                  DynamicDimensionValueConfigType.Parent)
               )),
           },
           {
@@ -252,11 +258,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
-                  DimensionValueConfigType.Parent),
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
+                  DynamicDimensionValueConfigType.Parent),
                 new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 500,DimensionUnitConfigType.PX),
-                  DimensionValueConfigType.Parent)
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 200, DimensionUnitConfigType.PX),
+                  DynamicDimensionValueConfigType.Parent)
               )),
           },
           {
@@ -279,11 +285,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
-                  DimensionValueConfigType.Parent),
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 500, DimensionUnitConfigType.PX),
+                  DynamicDimensionValueConfigType.Parent),
                 new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 300,DimensionUnitConfigType.PX),
-                  DimensionValueConfigType.Parent)
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.PX),
+                  DynamicDimensionValueConfigType.Parent)
               )),
           }
         ]
@@ -335,10 +341,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       },
     ]
   }
+
   constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
     this.storeService.createStore(this.contentContainer)
     this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
   }
+
   private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []
     for (let v of value.values) {

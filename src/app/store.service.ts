@@ -38,6 +38,11 @@ import {ChildComponentsPropsModel} from "./models/ChildLayout/ChildComponentsPro
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
 import {HeightConfigPropsModel} from "./models/Dimensioning/self/HeightConfigPropsModel";
 import {WidthConfigPropsModel} from "./models/Dimensioning/self/WidthConfigPropsModel";
+import {ComponentDimensionValueConfigType} from "./enums/componentDimensionValueConfigTypes.enum";
+import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTypes.enum";
+import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
+import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
+import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -89,12 +94,12 @@ export class StoreService {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
       const newMod = new OverflowComponentPropsModel(
+        overflowConfig.overflow === OverflowValueConfigType.Auto ,
+        overflowConfig.horizontalOverflow === OverflowValueConfigType.Auto,
         overflowConfig.overflow === OverflowValueConfigType.Scroll,
-        overflowConfig.overflow === OverflowValueConfigType.Hidden,
-        overflowConfig.horizontalOverflow === OverflowValueConfigType.Hidden,
-        overflowConfig.verticalOverflow === OverflowValueConfigType.Hidden,
         overflowConfig.horizontalOverflow === OverflowValueConfigType.Scroll,
-        overflowConfig.verticalOverflow === OverflowValueConfigType.Scroll)
+        overflowConfig.overflow === OverflowValueConfigType.Hidden,
+        overflowConfig.horizontalOverflow === OverflowValueConfigType.Hidden)
         return newMod
       }
     let lastScreenSize = screenSize
@@ -173,23 +178,23 @@ export class StoreService {
                 compPropsObj.calcHeight = dimensionsConfig.height.fixed.value
               break
           }
-        } else if(dimensionsConfig.height.fixed && dimensionsConfig.height.fixed === DimensionValueConfigType.Parent){
-          compPropsObj.height = DimensionValueConfigType.Parent
+        } else if(dimensionsConfig.height.fixed && dimensionsConfig.height.fixed === FixedDimensionValueConfigType.Parent){
+          compPropsObj.height = ComponentDimensionValueConfigType.Parent
         }
         if(dimensionsConfig.height.dynamic  && dimensionsConfig.height.dynamic instanceof DynamicDimensioningConfigModel){
-          if(dimensionsConfig.height.dynamic.grow && dimensionsConfig.height.dynamic.grow === DimensionValueConfigType.Parent){
-            compPropsObj.grow = DimensionValueConfigType.Parent
+          if(dimensionsConfig.height.dynamic.grow && dimensionsConfig.height.dynamic.grow === GrowValueConfigType.Parent){
+            compPropsObj.grow = ComponentDimensionValueConfigType.Parent
           } else if (dimensionsConfig.height.dynamic.grow && !isNaN(dimensionsConfig.height.dynamic.grow)) {
             compPropsObj.grow = dimensionsConfig.height.dynamic.grow
           }
-          if(dimensionsConfig.height.dynamic.shrink && dimensionsConfig.height.dynamic.shrink === DimensionValueConfigType.Parent){
-            compPropsObj.shrink = DimensionValueConfigType.Parent
+          if(dimensionsConfig.height.dynamic.shrink && dimensionsConfig.height.dynamic.shrink === ShrinkValueConfigType.Parent){
+            compPropsObj.shrink = ComponentDimensionValueConfigType.Parent
           }  else if (dimensionsConfig.height.dynamic.shrink && !isNaN(dimensionsConfig.height.dynamic.shrink)) {
             compPropsObj.shrink = dimensionsConfig.height.dynamic.shrink
           }
-        } else if(dimensionsConfig.height.dynamic  && dimensionsConfig.height.dynamic === DimensionValueConfigType.Parent){
-          compPropsObj.grow = DimensionValueConfigType.Parent
-          compPropsObj.shrink = DimensionValueConfigType.Parent
+        } else if(dimensionsConfig.height.dynamic === DynamicDimensionValueConfigType.Parent){
+          compPropsObj.grow = ComponentDimensionValueConfigType.Parent
+          compPropsObj.shrink = ComponentDimensionValueConfigType.Parent
         }
       }
       if (dimensionsConfig.width && dimensionsConfig.width instanceof WidthConfigPropsModel) {
@@ -213,23 +218,23 @@ export class StoreService {
                 compPropsObj.calcWidth = dimensionsConfig.width.fixed.value
               break
           }
-        } else if(dimensionsConfig.width.fixed && dimensionsConfig.width.fixed === DimensionValueConfigType.Parent){
-          compPropsObj.width = DimensionValueConfigType.Parent
+        } else if(dimensionsConfig.width.fixed && dimensionsConfig.width.fixed === FixedDimensionValueConfigType.Parent){
+          compPropsObj.width = ComponentDimensionValueConfigType.Parent
         }
         if(dimensionsConfig.width.dynamic && dimensionsConfig.width.dynamic instanceof DynamicDimensioningConfigModel){
-          if(dimensionsConfig.width.dynamic.grow && dimensionsConfig.width.dynamic.grow === DimensionValueConfigType.Parent){
-            compPropsObj.grow = DimensionValueConfigType.Parent
+          if(dimensionsConfig.width.dynamic.grow && dimensionsConfig.width.dynamic.grow === GrowValueConfigType.Parent){
+            compPropsObj.grow = ComponentDimensionValueConfigType.Parent
           }else if (dimensionsConfig.width.dynamic.grow && !isNaN(dimensionsConfig.width.dynamic.grow)) {
             compPropsObj.grow = dimensionsConfig.width.dynamic.grow
           }
-          if(dimensionsConfig.width.dynamic.shrink && dimensionsConfig.width.dynamic.shrink === DimensionValueConfigType.Parent){
-            compPropsObj.shrink = DimensionValueConfigType.Parent
+          if(dimensionsConfig.width.dynamic.shrink && dimensionsConfig.width.dynamic.shrink === ShrinkValueConfigType.Parent){
+            compPropsObj.shrink = ComponentDimensionValueConfigType.Parent
           }else if (dimensionsConfig.width.dynamic.shrink && !isNaN(dimensionsConfig.width.dynamic.shrink)) {
             compPropsObj.shrink = dimensionsConfig.width.dynamic.shrink
           }
-        } else if(dimensionsConfig.width.dynamic  && dimensionsConfig.width.dynamic === DimensionValueConfigType.Parent){
-          compPropsObj.grow = DimensionValueConfigType.Parent
-          compPropsObj.shrink = DimensionValueConfigType.Parent
+        } else if(dimensionsConfig.width.dynamic === DynamicDimensionValueConfigType.Parent){
+          compPropsObj.grow = ComponentDimensionValueConfigType.Parent
+          compPropsObj.shrink = ComponentDimensionValueConfigType.Parent
         }
       }
       return compPropsObj
@@ -328,7 +333,7 @@ export class StoreService {
       newState instanceof OverflowComponentPropsModel
       ){
       for (let [k, v] of Object.entries(newState)) {
-        if(v!==DimensionValueConfigType.Parent){
+        if(v!==ComponentDimensionValueConfigType.Parent){
           this.getStatePropertySubjects().find(subj => {
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)

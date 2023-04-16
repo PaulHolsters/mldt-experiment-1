@@ -15,6 +15,11 @@ import {
 import {
   CrossAxisVerticalLanesPositioningConfigType
 } from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
+import {WidthValueConfigType} from "../../enums/WidthValueConfigTypes.enum";
+import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
+import {GrowValueConfigType} from "../../enums/GrowValueConfigTypes.enum";
+import {ShrinkValueConfigType} from "../../enums/ShrinkValueConfigTypes.enum";
+import {ComponentDimensionValueConfigType} from "../../enums/componentDimensionValueConfigTypes.enum";
 
 export class HorizontalLayoutConfigPropsModel {
   constructor(
@@ -22,7 +27,7 @@ export class HorizontalLayoutConfigPropsModel {
     public wrap: boolean | undefined,
     public scroll: boolean,
     public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType,
-    public width: WidthConfigPropsModel|DimensionValueConfigType.NA|DimensionValueConfigType.NC,
+    public width: WidthConfigPropsModel|WidthValueConfigType.NA|WidthValueConfigType.NC,
     public lanes: CrossAxisHorizontalLanesPositioningConfigType) {
     // todo add constraints
   }
@@ -32,7 +37,7 @@ export class HorizontalLayoutConfigPropsModel {
         return {parent:[['row', this.axis === AxisConfigType.Main], ['column', this.axis === AxisConfigType.Cross]],children:[
           ['isRow',this.axis === AxisConfigType.Main],['isColumn',this.axis === AxisConfigType.Cross]]}
       case 'wrap':
-        return {parent:[['wrap', this.wrap]]}
+        return {parent:[['wrap', (this.wrap||verticalLayout.wrap)]]}
       case 'scroll':
         return {children:[['horizontalScrolling', this.scroll], ['verticalScrolling', verticalLayout.scroll]]}
       case 'position':
@@ -65,14 +70,14 @@ export class HorizontalLayoutConfigPropsModel {
             {children:[['width',this.width.fixed.getDimension()],['calcWidth',this.width.fixed.getDimensionCalc()]]})
         }
         if(this.width instanceof WidthConfigPropsModel
-          && (this.width.dynamic instanceof DynamicDimensioningConfigModel || this.width.dynamic === DimensionValueConfigType.Parent)
+          && (this.width.dynamic instanceof DynamicDimensioningConfigModel || this.width.dynamic === DynamicDimensionValueConfigType.Parent)
           && !(this.width.dynamic instanceof DynamicDimensioningConfigModel && this.width.dynamic.stretch === true)){
           if(this.width.dynamic instanceof DynamicDimensioningConfigModel){
             Object.assign(layout,
               {children:[['grow',this.width.dynamic.grow ],['shrink',this.width.dynamic.shrink ]]})
           } else{
             Object.assign(layout,
-              {children:[['grow',DimensionValueConfigType.Parent ],['shrink',DimensionValueConfigType.Parent]]})
+              {children:[['grow',ComponentDimensionValueConfigType.Parent ],['shrink',ComponentDimensionValueConfigType.Parent]]})
           }
         }
         if(verticalLayout.height instanceof HeightConfigPropsModel && verticalLayout.height.fixed instanceof FixedDimensioningConfigModel){
@@ -85,15 +90,15 @@ export class HorizontalLayoutConfigPropsModel {
           }
         }
         if(verticalLayout.height instanceof HeightConfigPropsModel
-          && (verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel || verticalLayout.height.dynamic === DimensionValueConfigType.Parent)
+          && (verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel || verticalLayout.height.dynamic === DynamicDimensionValueConfigType.Parent)
           && !(verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel && verticalLayout.height.dynamic.stretch===true)){
           if(layout.hasOwnProperty('children')){
             if(verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel){
               layout.children.push(['grow',verticalLayout.height.dynamic.grow ])
               layout.children.push(['shrink',verticalLayout.height.dynamic.shrink ])
             } else{
-              layout.children.push(['grow',DimensionValueConfigType.Parent ])
-              layout.children.push(['shrink',DimensionValueConfigType.Parent ])
+              layout.children.push(['grow',ComponentDimensionValueConfigType.Parent ])
+              layout.children.push(['shrink',ComponentDimensionValueConfigType.Parent ])
             }
           } else{
             if(verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel){
@@ -101,7 +106,7 @@ export class HorizontalLayoutConfigPropsModel {
                 {children:[['grow',verticalLayout.height.dynamic.grow ],['shrink',verticalLayout.height.dynamic.shrink ]]})
             } else{
               Object.assign(layout,
-                {children:[['grow',DimensionValueConfigType.Parent ],['shrink',DimensionValueConfigType.Parent ]]})
+                {children:[['grow',ComponentDimensionValueConfigType.Parent ],['shrink',ComponentDimensionValueConfigType.Parent ]]})
             }
           }
         }
