@@ -5,9 +5,7 @@ import {CalculationConfigModel} from "./models/CalculationConfigModel";
 import comparisons from "./unit-functions/comparison-functions/comparisons";
 import {MixedArrayModel} from "./models/MixedArrayModel";
 import {CalculationModel} from "./models/CalculationModel";
-import {PositioningConfigPropsModel} from "./models/Positioning/self/PositioningConfigPropsModel";
 import {ComponentModel} from "./models/ComponentModel";
-import {ResponsivePositioningConfigModel} from "./models/Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
 import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
@@ -17,21 +15,22 @@ import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/Dimension
 import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {FixedDimensioningConfigModel} from "./models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "./enums/dimensionValueConfigTypes.enum";
-import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
-import {ColorType} from "./enums/colorType.enum";
 import {ResponsiveChildLayoutConfigModel} from "./models/ChildLayout/ResponsiveChildLayoutConfigModel"
 import {ChildLayoutConfigPropsModel} from "./models/ChildLayout/ChildLayoutConfigPropsModel"
 import {HorizontalLayoutConfigPropsModel} from "./models/ChildLayout/HorizontalLayoutConfigPropsModel";
-import {VerticalLayoutConfigPropsModel} from "./models/ChildLayout/VerticalLayoutConfigPropsModel";
 import {AxisConfigType} from "./enums/axisConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
-import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
-import {AttributesConfigPropsModel} from './models/Attributes/AttributesConfigPropsModel';
-import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizontalPositioningConfigTypes.enum";
-import {DimensionUnitConfigType} from "./enums/dimensionUnitConfigTypes.enum";
+import {HeightConfigPropsModel} from './models/Dimensioning/self/HeightConfigPropsModel';
+import {WidthConfigPropsModel} from "./models/Dimensioning/self/WidthConfigPropsModel";
+import {CrossAxisVerticalPositioningConfigType} from './enums/crossAxisVerticalPositioningConfigTypes.enum';
+import { DimensionUnitConfigType } from './enums/dimensionUnitConfigTypes.enum';
+import { MainAxisVerticalPositioningConfigType } from './enums/mainAxisVerticalPositioningConfigTypes.enum';
+import { VerticalLayoutConfigPropsModel } from './models/ChildLayout/VerticalLayoutConfigPropsModel';
+import { StylingConfigPropsModel } from './models/Styling/StylingConfigPropsModel';
+import { ColorType } from './enums/colorType.enum';
+import { AttributesConfigPropsModel } from './models/Attributes/AttributesConfigPropsModel';
 
 @Injectable({
   providedIn: 'root'
@@ -177,16 +176,17 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     actions: ActionModel[]
   } = {
     components: [
+      // todo opkuisen geen undefined maar NA
+      // todo overkoepelend RBHS model met constraints
       {
         name: 'content-container',
         type: ComponentType.Container,
-        position: new ResponsivePositioningConfigModel(
-          new PositioningConfigPropsModel()),
         visibility: new ResponsiveVisibilityConfigModel(),
         dimensions: new ResponsiveDimensioningConfigModel(
           new DimensioningConfigPropsModel(
-            new FixedDimensioningConfigModel(
-              DimensionValueConfigType.Calculated, '(100vh - 16px)')
+            new HeightConfigPropsModel(new FixedDimensioningConfigModel(
+            DimensionValueConfigType.Calculated, '(100vh - 16px)'),DimensionValueConfigType.NC),
+            undefined
           )),
         childLayout: new ResponsiveChildLayoutConfigModel(
           new ChildLayoutConfigPropsModel(
@@ -195,11 +195,15 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               true,
               MainAxisHorizontalPositioningConfigType.Left,
-              new DynamicDimensioningConfigModel(1, 1, undefined),
+              new WidthConfigPropsModel(DimensionValueConfigType.NC, new DynamicDimensioningConfigModel(1, 1, DimensionValueConfigType.NA)),
               // todo fix dit lanes moet in de verticale sectie staan als de main axis de horziontale is en vise versa
               MainAxisHorizontalPositioningConfigType.Left
               //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
               // todo ook omgekeerd een constraint maken als er NA bij lanes staat dan moet er ergens ... staan ook!!
+
+              // todo nagaan wat de impact is van grow/shrink op harde waarden in css
+
+              // todo maken dat je bij stretch geen individuele waarden kan ingeven
             ),
             new VerticalLayoutConfigPropsModel(
               AxisConfigType.Cross,
@@ -207,10 +211,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               // todo ook omgekeerd een constraint maken als er NA staat dan moet er ergens stretch staan ook!!
               CrossAxisVerticalPositioningConfigType.Top,
-              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX)
+              new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
+                DimensionValueConfigType.NC)
               , MainAxisVerticalPositioningConfigType.NA
             )
-          ), undefined, undefined,
+          )
+/*          , undefined, undefined,
           new ChildLayoutConfigPropsModel(
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross,
@@ -227,11 +233,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               true,
               MainAxisVerticalPositioningConfigType.Top,
-              new DynamicDimensioningConfigModel(1, 1, undefined),
+              new DynamicDimensioningConfigModel(1, 1, undefined),*/
               //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
-              MainAxisVerticalPositioningConfigType.NA
-            )
-          )
+/*              MainAxisVerticalPositioningConfigType.NA
+            )*/
+          // )
         ),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
@@ -247,10 +253,10 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             visibility: new ResponsiveVisibilityConfigModel(),
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),
-                new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.PX)
+                new HeightConfigPropsModel(new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded, 400,DimensionUnitConfigType.PX),DimensionValueConfigType.Parent),
+                new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.PX),DimensionValueConfigType.Parent)
               )),
           },
 /*          {
@@ -269,12 +275,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.danger))
           },*/
           {
+            // todo aangeven dat niet alles in een model undefined mag zijn
             name: 'logo',
             type: ComponentType.Logo,
             attributes: new ResponsiveAttributesConfigModel(
               new AttributesConfigPropsModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
-            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(undefined,
-              new DynamicDimensioningConfigModel(undefined, 1, undefined))),
             visibility: new ResponsiveVisibilityConfigModel(),
           },
           {

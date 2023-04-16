@@ -1,6 +1,6 @@
 <!-- todo check the influence of flex-none-->
 <div
-  class="flex"
+  [class.flex]="(visible$ | async)"
   [class.flex-row]="(row$|async)"
   [class.flex-column]="(column$|async)"
   [class.flex-wrap]="(wrap$|async)"
@@ -26,8 +26,8 @@
   [class.overflow-auto]="(overflowAuto$|async)"
   [class.overflow-auto-x]="(overflowXAuto$|async)"
   [class.overflow-auto-y]="(overflowYAuto$|async)"
-  [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
   [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
+  [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async)"
   [style.height]="height$ | async"
   [style.width]="width$ | async"
   [class.bg-primary]="backgroundColorPrimary$ | async"

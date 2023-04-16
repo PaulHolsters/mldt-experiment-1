@@ -1,7 +1,6 @@
 <!-- todo verander dit en gebruik zoveel mogelijk primeng classes!
 todo pas de method aan zodat px niet gebruikt worden maar enkel primeng classes-->
 <div
-
   [class]="['flex-shrink-'+((shrink$|async) === undefined? 0 : (shrink$|async)),'flex-grow-'+((grow$|async)=== undefined ? 0 : (grow$|async))]"
   [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
   [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"

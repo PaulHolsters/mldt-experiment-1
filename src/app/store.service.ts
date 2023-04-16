@@ -16,8 +16,6 @@ import {ScreenSize} from "./enums/screenSizes.enum";
 import {OverflowComponentPropsModel} from "./models/Overflow/self/OverflowComponentPropsModel";
 import {OverflowConfigPropsModel} from "./models/Overflow/self/OverflowConfigPropsModel";
 import {ResponsiveOverflowConfigModel} from "./models/Overflow/self/ResponsiveOverflowConfigModel";
-import {MainAxisHorizontalPositioningConfigType} from "./enums/mainAxisHorizontalPositioningConfigTypes.enum";
-import {MainAxisVerticalPositioningConfigType} from "./enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {ResponsiveStylingConfigModel} from "./models/Styling/ResponsiveStylingConfigModel";
 import {StylingComponentPropsModel} from "./models/Styling/StylingComponentPropsModel";
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
@@ -37,6 +35,8 @@ import {ResponsiveChildLayoutConfigModel} from "./models/ChildLayout/ResponsiveC
 import {ChildLayoutConfigPropsModel} from "./models/ChildLayout/ChildLayoutConfigPropsModel";
 import {ParentComponentPropsModel} from "./models/ChildLayout/ParentComponentsPropsModel";
 import {ChildComponentsPropsModel} from "./models/ChildLayout/ChildComponentsPropsModel";
+import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -150,63 +150,83 @@ export class StoreService {
     const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
       if (dimensionsConfig.height) {
-        if (dimensionsConfig.height instanceof FixedDimensioningConfigModel) {
-          switch (dimensionsConfig.height.type) {
+        if (dimensionsConfig.height.fixed && dimensionsConfig.height.fixed instanceof FixedDimensioningConfigModel) {
+          switch (dimensionsConfig.height.fixed.type) {
             case DimensionValueConfigType.Hardcoded:
-              switch (dimensionsConfig.height.unit) {
+              switch (dimensionsConfig.height.fixed.unit) {
                 case DimensionUnitConfigType.REM:
-                  compPropsObj.height = dimensionsConfig.height.value + 'rem'
+                  compPropsObj.height = dimensionsConfig.height.fixed.value + 'rem'
                   break
                 case DimensionUnitConfigType.PX:
-                  compPropsObj.height = dimensionsConfig.height.value + 'px'
+                  compPropsObj.height = dimensionsConfig.height.fixed.value + 'px'
                   break
                 case DimensionUnitConfigType.Percentage:
-                  compPropsObj.height = dimensionsConfig.height.value + '%'
+                  compPropsObj.height = dimensionsConfig.height.fixed.value + '%'
                   break
               }
               break
             case DimensionValueConfigType.Calculated:
-              if (typeof dimensionsConfig.height.value === 'string')
-                compPropsObj.calcHeight = dimensionsConfig.height.value
+              if (typeof dimensionsConfig.height.fixed.value === 'string')
+                compPropsObj.calcHeight = dimensionsConfig.height.fixed.value
               break
           }
-        } else {
-          if (dimensionsConfig.height.grow && !isNaN(dimensionsConfig.height.grow)) {
-            compPropsObj.grow = dimensionsConfig.height.grow
+        } else if(dimensionsConfig.height.fixed && dimensionsConfig.height.fixed === DimensionValueConfigType.Parent){
+          compPropsObj.height = DimensionValueConfigType.Parent
+        }
+        if(dimensionsConfig.height.dynamic  && dimensionsConfig.height.dynamic instanceof DynamicDimensioningConfigModel){
+          if(dimensionsConfig.height.dynamic.grow && dimensionsConfig.height.dynamic.grow === DimensionValueConfigType.Parent){
+            compPropsObj.grow = DimensionValueConfigType.Parent
+          } else if (dimensionsConfig.height.dynamic.grow && !isNaN(dimensionsConfig.height.dynamic.grow)) {
+            compPropsObj.grow = dimensionsConfig.height.dynamic.grow
           }
-          if (dimensionsConfig.height.shrink && !isNaN(dimensionsConfig.height.shrink)) {
-            compPropsObj.shrink = dimensionsConfig.height.shrink
+          if(dimensionsConfig.height.dynamic.shrink && dimensionsConfig.height.dynamic.shrink === DimensionValueConfigType.Parent){
+            compPropsObj.shrink = DimensionValueConfigType.Parent
+          }  else if (dimensionsConfig.height.dynamic.shrink && !isNaN(dimensionsConfig.height.dynamic.shrink)) {
+            compPropsObj.shrink = dimensionsConfig.height.dynamic.shrink
           }
+        } else if(dimensionsConfig.height.dynamic  && dimensionsConfig.height.dynamic === DimensionValueConfigType.Parent){
+          compPropsObj.grow = DimensionValueConfigType.Parent
+          compPropsObj.shrink = DimensionValueConfigType.Parent
         }
       }
-      if (dimensionsConfig.width) {
-        if (dimensionsConfig.width instanceof FixedDimensioningConfigModel) {
-          switch (dimensionsConfig.width.type) {
+      if (dimensionsConfig.width ) {
+        if (dimensionsConfig.width.fixed && dimensionsConfig.width.fixed instanceof FixedDimensioningConfigModel) {
+          switch (dimensionsConfig.width.fixed.type) {
             case DimensionValueConfigType.Hardcoded:
-              switch (dimensionsConfig.width.unit) {
+              switch (dimensionsConfig.width.fixed.unit) {
                 case DimensionUnitConfigType.REM:
-                  compPropsObj.width = dimensionsConfig.width.value + 'rem'
+                  compPropsObj.width = dimensionsConfig.width.fixed.value + 'rem'
                   break
                 case DimensionUnitConfigType.PX:
-                  compPropsObj.width = dimensionsConfig.width.value + 'px'
+                  compPropsObj.width = dimensionsConfig.width.fixed.value + 'px'
                   break
                 case DimensionUnitConfigType.Percentage:
-                  compPropsObj.width = dimensionsConfig.width.value + '%'
+                  compPropsObj.width = dimensionsConfig.width.fixed.value + '%'
                   break
               }
               break
             case DimensionValueConfigType.Calculated:
-              if (typeof dimensionsConfig.width.value === 'string')
-                compPropsObj.calcWidth = dimensionsConfig.width.value
+              if (typeof dimensionsConfig.width.fixed.value === 'string')
+                compPropsObj.calcWidth = dimensionsConfig.width.fixed.value
               break
           }
-        } else {
-          if (dimensionsConfig.width.grow && !isNaN(dimensionsConfig.width.grow)) {
-            compPropsObj.grow = dimensionsConfig.width.grow
+        } else if(dimensionsConfig.width.fixed && dimensionsConfig.width.fixed === DimensionValueConfigType.Parent){
+          compPropsObj.width = DimensionValueConfigType.Parent
+        }
+        if(dimensionsConfig.width.dynamic && dimensionsConfig.width.dynamic instanceof DynamicDimensioningConfigModel){
+          if(dimensionsConfig.width.dynamic.grow && dimensionsConfig.width.dynamic.grow === DimensionValueConfigType.Parent){
+            compPropsObj.grow = DimensionValueConfigType.Parent
+          }else if (dimensionsConfig.width.dynamic.grow && !isNaN(dimensionsConfig.width.dynamic.grow)) {
+            compPropsObj.grow = dimensionsConfig.width.dynamic.grow
           }
-          if (dimensionsConfig.width.shrink && !isNaN(dimensionsConfig.width.shrink)) {
-            compPropsObj.shrink = dimensionsConfig.width.shrink
+          if(dimensionsConfig.width.dynamic.shrink && dimensionsConfig.width.dynamic.shrink === DimensionValueConfigType.Parent){
+            compPropsObj.shrink = DimensionValueConfigType.Parent
+          }else if (dimensionsConfig.width.dynamic.shrink && !isNaN(dimensionsConfig.width.dynamic.shrink)) {
+            compPropsObj.shrink = dimensionsConfig.width.dynamic.shrink
           }
+        } else if(dimensionsConfig.width.dynamic  && dimensionsConfig.width.dynamic === DimensionValueConfigType.Parent){
+          compPropsObj.grow = DimensionValueConfigType.Parent
+          compPropsObj.shrink = DimensionValueConfigType.Parent
         }
       }
       return compPropsObj
@@ -305,9 +325,11 @@ export class StoreService {
       newState instanceof OverflowComponentPropsModel
       ){
       for (let [k, v] of Object.entries(newState)) {
-        this.getStatePropertySubjects().find(subj => {
-          return subj.componentName === componentName && subj.propName === k
-        })?.propValue.next(v)
+        if(v!==DimensionValueConfigType.Parent){
+          this.getStatePropertySubjects().find(subj => {
+            return subj.componentName === componentName && subj.propName === k
+          })?.propValue.next(v)
+        }
       }
     } else if(newState instanceof ChildLayoutComponentsPropsModel){
       if(newState.parentProps){
@@ -323,15 +345,15 @@ export class StoreService {
           if(parent?.children){
             if(parent.children?.length > 0 && typeof parent.children[0] === 'string'){
               (parent.children as string[]).forEach(childName=>{
-                this.getStatePropertySubjects().find(subj => {
-                  return subj.componentName === childName && subj.propName === k
-                })?.propValue.next(v)
+                  this.getStatePropertySubjects().find(subj => {
+                    return subj.componentName === childName && subj.propName === k
+                  })?.propValue.next(v)
               })
             } else{
               (parent.children as ComponentModel[]).forEach(childComp=>{
-                this.getStatePropertySubjects().find(subj => {
-                  return subj.componentName === childComp.name && subj.propName === k
-                })?.propValue.next(v)
+                  this.getStatePropertySubjects().find(subj => {
+                    return subj.componentName === childComp.name && subj.propName === k
+                  })?.propValue.next(v)
               })
             }
           }
@@ -350,6 +372,7 @@ export class StoreService {
   }) {
     this.components = [...contentContainer.components]
     contentContainer.components.forEach(comp => {
+      // todo fix het feit dat je nu bij dimensions ofwel hardcoded ofwel shrink hebt terwijl die perfect samen mogen!!!
       // children: indien child components inlined zijn zodat ze niet vergeten worden om te initialisezeren
       if(comp.children && comp.children.length>0){
         (comp.children as ComponentModel[]).forEach(child=>{
@@ -434,7 +457,6 @@ export class StoreService {
         })
         if(childLayout.childProps)
         Object.keys(childLayout.childProps).forEach(propName=>{
-
           if(comp.children){
             if(comp.children?.length > 0 && typeof comp.children[0] === 'string'){
               (comp.children as string[]).forEach(childName=>{

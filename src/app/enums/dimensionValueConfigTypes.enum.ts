@@ -1,4 +1,7 @@
 export enum DimensionValueConfigType {
   Calculated,
-  Hardcoded
+  Hardcoded,
+  Parent,
+  NA,
+  NC
 }

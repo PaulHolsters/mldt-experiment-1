@@ -44,6 +44,7 @@ export class ContainerComponent implements OnInit {
   backgroundColorPrimary$: Observable<any>|undefined
   backgroundColorWhite$: Observable<any>|undefined
   backgroundColorDanger$: Observable<any>|undefined
+  // todo deze lijken standaard visible te zijn
   visible$: Observable<any>|undefined
   holdSpace$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined

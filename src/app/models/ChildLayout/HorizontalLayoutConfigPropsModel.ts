@@ -6,13 +6,17 @@ import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHor
 import {VerticalLayoutConfigPropsModel} from "./VerticalLayoutConfigPropsModel";
 import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisVerticalPositioningConfigTypes.enum";
+import {WidthConfigPropsModel} from "../Dimensioning/self/WidthConfigPropsModel";
+import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
+import {HeightConfigPropsModel} from "../Dimensioning/self/HeightConfigPropsModel";
+
 export class HorizontalLayoutConfigPropsModel {
   constructor(
     public axis: AxisConfigType,
     public wrap: boolean | undefined,
     public scroll: boolean,
     public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType,
-    public width: FixedDimensioningConfigModel | DynamicDimensioningConfigModel |undefined,
+    public width: WidthConfigPropsModel|DimensionValueConfigType.NA|DimensionValueConfigType.NC,
     public lanes: MainAxisHorizontalPositioningConfigType) {
     // todo add constraints
   }
@@ -41,34 +45,61 @@ export class HorizontalLayoutConfigPropsModel {
         }
       case 'width':
         const layout:{parent:any[],children:any[]} = {parent:[],children:[]}
-        if ((this.width instanceof DynamicDimensioningConfigModel && this.width.stretch)
-          || (verticalLayout.height instanceof DynamicDimensioningConfigModel && verticalLayout.height.stretch)) {
+        if ((this.width instanceof WidthConfigPropsModel
+            && this.width.dynamic instanceof DynamicDimensioningConfigModel
+            && this.width.dynamic.stretch)
+          || (verticalLayout.height instanceof HeightConfigPropsModel
+            && verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel
+            && verticalLayout.height.dynamic.stretch)) {
           Object.assign(layout,{parent:[['alignItemsStretch', true]]})
         }
-        if(this.width instanceof FixedDimensioningConfigModel){
+        if(this.width instanceof WidthConfigPropsModel
+          && this.width.fixed instanceof FixedDimensioningConfigModel ){
           Object.assign(layout,
-            {children:[['width',this.width.getDimension()],['calcWidth',this.width.getDimensionCalc()]]})
-        } else if(this.width instanceof DynamicDimensioningConfigModel && !this.width.stretch){
-          Object.assign(layout,
-            {children:[['grow',this.width.grow ],['shrink',this.width.shrink ]]})
+            {children:[['width',this.width.fixed.getDimension()],['calcWidth',this.width.fixed.getDimensionCalc()]]})
         }
-        if(verticalLayout.height instanceof FixedDimensioningConfigModel){
-          if(layout.hasOwnProperty('children')){
-            layout.children.push(['height',verticalLayout.height.getDimension()])
-            layout.children.push(['calcHeight',verticalLayout.height.getDimensionCalc()])
+        if(this.width instanceof WidthConfigPropsModel
+          && (this.width.dynamic instanceof DynamicDimensioningConfigModel || this.width.dynamic === DimensionValueConfigType.Parent)
+          && !(this.width.dynamic instanceof DynamicDimensioningConfigModel && this.width.dynamic.stretch === true)){
+          if(this.width.dynamic instanceof DynamicDimensioningConfigModel){
+            Object.assign(layout,
+              {children:[['grow',this.width.dynamic.grow ],['shrink',this.width.dynamic.shrink ]]})
           } else{
             Object.assign(layout,
-              {children:[['height',verticalLayout.height.getDimension()],['calcHeight',verticalLayout.height.getDimensionCalc()]]})
-          }
-        } else if(verticalLayout.height instanceof DynamicDimensioningConfigModel && !verticalLayout.height.stretch){
-          if(layout.hasOwnProperty('children')){
-            layout.children.push(['grow',verticalLayout.height.grow ])
-            layout.children.push(['shrink',verticalLayout.height.shrink ])
-          } else{
-            Object.assign(layout,
-              {children:[['grow',verticalLayout.height.grow ],['shrink',verticalLayout.height.shrink ]]})
+              {children:[['grow',DimensionValueConfigType.Parent ],['shrink',DimensionValueConfigType.Parent]]})
           }
         }
+        if(verticalLayout.height instanceof HeightConfigPropsModel && verticalLayout.height.fixed instanceof FixedDimensioningConfigModel){
+          if(layout.hasOwnProperty('children')){
+            layout.children.push(['height',verticalLayout.height.fixed.getDimension()])
+            layout.children.push(['calcHeight',verticalLayout.height.fixed.getDimensionCalc()])
+          } else{
+            Object.assign(layout,
+              {children:[['height',verticalLayout.height.fixed.getDimension()],['calcHeight',verticalLayout.height.fixed.getDimensionCalc()]]})
+          }
+        }
+        if(verticalLayout.height instanceof HeightConfigPropsModel
+          && (verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel || verticalLayout.height.dynamic === DimensionValueConfigType.Parent)
+          && !(verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel && verticalLayout.height.dynamic.stretch===true)){
+          if(layout.hasOwnProperty('children')){
+            if(verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel){
+              layout.children.push(['grow',verticalLayout.height.dynamic.grow ])
+              layout.children.push(['shrink',verticalLayout.height.dynamic.shrink ])
+            } else{
+              layout.children.push(['grow',DimensionValueConfigType.Parent ])
+              layout.children.push(['shrink',DimensionValueConfigType.Parent ])
+            }
+          } else{
+            if(verticalLayout.height.dynamic instanceof DynamicDimensioningConfigModel){
+              Object.assign(layout,
+                {children:[['grow',verticalLayout.height.dynamic.grow ],['shrink',verticalLayout.height.dynamic.shrink ]]})
+            } else{
+              Object.assign(layout,
+                {children:[['grow',DimensionValueConfigType.Parent ],['shrink',DimensionValueConfigType.Parent ]]})
+            }
+          }
+        }
+        debugger
         return layout
       case 'lanes':
         return {parent:[

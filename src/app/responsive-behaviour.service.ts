@@ -30,6 +30,7 @@ export class ResponsiveBehaviourService {
         this.storeService.setState(comp.name,this.storeService.getStylingComponentProps( comp.name,comp.styling,screenSize))
       if(comp.childLayout)
         this.storeService.setState(comp.name,this.storeService.getChildLayoutComponentProps(comp.name,comp.childLayout,screenSize))
+      // todo er is een verband tussen parent en childs bv wat betreft dimensions die nu worden overschreven
       if (comp.children && comp.children.length > 0) {
         comp.children.forEach(child => {
           if(typeof child === 'string'){
@@ -45,6 +46,7 @@ export class ResponsiveBehaviourService {
             if(child.styling)
               this.storeService.setState(child.name,this.storeService.getStylingComponentProps( child.name,child.styling,screenSize))
             if(child.dimensions)
+              // todo geef hier de parent mee?
               this.storeService.setState(child.name,this.storeService.getDimensionsComponentProps( child.name,child.dimensions,screenSize))
             if(child.overflow)
               this.storeService.setState(child.name,this.storeService.getOverflowComponentProps( child.name,child.overflow,screenSize))
