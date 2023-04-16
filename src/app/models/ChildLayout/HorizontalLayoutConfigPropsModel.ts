@@ -9,6 +9,9 @@ import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisVerti
 import {WidthConfigPropsModel} from "../Dimensioning/self/WidthConfigPropsModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {HeightConfigPropsModel} from "../Dimensioning/self/HeightConfigPropsModel";
+import {
+  CrossAxisHorizontalLanesPositioningConfigType
+} from "../../enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
 
 export class HorizontalLayoutConfigPropsModel {
   constructor(
@@ -17,7 +20,7 @@ export class HorizontalLayoutConfigPropsModel {
     public scroll: boolean,
     public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType,
     public width: WidthConfigPropsModel|DimensionValueConfigType.NA|DimensionValueConfigType.NC,
-    public lanes: MainAxisHorizontalPositioningConfigType) {
+    public lanes: CrossAxisHorizontalLanesPositioningConfigType) {
     // todo add constraints
   }
   public getComponentProperties(propName: string, verticalLayout: VerticalLayoutConfigPropsModel): {parent?:any[][],children?:any[][]} {
@@ -99,16 +102,15 @@ export class HorizontalLayoutConfigPropsModel {
             }
           }
         }
-        debugger
         return layout
       case 'lanes':
         return {parent:[
-          ['alignContentStart', this.lanes === MainAxisHorizontalPositioningConfigType.Left],
-          ['alignContentCenter', this.lanes === MainAxisHorizontalPositioningConfigType.Center],
-          ['alignContentEnd', this.lanes === MainAxisHorizontalPositioningConfigType.Right],
-          ['alignContentBetween', this.lanes === MainAxisHorizontalPositioningConfigType.Between],
-          ['alignContentEvenly', this.lanes === MainAxisHorizontalPositioningConfigType.Evenly],
-          ['alignContentAround', this.lanes === MainAxisHorizontalPositioningConfigType.Around]]}
+          ['alignContentStart', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Left],
+          ['alignContentCenter', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Center],
+          ['alignContentEnd', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Right],
+          ['alignContentBetween', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Between],
+          ['alignContentEvenly', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Evenly],
+          ['alignContentAround', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Around]]}
     }
     throw new Error('Property ?' + propName + '? does not exist HorizontalLayoutConfigPropsModel')
   }

@@ -31,6 +31,11 @@ import { VerticalLayoutConfigPropsModel } from './models/ChildLayout/VerticalLay
 import { StylingConfigPropsModel } from './models/Styling/StylingConfigPropsModel';
 import { ColorType } from './enums/colorType.enum';
 import { AttributesConfigPropsModel } from './models/Attributes/AttributesConfigPropsModel';
+import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizontalPositioningConfigTypes.enum";
+import {
+  CrossAxisHorizontalLanesPositioningConfigType
+} from "./enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
+import { CrossAxisVerticalLanesPositioningConfigType } from './enums/crossAxisVerticalLanesPositioningConfigTypes.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -195,25 +200,19 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               true,
               MainAxisHorizontalPositioningConfigType.Left,
+              // todo opsplitsen in verschillende types
               new WidthConfigPropsModel(DimensionValueConfigType.NC, new DynamicDimensioningConfigModel(1, 1, DimensionValueConfigType.NA)),
               // todo fix dit lanes moet in de verticale sectie staan als de main axis de horziontale is en vise versa
-              MainAxisHorizontalPositioningConfigType.Left
-              //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
-              // todo ook omgekeerd een constraint maken als er NA bij lanes staat dan moet er ergens ... staan ook!!
-
-              // todo nagaan wat de impact is van grow/shrink op harde waarden in css
-
-              // todo maken dat je bij stretch geen individuele waarden kan ingeven
+              CrossAxisHorizontalLanesPositioningConfigType.NA
             ),
             new VerticalLayoutConfigPropsModel(
               AxisConfigType.Cross,
               undefined,
               true,
-              // todo ook omgekeerd een constraint maken als er NA staat dan moet er ergens stretch staan ook!!
               CrossAxisVerticalPositioningConfigType.Top,
               new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
-                DimensionValueConfigType.NC)
-              , MainAxisVerticalPositioningConfigType.NA
+                DimensionValueConfigType.NC),
+              CrossAxisVerticalLanesPositioningConfigType.Top
             )
           )
 /*          , undefined, undefined,
