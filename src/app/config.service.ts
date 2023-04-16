@@ -183,6 +183,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     components: [
       {
         // todo start adding constraints
+        // todo add a minimal/maxiaml dimension
         name: 'content-container',
         type: ComponentType.Container,
         visibility: new ResponsiveVisibilityConfigModel(),
@@ -197,6 +198,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           )
         ),
         childLayout: new ResponsiveChildLayoutConfigModel(
+          // todo add the other parts too like visibility, styling etc., change scroll into overflow
           new ChildLayoutConfigPropsModel(
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross,
@@ -229,7 +231,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             type: ComponentType.Block,
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
-          }, {
+          },
+          {
             name: 'block-2',
             type: ComponentType.Block,
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
