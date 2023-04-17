@@ -327,7 +327,6 @@ export class StoreService {
       return comp.name === compName
     })
   }
-
   public setState(componentName: string,
                   newState: (PositioningComponentPropsModel |
                     AttributesComponentPropsModel |
@@ -492,7 +491,6 @@ export class StoreService {
     contentContainer.components.forEach(comp => {
       this.createProps(comp)}
     )
-    debugger
   }
 
   public bindToStateProperty(componentName: string, propName: string):

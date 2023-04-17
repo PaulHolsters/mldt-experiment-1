@@ -8,51 +8,42 @@ import {ScreenSize} from "./enums/screenSizes.enum";
 })
 export class ResponsiveBehaviourService {
   constructor(private storeService:StoreService) { }
+  private setState(component:ComponentModel,screenSize:number) {
+    if (component.position)
+      this.storeService.setState(component.name, this.storeService.getPositionComponentProps(component.name, component.position, screenSize))
+    if (component.dimensions)
+      this.storeService.setState(component.name, this.storeService.getDimensionsComponentProps(component.name, component.dimensions, screenSize))
+    if (component.overflow)
+      this.storeService.setState(component.name, this.storeService.getOverflowComponentProps(component.name, component.overflow, screenSize))
+    if (component.visibility)
+      this.storeService.setState(component.name, this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize))
+    if (component.attributes)
+      this.storeService.setState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
+    if (component.styling)
+      this.storeService.setState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
+    if (component.childLayout)
+      this.storeService.setState(component.name, this.storeService.getChildLayoutComponentProps(component.name, component.childLayout, screenSize))
+    this.storeService.setState(component.name, component.children as ComponentModel[])
+    if (component.children && component.children.length > 0) {
+      component.children.forEach(child => {
+        if (typeof child === 'string') {
+
+        } else {
+          this.setState(child,screenSize)
+        }
+      })
+    }
+  }
   private setComponentStates(contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
   }, screenSize:number){
     contentContainer.components.forEach(comp => {
-      if(comp.position)
-      this.storeService.setState(comp.name,this.storeService.getPositionComponentProps(comp.name,comp.position,screenSize))
-      if(comp.dimensions)
-        this.storeService.setState(comp.name,this.storeService.getDimensionsComponentProps( comp.name,comp.dimensions,screenSize))
-      if(comp.overflow)
-        this.storeService.setState(comp.name,this.storeService.getOverflowComponentProps( comp.name,comp.overflow,screenSize))
-      if(comp.visibility)
-        this.storeService.setState(comp.name,this.storeService.getVisibilityComponentProps(comp.name,comp.visibility,screenSize))
-      if(comp.attributes)
-        this.storeService.setState(comp.name,this.storeService.getAttributesComponentProps( comp.name,comp.attributes,screenSize))
-      if(comp.styling)
-        this.storeService.setState(comp.name,this.storeService.getStylingComponentProps( comp.name,comp.styling,screenSize))
-      if(comp.childLayout)
-        this.storeService.setState(comp.name,this.storeService.getChildLayoutComponentProps(comp.name,comp.childLayout,screenSize))
-      // todo er is een verband tussen parent en childs bv wat betreft dimensions die nu worden overschreven
-      if (comp.children && comp.children.length > 0) {
-        comp.children.forEach(child => {
-          if(typeof child === 'string'){
+      this.setState(comp,screenSize)
 
-          } else{
-            // todo controleer of alles goed verloopt
-            if(child.position)
-              this.storeService.setState(child.name,this.storeService.getPositionComponentProps(child.name,child.position,screenSize))
-            if(child.visibility)
-              this.storeService.setState(child.name,this.storeService.getVisibilityComponentProps(child.name,child.visibility,screenSize))
-            if(child.attributes)
-              this.storeService.setState(child.name,this.storeService.getAttributesComponentProps( child.name,child.attributes,screenSize))
-            if(child.styling)
-              this.storeService.setState(child.name,this.storeService.getStylingComponentProps( child.name,child.styling,screenSize))
-            if(child.dimensions)
-              // todo geef hier de parent mee?
-              this.storeService.setState(child.name,this.storeService.getDimensionsComponentProps( child.name,child.dimensions,screenSize))
-            if(child.overflow)
-              this.storeService.setState(child.name,this.storeService.getOverflowComponentProps( child.name,child.overflow,screenSize))
-          }
-        })
-        this.storeService.setState(comp.name,comp.children as ComponentModel[])
-      }
-    })
-  }
+      })
+    }
+
   public setResponsiveBehaviour(contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
