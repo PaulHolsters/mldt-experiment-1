@@ -248,6 +248,35 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               )),
           },
           {
+            name:'inner-component',
+            type:ComponentType.Container,
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(),
+            dimensions: new ResponsiveDimensioningConfigModel(
+              new DimensioningConfigPropsModel(
+                new HeightConfigPropsModel(
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 550, DimensionUnitConfigType.PX),
+                  DynamicDimensionValueConfigType.Parent),
+                new WidthConfigPropsModel(
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 550, DimensionUnitConfigType.PX),
+                  DynamicDimensionValueConfigType.Parent)
+              )),
+            children:[
+              {
+                name:'child1',
+                type:ComponentType.Block,
+                styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+                visibility: new ResponsiveVisibilityConfigModel()
+              },
+              {
+                name:'child2',
+                type:ComponentType.Block,
+                styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+                visibility: new ResponsiveVisibilityConfigModel()
+              }
+            ]
+          },
+          {
             name: 'block-4',
             type: ComponentType.Block,
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
