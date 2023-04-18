@@ -314,13 +314,36 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
-
-  private getParentComponentConfig(compName: string): ComponentModel | undefined {
-    // todo inner container niet gevonden => er is letterlijk maar 1 component in deze components array
-    return this.components?.find(comp => {
-      return comp.name === compName
-    })
-
+  private getComponent(compName: string ,component?:ComponentModel): ComponentModel | undefined {
+    // todo later string [] variant toevoegen
+    if(component){
+        if(component.name !== compName){
+          if(component.children){
+            for (let j=0;j<component.children.length;j++){
+              const comp = this.getComponent(compName,component.children[j] as ComponentModel)
+              if(comp){
+                return comp
+              }
+            }
+          }
+      } else return component
+    } else{
+      if(this.components !== undefined){
+        for (let i=0;i<this.components.length;i++){
+          if(this.components[i].name !== compName){
+            if(this.components[i].children){
+              for (let k=0;k<(this.components[i].children as ComponentModel[]).length;k++){
+                const comp = this.getComponent(compName,(this.components[i].children as ComponentModel[])[k])
+                if(comp){
+                  return comp
+                }
+              }
+            }
+          } else return this.components[i]
+        }
+      }
+    }
+    return undefined
   }
   public setState(componentName: string,
                   newState: (PositioningComponentPropsModel |
@@ -355,8 +378,7 @@ export class StoreService {
       }
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
-          const parent = this.getParentComponentConfig(componentName)
-          // todo fix bug: deze methode werkt niet voor de inner-container blijkbaar
+          const parent = this.getComponent(componentName)
           if (parent?.children) {
             if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
               (parent.children as string[]).forEach(childName => {

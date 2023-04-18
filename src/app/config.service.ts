@@ -268,9 +268,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   undefined,
                   true,
                   CrossAxisHorizontalPositioningConfigType.Left,
-                  // todo fix BUG: deze dimensions worden niet meegenomen hier
                   new WidthConfigPropsModel(
-                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 800, DimensionUnitConfigType.PX),
+                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 150, DimensionUnitConfigType.PX),
                     DynamicDimensionValueConfigType.NA
                   ),
                   CrossAxisHorizontalLanesPositioningConfigType.Between
@@ -281,7 +280,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   true,
                   MainAxisVerticalPositioningConfigType.Evenly,
                   new HeightConfigPropsModel(
-                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 800, DimensionUnitConfigType.PX),
+                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 150, DimensionUnitConfigType.PX),
                     DynamicDimensionValueConfigType.NC
                   ),
                   CrossAxisVerticalLanesPositioningConfigType.NA
@@ -306,7 +305,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           {
             name: 'block-4',
             type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
             visibility: new ResponsiveVisibilityConfigModel()
           },
           {
