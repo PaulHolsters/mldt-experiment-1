@@ -7,12 +7,14 @@ import {ScreenSize} from "./enums/screenSizes.enum";
   providedIn: 'root'
 })
 export class ResponsiveBehaviourService {
-  constructor(private storeService:StoreService) { }
-  private setState(component:ComponentModel,screenSize:number) {
+  constructor(private storeService: StoreService) {
+  }
+  private setState(component: ComponentModel, screenSize: number) {
     if (component.position)
       this.storeService.setState(component.name, this.storeService.getPositionComponentProps(component.name, component.position, screenSize))
-    if (component.dimensions)
+    if (component.dimensions){
       this.storeService.setState(component.name, this.storeService.getDimensionsComponentProps(component.name, component.dimensions, screenSize))
+    }
     if (component.overflow)
       this.storeService.setState(component.name, this.storeService.getOverflowComponentProps(component.name, component.overflow, screenSize))
     if (component.visibility)
@@ -21,15 +23,17 @@ export class ResponsiveBehaviourService {
       this.storeService.setState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
     if (component.styling)
       this.storeService.setState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
-    if (component.childLayout)
+    if (component.childLayout){
       this.storeService.setState(component.name, this.storeService.getChildLayoutComponentProps(component.name, component.childLayout, screenSize))
-    this.storeService.setState(component.name, component.children as ComponentModel[])
+    }
+    // todo fix = ik denk dat hier iets wordt overschreven nadat het eerst correct werd geïnitialiseerd
     if (component.children && component.children.length > 0) {
+      this.storeService.setState(component.name, component.children as ComponentModel[])
       component.children.forEach(child => {
         if (typeof child === 'string') {
 
         } else {
-          this.setState(child,screenSize)
+          this.setState(child, screenSize)
         }
       })
     }
@@ -37,13 +41,11 @@ export class ResponsiveBehaviourService {
   private setComponentStates(contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
-  }, screenSize:number){
+  }, screenSize: number) {
     contentContainer.components.forEach(comp => {
-      this.setState(comp,screenSize)
-
-      })
-    }
-
+      this.setState(comp, screenSize)
+    })
+  }
   public setResponsiveBehaviour(contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
@@ -58,66 +60,67 @@ export class ResponsiveBehaviourService {
     const mqHR1 = window.matchMedia("(min-width: 1281px)") //HR
     mqSM1.addEventListener("change", (e => {
       if (mqSM1.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.smartphone)
+        this.setComponentStates(contentContainer, ScreenSize.smartphone)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqSM1.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.smartphone)
+        this.setComponentStates(contentContainer, ScreenSize.smartphone)
       }
     }))
     mqPT1.addEventListener("change", (e => {
       if (mqPT1.matches && mqPT2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.portraitTablet)
+        this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
       }
     }))
     mqPT2.addEventListener("change", (e => {
       if (mqPT1.matches && mqPT2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.portraitTablet)
+        this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqPT1.matches && mqPT2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.portraitTablet)
+        this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
       }
     }))
     mqT1.addEventListener("change", (e => {
       if (mqT1.matches && mqT2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.tablet)
+        this.setComponentStates(contentContainer, ScreenSize.tablet)
       }
     }))
     mqT2.addEventListener("change", (e => {
       if (mqT1.matches && mqT2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.tablet)
+        this.setComponentStates(contentContainer, ScreenSize.tablet)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqT1.matches && mqT2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.tablet)
-      }}))
+        this.setComponentStates(contentContainer, ScreenSize.tablet)
+      }
+    }))
     mqL1.addEventListener("change", (e => {
       if (mqL1.matches && mqL2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.laptop)
+        this.setComponentStates(contentContainer, ScreenSize.laptop)
       }
     }))
     mqL2.addEventListener("change", (e => {
       if (mqL1.matches && mqL2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.laptop)
+        this.setComponentStates(contentContainer, ScreenSize.laptop)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqL1.matches && mqL2.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.laptop)
+        this.setComponentStates(contentContainer, ScreenSize.laptop)
       }
     }))
     mqHR1.addEventListener("change", (e => {
       if (mqHR1.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.highResolution)
+        this.setComponentStates(contentContainer, ScreenSize.highResolution)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqHR1.matches) {
-        this.setComponentStates(contentContainer,ScreenSize.highResolution)
+        this.setComponentStates(contentContainer, ScreenSize.highResolution)
       }
     }))
   }

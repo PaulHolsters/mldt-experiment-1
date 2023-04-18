@@ -43,16 +43,13 @@ import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTy
 import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
-
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
   constructor() {
   }
-
   private statePropertySubjects: StatePropertySubjectModel[] = []
-
   private hasScreenSizeProperty(stateModel:
                                   ResponsivePositioningConfigModel | ResponsiveOverflowConfigModel | ResponsiveStylingConfigModel | ResponsiveDimensioningConfigModel | ResponsiveAttributesConfigModel
                                   | ResponsiveVisibilityConfigModel, property: string): boolean {
@@ -68,7 +65,6 @@ export class StoreService {
     }
     return false
   }
-
   // volgende methodes zijn pure opstartwaarden, zij geven niet de runtime waarden van de props terug, bv wanneer deze gewijzigd moeten worden!
   public getPositionComponentProps(componentName: string,
                                    stateModel: ResponsivePositioningConfigModel,
@@ -93,7 +89,6 @@ export class StoreService {
       throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
     } else return new PositioningComponentPropsModel()
   }
-
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
@@ -116,7 +111,6 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getOverflowChildComponentsProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowChildConfigPropsModel): OverflowComponentPropsModel => {
@@ -140,7 +134,6 @@ export class StoreService {
       throw new Error('No screensize configuration was found for given ResponsiveOverflowConfigModel and screen ' + ScreenSize[screenSize])
     } else return new OverflowComponentPropsModel()
   }
-
   public getStylingComponentProps(componentName: string, stateModel: ResponsiveStylingConfigModel, screenSize: number): StylingComponentPropsModel {
     const translateToStylingComponentProps =
       (stylingConfig: StylingConfigPropsModel): StylingComponentPropsModel => {
@@ -323,9 +316,11 @@ export class StoreService {
   }
 
   private getParentComponentConfig(compName: string): ComponentModel | undefined {
+    // todo inner container niet gevonden => er is letterlijk maar 1 component in deze components array
     return this.components?.find(comp => {
       return comp.name === compName
     })
+
   }
   public setState(componentName: string,
                   newState: (PositioningComponentPropsModel |
@@ -361,6 +356,7 @@ export class StoreService {
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
           const parent = this.getParentComponentConfig(componentName)
+          // todo fix bug: deze methode werkt niet voor de inner-container blijkbaar
           if (parent?.children) {
             if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
               (parent.children as string[]).forEach(childName => {

@@ -261,17 +261,44 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 550, DimensionUnitConfigType.PX),
                   DynamicDimensionValueConfigType.Parent)
               )),
+            childLayout:new ResponsiveChildLayoutConfigModel(
+              new ChildLayoutConfigPropsModel(
+                new HorizontalLayoutConfigPropsModel(
+                  AxisConfigType.Cross,
+                  undefined,
+                  true,
+                  CrossAxisHorizontalPositioningConfigType.Left,
+                  // todo fix BUG: deze dimensions worden niet meegenomen hier
+                  new WidthConfigPropsModel(
+                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 800, DimensionUnitConfigType.PX),
+                    DynamicDimensionValueConfigType.NA
+                  ),
+                  CrossAxisHorizontalLanesPositioningConfigType.Between
+                ),
+                new VerticalLayoutConfigPropsModel(
+                  AxisConfigType.Main,
+                  true,
+                  true,
+                  MainAxisVerticalPositioningConfigType.Evenly,
+                  new HeightConfigPropsModel(
+                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 800, DimensionUnitConfigType.PX),
+                    DynamicDimensionValueConfigType.NC
+                  ),
+                  CrossAxisVerticalLanesPositioningConfigType.NA
+                )
+              )
+            ),
             children:[
               {
                 name:'child1',
                 type:ComponentType.Block,
-                styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-                visibility: new ResponsiveVisibilityConfigModel()
+                visibility: new ResponsiveVisibilityConfigModel(),
+                styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.danger))
               },
               {
                 name:'child2',
                 type:ComponentType.Block,
-                styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+                styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.danger)),
                 visibility: new ResponsiveVisibilityConfigModel()
               }
             ]
@@ -279,7 +306,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           {
             name: 'block-4',
             type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
             visibility: new ResponsiveVisibilityConfigModel()
           },
           {

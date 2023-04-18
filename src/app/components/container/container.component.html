@@ -1,4 +1,12 @@
-<!-- todo check the influence of flex-none-->
+<!-- todo zet flex enkel op wanneer er sprake is van child layout anders niet!!!!!-->
+<!-- todo laat dus ook no-flex implementaties toe die ook mogelijkheiden extra bieden , men moet
+          vooral weten dat deze componenten ook los gebruikt kunnen worden, HOEWEL binnen Mouldit is dat eigenlijk nooit het geval!!!,
+          hoewel nee dan ga je meer constainer moeten aanmaken wat stoem is dus in een tweede fase zeker doen!
+
+          todo ZONIET moet er een constraint komen die childLayout verplicht maakt voor een container!!!!
+                De bedoeling is immers dat een container niet gebruikt wordt als er geen children in moeten komen
+                // die constraint is nu lastig omdat dit niet op component niveau gedicteerd wordt
+          -->
 <div
   [class.flex]="(visible$ | async)"
   [class.flex-row]="(row$|async)"
