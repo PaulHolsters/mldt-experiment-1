@@ -206,12 +206,15 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               AxisConfigType.Cross,
               undefined,
               true,
+              // dit zal de componenten binnen een lane positioneren
               CrossAxisHorizontalPositioningConfigType.Center,
               new WidthConfigPropsModel(
-                // todo fix bug hier komen er plots haken bij zonder noodzaak gebeurt enkel bij childLayout
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '900px - 20vh'),
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '90px'),
                 DynamicDimensionValueConfigType.NA
               ),
+              // dit zal lanes positioneren ten opzichte van elkaar
+              // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
+              //    dit zou je kunnen oplossen door in uiterste nood een event laten gebeuren en vervolgens de waarde hier wijzigen
               CrossAxisHorizontalLanesPositioningConfigType.Center
             ),
             new VerticalLayoutConfigPropsModel(
@@ -240,17 +243,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             name: 'block-2',
             type: ComponentType.Block,
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel(),
+            visibility: new ResponsiveVisibilityConfigModel(),/*
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new HeightConfigPropsModel(
-
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '900px - 20vh'),
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '90px'),
                   DynamicDimensionValueConfigType.Parent),
                 new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '900px - 10vh'),
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '90px'),
                   DynamicDimensionValueConfigType.Parent)
-              )),
+              )),*/
           },
           {
             name:'inner-component',
@@ -286,7 +288,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   MainAxisVerticalPositioningConfigType.Evenly,
                   new HeightConfigPropsModel(
                     new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 150, DimensionUnitConfigType.PX),
-                    new DynamicDimensioningConfigModel(1,0,StretchValueConfigType.NA)
+                    new DynamicDimensioningConfigModel(0,0,StretchValueConfigType.NA)
                   ),
                   CrossAxisVerticalLanesPositioningConfigType.NA
                 )
