@@ -9,47 +9,13 @@ import {StoreService} from "../../store.service";
 export class BlockComponent implements OnInit {
   @Input() name = ''
   @ViewChild('block') block:HTMLDivElement|undefined
-  height$: Observable<any>|undefined
-  width$: Observable<any>|undefined
   backgroundColorPrimary$: Observable<any>|undefined
   backgroundColorWhite$: Observable<any>|undefined
   backgroundColorDanger$: Observable<any>|undefined
-  visible$: Observable<any>|undefined
-  holdSpace$: Observable<any>|undefined
-  calcHeight$: Observable<any>|undefined
-  calcWidth$: Observable<any>|undefined
-  fitContentHeight$: Observable<any>|undefined
-  fitContentWidth$: Observable<any>|undefined
-  grow$: Observable<any>|undefined
-  shrink$: Observable<any>|undefined
-  alignSelfStretch$: Observable<any>|undefined
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
-    this.height$ = this.storeService.bindToStateProperty(this.name,'height')
-    this.width$ = this.storeService.bindToStateProperty(this.name,'width')
     this.backgroundColorPrimary$ = this.storeService.bindToStateProperty(this.name,'backgroundColorPrimary')
     this.backgroundColorWhite$ = this.storeService.bindToStateProperty(this.name,'backgroundColorWhite')
     this.backgroundColorDanger$ = this.storeService.bindToStateProperty(this.name,'backgroundColorDanger')
-    this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
-    this.holdSpace$ = this.storeService.bindToStateProperty(this.name,'holdSpace')
-    this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
-    this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
-    this.grow$ = this.storeService.bindToStateProperty(this.name,'grow') // je zou deze ook naar boven kunnen vuren??
-    this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
-    this.alignSelfStretch$ = this.storeService.bindToStateProperty(this.name,'alignSelfStretch')
-  }
-  setCalculatedHeight(val:string):boolean{
-    if(typeof val === 'string'){
-      this.block?.style?.setProperty('--heightVal',val)
-      return true
-    }
-    return false
-  }
-  setCalculatedWidth(val:string):boolean{
-    if(typeof val === 'string'){
-      this.block?.style?.setProperty('--widthVal',val)
-      return true
-    }
-    return false
   }
 }

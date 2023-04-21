@@ -49,29 +49,34 @@
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [style]="{'border':'2px solid blue'}"
 #container>
-  <!-- todo onderzoek wat de invloed is van align-content-... -->
+  <!-- todo onderstaande props gelden niet voor de m-container!-->
   <ng-container *ngFor="let child of children$|async">
     <div
+      [class.visibilityHidden]="
+      (child.type !== componentType.Container) &&
+      !(bindToStateProperty(child.name,'visible') | async)
+      && (bindToStateProperty(child.name,'holdSpace') | async) "
+      [class.displayNone]="(child.type !== componentType.Container)
+      &&!(bindToStateProperty(child.name,'visible') | async)
+      && !(bindToStateProperty(child.name,'holdSpace') | async)"
+      [style.height]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'height') | async)"
+      [style.width]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'width') | async)"
+      [class.align-self-stretch]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'alignSelfStretch')|async)"
          [class]="[
-         'flex',
-         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
-         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+         'flex-shrink-'+((child.type === componentType.Container)||(getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((child.type === componentType.Container)||(getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
          [ngSwitch]="child.type" [style]="{'border':'2px solid red'}">
-<!-- todo fix problem: ofwel stretch ofwel vaste hoogte/breedte maar dan moet er op deze div height of width: fit-content komen!-->
       <m-block       [class]="[
-      'flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                *ngSwitchCase="componentType.Block"
                [name]="child.name"></m-block>
       <m-logo          [class]="[
-      'flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
               *ngSwitchCase="componentType.Logo"
               [name]="child.name"></m-logo>
         <m-container *ngSwitchCase="componentType.Container" [name]="child.name"  [class]="[
-      'flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"></m-container>
     </div>

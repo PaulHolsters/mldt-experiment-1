@@ -26,7 +26,6 @@ export class ResponsiveBehaviourService {
     if (component.childLayout){
       this.storeService.setState(component.name, this.storeService.getChildLayoutComponentProps(component.name, component.childLayout, screenSize))
     }
-    // todo fix = ik denk dat hier iets wordt overschreven nadat het eerst correct werd geïnitialiseerd
     if (component.children && component.children.length > 0) {
       this.storeService.setState(component.name, component.children as ComponentModel[])
       component.children.forEach(child => {

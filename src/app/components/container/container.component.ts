@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {ComponentModel} from "../../models/ComponentModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 
 @Component({
   selector: 'm-container',
@@ -55,7 +56,6 @@ export class ContainerComponent implements OnInit {
 
   constructor(private storeService:StoreService) { }
   ngOnInit(): void {
-    // todo later nog te refactoren want dit is "buggy" met zoveel props
     this.children$ = this.storeService.bindToStateProperty(this.name,'children')
     this.row$ = this.storeService.bindToStateProperty(this.name,'row')
     this.column$ = this.storeService.bindToStateProperty(this.name,'column')
@@ -78,9 +78,6 @@ export class ContainerComponent implements OnInit {
     this.overflowHidden$ = this.storeService.bindToStateProperty(this.name,'overflowHidden')
     this.overflowXHidden$ = this.storeService.bindToStateProperty(this.name,'overflowXHidden')
     this.overflowScroll$ = this.storeService.bindToStateProperty(this.name,'overflowScroll')
-    this.storeService.bindToStateProperty(this.name,'overflowScroll')?.subscribe(res=>{
-      console.log(res)
-    })
     this.overflowXScroll$ = this.storeService.bindToStateProperty(this.name,'overflowXScroll')
     this.overflowAuto$ = this.storeService.bindToStateProperty(this.name,'overflowAuto')
     this.overflowXAuto$ = this.storeService.bindToStateProperty(this.name,'overflowXAuto')
@@ -98,14 +95,14 @@ export class ContainerComponent implements OnInit {
     this.grow$ = this.storeService.bindToStateProperty(this.name,'grow')
     this.shrink$ = this.storeService.bindToStateProperty(this.name,'shrink')
   }
-  setCalculatedHeight(val:string):boolean{
+  setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
       this.container?.nativeElement.style.setProperty('--heightVal','calc'+val+'')
       return true
     }
     return false
   }
-  setCalculatedWidth(val:string):boolean{
+  setCalculatedWidth(val:any):boolean{
     if(typeof val === 'string'){
       this.container?.nativeElement.style.setProperty('--widthVal','calc'+val+'')
       return true
@@ -117,5 +114,8 @@ export class ContainerComponent implements OnInit {
   }
   getGrowVal(componentName:string):Observable<number>{
     return this.storeService.bindToStateProperty(componentName,'grow') as Observable<number>
+  }
+  bindToStateProperty(componentName:string,property:string):Observable<string>{
+    return this.storeService.bindToStateProperty(componentName,property) as Observable<string>
   }
 }

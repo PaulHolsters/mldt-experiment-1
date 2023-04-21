@@ -1,18 +1,9 @@
-<!-- todo verander dit en gebruik zoveel mogelijk primeng classes!
-todo pas de method aan zodat px niet gebruikt worden maar enkel primeng classes-->
 <div
-  [class]="['flex-shrink-'+((shrink$|async) === undefined? 0 : (shrink$|async)),'flex-grow-'+((grow$|async)=== undefined ? 0 : (grow$|async))]"
-  [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
-  [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
-  [style.height]="height$ | async"
-  [style.width]="width$ | async"
   [class.bg-primary]="backgroundColorPrimary$ | async"
   [class.bg-white]="backgroundColorWhite$ | async"
   [class.bg-orange-400]="backgroundColorDanger$ | async"
-  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-  [class.flex-none]="fitContentHeight$|async"
-  [class.align-self-stretch]="alignSelfStretch$|async"
+  [style.height]="'100%'"
+  [style.width]="'100%'"
 #block>
   {{name}}
 </div>
