@@ -2,8 +2,10 @@
   [class.bg-primary]="backgroundColorPrimary$ | async"
   [class.bg-white]="backgroundColorWhite$ | async"
   [class.bg-orange-400]="backgroundColorDanger$ | async"
-  [style.height]="'100%'"
-  [style.width]="'100%'"
+  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+  [style.height]="height"
+  [style.width]="width"
 #block>
   {{name}}
 </div>

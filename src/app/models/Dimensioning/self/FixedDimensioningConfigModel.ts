@@ -26,7 +26,7 @@ export class FixedDimensioningConfigModel {
   }
   public getDimensionCalc(){
     if(this.type === DimensionValueConfigType.Calculated && this.value){
-      return '('+this.value+')'
+      return this.value
     }
     return undefined
   }

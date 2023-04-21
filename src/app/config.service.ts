@@ -208,7 +208,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               CrossAxisHorizontalPositioningConfigType.Center,
               new WidthConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.PX),
+                // todo fix bug hier komen er plots haken bij zonder noodzaak gebeurt enkel bij childLayout
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '900px - 20vh'),
                 DynamicDimensionValueConfigType.NA
               ),
               CrossAxisHorizontalLanesPositioningConfigType.Center
@@ -219,7 +220,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               true,
               MainAxisVerticalPositioningConfigType.Center,
               new HeightConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.PX),
+                // todo fix bug hier komen er plots haken bij zonder noodzaak gebeurt enkel bij childLayout
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '900px - 20vh'),
                 new DynamicDimensioningConfigModel(0,0,StretchValueConfigType.NA)
               ),
               CrossAxisVerticalLanesPositioningConfigType.NA
@@ -242,10 +244,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             dimensions: new ResponsiveDimensioningConfigModel(
               new DimensioningConfigPropsModel(
                 new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 200, DimensionUnitConfigType.PX),
+
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '900px - 20vh'),
                   DynamicDimensionValueConfigType.Parent),
                 new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.PX),
+                  new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '900px - 10vh'),
                   DynamicDimensionValueConfigType.Parent)
               )),
           },
@@ -281,7 +284,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   true,
                   true,
                   MainAxisVerticalPositioningConfigType.Evenly,
-                  // todo fix bug: inner child groeien niet mee qua innerlijke box => de gezette hoogte maakt dat dat niet gebeurt?
                   new HeightConfigPropsModel(
                     new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 150, DimensionUnitConfigType.PX),
                     new DynamicDimensioningConfigModel(1,0,StretchValueConfigType.NA)
