@@ -1,5 +1,4 @@
 import {MenuItem} from "primeng/api";
-
 export class AttributesComponentPropsModel {
   // dit model representeert de verschillende props betreffende de typische HTML attributen van een component
   // zoals ze uiteindelijk geconsumeerd zullen worden door de component
@@ -12,9 +11,14 @@ export class AttributesComponentPropsModel {
                 public menuItems?:MenuItem[]|undefined) {
   }
 
-  public setProperty(propName: string, value: string | undefined): void {
+  public setProperty(propName: string, value: string|number|MenuItem[] | undefined): void {
     if (Reflect.has(this, propName))
-      Reflect.set(this, propName, value)
+      if(value instanceof Array){
+        Reflect.set(this, propName, [...value])
+      } else{
+        Reflect.set(this, propName, value)
+      }
+
     else throw new Error('cannot set property ' + propName + ' because it does not exist on the object of type AttributesComponentPropsModel')
   }
 

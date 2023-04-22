@@ -15,6 +15,7 @@ import { BlockComponent } from './components/block/block.component';
 import { ImageComponent } from './components/image/image.component';
 import {ImageModule} from "primeng/image";
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { Image2Component } from './components/image2/image2.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     ContainerComponent,
     BlockComponent,
     ImageComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    Image2Component
   ],
     imports: [
         BrowserModule,

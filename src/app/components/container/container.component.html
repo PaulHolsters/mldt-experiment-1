@@ -40,8 +40,10 @@
 
   [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
   [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async)"
+
   [style.height]="height$ | async"
   [style.width]="width$ | async"
+
   [class.bg-primary]="backgroundColorPrimary$ | async"
   [class.bg-white]="backgroundColorWhite$ | async"
   [class.bg-orange-400]="backgroundColorDanger$ | async"
@@ -49,7 +51,7 @@
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [style]="{'border':'2px solid blue'}"
 #container>
-  <!-- todo gebruik een functie voor [class] -->
+  <!-- todo fix bug width en height: eventueel met een output! -->
   <ng-container *ngFor="let child of children$|async">
     <div
       [class.visibilityHidden]="
@@ -59,8 +61,10 @@
       [class.displayNone]="(child.type !== componentType.Container)
       &&!(bindToStateProperty(child.name,'visible') | async)
       && !(bindToStateProperty(child.name,'holdSpace') | async)"
-      [style.height]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'height') | async)"
-      [style.width]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'width') | async)"
+
+      [style.height]="(child.type !== componentType.Container) ? (bindToStateProperty(child.name,'height') | async) : ''"
+      [style.width]="(child.type !== componentType.Container) ? (bindToStateProperty(child.name,'width') | async) : ''"
+
       [class.align-self-stretch]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'alignSelfStretch')|async)"
       [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
@@ -71,11 +75,21 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                *ngSwitchCase="componentType.Block"
                [name]="child.name"></m-block>
+      <m-button       [class]="[
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                     *ngSwitchCase="componentType.Button"
+                     [name]="child.name"></m-button>
       <m-image          [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                        *ngSwitchCase="componentType.Image"
                        [name]="child.name"></m-image>
+      <m-image2         [class]="[
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                        *ngSwitchCase="componentType.Image2"
+                        [name]="child.name"></m-image2>
       <m-menubar          [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

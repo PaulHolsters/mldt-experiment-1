@@ -8,10 +8,6 @@
 .calcWidth{
   width:var(--widthVal)
 }
-
-
-
-
 .visibilityHidden{
   visibility: hidden;
 }

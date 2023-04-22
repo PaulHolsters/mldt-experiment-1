@@ -10,6 +10,8 @@ export class ResponsiveBehaviourService {
   constructor(private storeService: StoreService) {
   }
   private setState(component: ComponentModel, screenSize: number) {
+    if (component.visibility)
+      this.storeService.setState(component.name, this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize))
     if (component.position)
       this.storeService.setState(component.name, this.storeService.getPositionComponentProps(component.name, component.position, screenSize))
     if (component.dimensions){
@@ -17,12 +19,7 @@ export class ResponsiveBehaviourService {
     }
     if (component.overflow)
       this.storeService.setState(component.name, this.storeService.getOverflowComponentProps(component.name, component.overflow, screenSize))
-    if (component.visibility)
-      this.storeService.setState(component.name, this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize))
-    if (component.attributes)
-      this.storeService.setState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
-    if (component.styling)
-      this.storeService.setState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
+
     if (component.childLayout){
       this.storeService.setState(component.name, this.storeService.getChildLayoutComponentProps(component.name, component.childLayout, screenSize))
     }
@@ -36,6 +33,11 @@ export class ResponsiveBehaviourService {
         }
       })
     }
+    if (component.attributes)
+      this.storeService.setState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
+    if (component.styling)
+      this.storeService.setState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
+
   }
   private setComponentStates(contentContainer: {
     components: ComponentModel[],

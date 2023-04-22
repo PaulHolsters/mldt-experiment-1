@@ -1,4 +1,8 @@
-<p-menubar [model]="menuItems$|async">
+<p-menubar [model]="menuItems$|async"
+           [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+           [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+           [style.height]="height"
+           [style.width]="width">
   <ng-template pTemplate="start">
     <!-- todo anchor element ?-->
   </ng-template>
