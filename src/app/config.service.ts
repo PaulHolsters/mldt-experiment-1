@@ -36,11 +36,8 @@ import {CrossAxisHorizontalPositioningConfigType} from "./enums/crossAxisHorizon
 import {OverflowConfigPropsModel} from "./models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "./enums/overflowValueConfigTypes.enum";
 import {ResponsiveOverflowConfigModel} from './models/Overflow/self/ResponsiveOverflowConfigModel';
-import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
-import {StretchValueConfigType} from "./enums/StrecthValueConfigTypes.enum";
-import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTypes.enum";
 import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
-import {AttributesConfigPropsModel} from './models/Attributes/AttributesConfigPropsModel';
+import {HeightValueConfigType} from "./enums/HeightValueConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -210,9 +207,10 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               undefined,
               true,
               // dit zal de componenten binnen een lane positioneren
-              CrossAxisHorizontalPositioningConfigType.Center,
+              CrossAxisHorizontalPositioningConfigType.Left,
+              // todo fix bug: breedte wordt niet gedetecteerd
               new WidthConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '900px - 40vh'),
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.Percentage),
                 DynamicDimensionValueConfigType.NA
               ),
               // dit zal lanes positioneren ten opzichte van elkaar
@@ -222,153 +220,154 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             ),
             new VerticalLayoutConfigPropsModel(
               AxisConfigType.Main,
+              false,
               true,
-              true,
-              MainAxisVerticalPositioningConfigType.Center,
-              new HeightConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '100px - 4vh'),
-                new DynamicDimensioningConfigModel(0,0,StretchValueConfigType.NA)
-              ),
+              MainAxisVerticalPositioningConfigType.Top,
+              HeightValueConfigType.NC,
               CrossAxisVerticalLanesPositioningConfigType.NA
             )
           )
         ),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
-          {
-            name: 'image-1',
-            type: ComponentType.Image,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel(),
-            attributes: new ResponsiveAttributesConfigModel(
+          { name:'header-content',
+            type: ComponentType.Menubar,
+            attributes:new ResponsiveAttributesConfigModel(
               {
-                src:'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
-                width:150
-              })
-          },
-          {
-            name: 'block-2',
-            type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel(),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '10vw + 90px'),
-                  DynamicDimensionValueConfigType.Parent),
-                new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '90px'),
-                  DynamicDimensionValueConfigType.Parent)
-              )),
-          },
-          {
-            name:'inner-component',
-            type:ComponentType.Container,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel(),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 550, DimensionUnitConfigType.PX),
-                  DynamicDimensionValueConfigType.Parent),
-                new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 550, DimensionUnitConfigType.PX),
-                  DynamicDimensionValueConfigType.Parent)
-              )),
-            childLayout:new ResponsiveChildLayoutConfigModel(
-              new ChildLayoutConfigPropsModel(
-                new HorizontalLayoutConfigPropsModel(
-                  AxisConfigType.Cross,
-                  undefined,
-                  true,
-                  CrossAxisHorizontalPositioningConfigType.Left,
-                  new WidthConfigPropsModel(
-                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 350, DimensionUnitConfigType.PX),
-                    DynamicDimensionValueConfigType.NA
-                  ),
-                  CrossAxisHorizontalLanesPositioningConfigType.Between
-                ),
-                new VerticalLayoutConfigPropsModel(
-                  AxisConfigType.Main,
-                  true,
-                  true,
-                  MainAxisVerticalPositioningConfigType.Evenly,
-                  new HeightConfigPropsModel(
-                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 150, DimensionUnitConfigType.PX),
-                    new DynamicDimensioningConfigModel(1,0,StretchValueConfigType.NA)
-                  ),
-                  CrossAxisVerticalLanesPositioningConfigType.NA
-                )
-              )
-            ),
-            children:[
-              {
-                name:'child1',
-                type:ComponentType.Block,
-                visibility: new ResponsiveVisibilityConfigModel(),
-                dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-                  new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 310, DimensionUnitConfigType.PX),
-                  DynamicDimensionValueConfigType.Parent
-                ),new WidthConfigPropsModel(FixedDimensionValueConfigType.Parent, DynamicDimensionValueConfigType.Parent))),
-                styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.danger))
-              },
-              {
-                name:'child2',
-                type:ComponentType.Block,
-                styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.danger)),
-                visibility: new ResponsiveVisibilityConfigModel()
+                menuItems: [
+                  {
+                    label: 'File',
+                    icon: 'pi pi-fw pi-file',
+                    items: [
+                      {
+                        label: 'New',
+                        icon: 'pi pi-fw pi-plus',
+                        items: [
+                          {
+                            label: 'Bookmark',
+                            icon: 'pi pi-fw pi-bookmark'
+                          },
+                          {
+                            label: 'Video',
+                            icon: 'pi pi-fw pi-video'
+                          }
+                        ]
+                      },
+                      {
+                        label: 'Delete',
+                        icon: 'pi pi-fw pi-trash'
+                      },
+                      {
+                        separator: true
+                      },
+                      {
+                        label: 'Export',
+                        icon: 'pi pi-fw pi-external-link'
+                      }
+                    ]
+                  },
+                  {
+                    label: 'Edit',
+                    icon: 'pi pi-fw pi-pencil',
+                    items: [
+                      {
+                        label: 'Left',
+                        icon: 'pi pi-fw pi-align-left'
+                      },
+                      {
+                        label: 'Right',
+                        icon: 'pi pi-fw pi-align-right'
+                      },
+                      {
+                        label: 'Center',
+                        icon: 'pi pi-fw pi-align-center'
+                      },
+                      {
+                        label: 'Justify',
+                        icon: 'pi pi-fw pi-align-justify'
+                      }
+                    ]
+                  },
+                  {
+                    label: 'Users',
+                    icon: 'pi pi-fw pi-user',
+                    items: [
+                      {
+                        label: 'New',
+                        icon: 'pi pi-fw pi-user-plus'
+                      },
+                      {
+                        label: 'Delete',
+                        icon: 'pi pi-fw pi-user-minus'
+                      },
+                      {
+                        label: 'Search',
+                        icon: 'pi pi-fw pi-users',
+                        items: [
+                          {
+                            label: 'Filter',
+                            icon: 'pi pi-fw pi-filter',
+                            items: [
+                              {
+                                label: 'Print',
+                                icon: 'pi pi-fw pi-print'
+                              }
+                            ]
+                          },
+                          {
+                            icon: 'pi pi-fw pi-bars',
+                            label: 'List'
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    label: 'Events',
+                    icon: 'pi pi-fw pi-calendar',
+                    items: [
+                      {
+                        label: 'Edit',
+                        icon: 'pi pi-fw pi-pencil',
+                        items: [
+                          {
+                            label: 'Save',
+                            icon: 'pi pi-fw pi-calendar-plus'
+                          },
+                          {
+                            label: 'Delete',
+                            icon: 'pi pi-fw pi-calendar-minus'
+                          }
+                        ]
+                      },
+                      {
+                        label: 'Archieve',
+                        icon: 'pi pi-fw pi-calendar-times',
+                        items: [
+                          {
+                            label: 'Remove',
+                            icon: 'pi pi-fw pi-calendar-minus'
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    label: 'Quit',
+                    icon: 'pi pi-fw pi-power-off'
+                  }
+                ]
               }
-            ]
-          },
-          {
-            name: 'block-4',
-            type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel()
-          },
-          {
-            name: 'block-5',
-            type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+            ),
             visibility: new ResponsiveVisibilityConfigModel(),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 180, DimensionUnitConfigType.PX),
-                  DynamicDimensionValueConfigType.Parent),
-                new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 220, DimensionUnitConfigType.PX),
-                  DynamicDimensionValueConfigType.Parent)
-              )),
+            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+              HeightValueConfigType.NC,
+              new WidthConfigPropsModel(
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.Percentage),
+                DynamicDimensionValueConfigType.NA
+              )
+            ))
           },
-          {
-            name: 'block-6',
-            type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel()
-          },
-          {
-            name: 'block-7',
-            type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel()
-          },
-          {
-            name: 'block-8',
-            type: ComponentType.Block,
-            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel(),
-            dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
-                new HeightConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 180, DimensionUnitConfigType.PX),
-                  DynamicDimensionValueConfigType.Parent),
-                new WidthConfigPropsModel(
-                  new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.PX),
-                  DynamicDimensionValueConfigType.Parent)
-              )),
-          }
         ]
       },
     ],
