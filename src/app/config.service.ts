@@ -37,7 +37,7 @@ import {OverflowConfigPropsModel} from "./models/Overflow/self/OverflowConfigPro
 import {OverflowValueConfigType} from "./enums/overflowValueConfigTypes.enum";
 import {ResponsiveOverflowConfigModel} from './models/Overflow/self/ResponsiveOverflowConfigModel';
 import {HeightValueConfigType} from "./enums/HeightValueConfigTypes.enum";
-import { ResponsiveAttributesConfigModel } from './models/Attributes/ResponsiveAttributesConfigModel';
+import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
 
 @Injectable({
   providedIn: 'root'
@@ -207,11 +207,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               undefined,
               true,
               // dit zal de componenten binnen een lane positioneren
-              CrossAxisHorizontalPositioningConfigType.Left,
+              CrossAxisHorizontalPositioningConfigType.Center,
               // todo fix bug: breedte wordt niet gedetecteerd
               new WidthConfigPropsModel(
                 new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.Percentage),
-                DynamicDimensionValueConfigType.NA
+                DynamicDimensionValueConfigType.NC
               ),
               // dit zal lanes positioneren ten opzichte van elkaar
               // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
@@ -230,16 +230,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         ),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
-          {
-            name:'mybuttimg',
-            type:ComponentType.Image2,
-            visibility:new ResponsiveVisibilityConfigModel(),
-            attributes:new ResponsiveAttributesConfigModel({
-              src:'',
-              alt:'image'
-            }),
-          }
-/*          { name:'header-content',
+          { name:'header-content',
             type: ComponentType.Menubar,
             attributes:new ResponsiveAttributesConfigModel(
               {
@@ -369,142 +360,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               }
             ),
             visibility: new ResponsiveVisibilityConfigModel()
-          },*/
-/*          {
-            name:'some-block',
-            type:ComponentType.Menubar,
-            attributes:new ResponsiveAttributesConfigModel(
-              {
-                menuItems: [
-                  {
-                    label: 'File',
-                    icon: 'pi pi-fw pi-file',
-                    items: [
-                      {
-                        label: 'New',
-                        icon: 'pi pi-fw pi-plus',
-                        items: [
-                          {
-                            label: 'Bookmark',
-                            icon: 'pi pi-fw pi-bookmark'
-                          },
-                          {
-                            label: 'Video',
-                            icon: 'pi pi-fw pi-video'
-                          }
-                        ]
-                      },
-                      {
-                        label: 'Delete',
-                        icon: 'pi pi-fw pi-trash'
-                      },
-                      {
-                        separator: true
-                      },
-                      {
-                        label: 'Export',
-                        icon: 'pi pi-fw pi-external-link'
-                      }
-                    ]
-                  },
-                  {
-                    label: 'Edit',
-                    icon: 'pi pi-fw pi-pencil',
-                    items: [
-                      {
-                        label: 'Left',
-                        icon: 'pi pi-fw pi-align-left'
-                      },
-                      {
-                        label: 'Right',
-                        icon: 'pi pi-fw pi-align-right'
-                      },
-                      {
-                        label: 'Center',
-                        icon: 'pi pi-fw pi-align-center'
-                      },
-                      {
-                        label: 'Justify',
-                        icon: 'pi pi-fw pi-align-justify'
-                      }
-                    ]
-                  },
-                  {
-                    label: 'Users',
-                    icon: 'pi pi-fw pi-user',
-                    items: [
-                      {
-                        label: 'New',
-                        icon: 'pi pi-fw pi-user-plus'
-                      },
-                      {
-                        label: 'Delete',
-                        icon: 'pi pi-fw pi-user-minus'
-                      },
-                      {
-                        label: 'Search',
-                        icon: 'pi pi-fw pi-users',
-                        items: [
-                          {
-                            label: 'Filter',
-                            icon: 'pi pi-fw pi-filter',
-                            items: [
-                              {
-                                label: 'Print',
-                                icon: 'pi pi-fw pi-print'
-                              }
-                            ]
-                          },
-                          {
-                            icon: 'pi pi-fw pi-bars',
-                            label: 'List'
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    label: 'Events',
-                    icon: 'pi pi-fw pi-calendar',
-                    items: [
-                      {
-                        label: 'Edit',
-                        icon: 'pi pi-fw pi-pencil',
-                        items: [
-                          {
-                            label: 'Save',
-                            icon: 'pi pi-fw pi-calendar-plus'
-                          },
-                          {
-                            label: 'Delete',
-                            icon: 'pi pi-fw pi-calendar-minus'
-                          }
-                        ]
-                      },
-                      {
-                        label: 'Archieve',
-                        icon: 'pi pi-fw pi-calendar-times',
-                        items: [
-                          {
-                            label: 'Remove',
-                            icon: 'pi pi-fw pi-calendar-minus'
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    label: 'Quit',
-                    icon: 'pi pi-fw pi-power-off'
-                  }
-                ]
-              }
-            ),
-            visibility: new ResponsiveVisibilityConfigModel(),
-            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.Parent, new WidthConfigPropsModel(
-              FixedDimensionValueConfigType.Parent, DynamicDimensionValueConfigType.Parent
-            )))
-          }*/
+          },
         ]
       },
     ],

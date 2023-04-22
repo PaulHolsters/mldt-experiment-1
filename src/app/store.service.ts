@@ -254,7 +254,11 @@ export class StoreService {
       Object.entries(attributesConfig).forEach(([k, v]) => {
         compPropsObj.setProperty(k, v)
       })
-      return compPropsObj
+      let copy = Object.create(compPropsObj)
+      Object.entries(compPropsObj).forEach(([k,v])=>{
+        if(v !== undefined) copy[k] = v
+      })
+      return copy
     }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
@@ -400,6 +404,24 @@ export class StoreService {
   }
   private components: ComponentModel[] | undefined
   private createProps(component: ComponentModel) {
+    if (component.attributes) {
+      Object.keys(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(k => {
+        const propSubj = new BehaviorSubject<any | undefined>(undefined)
+        this.statePropertySubjects.push({
+          componentName: component.name, propName: k, propValue:
+          propSubj, prop$: propSubj.asObservable()
+        })
+      })
+    }
+    if (component.visibility) {
+      Object.keys(this.getVisibilityComponentProps(component.name, component.visibility, ScreenSize.highResolution)).forEach(k => {
+        const propSubj = new BehaviorSubject<any | undefined>(undefined)
+        this.statePropertySubjects.push({
+          componentName: component.name, propName: k, propValue:
+          propSubj, prop$: propSubj.asObservable()
+        })
+      })
+    }
     if (component.childLayout) {
       const childLayout = this.getChildLayoutComponentProps(component.name, component.childLayout, ScreenSize.highResolution)
       Object.keys(childLayout.parentProps).forEach(propName => {
@@ -459,24 +481,6 @@ export class StoreService {
         })
       })
     }
-    if (component.attributes) {
-      Object.keys(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(k => {
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: k, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-      })
-    }
-    if (component.visibility) {
-      Object.keys(this.getVisibilityComponentProps(component.name, component.visibility, ScreenSize.highResolution)).forEach(k => {
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: k, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-      })
-    }
     if (component.styling) {
       Object.keys(this.getStylingComponentProps(component.name, component.styling, ScreenSize.highResolution)).forEach(k => {
         const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -506,7 +510,6 @@ export class StoreService {
       this.createProps(comp)}
     )
   }
-
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |

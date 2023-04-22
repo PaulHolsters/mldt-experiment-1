@@ -16,6 +16,10 @@ export class MenubarComponent implements OnInit,AfterViewInit {
   height:string|undefined
   constructor(private storeService: StoreService, private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
+    console.log('menubar')
+    this.storeService.bindToStateProperty(this.name,'menuItems')?.subscribe(res=>{
+      console.log(res,'menubar')
+    })
     this.menuItems$ = this.storeService.bindToStateProperty(this.name,'menuItems')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
