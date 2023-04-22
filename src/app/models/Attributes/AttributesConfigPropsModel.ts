@@ -3,7 +3,8 @@ export class AttributesConfigPropsModel {
               public alt?:string,
               public icon?:string,
               public name?:string,
-              public label?:string){
+              public label?:string,
+              public width?:number){
   }
 // todo fix the problem where there
 }

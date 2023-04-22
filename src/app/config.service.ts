@@ -39,6 +39,8 @@ import {ResponsiveOverflowConfigModel} from './models/Overflow/self/ResponsiveOv
 import {DynamicDimensioningConfigModel} from "./models/Dimensioning/self/DynamicDimensioningConfigModel";
 import {StretchValueConfigType} from "./enums/StrecthValueConfigTypes.enum";
 import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTypes.enum";
+import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
+import {AttributesConfigPropsModel} from './models/Attributes/AttributesConfigPropsModel';
 
 @Injectable({
   providedIn: 'root'
@@ -234,10 +236,15 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
           {
-            name: 'block-1',
-            type: ComponentType.Block,
+            name: 'image-1',
+            type: ComponentType.Image,
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
-            visibility: new ResponsiveVisibilityConfigModel()
+            visibility: new ResponsiveVisibilityConfigModel(),
+            attributes: new ResponsiveAttributesConfigModel(
+              {
+                src:'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
+                width:150
+              })
           },
           {
             name: 'block-2',

@@ -12,6 +12,8 @@ import { MenubarComponent } from './components/menubar/menubar.component';
 import { AppTemplateComponent } from './templates/app-template/app-template.component';
 import { ContainerComponent } from './components/container/container.component';
 import { BlockComponent } from './components/block/block.component';
+import { ImageComponent } from './components/image/image.component';
+import {ImageModule} from "primeng/image";
 
 @NgModule({
   declarations: [
@@ -22,15 +24,17 @@ import { BlockComponent } from './components/block/block.component';
     MenubarComponent,
     AppTemplateComponent,
     ContainerComponent,
-    BlockComponent
+    BlockComponent,
+    ImageComponent
   ],
-  imports: [
-    BrowserModule,
-    CardModule,
-    ButtonModule,
-    MenubarModule,
-    InputTextModule
-  ],
+    imports: [
+        BrowserModule,
+        CardModule,
+        ButtonModule,
+        MenubarModule,
+        InputTextModule,
+        ImageModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

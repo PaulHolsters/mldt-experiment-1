@@ -5,7 +5,8 @@ export class AttributesComponentPropsModel {
                 public alt?:string|undefined,
                 public name?:string|undefined,
                 public icon?:string|undefined,
-                public label?:string|undefined) {
+                public label?:string|undefined,
+                public width?:number|undefined) {
   }
 
   public setProperty(propName: string, value: string | undefined): void {

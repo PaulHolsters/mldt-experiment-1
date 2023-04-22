@@ -1,13 +1,3 @@
-<!-- todo in een component mogen enkel specifieke HTML attributen zitten,
-      al de rest moet op de parent div komen in de container, de component past zich vervolgens
-      aan aan de contouren en volgens de wensen ingebakken in de component zelf-->
-<!--[class]="['flex-shrink-'+((shrink$|async) === undefined? 0 : (shrink$|async)),'flex-grow-'+((grow$|async)=== undefined ? 0 : (grow$|async))]"
-[class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async) "
-[class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
-[class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-[class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-[style.height]="height$ | async"
-[style.width]="width$ | async"-->
 <div
   #logo>
   <img src="assets/{{(src$|async)}}"
