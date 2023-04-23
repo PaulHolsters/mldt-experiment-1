@@ -256,7 +256,11 @@ export class StoreService {
       })
       let copy = Object.create(compPropsObj)
       Object.entries(compPropsObj).forEach(([k,v])=>{
-        if(v !== undefined) copy[k] = v
+        if(v !== undefined && (v instanceof Array || typeof v !== 'object')) copy[k] = v
+        else if(v && typeof v === 'object'){
+          const compObj = new ComponentModel(v.name,v.type,v.childLayout,v.position,v.dimensions,v.attributes,v.visibility,v.overflow,v.children)
+          copy[k]=compObj
+        }
       })
       return copy
     }
@@ -405,12 +409,15 @@ export class StoreService {
   private components: ComponentModel[] | undefined
   private createProps(component: ComponentModel) {
     if (component.attributes) {
-      Object.keys(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(k => {
+      Object.entries(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(([k,v]) => {
         const propSubj = new BehaviorSubject<any | undefined>(undefined)
         this.statePropertySubjects.push({
           componentName: component.name, propName: k, propValue:
           propSubj, prop$: propSubj.asObservable()
         })
+        if(typeof v === 'object' && v.isComponent){
+          this.createProps(v)
+        }
       })
     }
     if (component.visibility) {
@@ -521,6 +528,7 @@ export class StoreService {
       number |
       boolean |
       CalculationModel |
+      ComponentModel |
       ComponentModel[]> |
     undefined {
     // todo create a union type to denote this

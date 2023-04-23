@@ -4,9 +4,9 @@
            [style.height]="height"
            [style.width]="width">
   <ng-template pTemplate="start">
-    <!-- todo anchor element ?-->
+    <m-anchor [component]="start$|async"></m-anchor>
   </ng-template>
   <ng-template pTemplate="end">
-    <!-- todo anchor element ?-->
+    <m-anchor [component]="end$|async"></m-anchor>
   </ng-template>
 </p-menubar>

@@ -33,8 +33,16 @@ export class ResponsiveBehaviourService {
         }
       })
     }
-    if (component.attributes)
+    if (component.attributes){
+      // todo zorg nu dat het ook werkt voor meerdere anchors
+      const comp = Object.values(this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)).find(val=>{
+        return val instanceof ComponentModel
+      })
+      if(comp){
+        this.setState(comp,screenSize)
+      }
       this.storeService.setState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
+    }
     if (component.styling)
       this.storeService.setState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
 

@@ -7,6 +7,7 @@ import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowC
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
 export class ComponentModel {
+  isComponent?:boolean = true
   constructor(  public name:string,
                 public type:ComponentType,
                 public childLayout?:ResponsiveChildLayoutConfigModel,
@@ -19,6 +20,4 @@ export class ComponentModel {
                 public styling?:ResponsiveStylingConfigModel) {
     // todo toevoegen constraints
   }
-
-
 }

@@ -356,7 +356,17 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                     label: 'Quit',
                     icon: 'pi pi-fw pi-power-off'
                   }
-                ]
+                ],
+                start:{
+                  name:'logo',
+                  type:ComponentType.Image,
+                  attributes: new ResponsiveAttributesConfigModel({
+                    alt:'mylogo',
+                    src:'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
+                    width:250
+                  }),
+                  visibility:new ResponsiveVisibilityConfigModel()
+                }
               }
             ),
             visibility: new ResponsiveVisibilityConfigModel()

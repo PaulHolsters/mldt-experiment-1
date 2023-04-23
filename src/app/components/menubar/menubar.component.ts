@@ -10,19 +10,19 @@ export class MenubarComponent implements OnInit,AfterViewInit {
   @Input() name = ''
   @ViewChild('menubar') menubar:ElementRef|undefined
   menuItems$:Observable<any>|undefined
+  start$:Observable<any>|undefined
+  end$:Observable<any>|undefined
   calcHeight$: Observable<any>|undefined
   calcWidth$: Observable<any>|undefined
   width:string|undefined
   height:string|undefined
   constructor(private storeService: StoreService, private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
-    console.log('menubar')
-    this.storeService.bindToStateProperty(this.name,'menuItems')?.subscribe(res=>{
-      console.log(res,'menubar')
-    })
     this.menuItems$ = this.storeService.bindToStateProperty(this.name,'menuItems')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    this.start$ = this.storeService.bindToStateProperty(this.name,'start')
+    this.end$ = this.storeService.bindToStateProperty(this.name,'end')
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()
