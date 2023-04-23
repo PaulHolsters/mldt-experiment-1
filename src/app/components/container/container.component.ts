@@ -134,9 +134,6 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   }
 
   bindToStateProperty(componentName: string, property: string): Observable<string> {
-    this.storeService.bindToStateProperty(componentName, property)?.subscribe(res => {
-      console.log(componentName, res, property)
-    })
     return this.storeService.bindToStateProperty(componentName, property) as Observable<string>
   }
 }

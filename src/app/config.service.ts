@@ -210,7 +210,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               CrossAxisHorizontalPositioningConfigType.Center,
               // todo fix bug: breedte wordt niet gedetecteerd
               new WidthConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100,DimensionUnitConfigType.Percentage),
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage),
                 DynamicDimensionValueConfigType.NC
               ),
               // dit zal lanes positioneren ten opzichte van elkaar
@@ -230,9 +230,10 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         ),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
         children: [
-          { name:'header-content',
+          {
+            name: 'header-content',
             type: ComponentType.Menubar,
-            attributes:new ResponsiveAttributesConfigModel(
+            attributes: new ResponsiveAttributesConfigModel(
               {
                 menuItems: [
                   {
@@ -357,16 +358,51 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                     icon: 'pi pi-fw pi-power-off'
                   }
                 ],
-                start:{
-                  name:'logo',
-                  type:ComponentType.Image,
+                start: {
+                  name: 'logo',
+                  type: ComponentType.Image,
                   attributes: new ResponsiveAttributesConfigModel({
-                    alt:'mylogo',
-                    src:'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
-                    width:250
+                    alt: 'mylogo',
+                    src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
+                    width: 250
                   }),
-                  visibility:new ResponsiveVisibilityConfigModel()
-                }
+                  visibility: new ResponsiveVisibilityConfigModel({
+                    visible: false,
+                    holdSpace: false
+                  }, undefined, undefined, {
+                    visible: true,
+                    holdSpace: false
+                  })
+                },
+                end: {
+                  name: 'logo2',
+                  type: ComponentType.Image,
+                  attributes: new ResponsiveAttributesConfigModel({
+                      alt: 'mylogo',
+                      src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
+                      width: 70
+                    }, undefined,
+                    {
+                      alt: 'mylogo',
+                      src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
+                      width: 80
+                    }, {
+                      alt: 'mylogo',
+                      src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
+                      width: 130
+                    }, {
+                      alt: 'mylogo',
+                      src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
+                      width: 260
+                    }),
+                  visibility: new ResponsiveVisibilityConfigModel({
+                    visible: true,
+                    holdSpace: false
+                  }, undefined, undefined, {
+                    visible: false,
+                    holdSpace: false
+                  })
+                },
               }
             ),
             visibility: new ResponsiveVisibilityConfigModel()
