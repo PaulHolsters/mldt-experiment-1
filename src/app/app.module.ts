@@ -17,6 +17,9 @@ import {ImageModule} from "primeng/image";
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { Image2Component } from './components/image2/image2.component';
 import { AnchorComponent } from './components/anchor/anchor.component';
+import { InputTextComponent } from './components/form/formcontrol/input-text/input-text.component';
+import { InputNumberComponent } from './components/form/formcontrol/input-number/input-number.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -31,16 +34,19 @@ import { AnchorComponent } from './components/anchor/anchor.component';
     ImageComponent,
     ToolbarComponent,
     Image2Component,
-    AnchorComponent
+    AnchorComponent,
+    InputTextComponent,
+    InputNumberComponent
   ],
-    imports: [
-        BrowserModule,
-        CardModule,
-        ButtonModule,
-        MenubarModule,
-        InputTextModule,
-        ImageModule
-    ],
+  imports: [
+    BrowserModule,
+    CardModule,
+    ButtonModule,
+    MenubarModule,
+    InputTextModule,
+    ImageModule,
+    FormsModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

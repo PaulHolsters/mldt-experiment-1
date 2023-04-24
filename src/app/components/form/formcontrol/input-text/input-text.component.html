@@ -1,0 +1,9 @@
+<span *ngIf="icon$|async"
+      [class.p-input-icon-left]="(iconPosition$|async)===iconPositionType.Left"
+      [class.p-input-icon-right]="(iconPosition$|async)===iconPositionType.Right">
+    <i class="pi pi-{{icon$|async}}"></i>
+    <input type="text" pInputText [(ngModel)]="value" />
+    <small *ngIf="advisoryText$|async">{{advisoryText$|async}}</small>
+</span>
+<input *ngIf="!(icon$|async)" type="text" pInputText [(ngModel)]="value" />
+<small *ngIf="advisoryText$|async">{{advisoryText$|async}}</small>
