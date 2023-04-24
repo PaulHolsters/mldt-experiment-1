@@ -1,0 +1,8 @@
+<img
+  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+  [style.height]="height"
+  [style.width]="width"
+  src="https://primefaces.org/cdn/primeng/images/primeng.svg"
+  alt="{{(alt$ | async)}}"
+#img />
