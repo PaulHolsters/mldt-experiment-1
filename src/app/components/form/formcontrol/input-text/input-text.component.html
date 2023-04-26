@@ -1,6 +1,4 @@
-<!-- non-floating label inputs -->
-<m-label *ngIf="!(floatLabel$|async)"></m-label>
-<!--  inputs with an icon inside -->
+<!-- non-floating label inputs with an icon inside -->
 <span *ngIf="(icon$|async) && !(floatLabel$|async)"
       [class.p-input-icon-left]="(iconPosition$|async)===iconPositionType.Left"
       [class.p-input-icon-right]="(iconPosition$|async)===iconPositionType.Right">
@@ -13,7 +11,7 @@
     />
     <small *ngIf="advisoryText$|async">{{advisoryText$|async}}</small>
 </span>
-<!--  inputs without an icon inside -->
+<!-- non-floating label inputs without an icon inside -->
 <input *ngIf="!(icon$|async) && !(floatLabel$|async)" type="text" pInputText [(ngModel)]="value"
        [class.p-inputtet-sm]="small$|async"
        [class.p-inputtet-l]="large$|async"

@@ -1,1 +1,15 @@
-
+<label
+  [class.bg-primary]="backgroundColorPrimary$ | async"
+  [class.bg-white]="backgroundColorWhite$ | async"
+  [class.bg-orange-400]="backgroundColorDanger$ | async"
+  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+  [style.height]="height"
+  [style.width]="width"
+  [ngClass]="[
+    getPadding(padding$|async),
+    getMargin(margin$|async),
+    getFont(fontFamily$|async,fontWeight$|async,fontStyle$|async,fontSize$|async,textColor$|async,textDecoration$|async)
+  ]"
+#label>test label</label>
+<!--{{value$|async}}-->

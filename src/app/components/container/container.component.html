@@ -75,6 +75,16 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                *ngSwitchCase="componentType.Block"
                [name]="child.name"></m-block>
+      <m-input-text       [class]="[
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                     *ngSwitchCase="componentType.Input"
+                     [name]="child.name"></m-input-text>
+      <m-label       [class]="[
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                     *ngSwitchCase="componentType.Label"
+                     [name]="child.name"></m-label>
       <m-button       [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

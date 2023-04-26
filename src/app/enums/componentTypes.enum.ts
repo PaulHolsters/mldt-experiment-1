@@ -6,5 +6,7 @@ export enum ComponentType {
   Card,
   Menubar,
   Image,
-  Image2
+  Image2,
+  Input,
+  Label
 }

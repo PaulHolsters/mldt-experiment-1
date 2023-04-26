@@ -141,6 +141,13 @@ export class StoreService {
           stylingConfig.backgroundColor === ColorType.primary,
           stylingConfig.backgroundColor === ColorType.white,
           stylingConfig.backgroundColor === ColorType.danger,
+          stylingConfig.padding,
+          stylingConfig.margin,
+          stylingConfig.fontFamily,
+          stylingConfig.fontWeight ,
+          stylingConfig.textColor,
+          stylingConfig.textDecoration,
+          stylingConfig.fontSize
         )
       }
     let lastScreenSize = screenSize

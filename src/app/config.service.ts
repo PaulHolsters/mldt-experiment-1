@@ -7,6 +7,7 @@ import {MixedArrayModel} from "./models/MixedArrayModel";
 import {CalculationModel} from "./models/CalculationModel";
 import {ComponentModel} from "./models/ComponentModel";
 import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
+import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
 import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {ComponentType} from "./enums/componentTypes.enum";
@@ -38,6 +39,7 @@ import {OverflowValueConfigType} from "./enums/overflowValueConfigTypes.enum";
 import {ResponsiveOverflowConfigModel} from './models/Overflow/self/ResponsiveOverflowConfigModel';
 import {HeightValueConfigType} from "./enums/HeightValueConfigTypes.enum";
 import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
+import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -375,33 +377,86 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   })
                 },
                 end: {
-                  name: 'logo2',
-                  type: ComponentType.Image,
-                  attributes: new ResponsiveAttributesConfigModel({
-                      alt: 'mylogo',
-                      src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
-                      width: 70
-                    }, undefined,
+                  name: 'input with label',
+                  type: ComponentType.Container,
+                  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                  childLayout: new ResponsiveChildLayoutConfigModel(
+                    // todo add the other parts too like visibility, styling etc., change scroll into overflow
+                    new ChildLayoutConfigPropsModel(
+                      new HorizontalLayoutConfigPropsModel(
+                        AxisConfigType.Main,
+                        undefined,
+                        true,
+                        // dit zal de componenten binnen een lane positioneren
+                        CrossAxisHorizontalPositioningConfigType.NA,
+                        // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET !!
+                        new WidthConfigPropsModel(
+                          new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
+                          DynamicDimensionValueConfigType.NC
+                        ),
+                        // dit zal lanes positioneren ten opzichte van elkaar
+                        // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
+                        //    dit zou je kunnen oplossen door in uiterste nood een event laten gebeuren en vervolgens de waarde hier wijzigen
+                        CrossAxisHorizontalLanesPositioningConfigType.NA
+                      ),
+                      new VerticalLayoutConfigPropsModel(
+                        AxisConfigType.Cross,
+                        false,
+                        true,
+                        CrossAxisVerticalPositioningConfigType.Top,
+                        HeightValueConfigType.NC,
+                        CrossAxisVerticalLanesPositioningConfigType.Top
+                      )
+                    )
+                  ),
+                  dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,50,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
+                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,450,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC)
+                  )),
+                  children:[
                     {
-                      alt: 'mylogo',
-                      src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
-                      width: 80
-                    }, {
-                      alt: 'mylogo',
-                      src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
-                      width: 130
-                    }, {
-                      alt: 'mylogo',
-                      src: 'kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png',
-                      width: 260
-                    }),
-                  visibility: new ResponsiveVisibilityConfigModel({
-                    visible: true,
-                    holdSpace: false
-                  }, undefined, undefined, {
-                    visible: false,
-                    holdSpace: false
-                  })
+                      name: 'label',
+                      type: ComponentType.Label,
+                      visibility: new ResponsiveVisibilityConfigModel({
+                        visible: false,
+                        holdSpace: false
+                      }, undefined, undefined, {
+                        visible: true,
+                        holdSpace: false
+                      }),
+                      styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined))
+                    },
+                    {
+                      name: 'input',
+                      type: ComponentType.Input,
+                      visibility: new ResponsiveVisibilityConfigModel({
+                        visible: false,
+                        holdSpace: false
+                      }, undefined, undefined, {
+                        visible: true,
+                        holdSpace: false
+                      }),
+                      styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined))
+                    },
+                  ]
                 },
               }
             ),

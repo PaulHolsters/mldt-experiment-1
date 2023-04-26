@@ -1,8 +1,7 @@
 import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
+import {IconPositionType} from "../../enums/iconPositionType.enum";
 export class AttributesComponentPropsModel {
-  // dit model representeert de verschillende props betreffende de typische HTML attributen van een component
-  // zoals ze uiteindelijk geconsumeerd zullen worden door de component
   constructor(  public src?:string|undefined,
                 public alt?:string|undefined,
                 public name?:string|undefined,
@@ -10,8 +9,16 @@ export class AttributesComponentPropsModel {
                 public label?:string|undefined,
                 public width?:number|undefined,
                 public menuItems?:MenuItem[]|undefined,
-                public start?:ComponentModel,
-                public end?:ComponentModel) {
+                public start?:ComponentModel|undefined,
+                public end?:ComponentModel|undefined,
+                public floatLabel?:boolean,
+                public dirty?:boolean,
+                public invalid?:boolean,
+                public small?:boolean,
+                public large?:boolean,
+                public iconPosition?:IconPositionType|undefined,
+                public advisoryText?:string|undefined,
+                ) {
   }
   public setProperty(propName: string, value: string|number|MenuItem[] | undefined): void {
     if (Reflect.has(this, propName)) Reflect.set(this, propName, value)
