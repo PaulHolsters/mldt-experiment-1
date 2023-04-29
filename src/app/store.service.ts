@@ -327,10 +327,12 @@ export class StoreService {
   }
   private getComponent(compName: string ,component?:ComponentModel): ComponentModel | undefined {
     // todo later string [] variant toevoegen
+    // de naam is nu 'input with label'
     if(component){
         if(component.name !== compName){
           if(component.children){
             for (let j=0;j<component.children.length;j++){
+              // hier ga je bv de menubar component hebben
               const comp = this.getComponent(compName,component.children[j] as ComponentModel)
               if(comp){
                 return comp
@@ -351,6 +353,56 @@ export class StoreService {
               }
             }
           } else return this.components[i]
+        }
+      }
+    }
+    return undefined
+  }
+  private getComponentThroughAttributes(compName: string,childComp?:ComponentModel): ComponentModel | undefined{
+    if(childComp){
+      if(childComp.attributes !== undefined){
+        const attributes = childComp.attributes as ResponsiveAttributesConfigModel
+        for (let [k,v] of Object.entries(attributes)){
+          if(v){
+            for (let[j,l] of Object.entries(v)){
+              // todo het is niet per se een instance omdat het niet met het new keyword werd aangemaakt => maar ik zou
+              //      dit dus voorlopig in de constraints wel afdwingen
+              if(l instanceof ComponentModel && l.name === compName){
+                return l
+              }
+            }
+          }
+        }
+      }
+      if(childComp.children!==undefined){
+        for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
+          const component = this.getComponentThroughAttributes(compName,(childComp.children as ComponentModel[])[j])
+          if(component){
+            return component
+          }
+        }
+      }
+    } else if(this.components!==undefined){
+      for (let i=0;i<this.components.length;i++){
+        if(this.components[i].attributes !== undefined){
+          const attributes = this.components[i].attributes as ResponsiveAttributesConfigModel
+          for (let [k,v] of Object.entries(attributes)){
+            if(v){
+              for (let[j,l] of Object.entries(v)){
+                if(l instanceof ComponentModel && l.name === compName){
+                  return l
+                }
+              }
+            }
+          }
+        }
+        if(this.components[i].children !== undefined){
+          for (let j = 0; j < (this.components[i].children as ComponentModel[]).length; j++) {
+            const component = this.getComponentThroughAttributes(compName,(this.components[i].children as ComponentModel[])[j])
+            if(component){
+              return component
+            }
+          }
         }
       }
     }
@@ -389,7 +441,12 @@ export class StoreService {
       }
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
-          const parent = this.getComponent(componentName)
+          let parent = this.getComponent(componentName)
+          if(!parent){
+            parent = this.getComponentThroughAttributes(componentName)
+            console.log('via attr',componentName)
+          }
+          console.log(parent)
           if (parent?.children) {
             if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
               (parent.children as string[]).forEach(childName => {

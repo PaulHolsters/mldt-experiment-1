@@ -84,6 +84,7 @@ export class LabelComponent implements OnInit {
   }
   getPadding(
     padding:PaddingType):Object{
+    console.log(padding,'dit komt er binnen')
     return {
       "p-0":padding===PaddingType.All_0,
       "p-1":padding===PaddingType.All_1,
@@ -149,6 +150,18 @@ export class LabelComponent implements OnInit {
       "py-7":padding===PaddingType.TopBottom_7,
       "py-8":padding===PaddingType.TopBottom_8,
     }
+  }
+  getStyleClasses(padding:PaddingType,margin:MarginType,
+                  fontFamily:FontFamilyType,
+                  fontWeight:FontWeightType,
+                  fontStyle:FontStyleType,
+                  fontSize:FontSizeType,
+                  textColor:TextColorType,
+                  textDecoration:TextDecorationType
+                  ){
+    const obj =  Object.assign(this.getPadding(padding),this.getMargin(margin),this.getFont(fontFamily,fontWeight,fontStyle,fontSize,textColor,textDecoration))
+    console.log(obj)
+    return obj
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()

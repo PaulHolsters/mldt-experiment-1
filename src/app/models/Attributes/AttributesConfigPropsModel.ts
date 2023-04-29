@@ -16,14 +16,11 @@ export class AttributesConfigPropsModel {
               public end?:ComponentModel,
               public label?:string,
               public floatLabel?:boolean,
-
               public small?: boolean,
               public large?: boolean,
               public icon?:IconType,
               public iconPosition?:IconPositionType,
-              public advisoryText?:string,
-
-
+              public advisoryText?:string
 ) {
   }
 }

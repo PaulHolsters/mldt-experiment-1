@@ -40,6 +40,7 @@ import {ResponsiveOverflowConfigModel} from './models/Overflow/self/ResponsiveOv
 import {HeightValueConfigType} from "./enums/HeightValueConfigTypes.enum";
 import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
 import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
+import {PaddingType} from "./enums/paddingType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -209,8 +210,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               undefined,
               true,
               // dit zal de componenten binnen een lane positioneren
-              CrossAxisHorizontalPositioningConfigType.Center,
-              // todo fix bug: breedte wordt niet gedetecteerd
+              CrossAxisHorizontalPositioningConfigType.Left,
+              // breedte van de kinderen
               new WidthConfigPropsModel(
                 new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage),
                 DynamicDimensionValueConfigType.NC
@@ -223,6 +224,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             new VerticalLayoutConfigPropsModel(
               AxisConfigType.Main,
               false,
+              // todo nagaan is hier eigenlijk iets voor geimpelmenteerd?
               true,
               MainAxisVerticalPositioningConfigType.Top,
               HeightValueConfigType.NC,
@@ -376,11 +378,10 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                     holdSpace: false
                   })
                 },
-                end: {
-                  name: 'input with label',
-                  type: ComponentType.Container,
-                  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-                  childLayout: new ResponsiveChildLayoutConfigModel(
+                end: new ComponentModel('input with label',ComponentType.Container,
+                  new ResponsiveChildLayoutConfigModel(
+                    // todo zorg voor een children param hier zodat dit allemaal proper bijeen staat
+
                     // todo add the other parts too like visibility, styling etc., change scroll into overflow
                     new ChildLayoutConfigPropsModel(
                       new HorizontalLayoutConfigPropsModel(
@@ -389,9 +390,9 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         true,
                         // dit zal de componenten binnen een lane positioneren
                         CrossAxisHorizontalPositioningConfigType.NA,
-                        // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET !!
+                        // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET (op de children van deze container he)!!
                         new WidthConfigPropsModel(
-                          new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 400, DimensionUnitConfigType.PX),
+                          new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 450, DimensionUnitConfigType.PX),
                           DynamicDimensionValueConfigType.NC
                         ),
                         // dit zal lanes positioneren ten opzichte van elkaar
@@ -407,13 +408,39 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         HeightValueConfigType.NC,
                         CrossAxisVerticalLanesPositioningConfigType.Top
                       )
+                    ), new ChildLayoutConfigPropsModel(
+                      new HorizontalLayoutConfigPropsModel(
+                        AxisConfigType.Cross,
+                        undefined,
+
+                        true,
+                        // dit zal de componenten binnen een lane positioneren
+                        CrossAxisHorizontalPositioningConfigType.Left,
+                        new WidthConfigPropsModel(
+                          // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET (op de children van deze container he)!!
+                          new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 800, DimensionUnitConfigType.PX),
+                          DynamicDimensionValueConfigType.NC
+                        ),
+                        // dit zal lanes positioneren ten opzichte van elkaar
+                        // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
+                        //    dit zou je kunnen oplossen door in uiterste nood een event laten gebeuren en vervolgens de waarde hier wijzigen
+                        CrossAxisHorizontalLanesPositioningConfigType.Left
+                      ),
+                      new VerticalLayoutConfigPropsModel(
+                        AxisConfigType.Main,
+                        true,
+                        true,
+                        MainAxisVerticalPositioningConfigType.Evenly,
+                        HeightValueConfigType.NC,
+                        CrossAxisVerticalLanesPositioningConfigType.NA
+                      )
                     )
-                  ),
-                  dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-                    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,50,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
-                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,450,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC)
-                  )),
-                  children:[
+                  ),undefined,new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,350,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
+                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,650,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC)
+                  )),undefined,new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+                ,new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NC))
+                ,[
                     {
                       name: 'label',
                       type: ComponentType.Label,
@@ -424,9 +451,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         visible: true,
                         holdSpace: false
                       }),
+                      overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
+                        OverflowValueConfigType.Auto, OverflowValueConfigType.NC
+                      )),
                       styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                        undefined,
-                        undefined,
+                        ColorType.warning,
+                        PaddingType.All_6,
                         undefined,
                         undefined,
                         undefined,
@@ -456,11 +486,135 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         undefined,
                         undefined))
                     },
+                  ]),
+/*                  {
+                  name: 'input with label',
+                  type: ComponentType.Container,
+                  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                  // Breedte van input container
+                  dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,350,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
+                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,650,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC)
+                  )),
+                  overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NC)),
+                  childLayout: new ResponsiveChildLayoutConfigModel(
+                    // todo zorg voor een children param hier zodat dit allemaal proper bijeen staat
+
+                    // todo add the other parts too like visibility, styling etc., change scroll into overflow
+                    new ChildLayoutConfigPropsModel(
+                      new HorizontalLayoutConfigPropsModel(
+                        AxisConfigType.Main,
+                        undefined,
+                        true,
+                        // dit zal de componenten binnen een lane positioneren
+                        CrossAxisHorizontalPositioningConfigType.NA,
+                        // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET (op de children van deze container he)!!
+                        new WidthConfigPropsModel(
+                          new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 450, DimensionUnitConfigType.PX),
+                          DynamicDimensionValueConfigType.NC
+                        ),
+                        // dit zal lanes positioneren ten opzichte van elkaar
+                        // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
+                        //    dit zou je kunnen oplossen door in uiterste nood een event laten gebeuren en vervolgens de waarde hier wijzigen
+                        CrossAxisHorizontalLanesPositioningConfigType.NA
+                      ),
+                      new VerticalLayoutConfigPropsModel(
+                        AxisConfigType.Cross,
+                        false,
+                        true,
+                        CrossAxisVerticalPositioningConfigType.Top,
+                        HeightValueConfigType.NC,
+                        CrossAxisVerticalLanesPositioningConfigType.Top
+                      )
+                    ), new ChildLayoutConfigPropsModel(
+                      new HorizontalLayoutConfigPropsModel(
+                        AxisConfigType.Cross,
+                        undefined,
+
+                        true,
+                        // dit zal de componenten binnen een lane positioneren
+                        CrossAxisHorizontalPositioningConfigType.Left,
+                        new WidthConfigPropsModel(
+                          // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET (op de children van deze container he)!!
+                          new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 200, DimensionUnitConfigType.PX),
+                          DynamicDimensionValueConfigType.NC
+                        ),
+                        // dit zal lanes positioneren ten opzichte van elkaar
+                        // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
+                        //    dit zou je kunnen oplossen door in uiterste nood een event laten gebeuren en vervolgens de waarde hier wijzigen
+                        CrossAxisHorizontalLanesPositioningConfigType.Left
+                      ),
+                      new VerticalLayoutConfigPropsModel(
+                        AxisConfigType.Main,
+                        true,
+                        true,
+                        MainAxisVerticalPositioningConfigType.Evenly,
+                        HeightValueConfigType.NC,
+                        CrossAxisVerticalLanesPositioningConfigType.NA
+                      )
+                    )
+                  ),
+                  children:[
+                    {
+                      name: 'label',
+                      type: ComponentType.Label,
+                      visibility: new ResponsiveVisibilityConfigModel({
+                        visible: false,
+                        holdSpace: false
+                      }, undefined, undefined, {
+                        visible: true,
+                        holdSpace: false
+                      }),
+                      dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.Parent, new WidthConfigPropsModel(
+                        new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,50,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.Parent
+                      ))),
+                      overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
+                        OverflowValueConfigType.Auto, OverflowValueConfigType.NC
+                      )),
+                      styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                        ColorType.warning,
+                        PaddingType.All_6,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined))
+                    },
+                    {
+                      name: 'input',
+                      type: ComponentType.Input,
+                      dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.Parent, WidthValueConfigType.Parent)),
+                      visibility: new ResponsiveVisibilityConfigModel({
+                        visible: false,
+                        holdSpace: false
+                      }, undefined, undefined, {
+                        visible: true,
+                        holdSpace: false
+                      }),
+                      styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined))
+                    },
                   ]
-                },
+                },*/
               }
             ),
-            visibility: new ResponsiveVisibilityConfigModel()
+            visibility: new ResponsiveVisibilityConfigModel(),
+            overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA,OverflowValueConfigType.Auto)),
+            // todo hier moet een soort auto height of fit content height komen
+/*            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+              new HeightConfigPropsModel(FixedDimensionValueConfigType.NC, new DynamicDimensioningConfigModel(1,0,StretchValueConfigType.NA)),
+              WidthValueConfigType.NC
+            ))*/
           },
         ]
       },
