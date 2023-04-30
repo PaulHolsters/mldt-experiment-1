@@ -1,13 +1,8 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {StoreService} from "../../../store.service";
 import {MarginType} from "../../../enums/marginType.enum";
 import {PaddingType} from "../../../enums/paddingType.enum";
-import {FontSizeType} from "../../../enums/fontSizeType.enum";
-import {FontStyleType} from "../../../enums/fontStyleType.enum";
-import {TextColorType} from "../../../enums/textColorType.enum";
-import {TextDecorationType} from "../../../enums/textDecorationType.enum";
-import {FontWeightType} from "../../../enums/fontWeightType.enum";
 
 @Component({
   selector: 'm-label',
@@ -27,12 +22,8 @@ export class LabelComponent implements OnInit {
   height:string|undefined
   padding$: Observable<any>|undefined
   margin$: Observable<any>|undefined
-  fontWeight$: Observable<any>|undefined
-  fontStyle$: Observable<any>|undefined
-  fontSize$: Observable<any>|undefined
-  textColor$: Observable<any>|undefined
-  textDecoration$: Observable<any>|undefined
-  constructor(private storeService:StoreService, private cd: ChangeDetectorRef) { }
+
+  constructor(private storeService:StoreService) { }
 
   ngOnInit(): void {
     // todo fix code duplication
@@ -43,11 +34,7 @@ export class LabelComponent implements OnInit {
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
     this.padding$ = this.storeService.bindToStateProperty(this.name,'padding')
     this.margin$ = this.storeService.bindToStateProperty(this.name,'margin')
-    this.fontWeight$ = this.storeService.bindToStateProperty(this.name,'fontWeight')
-    this.fontStyle$ = this.storeService.bindToStateProperty(this.name,'fontStyle')
-    this.fontSize$ = this.storeService.bindToStateProperty(this.name,'fontSize')
-    this.textColor$ = this.storeService.bindToStateProperty(this.name,'textColor')
-    this.textDecoration$ = this.storeService.bindToStateProperty(this.name,'textDecoration')
+
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -134,50 +121,6 @@ export class LabelComponent implements OnInit {
       "my-8":margin===MarginType.TopBottom_8,
     }
   }
-  getFont(
-    fontWeight:FontWeightType,
-    fontStyle:FontStyleType,
-    fontSize:FontSizeType,
-    textColor:TextColorType,
-    textDecoration:TextDecorationType):Object{
-    return {
-      'font-light':fontWeight===FontWeightType.Light,
-      'font-normal':fontWeight===FontWeightType.Normal,
-      'font-medium':fontWeight===FontWeightType.Medium,
-      'font-semibold':fontWeight===FontWeightType.Semi_bold,
-      'font-bold':fontWeight===FontWeightType.Bold,
-      'font-italic':fontStyle===FontStyleType.Italic,
-      'text-xs':fontSize===FontSizeType.XS,
-      'text-sm':fontSize===FontSizeType.S,
-      'text-base':fontSize===FontSizeType.BASE,
-      'text-lg':fontSize===FontSizeType.L,
-      'text-xl':fontSize===FontSizeType.XL,
-      'text-2xl':fontSize===FontSizeType.XL_2,
-      'text-3xl':fontSize===FontSizeType.XL_3,
-      'text-4xl':fontSize===FontSizeType.XL_4,
-      'text-5xl':fontSize===FontSizeType.XL_5,
-      'text-primary':textColor===TextColorType.Primary,
-      'text-white':textColor===TextColorType.White,
-      'text-color-secondary':textColor===TextColorType.Secondary,
-      'text-0':textColor===TextColorType.Text_0,
-      'text-50':textColor===TextColorType.Text_1,
-      'text-100':textColor===TextColorType.Text_2,
-      'text-200':textColor===TextColorType.Text_3,
-      'text-300':textColor===TextColorType.Text_4,
-      'text-400':textColor===TextColorType.Text_5,
-      'text-500':textColor===TextColorType.Text_6,
-      'text-600':textColor===TextColorType.Text_7,
-      'text-700':textColor===TextColorType.Text_8,
-      'text-800':textColor===TextColorType.Text_9,
-      'text-900':textColor===TextColorType.Text_10,
-      // todo add colours too
-      'no-underline':textDecoration===TextDecorationType.Normal,
-      'line-through':textDecoration===TextDecorationType.Stripe_through,
-      'underline':textDecoration===TextDecorationType.Underline,
-
-
-    }
-  }
   getPadding(
     padding:PaddingType):Object{
     return {
@@ -246,17 +189,7 @@ export class LabelComponent implements OnInit {
       "py-8":padding===PaddingType.TopBottom_8,
     }
   }
-  getStyleClasses(padding:PaddingType,margin:MarginType,
-                  fontWeight:FontWeightType,
-                  fontStyle:FontStyleType,
-                  fontSize:FontSizeType,
-                  textColor:TextColorType,
-                  textDecoration:TextDecorationType
-                  ){
-    return Object.assign(this.getPadding(padding),this.getMargin(margin),this.getFont(fontWeight,fontStyle,fontSize,textColor,textDecoration))
+  getStyleClasses(padding:PaddingType,margin:MarginType){
+    return Object.assign(this.getPadding(padding),this.getMargin(margin))
   }
-  ngAfterViewInit(): void {
-    this.cd.detectChanges()
-  }
-
 }

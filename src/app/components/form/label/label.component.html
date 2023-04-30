@@ -8,12 +8,6 @@
   [style.width]="width"
   [ngClass]="getStyleClasses(
   padding$|async,
-  margin$|async,
-  fontWeight$|async,
-  fontStyle$|async,
-  fontSize$|async,
-  textColor$|async,
-  textDecoration$|async)
-  "
-#label>test label</label>
+  margin$|async)"
+#label><m-text [name]="name" [text]="'test text'"></m-text></label>
 <!--{{value$|async}}-->

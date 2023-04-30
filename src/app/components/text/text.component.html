@@ -1,0 +1,8 @@
+<span
+  [ngClass]="getStyleClasses(
+  fontWeight$|async,
+  fontStyle$|async,
+  fontSize$|async,
+  textColor$|async,
+  textDecoration$|async)
+  ">{{text}}</span>

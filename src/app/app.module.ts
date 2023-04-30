@@ -21,6 +21,7 @@ import { InputTextComponent } from './components/form/formcontrol/input-text/inp
 import { InputNumberComponent } from './components/form/formcontrol/input-number/input-number.component';
 import {FormsModule} from "@angular/forms";
 import { LabelComponent } from './components/form/label/label.component';
+import { TextComponent } from './components/text/text.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { LabelComponent } from './components/form/label/label.component';
     AnchorComponent,
     InputTextComponent,
     InputNumberComponent,
-    LabelComponent
+    LabelComponent,
+    TextComponent
   ],
   imports: [
     BrowserModule,

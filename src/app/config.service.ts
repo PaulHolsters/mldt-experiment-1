@@ -462,7 +462,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       )),
                       styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
                         ColorType.warning,
-                        PaddingType.All_6,
+                        PaddingType.All_2,
                         // todo add constraint that a label only accepts margin
                         //  dit is wellicht het gemakkelijkste door Label als een klasse te gaan aanmaken zodat je het new Keyword kan gebruiken
                         /*
