@@ -502,6 +502,10 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         TextColorType.Text_4,
                         TextDecorationType.Stripe_through,
                         FontSizeType.XL_5,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
                         FontStyleType.Italic))
                     },
                     {

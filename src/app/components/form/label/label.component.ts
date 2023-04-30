@@ -3,6 +3,10 @@ import {Observable} from "rxjs";
 import {StoreService} from "../../../store.service";
 import {MarginType} from "../../../enums/marginType.enum";
 import {PaddingType} from "../../../enums/paddingType.enum";
+import {BorderRadiusType} from "../../../enums/borderRadiusType.enum";
+import {BorderStyleType} from "../../../enums/borderStyleType.enum";
+import {BorderColorType} from "../../../enums/borderColorType.enum";
+import {BorderWidthType} from "../../../enums/borderWidthType.enum";
 
 @Component({
   selector: 'm-label',
@@ -22,6 +26,10 @@ export class LabelComponent implements OnInit {
   height:string|undefined
   padding$: Observable<any>|undefined
   margin$: Observable<any>|undefined
+  borderColor$: Observable<any>|undefined
+  borderWidth$: Observable<any>|undefined
+  borderStyle$: Observable<any>|undefined
+  borderRadius$: Observable<any>|undefined
 
   constructor(private storeService:StoreService) { }
 
@@ -34,7 +42,10 @@ export class LabelComponent implements OnInit {
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
     this.padding$ = this.storeService.bindToStateProperty(this.name,'padding')
     this.margin$ = this.storeService.bindToStateProperty(this.name,'margin')
-
+    this.borderColor$ = this.storeService.bindToStateProperty(this.name,'borderColor')
+    this.borderWidth$ = this.storeService.bindToStateProperty(this.name,'borderWidth')
+    this.borderStyle$ = this.storeService.bindToStateProperty(this.name,'borderStyle')
+    this.borderRadius$ = this.storeService.bindToStateProperty(this.name,'borderRadius')
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -189,7 +200,14 @@ export class LabelComponent implements OnInit {
       "py-8":padding===PaddingType.TopBottom_8,
     }
   }
-  getStyleClasses(padding:PaddingType,margin:MarginType){
-    return Object.assign(this.getPadding(padding),this.getMargin(margin))
+  getBorder(borderRadius:BorderRadiusType,borderStyle:BorderStyleType,borderColor:BorderColorType,borderWidth:BorderWidthType):Object{
+    return {
+      // todo
+    }
+  }
+  getStyleClasses(padding:PaddingType,margin:MarginType,
+                  borderRadius:BorderRadiusType,borderStyle:BorderStyleType,borderWidth:BorderWidthType,borderColor:BorderColorType){
+    return Object.assign(this.getPadding(padding),this.getMargin(margin),
+      this.getBorder(borderRadius,borderStyle,borderColor,borderWidth))
   }
 }
