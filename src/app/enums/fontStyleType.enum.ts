@@ -1,4 +1,4 @@
 export enum FontStyleType {
-  Italic,
+  Italic=1,
 
 }

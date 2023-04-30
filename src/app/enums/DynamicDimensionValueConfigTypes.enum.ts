@@ -1,5 +1,5 @@
 export enum DynamicDimensionValueConfigType {
-  Parent,
-  NA,
+  Parent='DynamicParent',
+  NA = 1,
   NC
 }

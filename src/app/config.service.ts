@@ -41,6 +41,12 @@ import {HeightValueConfigType} from "./enums/HeightValueConfigTypes.enum";
 import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
 import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
 import {PaddingType} from "./enums/paddingType.enum";
+import {MarginType} from "./enums/marginType.enum";
+import {FontWeightType} from "./enums/fontWeightType.enum";
+import {TextColorType} from "./enums/textColorType.enum";
+import {TextDecorationType} from "./enums/textDecorationType.enum";
+import {FontSizeType} from "./enums/fontSizeType.enum";
+import {FontStyleType} from "./enums/fontStyleType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -442,8 +448,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 ,new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NC))
                 ,[
                     {
-                      name: 'label',
                       type: ComponentType.Label,
+                      name: 'label',
                       visibility: new ResponsiveVisibilityConfigModel({
                         visible: false,
                         holdSpace: false
@@ -457,13 +463,46 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
                         ColorType.warning,
                         PaddingType.All_6,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined))
+                        // todo add constraint that a label only accepts margin
+                        //  dit is wellicht het gemakkelijkste door Label als een klasse te gaan aanmaken zodat je het new Keyword kan gebruiken
+                        /*
+                        * new Label(
+                        *   {
+                        *     name:'my new label',
+                        *     visibility: new ResponsiveVisibilityConfigModel({
+                                                visible: false,
+                                                holdSpace: false
+                                              }, undefined, undefined, {
+                                                visible: true,
+                                                holdSpace: false
+                                              }),
+                              overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
+                                OverflowValueConfigType.Auto, OverflowValueConfigType.NC
+                              )),
+                              styling:  new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                                  ColorType.warning,
+                                  // todo in hier gaat dan een constraint af die zegt dat padding bij een label niet is toegelaten
+                                  PaddingType.All_6,
+                                  MarginType.All_3,
+                        *   }
+                        * )
+                        *
+                        *
+                        *
+                        *
+                        *
+                        *
+                        *
+                        *
+                        *
+                        *
+                        * */
+                        MarginType.All_3,
+                        FontWeightType.Medium,
+                        TextColorType.Text_4,
+                        TextDecorationType.Stripe_through,
+                        FontSizeType.XL_5,
+                        FontStyleType.Italic))
                     },
                     {
                       name: 'input',
@@ -476,7 +515,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         holdSpace: false
                       }),
                       styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                        undefined,
                         undefined,
                         undefined,
                         undefined,

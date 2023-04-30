@@ -1,5 +1,5 @@
 export enum ScreenSize {
-  smartphone,
+  smartphone=1,
   portraitTablet,
   tablet,
   laptop,

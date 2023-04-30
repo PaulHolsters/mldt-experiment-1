@@ -1,5 +1,5 @@
 export enum WidthValueConfigType {
-  Parent,
-  NA,
+  Parent='widthParent',
+  NA=1,
   NC
 }

@@ -1,5 +1,5 @@
 export enum HeightValueConfigType {
-  Parent,
-  NA,
+  Parent='HeightParent',
+  NA=1,
   NC
 }

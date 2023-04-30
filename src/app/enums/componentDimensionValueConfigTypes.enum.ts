@@ -1,3 +1,3 @@
 export enum ComponentDimensionValueConfigType {
-  Parent
+  Parent='Parent'
 }

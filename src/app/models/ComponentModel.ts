@@ -18,6 +18,6 @@ export class ComponentModel {
                 public overflow?:ResponsiveOverflowConfigModel,
                 public children?:(ComponentModel|string)[],
                 public styling?:ResponsiveStylingConfigModel) {
-    // todo toevoegen constraints
+    // todo toevoegen constraints zoals dat je geen padding mag gebruiken bij een label
   }
 }

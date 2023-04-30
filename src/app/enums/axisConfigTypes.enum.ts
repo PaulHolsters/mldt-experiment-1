@@ -1,4 +1,4 @@
 export enum AxisConfigType {
-  Main,
+  Main=1,
   Cross
 }

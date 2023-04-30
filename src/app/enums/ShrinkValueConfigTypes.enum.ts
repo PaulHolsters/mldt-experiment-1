@@ -1,5 +1,5 @@
 export enum ShrinkValueConfigType {
-  Parent,
-  NA,
+  Parent='shrinkParent',
+  NA=1,
   NC
 }

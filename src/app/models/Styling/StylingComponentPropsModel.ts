@@ -1,6 +1,5 @@
 import {PaddingType} from "../../enums/paddingType.enum";
 import {MarginType} from "../../enums/marginType.enum";
-import {FontFamilyType} from "../../enums/fontFamilyType.enum";
 import {FontWeightType} from "../../enums/fontWeightType.enum";
 import {TextColorType} from "../../enums/textColorType.enum";
 import {TextDecorationType} from "../../enums/textDecorationType.enum";
@@ -14,7 +13,6 @@ constructor(
   public backgroundColorDanger:boolean|undefined,
   public padding:PaddingType|undefined,
   public margin:MarginType|undefined,
-  public fontFamily: FontFamilyType|undefined,
   public fontWeight: FontWeightType|undefined,
   public textColor: TextColorType|undefined,
   public textDecoration: TextDecorationType|undefined,

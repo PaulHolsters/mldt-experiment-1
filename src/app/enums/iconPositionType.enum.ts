@@ -1,4 +1,4 @@
 export enum IconPositionType {
-  Left,
+  Left=1,
   Right
 }

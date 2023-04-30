@@ -1,5 +1,5 @@
 export enum OverflowValueConfigType {
-  Auto,
+  Auto=1,
   Scroll,
   Hidden,
   NC,

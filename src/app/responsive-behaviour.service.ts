@@ -21,7 +21,6 @@ export class ResponsiveBehaviourService {
       this.storeService.setState(component.name, this.storeService.getOverflowComponentProps(component.name, component.overflow, screenSize))
 
     if (component.childLayout){
-      console.log(component.childLayout)
       this.storeService.setState(component.name, this.storeService.getChildLayoutComponentProps(component.name, component.childLayout, screenSize))
     }
     if (component.children && component.children.length > 0) {
@@ -38,8 +37,6 @@ export class ResponsiveBehaviourService {
       Object.values(this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)).filter(val=>{
         return val instanceof ComponentModel
       }).forEach(val=>{
-        // hier komt normaal start en end component
-        console.log(val)
         this.setState(val,screenSize)
       })
       this.storeService.setState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))

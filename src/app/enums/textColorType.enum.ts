@@ -1,5 +1,5 @@
 export enum TextColorType {
-  Primary,
+  Primary=1,
   White,
   Secondary,
   Text_0,
@@ -11,4 +11,6 @@ export enum TextColorType {
   Text_6,
   Text_7,
   Text_8,
+  Text_9,
+  Text_10
 }

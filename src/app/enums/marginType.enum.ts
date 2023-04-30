@@ -1,5 +1,5 @@
 export enum MarginType {
-  All_0,
+  All_0=1,
   All_1,
   All_2,
   All_3,

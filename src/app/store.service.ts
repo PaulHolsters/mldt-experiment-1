@@ -143,11 +143,11 @@ export class StoreService {
           stylingConfig.backgroundColor === ColorType.danger,
           stylingConfig.padding,
           stylingConfig.margin,
-          stylingConfig.fontFamily,
           stylingConfig.fontWeight ,
           stylingConfig.textColor,
           stylingConfig.textDecoration,
-          stylingConfig.fontSize
+          stylingConfig.fontSize,
+          stylingConfig.fontStyle
         )
       }
     let lastScreenSize = screenSize
@@ -444,9 +444,7 @@ export class StoreService {
           let parent = this.getComponent(componentName)
           if(!parent){
             parent = this.getComponentThroughAttributes(componentName)
-            console.log('via attr',componentName)
           }
-          console.log(parent)
           if (parent?.children) {
             if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
               (parent.children as string[]).forEach(childName => {

@@ -1,5 +1,5 @@
 export enum GrowValueConfigType {
-  Parent,
-  NA,
+  Parent='growParent',
+  NA = 1,
   NC
 }

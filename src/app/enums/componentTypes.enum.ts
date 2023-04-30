@@ -1,5 +1,5 @@
 export enum ComponentType {
-  Logo,
+  Logo=1,
   Block,
   Container,
   Button,

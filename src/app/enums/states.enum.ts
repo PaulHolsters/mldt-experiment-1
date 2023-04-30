@@ -1,5 +1,5 @@
 export enum State {
-  dimensioning,
+  dimensioning=1,
   overflow,
   positioning,
   attributes,

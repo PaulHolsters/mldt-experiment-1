@@ -1,7 +1,8 @@
 export enum FixedDimensionValueConfigType {
-  Calculated,
+
+  Parent = 'fixDimensionParent',
+  Calculated=1,
   Hardcoded,
-  Parent,
   NA,
   NC
 }

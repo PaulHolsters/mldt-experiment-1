@@ -1,5 +1,5 @@
 export enum ColorType {
-  primary,
+  primary=1,
   white,
   secondary,
   danger,

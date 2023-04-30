@@ -1,5 +1,5 @@
 export enum FontSizeType {
-  XS,
+  XS=1,
   S,
   BASE,
   L,

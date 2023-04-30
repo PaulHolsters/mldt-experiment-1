@@ -1,3 +1,3 @@
 export enum StretchValueConfigType {
-  NA
+  NA=1
 }

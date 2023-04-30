@@ -1,5 +1,5 @@
 export enum FontWeightType {
-  Light,
+  Light=1,
   Normal,
   Medium,
   Semi_bold,

@@ -3,7 +3,6 @@ import {Observable} from "rxjs";
 import {StoreService} from "../../../store.service";
 import {MarginType} from "../../../enums/marginType.enum";
 import {PaddingType} from "../../../enums/paddingType.enum";
-import {FontFamilyType} from "../../../enums/fontFamilyType.enum";
 import {FontSizeType} from "../../../enums/fontSizeType.enum";
 import {FontStyleType} from "../../../enums/fontStyleType.enum";
 import {TextColorType} from "../../../enums/textColorType.enum";
@@ -28,7 +27,6 @@ export class LabelComponent implements OnInit {
   height:string|undefined
   padding$: Observable<any>|undefined
   margin$: Observable<any>|undefined
-  fontFamily$: Observable<any>|undefined
   fontWeight$: Observable<any>|undefined
   fontStyle$: Observable<any>|undefined
   fontSize$: Observable<any>|undefined
@@ -45,7 +43,6 @@ export class LabelComponent implements OnInit {
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
     this.padding$ = this.storeService.bindToStateProperty(this.name,'padding')
     this.margin$ = this.storeService.bindToStateProperty(this.name,'margin')
-    this.fontFamily$ = this.storeService.bindToStateProperty(this.name,'fontFamily')
     this.fontWeight$ = this.storeService.bindToStateProperty(this.name,'fontWeight')
     this.fontStyle$ = this.storeService.bindToStateProperty(this.name,'fontStyle')
     this.fontSize$ = this.storeService.bindToStateProperty(this.name,'fontSize')
@@ -71,20 +68,118 @@ export class LabelComponent implements OnInit {
     return false
   }
   getMargin(margin:MarginType):Object{
-    return {'m-0':true}
+    return {
+      "m-0":margin===MarginType.All_0,
+      "m-1":margin===MarginType.All_1,
+      "m-2":margin===MarginType.All_2,
+      "m-3":margin===MarginType.All_3,
+      "m-4":margin===MarginType.All_4,
+      "m-5":margin===MarginType.All_5,
+      "m-6":margin===MarginType.All_6,
+      "m-7":margin===MarginType.All_7,
+      "m-8":margin===MarginType.All_8,
+      "mt-0":margin===MarginType.Top_0,
+      "mt-1":margin===MarginType.Top_1,
+      "mt-2":margin===MarginType.Top_2,
+      "mt-3":margin===MarginType.Top_3,
+      "mt-4":margin===MarginType.Top_4,
+      "mt-5":margin===MarginType.Top_5,
+      "mt-6":margin===MarginType.Top_6,
+      "mt-7":margin===MarginType.Top_7,
+      "mt-8":margin===MarginType.Top_8,
+      "mr-0":margin===MarginType.Right_0,
+      "mr-1":margin===MarginType.Right_1,
+      "mr-2":margin===MarginType.Right_2,
+      "mr-3":margin===MarginType.Right_3,
+      "mr-4":margin===MarginType.Right_4,
+      "mr-5":margin===MarginType.Right_5,
+      "mr-6":margin===MarginType.Right_6,
+      "mr-7":margin===MarginType.Right_7,
+      "mr-8":margin===MarginType.Right_8,
+      "mb-0":margin===MarginType.Bottom_0,
+      "mb-1":margin===MarginType.Bottom_1,
+      "mb-2":margin===MarginType.Bottom_2,
+      "mb-3":margin===MarginType.Bottom_3,
+      "mb-4":margin===MarginType.Bottom_4,
+      "mb-5":margin===MarginType.Bottom_5,
+      "mb-6":margin===MarginType.Bottom_6,
+      "mb-7":margin===MarginType.Bottom_7,
+      "mb-8":margin===MarginType.Bottom_8,
+      "ml-0":margin===MarginType.Left_0,
+      "ml-1":margin===MarginType.Left_1,
+      "ml-2":margin===MarginType.Left_2,
+      "ml-3":margin===MarginType.Left_3,
+      "ml-4":margin===MarginType.Left_4,
+      "ml-5":margin===MarginType.Left_5,
+      "ml-6":margin===MarginType.Left_6,
+      "ml-7":margin===MarginType.Left_7,
+      "ml-8":margin===MarginType.Left_8,
+      "mx-0":margin===MarginType.LeftRight_0,
+      "mx-1":margin===MarginType.LeftRight_1,
+      "mx-2":margin===MarginType.LeftRight_2,
+      "mx-3":margin===MarginType.LeftRight_3,
+      "mx-4":margin===MarginType.LeftRight_4,
+      "mx-5":margin===MarginType.LeftRight_5,
+      "mx-6":margin===MarginType.LeftRight_6,
+      "mx-7":margin===MarginType.LeftRight_7,
+      "mx-8":margin===MarginType.LeftRight_8,
+      "my-0":margin===MarginType.TopBottom_0,
+      "my-1":margin===MarginType.TopBottom_1,
+      "my-2":margin===MarginType.TopBottom_2,
+      "my-3":margin===MarginType.TopBottom_3,
+      "my-4":margin===MarginType.TopBottom_4,
+      "my-5":margin===MarginType.TopBottom_5,
+      "my-6":margin===MarginType.TopBottom_6,
+      "my-7":margin===MarginType.TopBottom_7,
+      "my-8":margin===MarginType.TopBottom_8,
+    }
   }
   getFont(
-    fontFamily:FontFamilyType,
     fontWeight:FontWeightType,
     fontStyle:FontStyleType,
     fontSize:FontSizeType,
     textColor:TextColorType,
     textDecoration:TextDecorationType):Object{
-    return {}
+    return {
+      'font-light':fontWeight===FontWeightType.Light,
+      'font-normal':fontWeight===FontWeightType.Normal,
+      'font-medium':fontWeight===FontWeightType.Medium,
+      'font-semibold':fontWeight===FontWeightType.Semi_bold,
+      'font-bold':fontWeight===FontWeightType.Bold,
+      'font-italic':fontStyle===FontStyleType.Italic,
+      'text-xs':fontSize===FontSizeType.XS,
+      'text-sm':fontSize===FontSizeType.S,
+      'text-base':fontSize===FontSizeType.BASE,
+      'text-lg':fontSize===FontSizeType.L,
+      'text-xl':fontSize===FontSizeType.XL,
+      'text-2xl':fontSize===FontSizeType.XL_2,
+      'text-3xl':fontSize===FontSizeType.XL_3,
+      'text-4xl':fontSize===FontSizeType.XL_4,
+      'text-5xl':fontSize===FontSizeType.XL_5,
+      'text-primary':textColor===TextColorType.Primary,
+      'text-white':textColor===TextColorType.White,
+      'text-color-secondary':textColor===TextColorType.Secondary,
+      'text-0':textColor===TextColorType.Text_0,
+      'text-50':textColor===TextColorType.Text_1,
+      'text-100':textColor===TextColorType.Text_2,
+      'text-200':textColor===TextColorType.Text_3,
+      'text-300':textColor===TextColorType.Text_4,
+      'text-400':textColor===TextColorType.Text_5,
+      'text-500':textColor===TextColorType.Text_6,
+      'text-600':textColor===TextColorType.Text_7,
+      'text-700':textColor===TextColorType.Text_8,
+      'text-800':textColor===TextColorType.Text_9,
+      'text-900':textColor===TextColorType.Text_10,
+      // todo add colours too
+      'no-underline':textDecoration===TextDecorationType.Normal,
+      'line-through':textDecoration===TextDecorationType.Stripe_through,
+      'underline':textDecoration===TextDecorationType.Underline,
+
+
+    }
   }
   getPadding(
     padding:PaddingType):Object{
-    console.log(padding,'dit komt er binnen')
     return {
       "p-0":padding===PaddingType.All_0,
       "p-1":padding===PaddingType.All_1,
@@ -152,16 +247,13 @@ export class LabelComponent implements OnInit {
     }
   }
   getStyleClasses(padding:PaddingType,margin:MarginType,
-                  fontFamily:FontFamilyType,
                   fontWeight:FontWeightType,
                   fontStyle:FontStyleType,
                   fontSize:FontSizeType,
                   textColor:TextColorType,
                   textDecoration:TextDecorationType
                   ){
-    const obj =  Object.assign(this.getPadding(padding),this.getMargin(margin),this.getFont(fontFamily,fontWeight,fontStyle,fontSize,textColor,textDecoration))
-    console.log(obj)
-    return obj
+    return Object.assign(this.getPadding(padding),this.getMargin(margin),this.getFont(fontWeight,fontStyle,fontSize,textColor,textDecoration))
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()

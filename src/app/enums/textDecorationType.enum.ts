@@ -1,5 +1,6 @@
 export enum TextDecorationType {
-  Underline,
-  Stripe_through,
+
+  Stripe_through=1,
+    Underline,
   Normal
 }
