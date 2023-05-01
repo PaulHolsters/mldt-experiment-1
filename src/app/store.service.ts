@@ -138,9 +138,7 @@ export class StoreService {
     const translateToStylingComponentProps =
       (stylingConfig: StylingConfigPropsModel): StylingComponentPropsModel => {
         return new StylingComponentPropsModel(
-          stylingConfig.backgroundColor === ColorType.primary,
-          stylingConfig.backgroundColor === ColorType.white,
-          stylingConfig.backgroundColor === ColorType.danger,
+          stylingConfig.backgroundColor,
           stylingConfig.border,
           stylingConfig.padding,
           stylingConfig.margin,

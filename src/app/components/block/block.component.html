@@ -1,11 +1,9 @@
 <div
-  [class.bg-primary]="backgroundColorPrimary$ | async"
-  [class.bg-white]="backgroundColorWhite$ | async"
-  [class.bg-orange-400]="backgroundColorDanger$ | async"
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [style.height]="height"
   [style.width]="width"
+  [ngClass]="getStyleClasses(backgroundColor$|async)"
 #block>
   {{name}}
 </div>

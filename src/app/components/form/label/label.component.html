@@ -1,7 +1,4 @@
 <label
-  [class.bg-primary]="backgroundColorPrimary$ | async"
-  [class.bg-white]="backgroundColorWhite$ | async"
-  [class.bg-orange-400]="backgroundColorDanger$ | async"
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [style.height]="height"
@@ -9,7 +6,8 @@
   [ngClass]="getStyleClasses(
   padding$|async,
   margin$|async,
-  border$|async
+  border$|async,
+  backgroundColor$|async
   )"
 #label><m-text [name]="name" [text]="'test text'"></m-text></label>
 <!--{{value$|async}}-->

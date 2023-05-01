@@ -10,12 +10,11 @@ import {BorderWidthType} from "../../enums/borderWidthType.enum";
 import {BorderStyleType} from "../../enums/borderStyleType.enum";
 import {BorderColorType} from "../../enums/borderColorType.enum";
 import {BorderModel} from "../BorderModel";
+import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 
 export class StylingComponentPropsModel {
 constructor(
-  public backgroundColorPrimary:boolean|undefined,
-  public backgroundColorWhite:boolean|undefined,
-  public backgroundColorDanger:boolean|undefined,
+  public backgroundColor:BackgroundColorType|undefined,
   public border:BorderModel|undefined,
   public padding:PaddingType|undefined,
   public margin:MarginType|undefined,

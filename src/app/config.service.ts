@@ -25,7 +25,6 @@ import {WidthConfigPropsModel} from "./models/Dimensioning/self/WidthConfigProps
 import {DimensionUnitConfigType} from './enums/dimensionUnitConfigTypes.enum';
 import {VerticalLayoutConfigPropsModel} from './models/ChildLayout/VerticalLayoutConfigPropsModel';
 import {StylingConfigPropsModel} from './models/Styling/StylingConfigPropsModel';
-import {ColorType} from './enums/colorType.enum';
 import {
   CrossAxisHorizontalLanesPositioningConfigType
 } from "./enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
@@ -52,6 +51,7 @@ import {BorderWidthType} from "./enums/borderWidthType.enum";
 import {BorderStyleType} from "./enums/borderStyleType.enum";
 import {BorderColorType} from "./enums/borderColorType.enum";
 import {BorderModel} from "./models/BorderModel";
+import {BackgroundColorType} from "./enums/backgroundColorType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -243,7 +243,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             )
           )
         ),
-        styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
+        styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
         children: [
           {
             name: 'header-content',
@@ -466,7 +466,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         OverflowValueConfigType.Auto, OverflowValueConfigType.NC
                       )),
                       styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                        ColorType.warning,
+                        BackgroundColorType.Background_Color_6,
                         PaddingType.All_2,
                         // todo add constraint that a label only accepts margin
                         //  dit is wellicht het gemakkelijkste door Label als een klasse te gaan aanmaken zodat je het new Keyword kan gebruiken

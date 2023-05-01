@@ -1,0 +1,16 @@
+export enum BackgroundColorType {
+  Background_Color_Primary =1,
+  Background_Color_White,
+  Background_Color_Primary_Reverse ,
+  Background_Color_0,
+  Background_Color_1,
+  Background_Color_2,
+  Background_Color_3,
+  Background_Color_4,
+  Background_Color_5,
+  Background_Color_6,
+  Background_Color_7,
+  Background_Color_8,
+  Background_Color_9,
+  Background_Color_10,
+}
