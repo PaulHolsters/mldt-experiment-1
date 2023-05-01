@@ -10,6 +10,7 @@ import {BorderRadiusType} from "../../enums/borderRadiusType.enum";
 import {BorderWidthType} from "../../enums/borderWidthType.enum";
 import {BorderStyleType} from "../../enums/borderStyleType.enum";
 import {BorderColorType} from "../../enums/borderColorType.enum";
+import {BorderModel} from "../BorderModel";
 
 export class StylingConfigPropsModel {
   constructor(
@@ -20,10 +21,7 @@ export class StylingConfigPropsModel {
     public textColor: TextColorType = TextColorType.Primary,
     public textDecoration: TextDecorationType = TextDecorationType.Normal,
     public fontSize: FontSizeType = FontSizeType.BASE,
-    public borderRadius:BorderRadiusType=BorderRadiusType.No_rounding,
-    public borderWidth:BorderWidthType=BorderWidthType.No_width,
-    public borderStyle:BorderStyleType=BorderStyleType.Solid,
-    public borderColor:BorderColorType=BorderColorType.Border_Color_Primary,
+    public border:BorderModel= new BorderModel(),
     public fontStyle?: FontStyleType,
 
   ) {

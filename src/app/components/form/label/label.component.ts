@@ -7,6 +7,7 @@ import {BorderRadiusType} from "../../../enums/borderRadiusType.enum";
 import {BorderStyleType} from "../../../enums/borderStyleType.enum";
 import {BorderColorType} from "../../../enums/borderColorType.enum";
 import {BorderWidthType} from "../../../enums/borderWidthType.enum";
+import {BorderModel} from "../../../models/BorderModel";
 
 @Component({
   selector: 'm-label',
@@ -26,10 +27,7 @@ export class LabelComponent implements OnInit {
   height:string|undefined
   padding$: Observable<any>|undefined
   margin$: Observable<any>|undefined
-  borderColor$: Observable<any>|undefined
-  borderWidth$: Observable<any>|undefined
-  borderStyle$: Observable<any>|undefined
-  borderRadius$: Observable<any>|undefined
+  border$: Observable<any>|undefined
 
   constructor(private storeService:StoreService) { }
 
@@ -42,10 +40,7 @@ export class LabelComponent implements OnInit {
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
     this.padding$ = this.storeService.bindToStateProperty(this.name,'padding')
     this.margin$ = this.storeService.bindToStateProperty(this.name,'margin')
-    this.borderColor$ = this.storeService.bindToStateProperty(this.name,'borderColor')
-    this.borderWidth$ = this.storeService.bindToStateProperty(this.name,'borderWidth')
-    this.borderStyle$ = this.storeService.bindToStateProperty(this.name,'borderStyle')
-    this.borderRadius$ = this.storeService.bindToStateProperty(this.name,'borderRadius')
+    this.border$ = this.storeService.bindToStateProperty(this.name,'border')
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -200,14 +195,64 @@ export class LabelComponent implements OnInit {
       "py-8":padding===PaddingType.TopBottom_8,
     }
   }
-  getBorder(borderRadius:BorderRadiusType,borderStyle:BorderStyleType,borderColor:BorderColorType,borderWidth:BorderWidthType):Object{
+  getBorder(border:BorderModel):Object{
     return {
-      // todo
+      'border-noround':border.radius===BorderRadiusType.No_rounding,
+      'border-round-xs':border.radius===BorderRadiusType.Rounding_XS,
+      'border-round-sm':border.radius===BorderRadiusType.Rounding_SM,
+      'border-round-md':border.radius===BorderRadiusType.Rounding_MD,
+      'border-none':border.globalWidth===BorderWidthType.No_width,
+      'border-1':border.globalWidth===BorderWidthType.Width_1,
+      'border-2':border.globalWidth===BorderWidthType.Width_2,
+      'border-3':border.globalWidth===BorderWidthType.Width_3,
+      'border-x-none':border.leftRightWidth===BorderWidthType.No_left_right_width,
+      'border-x-1':border.leftRightWidth===BorderWidthType.Left_right_width_1,
+      'border-x-2':border.leftRightWidth===BorderWidthType.Left_right_width_2,
+      'border-x-3':border.leftRightWidth===BorderWidthType.Left_right_width_3,
+      'border-y-none':border.topBottomWidth===BorderWidthType.No_top_bottom_width,
+      'border-y-1':border.topBottomWidth===BorderWidthType.Top_bottom_width_1,
+      'border-y-2':border.topBottomWidth===BorderWidthType.Top_bottom_width_2,
+      'border-y-3':border.topBottomWidth===BorderWidthType.Top_bottom_width_3,
+      'border-top-none':border.topWidth===BorderWidthType.No_top_width,
+      'border-top-1':border.topWidth===BorderWidthType.Top_width_1,
+      'border-top-2':border.topWidth===BorderWidthType.Top_width_2,
+      'border-top-3':border.topWidth===BorderWidthType.Top_width_3,
+      'border-left-none':border.leftWidth===BorderWidthType.No_left_width,
+      'border-left-1':border.leftWidth===BorderWidthType.Left_width_1,
+      'border-left-2':border.leftWidth===BorderWidthType.Left_width_2,
+      'border-left-3':border.leftWidth===BorderWidthType.Left_width_3,
+      'border-bottom-none':border.bottomWidth===BorderWidthType.No_bottom_width,
+      'border-bottom-1':border.bottomWidth===BorderWidthType.Bottom_width_1,
+      'border-bottom-2':border.bottomWidth===BorderWidthType.Bottom_width_2,
+      'border-bottom-3':border.bottomWidth===BorderWidthType.Bottom_width_3,
+      'border-right-none':border.rightWidth===BorderWidthType.No_right_width,
+      'border-right-1':border.rightWidth===BorderWidthType.Right_width_1,
+      'border-right-2':border.rightWidth===BorderWidthType.Right_width_2,
+      'border-right-3':border.rightWidth===BorderWidthType.Right_width_3,
+      'border-solid':border.style===BorderStyleType.Solid,
+      'border-dashed':border.style===BorderStyleType.Dashed,
+      'border-dotted':border.style===BorderStyleType.Dotted,
+      'border-double':border.style===BorderStyleType.Double,
+      'border-primary':border.color===BorderColorType.Border_Color_Primary,
+      'border-white':border.color===BorderColorType.Border_Color_White,
+      'border-transparent':border.color===BorderColorType.Border_Color_Transparant,
+      'border-0':border.color===BorderColorType.Border_Color_0,
+      'border-50':border.color===BorderColorType.Border_Color_1,
+      'border-100':border.color===BorderColorType.Border_Color_2,
+      'border-200':border.color===BorderColorType.Border_Color_3,
+      'border-300':border.color===BorderColorType.Border_Color_4,
+      'border-400':border.color===BorderColorType.Border_Color_5,
+      'border-500':border.color===BorderColorType.Border_Color_6,
+      'border-600':border.color===BorderColorType.Border_Color_7,
+      'border-700':border.color===BorderColorType.Border_Color_8,
+      'border-800':border.color===BorderColorType.Border_Color_9,
+      'border-900':border.color===BorderColorType.Border_Color_10,
+      // todo aanvullen met kleur
     }
   }
   getStyleClasses(padding:PaddingType,margin:MarginType,
-                  borderRadius:BorderRadiusType,borderStyle:BorderStyleType,borderWidth:BorderWidthType,borderColor:BorderColorType){
+                  border:BorderModel){
     return Object.assign(this.getPadding(padding),this.getMargin(margin),
-      this.getBorder(borderRadius,borderStyle,borderColor,borderWidth))
+      this.getBorder(border))
   }
 }

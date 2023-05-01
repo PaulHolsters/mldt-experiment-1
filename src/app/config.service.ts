@@ -47,6 +47,11 @@ import {TextColorType} from "./enums/textColorType.enum";
 import {TextDecorationType} from "./enums/textDecorationType.enum";
 import {FontSizeType} from "./enums/fontSizeType.enum";
 import {FontStyleType} from "./enums/fontStyleType.enum";
+import {BorderRadiusType} from "./enums/borderRadiusType.enum";
+import {BorderWidthType} from "./enums/borderWidthType.enum";
+import {BorderStyleType} from "./enums/borderStyleType.enum";
+import {BorderColorType} from "./enums/borderColorType.enum";
+import {BorderModel} from "./models/BorderModel";
 
 @Injectable({
   providedIn: 'root'
@@ -486,26 +491,18 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                                   MarginType.All_3,
                         *   }
                         * )
-                        *
-                        *
-                        *
-                        *
-                        *
-                        *
-                        *
-                        *
-                        *
-                        *
                         * */
                         MarginType.All_3,
                         FontWeightType.Medium,
                         TextColorType.Text_4,
                         TextDecorationType.Stripe_through,
                         FontSizeType.XL_5,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
+                        new BorderModel(
+                          BorderRadiusType.No_rounding,
+                          BorderColorType.Border_Color_5,
+                          BorderStyleType.Solid,
+                          BorderWidthType.No_width,undefined,undefined,undefined,BorderWidthType.Bottom_width_3)
+                        ,
                         FontStyleType.Italic))
                     },
                     {
@@ -529,125 +526,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         undefined))
                     },
                   ]),
-/*                  {
-                  name: 'input with label',
-                  type: ComponentType.Container,
-                  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-                  // Breedte van input container
-                  dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-                    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,350,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
-                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,650,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC)
-                  )),
-                  overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NC)),
-                  childLayout: new ResponsiveChildLayoutConfigModel(
-                    // todo zorg voor een children param hier zodat dit allemaal proper bijeen staat
-
-                    // todo add the other parts too like visibility, styling etc., change scroll into overflow
-                    new ChildLayoutConfigPropsModel(
-                      new HorizontalLayoutConfigPropsModel(
-                        AxisConfigType.Main,
-                        undefined,
-                        true,
-                        // dit zal de componenten binnen een lane positioneren
-                        CrossAxisHorizontalPositioningConfigType.NA,
-                        // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET (op de children van deze container he)!!
-                        new WidthConfigPropsModel(
-                          new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 450, DimensionUnitConfigType.PX),
-                          DynamicDimensionValueConfigType.NC
-                        ),
-                        // dit zal lanes positioneren ten opzichte van elkaar
-                        // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
-                        //    dit zou je kunnen oplossen door in uiterste nood een event laten gebeuren en vervolgens de waarde hier wijzigen
-                        CrossAxisHorizontalLanesPositioningConfigType.NA
-                      ),
-                      new VerticalLayoutConfigPropsModel(
-                        AxisConfigType.Cross,
-                        false,
-                        true,
-                        CrossAxisVerticalPositioningConfigType.Top,
-                        HeightValueConfigType.NC,
-                        CrossAxisVerticalLanesPositioningConfigType.Top
-                      )
-                    ), new ChildLayoutConfigPropsModel(
-                      new HorizontalLayoutConfigPropsModel(
-                        AxisConfigType.Cross,
-                        undefined,
-
-                        true,
-                        // dit zal de componenten binnen een lane positioneren
-                        CrossAxisHorizontalPositioningConfigType.Left,
-                        new WidthConfigPropsModel(
-                          // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET (op de children van deze container he)!!
-                          new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 200, DimensionUnitConfigType.PX),
-                          DynamicDimensionValueConfigType.NC
-                        ),
-                        // dit zal lanes positioneren ten opzichte van elkaar
-                        // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
-                        //    dit zou je kunnen oplossen door in uiterste nood een event laten gebeuren en vervolgens de waarde hier wijzigen
-                        CrossAxisHorizontalLanesPositioningConfigType.Left
-                      ),
-                      new VerticalLayoutConfigPropsModel(
-                        AxisConfigType.Main,
-                        true,
-                        true,
-                        MainAxisVerticalPositioningConfigType.Evenly,
-                        HeightValueConfigType.NC,
-                        CrossAxisVerticalLanesPositioningConfigType.NA
-                      )
-                    )
-                  ),
-                  children:[
-                    {
-                      name: 'label',
-                      type: ComponentType.Label,
-                      visibility: new ResponsiveVisibilityConfigModel({
-                        visible: false,
-                        holdSpace: false
-                      }, undefined, undefined, {
-                        visible: true,
-                        holdSpace: false
-                      }),
-                      dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.Parent, new WidthConfigPropsModel(
-                        new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,50,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.Parent
-                      ))),
-                      overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
-                        OverflowValueConfigType.Auto, OverflowValueConfigType.NC
-                      )),
-                      styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                        ColorType.warning,
-                        PaddingType.All_6,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined))
-                    },
-                    {
-                      name: 'input',
-                      type: ComponentType.Input,
-                      dimensions:new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.Parent, WidthValueConfigType.Parent)),
-                      visibility: new ResponsiveVisibilityConfigModel({
-                        visible: false,
-                        holdSpace: false
-                      }, undefined, undefined, {
-                        visible: true,
-                        holdSpace: false
-                      }),
-                      styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined))
-                    },
-                  ]
-                },*/
               }
             ),
             visibility: new ResponsiveVisibilityConfigModel(),
