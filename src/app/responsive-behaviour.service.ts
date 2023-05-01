@@ -11,20 +11,20 @@ export class ResponsiveBehaviourService {
   }
   private setState(component: ComponentModel, screenSize: number) {
     if (component.visibility)
-      this.storeService.setState(component.name, this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize))
+      this.storeService.setRBSState(component.name, this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize))
     if (component.position)
-      this.storeService.setState(component.name, this.storeService.getPositionComponentProps(component.name, component.position, screenSize))
+      this.storeService.setRBSState(component.name, this.storeService.getPositionComponentProps(component.name, component.position, screenSize))
     if (component.dimensions){
-      this.storeService.setState(component.name, this.storeService.getDimensionsComponentProps(component.name, component.dimensions, screenSize))
+      this.storeService.setRBSState(component.name, this.storeService.getDimensionsComponentProps(component.name, component.dimensions, screenSize))
     }
     if (component.overflow)
-      this.storeService.setState(component.name, this.storeService.getOverflowComponentProps(component.name, component.overflow, screenSize))
+      this.storeService.setRBSState(component.name, this.storeService.getOverflowComponentProps(component.name, component.overflow, screenSize))
 
     if (component.childLayout){
-      this.storeService.setState(component.name, this.storeService.getChildLayoutComponentProps(component.name, component.childLayout, screenSize))
+      this.storeService.setRBSState(component.name, this.storeService.getChildLayoutComponentProps(component.name, component.childLayout, screenSize))
     }
     if (component.children && component.children.length > 0) {
-      this.storeService.setState(component.name, component.children as ComponentModel[])
+      this.storeService.setRBSState(component.name, component.children as ComponentModel[])
       component.children.forEach(child => {
         if (typeof child === 'string') {
 
@@ -39,10 +39,10 @@ export class ResponsiveBehaviourService {
       }).forEach(val=>{
         this.setState(val,screenSize)
       })
-      this.storeService.setState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
+      this.storeService.setRBSState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
     }
     if (component.styling)
-      this.storeService.setState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
+      this.storeService.setRBSState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
 
   }
   private setComponentStates(contentContainer: {

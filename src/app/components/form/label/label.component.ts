@@ -10,6 +10,8 @@ import {BorderWidthType} from "../../../enums/borderWidthType.enum";
 import {BorderModel} from "../../../models/BorderModel";
 import {StylesService} from "../../../styles.service";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
+import {DataType} from "../../../enums/dataType.enum";
+import {LabelType} from "../../../enums/labelType.enum";
 
 @Component({
   selector: 'm-label',
@@ -17,9 +19,10 @@ import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
   styleUrls: ['./label.component.css']
 })
 export class LabelComponent implements OnInit {
-  value$:Observable<any>|undefined
   @Input() name = ''
   @ViewChild('label') label:ElementRef|undefined
+  DataType = DataType
+  LabelType = LabelType
   backgroundColor$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined
   calcWidth$: Observable<any>|undefined
@@ -28,6 +31,7 @@ export class LabelComponent implements OnInit {
   padding$: Observable<any>|undefined
   margin$: Observable<any>|undefined
   border$: Observable<any>|undefined
+  labelType$: Observable<any>|undefined
 
   constructor(private storeService:StoreService,private stylesService:StylesService) { }
 
@@ -38,6 +42,7 @@ export class LabelComponent implements OnInit {
     this.padding$ = this.storeService.bindToStateProperty(this.name,'padding')
     this.margin$ = this.storeService.bindToStateProperty(this.name,'margin')
     this.border$ = this.storeService.bindToStateProperty(this.name,'border')
+    this.labelType$ = this.storeService.bindToStateProperty(this.name,'labelType')
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

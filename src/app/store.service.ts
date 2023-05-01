@@ -43,6 +43,7 @@ import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTy
 import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
+import {ConceptModel} from "./models/Data/ConceptModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -407,7 +408,11 @@ export class StoreService {
     }
     return undefined
   }
-  public setState(componentName: string,
+
+  public setDataState(componentName:string,data:ConceptModel){
+
+  }
+  public setRBSState(componentName: string,
                   newState: (PositioningComponentPropsModel |
                     AttributesComponentPropsModel |
                     VisibilityComponentPropsModel) |

@@ -22,6 +22,9 @@ import { InputNumberComponent } from './components/form/formcontrol/input-number
 import {FormsModule} from "@angular/forms";
 import { LabelComponent } from './components/form/label/label.component';
 import { TextComponent } from './components/text/text.component';
+import { DataComponent } from './components/data/data.component';
+import { NumberComponent } from './components/number/number.component';
+import { DateComponent } from './components/date/date.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { TextComponent } from './components/text/text.component';
     InputTextComponent,
     InputNumberComponent,
     LabelComponent,
-    TextComponent
+    TextComponent,
+    DataComponent,
+    NumberComponent,
+    DateComponent
   ],
   imports: [
     BrowserModule,

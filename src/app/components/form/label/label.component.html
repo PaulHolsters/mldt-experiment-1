@@ -9,5 +9,7 @@
   border$|async,
   backgroundColor$|async
   )"
-#label><m-text [name]="name" [text]="'test text'"></m-text></label>
-<!--{{value$|async}}-->
+#label>
+  <m-data *ngIf="(labelType$|async)===LabelType.Dynamic" [dataType]="DataType.Text"></m-data>
+  <m-text *ngIf="(labelType$|async)===LabelType.Static" [name]="name"></m-text>
+</label>

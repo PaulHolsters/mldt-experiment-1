@@ -15,6 +15,7 @@ import {StylesService} from "../../styles.service";
 export class TextComponent implements OnInit {
   @Input('text') text:string|undefined
   @Input('name') name=''
+  text$:Observable<any>|undefined
   fontWeight$: Observable<any>|undefined
   fontStyle$: Observable<any>|undefined
   fontSize$: Observable<any>|undefined
@@ -27,6 +28,7 @@ export class TextComponent implements OnInit {
     this.fontSize$ = this.storeService.bindToStateProperty(this.name,'fontSize')
     this.textColor$ = this.storeService.bindToStateProperty(this.name,'textColor')
     this.textDecoration$ = this.storeService.bindToStateProperty(this.name,'textDecoration')
+    if(!this.text) this.text$ = this.storeService.bindToStateProperty(this.name,'value')
   }
   getStyleClasses(fontWeight:FontWeightType,
                   fontStyle:FontStyleType,
