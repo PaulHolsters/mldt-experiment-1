@@ -1,0 +1,9 @@
+<ng-container *ngIf="dataType">
+  <span
+    [ngSwitch]="dataType">
+    <m-text *ngSwitchCase="DataType.Text" [name]="name" [text]="(data$|async)"></m-text>
+    <m-number *ngSwitchCase="DataType.Number" [name]="name"></m-number>
+    <m-date *ngSwitchCase="DataType.Date" [name]="name"></m-date>
+  </span>
+</ng-container>
+
