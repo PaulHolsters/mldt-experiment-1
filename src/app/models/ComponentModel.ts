@@ -11,7 +11,6 @@ export class ComponentModel {
   isComponent?:boolean = true
   constructor(  public name:string,
                 public type:ComponentType,
-
                 public childLayout?:ResponsiveChildLayoutConfigModel,
                 public position?:ResponsivePositioningConfigModel,
                 public dimensions?:ResponsiveDimensioningConfigModel,

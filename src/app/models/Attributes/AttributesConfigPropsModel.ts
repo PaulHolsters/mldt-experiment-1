@@ -2,8 +2,6 @@ import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
 import {IconType} from "../../enums/iconType.enum";
 import {IconPositionType} from "../../enums/iconPositionType.enum";
-import {PaddingType} from "../../enums/paddingType.enum";
-import {MarginType} from "../../enums/marginType.enum";
 export class AttributesConfigPropsModel {
   constructor(
     public  dirty?:boolean|undefined,

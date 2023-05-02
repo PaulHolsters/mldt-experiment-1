@@ -325,7 +325,7 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
-  private getComponent(compName: string ,component?:ComponentModel): ComponentModel | undefined {
+  public getComponent(compName: string ,component?:ComponentModel): ComponentModel | undefined {
     // todo later string [] variant toevoegen
     // de naam is nu 'input with label'
     if(component){
@@ -358,7 +358,7 @@ export class StoreService {
     }
     return undefined
   }
-  private getComponentThroughAttributes(compName: string,childComp?:ComponentModel): ComponentModel | undefined{
+  public getComponentThroughAttributes(compName: string,childComp?:ComponentModel): ComponentModel | undefined{
     if(childComp){
       if(childComp.attributes !== undefined){
         const attributes = childComp.attributes as ResponsiveAttributesConfigModel

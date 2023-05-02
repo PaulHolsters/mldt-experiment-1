@@ -3,62 +3,37 @@ import {StoreService} from "./store.service";
 import {ConceptModel} from "./models/Data/ConceptModel";
 import {ComponentModel} from "./models/ComponentModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
+import {QueryType} from "./enums/queryType.enum";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  // vergelijkbaar met de Responsive Behaviour Service
-  // het stuurt data naar de verschillende componenten die daarop zijn ingeschreven
-  // op basis van een bepaald (data) event dat zich heeft voorgedaan
-  // deze service is de service die dat event capteert en vervolgens de data begint te verzenden
-  // de subscriptions op deze events gebeuren in de store service, net zoals het eigenlijke verzenden van de data
-  private data:ConceptModel[]=[]
-  private setDataState(compName:string,compDataConfig:ConceptConfigModel){
+  private setDataState(data:ConceptModel,compName:string,compDataConfig:ConceptConfigModel){
     // deze methode verzendt de data naar de componenten voor dewelke de
     // data is gewijzigd
     // todo hou rekening met de dataPipe
 
   }
-  private setComponentsDataState(newData:ConceptModel){
-    // deze methode zorgt er gewoon voor dat alle componenten in de configuratie
-    // beschouwd worden
-    this.storeService.getComponentsConfig().forEach(compConfig=>{
-      if(compConfig.data){
-        this.setDataState(compConfig.name,compConfig.data)
-      }
-      if(compConfig.attributes){
-        compConfig.attributes.getComponents().forEach(component=>{
-          if(component.data){
-            this.setDataState(component.name,component.data)
-          }
-        })
-      }
-      if(compConfig.children && compConfig.children.length > 0){
-        compConfig.children.forEach(childConfig=>{
-          if (typeof childConfig === 'string') {
-            // todo
-          } else if(childConfig.data) {
-            this.setDataState(childConfig.name,childConfig.data)
-          }
-        })
-      }
-
-    })
-  }
   constructor(private storeService:StoreService) { }
-  public changeData(conceptName:string,newData:ConceptModel){
-    // todo is het eigenlijk nodig om de binnenkomende data in een array te bewaren in de frontend?
-    //  wellicht idd wel zodat je indien nodig toegang hebt tot de data vanuit eender waar in de applicatie
-    //    al lijkt dit overbodig gegeven het feit dat ik met subjects werk
-    const index = this.data.findIndex(chunk=>{
-      return chunk.conceptName === conceptName
-    })
-    if(index){
-      this.data[index] = newData
-    } else{
-      this.data.push(newData)
+  private fakeQuery(data:ConceptConfigModel):ConceptModel {
+    // todo make this query correct and test it all out
+    return new ConceptModel('product', [])
+  }
+  private fakeMutation(data:ConceptModel){
+
+  }
+  public mutationEvent(data:ConceptModel){
+    this.fakeMutation(data)
+  }
+  public componentReady(name:string){
+    let componentConfig = this.storeService.getComponent(name)
+    if(!componentConfig){
+      componentConfig = this.storeService.getComponentThroughAttributes(name)
     }
-    this.setComponentsDataState(newData)
+    if(componentConfig && componentConfig.data){
+      this.setDataState(this.fakeQuery(componentConfig.data),name,componentConfig.data)
+    }
   }
 }

@@ -36,6 +36,7 @@ export class LabelComponent implements OnInit {
   constructor(private storeService:StoreService,private stylesService:StylesService) { }
 
   ngOnInit(): void {
+
     this.backgroundColor$ = this.storeService.bindToStateProperty(this.name,'backgroundColor')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
