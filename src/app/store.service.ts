@@ -606,5 +606,10 @@ export class StoreService {
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
   }
+  public getComponentsConfig():ComponentModel[]{
+    if(this.components)
+    return [...this.components]
+    else return []
+  }
 }
 

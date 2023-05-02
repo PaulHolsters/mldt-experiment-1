@@ -6,10 +6,12 @@ import {ComponentType} from "../enums/componentTypes.enum";
 import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
+import {ConceptConfigModel} from "./Data/ConceptConfigModel";
 export class ComponentModel {
   isComponent?:boolean = true
   constructor(  public name:string,
                 public type:ComponentType,
+
                 public childLayout?:ResponsiveChildLayoutConfigModel,
                 public position?:ResponsivePositioningConfigModel,
                 public dimensions?:ResponsiveDimensioningConfigModel,
@@ -17,7 +19,8 @@ export class ComponentModel {
                 public visibility?:ResponsiveVisibilityConfigModel,
                 public overflow?:ResponsiveOverflowConfigModel,
                 public children?:(ComponentModel|string)[],
-                public styling?:ResponsiveStylingConfigModel) {
+                public styling?:ResponsiveStylingConfigModel,
+                public data?:ConceptConfigModel,) {
     // todo toevoegen constraints zoals dat je geen padding mag gebruiken bij een label
   }
 }
