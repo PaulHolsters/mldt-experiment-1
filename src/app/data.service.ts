@@ -18,7 +18,15 @@ export class DataService {
   }
   constructor(private storeService:StoreService) { }
   private fakeQuery(data:ConceptConfigModel):ConceptModel {
-    // todo make this query correct and test it all out
+     // todo hier zet je letterlijk een array met allerhande data die gevraagd kan worden
+
+    // todo een taal bedenken voor extra calculated fields based on related data and concepts
+    // todo a way to filter data
+    // todo a way to order data
+    // todo a way to get slices (which actually is filtering)
+    //  maar dan op een business friendly manier => echter nu enkel gewoon het concept geen calculated fields !important
+    //  mogelijks helpen de prime NG tables en filter components genoeg
+
     return new ConceptModel('product', [])
   }
   private fakeMutation(data:ConceptModel){
