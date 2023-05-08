@@ -44,6 +44,7 @@ import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConf
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
 import {ConceptModel} from "./models/Data/ConceptModel";
+import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -416,7 +417,7 @@ export class StoreService {
     return undefined
   }
 
-  public setDataState(componentName:string,data:ConceptModel){
+  public setDataState(componentName:string,data:ConceptModel,compConfig:ConceptConfigModel){
 
   }
   public setRBSState(componentName: string,
@@ -481,6 +482,7 @@ export class StoreService {
   }
   private components: ComponentModel[] | undefined
   private createProps(component: ComponentModel) {
+    // todo fix bug: property "data" wordt hier vergeten bv bij label
     if (component.attributes) {
       Object.entries(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(([k,v]) => {
         const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -491,6 +493,7 @@ export class StoreService {
         if(typeof v === 'object' && v.isComponent){
           this.createProps(v)
         }
+        // todo mogelijks moet hier verder gegaan worden
       })
     }
     if (component.visibility) {

@@ -4,34 +4,33 @@ import {ConceptModel} from "./models/Data/ConceptModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {Apollo, gql} from "apollo-angular";
 import {AttributeModel} from "./models/Data/AttributeModel";
-import {Observable} from "rxjs";
-import {ApolloQueryResult} from "@apollo/client";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   private setDataState(data: ConceptModel, compName: string, compDataConfig: ConceptConfigModel) {
-    // deze methode verzendt de data naar de componenten voor dewelke de
-    // data is gewijzigd
+    // deze methode verzendt de data naar de componenten, ervan uitgaande dat de caller weet dat de data effectief werd gewijzigd
     // todo hou rekening met de dataPipe
     console.log(data,compName,compDataConfig)
+    this.storeService.setDataState(compName,data,compDataConfig)
   }
   constructor(private storeService: StoreService, private apollo: Apollo) {
   }
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
   // todo a way to order data
-  private fakeQuery(data: ConceptConfigModel): Observable<ApolloQueryResult<unknown>> {
-    return this.apollo
-      .watchQuery({
-        query: gql`
+  private fakeQuery(data: ConceptConfigModel): any {
+    const GET_PRODUCTS = gql`
                     {
                       getProducts{
                         name
                       }
                     }
-        `,
+        `
+    return this.apollo
+      .watchQuery<any>({
+        query: GET_PRODUCTS
       }).valueChanges
   }
   private fakeMutation(data: ConceptModel) {
@@ -46,16 +45,19 @@ export class DataService {
       componentConfig = this.storeService.getComponentThroughAttributes(name)
     }
     if (componentConfig && componentConfig.data) {
-      this.fakeQuery(componentConfig.data).subscribe(res=>{
-        const productData = res.data
-        if (productData instanceof Array && componentConfig && componentConfig.data) {
-          const [k, v] = Object.entries(productData[0])[0]
-          if (typeof v === 'string') {
-            const conceptName = productData[0].__typename
-            const attr = [new AttributeModel(k, v)]
-            this.setDataState(new ConceptModel(conceptName, attr), name, componentConfig.data)
+      this.fakeQuery(componentConfig.data).subscribe((res:unknown)=>{
+        const productData = (res as {data:{getProducts:any[]}})['data']
+          if (componentConfig && componentConfig.data) {
+            const val = productData['getProducts'][0]
+            if (typeof val === 'object') {
+              const attr:AttributeModel[] = []
+              Object.entries(val).forEach(([k,v])=>{
+                if(k!=='__typename') attr.push(new AttributeModel(k,v as (string|number|ConceptModel|Date|undefined)))
+              })
+              const conceptName = val.__typename
+              this.setDataState(new ConceptModel(conceptName, attr), name, componentConfig.data)
+            }
           }
-        }
       })
     }
   }
