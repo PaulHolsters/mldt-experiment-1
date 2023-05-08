@@ -25,6 +25,8 @@ import { TextComponent } from './components/text/text.component';
 import { DataComponent } from './components/data/data.component';
 import { NumberComponent } from './components/number/number.component';
 import { DateComponent } from './components/date/date.component';
+import {GraphQLModule} from './graphql.module';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { DateComponent } from './components/date/date.component';
     MenubarModule,
     InputTextModule,
     ImageModule,
-    FormsModule
+    FormsModule,
+    GraphQLModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

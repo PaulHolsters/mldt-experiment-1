@@ -12,6 +12,7 @@ import {StylesService} from "../../../styles.service";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
 import {DataType} from "../../../enums/dataType.enum";
 import {LabelType} from "../../../enums/labelType.enum";
+import {DataService} from "../../../data.service";
 
 @Component({
   selector: 'm-label',
@@ -33,10 +34,12 @@ export class LabelComponent implements OnInit {
   border$: Observable<any>|undefined
   labelType$: Observable<any>|undefined
 
-  constructor(private storeService:StoreService,private stylesService:StylesService) { }
+  constructor(private storeService:StoreService,private stylesService:StylesService,private dataService:DataService) {
+
+  }
 
   ngOnInit(): void {
-
+    this.dataService.componentReady(this.name)
     this.backgroundColor$ = this.storeService.bindToStateProperty(this.name,'backgroundColor')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')

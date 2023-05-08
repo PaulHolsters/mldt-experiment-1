@@ -360,6 +360,7 @@ export class StoreService {
   }
   public getComponentThroughAttributes(compName: string,childComp?:ComponentModel): ComponentModel | undefined{
     if(childComp){
+      if(childComp.name === compName) return childComp
       if(childComp.attributes !== undefined){
         const attributes = childComp.attributes as ResponsiveAttributesConfigModel
         for (let [k,v] of Object.entries(attributes)){
@@ -369,6 +370,12 @@ export class StoreService {
               //      dit dus voorlopig in de constraints wel afdwingen
               if(l instanceof ComponentModel && l.name === compName){
                 return l
+              }
+              if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
+                const component = this.getComponentThroughAttributes(compName,l)
+                if(component){
+                  return component
+                }
               }
             }
           }

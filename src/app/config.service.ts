@@ -52,6 +52,8 @@ import {BorderStyleType} from "./enums/borderStyleType.enum";
 import {BorderColorType} from "./enums/borderColorType.enum";
 import {BorderModel} from "./models/BorderModel";
 import {BackgroundColorType} from "./enums/backgroundColorType.enum";
+import { ConceptConfigModel } from './models/Data/ConceptConfigModel';
+import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -389,10 +391,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                     holdSpace: false
                   })
                 },
-                end: new ComponentModel('input with label',ComponentType.Container,
+                end: new ComponentModel(
+                  'input with label',
+                  ComponentType.Container,
                   new ResponsiveChildLayoutConfigModel(
                     // todo zorg voor een children param hier zodat dit allemaal proper bijeen staat
-
                     // todo add the other parts too like visibility, styling etc., change scroll into overflow
                     new ChildLayoutConfigPropsModel(
                       new HorizontalLayoutConfigPropsModel(
@@ -419,11 +422,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         HeightValueConfigType.NC,
                         CrossAxisVerticalLanesPositioningConfigType.Top
                       )
-                    ), new ChildLayoutConfigPropsModel(
+                    ),
+                    new ChildLayoutConfigPropsModel(
                       new HorizontalLayoutConfigPropsModel(
                         AxisConfigType.Cross,
                         undefined,
-
                         true,
                         // dit zal de componenten binnen een lane positioneren
                         CrossAxisHorizontalPositioningConfigType.Left,
@@ -446,12 +449,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         CrossAxisVerticalLanesPositioningConfigType.NA
                       )
                     )
-                  ),undefined,new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-                    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,350,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
-                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,650,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC)
-                  )),undefined,new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-                ,new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NC))
-                ,[
+                  ),
+                  undefined,
+                  new ResponsiveDimensioningConfigModel(
+                    new DimensioningConfigPropsModel(
+                      new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 350, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
+                      new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 650, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC)
+                    )), undefined, new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+                  ,
+                  new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NC))
+                  , [
                     {
                       type: ComponentType.Label,
                       name: 'label',
@@ -462,48 +469,54 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         visible: true,
                         holdSpace: false
                       }),
-                      overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
+                      overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
                         OverflowValueConfigType.Auto, OverflowValueConfigType.NC
                       )),
-                      styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                        BackgroundColorType.Background_Color_6,
-                        PaddingType.All_2,
-                        // todo add constraint that a label only accepts margin
-                        //  dit is wellicht het gemakkelijkste door Label als een klasse te gaan aanmaken zodat je het new Keyword kan gebruiken
-                        /*
-                        * new Label(
-                        *   {
-                        *     name:'my new label',
-                        *     visibility: new ResponsiveVisibilityConfigModel({
-                                                visible: false,
-                                                holdSpace: false
-                                              }, undefined, undefined, {
-                                                visible: true,
-                                                holdSpace: false
-                                              }),
-                              overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
-                                OverflowValueConfigType.Auto, OverflowValueConfigType.NC
-                              )),
-                              styling:  new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                                  ColorType.warning,
-                                  // todo in hier gaat dan een constraint af die zegt dat padding bij een label niet is toegelaten
-                                  PaddingType.All_6,
-                                  MarginType.All_3,
-                        *   }
-                        * )
-                        * */
-                        MarginType.All_3,
-                        FontWeightType.Medium,
-                        TextColorType.Text_4,
-                        TextDecorationType.Stripe_through,
-                        FontSizeType.XL_5,
-                        new BorderModel(
-                          BorderRadiusType.No_rounding,
-                          BorderColorType.Border_Color_5,
-                          BorderStyleType.Solid,
-                          BorderWidthType.No_width,undefined,undefined,undefined,BorderWidthType.Bottom_width_3)
-                        ,
-                        FontStyleType.Italic))
+                      styling: new ResponsiveStylingConfigModel(
+                        new StylingConfigPropsModel(
+                          BackgroundColorType.Background_Color_6,
+                          PaddingType.All_2,
+                          // todo add constraint that a label only accepts margin
+                          //  dit is wellicht het gemakkelijkste door Label als een klasse te gaan aanmaken zodat je het new Keyword kan gebruiken
+                          /*
+                          * new Label(
+                          *   {
+                          *     name:'my new label',
+                          *     visibility: new ResponsiveVisibilityConfigModel({
+                                                  visible: false,
+                                                  holdSpace: false
+                                                }, undefined, undefined, {
+                                                  visible: true,
+                                                  holdSpace: false
+                                                }),
+                                overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
+                                  OverflowValueConfigType.Auto, OverflowValueConfigType.NC
+                                )),
+                                styling:  new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                                    ColorType.warning,
+                                    // todo in hier gaat dan een constraint af die zegt dat padding bij een label niet is toegelaten
+                                    PaddingType.All_6,
+                                    MarginType.All_3,
+                          *   }
+                          * )
+                          * */
+                          MarginType.All_3,
+                          FontWeightType.Medium,
+                          TextColorType.Text_4,
+                          TextDecorationType.Stripe_through,
+                          FontSizeType.XL_5,
+                          new BorderModel(
+                            BorderRadiusType.No_rounding,
+                            BorderColorType.Border_Color_5,
+                            BorderStyleType.Solid,
+                            BorderWidthType.No_width, undefined, undefined, undefined, BorderWidthType.Bottom_width_3)
+                          ,
+                          FontStyleType.Italic)),
+                      data: new ConceptConfigModel(
+                        'product',[
+                          new AttributeConfigModel('name')
+                        ]
+                      )
                     },
                     {
                       name: 'input',
@@ -515,7 +528,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         visible: true,
                         holdSpace: false
                       }),
-                      styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                      styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
                         undefined,
                         undefined,
                         undefined,
@@ -529,12 +542,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               }
             ),
             visibility: new ResponsiveVisibilityConfigModel(),
-            overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA,OverflowValueConfigType.Auto)),
+            overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
             // todo hier moet een soort auto height of fit content height komen
-/*            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-              new HeightConfigPropsModel(FixedDimensionValueConfigType.NC, new DynamicDimensioningConfigModel(1,0,StretchValueConfigType.NA)),
-              WidthValueConfigType.NC
-            ))*/
+            /*            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                          new HeightConfigPropsModel(FixedDimensionValueConfigType.NC, new DynamicDimensioningConfigModel(1,0,StretchValueConfigType.NA)),
+                          WidthValueConfigType.NC
+                        ))*/
           },
         ]
       },
