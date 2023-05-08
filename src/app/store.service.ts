@@ -418,7 +418,9 @@ export class StoreService {
   }
 
   public setDataState(componentName:string,data:ConceptModel,compConfig:ConceptConfigModel){
-
+    this.getStatePropertySubjects().find(subj => {
+      return subj.componentName === componentName && subj.propName === 'data'
+    })?.propValue.next(data)
   }
   public setRBSState(componentName: string,
                   newState: (PositioningComponentPropsModel |
@@ -482,7 +484,13 @@ export class StoreService {
   }
   private components: ComponentModel[] | undefined
   private createProps(component: ComponentModel) {
-    // todo fix bug: property "data" wordt hier vergeten bv bij label
+    if(component.data){
+      const propSubj = new BehaviorSubject<any | undefined>(undefined)
+      this.statePropertySubjects.push({
+        componentName: component.name, propName: 'data', propValue:
+        propSubj, prop$: propSubj.asObservable()
+      })
+    }
     if (component.attributes) {
       Object.entries(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(([k,v]) => {
         const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -493,7 +501,6 @@ export class StoreService {
         if(typeof v === 'object' && v.isComponent){
           this.createProps(v)
         }
-        // todo mogelijks moet hier verder gegaan worden
       })
     }
     if (component.visibility) {

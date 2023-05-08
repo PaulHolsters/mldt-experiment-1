@@ -1,8 +1,7 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import {DataType} from "../../enums/dataType.enum";
 import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
-import {DataService} from "../../data.service";
 
 @Component({
   selector: 'm-data',
@@ -17,6 +16,7 @@ export class DataComponent implements OnInit {
   constructor(private storeService: StoreService) { }
 
   ngOnInit(): void {
+    console.log(this.dataType) // todo fix 0
     this.data$ = this.storeService.bindToStateProperty(this.name, 'data')
   }
 

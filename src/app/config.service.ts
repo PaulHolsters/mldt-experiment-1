@@ -52,8 +52,9 @@ import {BorderStyleType} from "./enums/borderStyleType.enum";
 import {BorderColorType} from "./enums/borderColorType.enum";
 import {BorderModel} from "./models/BorderModel";
 import {BackgroundColorType} from "./enums/backgroundColorType.enum";
-import { ConceptConfigModel } from './models/Data/ConceptConfigModel';
+import {ConceptConfigModel} from './models/Data/ConceptConfigModel';
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
+import {LabelType} from "./enums/labelType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -472,6 +473,9 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
                         OverflowValueConfigType.Auto, OverflowValueConfigType.NC
                       )),
+                      attributes: new ResponsiveAttributesConfigModel({
+                        labelType:LabelType.Dynamic
+                      }),
                       styling: new ResponsiveStylingConfigModel(
                         new StylingConfigPropsModel(
                           BackgroundColorType.Background_Color_6,

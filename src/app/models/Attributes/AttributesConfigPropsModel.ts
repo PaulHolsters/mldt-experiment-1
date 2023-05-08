@@ -2,6 +2,7 @@ import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
 import {IconType} from "../../enums/iconType.enum";
 import {IconPositionType} from "../../enums/iconPositionType.enum";
+import {LabelType} from "../../enums/labelType.enum";
 export class AttributesConfigPropsModel {
   constructor(
     public  dirty?:boolean|undefined,
@@ -18,7 +19,8 @@ export class AttributesConfigPropsModel {
               public large?: boolean,
               public icon?:IconType,
               public iconPosition?:IconPositionType,
-              public advisoryText?:string
+              public advisoryText?:string,
+              public labelType?:LabelType
 ) {
   }
 }

@@ -1,8 +1,8 @@
-<span
+<span *ngIf="text && text.attributes"
   [ngClass]="getStyleClasses(
   fontWeight$|async,
   fontStyle$|async,
   fontSize$|async,
   textColor$|async,
   textDecoration$|async)
-  ">{{text}}</span>
+  ">{{text.attributes[0].value}}</span>

@@ -1,6 +1,7 @@
 import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
 import {IconPositionType} from "../../enums/iconPositionType.enum";
+import {LabelType} from "../../enums/labelType.enum";
 export class AttributesComponentPropsModel {
   constructor(  public src?:string|undefined,
                 public alt?:string|undefined,
@@ -18,6 +19,7 @@ export class AttributesComponentPropsModel {
                 public large?:boolean,
                 public iconPosition?:IconPositionType|undefined,
                 public advisoryText?:string|undefined,
+                public labelType?:LabelType|undefined
                 ) {
   }
   public setProperty(propName: string, value: string|number|MenuItem[] | undefined): void {
