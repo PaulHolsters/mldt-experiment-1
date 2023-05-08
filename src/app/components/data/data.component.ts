@@ -16,7 +16,6 @@ export class DataComponent implements OnInit {
   constructor(private storeService: StoreService) { }
 
   ngOnInit(): void {
-    console.log(this.dataType) // todo fix 0
     this.data$ = this.storeService.bindToStateProperty(this.name, 'data')
   }
 

@@ -24,7 +24,6 @@ export class TextComponent implements OnInit {
   textDecoration$: Observable<any>|undefined
   constructor(private storeService:StoreService,private stylesService:StylesService) { }
   ngOnInit(): void {
-    console.log(this.text,'hi')
     this.fontWeight$ = this.storeService.bindToStateProperty(this.name,'fontWeight')
     this.fontStyle$ = this.storeService.bindToStateProperty(this.name,'fontStyle')
     this.fontSize$ = this.storeService.bindToStateProperty(this.name,'fontSize')

@@ -1,4 +1,4 @@
-<ng-container *ngIf="dataType">
+<ng-container *ngIf="dataType && (data$|async)">
   <span
     [ngSwitch]="dataType">
     <m-text *ngSwitchCase="DataType.Text" [name]="name" [text]="(data$|async)"></m-text>

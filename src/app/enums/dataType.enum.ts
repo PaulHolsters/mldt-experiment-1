@@ -1,5 +1,5 @@
 export enum DataType {
-  Text,
+  Text=1,
   Number,
   Date
 }

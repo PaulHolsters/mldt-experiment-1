@@ -32,7 +32,6 @@ export class LabelComponent implements OnInit {
   padding$: Observable<any>|undefined
   margin$: Observable<any>|undefined
   border$: Observable<any>|undefined
-  // todo impl en conf
   labelType$: Observable<any>|undefined
 
   constructor(private storeService:StoreService,private stylesService:StylesService,private dataService:DataService) {
@@ -48,9 +47,6 @@ export class LabelComponent implements OnInit {
     this.margin$ = this.storeService.bindToStateProperty(this.name,'margin')
     this.border$ = this.storeService.bindToStateProperty(this.name,'border')
     this.labelType$ = this.storeService.bindToStateProperty(this.name,'labelType')
-    this.storeService.bindToStateProperty(this.name,'labelType')?.subscribe(res=>{
-      console.log(res)
-    })
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
