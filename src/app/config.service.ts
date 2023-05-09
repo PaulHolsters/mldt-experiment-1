@@ -55,6 +55,10 @@ import {BackgroundColorType} from "./enums/backgroundColorType.enum";
 import {ConceptConfigModel} from './models/Data/ConceptConfigModel';
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 import {LabelType} from "./enums/labelType.enum";
+import { ActionType } from './enums/actionTypes.enum';
+import { ActionSubType } from './enums/actionSubTypes.enum';
+import { TargetType } from './enums/targetTypes.enum';
+import {EventType} from "./enums/eventTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -553,6 +557,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                           WidthValueConfigType.NC
                         ))*/
           },
+          {
+            name:'my first form',
+            type:ComponentType.Form,
+            data:new ConceptConfigModel('product')
+          }
         ]
       },
     ],
@@ -560,6 +569,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
       // de condities zoals gedefinieerd in de overeekomstige actie
       {
+        actionType:ActionType.Server,
+        actionSubType:ActionSubType.GetDataBluePrint,
+        targetType:TargetType.Component,
+        targetName:'my first form',
+        on: EventType.ComponentReady
+      }
+    ]
+  }
+  /*
+  *       {
         source: 'test-click-action',
         target: 'logo',
         trigger: 'click',
@@ -600,8 +619,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         }
         ]
       },
-    ]
-  }
+  * */
 
   constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
     this.storeService.createStore(this.contentContainer)
@@ -650,7 +668,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     })?.propValue.next(valueToSet)
   }
 
-  executeAction(action: ActionModel) {
+/*  executeAction(action: ActionModel) {
     if (action.action === 'set') {
       action.props.forEach(prop => {
         if (this.conditionsMet(prop)) {
@@ -674,7 +692,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         }
       })
     }
-  }
+  }*/
 
   private conditionsMet(prop: CalculationConfigModel): boolean {
     for (let [attr, val] of Object.entries(comparisons)) {

@@ -8,5 +8,6 @@ export enum ComponentType {
   Image,
   Image2,
   Input,
-  Label
+  Label,
+  Form
 }

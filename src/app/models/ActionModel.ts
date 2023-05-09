@@ -1,9 +1,18 @@
-export interface ActionModel {
-  source:string,
-  target:string,
-  trigger:string,
-  action:string,
-  props:{name:string,value?:any,condition?:{comparison:string,values:(Object|string)[]}}[]
+import {ActionSubType} from "../enums/actionSubTypes.enum";
+import {TargetType} from "../enums/targetTypes.enum";
+import {ActionType} from "../enums/actionTypes.enum";
+import {EventType} from "../enums/eventTypes.enum";
+
+export class ActionModel {
+  constructor(
+    public on:EventType,
+    public targetType:TargetType,
+    public targetName:string,
+    public actionType:ActionType,
+    public actionSubType?:ActionSubType
+  ) {
+  }
+  // props?:{name:string,value?:any,condition?:{comparison:string,values:(Object|string)[]}}[]
 }
 /*
 *         props: [
