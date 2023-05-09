@@ -45,6 +45,7 @@ import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
 import {ConceptModel} from "./models/Data/ConceptModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
+import {EventType} from "./enums/eventTypes.enum";
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +53,7 @@ export class StoreService {
   constructor() {
   }
   private statePropertySubjects: StatePropertySubjectModel[] = []
+  private actions: ActionModel[]=[]
   private hasScreenSizeProperty(stateModel:
                                   ResponsivePositioningConfigModel | ResponsiveOverflowConfigModel | ResponsiveStylingConfigModel | ResponsiveDimensioningConfigModel | ResponsiveAttributesConfigModel
                                   | ResponsiveVisibilityConfigModel, property: string): boolean {
@@ -599,6 +601,7 @@ export class StoreService {
     contentContainer.components.forEach(comp => {
       this.createProps(comp)}
     )
+    this.actions = [...contentContainer.actions]
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
@@ -622,6 +625,19 @@ export class StoreService {
 
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
+  }
+  public getActions():ActionModel[]{
+    return [...this.actions]
+  }
+  public getActionsForComponent(name:string):ActionModel[]{
+    return this.actions.filter(action=>{
+      return action.targetName!==name
+    })
+  }
+  public getActionsForEvent(event:EventType){
+    return this.actions.filter(action=>{
+      return action.on !== event
+    })
   }
   public getComponentsConfig():ComponentModel[]{
     if(this.components)

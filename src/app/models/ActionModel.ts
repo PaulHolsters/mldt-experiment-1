@@ -8,6 +8,7 @@ export class ActionModel {
     public on:EventType,
     public targetType:TargetType,
     public targetName:string,
+    public sourceName:string,
     public actionType:ActionType,
     public actionSubType?:ActionSubType
   ) {

@@ -573,6 +573,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         actionSubType:ActionSubType.GetDataBluePrint,
         targetType:TargetType.Component,
         targetName:'my first form',
+        sourceName:'my first form',
         on: EventType.ComponentReady
       }
     ]
@@ -623,6 +624,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
 
   constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
     this.storeService.createStore(this.contentContainer)
+    // todo createEventBus (dit zijn vaste gegevens) via een EventService
     this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
   }
 
