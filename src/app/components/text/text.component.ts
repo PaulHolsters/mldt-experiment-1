@@ -29,6 +29,7 @@ export class TextComponent implements OnInit {
     this.fontSize$ = this.storeService.bindToStateProperty(this.name,'fontSize')
     this.textColor$ = this.storeService.bindToStateProperty(this.name,'textColor')
     this.textDecoration$ = this.storeService.bindToStateProperty(this.name,'textDecoration')
+    // todo test if this works
     if(!this.text) this.text$ = this.storeService.bindToStateProperty(this.name,'value')
   }
   getStyleClasses(fontWeight:FontWeightType,

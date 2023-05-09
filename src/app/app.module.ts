@@ -27,6 +27,7 @@ import { NumberComponent } from './components/number/number.component';
 import { DateComponent } from './components/date/date.component';
 import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
+import { FormComponent } from './components/form/form.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {HttpClientModule} from '@angular/common/http';
     TextComponent,
     DataComponent,
     NumberComponent,
-    DateComponent
+    DateComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
