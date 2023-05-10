@@ -35,7 +35,7 @@ export class LabelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataService.componentReady(this.name)
+    //this.dataService.componentReady(this.name)
     this.backgroundColor$ = this.storeService.bindToStateProperty(this.name,'backgroundColor')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')

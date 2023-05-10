@@ -631,12 +631,12 @@ export class StoreService {
   }
   public getActionsForComponent(name:string):ActionModel[]{
     return this.actions.filter(action=>{
-      return action.targetName!==name
+      return action.targetName===name
     })
   }
   public getActionsForEvent(event:EventType){
     return this.actions.filter(action=>{
-      return action.on !== event
+      return action.on === event
     })
   }
   public getComponentsConfig():ComponentModel[]{

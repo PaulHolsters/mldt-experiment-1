@@ -560,7 +560,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           {
             name:'my first form',
             type:ComponentType.Form,
-            data:new ConceptConfigModel('product')
+            data:new ConceptConfigModel('product'),
+            visibility: new ResponsiveVisibilityConfigModel()
           }
         ]
       },

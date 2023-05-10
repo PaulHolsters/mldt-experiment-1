@@ -4,6 +4,9 @@ import {ConceptModel} from "./models/Data/ConceptModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {Apollo, gql} from "apollo-angular";
 import {AttributeModel} from "./models/Data/AttributeModel";
+import {ActionModel} from "./models/ActionModel";
+import {QuerySubType} from "./enums/querySubType.enum";
+import {TargetType} from "./enums/targetTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +36,39 @@ export class DataService {
         query: GET_PRODUCTS
       }).valueChanges
   }
+  private capitalizeFirst(text:string):string{
+    return text.charAt(0).toUpperCase()+text.substring(1)
+  }
+  private getAllAttributes(data:ConceptConfigModel):string{
+    // todo voorlopig enkel 1 diep
+    if(data.attributes && data.attributes.length>0){
+      return data.attributes.map(x=>{return x.name||''}).reduce((x,y)=>x+='\n'+y,'')
+    }
+    // todo haal de verschillende attributen op via de business types configuratie
+    return 'name\nbasePrice\ncreationDate'
+  }
+  private query(querySubType:QuerySubType,data: ConceptConfigModel): any {
+    switch(querySubType){
+      case QuerySubType.GetDataBluePrint:
+        const GET_BLUEPRINT = gql`
+                    {
+                      getBluePrintOf${this.capitalizeFirst(data.conceptName)}{
+                        ${this.getAllAttributes(data)}
+                      }
+                    }
+        `
+        return this.apollo
+          .watchQuery<any>({
+            query: GET_BLUEPRINT
+          }).valueChanges
+      case QuerySubType.GetDataByID:
+        // todo
+        break
+      case QuerySubType.GetAllData:
+        // todo
+        break
+    }
+  }
   private fakeMutation(data: ConceptModel) {
 
   }
@@ -57,6 +93,20 @@ export class DataService {
               const conceptName = val.__typename
               this.setDataState(new ConceptModel(conceptName, attr), name, componentConfig.data)
             }
+          }
+      })
+    }
+  }
+
+  public getDataBluePrint(action:ActionModel){
+    if(action.targetType === TargetType.Component){
+      const compModel = this.storeService.getComponent(action.targetName)?.data
+      if(compModel)
+        this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res:unknown)=>{
+          if(res && typeof res === 'object' && res.hasOwnProperty('data')){
+            const bluePrintData = (res as {data:{}})['data']
+            const bluePrint = Object.values(bluePrintData)[0] as ConceptModel
+            this.setDataState(bluePrint,action.targetName,compModel)
           }
       })
     }
