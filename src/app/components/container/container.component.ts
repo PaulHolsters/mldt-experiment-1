@@ -61,13 +61,9 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
 
   constructor(private storeService: StoreService, private cd:ChangeDetectorRef) {
   }
-
   ngAfterContentChecked(): void {
         this.cd.detectChanges()
   }
-
-
-
   ngOnInit(): void {
     this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
     this.row$ = this.storeService.bindToStateProperty(this.name, 'row')

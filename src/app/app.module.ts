@@ -24,7 +24,7 @@ import { LabelComponent } from './components/form/label/label.component';
 import { TextComponent } from './components/text/text.component';
 import { DataComponent } from './components/data/data.component';
 import { NumberComponent } from './components/number/number.component';
-import { DateComponent } from './components/date/date.component';
+import { DateComponent } from './components/form/formcontrol/date/date.component';
 import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/form/form.component';

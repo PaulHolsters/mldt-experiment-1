@@ -11,7 +11,7 @@ import {IconPositionType} from "../../../../enums/iconPositionType.enum";
 export class InputTextComponent implements OnInit {
   @Input() name = ''
   @ViewChild('input') input: ElementRef | undefined
-  value:any
+  value = 'Some test value'
   icon$:Observable<any>|undefined
   iconPosition$:Observable<any>|undefined
   iconPositionType = IconPositionType

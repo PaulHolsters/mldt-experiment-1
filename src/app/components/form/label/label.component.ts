@@ -57,9 +57,5 @@ export class LabelComponent implements OnInit {
     this.width = '100%'
     return false
   }
-  getStyleClasses(padding:PaddingType,margin:MarginType,
-                  border:BorderModel,backgroundColor:BackgroundColorType){
-    return Object.assign(this.stylesService.getPadding(padding),this.stylesService.getMargin(margin),
-      this.stylesService.getBorder(border),this.stylesService.getBackgroundColor(backgroundColor))
-  }
+
 }

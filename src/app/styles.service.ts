@@ -268,6 +268,11 @@ export class StylesService {
       // todo aanvullen met kleur
     }
   }
+  getStyleClasses(padding:PaddingType,margin:MarginType,
+                  border:BorderModel,backgroundColor:BackgroundColorType){
+    return Object.assign(this.getPadding(padding),this.getMargin(margin),
+      this.getBorder(border),this.getBackgroundColor(backgroundColor))
+  }
   constructor() { }
 
 }

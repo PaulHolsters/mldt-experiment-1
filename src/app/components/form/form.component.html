@@ -1,5 +1,10 @@
-<form *ngIf="(data$|async)">
-  <ng-container *ngFor="let attr of getData(data$|async)">
+<form *ngIf="data">
+  <ng-container  *ngFor="let attr of data">
     <m-label [text]="attr[0]"></m-label>
+    <div [ngSwitch]="attr[1]">
+      <m-input-text *ngSwitchCase="'String'"></m-input-text>
+      <m-input-number *ngSwitchCase="'Int'"></m-input-number>
+      <m-date *ngSwitchCase="'Date'"></m-date>
+    </div>
   </ng-container>
 </form>
