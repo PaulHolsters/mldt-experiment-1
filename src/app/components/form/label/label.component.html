@@ -1,15 +1,4 @@
-<label
-  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-  [style.height]="height"
-  [style.width]="width"
-  [ngClass]="getStyleClasses(
-  padding$|async,
-  margin$|async,
-  border$|async,
-  backgroundColor$|async
-  )"
+<label *ngIf="text"
 #label>
-  <m-data *ngIf="(labelType$|async)===LabelType.Dynamic" [dataType]="DataType.Text" [name]="name"></m-data>
-  <m-text *ngIf="(labelType$|async)===LabelType.Static" [name]="name"></m-text>
+  <m-text [text]="text"></m-text>
 </label>

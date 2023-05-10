@@ -1,3 +1,5 @@
-<form>
-
+<form *ngIf="(data$|async)">
+  <ng-container *ngFor="let attr of getData(data$|async)">
+    <m-label [text]="attr[0]"></m-label>
+  </ng-container>
 </form>

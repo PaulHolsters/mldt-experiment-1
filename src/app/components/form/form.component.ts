@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {EventsService} from "../../events.service";
 import {EventType} from "../../enums/eventTypes.enum";
+import {AttributeModel} from "../../models/Data/AttributeModel";
 
 @Component({
   selector: 'm-form',
@@ -19,7 +20,12 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     this.data$ = this.storeService.bindToStateProperty(this.name, 'data')
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
-
+    this.storeService.bindToStateProperty(this.name, 'data')?.subscribe(res=>{
+      console.log(res)
+    })
+  }
+  getData(data:Object):any[]{
+    return Object.entries(data).slice(0,Object.entries(data).length-1)
   }
 
 }

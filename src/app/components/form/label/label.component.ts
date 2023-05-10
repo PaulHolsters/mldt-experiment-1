@@ -6,8 +6,6 @@ import {PaddingType} from "../../../enums/paddingType.enum";
 import {BorderModel} from "../../../models/BorderModel";
 import {StylesService} from "../../../styles.service";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
-import {DataType} from "../../../enums/dataType.enum";
-import {LabelType} from "../../../enums/labelType.enum";
 import {DataService} from "../../../data.service";
 
 @Component({
@@ -17,9 +15,8 @@ import {DataService} from "../../../data.service";
 })
 export class LabelComponent implements OnInit {
   @Input() name = ''
+  @Input() text = ''
   @ViewChild('label') label:ElementRef|undefined
-  DataType = DataType
-  LabelType = LabelType
   backgroundColor$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined
   calcWidth$: Observable<any>|undefined
@@ -28,21 +25,19 @@ export class LabelComponent implements OnInit {
   padding$: Observable<any>|undefined
   margin$: Observable<any>|undefined
   border$: Observable<any>|undefined
-  labelType$: Observable<any>|undefined
 
   constructor(private storeService:StoreService,private stylesService:StylesService,private dataService:DataService) {
 
   }
 
   ngOnInit(): void {
-    //this.dataService.componentReady(this.name)
     this.backgroundColor$ = this.storeService.bindToStateProperty(this.name,'backgroundColor')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
     this.padding$ = this.storeService.bindToStateProperty(this.name,'padding')
     this.margin$ = this.storeService.bindToStateProperty(this.name,'margin')
     this.border$ = this.storeService.bindToStateProperty(this.name,'border')
-    this.labelType$ = this.storeService.bindToStateProperty(this.name,'labelType')
+    console.log(this.text)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

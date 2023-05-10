@@ -14,7 +14,7 @@ import {ConceptModel} from "../../models/Data/ConceptModel";
   styleUrls: ['./text.component.css']
 })
 export class TextComponent implements OnInit {
-  @Input('text') text:ConceptModel|undefined
+  @Input('text') text:ConceptModel|string|undefined
   @Input('name') name=''
   text$:Observable<any>|undefined
   fontWeight$: Observable<any>|undefined

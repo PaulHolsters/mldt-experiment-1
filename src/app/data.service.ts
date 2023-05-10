@@ -12,12 +12,6 @@ import {TargetType} from "./enums/targetTypes.enum";
   providedIn: 'root'
 })
 export class DataService {
-  private setDataState(data: ConceptModel, compName: string, compDataConfig: ConceptConfigModel) {
-    // deze methode verzendt de data naar de componenten, ervan uitgaande dat de caller weet dat de data effectief werd gewijzigd
-    // todo hou rekening met de dataPipe
-    console.log(data,compName,compDataConfig)
-    this.storeService.setDataState(compName,data,compDataConfig)
-  }
   constructor(private storeService: StoreService, private apollo: Apollo) {
   }
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
@@ -91,13 +85,12 @@ export class DataService {
                 if(k!=='__typename') attr.push(new AttributeModel(k,v as (string|number|ConceptModel|Date|undefined)))
               })
               const conceptName = val.__typename
-              this.setDataState(new ConceptModel(conceptName, attr), name, componentConfig.data)
+              this.storeService.setDataState( name, new ConceptModel(conceptName, attr),componentConfig.data)
             }
           }
       })
     }
   }
-
   public getDataBluePrint(action:ActionModel){
     if(action.targetType === TargetType.Component){
       const compModel = this.storeService.getComponent(action.targetName)?.data
@@ -106,7 +99,7 @@ export class DataService {
           if(res && typeof res === 'object' && res.hasOwnProperty('data')){
             const bluePrintData = (res as {data:{}})['data']
             const bluePrint = Object.values(bluePrintData)[0] as ConceptModel
-            this.setDataState(bluePrint,action.targetName,compModel)
+            this.storeService.setDataState(action.targetName,bluePrint,compModel)
           }
       })
     }
