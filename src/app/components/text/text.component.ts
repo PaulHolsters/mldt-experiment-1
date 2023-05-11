@@ -7,15 +7,19 @@ import {TextDecorationType} from "../../enums/textDecorationType.enum";
 import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {StylesService} from "../../styles.service";
-import {ConceptModel} from "../../models/Data/ConceptModel";
 @Component({
   selector: 'm-text',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.css']
 })
 export class TextComponent implements OnInit {
-  @Input('text') text:ConceptModel|string|undefined
   @Input('name') name=''
+  @Input() text:string|undefined
+  @Input() fontWeight: FontWeightType|undefined
+  @Input() fontStyle: FontStyleType|undefined
+  @Input() fontSize: FontSizeType|undefined
+  @Input() textColor: TextColorType|undefined
+  @Input() textDecoration: TextDecorationType|undefined
   text$:Observable<any>|undefined
   fontWeight$: Observable<any>|undefined
   fontStyle$: Observable<any>|undefined
@@ -29,7 +33,6 @@ export class TextComponent implements OnInit {
     this.fontSize$ = this.storeService.bindToStateProperty(this.name,'fontSize')
     this.textColor$ = this.storeService.bindToStateProperty(this.name,'textColor')
     this.textDecoration$ = this.storeService.bindToStateProperty(this.name,'textDecoration')
-    // todo test if this works
     if(!this.text) this.text$ = this.storeService.bindToStateProperty(this.name,'value')
   }
   getStyleClasses(fontWeight:FontWeightType,

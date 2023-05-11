@@ -1,8 +1,8 @@
-<span *ngIf="text"
+<span *ngIf="text||(text$|async)"
   [ngClass]="getStyleClasses(
-  fontWeight$|async,
-  fontStyle$|async,
-  fontSize$|async,
-  textColor$|async,
-  textDecoration$|async)
-  ">{{text}}</span>
+  (fontWeight$|async) === undefined ? fontWeight : fontWeight$|async,
+  (fontStyle$|async)=== undefined ? fontStyle : fontStyle$|async,
+  (fontSize$|async)=== undefined ? fontSize : fontSize$|async,
+  (textColor$|async)=== undefined ? textColor : textColor$|async,
+  (textDecoration$|async)=== undefined ? textDecoration : textDecoration$|async)
+  ">{{(text === undefined ? (text$|async) : text)}}</span>

@@ -1,5 +1,5 @@
 <!-- non-floating label inputs with an icon inside -->
-<!--<span *ngIf="(icon$|async) && !(floatLabel$|async)"
+<span *ngIf="(icon$|async) && !(floatLabel$|async)"
       [class.p-input-icon-left]="(iconPosition$|async)===iconPositionType.Left"
       [class.p-input-icon-right]="(iconPosition$|async)===iconPositionType.Right">
     <i class="pi pi-{{icon$|async}}"></i>
@@ -10,17 +10,17 @@
            [class.ng-dirty]="dirty$|async"
     />
     <small *ngIf="advisoryText$|async">{{advisoryText$|async}}</small>
-</span>-->
+</span>
 <!-- non-floating label inputs without an icon inside -->
-<!--<input *ngIf="!(icon$|async) && !(floatLabel$|async)" type="text" pInputText [(ngModel)]="value"
+<input *ngIf="!(icon$|async) && !(floatLabel$|async)" type="text" pInputText [(ngModel)]="value"
        [class.p-inputtet-sm]="small$|async"
        [class.p-inputtet-l]="large$|async"
        [class.ng-invalid]="invalid$|async"
        [class.ng-dirty]="dirty$|async"
 />
-<small *ngIf="advisoryText$|async">{{advisoryText$|async}}</small>-->
+<small *ngIf="advisoryText$|async">{{advisoryText$|async}}</small>
 <!-- floating label inputs without icons -->
-<!--<span *ngIf="(floatLabel$|async) && !(icon$|async)" class="p-float-label">
+<span *ngIf="(floatLabel$|async) && !(icon$|async)" class="p-float-label">
   <input type="text" pInputText [(ngModel)]="value"
          [class.p-inputtet-sm]="small$|async"
          [class.p-inputtet-l]="large$|async"
@@ -29,9 +29,8 @@
   />
     <label>{{label$|async}}</label>
   <small *ngIf="advisoryText$|async">{{advisoryText$|async}}</small>
-</span>-->
+</span>
 <!-- floating label inputs with icons -->
-<!--
 <span *ngIf="(icon$|async) && (floatLabel$|async)"
       [class.p-input-icon-left]="(iconPosition$|async)===iconPositionType.Left"
       [class.p-input-icon-right]="(iconPosition$|async)===iconPositionType.Right" class="p-float-label">
@@ -45,5 +44,3 @@
   <label>{{label$|async}}</label>
     <small *ngIf="advisoryText$|async">{{advisoryText$|async}}</small>
 </span>
--->
-<input type="text" pInputText [(ngModel)]="value">

@@ -20,5 +20,4 @@ export class FormComponent implements OnInit{
       this.data = Object.entries(res).slice(0,Object.entries(res).length-1)
     })
   }
-
 }

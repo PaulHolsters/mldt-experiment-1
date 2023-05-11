@@ -1,4 +1,15 @@
-<label *ngIf="text"
+<label
+  [class.calcHeight]="setCalculatedHeight((calcHeight$|async) === undefined ? calcHeight : calcHeight$|async)"
+  [class.calcWidth]="setCalculatedWidth((calcWidth$|async)=== undefined ? calcWidth : calcWidth$|async)"
+  [style.height]="height"
+  [style.width]="width"
+  [ngClass]="getStyleClasses(
+  (padding$|async)=== undefined ? padding : padding$|async,
+  (margin$|async)=== undefined ? margin : margin$|async,
+  (border$|async)=== undefined ? border : border$|async,
+  (backgroundColor$|async)=== undefined ? backgroundColor : backgroundColor$|async
+  )"
 #label>
-  <m-text [text]="text"></m-text>
+  <m-data *ngIf="((labelType$|async) === undefined ? labelType : labelType$|async)===LabelType.Dynamic" [dataType]="DataType.Text" [name]="name"></m-data>
+  <m-text *ngIf="((labelType$|async) === undefined ? labelType : labelType$|async)===LabelType.Static" [name]="name" [text]="text"></m-text>
 </label>

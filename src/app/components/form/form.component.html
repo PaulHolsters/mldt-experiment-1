@@ -2,9 +2,9 @@
   <ng-container  *ngFor="let attr of data">
     <m-label [text]="attr[0]"></m-label>
     <div [ngSwitch]="attr[1]">
-      <m-input-text *ngSwitchCase="'String'"></m-input-text>
-      <m-input-number *ngSwitchCase="'Int'"></m-input-number>
-      <m-date *ngSwitchCase="'Date'"></m-date>
+      <m-input-text *ngSwitchCase="'String'" [name]="name+'_'+attr[1]"></m-input-text>
+      <m-input-number *ngSwitchCase="'Int'" [name]="name+'_'+attr[1]"></m-input-number>
+      <m-date *ngSwitchCase="'Date'" [name]="name+'_'+attr[1]"></m-date>
     </div>
   </ng-container>
 </form>
