@@ -10,6 +10,11 @@
   backgroundColor
   )"
 #label>
-  <m-data *ngIf="labelType === LabelType.Dynamic" [dataType]="DataType.Text" [name]="name"></m-data>
-  <m-text *ngIf="labelType === LabelType.Static" [name]="name" [text]="text"></m-text>
+  <m-text [name]="name" [text]="text"
+         [fontWeight]="FontWeight.Semi_bold"
+         [fontSize]="FontSize.XL_3"
+         [textColor]="TextColor.Text_7"
+         [textDecoration]="TextDecoration.Underline"
+          [fontStyle]="FontStyle.Normal"
+  ></m-text>
 </label>

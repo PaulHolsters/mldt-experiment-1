@@ -9,6 +9,11 @@ import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
 import {DataType} from "../../../enums/dataType.enum";
 import {LabelType} from "../../../enums/labelType.enum";
 import {DataService} from "../../../data.service";
+import {FontWeightType} from "../../../enums/fontWeightType.enum";
+import {FontSizeType} from "../../../enums/fontSizeType.enum";
+import {FontStyleType} from "../../../enums/fontStyleType.enum";
+import {TextColorType} from "../../../enums/textColorType.enum";
+import {TextDecorationType} from "../../../enums/textDecorationType.enum";
 
 @Component({
   selector: 'm-label',
@@ -28,6 +33,11 @@ export class LabelComponent implements OnInit {
   @ViewChild('label') label:ElementRef|undefined
   DataType = DataType
   LabelType = LabelType
+  FontWeight = FontWeightType
+  FontSize = FontSizeType
+  FontStyle = FontStyleType
+  TextColor = TextColorType
+  TextDecoration = TextDecorationType
   width:string|undefined
   height:string|undefined
   constructor(private storeService:StoreService,private stylesService:StylesService,private dataService:DataService) {

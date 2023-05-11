@@ -55,10 +55,11 @@ import {BackgroundColorType} from "./enums/backgroundColorType.enum";
 import {ConceptConfigModel} from './models/Data/ConceptConfigModel';
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 import {LabelType} from "./enums/labelType.enum";
-import { ActionType } from './enums/actionTypes.enum';
-import { ActionSubType } from './enums/actionSubTypes.enum';
-import { TargetType } from './enums/targetTypes.enum';
+import {ActionType} from './enums/actionTypes.enum';
+import {ActionSubType} from './enums/actionSubTypes.enum';
+import {TargetType} from './enums/targetTypes.enum';
 import {EventType} from "./enums/eventTypes.enum";
+import {InputDimensionType} from "./enums/inputDimensionType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -560,7 +561,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           {
             name:'my first form',
             type:ComponentType.Form,
-            data:new ConceptConfigModel('product'),
+            data:new ConceptConfigModel('product',[
+              new AttributeConfigModel('name','Vul de naam van het product in',[],InputDimensionType.Large),
+              new AttributeConfigModel('basePrice','Vul de prijs van het product in',[],InputDimensionType.Large),
+              new AttributeConfigModel('creationDate','Selecteer de datum',[]),
+            ]),
             visibility: new ResponsiveVisibilityConfigModel()
           }
         ]

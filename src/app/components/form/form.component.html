@@ -1,17 +1,19 @@
 <form *ngIf="data">
-  <ng-container  *ngFor="let attr of data">
-    <m-label [text]="attr[0]"></m-label>
-    <div [ngSwitch]="attr[1]">
+  <ng-container  *ngFor="let attr of data.attributes">
+    <div>
+      <m-label [text]="attr.name"></m-label>
+    </div>
+    <div [ngSwitch]="attr.dataType">
       <m-input-text *ngSwitchCase="'String'" [name]="name+'_'+attr[1]"
-                    [icon]="false"
-                    [iconPosition]="undefined"
-                    [advisoryText]="'Some text'"
-                    [label]="undefined"
-                    [floatLabel]="false"
+                    [icon]="attr.icon"
+                    [iconPosition]="attr.iconPosition"
+                    [advisoryText]="attr.advisoryText"
+                    [label]="attr.label"
+                    [floatLabel]="attr.floatLabel"
                     [dirty]="false"
                     [invalid]="false"
-                    [small]="false"
-                    [large]="false"
+                    [small]="attr.formControl===InputDimension.Small"
+                    [large]="attr.formControl===InputDimension.Large"
                     [value]="'whatever ...'"
       ></m-input-text>
       <m-input-number *ngSwitchCase="'Int'" [name]="name+'_'+attr[1]"></m-input-number>

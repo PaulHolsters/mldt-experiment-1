@@ -46,6 +46,7 @@ import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
 import {ConceptModel} from "./models/Data/ConceptModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {EventType} from "./enums/eventTypes.enum";
+import {InputDimensionType} from "./enums/inputDimensionType.enum";
 @Injectable({
   providedIn: 'root'
 })
@@ -420,9 +421,27 @@ export class StoreService {
   }
 
   public setDataState(componentName:string,data:ConceptModel,compConfig:ConceptConfigModel){
+    let newObj : {
+      conceptName:string,
+      attributes:{name:string,dataType:string,advisoryText?:string,errorMessages?:string[],formControl?:InputDimensionType}[]
+    } = {conceptName:compConfig.conceptName,attributes:[]}
+    const configCopy = {...compConfig}
+    configCopy.attributes?.forEach(attr=>{
+      const entry = Object.entries(data).find(([k,v])=>{
+        return k === attr.name
+      })
+      if(entry && attr.name){
+        // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau
+        const attrExp = {name:attr.name,dataType:entry[1]}
+        const attrCopy = {...attr}
+        delete attrCopy.name
+        delete attrCopy.attributes
+        newObj.attributes.push(Object.assign(attrExp,(attrCopy as ({advisoryText?:string,errorMessages?:string[],formControl?:InputDimensionType}))))
+      }
+    })
     this.getStatePropertySubjects().find(subj => {
       return subj.componentName === componentName && subj.propName === 'data'
-    })?.propValue.next(data)
+    })?.propValue.next(newObj)
   }
   public setRBSState(componentName: string,
                   newState: (PositioningComponentPropsModel |

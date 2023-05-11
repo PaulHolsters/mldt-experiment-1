@@ -94,14 +94,15 @@ export class DataService {
   public getDataBluePrint(action:ActionModel){
     if(action.targetType === TargetType.Component){
       const compModel = this.storeService.getComponent(action.targetName)?.data
-      if(compModel)
+      if(compModel){
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res:unknown)=>{
           if(res && typeof res === 'object' && res.hasOwnProperty('data')){
             const bluePrintData = (res as {data:{}})['data']
             const bluePrint = Object.values(bluePrintData)[0] as ConceptModel
             this.storeService.setDataState(action.targetName,bluePrint,compModel)
           }
-      })
+        })
+      }
     }
   }
 }

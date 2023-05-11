@@ -22,13 +22,15 @@ export class TextComponent implements OnInit {
   constructor(private storeService:StoreService,private stylesService:StylesService) { }
   ngOnInit(): void {
   }
-  getStyleClasses(fontWeight:FontWeightType,
-                  fontStyle:FontStyleType,
-                  fontSize:FontSizeType,
-                  textColor:TextColorType,
-                  textDecoration:TextDecorationType
-  ){
+  getStyleClasses(fontWeight:FontWeightType|undefined,
+                  fontStyle:FontStyleType|undefined,
+                  fontSize:FontSizeType|undefined,
+                  textColor:TextColorType|undefined,
+                  textDecoration:TextDecorationType|undefined
+  ):Object|undefined{
+    if(fontWeight&&fontStyle&&fontSize&&textColor&&textDecoration)
     return Object.assign({},this.stylesService.getFont(fontWeight,fontStyle,fontSize,textColor,textDecoration))
+    return undefined
   }
 
 }

@@ -12,14 +12,16 @@
     <small *ngIf="advisoryText">{{advisoryText}}</small>
 </span>
 <!-- non-floating label inputs without an icon inside -->
-<input *ngIf="!icon && !floatLabel"
-       type="text" pInputText [(ngModel)]="value"
-       [class.p-inputtet-sm]="small"
-       [class.p-inputtet-l]="large"
-       [class.ng-invalid]="invalid"
-       [class.ng-dirty]="dirty"
-/>
+<span *ngIf="!icon && !floatLabel">
+  <input
+    type="text" pInputText [(ngModel)]="value"
+    [class.p-inputtet-sm]="small"
+    [class.p-inputtet-l]="large"
+    [class.ng-invalid]="invalid"
+    [class.ng-dirty]="dirty"
+  />
 <small *ngIf="advisoryText">{{advisoryText}}</small>
+</span>
 <!-- floating label inputs without icons -->
 <span *ngIf="floatLabel && !icon" class="p-float-label">
   <input type="text" pInputText [(ngModel)]="value"
