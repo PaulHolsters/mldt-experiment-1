@@ -21,7 +21,6 @@ export class InputTextComponent implements OnInit {
   @Input() large:boolean|undefined
   @Input() value:string|undefined
   @ViewChild('input') input: ElementRef | undefined
-  value$:Observable<any>|undefined
   icon$:Observable<any>|undefined
   iconPosition$:Observable<any>|undefined
   iconPositionType = IconPositionType
@@ -44,7 +43,6 @@ export class InputTextComponent implements OnInit {
     if(this.icon===undefined) this.icon$ = this.storeService.bindToStateProperty(this.name, 'icon')
     if(this.iconPosition===undefined) this.iconPosition$ = this.storeService.bindToStateProperty(this.name, 'iconPosition')
     if(this.advisoryText===undefined) this.advisoryText$ = this.storeService.bindToStateProperty(this.name, 'advisoryText')
-    if(this.value$===undefined) this.value$ = this.storeService.bindToStateProperty(this.name, 'value')
   }
 
 }
