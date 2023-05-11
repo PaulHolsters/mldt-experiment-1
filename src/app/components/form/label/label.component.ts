@@ -24,33 +24,15 @@ export class LabelComponent implements OnInit {
   @Input() padding: PaddingType|undefined
   @Input() margin: MarginType|undefined
   @Input() border: BorderModel|undefined
-  @Input() labelType: Observable<any>|undefined
+  @Input() labelType: LabelType|undefined
   @ViewChild('label') label:ElementRef|undefined
   DataType = DataType
   LabelType = LabelType
-  backgroundColor$: Observable<any>|undefined
-  calcHeight$: Observable<any>|undefined
-  calcWidth$: Observable<any>|undefined
   width:string|undefined
   height:string|undefined
-  padding$: Observable<any>|undefined
-  margin$: Observable<any>|undefined
-  border$: Observable<any>|undefined
-  labelType$: Observable<any>|undefined
-  text$: Observable<any>|undefined
   constructor(private storeService:StoreService,private stylesService:StylesService,private dataService:DataService) {
   }
-
   ngOnInit(): void {
-    this.dataService.componentReady(this.name)
-    if(this.backgroundColor === undefined) this.backgroundColor$ = this.storeService.bindToStateProperty(this.name,'backgroundColor')
-    if(this.calcWidth === undefined) this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
-    if(this.calcHeight === undefined) this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
-    if(this.padding === undefined) this.padding$ = this.storeService.bindToStateProperty(this.name,'padding')
-    if(this.margin === undefined) this.margin$ = this.storeService.bindToStateProperty(this.name,'margin')
-    if(this.border === undefined) this.border$ = this.storeService.bindToStateProperty(this.name,'border')
-    if(this.labelType === undefined) this.labelType$ = this.storeService.bindToStateProperty(this.name,'labelType')
-    if(this.text === undefined) this.text$ = this.storeService.bindToStateProperty(this.name,'text')
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -70,9 +52,11 @@ export class LabelComponent implements OnInit {
     this.width = '100%'
     return false
   }
-  getStyleClasses(padding:PaddingType,margin:MarginType,
-                  border:BorderModel,backgroundColor:BackgroundColorType){
+  getStyleClasses(padding:PaddingType|undefined,margin:MarginType|undefined,
+                  border:BorderModel|undefined,backgroundColor:BackgroundColorType|undefined):Object|undefined{
+    if(padding && margin && border && backgroundColor)
     return Object.assign(this.stylesService.getPadding(padding),this.stylesService.getMargin(margin),
       this.stylesService.getBorder(border),this.stylesService.getBackgroundColor(backgroundColor))
+    return undefined
   }
 }

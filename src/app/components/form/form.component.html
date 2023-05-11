@@ -2,7 +2,18 @@
   <ng-container  *ngFor="let attr of data">
     <m-label [text]="attr[0]"></m-label>
     <div [ngSwitch]="attr[1]">
-      <m-input-text *ngSwitchCase="'String'" [name]="name+'_'+attr[1]"></m-input-text>
+      <m-input-text *ngSwitchCase="'String'" [name]="name+'_'+attr[1]"
+                    [icon]="false"
+                    [iconPosition]="undefined"
+                    [advisoryText]="'Some text'"
+                    [label]="undefined"
+                    [floatLabel]="false"
+                    [dirty]="false"
+                    [invalid]="false"
+                    [small]="false"
+                    [large]="false"
+                    [value]="'whatever ...'"
+      ></m-input-text>
       <m-input-number *ngSwitchCase="'Int'" [name]="name+'_'+attr[1]"></m-input-number>
       <m-date *ngSwitchCase="'Date'" [name]="name+'_'+attr[1]"></m-date>
     </div>

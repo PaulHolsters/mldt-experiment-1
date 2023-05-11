@@ -4,7 +4,6 @@ import {FontStyleType} from "../../enums/fontStyleType.enum";
 import {FontSizeType} from "../../enums/fontSizeType.enum";
 import {TextColorType} from "../../enums/textColorType.enum";
 import {TextDecorationType} from "../../enums/textDecorationType.enum";
-import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {StylesService} from "../../styles.service";
 @Component({
@@ -20,20 +19,8 @@ export class TextComponent implements OnInit {
   @Input() fontSize: FontSizeType|undefined
   @Input() textColor: TextColorType|undefined
   @Input() textDecoration: TextDecorationType|undefined
-  text$:Observable<any>|undefined
-  fontWeight$: Observable<any>|undefined
-  fontStyle$: Observable<any>|undefined
-  fontSize$: Observable<any>|undefined
-  textColor$: Observable<any>|undefined
-  textDecoration$: Observable<any>|undefined
   constructor(private storeService:StoreService,private stylesService:StylesService) { }
   ngOnInit(): void {
-    this.fontWeight$ = this.storeService.bindToStateProperty(this.name,'fontWeight')
-    this.fontStyle$ = this.storeService.bindToStateProperty(this.name,'fontStyle')
-    this.fontSize$ = this.storeService.bindToStateProperty(this.name,'fontSize')
-    this.textColor$ = this.storeService.bindToStateProperty(this.name,'textColor')
-    this.textDecoration$ = this.storeService.bindToStateProperty(this.name,'textDecoration')
-    if(!this.text) this.text$ = this.storeService.bindToStateProperty(this.name,'value')
   }
   getStyleClasses(fontWeight:FontWeightType,
                   fontStyle:FontStyleType,

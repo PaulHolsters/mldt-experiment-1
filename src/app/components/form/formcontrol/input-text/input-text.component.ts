@@ -21,28 +21,10 @@ export class InputTextComponent implements OnInit {
   @Input() large:boolean|undefined
   @Input() value:string|undefined
   @ViewChild('input') input: ElementRef | undefined
-  icon$:Observable<any>|undefined
-  iconPosition$:Observable<any>|undefined
   iconPositionType = IconPositionType
-  advisoryText$:Observable<any>|undefined
-  label$:Observable<any>|undefined
-  floatLabel$:Observable<any>|undefined
-  dirty$:Observable<any>|undefined
-  invalid$:Observable<any>|undefined
-  small$:Observable<any>|undefined
-  large$:Observable<any>|undefined
   constructor(private storeService: StoreService, private cd:ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    if(this.label===undefined) this.label$ = this.storeService.bindToStateProperty(this.name, 'label')
-    if(this.floatLabel===undefined) this.floatLabel$ = this.storeService.bindToStateProperty(this.name, 'floatLabel')
-    if(this.dirty===undefined) this.dirty$ = this.storeService.bindToStateProperty(this.name, 'dirty')
-    if(this.invalid===undefined) this.invalid$ = this.storeService.bindToStateProperty(this.name, 'invalid')
-    if(this.small===undefined) this.small$ = this.storeService.bindToStateProperty(this.name, 'small')
-    if(this.large===undefined) this.large$ = this.storeService.bindToStateProperty(this.name, 'large')
-    if(this.icon===undefined) this.icon$ = this.storeService.bindToStateProperty(this.name, 'icon')
-    if(this.iconPosition===undefined) this.iconPosition$ = this.storeService.bindToStateProperty(this.name, 'iconPosition')
-    if(this.advisoryText===undefined) this.advisoryText$ = this.storeService.bindToStateProperty(this.name, 'advisoryText')
   }
 
 }
