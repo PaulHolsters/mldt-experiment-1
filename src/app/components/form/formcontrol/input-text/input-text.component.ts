@@ -20,6 +20,7 @@ export class InputTextComponent implements OnInit {
   @Input() small:boolean|undefined
   @Input() large:boolean|undefined
   @Input() value:string|undefined
+  @Input() keyFilter:string|RegExp|undefined
   @ViewChild('input') input: ElementRef | undefined
   iconType = IconType
   iconPositionType = IconPositionType

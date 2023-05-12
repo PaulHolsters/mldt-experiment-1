@@ -8,12 +8,20 @@
                     [icon]="attr.icon"
                     [iconPosition]="attr.iconPosition"
                     [advisoryText]="attr.advisoryText"
+                    [keyFilter]="
+                      attr.only === RestrictionType.Alphanumeric ? 'alphanum' :
+                      attr.only === RestrictionType.Hex ? 'hex' :
+                      attr.only === RestrictionType.Alphabetic ? 'alpha' :
+                      attr.only === RestrictionType.Integer ? 'int' :
+                      attr.only === RestrictionType.Money ? 'money' :
+                      attr.only === RestrictionType.Number ? 'number' :
+                      attr.only === RestrictionType.Custom ? (attr.customRestriction !== RestrictionType.NA ? undefined: undefined) : undefined"
                     [label]="attr.label"
                     [floatLabel]="attr.floatLabel"
                     [dirty]="false"
                     [invalid]="false"
-                    [small]="attr.formControl===InputDimension.Small"
-                    [large]="attr.formControl===InputDimension.Large"
+                    [small]="attr.formControl===InputFontSize.Small"
+                    [large]="attr.formControl===InputFontSize.Large"
                     [value]="'whatever ...'"
       ></m-input-text>
       <m-input-number *ngSwitchCase="'Int'" [name]="name"></m-input-number>

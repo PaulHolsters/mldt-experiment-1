@@ -49,6 +49,7 @@ import {EventType} from "./enums/eventTypes.enum";
 import {InputFontSizeType} from "./enums/inputFontSizeType.enum";
 import {IconType} from "./enums/iconType.enum";
 import {IconPositionType} from "./enums/iconPositionType.enum";
+import {RestrictionType} from "./enums/restrictionType.enum";
 @Injectable({
   providedIn: 'root'
 })
@@ -424,7 +425,8 @@ export class StoreService {
   public setDataState(componentName:string,data:ConceptModel,compConfig:ConceptConfigModel){
     let newObj : {
       conceptName:string,
-      attributes:{name:string,dataType:string,icon?:IconType,
+      attributes:{name:string,only:RestrictionType,
+        customRestriction:RegExp|RestrictionType.NA,dataType:string,icon?:IconType,
         iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}[]
     } = {conceptName:compConfig.conceptName,attributes:[]}
     const configCopy = {...compConfig}
@@ -437,7 +439,8 @@ export class StoreService {
         const attrExp = {name:attr.name,dataType:entry[1]}
         const attrCopy = {...attr}
         delete attrCopy.attributes
-        newObj.attributes.push(Object.assign(attrExp,(attrCopy as ({icon?:IconType,
+        newObj.attributes.push(Object.assign(attrExp,(attrCopy as ({only:RestrictionType,
+          customRestriction:RegExp|RestrictionType.NA,icon?:IconType,
           iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,
           advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}))))
       }

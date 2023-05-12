@@ -28,6 +28,7 @@ import { DateComponent } from './components/form/formcontrol/date/date.component
 import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/form/form.component';
+import {KeyFilterModule} from "primeng/keyfilter";
 
 @NgModule({
   declarations: [
@@ -52,17 +53,18 @@ import { FormComponent } from './components/form/form.component';
     DateComponent,
     FormComponent
   ],
-  imports: [
-    BrowserModule,
-    CardModule,
-    ButtonModule,
-    MenubarModule,
-    InputTextModule,
-    ImageModule,
-    FormsModule,
-    GraphQLModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        CardModule,
+        ButtonModule,
+        MenubarModule,
+        InputTextModule,
+        ImageModule,
+        FormsModule,
+        GraphQLModule,
+        HttpClientModule,
+        KeyFilterModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
