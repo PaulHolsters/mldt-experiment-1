@@ -69,7 +69,7 @@ export class DataService {
   public mutationEvent(data: ConceptModel) {
     this.fakeMutation(data)
   }
-  public componentReady(name: string) {
+/*  public componentReady(name: string) {
     let componentConfig = this.storeService.getComponent(name)
     if (!componentConfig) {
       componentConfig = this.storeService.getComponentThroughAttributes(name)
@@ -90,7 +90,7 @@ export class DataService {
           }
       })
     }
-  }
+  }*/
   public getDataBluePrint(action:ActionModel){
     if(action.targetType === TargetType.Component){
       const compModel = this.storeService.getComponent(action.targetName)?.data

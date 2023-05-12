@@ -59,7 +59,10 @@ import {ActionType} from './enums/actionTypes.enum';
 import {ActionSubType} from './enums/actionSubTypes.enum';
 import {TargetType} from './enums/targetTypes.enum';
 import {EventType} from "./enums/eventTypes.enum";
-import {InputDimensionType} from "./enums/inputDimensionType.enum";
+import {InputFontSizeType} from "./enums/inputFontSizeType.enum";
+import {IconType} from "./enums/iconType.enum";
+import {IconPositionType} from "./enums/iconPositionType.enum";
+import {RestrictionType} from "./enums/restrictionType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -520,12 +523,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                             BorderStyleType.Solid,
                             BorderWidthType.No_width, undefined, undefined, undefined, BorderWidthType.Bottom_width_3)
                           ,
-                          FontStyleType.Italic)),
-                      data: new ConceptConfigModel(
-                        'product',[
-                          new AttributeConfigModel('name')
-                        ]
-                      )
+                          FontStyleType.Italic))
                     },
                     {
                       name: 'input',
@@ -558,19 +556,54 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                           WidthValueConfigType.NC
                         ))*/
           },
+          // todo
           {
             name:'my first form',
             type:ComponentType.Form,
-            data:new ConceptConfigModel('product',[
-              new AttributeConfigModel('name','Vul de naam van het product in',[],InputDimensionType.Large),
-              new AttributeConfigModel('basePrice','Vul de prijs van het product in',[],InputDimensionType.Large),
-              new AttributeConfigModel('creationDate','Selecteer de datum',[]),
+            data:new ConceptConfigModel(
+              'product',
+              [
+              new AttributeConfigModel(
+                'name',
+                RestrictionType.Alphanumeric,
+                RestrictionType.NA,
+                IconType.NI,
+                IconPositionType.NA,
+                undefined,
+                false,
+                'Vul de naam van het product in',
+                [],
+                InputFontSizeType.Large
+              ),
+              new AttributeConfigModel(
+                'basePrice',
+                RestrictionType.NI,
+                RestrictionType.NA,
+                IconType.Check,
+                IconPositionType.Right,
+                undefined,
+                false,
+                'Vul de prijs van het product in',
+                [],
+                InputFontSizeType.Large),
+              new AttributeConfigModel(
+                'creationDate',
+                RestrictionType.NI,
+                RestrictionType.NA,
+                IconType.NI,
+                IconPositionType.NA,
+                'aanmaakdatum',
+                true,
+                'Selecteer de datum',
+                [],
+                InputFontSizeType.Base),
             ]),
             visibility: new ResponsiveVisibilityConfigModel()
           }
         ]
       },
     ],
+
     actions: [
       // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
       // de condities zoals gedefinieerd in de overeekomstige actie

@@ -6,6 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./date.component.css']
 })
 export class DateComponent implements OnInit {
+  // todo
   @Input('date') date:Date|undefined
   @Input('name') name=''
   constructor() { }

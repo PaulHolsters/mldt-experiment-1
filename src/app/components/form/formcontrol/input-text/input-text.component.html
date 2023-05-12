@@ -4,8 +4,8 @@
       [class.p-input-icon-right]="iconPosition===iconPositionType.Right">
     <i class="pi pi-{{icon}}"></i>
     <input type="text" pInputText [(ngModel)]="value"
-           [class.p-inputtet-sm]="small"
-           [class.p-inputtet-l]="large"
+           [class.p-inputtext-sm]="small"
+           [class.p-inputtext-l]="large"
            [class.ng-invalid]="invalid"
            [class.ng-dirty]="dirty"
     />
@@ -15,8 +15,8 @@
 <span *ngIf="!icon && !floatLabel">
   <input
     type="text" pInputText [(ngModel)]="value"
-    [class.p-inputtet-sm]="small"
-    [class.p-inputtet-l]="large"
+    [class.p-inputtext-sm]="small"
+    [class.p-inputtext-l]="large"
     [class.ng-invalid]="invalid"
     [class.ng-dirty]="dirty"
   />
@@ -25,8 +25,8 @@
 <!-- floating label inputs without icons -->
 <span *ngIf="floatLabel && !icon" class="p-float-label">
   <input type="text" pInputText [(ngModel)]="value"
-         [class.p-inputtet-sm]="small"
-         [class.p-inputtet-l]="large"
+         [class.p-inputtext-sm]="small"
+         [class.p-inputtext-l]="large"
          [class.ng-invalid]="invalid"
          [class.ng-dirty]="dirty"
   />
@@ -39,8 +39,8 @@
       [class.p-input-icon-right]="iconPosition===iconPositionType.Right" class="p-float-label">
     <i class="pi pi-{{icon}}"></i>
     <input type="text" pInputText [(ngModel)]="value"
-           [class.p-inputtet-sm]="small"
-           [class.p-inputtet-l]="large"
+           [class.p-inputtext-sm]="small"
+           [class.p-inputtext-l]="large"
            [class.ng-invalid]="invalid"
            [class.ng-dirty]="dirty"
     />

@@ -46,7 +46,9 @@ import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
 import {ConceptModel} from "./models/Data/ConceptModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {EventType} from "./enums/eventTypes.enum";
-import {InputDimensionType} from "./enums/inputDimensionType.enum";
+import {InputFontSizeType} from "./enums/inputFontSizeType.enum";
+import {IconType} from "./enums/iconType.enum";
+import {IconPositionType} from "./enums/iconPositionType.enum";
 @Injectable({
   providedIn: 'root'
 })
@@ -419,11 +421,11 @@ export class StoreService {
     }
     return undefined
   }
-
   public setDataState(componentName:string,data:ConceptModel,compConfig:ConceptConfigModel){
     let newObj : {
       conceptName:string,
-      attributes:{name:string,dataType:string,advisoryText?:string,errorMessages?:string[],formControl?:InputDimensionType}[]
+      attributes:{name:string,dataType:string,icon?:IconType,
+        iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}[]
     } = {conceptName:compConfig.conceptName,attributes:[]}
     const configCopy = {...compConfig}
     configCopy.attributes?.forEach(attr=>{
@@ -434,9 +436,10 @@ export class StoreService {
         // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau
         const attrExp = {name:attr.name,dataType:entry[1]}
         const attrCopy = {...attr}
-        delete attrCopy.name
         delete attrCopy.attributes
-        newObj.attributes.push(Object.assign(attrExp,(attrCopy as ({advisoryText?:string,errorMessages?:string[],formControl?:InputDimensionType}))))
+        newObj.attributes.push(Object.assign(attrExp,(attrCopy as ({icon?:IconType,
+          iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,
+          advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}))))
       }
     })
     this.getStatePropertySubjects().find(subj => {

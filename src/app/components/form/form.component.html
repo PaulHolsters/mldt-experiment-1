@@ -1,10 +1,10 @@
 <form *ngIf="data">
   <ng-container  *ngFor="let attr of data.attributes">
-    <div>
+    <div *ngIf="!attr.floatLabel">
       <m-label [text]="attr.name"></m-label>
     </div>
     <div [ngSwitch]="attr.dataType">
-      <m-input-text *ngSwitchCase="'String'" [name]="name+'_'+attr[1]"
+      <m-input-text *ngSwitchCase="'String'" [name]="name"
                     [icon]="attr.icon"
                     [iconPosition]="attr.iconPosition"
                     [advisoryText]="attr.advisoryText"
@@ -16,8 +16,8 @@
                     [large]="attr.formControl===InputDimension.Large"
                     [value]="'whatever ...'"
       ></m-input-text>
-      <m-input-number *ngSwitchCase="'Int'" [name]="name+'_'+attr[1]"></m-input-number>
-      <m-date *ngSwitchCase="'Date'" [name]="name+'_'+attr[1]"></m-date>
+      <m-input-number *ngSwitchCase="'Int'" [name]="name"></m-input-number>
+      <m-date *ngSwitchCase="'Date'" [name]="name"></m-date>
     </div>
   </ng-container>
 </form>
