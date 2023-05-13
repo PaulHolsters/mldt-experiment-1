@@ -3,7 +3,7 @@
     <div *ngIf="!attr.floatLabel">
       <m-label [text]="attr.name"></m-label>
     </div>
-    <!-- todo checks in the back!!-->
+    <!-- todo de' oplossing is een globaal attribute model met daarin props text, number etc-->
     <div [ngSwitch]="getAttributeType(attr)">
       <m-input-text *ngSwitchCase="TextAttributeModel" [name]="name" [value]=""
                     [icon]="getValue(attr,'icon')"
