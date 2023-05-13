@@ -1,38 +1,29 @@
-<!-- non-floating label inputs with an icon inside -->
-<span *ngIf="icon && !floatLabel"
-      [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
-      [class.p-input-icon-right]="iconPosition===iconPositionType.Right">
-    <i class="pi pi-{{icon}}"></i>
-    <input type="text" pInputText [(ngModel)]="value"
-           [class.p-inputtext-sm]="small"
-           [class.p-inputtext-l]="large"
-           [class.ng-invalid]="invalid"
-           [class.ng-dirty]="dirty"
-           pKeyFilter="{{keyFilter}}"
-    />
-    <small *ngIf="advisoryText">{{advisoryText}}</small>
-</span>
-<!-- non-floating label inputs without an icon inside -->
-<span *ngIf="!icon && !floatLabel">
-  <input
-    type="text" pInputText [(ngModel)]="value"
-    [class.p-inputtext-sm]="small"
-    [class.p-inputtext-l]="large"
-    [class.ng-invalid]="invalid"
-    [class.ng-dirty]="dirty"
-    pKeyFilter="{{keyFilter}}"
-  />
-<small *ngIf="advisoryText">{{advisoryText}}</small>
-</span>
-<!-- floating label inputs without icons -->
-<span *ngIf="floatLabel && !icon" class="p-float-label">
+<ng-template #input>
   <input type="text" pInputText [(ngModel)]="value"
          [class.p-inputtext-sm]="small"
          [class.p-inputtext-l]="large"
          [class.ng-invalid]="invalid"
          [class.ng-dirty]="dirty"
          pKeyFilter="{{keyFilter}}"
+         [disabled]="disabled === true"
   />
+</ng-template>
+<!-- non-floating label inputs with an icon inside -->
+<span *ngIf="icon && !floatLabel"
+      [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
+      [class.p-input-icon-right]="iconPosition===iconPositionType.Right">
+    <i class="pi pi-{{icon}}"></i>
+    <ng-template [ngTemplateOutlet]="input"></ng-template>
+    <small *ngIf="advisoryText">{{advisoryText}}</small>
+</span>
+<!-- non-floating label inputs without an icon inside -->
+<span *ngIf="!icon && !floatLabel">
+  <ng-template [ngTemplateOutlet]="input"></ng-template>
+  <small *ngIf="advisoryText">{{advisoryText}}</small>
+</span>
+<!-- floating label inputs without icons -->
+<span *ngIf="floatLabel && !icon" class="p-float-label">
+    <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{label}}</label>
     <small *ngIf="advisoryText">{{advisoryText}}</small>
 </span>
@@ -41,13 +32,7 @@
       [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
       [class.p-input-icon-right]="iconPosition===iconPositionType.Right" class="p-float-label">
     <i class="pi pi-{{icon}}"></i>
-    <input type="text" pInputText [(ngModel)]="value"
-           [class.p-inputtext-sm]="small"
-           [class.p-inputtext-l]="large"
-           [class.ng-invalid]="invalid"
-           [class.ng-dirty]="dirty"
-           pKeyFilter="{{keyFilter}}"
-    />
+    <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{label}}</label>
     <small *ngIf="advisoryText">{{advisoryText}}</small>
 </span>

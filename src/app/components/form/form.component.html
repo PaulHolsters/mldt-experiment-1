@@ -3,28 +3,55 @@
     <div *ngIf="!attr.floatLabel">
       <m-label [text]="attr.name"></m-label>
     </div>
-    <div [ngSwitch]="attr.dataType">
-      <m-input-text *ngSwitchCase="'String'" [name]="name"
-                    [icon]="attr.icon"
-                    [iconPosition]="attr.iconPosition"
-                    [advisoryText]="attr.advisoryText"
+    <!-- todo checks in the back!!-->
+    <div [ngSwitch]="getAttributeType(attr)">
+      <m-input-text *ngSwitchCase="TextAttributeModel" [name]="name" [value]=""
+                    [icon]="getValue(attr,'icon')"
+                    [iconPosition]="attr.iconPosition !== undefined ? attr.iconPosition : undefined"
+                    [advisoryText]="attr.advisoryText !== undefined ? attr.advisoryText : undefined"
                     [keyFilter]="
-                      attr.only === RestrictionType.Alphanumeric ? 'alphanum' :
-                      attr.only === RestrictionType.Hex ? 'hex' :
-                      attr.only === RestrictionType.Alphabetic ? 'alpha' :
-                      attr.only === RestrictionType.Integer ? 'int' :
-                      attr.only === RestrictionType.Money ? 'money' :
-                      attr.only === RestrictionType.Number ? 'number' :
-                      attr.only === RestrictionType.Custom ? (attr.customRestriction !== RestrictionType.NA ? undefined: undefined) : undefined"
-                    [label]="attr.label"
+                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Alphanumeric ? 'alphanum' :
+                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Hex ? 'hex' :
+                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Alphabetic ? 'alpha' :
+                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Integer ? 'int' :
+                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Money ? 'money' :
+                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Number ? 'number' :
+                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Custom ? (attr.customRestriction !== RestrictionType.NA ? attr.customRestriction : undefined) : undefined"
+                    [label]="attr.label !== undefined ? attr.label : undefined"
                     [floatLabel]="attr.floatLabel"
                     [dirty]="false"
                     [invalid]="false"
-                    [small]="attr.formControl===InputFontSize.Small"
-                    [large]="attr.formControl===InputFontSize.Large"
-                    [value]="'whatever ...'"
+                    [small]="attr.inputFontSize && attr.inputFontSize===InputFontSize.Small"
+                    [large]="attr.inputFontSize && attr.inputFontSize===InputFontSize.Large"
+                    [disabled]="attr.disabled"
       ></m-input-text>
-      <m-input-number *ngSwitchCase="'Int'" [name]="name"></m-input-number>
+      <m-input-number *ngSwitchCase="NumberAttributeModel" [name]="name" [value]=""
+                      [advisoryText]="attr.advisoryText"
+                      [label]="attr.label"
+                      [floatLabel]="attr.floatLabel"
+                      [dirty]="false"
+                      [invalid]="false"
+                      [disabled]="attr.disabled"
+                      [useGrouping]=""
+                      [mode]=""
+                      [suffix]=""
+                      [prefix]=""
+                      [locale]=""
+                      [currency]=""
+                      [currencyDisplay]=""
+                      [minFractionDigits]=""
+                      [maxFractionDigits]=""
+                      [min]=""
+                      [max]=""
+                      [showButtons]=""
+                      [spinnerMode]=""
+                      [step]=""
+                      [decrementButtonClass]=""
+                      [incrementButtonClass]=""
+                      [incrementButtonIcon]=""
+                      [decrementButtonIcon]=""
+                      [buttonLayout]=""
+      ></m-input-number>
       <m-date *ngSwitchCase="'Date'" [name]="name"></m-date>
     </div>
   </ng-container>

@@ -1,8 +1,9 @@
-import {AttributeModel} from "./AttributeModel";
+import {TextAttributeModel} from "./TextAttributeModel";
+import {NumberAttributeModel} from "./NumberAttributeModel";
 export class ConceptModel {
 constructor(
   public conceptName:string,
-  public attributes:AttributeModel[],
+  public attributes:(TextAttributeModel|NumberAttributeModel)[],
   ) {
 }
 }

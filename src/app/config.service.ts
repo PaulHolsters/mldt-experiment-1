@@ -53,7 +53,7 @@ import {BorderColorType} from "./enums/borderColorType.enum";
 import {BorderModel} from "./models/BorderModel";
 import {BackgroundColorType} from "./enums/backgroundColorType.enum";
 import {ConceptConfigModel} from './models/Data/ConceptConfigModel';
-import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
+import {TextAttributeConfigModel} from "./models/Data/TextAttributeConfigModel";
 import {LabelType} from "./enums/labelType.enum";
 import {ActionType} from './enums/actionTypes.enum';
 import {ActionSubType} from './enums/actionSubTypes.enum';
@@ -63,6 +63,12 @@ import {InputFontSizeType} from "./enums/inputFontSizeType.enum";
 import {IconType} from "./enums/iconType.enum";
 import {IconPositionType} from "./enums/iconPositionType.enum";
 import {RestrictionType} from "./enums/restrictionType.enum";
+import { NumberAttributeConfigModel } from './models/Data/NumberAttributeConfigModel';
+import { NumberInputModeType } from './enums/numberInputModeType.enum';
+import { LocaleType } from './enums/localeType.enum';
+import { SpinnerModeType } from './enums/spinnerModeType.enum';
+import { ButtonClassType } from './enums/buttonClassType.enum';
+import { ButtonLayoutType } from './enums/buttonLayoutType.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -563,8 +569,9 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             data:new ConceptConfigModel(
               'product',
               [
-              new AttributeConfigModel(
+              new TextAttributeConfigModel(
                 'name',
+                true,
                 RestrictionType.Alphanumeric,
                 RestrictionType.NA,
                 IconType.NI,
@@ -575,19 +582,17 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 [],
                 InputFontSizeType.Large
               ),
-              new AttributeConfigModel(
+              // todo
+              new NumberAttributeConfigModel(
                 'basePrice',
-                RestrictionType.NI,
-                RestrictionType.NA,
-                IconType.Check,
-                IconPositionType.Right,
-                undefined,
-                false,
-                'Vul de prijs van het product in',
-                [],
-                InputFontSizeType.Large),
-              new AttributeConfigModel(
+                true,
+                false,false,true,0.25,NumberInputModeType.Decimal,LocaleType.en_US,undefined,
+                undefined,2,5,-445,10,SpinnerModeType.Vertical,ButtonClassType.Secondary,
+                ButtonClassType.Secondary,undefined,undefined,undefined,undefined,
+                ButtonLayoutType.Vertical,'Geef een getal in tussen -445 en 10',undefined,'Basisprijs'),
+              new TextAttributeConfigModel(
                 'creationDate',
+                false,
                 RestrictionType.NI,
                 RestrictionType.NA,
                 IconType.NI,
@@ -603,7 +608,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         ]
       },
     ],
-
     actions: [
       // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
       // de condities zoals gedefinieerd in de overeekomstige actie
@@ -663,7 +667,6 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
 
   constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
     this.storeService.createStore(this.contentContainer)
-    // todo createEventBus (dit zijn vaste gegevens) via een EventService
     this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
   }
 

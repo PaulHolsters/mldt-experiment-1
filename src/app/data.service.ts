@@ -3,7 +3,7 @@ import {StoreService} from "./store.service";
 import {ConceptModel} from "./models/Data/ConceptModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {Apollo, gql} from "apollo-angular";
-import {AttributeModel} from "./models/Data/AttributeModel";
+import {TextAttributeModel} from "./models/Data/TextAttributeModel";
 import {ActionModel} from "./models/ActionModel";
 import {QuerySubType} from "./enums/querySubType.enum";
 import {TargetType} from "./enums/targetTypes.enum";

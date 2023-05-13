@@ -29,6 +29,7 @@ import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/form/form.component';
 import {KeyFilterModule} from "primeng/keyfilter";
+import {InputNumberModule} from "primeng/inputnumber";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {KeyFilterModule} from "primeng/keyfilter";
         FormsModule,
         GraphQLModule,
         HttpClientModule,
-        KeyFilterModule
+        KeyFilterModule,
+        InputNumberModule
     ],
   providers: [],
   bootstrap: [AppComponent]

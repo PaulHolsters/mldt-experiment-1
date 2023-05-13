@@ -50,6 +50,10 @@ import {InputFontSizeType} from "./enums/inputFontSizeType.enum";
 import {IconType} from "./enums/iconType.enum";
 import {IconPositionType} from "./enums/iconPositionType.enum";
 import {RestrictionType} from "./enums/restrictionType.enum";
+import {TextAttributeModel} from "./models/Data/TextAttributeModel";
+import {NumberAttributeConfigModel} from "./models/Data/NumberAttributeConfigModel";
+import {TextAttributeConfigModel} from "./models/Data/TextAttributeConfigModel";
+import {NumberAttributeModel} from "./models/Data/NumberAttributeModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -422,29 +426,38 @@ export class StoreService {
     }
     return undefined
   }
-  public setDataState(componentName:string,data:ConceptModel,compConfig:ConceptConfigModel){
-    let newObj : {
+  /*
+  *  : {
       conceptName:string,
       attributes:{name:string,only:RestrictionType,
-        customRestriction:RegExp|RestrictionType.NA,dataType:string,icon?:IconType,
+        customRestriction:RegExp|RestrictionType.NA,dataType:string,disabled:boolean,icon?:IconType,
         iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}[]
-    } = {conceptName:compConfig.conceptName,attributes:[]}
+    }
+  * */
+  public setDataState(componentName:string,data:ConceptModel,compConfig:ConceptConfigModel){
+    let newObj: ConceptModel = {conceptName:compConfig.conceptName,attributes:[]}
     const configCopy = {...compConfig}
     configCopy.attributes?.forEach(attr=>{
-      const entry = Object.entries(data).find(([k,v])=>{
-        return k === attr.name
-      })
-      if(entry && attr.name){
-        // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau
-        const attrExp = {name:attr.name,dataType:entry[1]}
-        const attrCopy = {...attr}
-        delete attrCopy.attributes
-        newObj.attributes.push(Object.assign(attrExp,(attrCopy as ({only:RestrictionType,
-          customRestriction:RegExp|RestrictionType.NA,icon?:IconType,
-          iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,
-          advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}))))
+      if(attr instanceof TextAttributeConfigModel){
+        const entry = Object.entries(data).find(([k,v])=>{
+          return k === attr.name
+        })
+        if(entry && attr.name){
+          // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau
+          const attrExp = {name:attr.name,dataType:entry[1]}
+          const attrCopy = {...attr}
+          newObj.attributes.push(Object.assign(attrExp as TextAttributeModel,attrCopy))}
+      } else{
+        const entry = Object.entries(data).find(([k,v])=>{
+          return k === attr.name
+        })
+        if(entry && attr.name){
+          const attrExp = {name:attr.name,dataType:entry[1]}
+          const attrCopy = {...attr}
+          newObj.attributes.push(Object.assign(attrExp as NumberAttributeModel,attrCopy))}
       }
     })
+    console.log(newObj)
     this.getStatePropertySubjects().find(subj => {
       return subj.componentName === componentName && subj.propName === 'data'
     })?.propValue.next(newObj)

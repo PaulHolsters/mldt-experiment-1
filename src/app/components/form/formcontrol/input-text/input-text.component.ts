@@ -19,6 +19,7 @@ export class InputTextComponent implements OnInit {
   @Input() invalid:boolean|undefined
   @Input() small:boolean|undefined
   @Input() large:boolean|undefined
+  @Input() disabled:boolean|undefined
   @Input() value:string|undefined
   @Input() keyFilter:string|RegExp|undefined
   @ViewChild('input') input: ElementRef | undefined

@@ -1,6 +1,4 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {IconType} from "../../../../enums/iconType.enum";
-import {IconPositionType} from "../../../../enums/iconPositionType.enum";
 
 @Component({
   selector: 'm-input-number',
@@ -9,19 +7,33 @@ import {IconPositionType} from "../../../../enums/iconPositionType.enum";
 })
 export class InputNumberComponent implements OnInit {
   @Input() name = ''
-  @Input() icon:IconType|undefined
-  @Input() iconPosition:IconPositionType|undefined
   @Input() advisoryText:string|undefined
   @Input() label:string|undefined
   @Input() floatLabel:boolean|undefined
+  @Input() disabled:boolean|undefined
   @Input() dirty:boolean|undefined
   @Input() invalid:boolean|undefined
-  @Input() small:boolean|undefined
-  @Input() large:boolean|undefined
-  @Input() value:string|undefined
+  @Input() useGrouping:boolean|undefined
+  @Input() mode:string|undefined
+  @Input() suffix:string|undefined
+  @Input() prefix:string|undefined
+  @Input() locale:string|undefined
+  @Input() currency:string|undefined
+  @Input() currencyDisplay:string|undefined
+  @Input() minFractionDigits:number|undefined
+  @Input() maxFractionDigits:number|undefined
+  @Input() min:number|undefined
+  @Input() max:number|undefined
+  @Input() showButtons:boolean|undefined
+  @Input() spinnerMode:string|undefined
+  @Input() step:number|undefined
+  @Input() decrementButtonClass:string|undefined
+  @Input() incrementButtonClass:string|undefined
+  @Input() incrementButtonIcon:string|undefined
+  @Input() decrementButtonIcon:string|undefined
+  @Input() buttonLayout:string|undefined
+  @Input() value:number|undefined
   @ViewChild('input') input: ElementRef | undefined
-  iconType = IconType
-  iconPositionType = IconPositionType
   constructor() { }
 
   ngOnInit(): void {
