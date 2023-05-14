@@ -42,7 +42,7 @@ export class InputNumberComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.maxFractionDigits)
+    console.log(this.incrementButtonClass,this.incrementButtonIcon)
   }
 
 }
