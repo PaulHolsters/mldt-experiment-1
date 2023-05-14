@@ -69,6 +69,8 @@ import {AttributeConfigModel} from './models/Data/AttributeConfigModel';
 import {NumberAttributeConfigModel} from './models/Data/NumberAttributeConfigModel';
 import {CurrencyType} from "./enums/currencyType.enum";
 import {CurrencyDisplayType} from "./enums/currencyDisplayType.enum";
+import {ButtonClassType} from "./enums/buttonClassType.enum";
+import {ButtonLayoutType} from "./enums/buttonLayoutType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -583,9 +585,11 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 undefined,
                 new NumberAttributeConfigModel(
                   true,
-                  false,
+                  true,
                   1,
-                  NumberInputModeType.Currency,LocaleType.de_DE,CurrencyType.EUR,CurrencyDisplayType.CODE),
+                  NumberInputModeType.Currency,LocaleType.de_DE,CurrencyType.EUR,CurrencyDisplayType.CODE,undefined,undefined,
+                  undefined,undefined,ButtonClassType.Secondary,
+                  ButtonClassType.Primary,IconType.Plus,IconType.Min,undefined,undefined,ButtonLayoutType.Vertical),
                 undefined,
                 'Basisprijs',
                 'Geef een getal in tussen -445 en 10'),
