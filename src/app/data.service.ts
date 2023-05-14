@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {StoreService} from "./store.service";
-import {ConceptModel} from "./models/Data/ConceptModel";
+import {ConceptComponentModel} from "./models/Data/ConceptComponentModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {Apollo, gql} from "apollo-angular";
-import {TextAttributeModel} from "./models/Data/TextAttributeModel";
+import {TextAttributeComponentModel} from "./models/Data/TextAttributeComponentModel";
 import {ActionModel} from "./models/ActionModel";
 import {QuerySubType} from "./enums/querySubType.enum";
 import {TargetType} from "./enums/targetTypes.enum";
@@ -35,7 +35,7 @@ export class DataService {
   }
   private getAllAttributes(data:ConceptConfigModel):string{
     // todo voorlopig enkel 1 diep
-    if(data.attributes && data.attributes.length>0){
+    if(data.attributes && data.attributes instanceof Array && data.attributes.length>0){
       return data.attributes.map(x=>{return x.name||''}).reduce((x,y)=>x+='\n'+y,'')
     }
     // todo haal de verschillende attributen op via de business types configuratie
@@ -63,10 +63,10 @@ export class DataService {
         break
     }
   }
-  private fakeMutation(data: ConceptModel) {
+  private fakeMutation(data: ConceptComponentModel) {
 
   }
-  public mutationEvent(data: ConceptModel) {
+  public mutationEvent(data: ConceptComponentModel) {
     this.fakeMutation(data)
   }
 /*  public componentReady(name: string) {
@@ -98,7 +98,7 @@ export class DataService {
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res:unknown)=>{
           if(res && typeof res === 'object' && res.hasOwnProperty('data')){
             const bluePrintData = (res as {data:{}})['data']
-            const bluePrint = Object.values(bluePrintData)[0] as ConceptModel
+            const bluePrint = Object.values(bluePrintData)[0] as ConceptComponentModel
             this.storeService.setDataState(action.targetName,bluePrint,compModel)
           }
         })

@@ -1,8 +1,8 @@
 export enum ButtonClassType {
-  Primary = 1,
-  Secondary,
-  Danger,
-  Success
+  Primary =  'primary',
+  Secondary = 'secondary',
+  Danger = 'danger',
+  Success = 'success'
   // todo
 
 }

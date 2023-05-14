@@ -1,6 +1,6 @@
 export enum CurrencyDisplayType {
-  SYMBOL=1,
-  CODE
+  SYMBOL='symbol',
+  CODE = 'code'
   // todo
 
 }

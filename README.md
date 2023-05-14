@@ -42,7 +42,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 MainAxisHorizontalPositioningConfigType.Left,
                 new DynamicDimensioningConfigModel(1, 1, undefined),
                 //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
-                MainAxisHorizontalPositioningConfigType.NA
+                MainAxisHorizontalPositioningConfigType.No_value_types
               ),
               new VerticalLayoutConfigPropsModel(
                 AxisConfigType.Cross,
@@ -53,7 +53,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                   undefined,
                   undefined,
                   true
-                ), MainAxisVerticalPositioningConfigType.NA
+                ), MainAxisVerticalPositioningConfigType.No_value_types
               )
             ), undefined, undefined, new ChildLayoutConfigPropsModel(
               new HorizontalLayoutConfigPropsModel(
@@ -65,7 +65,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                   undefined,
                   undefined,
                   true
-                ), MainAxisHorizontalPositioningConfigType.NA
+                ), MainAxisHorizontalPositioningConfigType.No_value_types
               ), new VerticalLayoutConfigPropsModel(
                 AxisConfigType.Main,
                 true,
@@ -73,7 +73,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 MainAxisVerticalPositioningConfigType.Top,
                 new DynamicDimensioningConfigModel(1, 1, undefined),
                 //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
-                MainAxisVerticalPositioningConfigType.NA
+                MainAxisVerticalPositioningConfigType.No_value_types
               )
             )
           ),
@@ -270,12 +270,12 @@ Deze eigenschap heeft een boolean waarde voor de layout (horizontaal of verticaa
 ##### scroll
 Deze eigenschap dient voor beide layout types een boolean waarde te hebben. Dit is echter nog onder constructie.
 ##### position
-De mogelijke waarden worden gegeven door de twee enum soorten *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType* of *CrossAxisHorizontalPositioningConfigType*/*CrossAxisVerticalPositioningConfigType* afhankelijk of een bepaalde richting de hoofd-as is of niet. In bepaalde gevallen is het nodig om hier voor de "Cross"-as de enum waarde *NA* mee te geven, namelijk wanneer onder width/height gekozen is voor stretch. Mouldit heeft gekozen om stretch niet te laten vallen onder dezelfde css properties waar ook de positionering properties onder vallen (start, end, center en baseline). De verantwoording voor deze keuze is dat *stretch* de dimensionering van een component wijzigt en de overige css properties puur de positionering van de children bepalen. Ze uiteentrekken is beter voor het begrip van de niet-technisch onderlegde gebruiker.
+De mogelijke waarden worden gegeven door de twee enum soorten *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType* of *CrossAxisHorizontalPositioningConfigType*/*CrossAxisVerticalPositioningConfigType* afhankelijk of een bepaalde richting de hoofd-as is of niet. In bepaalde gevallen is het nodig om hier voor de "Cross"-as de enum waarde *No_value_types* mee te geven, namelijk wanneer onder width/height gekozen is voor stretch. Mouldit heeft gekozen om stretch niet te laten vallen onder dezelfde css properties waar ook de positionering properties onder vallen (start, end, center en baseline). De verantwoording voor deze keuze is dat *stretch* de dimensionering van een component wijzigt en de overige css properties puur de positionering van de children bepalen. Ze uiteentrekken is beter voor het begrip van de niet-technisch onderlegde gebruiker.
 ##### height/width
 Voor de horizontale layout geef je een configuratie mee voor de *width* of breedte van de children. Deze waarde wordt dan automatisch toegekend aan alle directe children van de parent. Wat betreft configuratie kan je kiezen tussen een vaste waarde (*FixedDimensioningConfigModel*) voor deze breedte of een dynamische (*DynamicDimensioningConfigModel.ts*). De opties wat betreft vaste waarden worden besproken in het onderdeel *Dimensioning* hieronder. Wat betreft een dynamische waarde hangen de mogelijkheden of de horizontale richting de hoofrichting is of niet. Indien het de hoofdrichting is dan kan je kiezen om de breedte te laten groeien of slinken afhankelijk of er ruimte over is dan wel te kort (*grow*/*shrink*). Indien de horizontale richting niet de hoofdrichting is dan moet je kiezen voor stretch als enige overblijvende optie. Dit doet wat je als css developer zou verwachten dat het doet.  
 Voor de verticale layout geldt hetzelfde principe. Daar gaat het dan om de hoogte of *height* natuurlijk.
 ##### lanes
-De configuratie voor *lanes* is enkel nodig indien de desbetreffende layout de hoofdrichting is. Dit gaat de postie van de lijnen bepalen waarvan sprake in *Wrap*. De mogelijkheden zijn bepaald door het enum *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType*. In het andere geval geef je het de *NA* enum waarde.
+De configuratie voor *lanes* is enkel nodig indien de desbetreffende layout de hoofdrichting is. Dit gaat de postie van de lijnen bepalen waarvan sprake in *Wrap*. De mogelijkheden zijn bepaald door het enum *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType*. In het andere geval geef je het de *No_value_types* enum waarde.
 #### Dimensioning
 Zoals reeds aangehaald zijn er twee opties: een vaste waarde meegeven of een dynamische. De dynamische werd reeds besproken onder *ChildLayout*->*height/width*. Voor de vaste zijn er weer twee mogelijkheden: een letterlijke waarde (*hardcoded*) of een berekende (*calculated*). De parameters mee te geven in de constructor van een *FixedDimensioningConfigModel* instantie zijn *type*, *value* en *unit*. In het type geef je aan of het hardcoded is dan wel calculated. Voor calculated geef je een string meer zoals dat nodig is bij css calculated values. Een voorbeeld is de string "(100vh - 16px)". Dit is nu nog rudimentair maar zal in de toekomst meer configuratie mogelijkheden moeten hebben. Bij de calculated versie geef je geen unit mee. Voor een letterlijke waarde geef je als type natuurlijk *hardcoded* mee. Vervolgens een numerieke waarde voor value en tot slot maak je een keuze uit de unit enum waarden (*DimensionUnitConfigType*).
 #### Overflow

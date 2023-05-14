@@ -1,4 +1,4 @@
 export enum NumberInputModeType {
-  Decimal=1,
-  Currency
+  Decimal='decimal',
+  Currency = 'currency'
 }

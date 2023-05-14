@@ -1,7 +1,7 @@
 export enum ButtonLayoutType {
-  Vertical = 1,
-  Horizontal,
-  Stacked
+  Vertical = 'vertical',
+  Horizontal = 'horizontal',
+  Stacked = 'stacked'
   // todo
 
 }

@@ -1,4 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {NoValueType} from "../../../../enums/no_value_type";
 
 @Component({
   selector: 'm-input-number',
@@ -34,9 +35,14 @@ export class InputNumberComponent implements OnInit {
   @Input() buttonLayout:string|undefined
   @Input() value:number|undefined
   @ViewChild('input') input: ElementRef | undefined
-  constructor() { }
+  Number = Number
+  NI = NoValueType.NI
+  constructor() {
+
+  }
 
   ngOnInit(): void {
+    console.log(this.maxFractionDigits)
   }
 
 }

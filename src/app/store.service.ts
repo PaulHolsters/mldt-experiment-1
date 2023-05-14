@@ -21,7 +21,6 @@ import {StylingComponentPropsModel} from "./models/Styling/StylingComponentProps
 import {StylingConfigPropsModel} from "./models/Styling/StylingConfigPropsModel";
 import {OverflowValueConfigType} from "./enums/overflowValueConfigTypes.enum";
 import {OverflowChildConfigPropsModel} from "./models/Overflow/children/OverflowChildConfigPropsModel";
-import {ColorType} from "./enums/colorType.enum";
 import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningComponentPropsModel} from "./models/Dimensioning/self/DimensioningComponentPropsModel";
 import {DimensioningConfigPropsModel} from "./models/Dimensioning/self/DimensioningConfigPropsModel";
@@ -43,17 +42,12 @@ import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTy
 import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
-import {ConceptModel} from "./models/Data/ConceptModel";
+import {ConceptComponentModel} from "./models/Data/ConceptComponentModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {EventType} from "./enums/eventTypes.enum";
-import {InputFontSizeType} from "./enums/inputFontSizeType.enum";
-import {IconType} from "./enums/iconType.enum";
-import {IconPositionType} from "./enums/iconPositionType.enum";
-import {RestrictionType} from "./enums/restrictionType.enum";
-import {TextAttributeModel} from "./models/Data/TextAttributeModel";
-import {NumberAttributeConfigModel} from "./models/Data/NumberAttributeConfigModel";
-import {TextAttributeConfigModel} from "./models/Data/TextAttributeConfigModel";
-import {NumberAttributeModel} from "./models/Data/NumberAttributeModel";
+import {AttributeComponentModel} from "./models/Data/AttributeComponentModel";
+import {NoValueType} from "./enums/no_value_type";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -434,28 +428,19 @@ export class StoreService {
         iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}[]
     }
   * */
-  public setDataState(componentName:string,data:ConceptModel,compConfig:ConceptConfigModel){
-    let newObj: ConceptModel = {conceptName:compConfig.conceptName,attributes:[]}
+  public setDataState(componentName:string, data:ConceptComponentModel, compConfig:ConceptConfigModel){
+    let newObj: ConceptComponentModel = {conceptName:compConfig.conceptName,attributes:[],errorMessages:NoValueType.NI}
     const configCopy = {...compConfig}
+    if(configCopy.attributes && configCopy.attributes instanceof Array)
     configCopy.attributes?.forEach(attr=>{
-      if(attr instanceof TextAttributeConfigModel){
         const entry = Object.entries(data).find(([k,v])=>{
           return k === attr.name
         })
         if(entry && attr.name){
-          // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau
+          // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
           const attrExp = {name:attr.name,dataType:entry[1]}
           const attrCopy = {...attr}
-          newObj.attributes.push(Object.assign(attrExp as TextAttributeModel,attrCopy))}
-      } else{
-        const entry = Object.entries(data).find(([k,v])=>{
-          return k === attr.name
-        })
-        if(entry && attr.name){
-          const attrExp = {name:attr.name,dataType:entry[1]}
-          const attrCopy = {...attr}
-          newObj.attributes.push(Object.assign(attrExp as NumberAttributeModel,attrCopy))}
-      }
+          newObj.attributes.push(Object.assign(attrExp as AttributeComponentModel,attrCopy))}
     })
     console.log(newObj)
     this.getStatePropertySubjects().find(subj => {

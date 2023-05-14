@@ -3,56 +3,53 @@
     <div *ngIf="!attr.floatLabel">
       <m-label [text]="attr.name"></m-label>
     </div>
-    <!-- todo de' oplossing is een globaal attribute model met daarin props text, number etc-->
-    <div [ngSwitch]="getAttributeType(attr)">
-      <m-input-text *ngSwitchCase="TextAttributeModel" [name]="name" [value]=""
-                    [icon]="getValue(attr,'icon')"
-                    [iconPosition]="attr.iconPosition !== undefined ? attr.iconPosition : undefined"
-                    [advisoryText]="attr.advisoryText !== undefined ? attr.advisoryText : undefined"
+      <m-input-text *ngIf="attr.text" [name]="name" [value]=""
+                    [icon]="attr.text.icon"
+                    [iconPosition]="attr.text['iconPosition']"
+                    [advisoryText]="attr.advisoryText"
                     [keyFilter]="
-                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Alphanumeric ? 'alphanum' :
-                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Hex ? 'hex' :
-                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Alphabetic ? 'alpha' :
-                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Integer ? 'int' :
-                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Money ? 'money' :
-                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Number ? 'number' :
-                      attr.hasOwnProperty('only') && attr.only === RestrictionType.Custom ? (attr.customRestriction !== RestrictionType.NA ? attr.customRestriction : undefined) : undefined"
-                    [label]="attr.label !== undefined ? attr.label : undefined"
+                      attr.text['only'] === RestrictionType.Alphanumeric ? 'alphanum' :
+                      attr.text['only'] === RestrictionType.Hex ? 'hex' :
+                      attr.text['only'] === RestrictionType.Alphabetic ? 'alpha' :
+                      attr.text['only'] === RestrictionType.Integer ? 'int' :
+                      attr.text['only'] === RestrictionType.Money ? 'money' :
+                      attr.text['only'] === RestrictionType.Number ? 'number' :
+                      attr.text['only'] === RestrictionType.Custom ? (attr.text['customRestriction'] !== RestrictionType.NA ?
+                      attr.text['customRestriction'] : undefined) : undefined"
+                    [label]="attr.label"
                     [floatLabel]="attr.floatLabel"
                     [dirty]="false"
                     [invalid]="false"
-                    [small]="attr.inputFontSize && attr.inputFontSize===InputFontSize.Small"
-                    [large]="attr.inputFontSize && attr.inputFontSize===InputFontSize.Large"
+                    [small]="attr.text['inputFontSize']===InputFontSize.Small"
+                    [large]="attr.text['inputFontSize']===InputFontSize.Large"
                     [disabled]="attr.disabled"
       ></m-input-text>
-      <m-input-number *ngSwitchCase="NumberAttributeModel" [name]="name" [value]=""
+      <m-input-number *ngIf="attr.number" [name]="name" [value]=""
                       [advisoryText]="attr.advisoryText"
                       [label]="attr.label"
                       [floatLabel]="attr.floatLabel"
                       [dirty]="false"
                       [invalid]="false"
                       [disabled]="attr.disabled"
-                      [useGrouping]=""
-                      [mode]=""
-                      [suffix]=""
-                      [prefix]=""
-                      [locale]=""
-                      [currency]=""
-                      [currencyDisplay]=""
-                      [minFractionDigits]=""
-                      [maxFractionDigits]=""
-                      [min]=""
-                      [max]=""
-                      [showButtons]=""
-                      [spinnerMode]=""
-                      [step]=""
-                      [decrementButtonClass]=""
-                      [incrementButtonClass]=""
-                      [incrementButtonIcon]=""
-                      [decrementButtonIcon]=""
-                      [buttonLayout]=""
+                      [useGrouping]="attr.number['useGrouping']"
+                      [mode]="attr.number['mode']"
+                      [suffix]="attr.number['suffix']"
+                      [prefix]="attr.number['prefix']"
+                      [locale]="attr.number['locale']"
+                      [currency]="attr.number['currency']"
+                      [currencyDisplay]="attr.number['currencyDisplay']"
+                      [minFractionDigits]="attr.number['minFractionDigits']"
+                      [maxFractionDigits]="attr.number['maxFractionDigits']"
+                      [min]="attr.number['min']"
+                      [max]="attr.number['max']"
+                      [showButtons]="attr.number['showButtons']"
+                      [step]="attr.number['step']"
+                      [incrementButtonIcon]="attr.number['incrementButtonIcon']"
+                      [decrementButtonIcon]="attr.number['decrementButtonIcon']"
+                      [decrementButtonClass]="attr.number['decrementButtonClass']"
+                      [incrementButtonClass]="attr.number['decrementButtonClass']"
+                      [buttonLayout]="attr.number['buttonLayout']"
       ></m-input-number>
-      <m-date *ngSwitchCase="'Date'" [name]="name"></m-date>
-    </div>
+      <m-date *ngIf="attr.dataType === 'Date'" [name]="name"></m-date>
   </ng-container>
 </form>

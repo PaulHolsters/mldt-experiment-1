@@ -63,12 +63,12 @@ import {InputFontSizeType} from "./enums/inputFontSizeType.enum";
 import {IconType} from "./enums/iconType.enum";
 import {IconPositionType} from "./enums/iconPositionType.enum";
 import {RestrictionType} from "./enums/restrictionType.enum";
-import { NumberAttributeConfigModel } from './models/Data/NumberAttributeConfigModel';
-import { NumberInputModeType } from './enums/numberInputModeType.enum';
-import { LocaleType } from './enums/localeType.enum';
-import { SpinnerModeType } from './enums/spinnerModeType.enum';
-import { ButtonClassType } from './enums/buttonClassType.enum';
-import { ButtonLayoutType } from './enums/buttonLayoutType.enum';
+import {NumberInputModeType} from './enums/numberInputModeType.enum';
+import {LocaleType} from './enums/localeType.enum';
+import {ButtonClassType} from './enums/buttonClassType.enum';
+import {ButtonLayoutType} from './enums/buttonLayoutType.enum';
+import {AttributeConfigModel} from './models/Data/AttributeConfigModel';
+import {NumberAttributeConfigModel} from './models/Data/NumberAttributeConfigModel';
 
 @Injectable({
   providedIn: 'root'
@@ -562,46 +562,30 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                           WidthValueConfigType.NC
                         ))*/
           },
-          // todo
+          // todo!!!
           {
             name:'my first form',
             type:ComponentType.Form,
             data:new ConceptConfigModel(
               'product',
               [
-              new TextAttributeConfigModel(
+              new AttributeConfigModel(
                 'name',
                 true,
-                RestrictionType.Alphanumeric,
-                RestrictionType.NA,
-                IconType.NI,
-                IconPositionType.NA,
-                undefined,
-                false,
-                'Vul de naam van het product in',
-                [],
-                InputFontSizeType.Large
-              ),
-              // todo
-              new NumberAttributeConfigModel(
-                'basePrice',
                 true,
-                false,false,true,0.25,NumberInputModeType.Decimal,LocaleType.en_US,undefined,
-                undefined,2,5,-445,10,SpinnerModeType.Vertical,ButtonClassType.Secondary,
-                ButtonClassType.Secondary,undefined,undefined,undefined,undefined,
-                ButtonLayoutType.Vertical,'Geef een getal in tussen -445 en 10',undefined,'Basisprijs'),
-              new TextAttributeConfigModel(
+                new TextAttributeConfigModel(RestrictionType.Alphanumeric,RestrictionType.NA,IconType.Check,IconPositionType.Left,InputFontSizeType.Large),
+                undefined,undefined,'Product naam','Geef een adequate naam'
+              ),
+              new AttributeConfigModel(
+                'basePrice',
+                false,
+                false,undefined,new NumberAttributeConfigModel(false,false,1,NumberInputModeType.Decimal),undefined,'Basisprijs','Geef een getal in tussen -445 en 10'),
+              new AttributeConfigModel(
                 'creationDate',
                 false,
-                RestrictionType.NI,
-                RestrictionType.NA,
-                IconType.NI,
-                IconPositionType.NA,
+                false,undefined,undefined,undefined,
                 'aanmaakdatum',
-                true,
-                'Selecteer de datum',
-                [],
-                InputFontSizeType.Base),
+                'Selecteer de datum'),
             ]),
             visibility: new ResponsiveVisibilityConfigModel()
           }
