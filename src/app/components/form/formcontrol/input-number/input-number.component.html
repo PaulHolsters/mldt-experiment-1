@@ -13,6 +13,8 @@
       prefix="{{prefix!== NI ? prefix : undefined}}"
       [showButtons]="showButtons === true"
       [step]="step ?? 0"
+      currency="{{currency!== NI ? currency : undefined}}"
+      currencyDisplay="{{currencyDisplay!== NI ? currencyDisplay : undefined}}"
       decrementButtonClass="{{decrementButtonClass !== NI ? ('p-button-'+decrementButtonClass) : undefined}}"
       incrementButtonClass="{{incrementButtonClass !== NI ? ('p-button-'+incrementButtonClass) : undefined}}"
       incrementButtonIcon="{{incrementButtonIcon !== NI ? ('pi pi-'+incrementButtonIcon) : undefined}}"
@@ -27,3 +29,4 @@
 <span *ngIf="!floatLabel">
   <ng-template [ngTemplateOutlet]="input"></ng-template>
 </span>
+<!---->

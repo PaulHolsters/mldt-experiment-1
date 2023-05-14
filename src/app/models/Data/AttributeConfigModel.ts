@@ -14,7 +14,7 @@ constructor(
   public text:TextAttributeConfigModel|undefined,// indien concept is dit niet van toepassing
   public number:NumberAttributeConfigModel|undefined,// indien concept is dit niet van toepassing
   public concept:ConceptConfigModel|undefined,
-  public label:string|NoValueType.DBI|NoValueType.NA|NoValueType.NVY=NoValueType.NVY,// indien concept is dit niet van toepassing
+  public label:string|NoValueType.DBI|NoValueType.NA=NoValueType.DBI,// indien concept is dit niet van toepassing
   public advisoryText:string|NoValueType.NI=NoValueType.NI,// indien concept is dit niet van toepassing
   public errorMessages:string[]|NoValueType.NI|NoValueType.NA=NoValueType.NI,// indien concept is dit niet van toepassing
   ) {

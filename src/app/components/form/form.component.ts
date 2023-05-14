@@ -28,6 +28,7 @@ export class FormComponent implements OnInit{
     this.storeService.bindToStateProperty(this.name, 'data')?.subscribe(res=>{
       if(res){
         this.data = res as ConceptComponentModel
+        console.log(this.data)
       }
     })
   }

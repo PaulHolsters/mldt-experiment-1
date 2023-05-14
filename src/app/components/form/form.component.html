@@ -1,21 +1,21 @@
 <form *ngIf="data">
   <ng-container  *ngFor="let attr of data.attributes">
     <div *ngIf="!attr.floatLabel">
-      <m-label [text]="attr.name"></m-label>
+      <m-label [text]="(attr.label !== NoValueType.DBI) && (attr.label !== NoValueType.NA) ? attr.label : attr.name"></m-label>
     </div>
       <m-input-text *ngIf="attr.text" [name]="name" [value]=""
                     [icon]="attr.text.icon"
-                    [iconPosition]="attr.text['iconPosition']"
+                    [iconPosition]="attr.text.iconPosition"
                     [advisoryText]="attr.advisoryText"
                     [keyFilter]="
-                      attr.text['only'] === RestrictionType.Alphanumeric ? 'alphanum' :
-                      attr.text['only'] === RestrictionType.Hex ? 'hex' :
-                      attr.text['only'] === RestrictionType.Alphabetic ? 'alpha' :
-                      attr.text['only'] === RestrictionType.Integer ? 'int' :
-                      attr.text['only'] === RestrictionType.Money ? 'money' :
-                      attr.text['only'] === RestrictionType.Number ? 'number' :
-                      attr.text['only'] === RestrictionType.Custom ? (attr.text['customRestriction'] !== RestrictionType.NA ?
-                      attr.text['customRestriction'] : undefined) : undefined"
+                      attr.text.only === RestrictionType.Alphanumeric ? 'alphanum' :
+                      attr.text.only === RestrictionType.Hex ? 'hex' :
+                      attr.text.only === RestrictionType.Alphabetic ? 'alpha' :
+                      attr.text.only === RestrictionType.Integer ? 'int' :
+                      attr.text.only === RestrictionType.Money ? 'money' :
+                      attr.text.only === RestrictionType.Number ? 'number' :
+                      attr.text.only === RestrictionType.Custom ? (attr.text['customRestriction'] !== RestrictionType.NA ?
+                      attr.text.customRestriction : undefined) : undefined"
                     [label]="attr.label"
                     [floatLabel]="attr.floatLabel"
                     [dirty]="false"
@@ -24,6 +24,7 @@
                     [large]="attr.text['inputFontSize']===InputFontSize.Large"
                     [disabled]="attr.disabled"
       ></m-input-text>
+    <!-- todo verander value ,naar de respectiveloijke attribuut soort-->
       <m-input-number *ngIf="attr.number" [name]="name" [value]=""
                       [advisoryText]="attr.advisoryText"
                       [label]="attr.label"
@@ -31,25 +32,27 @@
                       [dirty]="false"
                       [invalid]="false"
                       [disabled]="attr.disabled"
-                      [useGrouping]="attr.number['useGrouping']"
-                      [mode]="attr.number['mode']"
-                      [suffix]="attr.number['suffix']"
-                      [prefix]="attr.number['prefix']"
-                      [locale]="attr.number['locale']"
-                      [currency]="attr.number['currency']"
-                      [currencyDisplay]="attr.number['currencyDisplay']"
-                      [minFractionDigits]="attr.number['minFractionDigits']"
-                      [maxFractionDigits]="attr.number['maxFractionDigits']"
-                      [min]="attr.number['min']"
-                      [max]="attr.number['max']"
-                      [showButtons]="attr.number['showButtons']"
-                      [step]="attr.number['step']"
-                      [incrementButtonIcon]="attr.number['incrementButtonIcon']"
-                      [decrementButtonIcon]="attr.number['decrementButtonIcon']"
-                      [decrementButtonClass]="attr.number['decrementButtonClass']"
-                      [incrementButtonClass]="attr.number['decrementButtonClass']"
-                      [buttonLayout]="attr.number['buttonLayout']"
+                      [useGrouping]="attr.number.useGrouping"
+                      [mode]="attr.number.mode"
+                      [suffix]="attr.number.suffix"
+                      [prefix]="attr.number.prefix"
+                      [locale]="attr.number.locale"
+                      [currency]="attr.number.currency"
+                      [currencyDisplay]="attr.number.currencyDisplay"
+                      [minFractionDigits]="attr.number.minFractionDigits"
+                      [maxFractionDigits]="attr.number.maxFractionDigits"
+                      [min]="attr.number.min"
+                      [max]="attr.number.max"
+                      [showButtons]="attr.number.showButtons"
+                      [step]="attr.number.step"
+                      [incrementButtonIcon]="attr.number.incrementButtonIcon"
+                      [decrementButtonIcon]="attr.number.decrementButtonIcon"
+                      [decrementButtonClass]="attr.number.decrementButtonClass"
+                      [incrementButtonClass]="attr.number.decrementButtonClass"
+                      [buttonLayout]="attr.number.buttonLayout"
       ></m-input-number>
       <m-date *ngIf="attr.dataType === 'Date'" [name]="name"></m-date>
   </ng-container>
+  <!-- todo add submit btns n stuff
+        todo add a attribute - concept as a foldable fieldset/dialogbox -->
 </form>

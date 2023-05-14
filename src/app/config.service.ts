@@ -65,10 +65,10 @@ import {IconPositionType} from "./enums/iconPositionType.enum";
 import {RestrictionType} from "./enums/restrictionType.enum";
 import {NumberInputModeType} from './enums/numberInputModeType.enum';
 import {LocaleType} from './enums/localeType.enum';
-import {ButtonClassType} from './enums/buttonClassType.enum';
-import {ButtonLayoutType} from './enums/buttonLayoutType.enum';
 import {AttributeConfigModel} from './models/Data/AttributeConfigModel';
 import {NumberAttributeConfigModel} from './models/Data/NumberAttributeConfigModel';
+import {CurrencyType} from "./enums/currencyType.enum";
+import {CurrencyDisplayType} from "./enums/currencyDisplayType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -579,7 +579,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               new AttributeConfigModel(
                 'basePrice',
                 false,
-                false,undefined,new NumberAttributeConfigModel(false,false,1,NumberInputModeType.Decimal),undefined,'Basisprijs','Geef een getal in tussen -445 en 10'),
+                false,
+                undefined,
+                new NumberAttributeConfigModel(
+                  true,
+                  false,
+                  1,
+                  NumberInputModeType.Currency,LocaleType.de_DE,CurrencyType.EUR,CurrencyDisplayType.CODE),
+                undefined,
+                'Basisprijs',
+                'Geef een getal in tussen -445 en 10'),
               new AttributeConfigModel(
                 'creationDate',
                 false,
