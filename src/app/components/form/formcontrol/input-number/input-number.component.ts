@@ -1,5 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {NoValueType} from "../../../../enums/no_value_type";
+import {InputNumber} from "primeng/inputnumber";
+import {DataService} from "../../../../data.service";
 
 @Component({
   selector: 'm-input-number',
@@ -37,12 +39,18 @@ export class InputNumberComponent implements OnInit {
   @ViewChild('input') input: ElementRef | undefined
   Number = Number
   NI = NoValueType.NI
-  constructor() {
-
+  constructor(private dataService:DataService) {
   }
 
   ngOnInit(): void {
-    console.log(this.incrementButtonClass,this.incrementButtonIcon)
+  }
+
+  updateData(formControl:InputNumber){
+    const text = formControl.el.nativeElement.innerHTML
+    const text2 = text.substring(text.indexOf('<input ')+7)
+    const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
+    this.value = Number(text3.substring(0,text3.indexOf('">')))
+    this.dataService.updateData(this.name,this.value)
   }
 
 }

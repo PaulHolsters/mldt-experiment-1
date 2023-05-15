@@ -26,6 +26,7 @@ constructor(
   public suffix:string|NoValueType.NI,
   public prefix:string|NoValueType.NI,
   public buttonLayout:ButtonLayoutType|NoValueType.NI,
+  public value:number|NoValueType.NA|NoValueType.NVY
   ) {
 }
 }

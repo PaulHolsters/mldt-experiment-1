@@ -12,7 +12,8 @@ constructor(
   public icon:IconType,
   public iconPosition:IconPositionType|NoValueType.NI,
   public floatLabel:boolean,
-  public inputFontSize:InputFontSizeType
+  public inputFontSize:InputFontSizeType,
+  public value:string|NoValueType.NA|NoValueType.NVY
   ) {
 }
 }

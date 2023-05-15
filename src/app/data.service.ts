@@ -3,10 +3,11 @@ import {StoreService} from "./store.service";
 import {ConceptComponentModel} from "./models/Data/ConceptComponentModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {Apollo, gql} from "apollo-angular";
-import {TextAttributeComponentModel} from "./models/Data/TextAttributeComponentModel";
 import {ActionModel} from "./models/ActionModel";
 import {QuerySubType} from "./enums/querySubType.enum";
 import {TargetType} from "./enums/targetTypes.enum";
+import {AttributeComponentModel} from "./models/Data/AttributeComponentModel";
+import {NoValueType} from "./enums/no_value_type";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class DataService {
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
   // todo a way to order data
+  private data:ConceptComponentModel[] = []
   private fakeQuery(data: ConceptConfigModel): any {
     const GET_PRODUCTS = gql`
                     {
@@ -40,6 +42,53 @@ export class DataService {
     }
     // todo haal de verschillende attributen op via de business types configuratie
     return 'name\nbasePrice\ncreationDate'
+  }
+  private createExtendedConceptModel(componentName:string, data:Object, compConfig:ConceptConfigModel):ConceptComponentModel{
+    let newObj: ConceptComponentModel = {conceptName:compConfig.conceptName,attributes:[],errorMessages:NoValueType.NI}
+    const configCopy = {...compConfig}
+    if(configCopy.attributes && configCopy.attributes instanceof Array)
+      configCopy.attributes?.forEach(attr=>{
+        const entry = Object.entries(data).find(([k,v])=>{
+          return k === attr.name
+        })
+        if(entry && attr.name){
+          // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
+          const attrExp = {name:attr.name,dataType:entry[1]}
+          const attrCopy = {...attr}
+          newObj.attributes.push(Object.assign(attrExp as AttributeComponentModel,attrCopy))}
+      })
+    return newObj
+  }
+  public updateData(name:string,value:number|string|undefined){
+    const parts = name.split('_')
+    const obj = this.data.find(dataObj=>{
+      return dataObj.conceptName === parts[1]
+    })
+    if(obj && obj.attributes){
+      if(parts.length===3){
+        const attr = obj.attributes.find(attr=>{
+          return attr.name === parts[2]
+        })
+        if(attr){
+          if(attr.text && typeof value === 'string'){
+            attr.text.value = value
+          }
+          if(attr.number && typeof value === 'number'){
+            attr.number.value = value
+          }
+          // todo
+          obj.attributes.splice(obj.attributes.findIndex(attr=>{
+            return attr.name === parts[2]
+          }),1,attr)
+          this.data.splice(this.data.findIndex(dataObj=>{
+            return dataObj.conceptName === parts[1]
+          }),1,obj)
+          debugger
+        }
+      } else{
+        // Het gaat om een concept
+      }
+    }
   }
   private query(querySubType:QuerySubType,data: ConceptConfigModel): any {
     switch(querySubType){
@@ -98,8 +147,10 @@ export class DataService {
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res:unknown)=>{
           if(res && typeof res === 'object' && res.hasOwnProperty('data')){
             const bluePrintData = (res as {data:{}})['data']
-            const bluePrint = Object.values(bluePrintData)[0] as ConceptComponentModel
-            this.storeService.setDataState(action.targetName,bluePrint,compModel)
+            const bluePrint = Object.values(bluePrintData)[0] as Object
+            const compObj = this.createExtendedConceptModel(action.targetName,bluePrint,compModel)
+            this.data.push(compObj)
+            this.storeService.setDataState(action.targetName,compObj)
           }
         })
       }

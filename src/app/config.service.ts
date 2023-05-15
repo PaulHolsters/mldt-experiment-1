@@ -71,6 +71,7 @@ import {CurrencyType} from "./enums/currencyType.enum";
 import {CurrencyDisplayType} from "./enums/currencyDisplayType.enum";
 import {ButtonClassType} from "./enums/buttonClassType.enum";
 import {ButtonLayoutType} from "./enums/buttonLayoutType.enum";
+import {NoValueType} from "./enums/no_value_type";
 
 @Injectable({
   providedIn: 'root'
@@ -573,9 +574,10 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
               [
               new AttributeConfigModel(
                 'name',
+                false,
                 true,
-                true,
-                new TextAttributeConfigModel(RestrictionType.Alphanumeric,RestrictionType.NA,IconType.Check,IconPositionType.Left,InputFontSizeType.Large),
+                new TextAttributeConfigModel(RestrictionType.Alphanumeric,RestrictionType.NA,IconType.Check,IconPositionType.Left,
+                  InputFontSizeType.Large,NoValueType.NVY),
                 undefined,undefined,'Product naam','Geef een adequate naam'
               ),
               new AttributeConfigModel(
@@ -587,9 +589,9 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   true,
                   true,
                   1,
-                  NumberInputModeType.Currency,LocaleType.de_DE,CurrencyType.EUR,CurrencyDisplayType.CODE,undefined,undefined,
+                  NumberInputModeType.Currency,LocaleType.nl_NL,CurrencyType.EUR,CurrencyDisplayType.CODE,undefined,undefined,
                   undefined,undefined,ButtonClassType.Success,
-                  ButtonClassType.Primary,IconType.Plus,IconType.Min,undefined,undefined,ButtonLayoutType.Stacked),
+                  ButtonClassType.Primary,IconType.Plus,IconType.Min,undefined,undefined,ButtonLayoutType.Stacked,NoValueType.NVY),
                 undefined,
                 'Basisprijs',
                 'Geef een getal in tussen -445 en 10'),

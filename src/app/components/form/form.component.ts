@@ -6,7 +6,6 @@ import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {RestrictionType} from "../../enums/restrictionType.enum";
 import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
 import {NoValueType} from "../../enums/no_value_type";
-import {instanceOf} from "graphql/jsutils/instanceOf";
 
 @Component({
   selector: 'm-form',

@@ -428,24 +428,10 @@ export class StoreService {
         iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}[]
     }
   * */
-  public setDataState(componentName:string, data:ConceptComponentModel, compConfig:ConceptConfigModel){
-    let newObj: ConceptComponentModel = {conceptName:compConfig.conceptName,attributes:[],errorMessages:NoValueType.NI}
-    const configCopy = {...compConfig}
-    if(configCopy.attributes && configCopy.attributes instanceof Array)
-    configCopy.attributes?.forEach(attr=>{
-        const entry = Object.entries(data).find(([k,v])=>{
-          return k === attr.name
-        })
-        if(entry && attr.name){
-          // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
-          const attrExp = {name:attr.name,dataType:entry[1]}
-          const attrCopy = {...attr}
-          newObj.attributes.push(Object.assign(attrExp as AttributeComponentModel,attrCopy))}
-    })
-    console.log(newObj)
+  public setDataState(componentName:string, compConcept:ConceptComponentModel){
     this.getStatePropertySubjects().find(subj => {
       return subj.componentName === componentName && subj.propName === 'data'
-    })?.propValue.next(newObj)
+    })?.propValue.next(compConcept)
   }
   public setRBSState(componentName: string,
                   newState: (PositioningComponentPropsModel |

@@ -1,9 +1,10 @@
-<form *ngIf="data">
+<form *ngIf="data" #form="ngForm">
   <ng-container  *ngFor="let attr of data.attributes">
     <div *ngIf="!attr.floatLabel">
       <m-label [text]="(attr.label !== NoValueType.DBI) && (attr.label !== NoValueType.NA) ? attr.label : attr.name"></m-label>
     </div>
-      <m-input-text *ngIf="attr.text" [name]="name" [value]=""
+      <m-input-text *ngIf="attr.text" [name]="name+'_'+data.conceptName+'_'+attr.name"
+                    [value]="attr.text.value === NoValueType.NVY || attr.text.value === NoValueType.NA  ? undefined : attr.text.value"
                     [icon]="attr.text.icon"
                     [iconPosition]="attr.text.iconPosition"
                     [advisoryText]="attr.advisoryText"
@@ -20,12 +21,12 @@
                     [floatLabel]="attr.floatLabel"
                     [dirty]="false"
                     [invalid]="false"
-                    [small]="attr.text['inputFontSize']===InputFontSize.Small"
-                    [large]="attr.text['inputFontSize']===InputFontSize.Large"
+                    [small]="attr.text.inputFontSize===InputFontSize.Small"
+                    [large]="attr.text.inputFontSize===InputFontSize.Large"
                     [disabled]="attr.disabled"
       ></m-input-text>
-    <!-- todo verander value ,naar de respectiveloijke attribuut soort-->
-      <m-input-number *ngIf="attr.number" [name]="name" [value]=""
+      <m-input-number *ngIf="attr.number" [name]="name+'_'+data.conceptName+'_'+attr.name"
+                      [value]="attr.number.value === NoValueType.NVY || attr.number.value === NoValueType.NA ? undefined : attr.number.value"
                       [advisoryText]="attr.advisoryText"
                       [label]="attr.label"
                       [floatLabel]="attr.floatLabel"

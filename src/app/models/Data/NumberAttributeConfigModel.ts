@@ -26,7 +26,8 @@ constructor(
   public decrementButtonIcon:IconType|NoValueType.NI=NoValueType.NI,
   public suffix:string|NoValueType.NI=NoValueType.NI,
   public prefix:string|NoValueType.NI=NoValueType.NI,
-  public buttonLayout:ButtonLayoutType|NoValueType.NI=NoValueType.NI
+  public buttonLayout:ButtonLayoutType|NoValueType.NI=NoValueType.NI,
+  public value:number|NoValueType.NA|NoValueType.NVY
   ) {
 }
 }

@@ -1,6 +1,7 @@
 <ng-template #input>
     <p-inputNumber
       [(ngModel)]="value"
+      (onInput)="updateData(this.numberInput)"
       mode="{{mode}}"
       [minFractionDigits]="minFractionDigits ?? 0"
       [maxFractionDigits]="maxFractionDigits ?? 20"
@@ -20,7 +21,7 @@
       incrementButtonIcon="{{incrementButtonIcon !== NI ? ('pi pi-'+incrementButtonIcon) : undefined}}"
       decrementButtonIcon="{{decrementButtonIcon !== NI ? ('pi pi-'+decrementButtonIcon) : undefined}}"
       buttonLayout="{{buttonLayout!== NI ? buttonLayout : undefined}}"
-    ></p-inputNumber>
+    #numberInput></p-inputNumber>
 </ng-template>
 <span *ngIf="floatLabel">
   <ng-template [ngTemplateOutlet]="input"></ng-template>
