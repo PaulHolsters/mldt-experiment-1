@@ -76,14 +76,14 @@ export class DataService {
           if(attr.number && typeof value === 'number'){
             attr.number.value = value
           }
-          // todo
+          // todo alle andere datatypes
+
           obj.attributes.splice(obj.attributes.findIndex(attr=>{
             return attr.name === parts[2]
           }),1,attr)
           this.data.splice(this.data.findIndex(dataObj=>{
             return dataObj.conceptName === parts[1]
           }),1,obj)
-          debugger
         }
       } else{
         // Het gaat om een concept
@@ -91,7 +91,32 @@ export class DataService {
     }
   }
   public getData(dataLink:string[]):AttributeComponentModel{
-    return todo
+    const obj = this.data.find(dataObj=>{
+      return dataObj.conceptName === dataLink[0]
+    })
+    if(obj){
+      dataLink.splice(1,1)
+      let attributes = [...obj.attributes]
+      let currentAttr: AttributeComponentModel|undefined = attributes.find(attr=>{
+        return attr.name === dataLink[0]
+      })
+      dataLink.splice(1,1)
+      while(currentAttr && dataLink.length>0){
+        if(currentAttr.concept){
+          // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
+          attributes = [...currentAttr?.concept?.attributes]
+          currentAttr = attributes.find(attr=>{
+            return attr.name === dataLink[0]
+          })
+        } else{
+          throw new Error('Datalink bevat teveel entries.')
+        }
+        dataLink.splice(1,1)
+      }
+      if(currentAttr!==undefined)
+      return currentAttr
+    }
+    throw new Error('Data niet gevonden.')
   }
   private query(querySubType:QuerySubType,data: ConceptConfigModel): any {
     switch(querySubType){

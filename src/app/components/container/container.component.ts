@@ -18,6 +18,7 @@ import {ComponentType} from "../../enums/componentTypes.enum";
 export class ContainerComponent implements OnInit, AfterContentChecked{
   @Input() name = ''
   @ViewChild('container') container: ElementRef | undefined
+  // todo voeg data$ toe
   componentType = ComponentType
   children$: Observable<any> | undefined
   //  todo voeg baseline align toe

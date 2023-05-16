@@ -6,7 +6,7 @@ import {NoValueType} from "../../../enums/no_value_type";
 import {RestrictionType} from "../../../enums/restrictionType.enum";
 import {InputFontSizeType} from "../../../enums/inputFontSizeType.enum";
 @Component({
-  selector: 'app-formcontrol',
+  selector: 'm-formcontrol',
   templateUrl: './formcontrol.component.html',
   styleUrls: ['./formcontrol.component.css']
 })

@@ -1,7 +1,9 @@
 <div *ngIf="!data.floatLabel">
   <m-label [text]="(data.label !== NoValueType.DBI) && (data.label !== NoValueType.NA) ? data.label : data.name"></m-label>
 </div>
-<m-input-text *ngIf="data.text && dataLink" [name]="dataLink.join('_')"
+<m-input-text *ngIf="data.text && dataLink"
+
+              [name]="dataLink.join('_')"
               [value]="data.text.value === NoValueType.NVY || data.text.value === NoValueType.NA  ? undefined : data.text.value"
               [icon]="data.text.icon"
               [iconPosition]="data.text.iconPosition"
@@ -23,7 +25,9 @@
               [large]="data.text.inputFontSize===InputFontSize.Large"
               [disabled]="data.disabled"
 ></m-input-text>
-<m-input-number *ngIf="data.number" [name]="dataLink.join('_')"
+<m-input-number *ngIf="data.number"
+
+                [name]="dataLink.join('_')"
                 [value]="data.number.value === NoValueType.NVY || data.number.value === NoValueType.NA ? undefined : data.number.value"
                 [advisoryText]="data.advisoryText"
                 [label]="data.label"
@@ -51,3 +55,4 @@
                 [buttonLayout]="data.number.buttonLayout"
 ></m-input-number>
 <m-date *ngIf="data.dataType === 'Date'" [name]="dataLink.join('_')"></m-date>
+<!-- todo probleem : Hoe control en label mooi vormgeven??-->

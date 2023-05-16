@@ -11,7 +11,7 @@ constructor(
   public floatLabel:boolean,
   public text:TextAttributeConfigModel|undefined,
   public number:NumberAttributeConfigModel|undefined,
-  public concept:ConceptConfigModel|undefined,
+  public concept:ConceptComponentModel|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA,
   public advisoryText:string|NoValueType,
   public errorMessages:string[]|NoValueType,
