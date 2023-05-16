@@ -1,58 +1,18 @@
 <form *ngIf="data" #form="ngForm">
+  <ng-template>
+    <m-anchor [component]="content$|async">
+    </m-anchor>
+  </ng-template>
+
   <ng-container  *ngFor="let attr of data.attributes">
+    <!-- todo voeg hier een container toe en zie dat je die via de config vorm kan geven (Attributen moeten er dus qua config in voorkomen)-->
+    <!-- todo vervolgens voorzie je de nodige anchors bv voor de buttons van het formulier bv tussen elke input of whatever en boven en onderaan -->
+    <!-- todo denk dan na over de mogelijkheid van het gebruik van 100% custom formcontrols gebaseerd op basis html controls die je
+              via een custom component configuratie kan samenstellen -->
     <div *ngIf="!attr.floatLabel">
       <m-label [text]="(attr.label !== NoValueType.DBI) && (attr.label !== NoValueType.NA) ? attr.label : attr.name"></m-label>
     </div>
-      <m-input-text *ngIf="attr.text" [name]="name+'_'+data.conceptName+'_'+attr.name"
-                    [value]="attr.text.value === NoValueType.NVY || attr.text.value === NoValueType.NA  ? undefined : attr.text.value"
-                    [icon]="attr.text.icon"
-                    [iconPosition]="attr.text.iconPosition"
-                    [advisoryText]="attr.advisoryText"
-                    [keyFilter]="
-                      attr.text.only === RestrictionType.Alphanumeric ? 'alphanum' :
-                      attr.text.only === RestrictionType.Hex ? 'hex' :
-                      attr.text.only === RestrictionType.Alphabetic ? 'alpha' :
-                      attr.text.only === RestrictionType.Integer ? 'int' :
-                      attr.text.only === RestrictionType.Money ? 'money' :
-                      attr.text.only === RestrictionType.Number ? 'number' :
-                      attr.text.only === RestrictionType.Custom ? (attr.text['customRestriction'] !== RestrictionType.NA ?
-                      attr.text.customRestriction : undefined) : undefined"
-                    [label]="attr.label"
-                    [floatLabel]="attr.floatLabel"
-                    [dirty]="false"
-                    [invalid]="false"
-                    [small]="attr.text.inputFontSize===InputFontSize.Small"
-                    [large]="attr.text.inputFontSize===InputFontSize.Large"
-                    [disabled]="attr.disabled"
-      ></m-input-text>
-      <m-input-number *ngIf="attr.number" [name]="name+'_'+data.conceptName+'_'+attr.name"
-                      [value]="attr.number.value === NoValueType.NVY || attr.number.value === NoValueType.NA ? undefined : attr.number.value"
-                      [advisoryText]="attr.advisoryText"
-                      [label]="attr.label"
-                      [floatLabel]="attr.floatLabel"
-                      [dirty]="false"
-                      [invalid]="false"
-                      [disabled]="attr.disabled"
-                      [useGrouping]="attr.number.useGrouping"
-                      [mode]="attr.number.mode"
-                      [suffix]="attr.number.suffix"
-                      [prefix]="attr.number.prefix"
-                      [locale]="attr.number.locale"
-                      [currency]="attr.number.currency"
-                      [currencyDisplay]="attr.number.currencyDisplay"
-                      [minFractionDigits]="attr.number.minFractionDigits"
-                      [maxFractionDigits]="attr.number.maxFractionDigits"
-                      [min]="attr.number.min"
-                      [max]="attr.number.max"
-                      [showButtons]="attr.number.showButtons"
-                      [step]="attr.number.step"
-                      [incrementButtonIcon]="attr.number.incrementButtonIcon"
-                      [decrementButtonIcon]="attr.number.decrementButtonIcon"
-                      [decrementButtonClass]="attr.number.decrementButtonClass"
-                      [incrementButtonClass]="attr.number.incrementButtonClass"
-                      [buttonLayout]="attr.number.buttonLayout"
-      ></m-input-number>
-      <m-date *ngIf="attr.dataType === 'Date'" [name]="name"></m-date>
+
   </ng-container>
   <!-- todo add submit btns n stuff
         todo add a attribute - concept as a foldable fieldset/dialogbox -->

@@ -1,0 +1,53 @@
+<div *ngIf="!data.floatLabel">
+  <m-label [text]="(data.label !== NoValueType.DBI) && (data.label !== NoValueType.NA) ? data.label : data.name"></m-label>
+</div>
+<m-input-text *ngIf="data.text && dataLink" [name]="dataLink.join('_')"
+              [value]="data.text.value === NoValueType.NVY || data.text.value === NoValueType.NA  ? undefined : data.text.value"
+              [icon]="data.text.icon"
+              [iconPosition]="data.text.iconPosition"
+              [advisoryText]="data.advisoryText"
+              [keyFilter]="
+                      data.text.only === RestrictionType.Alphanumeric ? 'alphanum' :
+                      data.text.only === RestrictionType.Hex ? 'hex' :
+                      data.text.only === RestrictionType.Alphabetic ? 'alpha' :
+                      data.text.only === RestrictionType.Integer ? 'int' :
+                      data.text.only === RestrictionType.Money ? 'money' :
+                      data.text.only === RestrictionType.Number ? 'number' :
+                      data.text.only === RestrictionType.Custom ? (data.text['customRestriction'] !== RestrictionType.NA ?
+                      data.text.customRestriction : undefined) : undefined"
+              [label]="data.label"
+              [floatLabel]="data.floatLabel"
+              [dirty]="false"
+              [invalid]="false"
+              [small]="data.text.inputFontSize===InputFontSize.Small"
+              [large]="data.text.inputFontSize===InputFontSize.Large"
+              [disabled]="data.disabled"
+></m-input-text>
+<m-input-number *ngIf="data.number" [name]="dataLink.join('_')"
+                [value]="data.number.value === NoValueType.NVY || data.number.value === NoValueType.NA ? undefined : data.number.value"
+                [advisoryText]="data.advisoryText"
+                [label]="data.label"
+                [floatLabel]="data.floatLabel"
+                [dirty]="false"
+                [invalid]="false"
+                [disabled]="data.disabled"
+                [useGrouping]="data.number.useGrouping"
+                [mode]="data.number.mode"
+                [suffix]="data.number.suffix"
+                [prefix]="data.number.prefix"
+                [locale]="data.number.locale"
+                [currency]="data.number.currency"
+                [currencyDisplay]="data.number.currencyDisplay"
+                [minFractionDigits]="data.number.minFractionDigits"
+                [maxFractionDigits]="data.number.maxFractionDigits"
+                [min]="data.number.min"
+                [max]="data.number.max"
+                [showButtons]="data.number.showButtons"
+                [step]="data.number.step"
+                [incrementButtonIcon]="data.number.incrementButtonIcon"
+                [decrementButtonIcon]="data.number.decrementButtonIcon"
+                [decrementButtonClass]="data.number.decrementButtonClass"
+                [incrementButtonClass]="data.number.incrementButtonClass"
+                [buttonLayout]="data.number.buttonLayout"
+></m-input-number>
+<m-date *ngIf="data.dataType === 'Date'" [name]="dataLink.join('_')"></m-date>

@@ -473,70 +473,15 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                     new DimensioningConfigPropsModel(
                       new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 350, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
                       new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 650, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC)
-                    )), undefined, new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+                    )),
+                  undefined,
+                  new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
                   ,
                   new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NC))
                   , [
                     {
-                      type: ComponentType.Label,
-                      name: 'label',
-                      visibility: new ResponsiveVisibilityConfigModel({
-                        visible: false,
-                        holdSpace: false
-                      }, undefined, undefined, {
-                        visible: true,
-                        holdSpace: false
-                      }),
-                      overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
-                        OverflowValueConfigType.Auto, OverflowValueConfigType.NC
-                      )),
-                      attributes: new ResponsiveAttributesConfigModel({
-                        labelType:LabelType.Dynamic
-                      }),
-                      styling: new ResponsiveStylingConfigModel(
-                        new StylingConfigPropsModel(
-                          BackgroundColorType.Background_Color_6,
-                          PaddingType.All_2,
-                          // todo add constraint that a label only accepts margin
-                          //  dit is wellicht het gemakkelijkste door Label als een klasse te gaan aanmaken zodat je het new Keyword kan gebruiken
-                          /*
-                          * new Label(
-                          *   {
-                          *     name:'my new label',
-                          *     visibility: new ResponsiveVisibilityConfigModel({
-                                                  visible: false,
-                                                  holdSpace: false
-                                                }, undefined, undefined, {
-                                                  visible: true,
-                                                  holdSpace: false
-                                                }),
-                                overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(
-                                  OverflowValueConfigType.Auto, OverflowValueConfigType.NC
-                                )),
-                                styling:  new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                                    ColorType.warning,
-                                    // todo in hier gaat dan een constraint af die zegt dat padding bij een label niet is toegelaten
-                                    PaddingType.All_6,
-                                    MarginType.All_3,
-                          *   }
-                          * )
-                          * */
-                          MarginType.All_3,
-                          FontWeightType.Medium,
-                          TextColorType.Text_4,
-                          TextDecorationType.Stripe_through,
-                          FontSizeType.XL_5,
-                          new BorderModel(
-                            BorderRadiusType.No_rounding,
-                            BorderColorType.Border_Color_5,
-                            BorderStyleType.Solid,
-                            BorderWidthType.No_width, undefined, undefined, undefined, BorderWidthType.Bottom_width_3)
-                          ,
-                          FontStyleType.Italic))
-                    },
-                    {
                       name: 'input',
-                      type: ComponentType.Input,
+                      type: ComponentType.InputText,
                       visibility: new ResponsiveVisibilityConfigModel({
                         visible: false,
                         holdSpace: false
@@ -565,43 +510,88 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                           WidthValueConfigType.NC
                         ))*/
           },
-          // todo!!!
           {
-            name:'my first form',
-            type:ComponentType.Form,
-            data:new ConceptConfigModel(
-              'product',
-              [
-              new AttributeConfigModel(
-                'name',
-                false,
-                true,
-                new TextAttributeConfigModel(RestrictionType.Alphanumeric,RestrictionType.NA,IconType.Check,IconPositionType.Left,
-                  InputFontSizeType.Large,NoValueType.NVY),
-                undefined,undefined,'Product naam','Geef een adequate naam'
-              ),
-              new AttributeConfigModel(
-                'basePrice',
-                false,
-                false,
+            name: 'my first form',
+            type: ComponentType.Form,
+            attributes: new ResponsiveAttributesConfigModel({
+              // todo dit geeft aan dat aparte intanties zoals new ContainerComponent() handig zijn omdat je dan beter aan typing kan doen
+              content: new ComponentModel(
+                'form-container',
+                ComponentType.Container
+                , new ResponsiveChildLayoutConfigModel(
+                  new ChildLayoutConfigPropsModel(
+                    new HorizontalLayoutConfigPropsModel(
+                      AxisConfigType.Cross,
+                      undefined,
+                      false,
+                      CrossAxisHorizontalPositioningConfigType.Left,
+                      new WidthConfigPropsModel(
+                        new FixedDimensioningConfigModel(
+                          DimensionValueConfigType.Hardcoded,
+                          100,
+                          DimensionUnitConfigType.Percentage
+                        ),
+                        DynamicDimensionValueConfigType.NA
+                      ),
+                      CrossAxisHorizontalLanesPositioningConfigType.Center
+                    ),
+                    new VerticalLayoutConfigPropsModel(
+                      AxisConfigType.Main,
+                      false,
+                      false,
+                      MainAxisVerticalPositioningConfigType.Top,
+                      new HeightConfigPropsModel(
+                        new FixedDimensioningConfigModel(
+                          DimensionValueConfigType.Hardcoded, 50, DimensionUnitConfigType.PX),
+                        DynamicDimensionValueConfigType.NC),
+                      CrossAxisVerticalLanesPositioningConfigType.NA
+                    )
+                  )
+                ),
                 undefined,
-                new NumberAttributeConfigModel(
-                  true,
-                  true,
-                  1,
-                  NumberInputModeType.Currency,LocaleType.nl_NL,CurrencyType.EUR,CurrencyDisplayType.CODE,undefined,undefined,
-                  undefined,undefined,ButtonClassType.Success,
-                  ButtonClassType.Primary,IconType.Plus,IconType.Min,undefined,undefined,ButtonLayoutType.Stacked,NoValueType.NVY),
                 undefined,
-                'Basisprijs',
-                'Geef een getal in tussen -445 en 10'),
-              new AttributeConfigModel(
-                'creationDate',
-                false,
-                false,undefined,undefined,undefined,
-                'aanmaakdatum',
-                'Selecteer de datum'),
-            ]),
+                undefined,
+                undefined,
+                undefined,
+                // todo wat is er nog aan extra info nodig opdat de ndoige formcontrols gerendered kunnen worden
+                //      rekening houdende met de mogelijkheid dat er ook nog andere componenten in het form moeten
+                //      kunnen komen dan form controls
+                [],
+                undefined,
+                new ConceptConfigModel(
+                  'product',
+                  [
+                    new AttributeConfigModel(
+                      'name',
+                      false,
+                      true,
+                      new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
+                        InputFontSizeType.Large, NoValueType.NVY),
+                      undefined, undefined, 'Product naam', 'Geef een adequate naam'
+                    ),
+                    new AttributeConfigModel(
+                      'basePrice',
+                      false,
+                      false,
+                      undefined,
+                      new NumberAttributeConfigModel(
+                        true,
+                        true,
+                        1,
+                        NumberInputModeType.Currency, LocaleType.nl_NL, CurrencyType.EUR, CurrencyDisplayType.CODE, undefined, undefined,
+                        undefined, undefined, ButtonClassType.Success,
+                        ButtonClassType.Primary, IconType.Plus, IconType.Min, undefined, undefined, ButtonLayoutType.Stacked, NoValueType.NVY),
+                      undefined,
+                      'Basisprijs',
+                      'Geef een getal in tussen -445 en 10'),
+                    new AttributeConfigModel(
+                      'creationDate',
+                      false,
+                      false, undefined, undefined, undefined,
+                      'aanmaakdatum',
+                      'Selecteer de datum'),
+                  ]),)
+            }),
             visibility: new ResponsiveVisibilityConfigModel()
           }
         ]
@@ -611,15 +601,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
       // de condities zoals gedefinieerd in de overeekomstige actie
       {
-        actionType:ActionType.Server,
-        actionSubType:ActionSubType.GetDataBluePrint,
-        targetType:TargetType.Component,
-        targetName:'my first form',
-        sourceName:'my first form',
+        actionType: ActionType.Server,
+        actionSubType: ActionSubType.GetDataBluePrint,
+        targetType: TargetType.Component,
+        targetName: 'my first form',
+        sourceName: 'my first form',
         on: EventType.ComponentReady
       }
     ]
   }
+
   /*
   *       {
         source: 'test-click-action',
@@ -711,31 +702,31 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
     })?.propValue.next(valueToSet)
   }
 
-/*  executeAction(action: ActionModel) {
-    if (action.action === 'set') {
-      action.props.forEach(prop => {
-        if (this.conditionsMet(prop)) {
-          this.emitNewPropValueFor(action.target, prop.name, prop.value)
-        }
-      })
-    } else {
-      action.props.forEach(prop => {
-        for (let [attr, val] of Object.entries(myFunctions)) {
-          if (attr === action.action) {
-            if (this.conditionsMet(prop)) {
-              const paramsArr = [
-                action.target,
-                prop.name,
-                this.storeService.getStatePropertySubjects()
-              ]
-              this.emitNewPropValueFor(action.target, prop.name, Reflect.apply(val.fun, null, paramsArr))
-            }
-            break
+  /*  executeAction(action: ActionModel) {
+      if (action.action === 'set') {
+        action.props.forEach(prop => {
+          if (this.conditionsMet(prop)) {
+            this.emitNewPropValueFor(action.target, prop.name, prop.value)
           }
-        }
-      })
-    }
-  }*/
+        })
+      } else {
+        action.props.forEach(prop => {
+          for (let [attr, val] of Object.entries(myFunctions)) {
+            if (attr === action.action) {
+              if (this.conditionsMet(prop)) {
+                const paramsArr = [
+                  action.target,
+                  prop.name,
+                  this.storeService.getStatePropertySubjects()
+                ]
+                this.emitNewPropValueFor(action.target, prop.name, Reflect.apply(val.fun, null, paramsArr))
+              }
+              break
+            }
+          }
+        })
+      }
+    }*/
 
   private conditionsMet(prop: CalculationConfigModel): boolean {
     for (let [attr, val] of Object.entries(comparisons)) {

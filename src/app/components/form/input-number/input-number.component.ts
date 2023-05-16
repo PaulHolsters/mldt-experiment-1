@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {NoValueType} from "../../../../enums/no_value_type";
+import {NoValueType} from "../../../enums/no_value_type";
 import {InputNumber} from "primeng/inputnumber";
-import {DataService} from "../../../../data.service";
+import {DataService} from "../../../data.service";
 
 @Component({
   selector: 'm-input-number',

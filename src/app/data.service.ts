@@ -90,6 +90,9 @@ export class DataService {
       }
     }
   }
+  public getData(dataLink:string[]):AttributeComponentModel{
+    return todo
+  }
   private query(querySubType:QuerySubType,data: ConceptConfigModel): any {
     switch(querySubType){
       case QuerySubType.GetDataBluePrint:

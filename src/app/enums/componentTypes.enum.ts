@@ -7,7 +7,8 @@ export enum ComponentType {
   Menubar,
   Image,
   Image2,
-  Input,
+  InputText,
+  InputNumber,
   Label,
   Form
 }

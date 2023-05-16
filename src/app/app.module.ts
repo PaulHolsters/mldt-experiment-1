@@ -17,19 +17,20 @@ import {ImageModule} from "primeng/image";
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { Image2Component } from './components/image2/image2.component';
 import { AnchorComponent } from './components/anchor/anchor.component';
-import { InputTextComponent } from './components/form/formcontrol/input-text/input-text.component';
-import { InputNumberComponent } from './components/form/formcontrol/input-number/input-number.component';
+import { InputTextComponent } from './components/form/input-text/input-text.component';
+import { InputNumberComponent } from './components/form/input-number/input-number.component';
 import {FormsModule} from "@angular/forms";
 import { LabelComponent } from './components/form/label/label.component';
 import { TextComponent } from './components/text/text.component';
 import { DataComponent } from './components/data/data.component';
 import { NumberComponent } from './components/number/number.component';
-import { DateComponent } from './components/form/formcontrol/date/date.component';
+import { DateComponent } from './components/form/date/date.component';
 import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/form/form.component';
 import {KeyFilterModule} from "primeng/keyfilter";
 import {InputNumberModule} from "primeng/inputnumber";
+import {FormcontrolComponent} from "./components/form/formcontrol/formcontrol.component";
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {InputNumberModule} from "primeng/inputnumber";
     DataComponent,
     NumberComponent,
     DateComponent,
-    FormComponent
+    FormComponent,
+    FormcontrolComponent
   ],
     imports: [
         BrowserModule,
