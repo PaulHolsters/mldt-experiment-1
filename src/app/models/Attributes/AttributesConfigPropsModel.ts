@@ -10,7 +10,8 @@ export class AttributesConfigPropsModel {
     public menuItems?: MenuItem[],
     public start?: ComponentModel,
     public end?: ComponentModel,
-    public content?: ComponentModel
+    public content?: ComponentModel,
+    public dataLink?:string[]
   ) {
   }
 }

@@ -12,14 +12,8 @@ export class AttributesComponentPropsModel {
                 public menuItems?:MenuItem[]|undefined,
                 public start?:ComponentModel|undefined,
                 public end?:ComponentModel|undefined,
-                public floatLabel?:boolean,
-                public dirty?:boolean,
-                public invalid?:boolean,
-                public small?:boolean,
-                public large?:boolean,
-                public iconPosition?:IconPositionType|undefined,
-                public advisoryText?:string|undefined,
-                public labelType?:LabelType|undefined
+                public content?: ComponentModel,
+                public dataLink?:string[]
                 ) {
   }
   public setProperty(propName: string, value: string|number|MenuItem[] | undefined): void {

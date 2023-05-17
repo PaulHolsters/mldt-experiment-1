@@ -39,22 +39,9 @@ import {ResponsiveOverflowConfigModel} from './models/Overflow/self/ResponsiveOv
 import {HeightValueConfigType} from "./enums/HeightValueConfigTypes.enum";
 import {ResponsiveAttributesConfigModel} from './models/Attributes/ResponsiveAttributesConfigModel';
 import {CrossAxisVerticalPositioningConfigType} from "./enums/crossAxisVerticalPositioningConfigTypes.enum";
-import {PaddingType} from "./enums/paddingType.enum";
-import {MarginType} from "./enums/marginType.enum";
-import {FontWeightType} from "./enums/fontWeightType.enum";
-import {TextColorType} from "./enums/textColorType.enum";
-import {TextDecorationType} from "./enums/textDecorationType.enum";
-import {FontSizeType} from "./enums/fontSizeType.enum";
-import {FontStyleType} from "./enums/fontStyleType.enum";
-import {BorderRadiusType} from "./enums/borderRadiusType.enum";
-import {BorderWidthType} from "./enums/borderWidthType.enum";
-import {BorderStyleType} from "./enums/borderStyleType.enum";
-import {BorderColorType} from "./enums/borderColorType.enum";
-import {BorderModel} from "./models/BorderModel";
 import {BackgroundColorType} from "./enums/backgroundColorType.enum";
 import {ConceptConfigModel} from './models/Data/ConceptConfigModel';
 import {TextAttributeConfigModel} from "./models/Data/TextAttributeConfigModel";
-import {LabelType} from "./enums/labelType.enum";
 import {ActionType} from './enums/actionTypes.enum';
 import {ActionSubType} from './enums/actionSubTypes.enum';
 import {TargetType} from './enums/targetTypes.enum';
@@ -72,6 +59,7 @@ import {CurrencyDisplayType} from "./enums/currencyDisplayType.enum";
 import {ButtonClassType} from "./enums/buttonClassType.enum";
 import {ButtonLayoutType} from "./enums/buttonLayoutType.enum";
 import {NoValueType} from "./enums/no_value_type";
+import {MainAxisHorizontalPositioningConfigType} from "./enums/mainAxisHorizontalPositioningConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -556,7 +544,35 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                 // todo wat is er nog aan extra info nodig opdat de ndoige formcontrols gerendered kunnen worden
                 //      rekening houdende met de mogelijkheid dat er ook nog andere componenten in het form moeten
                 //      kunnen komen dan form controls
-                [],
+                [
+                  {
+                    name:'formcontrol1',
+                    type:ComponentType.FormControl,
+                    attributes:new ResponsiveAttributesConfigModel(
+                      {
+                        content: new ComponentModel('fc1-container',ComponentType.Container,new ResponsiveChildLayoutConfigModel(
+                          new ChildLayoutConfigPropsModel(
+                            // todo zorg voor default layout bij een container voor simpele gevallen
+                            new HorizontalLayoutConfigPropsModel(AxisConfigType.Main, true,false,MainAxisHorizontalPositioningConfigType.Left,
+                              WidthValueConfigType.NC,
+                              CrossAxisHorizontalLanesPositioningConfigType.NA),
+                            new VerticalLayoutConfigPropsModel(AxisConfigType.Cross, undefined,false,CrossAxisVerticalPositioningConfigType.Top,
+                              HeightValueConfigType.NC, CrossAxisVerticalLanesPositioningConfigType.Top)
+                          )
+                        ),undefined,undefined,undefined,undefined,undefined,
+                          [{
+                            // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
+                            // in dat geval heb je ook geen extra container nodig
+                          name:'fc1-label',
+                            type:ComponentType.Label
+                          },{
+                          name:'fc1-input', type:ComponentType.InputText
+                          }],undefined,undefined),
+
+                      }
+                    )
+                  }
+                ],
                 undefined,
                 new ConceptConfigModel(
                   'product',
