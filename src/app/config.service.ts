@@ -490,7 +490,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   ]),
               }
             ),
-            visibility: new ResponsiveVisibilityConfigModel(),
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
             // todo hier moet een soort auto height of fit content height komen
             /*            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
@@ -501,6 +501,9 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
           // todo vervolledig de configuratie
           {
             name: 'my first form',
+            // todo fix probleem: de data component zit nu op de content container comp van het formulier en dit wordt niet geread
+            //      oplossing: ofwel data op formulier zetten en via anchor de data doorspelen naar de container
+            //                  ofwel
             type: ComponentType.Form,
             attributes: new ResponsiveAttributesConfigModel({
               // todo dit geeft aan dat aparte intanties zoals new ContainerComponent() handig zijn omdat je dan beter aan typing kan doen
@@ -538,40 +541,73 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   )
                 ),
                 undefined,
+                new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                  new HeightConfigPropsModel(
+                    new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
+                  ),
+                  new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                    DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                  ), DynamicDimensionValueConfigType.NC)
+                )),
                 undefined,
-                undefined,
-                undefined,
+                new ResponsiveVisibilityConfigModel(),
                 undefined,
                 // todo wat is er nog aan extra info nodig opdat de ndoige formcontrols gerendered kunnen worden
                 //      rekening houdende met de mogelijkheid dat er ook nog andere componenten in het form moeten
                 //      kunnen komen dan form controls
                 [
                   {
-                    name:'formcontrol1',
-                    type:ComponentType.FormControl,
-                    attributes:new ResponsiveAttributesConfigModel(
+                    name: 'formcontrol1',
+                    type: ComponentType.FormControl,
+                    attributes: new ResponsiveAttributesConfigModel(
                       {
-                        content: new ComponentModel('fc1-container',ComponentType.Container,new ResponsiveChildLayoutConfigModel(
-                          new ChildLayoutConfigPropsModel(
-                            // todo zorg voor default layout bij een container voor simpele gevallen
-                            new HorizontalLayoutConfigPropsModel(AxisConfigType.Main, true,false,MainAxisHorizontalPositioningConfigType.Left,
-                              WidthValueConfigType.NC,
-                              CrossAxisHorizontalLanesPositioningConfigType.NA),
-                            new VerticalLayoutConfigPropsModel(AxisConfigType.Cross, undefined,false,CrossAxisVerticalPositioningConfigType.Top,
-                              HeightValueConfigType.NC, CrossAxisVerticalLanesPositioningConfigType.Top)
-                          )
-                        ),undefined,undefined,undefined,undefined,undefined,
+                        content: new ComponentModel(
+                          'fc1-container',
+                          ComponentType.Container,
+                          new ResponsiveChildLayoutConfigModel(
+                            new ChildLayoutConfigPropsModel(
+                              // todo zorg voor default layout bij een container voor simpele gevallen
+                              new HorizontalLayoutConfigPropsModel(AxisConfigType.Main, true, false, MainAxisHorizontalPositioningConfigType.Left,
+                                WidthValueConfigType.NC,
+                                CrossAxisHorizontalLanesPositioningConfigType.NA),
+                              new VerticalLayoutConfigPropsModel(AxisConfigType.Cross, undefined, false, CrossAxisVerticalPositioningConfigType.Top,
+                                HeightValueConfigType.NC, CrossAxisVerticalLanesPositioningConfigType.Top)
+                            )
+                          ),
+                          undefined,
+                          new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                            new HeightConfigPropsModel(
+                              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
+                            ),
+                            new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                              DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                            ), DynamicDimensionValueConfigType.NC)
+                          )), new ResponsiveAttributesConfigModel({
+                            dataLink: ['product', 'name']
+                          }),
+                          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()), undefined,
                           [{
                             // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
-                            // in dat geval heb je ook geen extra container nodig
-                          name:'fc1-label',
-                            type:ComponentType.Label
-                          },{
-                          name:'fc1-input', type:ComponentType.InputText
-                          }],undefined,undefined),
+                            // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
+                            name: 'fc1-label',
+                            type: ComponentType.Label,
+                            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                          }, {
+                            name: 'fc1-input', type: ComponentType.InputText,
+                            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+                          }], undefined, undefined),
 
                       }
-                    )
+                    ),
+                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                    dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                      new HeightConfigPropsModel(
+                        new FixedDimensioningConfigModel(
+                          DimensionValueConfigType.Hardcoded, 80, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
+                      new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                        DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                      ), DynamicDimensionValueConfigType.NC)
+                    ))
                   }
                 ],
                 undefined,
@@ -609,7 +645,15 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       'Selecteer de datum'),
                   ]),)
             }),
-            visibility: new ResponsiveVisibilityConfigModel()
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+              new HeightConfigPropsModel(
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
+              ),
+              new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+              ), DynamicDimensionValueConfigType.NC)
+            ))
           }
         ]
       },
@@ -621,7 +665,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         actionType: ActionType.Server,
         actionSubType: ActionSubType.GetDataBluePrint,
         targetType: TargetType.Component,
-        targetName: 'my first form',
+        targetName: 'form-container',
         sourceName: 'my first form',
         on: EventType.ComponentReady
       }

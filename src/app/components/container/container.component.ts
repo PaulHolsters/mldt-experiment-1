@@ -1,12 +1,4 @@
-import {
-  AfterContentChecked,
-   ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {AfterContentChecked, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {ComponentType} from "../../enums/componentTypes.enum";
@@ -15,6 +7,10 @@ import {DataService} from "../../data.service";
 import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {RestrictionType} from "../../enums/restrictionType.enum";
+import {EventsService} from "../../events.service";
+import {EventType} from "../../enums/eventTypes.enum";
+import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
+
 @Component({
   selector: 'm-container',
   templateUrl: './container.component.html',
@@ -23,7 +19,7 @@ import {RestrictionType} from "../../enums/restrictionType.enum";
 export class ContainerComponent implements OnInit, AfterContentChecked{
   @Input() name = ''
   @ViewChild('container') container: ElementRef | undefined
-  data:AttributeComponentModel|undefined
+  attributeData:AttributeComponentModel|undefined
   dataLink:string[]|undefined
   componentType = ComponentType
   children$: Observable<any> | undefined
@@ -69,16 +65,19 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   RestrictionType = RestrictionType
   InputFontSize = InputFontSizeType
 
-  constructor(private storeService: StoreService, private cd:ChangeDetectorRef, private dataService:DataService) {
+  constructor(private storeService: StoreService, private cd:ChangeDetectorRef, private dataService:DataService,private eventService:EventsService) {
   }
   ngAfterContentChecked(): void {
         this.cd.detectChanges()
   }
   ngOnInit(): void {
-    this.storeService.bindToStateProperty(this.name, 'data')?.subscribe(res=>{
-      this.dataLink = res as string[]
-      this.data = this.dataService.getData(this.dataLink) as AttributeComponentModel
-    })
+    if(!this.storeService.hasStateProperty(this.name,'data')){
+      this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
+        // todo maak dat hij hier wacht tot er een signaal komt dat zegt dat de data beschikbaar is
+        this.attributeData = this.dataService.getData(res as string[])
+        debugger
+      })
+    }
     this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
     this.row$ = this.storeService.bindToStateProperty(this.name, 'row')
     this.column$ = this.storeService.bindToStateProperty(this.name, 'column')

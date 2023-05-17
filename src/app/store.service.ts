@@ -267,10 +267,13 @@ export class StoreService {
         compPropsObj.setProperty(k, v)
       })
       let copy = Object.create(compPropsObj)
+      // in copy zit een object met alles op undefined behlave de prop content
+      // waar de form-container inzit inclusief bijhorende data
       Object.entries(compPropsObj).forEach(([k,v])=>{
+        // hier komt dus enkel binnen k = content en v = form-container
         if(v !== undefined && (v instanceof Array || typeof v !== 'object')) copy[k] = v
         else if(v && typeof v === 'object'){
-          const compObj = new ComponentModel(v.name,v.type,v.childLayout,v.position,v.dimensions,v.attributes,v.visibility,v.overflow,v.children)
+          const compObj = new ComponentModel(v.name,v.type,v.childLayout,v.position,v.dimensions,v.attributes,v.visibility,v.overflow,v.children,v.styling,v.data)
           copy[k]=compObj
         }
       })
@@ -429,6 +432,7 @@ export class StoreService {
     }
   * */
   public setDataState(componentName:string, compConcept:ConceptComponentModel){
+    console.log('setting datastate')
     this.getStatePropertySubjects().find(subj => {
       return subj.componentName === componentName && subj.propName === 'data'
     })?.propValue.next(compConcept)
@@ -504,6 +508,7 @@ export class StoreService {
     }
     if (component.attributes) {
       Object.entries(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(([k,v]) => {
+        // todo fix problem de data waarde is na deze methode undefined geworden terwijl die er zeker in zit
         const propSubj = new BehaviorSubject<any | undefined>(undefined)
         this.statePropertySubjects.push({
           componentName: component.name, propName: k, propValue:
@@ -630,6 +635,12 @@ export class StoreService {
     return this.statePropertySubjects.find(state => {
       return state.componentName === componentName && state.propName === propName
     })?.prop$
+  }
+
+  public hasStateProperty(compName:string,propName:string):boolean{
+    return this.statePropertySubjects.find(propSubj=>{
+      return propSubj.propName === propName && propSubj.componentName === compName
+    }) !== undefined
   }
 
   public getStatePropertySubjects(): StatePropertySubjectModel[] {

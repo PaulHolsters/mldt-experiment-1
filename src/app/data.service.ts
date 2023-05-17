@@ -91,6 +91,7 @@ export class DataService {
     }
   }
   public getData(dataLink:string[]):AttributeComponentModel{
+    debugger
     const obj = this.data.find(dataObj=>{
       return dataObj.conceptName === dataLink[0]
     })
@@ -118,8 +119,8 @@ export class DataService {
     }
     throw new Error('Data niet gevonden.')
   }
-  private query(querySubType:QuerySubType,data: ConceptConfigModel): any {
-    switch(querySubType){
+  private async query(querySubType: QuerySubType, data: ConceptConfigModel): Promise<any> {
+    switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         const GET_BLUEPRINT = gql`
                     {
@@ -128,10 +129,13 @@ export class DataService {
                       }
                     }
         `
-        return this.apollo
+        debugger
+        const someValue = await this.apollo
           .watchQuery<any>({
             query: GET_BLUEPRINT
-          }).valueChanges
+          })
+        debugger
+        return someValue.valueChanges
       case QuerySubType.GetDataByID:
         // todo
         break
@@ -168,17 +172,27 @@ export class DataService {
       })
     }
   }*/
-  public getDataBluePrint(action:ActionModel){
-    if(action.targetType === TargetType.Component){
-      const compModel = this.storeService.getComponent(action.targetName)?.data
-      if(compModel){
-        this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res:unknown)=>{
-          if(res && typeof res === 'object' && res.hasOwnProperty('data')){
-            const bluePrintData = (res as {data:{}})['data']
+  public async getDataBluePrint(action: ActionModel) {
+/*   todo this.storeService.setFetching() compModel => bevat data van de datalink dus elke component met deze
+          datalink moet een vlag gestuurd worden dus is gewoon een query in de components*/
+    debugger
+    if (action.targetType === TargetType.Component) {
+      let compModel = this.storeService.getComponent(action.targetName)?.data
+      if (!compModel) {
+        compModel = this.storeService.getComponentThroughAttributes(action.targetName)?.data
+      }
+      if (compModel !== undefined) {
+        debugger
+        await this.query(QuerySubType.GetDataBluePrint, compModel).then((res: unknown)=>{
+          if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
+            const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
-            const compObj = this.createExtendedConceptModel(action.targetName,bluePrint,compModel)
+            const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel)
+            // er wordt reeds een call gedaan naar getData terwijl die nog niet is aangekomen
             this.data.push(compObj)
-            this.storeService.setDataState(action.targetName,compObj)
+            debugger
+            this.storeService.setDataState(action.targetName, compObj)
+            debugger
           }
         })
       }

@@ -13,7 +13,7 @@ export class FormcontrolComponent implements OnInit {
   @ViewChild('') formcontrol:ElementRef|undefined
   constructor(private dataService: DataService,private storeService:StoreService) { }
   ngOnInit(): void {
-    this.storeService.bindToStateProperty(this.name,'content')
+    this.content$ = this.storeService.bindToStateProperty(this.name,'content')
   }
 
 }
