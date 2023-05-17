@@ -1,19 +1,6 @@
 <form *ngIf="data" #form="ngForm">
   <ng-template>
-    <m-anchor [component]="content$|async">
-    </m-anchor>
+    <m-anchor [component]="content$|async"></m-anchor>
   </ng-template>
-
-  <ng-container  *ngFor="let attr of data.attributes">
-    <!-- todo voeg hier een container toe en zie dat je die via de config vorm kan geven (Attributen moeten er dus qua config in voorkomen)-->
-    <!-- todo vervolgens voorzie je de nodige anchors bv voor de buttons van het formulier bv tussen elke input of whatever en boven en onderaan -->
-    <!-- todo denk dan na over de mogelijkheid van het gebruik van 100% custom formcontrols gebaseerd op basis html controls die je
-              via een custom component configuratie kan samenstellen -->
-    <div *ngIf="!attr.floatLabel">
-      <m-label [text]="(attr.label !== NoValueType.DBI) && (attr.label !== NoValueType.NA) ? attr.label : attr.name"></m-label>
-    </div>
-
-  </ng-container>
-  <!-- todo add submit btns n stuff
-        todo add a attribute - concept as a foldable fieldset/dialogbox -->
+  <!-- todo add a attribute - concept as a foldable fieldset/dialogbox -->
 </form>

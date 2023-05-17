@@ -1,16 +1,12 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   OnInit,
   ViewChild
 } from '@angular/core';
-import {StoreService} from "../../../store.service";
 import {IconPositionType} from "../../../enums/iconPositionType.enum";
 import {IconType} from "../../../enums/iconType.enum";
-import {InputText} from "primeng/inputtext";
-import {InputNumber} from "primeng/inputnumber";
 import {DataService} from "../../../data.service";
 
 @Component({
@@ -40,8 +36,7 @@ export class InputTextComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  updateData(event:any){
-    console.log(event)
+  updateData(){
     this.dataService.updateData(this.name,this.value)
   }
 }

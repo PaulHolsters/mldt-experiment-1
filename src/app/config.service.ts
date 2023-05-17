@@ -498,6 +498,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                           WidthValueConfigType.NC
                         ))*/
           },
+          // todo vervolledig de configuratie
           {
             name: 'my first form',
             type: ComponentType.Form,

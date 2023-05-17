@@ -1,7 +1,7 @@
 <ng-template #input>
     <p-inputNumber
       [(ngModel)]="value"
-      (onInput)="updateForm(this.numberInput)"
+      (onInput)="updateData(this.numberInput)"
       mode="{{mode}}"
       [minFractionDigits]="minFractionDigits ?? 0"
       [maxFractionDigits]="maxFractionDigits ?? 20"

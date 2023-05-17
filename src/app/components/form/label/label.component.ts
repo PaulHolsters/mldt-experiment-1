@@ -1,14 +1,11 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {Observable} from "rxjs";
 import {StoreService} from "../../../store.service";
 import {MarginType} from "../../../enums/marginType.enum";
 import {PaddingType} from "../../../enums/paddingType.enum";
 import {BorderModel} from "../../../models/BorderModel";
 import {StylesService} from "../../../styles.service";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
-import {DataType} from "../../../enums/dataType.enum";
 import {LabelType} from "../../../enums/labelType.enum";
-import {DataService} from "../../../data.service";
 import {FontWeightType} from "../../../enums/fontWeightType.enum";
 import {FontSizeType} from "../../../enums/fontSizeType.enum";
 import {FontStyleType} from "../../../enums/fontStyleType.enum";
@@ -31,8 +28,6 @@ export class LabelComponent implements OnInit {
   @Input() border: BorderModel|undefined
   @Input() labelType: LabelType|undefined
   @ViewChild('label') label:ElementRef|undefined
-  DataType = DataType
-  LabelType = LabelType
   FontWeight = FontWeightType
   FontSize = FontSizeType
   FontStyle = FontStyleType
@@ -40,7 +35,7 @@ export class LabelComponent implements OnInit {
   TextDecoration = TextDecorationType
   width:string|undefined
   height:string|undefined
-  constructor(private storeService:StoreService,private stylesService:StylesService,private dataService:DataService) {
+  constructor(private storeService:StoreService,private stylesService:StylesService) {
   }
   ngOnInit(): void {
   }

@@ -10,6 +10,11 @@ import {
 import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {ComponentType} from "../../enums/componentTypes.enum";
+import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
+import {DataService} from "../../data.service";
+import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
+import {NoValueType} from "../../enums/no_value_type";
+import {RestrictionType} from "../../enums/restrictionType.enum";
 @Component({
   selector: 'm-container',
   templateUrl: './container.component.html',
@@ -18,7 +23,8 @@ import {ComponentType} from "../../enums/componentTypes.enum";
 export class ContainerComponent implements OnInit, AfterContentChecked{
   @Input() name = ''
   @ViewChild('container') container: ElementRef | undefined
-  // todo voeg data$ toe
+  data:AttributeComponentModel|undefined
+  dataLink:string[]|undefined
   componentType = ComponentType
   children$: Observable<any> | undefined
   //  todo voeg baseline align toe
@@ -59,13 +65,20 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   alignItemsStretch$: Observable<any> | undefined
   grow$: Observable<any> | undefined
   shrink$: Observable<any> | undefined
+  NoValueType=NoValueType
+  RestrictionType = RestrictionType
+  InputFontSize = InputFontSizeType
 
-  constructor(private storeService: StoreService, private cd:ChangeDetectorRef) {
+  constructor(private storeService: StoreService, private cd:ChangeDetectorRef, private dataService:DataService) {
   }
   ngAfterContentChecked(): void {
         this.cd.detectChanges()
   }
   ngOnInit(): void {
+    this.storeService.bindToStateProperty(this.name, 'data')?.subscribe(res=>{
+      this.dataLink = res as string[]
+      this.data = this.dataService.getData(this.dataLink) as AttributeComponentModel
+    })
     this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
     this.row$ = this.storeService.bindToStateProperty(this.name, 'row')
     this.column$ = this.storeService.bindToStateProperty(this.name, 'column')
