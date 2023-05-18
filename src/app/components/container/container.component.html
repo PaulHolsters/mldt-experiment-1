@@ -78,73 +78,73 @@
                      *ngSwitchCase="componentType.FormControl"
                      [name]="child.name"></m-formcontrol>
       <ng-container *ngSwitchCase="componentType.Label">
-        <m-label *ngIf="attributeData && !attributeData.floatLabel" [text]="(attributeData.label !== NoValueType.DBI)
-        && (attributeData.label !== NoValueType.NA) ? attributeData.label : attributeData.name"></m-label>
+        <m-label *ngIf="data && !data.floatLabel" [text]="(data.label !== NoValueType.DBI)
+        && (data.label !== NoValueType.NA) ? data.label : data.name"></m-label>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.InputText">
-        <m-input-text *ngIf="attributeData && dataLink && attributeData.text"  [class]="['flex',
+        <m-input-text *ngIf="data && (dataLink$|async) && data.text"  [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                       [name]="dataLink.join('_')"
-                       [value]="attributeData.text.value === NoValueType.NVY
-                       || attributeData.text.value === NoValueType.NA  ? undefined : attributeData.text.value"
-                       [icon]="attributeData.text.icon"
-                       [iconPosition]="attributeData.text.iconPosition"
-                       [advisoryText]="attributeData.advisoryText"
+                       [name]="(dataLink$|async).join('_')"
+                       [value]="data.text.value === NoValueType.NVY
+                       || data.text.value === NoValueType.NA  ? undefined : data.text.value"
+                       [icon]="data.text.icon"
+                       [iconPosition]="data.text.iconPosition"
+                       [advisoryText]="data.advisoryText"
                        [keyFilter]="
-                      attributeData.text.only === RestrictionType.Alphanumeric ? 'alphanum' :
-                      attributeData.text.only === RestrictionType.Hex ? 'hex' :
-                      attributeData.text.only === RestrictionType.Alphabetic ? 'alpha' :
-                      attributeData.text.only === RestrictionType.Integer ? 'int' :
-                      attributeData.text.only === RestrictionType.Money ? 'money' :
-                      attributeData.text.only === RestrictionType.Number ? 'number' :
-                      attributeData.text.only === RestrictionType.Custom ? (attributeData.text['customRestriction'] !== RestrictionType.NA ?
-                      attributeData.text.customRestriction : undefined) : undefined"
-                       [label]="attributeData.label"
-                       [floatLabel]="attributeData.floatLabel"
+                      data.text.only === RestrictionType.Alphanumeric ? 'alphanum' :
+                      data.text.only === RestrictionType.Hex ? 'hex' :
+                      data.text.only === RestrictionType.Alphabetic ? 'alpha' :
+                      data.text.only === RestrictionType.Integer ? 'int' :
+                      data.text.only === RestrictionType.Money ? 'money' :
+                      data.text.only === RestrictionType.Number ? 'number' :
+                      data.text.only === RestrictionType.Custom ? (data.text['customRestriction'] !== RestrictionType.NA ?
+                      data.text.customRestriction : undefined) : undefined"
+                       [label]="data.label"
+                       [floatLabel]="data.floatLabel"
                        [dirty]="false"
                        [invalid]="false"
-                       [small]="attributeData.text.inputFontSize===InputFontSize.Small"
-                       [large]="attributeData.text.inputFontSize===InputFontSize.Large"
-                       [disabled]="attributeData.disabled"
+                       [small]="data.text.inputFontSize===InputFontSize.Small"
+                       [large]="data.text.inputFontSize===InputFontSize.Large"
+                       [disabled]="data.disabled"
         ></m-input-text>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.InputNumber">
         <m-input-number
-          *ngIf="attributeData && dataLink && attributeData.number"
+          *ngIf="data && (dataLink$|async) && data.number"
           [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-          [name]="dataLink.join('_')"
-          [value]="attributeData.number.value === NoValueType.NVY || attributeData.number.value === NoValueType.NA ? undefined : attributeData.number.value"
-          [advisoryText]="attributeData.advisoryText"
-          [label]="attributeData.label"
-          [floatLabel]="attributeData.floatLabel"
+          [name]="(dataLink$|async).join('_')"
+          [value]="data.number.value === NoValueType.NVY || data.number.value === NoValueType.NA ? undefined : data.number.value"
+          [advisoryText]="data.advisoryText"
+          [label]="data.label"
+          [floatLabel]="data.floatLabel"
           [dirty]="false"
           [invalid]="false"
-          [disabled]="attributeData.disabled"
-          [useGrouping]="attributeData.number.useGrouping"
-          [mode]="attributeData.number.mode"
-          [suffix]="attributeData.number.suffix"
-          [prefix]="attributeData.number.prefix"
-          [locale]="attributeData.number.locale"
-          [currency]="attributeData.number.currency"
-          [currencyDisplay]="attributeData.number.currencyDisplay"
-          [minFractionDigits]="attributeData.number.minFractionDigits"
-          [maxFractionDigits]="attributeData.number.maxFractionDigits"
-          [min]="attributeData.number.min"
-          [max]="attributeData.number.max"
-          [showButtons]="attributeData.number.showButtons"
-          [step]="attributeData.number.step"
-          [incrementButtonIcon]="attributeData.number.incrementButtonIcon"
-          [decrementButtonIcon]="attributeData.number.decrementButtonIcon"
-          [decrementButtonClass]="attributeData.number.decrementButtonClass"
-          [incrementButtonClass]="attributeData.number.incrementButtonClass"
-          [buttonLayout]="attributeData.number.buttonLayout"
+          [disabled]="data.disabled"
+          [useGrouping]="data.number.useGrouping"
+          [mode]="data.number.mode"
+          [suffix]="data.number.suffix"
+          [prefix]="data.number.prefix"
+          [locale]="data.number.locale"
+          [currency]="data.number.currency"
+          [currencyDisplay]="data.number.currencyDisplay"
+          [minFractionDigits]="data.number.minFractionDigits"
+          [maxFractionDigits]="data.number.maxFractionDigits"
+          [min]="data.number.min"
+          [max]="data.number.max"
+          [showButtons]="data.number.showButtons"
+          [step]="data.number.step"
+          [incrementButtonIcon]="data.number.incrementButtonIcon"
+          [decrementButtonIcon]="data.number.decrementButtonIcon"
+          [decrementButtonClass]="data.number.decrementButtonClass"
+          [incrementButtonClass]="data.number.incrementButtonClass"
+          [buttonLayout]="data.number.buttonLayout"
         ></m-input-number>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.DateInput">
-        <m-date *ngIf="attributeData && dataLink"  [name]="dataLink.join('_')"></m-date>
+        <m-date *ngIf="data && (dataLink$|async)"  [name]="(dataLink$|async).join('_')"></m-date>
       </ng-container>
       <m-button       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),

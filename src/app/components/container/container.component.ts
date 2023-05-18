@@ -2,14 +2,12 @@ import {AfterContentChecked, ChangeDetectorRef, Component, ElementRef, Input, On
 import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {DataService} from "../../data.service";
 import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {RestrictionType} from "../../enums/restrictionType.enum";
 import {EventsService} from "../../events.service";
-import {EventType} from "../../enums/eventTypes.enum";
-import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
+import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 
 @Component({
   selector: 'm-container',
@@ -19,8 +17,8 @@ import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
 export class ContainerComponent implements OnInit, AfterContentChecked{
   @Input() name = ''
   @ViewChild('container') container: ElementRef | undefined
-  attributeData:AttributeComponentModel|undefined
-  dataLink:string[]|undefined
+  data:AttributeComponentModel|undefined // voorlopig lijkt het er op dat er qua data niets anders nodig is dan attributes
+  dataLink$:Observable<any>|undefined
   componentType = ComponentType
   children$: Observable<any> | undefined
   //  todo voeg baseline align toe
@@ -71,13 +69,10 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
         this.cd.detectChanges()
   }
   ngOnInit(): void {
-    if(!this.storeService.hasStateProperty(this.name,'data')){
-      this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
-        // todo maak dat hij hier wacht tot er een signaal komt dat zegt dat de data beschikbaar is
-        this.attributeData = this.dataService.getData(res as string[])
-        debugger
-      })
-    }
+    this.storeService.bindToStateProperty(this.name,'data')?.subscribe(res=>{
+      if(res && !res.hasOwnProperty('conceptName')) this.data = res as AttributeComponentModel
+    })
+    this.dataLink$ = this.storeService.bindToStateProperty(this.name,'dataLink')
     this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
     this.row$ = this.storeService.bindToStateProperty(this.name, 'row')
     this.column$ = this.storeService.bindToStateProperty(this.name, 'column')

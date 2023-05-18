@@ -17,7 +17,10 @@ export class FormComponent implements OnInit{
   constructor(private storeService:StoreService,private eventsService:EventsService) { }
 
   ngOnInit(): void {
+    console.log('hi')
     this.content$ = this.storeService.bindToStateProperty(this.name,'content')
+    // hierdoor wordt de blueprint opgehaald => nadat die binnen is moet die
+    // gedistribueerd naar de verschillende subscribers op deze (delen van de) data
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
   }
 }

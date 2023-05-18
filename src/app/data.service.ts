@@ -91,11 +91,11 @@ export class DataService {
     }
   }
   public getData(dataLink:string[]):AttributeComponentModel{
-    debugger
     const obj = this.data.find(dataObj=>{
       return dataObj.conceptName === dataLink[0]
     })
     if(obj){
+      // todo fix bug currentAttr is uiteindelijk undefined denk ik
       dataLink.splice(1,1)
       let attributes = [...obj.attributes]
       let currentAttr: AttributeComponentModel|undefined = attributes.find(attr=>{
@@ -119,7 +119,29 @@ export class DataService {
     }
     throw new Error('Data niet gevonden.')
   }
-  private async query(querySubType: QuerySubType, data: ConceptConfigModel): Promise<any> {
+  private setDataState(compConcept:ConceptComponentModel){
+    // ga elke component af in de statePropertySubjects
+    // en verzend de gevraagde data op basis van een data property of een datalink property
+    this.storeService.getStatePropertySubjects().forEach(propSubj=>{
+      // todo refactor
+      let comp = this.storeService.getComponent(propSubj.componentName)
+      if(!comp) comp = this.storeService.getComponentThroughAttributes(propSubj.componentName)
+      if(!comp) console.log('Component niet gevonden terwijl die er wel zou moeten zijn volgens de configuratie: '+propSubj.componentName)
+      if(propSubj.propName==='data' && comp && comp.data){
+        debugger
+        if(comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
+      } else if(propSubj.propName==='dataLink'&& comp && comp.attributes?.smartphone?.dataLink){
+        // todo dit is lastig als de huidige schermgrootte niet voldoet mag de data niet opgestuurd worden
+        // todo en omgekeerd als de schermgrootte wijzigt moet ook de data in rekening genomen worden wat nu niet gebeurt
+        //      voorlopig houden we er geen rekening mee
+        debugger
+        const data:AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
+        propSubj.propValue.next(data)
+       }
+    })
+  }
+  private query(querySubType: QuerySubType, data: ConceptConfigModel): any {
+    debugger
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         const GET_BLUEPRINT = gql`
@@ -129,13 +151,10 @@ export class DataService {
                       }
                     }
         `
-        debugger
-        const someValue = await this.apollo
+        return this.apollo
           .watchQuery<any>({
             query: GET_BLUEPRINT
-          })
-        debugger
-        return someValue.valueChanges
+          }).valueChanges
       case QuerySubType.GetDataByID:
         // todo
         break
@@ -150,40 +169,25 @@ export class DataService {
   public mutationEvent(data: ConceptComponentModel) {
     this.fakeMutation(data)
   }
-/*  public componentReady(name: string) {
-    let componentConfig = this.storeService.getComponent(name)
-    if (!componentConfig) {
-      componentConfig = this.storeService.getComponentThroughAttributes(name)
-    }
-    if (componentConfig && componentConfig.data) {
-      this.fakeQuery(componentConfig.data).subscribe((res:unknown)=>{
-        const productData = (res as {data:{getProducts:any[]}})['data']
-          if (componentConfig && componentConfig.data) {
-            const val = productData['getProducts'][0]
-            if (typeof val === 'object') {
-              const attr:AttributeModel[] = []
-              Object.entries(val).forEach(([k,v])=>{
-                if(k!=='__typename') attr.push(new AttributeModel(k,v as (string|number|ConceptModel|Date|undefined)))
-              })
-              const conceptName = val.__typename
-              this.storeService.setDataState( name, new ConceptModel(conceptName, attr),componentConfig.data)
-            }
-          }
-      })
-    }
-  }*/
   public async getDataBluePrint(action: ActionModel) {
+    debugger
+    // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
+    // er door elke component bevraging kan gedaan worden naar deze data
+    // eens de data binnen is worden de verschillende componenten die de data
+    // of een deel van de data nodig hebben daarvan op de hoogte gebracht door middel van een event
+    // welke componenten dat zijn kan worden afgeleid uit de configuratie van de gebruiker
 /*   todo this.storeService.setFetching() compModel => bevat data van de datalink dus elke component met deze
           datalink moet een vlag gestuurd worden dus is gewoon een query in de components*/
-    debugger
     if (action.targetType === TargetType.Component) {
+      // todo het target heeft geen data component, best terug even wisselen?
       let compModel = this.storeService.getComponent(action.targetName)?.data
       if (!compModel) {
         compModel = this.storeService.getComponentThroughAttributes(action.targetName)?.data
       }
       if (compModel !== undefined) {
         debugger
-        await this.query(QuerySubType.GetDataBluePrint, compModel).then((res: unknown)=>{
+        await this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown)=>{
+          debugger
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
@@ -191,7 +195,8 @@ export class DataService {
             // er wordt reeds een call gedaan naar getData terwijl die nog niet is aangekomen
             this.data.push(compObj)
             debugger
-            this.storeService.setDataState(action.targetName, compObj)
+            // todo het is deze methode die moet aangepast worden zodat elke (container) component zijn speciefiek stuk aan data krijgt
+            this.setDataState(compObj)
             debugger
           }
         })

@@ -423,20 +423,6 @@ export class StoreService {
     }
     return undefined
   }
-  /*
-  *  : {
-      conceptName:string,
-      attributes:{name:string,only:RestrictionType,
-        customRestriction:RegExp|RestrictionType.NA,dataType:string,disabled:boolean,icon?:IconType,
-        iconPosition?:IconPositionType,label?:string,floatLabel?:boolean,advisoryText?:string,errorMessages?:string[],formControl?:InputFontSizeType}[]
-    }
-  * */
-  public setDataState(componentName:string, compConcept:ConceptComponentModel){
-    console.log('setting datastate')
-    this.getStatePropertySubjects().find(subj => {
-      return subj.componentName === componentName && subj.propName === 'data'
-    })?.propValue.next(compConcept)
-  }
   public setRBSState(componentName: string,
                   newState: (PositioningComponentPropsModel |
                     AttributesComponentPropsModel |
@@ -508,7 +494,6 @@ export class StoreService {
     }
     if (component.attributes) {
       Object.entries(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(([k,v]) => {
-        // todo fix problem de data waarde is na deze methode undefined geworden terwijl die er zeker in zit
         const propSubj = new BehaviorSubject<any | undefined>(undefined)
         this.statePropertySubjects.push({
           componentName: component.name, propName: k, propValue:
@@ -616,6 +601,7 @@ export class StoreService {
       this.createProps(comp)}
     )
     this.actions = [...contentContainer.actions]
+    debugger
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
