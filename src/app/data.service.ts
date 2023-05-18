@@ -95,7 +95,6 @@ export class DataService {
       return dataObj.conceptName === dataLink[0]
     })
     if(obj){
-      // todo fix bug currentAttr is uiteindelijk undefined denk ik
       dataLink.splice(0,1)
       let attributes = [...obj.attributes]
       let currentAttr: AttributeComponentModel|undefined = attributes.find(attr=>{
@@ -126,20 +125,14 @@ export class DataService {
       // todo refactor
       let comp = this.storeService.getComponent(propSubj.componentName)
       if(!comp) comp = this.storeService.getComponentThroughAttributes(propSubj.componentName)
-      if(!comp) console.log('Component niet gevonden terwijl die er wel zou moeten zijn volgens de configuratie: '+propSubj.componentName)
-      if(propSubj.propName==='data' && comp && comp.data){
-        debugger
+      if(propSubj.propName==='dataConcept' && comp && comp.data){
         if(comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
       } else if(propSubj.propName==='dataLink'&& comp && comp.attributes?.smartphone?.dataLink){
         // todo dit is lastig als de huidige schermgrootte niet voldoet mag de data niet opgestuurd worden
         // todo en omgekeerd als de schermgrootte wijzigt moet ook de data in rekening genomen worden wat nu niet gebeurt
         //      voorlopig houden we er geen rekening mee
         const data:AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
-        // todo ervoor zorgen dat deze component naast zijn dataLink prop ook een data prop heeft
-        // in de component zelf moet dan maar gekeken worden van welk type de data is
-        // een conceptmodel of een attribuut model
-
-        propSubj.propValue.next(data)
+        this.storeService.getStatePropertySubject(comp.name,'dataAttribute')?.propValue.next(data)
        }
     })
   }
@@ -177,10 +170,7 @@ export class DataService {
     // eens de data binnen is worden de verschillende componenten die de data
     // of een deel van de data nodig hebben daarvan op de hoogte gebracht door middel van een event
     // welke componenten dat zijn kan worden afgeleid uit de configuratie van de gebruiker
-/*   todo this.storeService.setFetching() compModel => bevat data van de datalink dus elke component met deze
-          datalink moet een vlag gestuurd worden dus is gewoon een query in de components*/
     if (action.targetType === TargetType.Component) {
-      // todo het target heeft geen data component, best terug even wisselen?
       let compModel = this.storeService.getComponent(action.targetName)?.data
       if (!compModel) {
         compModel = this.storeService.getComponentThroughAttributes(action.targetName)?.data
@@ -191,9 +181,7 @@ export class DataService {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel)
-            // er wordt reeds een call gedaan naar getData terwijl die nog niet is aangekomen
             this.data.push(compObj)
-            // todo het is deze methode die moet aangepast worden zodat elke (container) component zijn speciefiek stuk aan data krijgt
             this.setDataState(compObj)
           }
         })

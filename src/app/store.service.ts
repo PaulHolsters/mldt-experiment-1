@@ -42,11 +42,7 @@ import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTy
 import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
-import {ConceptComponentModel} from "./models/Data/ConceptComponentModel";
-import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
 import {EventType} from "./enums/eventTypes.enum";
-import {AttributeComponentModel} from "./models/Data/AttributeComponentModel";
-import {NoValueType} from "./enums/no_value_type";
 
 @Injectable({
   providedIn: 'root'
@@ -98,14 +94,13 @@ export class StoreService {
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
-        const newMod = new OverflowComponentPropsModel(
+        return new OverflowComponentPropsModel(
           overflowConfig.overflow === OverflowValueConfigType.Auto,
           overflowConfig.horizontalOverflow === OverflowValueConfigType.Auto,
           overflowConfig.overflow === OverflowValueConfigType.Scroll,
           overflowConfig.horizontalOverflow === OverflowValueConfigType.Scroll,
           overflowConfig.overflow === OverflowValueConfigType.Hidden,
           overflowConfig.horizontalOverflow === OverflowValueConfigType.Hidden)
-        return newMod
       }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
@@ -267,14 +262,11 @@ export class StoreService {
         compPropsObj.setProperty(k, v)
       })
       let copy = Object.create(compPropsObj)
-      // in copy zit een object met alles op undefined behlave de prop content
-      // waar de form-container inzit inclusief bijhorende data
       Object.entries(compPropsObj).forEach(([k,v])=>{
         // hier komt dus enkel binnen k = content en v = form-container
         if(v !== undefined && (v instanceof Array || typeof v !== 'object')) copy[k] = v
         else if(v && typeof v === 'object'){
-          const compObj = new ComponentModel(v.name,v.type,v.childLayout,v.position,v.dimensions,v.attributes,v.visibility,v.overflow,v.children,v.styling,v.data)
-          copy[k]=compObj
+          copy[k] = new ComponentModel(v.name,v.type,v.childLayout,v.position,v.dimensions,v.attributes,v.visibility,v.overflow,v.children,v.styling,v.data)
         }
       })
       return copy
@@ -499,12 +491,19 @@ export class StoreService {
     if(component.data){
       const propSubj = new BehaviorSubject<any | undefined>(undefined)
       this.statePropertySubjects.push({
-        componentName: component.name, propName: 'data', propValue:
+        componentName: component.name, propName: 'dataConcept', propValue:
         propSubj, prop$: propSubj.asObservable()
       })
     }
     if (component.attributes) {
       Object.entries(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(([k,v]) => {
+        if(k==='dataLink'){
+          const propSubj = new BehaviorSubject<any | undefined>(undefined)
+          this.statePropertySubjects.push({
+            componentName: component.name, propName: 'dataAttribute', propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        }
         const propSubj = new BehaviorSubject<any | undefined>(undefined)
         this.statePropertySubjects.push({
           componentName: component.name, propName: k, propValue:
@@ -641,6 +640,11 @@ export class StoreService {
 
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
+  }
+  public getStatePropertySubject(compName:string,propName:string): StatePropertySubjectModel|undefined {
+    return this.statePropertySubjects.find(ps=>{
+      return ps.componentName===compName && ps.propName === propName
+    })
   }
   public getActions():ActionModel[]{
     return [...this.actions]

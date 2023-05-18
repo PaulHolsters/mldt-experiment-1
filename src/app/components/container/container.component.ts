@@ -8,6 +8,7 @@ import {NoValueType} from "../../enums/no_value_type";
 import {RestrictionType} from "../../enums/restrictionType.enum";
 import {EventsService} from "../../events.service";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
+import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
 
 @Component({
   selector: 'm-container',
@@ -17,7 +18,8 @@ import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel
 export class ContainerComponent implements OnInit, AfterContentChecked{
   @Input() name = ''
   @ViewChild('container') container: ElementRef | undefined
-  data:AttributeComponentModel|undefined // voorlopig lijkt het er op dat er qua data niets anders nodig is dan attributes
+  dataConcept:ConceptComponentModel|undefined
+  dataAttribute:AttributeComponentModel|undefined // voorlopig lijkt het er op dat er qua data niets anders nodig is dan attributes
   dataLink$:Observable<any>|undefined
   componentType = ComponentType
   children$: Observable<any> | undefined
@@ -69,13 +71,11 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
         this.cd.detectChanges()
   }
   ngOnInit(): void {
-    this.storeService.bindToStateProperty(this.name,'data')?.subscribe(res=>{
-      if(res && !res.hasOwnProperty('conceptName')){
-        console.log('data = ',res)
-      } this.data = res as AttributeComponentModel
+    this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
+      this.dataConcept = res as ConceptComponentModel
     })
-    this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
-      console.log(res)
+    this.storeService.bindToStateProperty(this.name,'dataAttribute')?.subscribe(res=>{
+      this.dataAttribute = res as AttributeComponentModel
     })
     this.dataLink$ = this.storeService.bindToStateProperty(this.name,'dataLink')
     this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
