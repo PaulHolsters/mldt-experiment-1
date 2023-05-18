@@ -484,6 +484,17 @@ export class StoreService {
     }
   }
   private components: ComponentModel[] | undefined
+/*  public addProperty(compName:string,propName:string){
+    if(!this.getStatePropertySubjects().find(subj => {
+      return subj.componentName === compName && subj.propName === propName
+    })){
+      const propSubj = new BehaviorSubject<any | undefined>(undefined)
+      this.statePropertySubjects.push({
+        componentName: compName, propName: propName, propValue:
+        propSubj, prop$: propSubj.asObservable()
+      })
+    }
+  }*/
   private createProps(component: ComponentModel) {
     if(component.data){
       const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -601,7 +612,6 @@ export class StoreService {
       this.createProps(comp)}
     )
     this.actions = [...contentContainer.actions]
-    debugger
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<

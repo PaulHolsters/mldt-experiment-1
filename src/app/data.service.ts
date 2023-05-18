@@ -96,12 +96,12 @@ export class DataService {
     })
     if(obj){
       // todo fix bug currentAttr is uiteindelijk undefined denk ik
-      dataLink.splice(1,1)
+      dataLink.splice(0,1)
       let attributes = [...obj.attributes]
       let currentAttr: AttributeComponentModel|undefined = attributes.find(attr=>{
         return attr.name === dataLink[0]
       })
-      dataLink.splice(1,1)
+      dataLink.splice(0,1)
       while(currentAttr && dataLink.length>0){
         if(currentAttr.concept){
           // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
@@ -112,7 +112,7 @@ export class DataService {
         } else{
           throw new Error('Datalink bevat teveel entries.')
         }
-        dataLink.splice(1,1)
+        dataLink.splice(0,1)
       }
       if(currentAttr!==undefined)
       return currentAttr
@@ -134,14 +134,16 @@ export class DataService {
         // todo dit is lastig als de huidige schermgrootte niet voldoet mag de data niet opgestuurd worden
         // todo en omgekeerd als de schermgrootte wijzigt moet ook de data in rekening genomen worden wat nu niet gebeurt
         //      voorlopig houden we er geen rekening mee
-        debugger
         const data:AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
+        // todo ervoor zorgen dat deze component naast zijn dataLink prop ook een data prop heeft
+        // in de component zelf moet dan maar gekeken worden van welk type de data is
+        // een conceptmodel of een attribuut model
+
         propSubj.propValue.next(data)
        }
     })
   }
   private query(querySubType: QuerySubType, data: ConceptConfigModel): any {
-    debugger
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         const GET_BLUEPRINT = gql`
@@ -170,7 +172,6 @@ export class DataService {
     this.fakeMutation(data)
   }
   public async getDataBluePrint(action: ActionModel) {
-    debugger
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
@@ -185,19 +186,15 @@ export class DataService {
         compModel = this.storeService.getComponentThroughAttributes(action.targetName)?.data
       }
       if (compModel !== undefined) {
-        debugger
         await this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown)=>{
-          debugger
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel)
             // er wordt reeds een call gedaan naar getData terwijl die nog niet is aangekomen
             this.data.push(compObj)
-            debugger
             // todo het is deze methode die moet aangepast worden zodat elke (container) component zijn speciefiek stuk aan data krijgt
             this.setDataState(compObj)
-            debugger
           }
         })
       }
