@@ -1,6 +1,8 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {StoreService} from "../../store.service";
 import {Observable} from "rxjs";
+import { EventType } from 'src/app/enums/eventTypes.enum';
+import {EventsService} from "../../events.service";
 @Component({
   selector: 'm-button',
   templateUrl: './button.component.html',
@@ -15,7 +17,8 @@ export class ButtonComponent implements OnInit,AfterViewInit {
   calcWidth$: Observable<any>|undefined
   width:string|undefined
   height:string|undefined
-  constructor(private storeService:StoreService, private cd: ChangeDetectorRef) {
+  EventType = EventType
+  constructor(private storeService:StoreService, private cd: ChangeDetectorRef, private componentEventsService:EventsService) {
   }
   ngOnInit(): void {
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
@@ -45,11 +48,7 @@ export class ButtonComponent implements OnInit,AfterViewInit {
     this.label$ = this.storeService.bindToStateProperty(this.name,'label')
     this.cd.detectChanges()
   }
-/*  trigger(event: Event){
-    this.data?.triggers?.filter(trigger=>{
-      return trigger.trigger === event.type
-    }).forEach(trigger=>{
-      this.dataService.executeAction(trigger)
-    })
-  }*/
+  trigger(event: EventType){
+    this.componentEventsService.triggerEvent(event,this.name)
+  }
 }

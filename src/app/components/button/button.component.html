@@ -3,17 +3,20 @@
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [style.height]="height"
-  [style.width]="width" #button></p-button>
-<p-button *ngIf="(label$|async) && !(icon$|async)" label="{{(label$|async)}}"></p-button>
-<p-button *ngIf="!(label$|async) && (icon$|async)" icon="pi pi-{{(icon$|async)}}"></p-button>
+  [style.width]="width" #button
+  (click)="trigger(EventType.ComponentClicked)"></p-button>
+<p-button *ngIf="(label$|async) && !(icon$|async)" label="{{(label$|async)}}" (click)="trigger(EventType.ComponentClicked)"></p-button>
+<p-button *ngIf="!(label$|async) && (icon$|async)" icon="pi pi-{{(icon$|async)}}" (click)="trigger(EventType.ComponentClicked)"></p-button>
 <p-button
   *ngIf="!(label$|async) && !(icon$|async)" icon="pi pi-check"
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [style.height]="height"
-  [style.width]="width" #button></p-button>
+  [style.width]="width"
+  (click)="trigger(EventType.ComponentClicked)"
+  #button></p-button>
 
 <!--
-(click)="trigger($event)"
+
 (click)="trigger($event)"
 (click)="trigger($event)"-->

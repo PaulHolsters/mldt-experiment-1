@@ -1,4 +1,4 @@
 export enum EventType {
-  Click = 1,
+  ComponentClicked = 1,
   ComponentReady
 }

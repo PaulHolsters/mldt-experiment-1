@@ -34,7 +34,8 @@ export class EventsService {
             break
         }
         break
-      case EventType.Click:
+      case EventType.ComponentClicked:
+
         break
       default:
     }

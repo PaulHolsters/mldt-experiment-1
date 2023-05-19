@@ -725,7 +725,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         targetName: 'form-container',
         sourceName: 'my first form',
         on: EventType.ComponentReady
-      }
+      },
+      // todo button action om de ingave op het formulier te wijizgen
     ]
   }
 
