@@ -23,11 +23,21 @@
       buttonLayout="{{buttonLayout!== NI ? buttonLayout : undefined}}"
     #numberInput></p-inputNumber>
 </ng-template>
-<span *ngIf="floatLabel">
+<div *ngIf="floatLabel"
+      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      [style.height]="height"
+      [style.width]="width"
+>
   <ng-template [ngTemplateOutlet]="input"></ng-template>
   <label>{{label}}</label>
-</span>
-<span *ngIf="!floatLabel">
+</div>
+<div *ngIf="!floatLabel"
+      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      [style.height]="height"
+      [style.width]="width"
+>
   <ng-template [ngTemplateOutlet]="input"></ng-template>
-</span>
+</div>
 <!---->

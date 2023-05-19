@@ -6,33 +6,52 @@
          [class.ng-dirty]="dirty"
          pKeyFilter="{{keyFilter}}"
          [disabled]="disabled === true"
+         [style.width]="'100%'"
   />
 </ng-template>
 <!-- non-floating label inputs with an icon inside -->
-<span *ngIf="icon && !floatLabel"
+<div *ngIf="icon && !floatLabel"
+      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      [style.height]="height"
+      [style.width]="width"
       [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
       [class.p-input-icon-right]="iconPosition===iconPositionType.Right">
     <i class="pi pi-{{icon}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <small *ngIf="advisoryText">{{advisoryText}}</small>
-</span>
+</div>
 <!-- non-floating label inputs without an icon inside -->
-<span *ngIf="!icon && !floatLabel">
+<div *ngIf="!icon && !floatLabel"
+      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      [style.height]="height"
+      [style.width]="width"
+>
   <ng-template [ngTemplateOutlet]="input"></ng-template>
   <small *ngIf="advisoryText">{{advisoryText}}</small>
-</span>
+</div>
 <!-- floating label inputs without icons -->
-<span *ngIf="floatLabel && !icon" class="p-float-label">
+<div *ngIf="floatLabel && !icon" class="p-float-label"
+      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      [style.height]="height"
+      [style.width]="width"
+>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{label}}</label>
     <small *ngIf="advisoryText">{{advisoryText}}</small>
-</span>
+</div>
 <!-- floating label inputs with icons -->
-<span *ngIf="icon && floatLabel"
+<div *ngIf="icon && floatLabel"
+      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      [style.height]="height"
+      [style.width]="width"
       [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
       [class.p-input-icon-right]="iconPosition===iconPositionType.Right" class="p-float-label">
     <i class="pi pi-{{icon}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{label}}</label>
     <small *ngIf="advisoryText">{{advisoryText}}</small>
-</span>
+</div>

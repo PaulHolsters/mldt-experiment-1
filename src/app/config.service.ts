@@ -59,7 +59,6 @@ import {CurrencyDisplayType} from "./enums/currencyDisplayType.enum";
 import {ButtonClassType} from "./enums/buttonClassType.enum";
 import {ButtonLayoutType} from "./enums/buttonLayoutType.enum";
 import {NoValueType} from "./enums/no_value_type";
-import {MainAxisHorizontalPositioningConfigType} from "./enums/mainAxisHorizontalPositioningConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -525,17 +524,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                         ),
                         DynamicDimensionValueConfigType.NA
                       ),
-                      CrossAxisHorizontalLanesPositioningConfigType.Center
+                      CrossAxisHorizontalLanesPositioningConfigType.Left
                     ),
                     new VerticalLayoutConfigPropsModel(
                       AxisConfigType.Main,
                       false,
                       false,
-                      MainAxisVerticalPositioningConfigType.Between,
-                      new HeightConfigPropsModel(
-                        new FixedDimensioningConfigModel(
-                          DimensionValueConfigType.Hardcoded, 50, DimensionUnitConfigType.PX),
-                        DynamicDimensionValueConfigType.NC),
+                      MainAxisVerticalPositioningConfigType.Top,
+                      new HeightConfigPropsModel(new FixedDimensioningConfigModel(
+                        DimensionValueConfigType.Hardcoded,120,DimensionUnitConfigType.PX
+                      ),DynamicDimensionValueConfigType.NC),
                       CrossAxisVerticalLanesPositioningConfigType.NA
                     )
                   )
@@ -567,12 +565,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                           new ResponsiveChildLayoutConfigModel(
                             new ChildLayoutConfigPropsModel(
                               // todo zorg voor default layout bij een container voor simpele gevallen
-                              new HorizontalLayoutConfigPropsModel(AxisConfigType.Main, true, false, MainAxisHorizontalPositioningConfigType.Left,
-                                WidthValueConfigType.NC,
-                                CrossAxisHorizontalLanesPositioningConfigType.NA),
-                              new VerticalLayoutConfigPropsModel(AxisConfigType.Cross, undefined, false, CrossAxisVerticalPositioningConfigType.Top,
-                                new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,70,DimensionUnitConfigType.PX),
-                                  DynamicDimensionValueConfigType.NC), CrossAxisVerticalLanesPositioningConfigType.Top)
+                              new HorizontalLayoutConfigPropsModel(
+                                AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
+                                new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                                  DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
+                                ),DynamicDimensionValueConfigType.NC),
+                                CrossAxisHorizontalLanesPositioningConfigType.Center),
+                              new VerticalLayoutConfigPropsModel(
+                                AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
+                                HeightValueConfigType.NC,
+                                CrossAxisVerticalLanesPositioningConfigType.NA)
                             )
                           ),
                           undefined,
@@ -600,15 +602,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
 
                       }
                     ),
-                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-                    dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-                      new HeightConfigPropsModel(
-                        new FixedDimensioningConfigModel(
-                          DimensionValueConfigType.Hardcoded, 80, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
-                      new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-                        DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
-                      ), DynamicDimensionValueConfigType.NC)
-                    ))
+                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
                   },
                   {
                     name: 'formcontrol2',
@@ -620,13 +614,16 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                           ComponentType.Container,
                           new ResponsiveChildLayoutConfigModel(
                             new ChildLayoutConfigPropsModel(
-                              // todo zorg voor default layout bij een container voor simpele gevallen
-                              new HorizontalLayoutConfigPropsModel(AxisConfigType.Main, true, false, MainAxisHorizontalPositioningConfigType.Left,
-                                WidthValueConfigType.NC,
-                                CrossAxisHorizontalLanesPositioningConfigType.NA),
-                              new VerticalLayoutConfigPropsModel(AxisConfigType.Cross, undefined, false, CrossAxisVerticalPositioningConfigType.Top,
-                                new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,70,DimensionUnitConfigType.PX),
-                                  DynamicDimensionValueConfigType.NC), CrossAxisVerticalLanesPositioningConfigType.Top)
+                              new HorizontalLayoutConfigPropsModel(
+                                AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
+                                new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                                  DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
+                                ),DynamicDimensionValueConfigType.NC),
+                                CrossAxisHorizontalLanesPositioningConfigType.Center),
+                              new VerticalLayoutConfigPropsModel(
+                                AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
+                                HeightValueConfigType.NC,
+                                CrossAxisVerticalLanesPositioningConfigType.NA)
                             )
                           ),
                           undefined,
@@ -654,16 +651,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
 
                       }
                     ),
-                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-                    dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-                      new HeightConfigPropsModel(
-                        new FixedDimensioningConfigModel(
-                          DimensionValueConfigType.Hardcoded, 80, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
-                      new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-                        DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
-                      ), DynamicDimensionValueConfigType.NC)
-                    ))
-                  }
+                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+                  },
                 ],
                 undefined,
                 new ConceptConfigModel(

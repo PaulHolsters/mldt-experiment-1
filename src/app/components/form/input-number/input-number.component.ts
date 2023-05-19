@@ -2,6 +2,8 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {NoValueType} from "../../../enums/no_value_type";
 import {InputNumber} from "primeng/inputnumber";
 import {DataService} from "../../../data.service";
+import {Observable} from "rxjs";
+import {StoreService} from "../../../store.service";
 
 @Component({
   selector: 'm-input-number',
@@ -37,12 +39,37 @@ export class InputNumberComponent implements OnInit {
   @Input() buttonLayout:string|undefined
   @Input() value:number|undefined
   @ViewChild('input') input: ElementRef | undefined
+  calcHeight$: Observable<any>|undefined
+  calcWidth$: Observable<any>|undefined
+
+  width:string|undefined
+  height:string|undefined
   Number = Number
   NI = NoValueType.NI
-  constructor(private dataService:DataService) {
+  constructor(private dataService:DataService,private storeService:StoreService) {
+  }
+  setCalculatedHeight(val:any):boolean{
+    if(typeof val === 'string'){
+      this.input?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
+      this.height = undefined
+      return true
+    }
+    this.height = '100%'
+    return false
+  }
+  setCalculatedWidth(val:any):boolean{
+    if(typeof val === 'string'){
+      this.input?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
+      this.width = undefined
+      return true
+    }
+    this.width = '100%'
+    return false
   }
 
   ngOnInit(): void {
+    this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
+    this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
   }
 
   updateData(formControl:InputNumber){
