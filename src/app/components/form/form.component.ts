@@ -30,7 +30,6 @@ export class FormComponent implements OnInit{
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
-      console.log(this.form)
       this.form?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
       this.height = undefined
       return true

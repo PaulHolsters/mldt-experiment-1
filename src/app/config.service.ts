@@ -531,7 +531,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       AxisConfigType.Main,
                       false,
                       false,
-                      MainAxisVerticalPositioningConfigType.Top,
+                      MainAxisVerticalPositioningConfigType.Between,
                       new HeightConfigPropsModel(
                         new FixedDimensioningConfigModel(
                           DimensionValueConfigType.Hardcoded, 50, DimensionUnitConfigType.PX),

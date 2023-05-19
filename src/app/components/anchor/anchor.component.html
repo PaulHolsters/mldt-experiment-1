@@ -7,8 +7,8 @@
     [class.displayNone]="(component.type !== componentType.Container)
       &&!(bindToStateProperty(component.name,'visible') | async)
       && !(bindToStateProperty(component.name,'holdSpace') | async)"
-    [style.height]="(component.type !== componentType.Container) ? (bindToStateProperty(component.name,'height') | async) : ''"
-    [style.width]="(component.type !== componentType.Container) ? (bindToStateProperty(component.name,'width') | async) : ''"
+    [style.height]="bindToStateProperty(component.name,'height') | async"
+    [style.width]="bindToStateProperty(component.name,'width') | async"
     [ngSwitch]="component.type">
     <m-block *ngSwitchCase="componentType.Block" [name]="component.name"></m-block>
     <m-button *ngSwitchCase="componentType.Button" [name]="component.name"></m-button>
@@ -18,3 +18,4 @@
     <m-container *ngSwitchCase="componentType.Container" [name]="component.name"></m-container>
   </div>
 </ng-container>
+<!-- tod meegeven dat anchor een bepaalde breedte of hoogte moet hebben-->
