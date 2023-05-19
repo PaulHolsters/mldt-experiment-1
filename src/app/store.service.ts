@@ -263,7 +263,6 @@ export class StoreService {
       })
       let copy = Object.create(compPropsObj)
       Object.entries(compPropsObj).forEach(([k,v])=>{
-        // hier komt dus enkel binnen k = content en v = form-container
         if(v !== undefined && (v instanceof Array || typeof v !== 'object')) copy[k] = v
         else if(v && typeof v === 'object'){
           copy[k] = new ComponentModel(v.name,v.type,v.childLayout,v.position,v.dimensions,v.attributes,v.visibility,v.overflow,v.children,v.styling,v.data)

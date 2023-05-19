@@ -79,7 +79,11 @@
                      [name]="child.name"></m-formcontrol>
       <ng-container *ngSwitchCase="componentType.Label">
         <m-label *ngIf="dataAttribute && !dataAttribute.floatLabel" [text]="(dataAttribute.label !== NoValueType.DBI)
-        && (dataAttribute.label !== NoValueType.NA) ? dataAttribute.label : dataAttribute.name"></m-label>
+        && (dataAttribute.label !== NoValueType.NA) ? dataAttribute.label : dataAttribute.name"
+                 [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+        ></m-label>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.InputText">
         <m-input-text *ngIf="dataAttribute && (dataLink$|async) && dataAttribute.text"  [class]="['flex',
@@ -144,7 +148,10 @@
         ></m-input-number>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.DateInput">
-        <m-date *ngIf="dataAttribute && (dataLink$|async)"  [name]="(dataLink$|async).join('_')"></m-date>
+        <m-date *ngIf="dataAttribute && (dataLink$|async)"  [name]="(dataLink$|async).join('_')"
+                [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"></m-date>
       </ng-container>
       <m-button       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),

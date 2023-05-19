@@ -459,7 +459,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                   undefined,
                   new ResponsiveDimensioningConfigModel(
                     new DimensioningConfigPropsModel(
-                      new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 350, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
+                      new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 150, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
                       new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 650, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC)
                     )),
                   undefined,
@@ -571,7 +571,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                                 WidthValueConfigType.NC,
                                 CrossAxisHorizontalLanesPositioningConfigType.NA),
                               new VerticalLayoutConfigPropsModel(AxisConfigType.Cross, undefined, false, CrossAxisVerticalPositioningConfigType.Top,
-                                HeightValueConfigType.NC, CrossAxisVerticalLanesPositioningConfigType.Top)
+                                new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,70,DimensionUnitConfigType.PX),
+                                  DynamicDimensionValueConfigType.NC), CrossAxisVerticalLanesPositioningConfigType.Top)
                             )
                           ),
                           undefined,
@@ -594,6 +595,60 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                             visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
                           }, {
                             name: 'fc1-input', type: ComponentType.InputText,
+                            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+                          }], undefined, undefined),
+
+                      }
+                    ),
+                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                    dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                      new HeightConfigPropsModel(
+                        new FixedDimensioningConfigModel(
+                          DimensionValueConfigType.Hardcoded, 80, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
+                      new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                        DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                      ), DynamicDimensionValueConfigType.NC)
+                    ))
+                  },
+                  {
+                    name: 'formcontrol2',
+                    type: ComponentType.FormControl,
+                    attributes: new ResponsiveAttributesConfigModel(
+                      {
+                        content: new ComponentModel(
+                          'fc2-container',
+                          ComponentType.Container,
+                          new ResponsiveChildLayoutConfigModel(
+                            new ChildLayoutConfigPropsModel(
+                              // todo zorg voor default layout bij een container voor simpele gevallen
+                              new HorizontalLayoutConfigPropsModel(AxisConfigType.Main, true, false, MainAxisHorizontalPositioningConfigType.Left,
+                                WidthValueConfigType.NC,
+                                CrossAxisHorizontalLanesPositioningConfigType.NA),
+                              new VerticalLayoutConfigPropsModel(AxisConfigType.Cross, undefined, false, CrossAxisVerticalPositioningConfigType.Top,
+                                new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,70,DimensionUnitConfigType.PX),
+                                  DynamicDimensionValueConfigType.NC), CrossAxisVerticalLanesPositioningConfigType.Top)
+                            )
+                          ),
+                          undefined,
+                          new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                            new HeightConfigPropsModel(
+                              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
+                            ),
+                            new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                              DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                            ), DynamicDimensionValueConfigType.NC)
+                          )), new ResponsiveAttributesConfigModel({
+                            dataLink: ['product', 'basePrice']
+                          }),
+                          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()), undefined,
+                          [{
+                            // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
+                            // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
+                            name: 'fc2-label',
+                            type: ComponentType.Label,
+                            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                          }, {
+                            name: 'fc2-input', type: ComponentType.InputNumber,
                             visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
                           }], undefined, undefined),
 
@@ -648,7 +703,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
             visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
               new HeightConfigPropsModel(
-                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '90vh - 150px'),
+                DynamicDimensionValueConfigType.NC
               ),
               new WidthConfigPropsModel(new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
