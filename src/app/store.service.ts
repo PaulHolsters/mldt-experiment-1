@@ -431,6 +431,8 @@ export class StoreService {
       newState instanceof OverflowComponentPropsModel
     ) {
       for (let [k, v] of Object.entries(newState)) {
+        // todo fix bug: als dimensioncomponentPropsModel is niet correct als het gaat om een in een attributes verborgen component
+        //    check zeker of dit ook niet een problem is voor alle ander componentPropsModels
         if (v !== ComponentDimensionValueConfigType.Parent) {
           this.getStatePropertySubjects().find(subj => {
             return subj.componentName === componentName && subj.propName === k

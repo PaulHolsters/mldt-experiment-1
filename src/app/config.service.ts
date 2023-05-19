@@ -531,9 +531,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       false,
                       false,
                       MainAxisVerticalPositioningConfigType.Top,
-                      new HeightConfigPropsModel(new FixedDimensioningConfigModel(
-                        DimensionValueConfigType.Hardcoded,120,DimensionUnitConfigType.PX
-                      ),DynamicDimensionValueConfigType.NC),
+                      HeightValueConfigType.NC,
                       CrossAxisVerticalLanesPositioningConfigType.NA
                     )
                   )
@@ -603,6 +601,14 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       }
                     ),
                     visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+                    ,
+                    // todo zorg dat er constraints komen die errors geven bv als je ehight en width in je config omwisselt!
+                    dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                      new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,220
+                        ,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
+                      new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100
+                        ,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC)
+                    ))
                   },
                   {
                     name: 'formcontrol2',
@@ -651,7 +657,13 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
 
                       }
                     ),
-                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                    dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                      new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,220
+                        ,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
+                      new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100
+                        ,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC)
+                    ))
                   },
                 ],
                 undefined,
