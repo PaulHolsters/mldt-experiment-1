@@ -35,7 +35,22 @@ export class EventsService {
         }
         break
       case EventType.ComponentClicked:
-        this.dataService.persistData(action)
+        switch (action.actionType){
+          case ActionType.Component:
+            break
+          case ActionType.Server:
+            switch (action.actionSubType){
+              case ActionSubType.GetDataBluePrint:
+                this.dataService.getDataBluePrint(action)
+                break
+              case ActionSubType.PersistNewData:
+                this.dataService.persistNewData(action)
+                break
+              default:
+            }
+            break
+        }
+
         break
       default:
     }

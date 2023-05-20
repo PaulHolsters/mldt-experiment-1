@@ -1,4 +1,6 @@
 export enum ActionSubType {
   GetDataBluePrint = 1,
-  PersistData
+  PersistNewData,
+  PersistUpdatedData,
+  PersistDeletedData
 }

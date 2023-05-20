@@ -8,6 +8,8 @@ import {QuerySubType} from "./enums/querySubType.enum";
 import {TargetType} from "./enums/targetTypes.enum";
 import {AttributeComponentModel} from "./models/Data/AttributeComponentModel";
 import {NoValueType} from "./enums/no_value_type";
+import {MutationType} from "./enums/mutationTypes.enum";
+import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -159,18 +161,37 @@ export class DataService {
         break
     }
   }
-  public mutate(data: ConceptConfigModel|undefined) {
+  private getMutationParams(data:AttributeConfigModel[]|NoValueType.DBI):string{
+    if(data===NoValueType.DBI) return ''
+    return data.map(x=>{return (x.name||'')+':'+(x.number?.value||x.text?.value)}).reduce((x, y)=>x+=','+y)
+  }
+  public mutate(data: ConceptConfigModel|undefined, verb:MutationType): any {
     if(data){
       // todo get the current data using the configmodel
-
+      const currentData = this.data.find(dataObj=>{
+        return dataObj.conceptName === data.conceptName
+      })
+      if(currentData){
+        console.log(this.getMutationParams(data.attributes))
+        return this.apollo
+          .mutate({
+            mutation: gql`
+            mutation Mutation {
+              ${verb}${this.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
+                    id
+              }
+            }
+            `
+          })
+      }
     } else throw new Error('Geen geldige data configuratie.')
   }
-  public async persistData(action:ActionModel){
+  public async persistNewData(action:ActionModel){
     let comp = this.storeService.getParentComponentWithProperty(action.sourceName,'data')
     if(!comp){
       comp = this.storeService.getParentComponentWithPropertyThroughAttributes(action.sourceName,'data')
     }
-    await this.mutate(comp?.data)
+    await this.mutate(comp?.data,MutationType.Create)
   }
   public async getDataBluePrint(action: ActionModel) {
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat

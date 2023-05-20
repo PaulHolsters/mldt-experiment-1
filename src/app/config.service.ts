@@ -735,7 +735,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
       },
       {
         actionType: ActionType.Server,
-        actionSubType: ActionSubType.PersistData,
+        actionSubType: ActionSubType.PersistNewData,
         targetType: TargetType.API,
         targetName: NoValueType.NA,
         sourceName: 'submitbtn',
