@@ -20,7 +20,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   @ViewChild('container') container: ElementRef | undefined
   dataConcept:ConceptComponentModel|undefined
   dataAttribute:AttributeComponentModel|undefined // voorlopig lijkt het er op dat er qua data niets anders nodig is dan attributes
-  dataLink$:Observable<any>|undefined
+  dataLink:string[]|undefined
   componentType = ComponentType
   children$: Observable<any> | undefined
   //  todo voeg baseline align toe
@@ -64,6 +64,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   NoValueType=NoValueType
   RestrictionType = RestrictionType
   InputFontSize = InputFontSizeType
+  nameFormControl:string|undefined
 
   constructor(private storeService: StoreService, private cd:ChangeDetectorRef, private dataService:DataService,private eventService:EventsService) {
   }
@@ -77,7 +78,12 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
     this.storeService.bindToStateProperty(this.name,'dataAttribute')?.subscribe(res=>{
       this.dataAttribute = res as AttributeComponentModel
     })
-    this.dataLink$ = this.storeService.bindToStateProperty(this.name,'dataLink')
+    this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
+      this.dataLink = res as string[]
+      console.log('container init met datalink',this.dataLink)
+      this.nameFormControl = this.dataLink.join('_')
+      console.log('formcopntrol '+this.nameFormControl )
+    })
     this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
     this.row$ = this.storeService.bindToStateProperty(this.name, 'row')
     this.column$ = this.storeService.bindToStateProperty(this.name, 'column')

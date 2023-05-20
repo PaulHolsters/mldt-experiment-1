@@ -21,19 +21,6 @@ export class DataService {
   // todo a way to filter data
   // todo a way to order data
   private data:ConceptComponentModel[] = []
-  private fakeQuery(data: ConceptConfigModel): any {
-    const GET_PRODUCTS = gql`
-                    {
-                      getProducts{
-                        name
-                      }
-                    }
-        `
-    return this.apollo
-      .watchQuery<any>({
-        query: GET_PRODUCTS
-      }).valueChanges
-  }
   private capitalizeFirst(text:string):string{
     return text.charAt(0).toUpperCase()+text.substring(1)
   }
@@ -62,6 +49,7 @@ export class DataService {
     return newObj
   }
   public updateData(name:string,value:number|string|undefined){
+    // todo fix bug: name is een empty string
     const parts = name.split('_')
     const obj = this.data.find(dataObj=>{
       return dataObj.conceptName === parts[1]
@@ -120,7 +108,6 @@ export class DataService {
     }
     throw new Error('Data niet gevonden.')
   }
-
   private setDataState(compConcept:ConceptComponentModel){
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
@@ -163,7 +150,7 @@ export class DataService {
   }
   private getMutationParams(data:AttributeConfigModel[]|NoValueType.DBI):string{
     if(data===NoValueType.DBI) return ''
-    return data.map(x=>{return (x.name||'')+':'+(x.number?.value||x.text?.value)}).reduce((x, y)=>x+=','+y)
+    return data.map(x=>{return (x.name||'')+':"'+(x.number?.value||x.text?.value)+'"'}).reduce((x, y)=>x+=','+y)
   }
   public mutate(data: ConceptConfigModel|undefined, verb:MutationType): any {
     if(data){

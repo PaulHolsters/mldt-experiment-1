@@ -50,6 +50,7 @@
       (child.type !== componentType.Container) &&
       !(bindToStateProperty(child.name,'visible') | async)
       && (bindToStateProperty(child.name,'holdSpace') | async) "
+
       [class.displayNone]="(child.type !== componentType.Container)
       &&!(bindToStateProperty(child.name,'visible') | async)
       && !(bindToStateProperty(child.name,'holdSpace') | async)"
@@ -94,13 +95,15 @@
                  [style.width]="'100%'"
         ></m-label>
       </ng-container>
+      <!-- todo fix nasty bug !-->
       <ng-container *ngSwitchCase="componentType.InputText">
-        <m-input-text *ngIf="dataAttribute && (dataLink$|async) && dataAttribute.text"  [class]="['flex',
+        <m-input-text *ngIf="dataAttribute && nameFormControl && dataAttribute.text"
+                      [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                       [style.height]="'100%'"
                       [style.width]="'100%'"
-                       [name]="(dataLink$|async).join('_')"
+                       [name]="nameFormControl"
                        [value]="dataAttribute.text.value === NoValueType.NVY
                        || dataAttribute.text.value === NoValueType.NA  ? undefined : dataAttribute.text.value"
                        [icon]="dataAttribute.text.icon"
@@ -126,13 +129,13 @@
       </ng-container>
       <ng-container *ngSwitchCase="componentType.InputNumber">
         <m-input-number
-          *ngIf="dataAttribute && (dataLink$|async) && dataAttribute.number"
+          *ngIf="dataAttribute && nameFormControl && dataAttribute.number"
           [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
           [style.height]="'100%'"
           [style.width]="'100%'"
-          [name]="(dataLink$|async).join('_')"
+          [name]="nameFormControl"
           [value]="dataAttribute.number.value === NoValueType.NVY || dataAttribute.number.value === NoValueType.NA ? undefined : dataAttribute.number.value"
           [advisoryText]="dataAttribute.advisoryText"
           [label]="dataAttribute.label"
@@ -161,7 +164,7 @@
         ></m-input-number>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.DateInput">
-        <m-date *ngIf="dataAttribute && (dataLink$|async)"  [name]="(dataLink$|async).join('_')"
+        <m-date *ngIf="dataAttribute && dataLink"  [name]="dataLink.join('_')"
                 [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

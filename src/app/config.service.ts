@@ -670,7 +670,8 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                     type:ComponentType.Button,
                     attributes: new ResponsiveAttributesConfigModel({
                       label:'Bewaar'
-                    })
+                    }),
+                    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
                   }
                 ],
                 undefined,

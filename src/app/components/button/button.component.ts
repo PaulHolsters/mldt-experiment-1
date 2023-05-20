@@ -23,7 +23,7 @@ export class ButtonComponent implements OnInit,AfterViewInit {
   ngOnInit(): void {
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
-
+    this.label$ = this.storeService.bindToStateProperty(this.name,'label')
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

@@ -360,6 +360,8 @@ export class StoreService {
   }
   public getParentComponentWithProperty(compName: string ,property:string, component?:ComponentModel, previousComponent?:ComponentModel): ComponentModel | undefined {
     // todo later string [] variant toevoegen
+
+    // todo fix bug undefined previous
     if(component){
       if(component.name !== compName){
         if(component.children){
@@ -405,15 +407,17 @@ export class StoreService {
         for (let [k,v] of Object.entries(attributes)){
           if(v){
             for (let[j,l] of Object.entries(v)){
+              if(l instanceof ComponentModel && l.name === compName){
+                return previous
+              }
               let previousComponent
               if(l instanceof ComponentModel && l.hasOwnProperty(property)){
                 previousComponent = l
               }
-              if(l instanceof ComponentModel && l.name === compName){
-                return previous
-              }
               if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
-                const component = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previousComponent)
+                let component
+                if(previousComponent) component = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previousComponent)
+                else component = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previous)
                 if(component){
                   return component
                 }
@@ -428,7 +432,9 @@ export class StoreService {
           if((childComp.children as ComponentModel[])[j].hasOwnProperty(property)){
             previousComponent = (childComp.children as ComponentModel[])[j]
           }
-          const component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previousComponent)
+          let component
+          if(previousComponent) component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previousComponent)
+          else component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previous)
           if(component){
             return component
           }
@@ -441,15 +447,18 @@ export class StoreService {
           for (let [k,v] of Object.entries(attributes)){
             if(v){
               for (let[j,l] of Object.entries(v)){
+                if(l instanceof ComponentModel && l.name === compName){
+                  return previous
+                }
                 let previousComponent
                 if(l instanceof ComponentModel && l.hasOwnProperty(property)){
                   previousComponent = l
                 }
-                if(l instanceof ComponentModel && l.name === compName){
-                  return previous
-                } else if(l instanceof ComponentModel){
-                  const comp = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previousComponent)
-                  if(comp) return comp
+                if(l instanceof ComponentModel){
+                  let component
+                  if(previousComponent) component =this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previousComponent)
+                  else component = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previous)
+                  if(component) return component
                 }
               }
             }
@@ -461,7 +470,9 @@ export class StoreService {
             if((this.components[i].children as ComponentModel[])[j].hasOwnProperty(property)){
               previousComponent = (this.components[i].children as ComponentModel[])[j]
             }
-            const component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(this.components[i].children as ComponentModel[])[j],previousComponent)
+            let component
+            if(previousComponent) component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(this.components[i].children as ComponentModel[])[j],previousComponent)
+            else component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(this.components[i].children as ComponentModel[])[j],previous)
             if(component){
               return component
             }

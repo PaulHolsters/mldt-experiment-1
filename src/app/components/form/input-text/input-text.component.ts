@@ -43,6 +43,7 @@ export class InputTextComponent implements OnInit{
   ngOnInit(): void {
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    console.log('text input init met name '+this.name)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -64,6 +65,9 @@ export class InputTextComponent implements OnInit{
   }
 
   updateData(){
+    // todo de naam is steeds een lege string maw dataLink is voro bepaalde gevallen leeg en dat
+    // komt doordat er nog een extra button is bijgekomen
+    console.log(this.name)
     this.dataService.updateData(this.name,this.value)
   }
 }

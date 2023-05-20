@@ -47,6 +47,7 @@ export class InputNumberComponent implements OnInit {
   Number = Number
   NI = NoValueType.NI
   constructor(private dataService:DataService,private storeService:StoreService) {
+    console.log('number input init met name '+this.name)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
