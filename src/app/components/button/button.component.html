@@ -8,7 +8,7 @@
 <p-button *ngIf="(label$|async) && !(icon$|async)" label="{{(label$|async)}}" (click)="trigger(EventType.ComponentClicked)"></p-button>
 <p-button *ngIf="!(label$|async) && (icon$|async)" icon="pi pi-{{(icon$|async)}}" (click)="trigger(EventType.ComponentClicked)"></p-button>
 <p-button
-  *ngIf="!(label$|async) && !(icon$|async)" icon="pi pi-check"
+  *ngIf="!(label$|async) && !(icon$|async)"
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
   [style.height]="height"

@@ -324,6 +324,7 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getComponent(compName: string ,component?:ComponentModel): ComponentModel | undefined {
     // todo later string [] variant toevoegen
     // de naam is nu 'input with label'
@@ -352,6 +353,119 @@ export class StoreService {
               }
             }
           } else return this.components[i]
+        }
+      }
+    }
+    return undefined
+  }
+  public getParentComponentWithProperty(compName: string ,property:string, component?:ComponentModel, previousComponent?:ComponentModel): ComponentModel | undefined {
+    // todo later string [] variant toevoegen
+    if(component){
+      if(component.name !== compName){
+        if(component.children){
+          for (let j=0;j<component.children.length;j++){
+            let previousComponent
+            if((component.children[j] as ComponentModel).hasOwnProperty(property)){
+              previousComponent = component.children[j] as ComponentModel
+            }
+            const comp = this.getParentComponentWithProperty(compName,property,component.children[j] as ComponentModel,previousComponent)
+            if(comp){
+              return comp
+            }
+          }
+        }
+      } else return previousComponent
+    } else{
+      if(this.components !== undefined){
+        for (let i=0;i<this.components.length;i++){
+          if(this.components[i].name !== compName){
+            if(this.components[i].children){
+              for (let k=0;k<(this.components[i].children as ComponentModel[]).length;k++){
+                let previousComponent
+                if((this.components[i].children as ComponentModel[])[k].hasOwnProperty(property)){
+                  previousComponent = (this.components[i].children as ComponentModel[])[k]
+                }
+                const comp = this.getParentComponentWithProperty(compName,property,(this.components[i].children as ComponentModel[])[k],previousComponent)
+                if(comp){
+                  return comp
+                }
+              }
+            }
+          } else return previousComponent
+        }
+      }
+    }
+    return undefined
+  }
+  public getParentComponentWithPropertyThroughAttributes(compName: string,property:string,childComp?:ComponentModel,previous?:ComponentModel): ComponentModel | undefined{
+    if(childComp){
+      if(childComp.name === compName) return previous
+      if(childComp.attributes !== undefined){
+        const attributes = childComp.attributes as ResponsiveAttributesConfigModel
+        for (let [k,v] of Object.entries(attributes)){
+          if(v){
+            for (let[j,l] of Object.entries(v)){
+              let previousComponent
+              if(l instanceof ComponentModel && l.hasOwnProperty(property)){
+                previousComponent = l
+              }
+              if(l instanceof ComponentModel && l.name === compName){
+                return previous
+              }
+              if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
+                const component = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previousComponent)
+                if(component){
+                  return component
+                }
+              }
+            }
+          }
+        }
+      }
+      if(childComp.children!==undefined){
+        for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
+          let previousComponent
+          if((childComp.children as ComponentModel[])[j].hasOwnProperty(property)){
+            previousComponent = (childComp.children as ComponentModel[])[j]
+          }
+          const component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previousComponent)
+          if(component){
+            return component
+          }
+        }
+      }
+    } else if(this.components!==undefined){
+      for (let i=0;i<this.components.length;i++){
+        if(this.components[i].attributes !== undefined){
+          const attributes = this.components[i].attributes as ResponsiveAttributesConfigModel
+          for (let [k,v] of Object.entries(attributes)){
+            if(v){
+              for (let[j,l] of Object.entries(v)){
+                let previousComponent
+                if(l instanceof ComponentModel && l.hasOwnProperty(property)){
+                  previousComponent = l
+                }
+                if(l instanceof ComponentModel && l.name === compName){
+                  return previous
+                } else if(l instanceof ComponentModel){
+                  const comp = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previousComponent)
+                  if(comp) return comp
+                }
+              }
+            }
+          }
+        }
+        if(this.components[i].children !== undefined){
+          for (let j = 0; j < (this.components[i].children as ComponentModel[]).length; j++) {
+            let previousComponent
+            if((this.components[i].children as ComponentModel[])[j].hasOwnProperty(property)){
+              previousComponent = (this.components[i].children as ComponentModel[])[j]
+            }
+            const component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(this.components[i].children as ComponentModel[])[j],previousComponent)
+            if(component){
+              return component
+            }
+          }
         }
       }
     }
@@ -414,6 +528,7 @@ export class StoreService {
     }
     return undefined
   }
+
   public setRBSState(componentName: string,
                   newState: (PositioningComponentPropsModel |
                     AttributesComponentPropsModel |
@@ -659,6 +774,10 @@ export class StoreService {
     return this.actions.filter(action=>{
       return action.on === event
     })
+  }
+
+  public getParentConfigModel(){
+
   }
   public getComponentsConfig():ComponentModel[]{
     if(this.components)

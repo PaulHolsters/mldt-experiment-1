@@ -118,6 +118,7 @@ export class DataService {
     }
     throw new Error('Data niet gevonden.')
   }
+
   private setDataState(compConcept:ConceptComponentModel){
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
@@ -158,11 +159,18 @@ export class DataService {
         break
     }
   }
-  private fakeMutation(data: ConceptComponentModel) {
+  public mutate(data: ConceptConfigModel|undefined) {
+    if(data){
+      // todo get the current data using the configmodel
 
+    } else throw new Error('Geen geldige data configuratie.')
   }
-  public mutationEvent(data: ConceptComponentModel) {
-    this.fakeMutation(data)
+  public async persistData(action:ActionModel){
+    let comp = this.storeService.getParentComponentWithProperty(action.sourceName,'data')
+    if(!comp){
+      comp = this.storeService.getParentComponentWithPropertyThroughAttributes(action.sourceName,'data')
+    }
+    await this.mutate(comp?.data)
   }
   public async getDataBluePrint(action: ActionModel) {
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat

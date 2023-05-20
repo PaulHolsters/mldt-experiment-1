@@ -2,13 +2,14 @@ import {ActionSubType} from "../enums/actionSubTypes.enum";
 import {TargetType} from "../enums/targetTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {EventType} from "../enums/eventTypes.enum";
+import {NoValueType} from "../enums/no_value_type";
 
 export class ActionModel {
   constructor(
     public on:EventType,
     public targetType:TargetType,
-    public targetName:string,
-    public sourceName:string,
+    public targetName:string|NoValueType.NA,
+    public sourceName:string|NoValueType.NA,
     public actionType:ActionType,
     public actionSubType?:ActionSubType
   ) {

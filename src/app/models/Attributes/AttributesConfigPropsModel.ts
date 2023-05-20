@@ -7,6 +7,8 @@ export class AttributesConfigPropsModel {
     public alt?: string,
     public name?: string,
     public width?: number,
+    public icon?:string|undefined,
+    public label?:string|undefined,
     public menuItems?: MenuItem[],
     public start?: ComponentModel,
     public end?: ComponentModel,

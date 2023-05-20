@@ -35,7 +35,7 @@ export class EventsService {
         }
         break
       case EventType.ComponentClicked:
-
+        this.dataService.persistData(action)
         break
       default:
     }
