@@ -10,6 +10,7 @@ import {AttributeComponentModel} from "./models/Data/AttributeComponentModel";
 import {NoValueType} from "./enums/no_value_type";
 import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -49,15 +50,14 @@ export class DataService {
     return newObj
   }
   public updateData(name:string,value:number|string|undefined){
-    // todo fix bug: name is een empty string
     const parts = name.split('_')
     const obj = this.data.find(dataObj=>{
-      return dataObj.conceptName === parts[1]
+      return dataObj.conceptName === parts[0]
     })
     if(obj && obj.attributes){
-      if(parts.length===3){
+      if(parts.length===2){
         const attr = obj.attributes.find(attr=>{
-          return attr.name === parts[2]
+          return attr.name === parts[1]
         })
         if(attr){
           if(attr.text && typeof value === 'string'){
@@ -69,10 +69,10 @@ export class DataService {
           // todo alle andere datatypes
 
           obj.attributes.splice(obj.attributes.findIndex(attr=>{
-            return attr.name === parts[2]
+            return attr.name === parts[1]
           }),1,attr)
           this.data.splice(this.data.findIndex(dataObj=>{
-            return dataObj.conceptName === parts[1]
+            return dataObj.conceptName === parts[0]
           }),1,obj)
         }
       } else{
@@ -150,27 +150,28 @@ export class DataService {
   }
   private getMutationParams(data:AttributeConfigModel[]|NoValueType.DBI):string{
     if(data===NoValueType.DBI) return ''
-    return data.map(x=>{return (x.name||'')+':"'+(x.number?.value||x.text?.value)+'"'}).reduce((x, y)=>x+=','+y)
+    const strVal = data.map(x=>{return `
+      ${(x.number?.value||x.text?.value) ? (x.name+':'||'') : ''}
+      ${x.text?.value ? '"' : ''}${(x.number?.value||x.text?.value)||''}${x.text?.value ? '"' : ''}`})
+      .reduce((x, y)=>x+=`,`+y).trim()
+    // todo zorg nog voor een meer ordelijke GQL string hier
+    return strVal.charAt(strVal.length-1) === ',' ? strVal.substring(0,strVal.length-1) : strVal
   }
-  public mutate(data: ConceptConfigModel|undefined, verb:MutationType): any {
+  public mutate(data: ConceptConfigModel|undefined, verb:MutationType): Observable<any>|undefined {
     if(data){
-      // todo get the current data using the configmodel
       const currentData = this.data.find(dataObj=>{
         return dataObj.conceptName === data.conceptName
       })
       if(currentData){
-        console.log(this.getMutationParams(data.attributes))
         return this.apollo
           .mutate({
-            mutation: gql`
-            mutation Mutation {
+            mutation: gql`mutation Mutation {
               ${verb}${this.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
                     id
               }
-            }
-            `
-          })
-      }
+            }`
+          }) as unknown as Observable<any>
+      } return undefined
     } else throw new Error('Geen geldige data configuratie.')
   }
   public async persistNewData(action:ActionModel){
@@ -178,7 +179,9 @@ export class DataService {
     if(!comp){
       comp = this.storeService.getParentComponentWithPropertyThroughAttributes(action.sourceName,'data')
     }
-    await this.mutate(comp?.data,MutationType.Create)
+    await this.mutate(comp?.data,MutationType.Create)?.subscribe(res=>{
+      console.log(res,'yeah!')
+    })
   }
   public async getDataBluePrint(action: ActionModel) {
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat

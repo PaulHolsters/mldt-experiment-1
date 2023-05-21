@@ -33,7 +33,6 @@ export class InputTextComponent implements OnInit{
   @ViewChild('input') input: ElementRef | undefined
   calcHeight$: Observable<any>|undefined
   calcWidth$: Observable<any>|undefined
-
   width:string|undefined
   height:string|undefined
   iconType = IconType
@@ -67,7 +66,7 @@ export class InputTextComponent implements OnInit{
   updateData(){
     // todo de naam is steeds een lege string maw dataLink is voro bepaalde gevallen leeg en dat
     // komt doordat er nog een extra button is bijgekomen
-    console.log(this.name)
+    console.log(this.name,this.value)
     this.dataService.updateData(this.name,this.value)
   }
 }
