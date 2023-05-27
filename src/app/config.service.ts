@@ -199,7 +199,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
         }),
         attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
       }*/
-  contentContainer: {
+  private contentContainer: {
     components: ComponentModel[],
     actions: ActionModel[]
   } = {
@@ -790,10 +790,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
   * */
 
   constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
-    console.log(((this.contentContainer?.components[0]?.children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone)
+    console.log('initializeing config')
     this.storeService.createStore(this.contentContainer)
-    this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
+    this.responsiveBehaviourService.setResponsiveBehaviour({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()})
   }
+
+  // todo vorm om zodat naar hier voor een kopie van de config wordt gegaan
 
   private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []

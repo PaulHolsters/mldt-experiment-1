@@ -8,6 +8,7 @@ import {ScreenSize} from "./enums/screenSizes.enum";
 })
 export class ResponsiveBehaviourService {
   constructor(private storeService: StoreService) {
+    console.log('initializeing RBS')
   }
   private setState(component: ComponentModel, screenSize: number) {
     if (component.visibility)
@@ -52,7 +53,6 @@ export class ResponsiveBehaviourService {
     components: ComponentModel[],
     actions: ActionModel[]
   }, screenSize: number) {
-
     contentContainer.components.forEach(comp => {
       this.setState(comp, screenSize)
     })
@@ -61,7 +61,7 @@ export class ResponsiveBehaviourService {
     components: ComponentModel[],
     actions: ActionModel[]
   }) {
-
+    console.log('calling setRBS')
     const mqSM1 = window.matchMedia("(max-width: 480px)") //smartphone
     const mqPT1 = window.matchMedia("(min-width: 481px)") //portrait-tablet
     const mqPT2 = window.matchMedia("(max-width: 799px)") //portrait-tablet
@@ -72,81 +72,82 @@ export class ResponsiveBehaviourService {
     const mqHR1 = window.matchMedia("(min-width: 1281px)") //HR
     mqSM1.addEventListener("change", (e => {
       if (mqSM1.matches) {
-        console.log(contentContainer.components)
+        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
         // todo fix misschien met een get vanuit ?
-        this.setComponentStates(contentContainer, ScreenSize.smartphone)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.smartphone)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqSM1.matches) {
-        console.log('onload',contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.smartphone)
+        console.log('onload',((contentContainer.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.smartphone)
       }
     }))
     mqPT1.addEventListener("change", (e => {
       if (mqPT1.matches && mqPT2.matches) {
-        console.log(contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
+        // todo fix here: hier is dataLink leeg!
+        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.portraitTablet)
       }
     }))
     mqPT2.addEventListener("change", (e => {
       if (mqPT1.matches && mqPT2.matches) {
-        console.log(contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
+        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.portraitTablet)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqPT1.matches && mqPT2.matches) {
-        console.log('onlooad',contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
+        console.log('onlooad',((contentContainer.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.portraitTablet)
       }
     }))
     mqT1.addEventListener("change", (e => {
       if (mqT1.matches && mqT2.matches) {
-        console.log(contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.tablet)
+        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.tablet)
       }
     }))
     mqT2.addEventListener("change", (e => {
       if (mqT1.matches && mqT2.matches) {
-        console.log(contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.tablet)
+        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.tablet)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqT1.matches && mqT2.matches) {
-        console.log('onlooad',contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.tablet)
+        console.log('onlooad',((contentContainer.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.tablet)
       }
     }))
     mqL1.addEventListener("change", (e => {
       if (mqL1.matches && mqL2.matches) {
-        console.log(contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.laptop)
+        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.laptop)
       }
     }))
     mqL2.addEventListener("change", (e => {
       if (mqL1.matches && mqL2.matches) {
-        console.log(contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.laptop)
+        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.laptop)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqL1.matches && mqL2.matches) {
-        console.log('onlooad',contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.laptop)
+        console.log('onlooad',((contentContainer.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.laptop)
       }
     }))
     mqHR1.addEventListener("change", (e => {
       if (mqHR1.matches) {
-        console.log(contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.highResolution)
+        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.highResolution)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqHR1.matches) {
-        console.log('onlooad',contentContainer.components)
-        this.setComponentStates(contentContainer, ScreenSize.highResolution)
+        console.log('onlooad',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.highResolution)
       }
     }))
   }

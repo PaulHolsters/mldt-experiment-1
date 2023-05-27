@@ -49,6 +49,7 @@ import {EventType} from "./enums/eventTypes.enum";
 })
 export class StoreService {
   constructor() {
+    console.log('initializeing store')
   }
   private statePropertySubjects: StatePropertySubjectModel[] = []
   private actions: ActionModel[]=[]
@@ -737,7 +738,10 @@ export class StoreService {
     components: ComponentModel[],
     actions: ActionModel[]
   }) {
+    console.log('creating store')
+    // todo hhier zit de bug => je maakt geen deep copy en dat veroorzaakt het probleem
     this.components = [...contentContainer.components]
+    console.log(((this.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
     contentContainer.components.forEach(comp => {
       this.createProps(comp)}
     )
@@ -795,8 +799,11 @@ export class StoreService {
 
   }
   public getComponentsConfig():ComponentModel[]{
-    if(this.components)
-    return [...this.components]
+    console.log('calling get config from store')
+    if(this.components){
+      console.log((([...this.components][0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
+      return [...this.components]
+    }
     else return []
   }
 }
