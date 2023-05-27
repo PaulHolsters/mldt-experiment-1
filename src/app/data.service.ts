@@ -81,6 +81,7 @@ export class DataService {
     }
   }
   public getData(dataLink:string[]):AttributeComponentModel{
+    console.log('gettingData')
     const obj = this.data.find(dataObj=>{
       return dataObj.conceptName === dataLink[0]
     })
@@ -109,6 +110,7 @@ export class DataService {
     throw new Error('Data niet gevonden.')
   }
   private setDataState(compConcept:ConceptComponentModel){
+    console.log('settingData')
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
     this.storeService.getStatePropertySubjects().forEach(propSubj=>{
@@ -122,11 +124,13 @@ export class DataService {
         // todo en omgekeerd als de schermgrootte wijzigt moet ook de data in rekening genomen worden wat nu niet gebeurt
         //      voorlopig houden we er geen rekening mee
         const data:AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
+        console.log('firing data',compConcept)
         this.storeService.getStatePropertySubject(comp.name,'dataAttribute')?.propValue.next(data)
        }
     })
   }
   private query(querySubType: QuerySubType, data: ConceptConfigModel): any {
+    console.log('queryData')
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         const GET_BLUEPRINT = gql`
@@ -184,6 +188,7 @@ export class DataService {
     })
   }
   public async getDataBluePrint(action: ActionModel) {
+    console.log('gettingBP')
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data

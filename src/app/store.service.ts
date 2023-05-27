@@ -256,7 +256,13 @@ export class StoreService {
     throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
+    if(componentName==='fc1-container'){
+      console.log(stateModel,screenSize)
+    }
     const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
+      if(componentName==='fc1-container'){
+        console.log(attributesConfig)
+      }
       const compPropsObj = new AttributesComponentPropsModel()
       Object.entries(attributesConfig).forEach(([k, v]) => {
         compPropsObj.setProperty(k, v)
@@ -360,8 +366,6 @@ export class StoreService {
   }
   public getParentComponentWithProperty(compName: string ,property:string, component?:ComponentModel, previousComponent?:ComponentModel): ComponentModel | undefined {
     // todo later string [] variant toevoegen
-
-    // todo fix bug undefined previous
     if(component){
       if(component.name !== compName){
         if(component.children){
@@ -557,8 +561,8 @@ export class StoreService {
       newState instanceof OverflowComponentPropsModel
     ) {
       for (let [k, v] of Object.entries(newState)) {
-        // todo fix bug: als dimensioncomponentPropsModel is niet correct als het gaat om een in een attributes verborgen component
-        //    check zeker of dit ook niet een problem is voor alle ander componentPropsModels
+        if(k==='dataLink')
+        console.log(componentName,(newState as AttributesComponentPropsModel).dataLink,'concrete values',k,v)
         if (v !== ComponentDimensionValueConfigType.Parent) {
           this.getStatePropertySubjects().find(subj => {
             return subj.componentName === componentName && subj.propName === k

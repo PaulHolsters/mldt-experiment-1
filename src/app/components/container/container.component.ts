@@ -72,6 +72,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
         this.cd.detectChanges()
   }
   ngOnInit(): void {
+    console.log('init container =>',this.name)
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       this.dataConcept = res as ConceptComponentModel
     })
@@ -79,6 +80,8 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
       this.dataAttribute = res as AttributeComponentModel
     })
     this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
+      // todo fix bug als het scherm kliner wordt gebeurt er iets waardoor het formulier deels weggaat
+      //      er komt een lege datalink array binnen als het scherm kleiner OF groter wordt
       this.dataLink = res as string[]
       console.log('container init met datalink',this.dataLink)
       this.nameFormControl = this.dataLink.join('_')

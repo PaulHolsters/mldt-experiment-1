@@ -641,7 +641,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                               DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
                             ), DynamicDimensionValueConfigType.NC)
                           )), new ResponsiveAttributesConfigModel({
-                            dataLink: ['product', 'basePrice']
+                            dataLink: ['product', 'price']
                           }),
                           new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()), undefined,
                           [{
@@ -687,7 +687,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       undefined, undefined, 'Product naam', 'Geef een adequate naam'
                     ),
                     new AttributeConfigModel(
-                      'basePrice',
+                      'price',
                       false,
                       false,
                       undefined,
@@ -701,12 +701,12 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
                       undefined,
                       'Basisprijs',
                       'Geef een getal in tussen -445 en 10'),
-                    new AttributeConfigModel(
+/*                    new AttributeConfigModel(
                       'creationDate',
                       false,
                       false, undefined, undefined, undefined,
                       'aanmaakdatum',
-                      'Selecteer de datum'),
+                      'Selecteer de datum'),*/
                   ]),)
             }),
             visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
@@ -790,6 +790,7 @@ een bepaalde breedte en hoogte werd gezet en eventueel bepaald responsive behavi
   * */
 
   constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
+    console.log(((this.contentContainer?.components[0]?.children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone)
     this.storeService.createStore(this.contentContainer)
     this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
   }

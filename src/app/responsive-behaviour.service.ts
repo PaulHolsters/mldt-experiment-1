@@ -19,7 +19,6 @@ export class ResponsiveBehaviourService {
     }
     if (component.overflow)
       this.storeService.setRBSState(component.name, this.storeService.getOverflowComponentProps(component.name, component.overflow, screenSize))
-
     if (component.childLayout){
       this.storeService.setRBSState(component.name, this.storeService.getChildLayoutComponentProps(component.name, component.childLayout, screenSize))
     }
@@ -37,8 +36,12 @@ export class ResponsiveBehaviourService {
       Object.values(this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)).filter(val=>{
         return val instanceof ComponentModel
       }).forEach(val=>{
+        // todo bij onload is er hier wel een gevulde array en bij onchange niet meer
+        //      maw vergelijk deze in de method itself
+        if(val.name==='fc1-container') console.log(component.name, component.attributes?.smartphone?.content?.attributes?.smartphone,val?.attributes?.smartphone)
         this.setState(val,screenSize)
       })
+      if(component.name==='fc1-container') console.log(component.name, component.attributes?.smartphone)
       this.storeService.setRBSState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
     }
     if (component.styling)
@@ -49,6 +52,7 @@ export class ResponsiveBehaviourService {
     components: ComponentModel[],
     actions: ActionModel[]
   }, screenSize: number) {
+
     contentContainer.components.forEach(comp => {
       this.setState(comp, screenSize)
     })
@@ -57,6 +61,7 @@ export class ResponsiveBehaviourService {
     components: ComponentModel[],
     actions: ActionModel[]
   }) {
+
     const mqSM1 = window.matchMedia("(max-width: 480px)") //smartphone
     const mqPT1 = window.matchMedia("(min-width: 481px)") //portrait-tablet
     const mqPT2 = window.matchMedia("(max-width: 799px)") //portrait-tablet
@@ -67,66 +72,80 @@ export class ResponsiveBehaviourService {
     const mqHR1 = window.matchMedia("(min-width: 1281px)") //HR
     mqSM1.addEventListener("change", (e => {
       if (mqSM1.matches) {
+        console.log(contentContainer.components)
+        // todo fix misschien met een get vanuit ?
         this.setComponentStates(contentContainer, ScreenSize.smartphone)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqSM1.matches) {
+        console.log('onload',contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.smartphone)
       }
     }))
     mqPT1.addEventListener("change", (e => {
       if (mqPT1.matches && mqPT2.matches) {
+        console.log(contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
       }
     }))
     mqPT2.addEventListener("change", (e => {
       if (mqPT1.matches && mqPT2.matches) {
+        console.log(contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqPT1.matches && mqPT2.matches) {
+        console.log('onlooad',contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.portraitTablet)
       }
     }))
     mqT1.addEventListener("change", (e => {
       if (mqT1.matches && mqT2.matches) {
+        console.log(contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.tablet)
       }
     }))
     mqT2.addEventListener("change", (e => {
       if (mqT1.matches && mqT2.matches) {
+        console.log(contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.tablet)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqT1.matches && mqT2.matches) {
+        console.log('onlooad',contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.tablet)
       }
     }))
     mqL1.addEventListener("change", (e => {
       if (mqL1.matches && mqL2.matches) {
+        console.log(contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.laptop)
       }
     }))
     mqL2.addEventListener("change", (e => {
       if (mqL1.matches && mqL2.matches) {
+        console.log(contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.laptop)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqL1.matches && mqL2.matches) {
+        console.log('onlooad',contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.laptop)
       }
     }))
     mqHR1.addEventListener("change", (e => {
       if (mqHR1.matches) {
+        console.log(contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.highResolution)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqHR1.matches) {
+        console.log('onlooad',contentContainer.components)
         this.setComponentStates(contentContainer, ScreenSize.highResolution)
       }
     }))
