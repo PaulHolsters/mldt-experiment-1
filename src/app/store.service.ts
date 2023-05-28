@@ -6,7 +6,6 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {StatePropertySubjectModel} from "./models/StatePropertySubject";
 import {CalculationModel} from "./models/CalculationModel";
 import {ComponentModel} from "./models/ComponentModel";
-import {ActionModel} from "./models/ActionModel";
 import {AttributesConfigPropsModel} from "./models/Attributes/AttributesConfigPropsModel";
 import {VisibilityConfigPropsModel} from "./models/Visibility/VisibilityConfigPropsModel";
 import {PositioningComponentPropsModel} from "./models/Positioning/self/PositioningComponentPropsModel";
@@ -42,17 +41,17 @@ import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTy
 import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
-import {EventType} from "./enums/eventTypes.enum";
+import {ConfigService} from "./config.service";
+import {userConfig} from "./configuration/main";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
-  constructor() {
-    console.log('initializeing store')
+  constructor(private configService:ConfigService) {
+    this.createStore()
   }
   private statePropertySubjects: StatePropertySubjectModel[] = []
-  private actions: ActionModel[]=[]
   private hasScreenSizeProperty(stateModel:
                                   ResponsivePositioningConfigModel | ResponsiveOverflowConfigModel | ResponsiveStylingConfigModel | ResponsiveDimensioningConfigModel | ResponsiveAttributesConfigModel
                                   | ResponsiveVisibilityConfigModel, property: string): boolean {
@@ -257,13 +256,7 @@ export class StoreService {
     throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
-    if(componentName==='fc1-container'){
-      console.log(stateModel,screenSize)
-    }
     const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
-      if(componentName==='fc1-container'){
-        console.log(attributesConfig)
-      }
       const compPropsObj = new AttributesComponentPropsModel()
       Object.entries(attributesConfig).forEach(([k, v]) => {
         compPropsObj.setProperty(k, v)
@@ -331,220 +324,6 @@ export class StoreService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
-
-  public getComponent(compName: string ,component?:ComponentModel): ComponentModel | undefined {
-    // todo later string [] variant toevoegen
-    // de naam is nu 'input with label'
-    if(component){
-        if(component.name !== compName){
-          if(component.children){
-            for (let j=0;j<component.children.length;j++){
-              // hier ga je bv de menubar component hebben
-              const comp = this.getComponent(compName,component.children[j] as ComponentModel)
-              if(comp){
-                return comp
-              }
-            }
-          }
-      } else return component
-    } else{
-      if(this.components !== undefined){
-        for (let i=0;i<this.components.length;i++){
-          if(this.components[i].name !== compName){
-            if(this.components[i].children){
-              for (let k=0;k<(this.components[i].children as ComponentModel[]).length;k++){
-                const comp = this.getComponent(compName,(this.components[i].children as ComponentModel[])[k])
-                if(comp){
-                  return comp
-                }
-              }
-            }
-          } else return this.components[i]
-        }
-      }
-    }
-    return undefined
-  }
-  public getParentComponentWithProperty(compName: string ,property:string, component?:ComponentModel, previousComponent?:ComponentModel): ComponentModel | undefined {
-    // todo later string [] variant toevoegen
-    if(component){
-      if(component.name !== compName){
-        if(component.children){
-          for (let j=0;j<component.children.length;j++){
-            let previousComponent
-            if((component.children[j] as ComponentModel).hasOwnProperty(property)){
-              previousComponent = component.children[j] as ComponentModel
-            }
-            const comp = this.getParentComponentWithProperty(compName,property,component.children[j] as ComponentModel,previousComponent)
-            if(comp){
-              return comp
-            }
-          }
-        }
-      } else return previousComponent
-    } else{
-      if(this.components !== undefined){
-        for (let i=0;i<this.components.length;i++){
-          if(this.components[i].name !== compName){
-            if(this.components[i].children){
-              for (let k=0;k<(this.components[i].children as ComponentModel[]).length;k++){
-                let previousComponent
-                if((this.components[i].children as ComponentModel[])[k].hasOwnProperty(property)){
-                  previousComponent = (this.components[i].children as ComponentModel[])[k]
-                }
-                const comp = this.getParentComponentWithProperty(compName,property,(this.components[i].children as ComponentModel[])[k],previousComponent)
-                if(comp){
-                  return comp
-                }
-              }
-            }
-          } else return previousComponent
-        }
-      }
-    }
-    return undefined
-  }
-  public getParentComponentWithPropertyThroughAttributes(compName: string,property:string,childComp?:ComponentModel,previous?:ComponentModel): ComponentModel | undefined{
-    if(childComp){
-      if(childComp.name === compName) return previous
-      if(childComp.attributes !== undefined){
-        const attributes = childComp.attributes as ResponsiveAttributesConfigModel
-        for (let [k,v] of Object.entries(attributes)){
-          if(v){
-            for (let[j,l] of Object.entries(v)){
-              if(l instanceof ComponentModel && l.name === compName){
-                return previous
-              }
-              let previousComponent
-              if(l instanceof ComponentModel && l.hasOwnProperty(property)){
-                previousComponent = l
-              }
-              if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
-                let component
-                if(previousComponent) component = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previousComponent)
-                else component = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previous)
-                if(component){
-                  return component
-                }
-              }
-            }
-          }
-        }
-      }
-      if(childComp.children!==undefined){
-        for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
-          let previousComponent
-          if((childComp.children as ComponentModel[])[j].hasOwnProperty(property)){
-            previousComponent = (childComp.children as ComponentModel[])[j]
-          }
-          let component
-          if(previousComponent) component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previousComponent)
-          else component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previous)
-          if(component){
-            return component
-          }
-        }
-      }
-    } else if(this.components!==undefined){
-      for (let i=0;i<this.components.length;i++){
-        if(this.components[i].attributes !== undefined){
-          const attributes = this.components[i].attributes as ResponsiveAttributesConfigModel
-          for (let [k,v] of Object.entries(attributes)){
-            if(v){
-              for (let[j,l] of Object.entries(v)){
-                if(l instanceof ComponentModel && l.name === compName){
-                  return previous
-                }
-                let previousComponent
-                if(l instanceof ComponentModel && l.hasOwnProperty(property)){
-                  previousComponent = l
-                }
-                if(l instanceof ComponentModel){
-                  let component
-                  if(previousComponent) component =this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previousComponent)
-                  else component = this.getParentComponentWithPropertyThroughAttributes(compName,property,l,previous)
-                  if(component) return component
-                }
-              }
-            }
-          }
-        }
-        if(this.components[i].children !== undefined){
-          for (let j = 0; j < (this.components[i].children as ComponentModel[]).length; j++) {
-            let previousComponent
-            if((this.components[i].children as ComponentModel[])[j].hasOwnProperty(property)){
-              previousComponent = (this.components[i].children as ComponentModel[])[j]
-            }
-            let component
-            if(previousComponent) component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(this.components[i].children as ComponentModel[])[j],previousComponent)
-            else component = this.getParentComponentWithPropertyThroughAttributes(compName,property,(this.components[i].children as ComponentModel[])[j],previous)
-            if(component){
-              return component
-            }
-          }
-        }
-      }
-    }
-    return undefined
-  }
-  public getComponentThroughAttributes(compName: string,childComp?:ComponentModel): ComponentModel | undefined{
-    if(childComp){
-      if(childComp.name === compName) return childComp
-      if(childComp.attributes !== undefined){
-        const attributes = childComp.attributes as ResponsiveAttributesConfigModel
-        for (let [k,v] of Object.entries(attributes)){
-          if(v){
-            for (let[j,l] of Object.entries(v)){
-              // todo het is niet per se een instance omdat het niet met het new keyword werd aangemaakt => maar ik zou
-              //      dit dus voorlopig in de constraints wel afdwingen
-              if(l instanceof ComponentModel && l.name === compName){
-                return l
-              }
-              if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
-                const component = this.getComponentThroughAttributes(compName,l)
-                if(component){
-                  return component
-                }
-              }
-            }
-          }
-        }
-      }
-      if(childComp.children!==undefined){
-        for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
-          const component = this.getComponentThroughAttributes(compName,(childComp.children as ComponentModel[])[j])
-          if(component){
-            return component
-          }
-        }
-      }
-    } else if(this.components!==undefined){
-      for (let i=0;i<this.components.length;i++){
-        if(this.components[i].attributes !== undefined){
-          const attributes = this.components[i].attributes as ResponsiveAttributesConfigModel
-          for (let [k,v] of Object.entries(attributes)){
-            if(v){
-              for (let[j,l] of Object.entries(v)){
-                if(l instanceof ComponentModel && l.name === compName){
-                  return l
-                }
-              }
-            }
-          }
-        }
-        if(this.components[i].children !== undefined){
-          for (let j = 0; j < (this.components[i].children as ComponentModel[]).length; j++) {
-            const component = this.getComponentThroughAttributes(compName,(this.components[i].children as ComponentModel[])[j])
-            if(component){
-              return component
-            }
-          }
-        }
-      }
-    }
-    return undefined
-  }
-
   public setRBSState(componentName: string,
                   newState: (PositioningComponentPropsModel |
                     AttributesComponentPropsModel |
@@ -562,8 +341,6 @@ export class StoreService {
       newState instanceof OverflowComponentPropsModel
     ) {
       for (let [k, v] of Object.entries(newState)) {
-        if(k==='dataLink')
-        console.log(componentName,(newState as AttributesComponentPropsModel).dataLink,'concrete values',k,v)
         if (v !== ComponentDimensionValueConfigType.Parent) {
           this.getStatePropertySubjects().find(subj => {
             return subj.componentName === componentName && subj.propName === k
@@ -580,9 +357,9 @@ export class StoreService {
       }
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
-          let parent = this.getComponent(componentName)
+          let parent = this.configService.getComponentConfig(componentName)
           if(!parent){
-            parent = this.getComponentThroughAttributes(componentName)
+            parent = this.configService.getComponentConfigThroughAttributes(componentName)
           }
           if (parent?.children) {
             if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
@@ -607,18 +384,6 @@ export class StoreService {
       })?.propValue.next(newState)
     }
   }
-  private components: ComponentModel[] | undefined
-/*  public addProperty(compName:string,propName:string){
-    if(!this.getStatePropertySubjects().find(subj => {
-      return subj.componentName === compName && subj.propName === propName
-    })){
-      const propSubj = new BehaviorSubject<any | undefined>(undefined)
-      this.statePropertySubjects.push({
-        componentName: compName, propName: propName, propValue:
-        propSubj, prop$: propSubj.asObservable()
-      })
-    }
-  }*/
   private createProps(component: ComponentModel) {
     if(component.data){
       const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -734,18 +499,10 @@ export class StoreService {
       })
     }
   }
-  public createStore(contentContainer: {
-    components: ComponentModel[],
-    actions: ActionModel[]
-  }) {
-    console.log('creating store')
-    // todo hhier zit de bug => je maakt geen deep copy en dat veroorzaakt het probleem
-    this.components = [...contentContainer.components]
-    console.log(((this.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-    contentContainer.components.forEach(comp => {
+  public createStore() {
+    userConfig.components.forEach(comp => {
       this.createProps(comp)}
     )
-    this.actions = [...contentContainer.actions]
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
@@ -781,30 +538,6 @@ export class StoreService {
       return ps.componentName===compName && ps.propName === propName
     })
   }
-  public getActions():ActionModel[]{
-    return [...this.actions]
-  }
-  public getActionsForComponent(name:string):ActionModel[]{
-    return this.actions.filter(action=>{
-      return action.targetName===name
-    })
-  }
-  public getActionsForEvent(event:EventType){
-    return this.actions.filter(action=>{
-      return action.on === event
-    })
-  }
 
-  public getParentConfigModel(){
-
-  }
-  public getComponentsConfig():ComponentModel[]{
-    console.log('calling get config from store')
-    if(this.components){
-      console.log((([...this.components][0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-      return [...this.components]
-    }
-    else return []
-  }
 }
 

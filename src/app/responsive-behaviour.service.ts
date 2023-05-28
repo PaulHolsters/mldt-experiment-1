@@ -1,14 +1,12 @@
 import {Injectable} from '@angular/core';
 import {ComponentModel} from "./models/ComponentModel";
-import {ActionModel} from "./models/ActionModel";
 import {StoreService} from "./store.service";
-import {ScreenSize} from "./enums/screenSizes.enum";
+import {userConfig} from "./configuration/main";
 @Injectable({
   providedIn: 'root'
 })
 export class ResponsiveBehaviourService {
   constructor(private storeService: StoreService) {
-    console.log('initializeing RBS')
   }
   private setState(component: ComponentModel, screenSize: number) {
     if (component.visibility)
@@ -37,118 +35,18 @@ export class ResponsiveBehaviourService {
       Object.values(this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)).filter(val=>{
         return val instanceof ComponentModel
       }).forEach(val=>{
-        // todo bij onload is er hier wel een gevulde array en bij onchange niet meer
-        //      maw vergelijk deze in de method itself
-        if(val.name==='fc1-container') console.log(component.name, component.attributes?.smartphone?.content?.attributes?.smartphone,val?.attributes?.smartphone)
         this.setState(val,screenSize)
       })
-      if(component.name==='fc1-container') console.log(component.name, component.attributes?.smartphone)
       this.storeService.setRBSState(component.name, this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize))
     }
     if (component.styling)
       this.storeService.setRBSState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
 
   }
-  private setComponentStates(contentContainer: {
-    components: ComponentModel[],
-    actions: ActionModel[]
-  }, screenSize: number) {
-    contentContainer.components.forEach(comp => {
+  public setComponentStates( screenSize: number) {
+    userConfig.components.forEach(comp => {
       this.setState(comp, screenSize)
     })
   }
-  public setResponsiveBehaviour(contentContainer: {
-    components: ComponentModel[],
-    actions: ActionModel[]
-  }) {
-    console.log('calling setRBS')
-    const mqSM1 = window.matchMedia("(max-width: 480px)") //smartphone
-    const mqPT1 = window.matchMedia("(min-width: 481px)") //portrait-tablet
-    const mqPT2 = window.matchMedia("(max-width: 799px)") //portrait-tablet
-    const mqT1 = window.matchMedia("(min-width: 800px)") //tablet
-    const mqT2 = window.matchMedia("(max-width: 1024px)") //tablet
-    const mqL1 = window.matchMedia("(min-width: 1025px)") //desktop
-    const mqL2 = window.matchMedia("(max-width: 1280px)") //desktop
-    const mqHR1 = window.matchMedia("(min-width: 1281px)") //HR
-    mqSM1.addEventListener("change", (e => {
-      if (mqSM1.matches) {
-        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        // todo fix misschien met een get vanuit ?
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.smartphone)
-      }
-    }))
-    window.addEventListener("load", (e => {
-      if (mqSM1.matches) {
-        console.log('onload',((contentContainer.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.smartphone)
-      }
-    }))
-    mqPT1.addEventListener("change", (e => {
-      if (mqPT1.matches && mqPT2.matches) {
-        // todo fix here: hier is dataLink leeg!
-        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.portraitTablet)
-      }
-    }))
-    mqPT2.addEventListener("change", (e => {
-      if (mqPT1.matches && mqPT2.matches) {
-        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.portraitTablet)
-      }
-    }))
-    window.addEventListener("load", (e => {
-      if (mqPT1.matches && mqPT2.matches) {
-        console.log('onlooad',((contentContainer.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.portraitTablet)
-      }
-    }))
-    mqT1.addEventListener("change", (e => {
-      if (mqT1.matches && mqT2.matches) {
-        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.tablet)
-      }
-    }))
-    mqT2.addEventListener("change", (e => {
-      if (mqT1.matches && mqT2.matches) {
-        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.tablet)
-      }
-    }))
-    window.addEventListener("load", (e => {
-      if (mqT1.matches && mqT2.matches) {
-        console.log('onlooad',((contentContainer.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.tablet)
-      }
-    }))
-    mqL1.addEventListener("change", (e => {
-      if (mqL1.matches && mqL2.matches) {
-        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.laptop)
-      }
-    }))
-    mqL2.addEventListener("change", (e => {
-      if (mqL1.matches && mqL2.matches) {
-        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.laptop)
-      }
-    }))
-    window.addEventListener("load", (e => {
-      if (mqL1.matches && mqL2.matches) {
-        console.log('onlooad',((contentContainer.components[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.laptop)
-      }
-    }))
-    mqHR1.addEventListener("change", (e => {
-      if (mqHR1.matches) {
-        console.log('onchange',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.highResolution)
-      }
-    }))
-    window.addEventListener("load", (e => {
-      if (mqHR1.matches) {
-        console.log('onlooad',((this.storeService.getComponentsConfig()[0].children as ComponentModel[])[1]?.attributes?.smartphone?.content?.children as ComponentModel[])[0]?.attributes?.smartphone?.content?.attributes?.smartphone?.dataLink)
-        this.setComponentStates({components:this.storeService.getComponentsConfig(),actions:this.storeService.getActions()}, ScreenSize.highResolution)
-      }
-    }))
-  }
+
 }

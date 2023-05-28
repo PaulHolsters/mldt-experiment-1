@@ -47,7 +47,6 @@ export class InputNumberComponent implements OnInit {
   Number = Number
   NI = NoValueType.NI
   constructor(private dataService:DataService,private storeService:StoreService) {
-    console.log('number input init met name '+this.name)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -78,7 +77,6 @@ export class InputNumberComponent implements OnInit {
     const text2 = text.substring(text.indexOf('<input ')+7)
     const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
     this.value = Number(text3.substring(0,text3.indexOf('">')))
-    console.log(this.name,this.value)
     this.dataService.updateData(this.name,this.value)
   }
 

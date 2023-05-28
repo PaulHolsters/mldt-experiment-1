@@ -11,12 +11,13 @@ import {NoValueType} from "./enums/no_value_type";
 import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 import {Observable} from "rxjs";
+import {ConfigService} from "./config.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private storeService: StoreService, private apollo: Apollo) {
+  constructor(private storeService: StoreService, private apollo: Apollo, private configService:ConfigService) {
   }
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
@@ -81,28 +82,28 @@ export class DataService {
     }
   }
   public getData(dataLink:string[]):AttributeComponentModel{
-    console.log('gettingData')
+    const dataLinkCopy = [...dataLink]
     const obj = this.data.find(dataObj=>{
-      return dataObj.conceptName === dataLink[0]
+      return dataObj.conceptName === dataLinkCopy[0]
     })
     if(obj){
-      dataLink.splice(0,1)
+      dataLinkCopy.splice(0,1)
       let attributes = [...obj.attributes]
       let currentAttr: AttributeComponentModel|undefined = attributes.find(attr=>{
-        return attr.name === dataLink[0]
+        return attr.name === dataLinkCopy[0]
       })
-      dataLink.splice(0,1)
-      while(currentAttr && dataLink.length>0){
+      dataLinkCopy.splice(0,1)
+      while(currentAttr && dataLinkCopy.length>0){
         if(currentAttr.concept){
           // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
           attributes = [...currentAttr?.concept?.attributes]
           currentAttr = attributes.find(attr=>{
-            return attr.name === dataLink[0]
+            return attr.name === dataLinkCopy[0]
           })
         } else{
           throw new Error('Datalink bevat teveel entries.')
         }
-        dataLink.splice(0,1)
+        dataLinkCopy.splice(0,1)
       }
       if(currentAttr!==undefined)
       return currentAttr
@@ -110,13 +111,12 @@ export class DataService {
     throw new Error('Data niet gevonden.')
   }
   private setDataState(compConcept:ConceptComponentModel){
-    console.log('settingData')
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
     this.storeService.getStatePropertySubjects().forEach(propSubj=>{
       // todo refactor
-      let comp = this.storeService.getComponent(propSubj.componentName)
-      if(!comp) comp = this.storeService.getComponentThroughAttributes(propSubj.componentName)
+      let comp = this.configService.getComponentConfig(propSubj.componentName)
+      if(!comp) comp = this.configService.getComponentConfigThroughAttributes(propSubj.componentName)
       if(propSubj.propName==='dataConcept' && comp && comp.data){
         if(comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
       } else if(propSubj.propName==='dataLink'&& comp && comp.attributes?.smartphone?.dataLink){
@@ -124,13 +124,11 @@ export class DataService {
         // todo en omgekeerd als de schermgrootte wijzigt moet ook de data in rekening genomen worden wat nu niet gebeurt
         //      voorlopig houden we er geen rekening mee
         const data:AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
-        console.log('firing data',compConcept)
         this.storeService.getStatePropertySubject(comp.name,'dataAttribute')?.propValue.next(data)
        }
     })
   }
   private query(querySubType: QuerySubType, data: ConceptConfigModel): any {
-    console.log('queryData')
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         const GET_BLUEPRINT = gql`
@@ -179,25 +177,24 @@ export class DataService {
     } else throw new Error('Geen geldige data configuratie.')
   }
   public async persistNewData(action:ActionModel){
-    let comp = this.storeService.getParentComponentWithProperty(action.sourceName,'data')
+    let comp = this.configService.getParentComponentConfigWithProperty(action.sourceName,'data')
     if(!comp){
-      comp = this.storeService.getParentComponentWithPropertyThroughAttributes(action.sourceName,'data')
+      comp = this.configService.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName,'data')
     }
     await this.mutate(comp?.data,MutationType.Create)?.subscribe(res=>{
       console.log(res,'yeah!')
     })
   }
   public async getDataBluePrint(action: ActionModel) {
-    console.log('gettingBP')
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
     // of een deel van de data nodig hebben daarvan op de hoogte gebracht door middel van een event
     // welke componenten dat zijn kan worden afgeleid uit de configuratie van de gebruiker
     if (action.targetType === TargetType.Component) {
-      let compModel = this.storeService.getComponent(action.targetName)?.data
+      let compModel = this.configService.getComponentConfig(action.targetName)?.data
       if (!compModel) {
-        compModel = this.storeService.getComponentThroughAttributes(action.targetName)?.data
+        compModel = this.configService.getComponentConfigThroughAttributes(action.targetName)?.data
       }
       if (compModel !== undefined) {
         await this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown)=>{
