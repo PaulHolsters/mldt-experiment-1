@@ -1,0 +1,11 @@
+<div       [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+           [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+           [style.height]="height"
+           [style.width]="width">
+  <p-radioButton name="{{conceptName}}" [(ngModel)]="value" value="{{enumVal}}"
+                 [class.ng-invalid]="invalid"
+                 [class.ng-dirty]="dirty"
+                 [disabled]="disabled === true"
+  ></p-radioButton>
+</div>
+<!-- todo standard make it a group in a default container ?-->
