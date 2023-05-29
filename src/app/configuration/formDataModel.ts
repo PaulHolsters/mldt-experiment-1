@@ -1,0 +1,49 @@
+import {ConceptConfigModel} from "../models/Data/ConceptConfigModel";
+import {AttributeConfigModel} from "../models/Data/AttributeConfigModel";
+import {TextAttributeConfigModel} from "../models/Data/TextAttributeConfigModel";
+import {RestrictionType} from "../enums/restrictionType.enum";
+import {IconType} from "../enums/iconType.enum";
+import {IconPositionType} from "../enums/iconPositionType.enum";
+import {InputFontSizeType} from "../enums/inputFontSizeType.enum";
+import {NoValueType} from "../enums/no_value_type";
+import {NumberAttributeConfigModel} from "../models/Data/NumberAttributeConfigModel";
+import {NumberInputModeType} from "../enums/numberInputModeType.enum";
+import {LocaleType} from "../enums/localeType.enum";
+import {CurrencyType} from "../enums/currencyType.enum";
+import {CurrencyDisplayType} from "../enums/currencyDisplayType.enum";
+import {ButtonClassType} from "../enums/buttonClassType.enum";
+import {ButtonLayoutType} from "../enums/buttonLayoutType.enum";
+
+export const formData = new ConceptConfigModel(
+  'product',
+  [
+    new AttributeConfigModel(
+      'name',
+      false,
+      true,
+      new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
+        InputFontSizeType.Large, NoValueType.NVY),
+      undefined, undefined, 'Product naam', 'Geef een adequate naam'
+    ),
+    new AttributeConfigModel(
+      'price',
+      false,
+      false,
+      undefined,
+      new NumberAttributeConfigModel(
+        true,
+        true,
+        1,
+        NumberInputModeType.Currency, LocaleType.nl_NL, CurrencyType.EUR, CurrencyDisplayType.CODE, undefined, undefined,
+        undefined, undefined, ButtonClassType.Success,
+        ButtonClassType.Primary, IconType.Plus, IconType.Min, undefined, undefined, ButtonLayoutType.Stacked, NoValueType.NVY),
+      undefined,
+      'Basisprijs',
+      'Geef een getal in tussen -445 en 10'),
+    /*                    new AttributeConfigModel(
+                          'creationDate',
+                          false,
+                          false, undefined, undefined, undefined,
+                          'aanmaakdatum',
+                          'Selecteer de datum'),*/
+  ])
