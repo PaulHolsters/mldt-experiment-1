@@ -5,27 +5,6 @@ import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVi
 import {ResponsiveOverflowConfigModel} from "../models/Overflow/self/ResponsiveOverflowConfigModel";
 import {OverflowConfigPropsModel} from "../models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "../enums/overflowValueConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../models/Dimensioning/self/HeightConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../models/Dimensioning/self/FixedDimensioningConfigModel";
-import {DimensionValueConfigType} from "../enums/dimensionValueConfigTypes.enum";
-import {DynamicDimensionValueConfigType} from "../enums/DynamicDimensionValueConfigTypes.enum";
-import {WidthValueConfigType} from "../enums/WidthValueConfigTypes.enum";
-import {ResponsiveChildLayoutConfigModel} from "../models/ChildLayout/ResponsiveChildLayoutConfigModel";
-import {ChildLayoutConfigPropsModel} from "../models/ChildLayout/ChildLayoutConfigPropsModel";
-import {HorizontalLayoutConfigPropsModel} from "../models/ChildLayout/HorizontalLayoutConfigPropsModel";
-import {AxisConfigType} from "../enums/axisConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../enums/crossAxisHorizontalPositioningConfigTypes.enum";
-import {WidthConfigPropsModel} from "../models/Dimensioning/self/WidthConfigPropsModel";
-import {DimensionUnitConfigType} from "../enums/dimensionUnitConfigTypes.enum";
-import {
-  CrossAxisHorizontalLanesPositioningConfigType
-} from "../enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
-import {VerticalLayoutConfigPropsModel} from "../models/ChildLayout/VerticalLayoutConfigPropsModel";
-import {MainAxisVerticalPositioningConfigType} from "../enums/mainAxisVerticalPositioningConfigTypes.enum";
-import {HeightValueConfigType} from "../enums/HeightValueConfigTypes.enum";
-import {CrossAxisVerticalLanesPositioningConfigType} from "../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 import {ResponsiveStylingConfigModel} from "../models/Styling/ResponsiveStylingConfigModel";
 import {StylingConfigPropsModel} from "../models/Styling/StylingConfigPropsModel";
 import {BackgroundColorType} from "../enums/backgroundColorType.enum";
@@ -36,6 +15,8 @@ import {TargetType} from "../enums/targetTypes.enum";
 import {EventType} from "../enums/eventTypes.enum";
 import {form} from "./form";
 import {header} from "./header";
+import {mainChildLayout} from "./mainChildLayout";
+import {mainDimensions} from "./mainDimensions";
 
 export const userConfig: {
   components: ComponentModel[],
@@ -44,50 +25,13 @@ export const userConfig: {
   components: [
     {
       // todo start adding constraints
-      // todo add a minimal/maxiaml dimension
+      // todo add a minimum/maximum dimension
       name: 'content-container',
       type: ComponentType.Container,
       visibility: new ResponsiveVisibilityConfigModel(),
       overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NA)),
-      dimensions: new ResponsiveDimensioningConfigModel(
-        new DimensioningConfigPropsModel(
-          new HeightConfigPropsModel(
-            new FixedDimensioningConfigModel(
-              DimensionValueConfigType.Calculated, '(100vh - 16px)'),
-            DynamicDimensionValueConfigType.NC),
-          WidthValueConfigType.NC
-        )
-      ),
-      childLayout: new ResponsiveChildLayoutConfigModel(
-        // todo add the other parts too like visibility, styling etc., change scroll into overflow
-        new ChildLayoutConfigPropsModel(
-          new HorizontalLayoutConfigPropsModel(
-            AxisConfigType.Cross,
-            undefined,
-            true,
-            // dit zal de componenten binnen een lane positioneren
-            CrossAxisHorizontalPositioningConfigType.Left,
-            // breedte van de kinderen
-            new WidthConfigPropsModel(
-              new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage),
-              DynamicDimensionValueConfigType.NC
-            ),
-            // dit zal lanes positioneren ten opzichte van elkaar
-            // todo dit geeft wel een soort van bug als de lanes centered zijn en het dingt overflowt dan kan je niet meer alles zien door te scrollen
-            //    dit zou je kunnen oplossen door in uiterste nood een event laten gebeuren en vervolgens de waarde hier wijzigen
-            CrossAxisHorizontalLanesPositioningConfigType.Left
-          ),
-          new VerticalLayoutConfigPropsModel(
-            AxisConfigType.Main,
-            false,
-            // todo nagaan is hier eigenlijk iets voor geimpelmenteerd?
-            true,
-            MainAxisVerticalPositioningConfigType.Top,
-            HeightValueConfigType.NC,
-            CrossAxisVerticalLanesPositioningConfigType.NA
-          )
-        )
-      ),
+      dimensions: mainDimensions,
+      childLayout: mainChildLayout,
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
         header,
@@ -97,7 +41,7 @@ export const userConfig: {
   ],
   actions: [
     // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
-    // de condities zoals gedefinieerd in de overeekomstige actie
+    // de condities zoals gedefinieerd in de overeenkomstige actie
     {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataBluePrint,
