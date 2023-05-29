@@ -172,6 +172,15 @@
                 [style.width]="'100%'"
         ></m-date>
       </ng-container>
+      <ng-container *ngSwitchCase="componentType.RadioButton">
+        <m-radio *ngIf="dataAttribute && dataLink"  [name]="dataLink.join('_')"
+                [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                [style.height]="'100%'"
+                [style.width]="'100%'"
+        ></m-radio>
+      </ng-container>
       <m-button       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

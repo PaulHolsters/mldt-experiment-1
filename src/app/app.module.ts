@@ -31,6 +31,8 @@ import { FormComponent } from './components/form/form.component';
 import {KeyFilterModule} from "primeng/keyfilter";
 import {InputNumberModule} from "primeng/inputnumber";
 import {FormcontrolComponent} from "./components/form/formcontrol/formcontrol.component";
+import {RadioButtonComponent} from "./components/form/radio-button/radio-button.component";
+import {RadioButtonModule} from "primeng/radiobutton";
 
 @NgModule({
   declarations: [
@@ -54,21 +56,23 @@ import {FormcontrolComponent} from "./components/form/formcontrol/formcontrol.co
     NumberComponent,
     DateComponent,
     FormComponent,
-    FormcontrolComponent
+    FormcontrolComponent,
+    RadioButtonComponent
   ],
-    imports: [
-        BrowserModule,
-        CardModule,
-        ButtonModule,
-        MenubarModule,
-        InputTextModule,
-        ImageModule,
-        FormsModule,
-        GraphQLModule,
-        HttpClientModule,
-        KeyFilterModule,
-        InputNumberModule
-    ],
+  imports: [
+    BrowserModule,
+    CardModule,
+    ButtonModule,
+    MenubarModule,
+    InputTextModule,
+    ImageModule,
+    FormsModule,
+    GraphQLModule,
+    HttpClientModule,
+    KeyFilterModule,
+    InputNumberModule,
+    RadioButtonModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -24,13 +24,13 @@ import {HeightConfigPropsModel} from "../models/Dimensioning/self/HeightConfigPr
 import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../models/Visibility/VisibilityConfigPropsModel";
 
-export const formControl1 = {
-  name: 'formcontrol1',
+export const formControl3 = {
+  name: 'formcontrol3',
   type: ComponentType.FormControl,
   attributes: new ResponsiveAttributesConfigModel(
     {
       content: new ComponentModel(
-        'fc1-container',
+        'fc3-container',
         ComponentType.Container,
         new ResponsiveChildLayoutConfigModel(
           new ChildLayoutConfigPropsModel(
@@ -56,17 +56,18 @@ export const formControl1 = {
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )), new ResponsiveAttributesConfigModel({
-          dataLink: ['product', 'name']
+          dataLink: ['product', 'cat']
         }),
         new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()), undefined,
         [{
           // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
           // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
-          name: 'fc1-label',
+          name: 'fc3-label',
           type: ComponentType.Label,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
         }, {
-          name: 'fc1-input', type: ComponentType.InputText,
+          // todo je hebt hier soeiwosd een repeater voor nodig
+          name: 'fc3-radio-button-group', type: ComponentType.RadioButton,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
         }], undefined, undefined),
 

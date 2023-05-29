@@ -15,6 +15,7 @@ import {formControl2} from "./formControl2";
 import {ResponsiveAttributesConfigModel} from "../models/Attributes/ResponsiveAttributesConfigModel";
 import {VisibilityConfigPropsModel} from "../models/Visibility/VisibilityConfigPropsModel";
 import {formData} from "./formDataModel";
+import {formControl3} from "./formControl3";
 
 export const formContainer = new ComponentModel(
   'form-container',
@@ -35,6 +36,7 @@ export const formContainer = new ComponentModel(
   [
     formControl1,
     formControl2,
+    formControl3,
     {
       name:'submitbtn',
       type:ComponentType.Button,

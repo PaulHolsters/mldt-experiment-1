@@ -13,6 +13,7 @@ import {CurrencyType} from "../enums/currencyType.enum";
 import {CurrencyDisplayType} from "../enums/currencyDisplayType.enum";
 import {ButtonClassType} from "../enums/buttonClassType.enum";
 import {ButtonLayoutType} from "../enums/buttonLayoutType.enum";
+import {RadioAttributeConfigModel} from "../models/Data/RadioAttributeConfigModel";
 
 export const formData = new ConceptConfigModel(
   'product',
@@ -23,8 +24,19 @@ export const formData = new ConceptConfigModel(
       true,
       new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
         InputFontSizeType.Large, NoValueType.NVY),
-      undefined, undefined, 'Product naam', 'Geef een adequate naam'
+      undefined, undefined,undefined, 'Product naam', 'Geef een adequate naam'
     ),
+    new AttributeConfigModel(
+      'cat',
+      false,
+      false,
+      undefined,
+      undefined,
+      new RadioAttributeConfigModel(
+        NoValueType.NVY
+      ),undefined,'Categorie','Selecteer één van de mogelijke categorieën',undefined
+    )
+    ,
     new AttributeConfigModel(
       'price',
       false,
@@ -37,13 +49,7 @@ export const formData = new ConceptConfigModel(
         NumberInputModeType.Currency, LocaleType.nl_NL, CurrencyType.EUR, CurrencyDisplayType.CODE, undefined, undefined,
         undefined, undefined, ButtonClassType.Success,
         ButtonClassType.Primary, IconType.Plus, IconType.Min, undefined, undefined, ButtonLayoutType.Stacked, NoValueType.NVY),
-      undefined,
+      undefined,undefined,
       'Basisprijs',
       'Geef een getal in tussen -445 en 10'),
-    /*                    new AttributeConfigModel(
-                          'creationDate',
-                          false,
-                          false, undefined, undefined, undefined,
-                          'aanmaakdatum',
-                          'Selecteer de datum'),*/
   ])
