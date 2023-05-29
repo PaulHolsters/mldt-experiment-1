@@ -1,11 +1,19 @@
-<div       [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-           [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-           [style.height]="height"
-           [style.width]="width">
-  <p-radioButton name="{{conceptName}}" [(ngModel)]="value" value="{{enumVal}}"
-                 [class.ng-invalid]="invalid"
-                 [class.ng-dirty]="dirty"
-                 [disabled]="disabled === true"
+<ng-container *ngFor="let val of values">
+  <p-radioButton name="{{conceptName}}" [(ngModel)]="value" value="{{val}}"
   ></p-radioButton>
-</div>
-<!-- todo standard make it a group in a default container ?-->
+  <label>{{val}}</label>
+</ng-container>
+<!-- todo standard make it a group in a default container ? werk met index zodat je ook een 'toon' waarde kan meegeven indien gewenst
+            zie dat je het label ook kan customizen !! je gaat hier een repeat mechanisme nodig hebben
+            als je niet wil inboeten aan customizability  deze repeater heeft
+            in de attributesz een content waar je de verschillende componenten kan
+            meegeven zoals een radiobutton en een bijhorend label en er moet een meechanise
+            zijn dat maakt dat data naar deze repeater kan gestuurd worden to be processed ?-->
+<!--
+[class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+[class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+[style.height]="height"
+[style.width]="width"-->
+<!--[class.ng-invalid]="invalid"
+[class.ng-dirty]="dirty"
+[disabled]="disabled === true"-->
