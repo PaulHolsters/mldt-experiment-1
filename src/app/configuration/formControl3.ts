@@ -58,7 +58,9 @@ export const formControl3 = {
         )), new ResponsiveAttributesConfigModel({
           dataLink: ['product', 'cat']
         }),
-        new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()), undefined,
+        new ResponsiveVisibilityConfigModel(
+          new VisibilityConfigPropsModel()),
+        undefined,
         [{
           // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
           // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
@@ -69,8 +71,9 @@ export const formControl3 = {
           // todo je hebt hier soeiwosd een repeater voor nodig
           name: 'fc3-radio-button-group', type: ComponentType.RadioButton,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-        }], undefined, undefined),
-
+        }],
+        undefined,
+        undefined),
     }
   ),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())

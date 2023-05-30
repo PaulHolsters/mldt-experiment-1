@@ -22,7 +22,7 @@ export class DataService {
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
   // todo a way to order data
-  private data:ConceptComponentModel[] = []
+  private data:ConceptConfigModel[] = []
   private capitalizeFirst(text:string):string{
     return text.charAt(0).toUpperCase()+text.substring(1)
   }
@@ -34,8 +34,8 @@ export class DataService {
     // todo haal de verschillende attributen op via de business types configuratie
     return 'name\nbasePrice\ncreationDate'
   }
-  private createExtendedConceptModel(componentName:string, data:Object, compConfig:ConceptConfigModel):ConceptComponentModel{
-    let newObj: ConceptComponentModel = {conceptName:compConfig.conceptName,attributes:[],errorMessages:NoValueType.NI}
+  private createExtendedConceptModel(componentName:string, data:Object, compConfig:ConceptConfigModel):ConceptConfigModel{
+    let newObj: ConceptConfigModel = {conceptName:compConfig.conceptName,attributes:[],errorMessages:NoValueType.NI}
     const configCopy = {...compConfig}
     if(configCopy.attributes && configCopy.attributes instanceof Array)
       configCopy.attributes?.forEach(attr=>{
@@ -45,8 +45,8 @@ export class DataService {
         if(entry && attr.name){
           // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
           const attrExp = {name:attr.name,dataType:entry[1]}
-          const attrCopy = {...attr}
-          newObj.attributes.push(Object.assign(attrExp as AttributeComponentModel,attrCopy))}
+          const attrCopy = {...attr};
+          (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel,attrCopy))}
       })
     return newObj
   }
@@ -57,7 +57,7 @@ export class DataService {
     })
     if(obj && obj.attributes){
       if(parts.length===2){
-        const attr = obj.attributes.find(attr=>{
+        const attr = (obj.attributes as AttributeConfigModel[]).find(attr=>{
           return attr.name === parts[1]
         })
         if(attr){
@@ -69,7 +69,7 @@ export class DataService {
           }
           // todo alle andere datatypes
 
-          obj.attributes.splice(obj.attributes.findIndex(attr=>{
+          (obj.attributes as AttributeConfigModel[]).splice( (obj.attributes as AttributeConfigModel[]).findIndex(attr=>{
             return attr.name === parts[1]
           }),1,attr)
           this.data.splice(this.data.findIndex(dataObj=>{
@@ -87,8 +87,9 @@ export class DataService {
       return dataObj.conceptName === dataLinkCopy[0]
     })
     if(obj){
+      const objComponent:ConceptComponentModel = this.replaceDBIValues(obj)
       dataLinkCopy.splice(0,1)
-      let attributes = [...obj.attributes]
+      let attributes = [...objComponent.attributes]
       let currentAttr: AttributeComponentModel|undefined = attributes.find(attr=>{
         return attr.name === dataLinkCopy[0]
       })
@@ -117,12 +118,10 @@ export class DataService {
       // todo refactor
       let comp = this.configService.getComponentConfig(propSubj.componentName)
       if(!comp) comp = this.configService.getComponentConfigThroughAttributes(propSubj.componentName)
+      // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if(propSubj.propName==='dataConcept' && comp && comp.data){
         if(comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
       } else if(propSubj.propName==='dataLink'&& comp && comp.attributes?.smartphone?.dataLink){
-        // todo dit is lastig als de huidige schermgrootte niet voldoet mag de data niet opgestuurd worden
-        // todo en omgekeerd als de schermgrootte wijzigt moet ook de data in rekening genomen worden wat nu niet gebeurt
-        //      voorlopig houden we er geen rekening mee
         const data:AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
         this.storeService.getStatePropertySubject(comp.name,'dataAttribute')?.propValue.next(data)
        }
@@ -185,6 +184,23 @@ export class DataService {
       console.log(res,'yeah!')
     })
   }
+  private replaceDBIValues(concept:ConceptConfigModel):ConceptComponentModel{
+    const returnConcept = new ConceptComponentModel(concept.conceptName,[],concept.errorMessages)
+    if(concept.attributes instanceof Array)
+      concept.attributes.forEach(attr=>{
+        if(attr.radio){
+          if(attr.radio.conceptName === NoValueType.DBI){
+            // todo
+          }
+          if(attr.radio.values === NoValueType.DBI){
+            // todo
+          }
+        } else{
+          returnConcept.attributes.push(attr as AttributeComponentModel)
+        }
+      })
+    return returnConcept
+  }
   public async getDataBluePrint(action: ActionModel) {
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
@@ -201,9 +217,12 @@ export class DataService {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
+            // todo op dit moment moet compObj de verschillende enum values al als een array van strings hebben
+            //      alsook conceptNaam met ingevuld zijn door de create... methode
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel)
+            console.log(compObj)
             this.data.push(compObj)
-            this.setDataState(compObj)
+            this.setDataState(this.replaceDBIValues(compObj))
           }
         })
       }

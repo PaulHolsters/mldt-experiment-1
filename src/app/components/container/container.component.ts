@@ -74,9 +74,11 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   ngOnInit(): void {
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       this.dataConcept = res as ConceptComponentModel
+      console.log(this.dataConcept,this.name)
     })
     this.storeService.bindToStateProperty(this.name,'dataAttribute')?.subscribe(res=>{
       this.dataAttribute = res as AttributeComponentModel
+      console.log(this.dataAttribute,this.name)
     })
     this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
       this.dataLink = res as string[]

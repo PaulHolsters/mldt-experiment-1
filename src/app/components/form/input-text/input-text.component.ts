@@ -10,6 +10,7 @@ import {IconType} from "../../../enums/iconType.enum";
 import {DataService} from "../../../data.service";
 import {Observable} from "rxjs";
 import {StoreService} from "../../../store.service";
+import {NoValueType} from "../../../enums/no_value_type";
 
 @Component({
   selector: 'm-input-text',
@@ -19,7 +20,7 @@ import {StoreService} from "../../../store.service";
 export class InputTextComponent implements OnInit {
   @Input() name = ''
   @Input() icon: IconType | undefined
-  @Input() iconPosition: IconPositionType | undefined
+  @Input() iconPosition: IconPositionType |NoValueType.NI| undefined
   @Input() advisoryText: string | undefined
   @Input() label: string | undefined
   @Input() floatLabel: boolean | undefined

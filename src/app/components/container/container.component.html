@@ -95,7 +95,6 @@
                  [style.width]="'100%'"
         ></m-label>
       </ng-container>
-      <!-- todo fix nasty bug !-->
       <ng-container *ngSwitchCase="componentType.InputText">
         <m-input-text *ngIf="dataAttribute && nameFormControl && dataAttribute.text"
                       [class]="['flex',
@@ -173,7 +172,9 @@
         ></m-date>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.RadioButton">
-        <m-radio *ngIf="dataAttribute && dataLink"  [name]="dataLink.join('_')"
+        <m-radio *ngIf="dataAttribute && dataLink && dataAttribute.radio"  [name]="dataLink.join('_')"
+                 [values]="dataAttribute.radio.values"
+                 [conceptName]="dataAttribute.radio.conceptName"
                 [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

@@ -13,8 +13,13 @@ import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
   providedIn: 'root'
 })
 export class EventsService{
+  private screensize:ScreenSize|undefined
   constructor(private storeService:StoreService,private dataService:DataService,private configService:ConfigService, private responsiveBehaviourService:ResponsiveBehaviourService) {
     this.setResponsiveBehaviour()
+  }
+
+  public get screenSize(){
+    return this.screensize
   }
 
   public triggerEvent(event:EventType,source:string){
@@ -35,66 +40,79 @@ export class EventsService{
     const mqHR1 = window.matchMedia("(min-width: 1281px)") //HR
     mqSM1.addEventListener("change", (e => {
       if (mqSM1.matches) {
+        this.screensize = ScreenSize.smartphone
         this.responsiveBehaviourService.setComponentStates(ScreenSize.smartphone)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqSM1.matches) {
+        this.screensize = ScreenSize.smartphone
         this.responsiveBehaviourService.setComponentStates( ScreenSize.smartphone)
       }
     }))
     mqPT1.addEventListener("change", (e => {
       if (mqPT1.matches && mqPT2.matches) {
+        this.screensize = ScreenSize.portraitTablet
         this.responsiveBehaviourService.setComponentStates(ScreenSize.portraitTablet)
       }
     }))
     mqPT2.addEventListener("change", (e => {
       if (mqPT1.matches && mqPT2.matches) {
+        this.screensize = ScreenSize.portraitTablet
         this.responsiveBehaviourService.setComponentStates(ScreenSize.portraitTablet)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqPT1.matches && mqPT2.matches) {
+        this.screensize = ScreenSize.portraitTablet
         this.responsiveBehaviourService.setComponentStates( ScreenSize.portraitTablet)
       }
     }))
     mqT1.addEventListener("change", (e => {
       if (mqT1.matches && mqT2.matches) {
+        this.screensize = ScreenSize.tablet
         this.responsiveBehaviourService.setComponentStates( ScreenSize.tablet)
       }
     }))
     mqT2.addEventListener("change", (e => {
       if (mqT1.matches && mqT2.matches) {
+        this.screensize = ScreenSize.tablet
         this.responsiveBehaviourService.setComponentStates(ScreenSize.tablet)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqT1.matches && mqT2.matches) {
+        this.screensize = ScreenSize.tablet
         this.responsiveBehaviourService.setComponentStates(ScreenSize.tablet)
       }
     }))
     mqL1.addEventListener("change", (e => {
       if (mqL1.matches && mqL2.matches) {
+        this.screensize = ScreenSize.laptop
         this.responsiveBehaviourService.setComponentStates(ScreenSize.laptop)
       }
     }))
     mqL2.addEventListener("change", (e => {
       if (mqL1.matches && mqL2.matches) {
+        this.screensize = ScreenSize.laptop
         this.responsiveBehaviourService.setComponentStates(ScreenSize.laptop)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqL1.matches && mqL2.matches) {
+        this.screensize = ScreenSize.laptop
         this.responsiveBehaviourService.setComponentStates(ScreenSize.laptop)
       }
     }))
     mqHR1.addEventListener("change", (e => {
       if (mqHR1.matches) {
+        this.screensize = ScreenSize.highResolution
         this.responsiveBehaviourService.setComponentStates(ScreenSize.highResolution)
       }
     }))
     window.addEventListener("load", (e => {
       if (mqHR1.matches) {
+        this.screensize = ScreenSize.highResolution
         this.responsiveBehaviourService.setComponentStates( ScreenSize.highResolution)
       }
     }))

@@ -2,8 +2,9 @@ import {NoValueType} from "../../enums/no_value_type";
 
 export class RadioAttributeConfigModel {
 constructor(
-
-  public value:number|NoValueType.NA|NoValueType.NVY
+  public conceptName:string|NoValueType.DBI,
+  public values:string[]|NoValueType.DBI,
+  public value:number|NoValueType.NA|NoValueType.NVY,
   ) {
 }
 }
