@@ -18,13 +18,16 @@ export class FormComponent implements OnInit{
   width:string|undefined
   height:string|undefined
 
-  constructor(private storeService:StoreService,private eventsService:EventsService) { }
+  constructor(private storeService:StoreService,private eventsService:EventsService) {
+
+  }
 
   ngOnInit(): void {
-    this.content$ = this.storeService.bindToStateProperty(this.name,'content')
     // hierdoor wordt de blueprint opgehaald => nadat die binnen is moet die
     // gedistribueerd naar de verschillende subscribers op deze (delen van de) data
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+    this.content$ = this.storeService.bindToStateProperty(this.name,'content')
+
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
   }

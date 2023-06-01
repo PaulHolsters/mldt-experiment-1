@@ -9,6 +9,7 @@ import {RestrictionType} from "../../enums/restrictionType.enum";
 import {EventsService} from "../../events.service";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
+import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
 
 @Component({
   selector: 'm-container',
@@ -71,10 +72,14 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   ngAfterContentChecked(): void {
         this.cd.detectChanges()
   }
+  getValues():string[]{
+    if(this.dataAttribute?.radio?.values && typeof this.dataAttribute?.radio?.values !== 'string')
+    return this.dataAttribute?.radio?.values
+    else return []
+  }
   ngOnInit(): void {
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       this.dataConcept = res as ConceptComponentModel
-      console.log(this.dataConcept,this.name)
     })
     this.storeService.bindToStateProperty(this.name,'dataAttribute')?.subscribe(res=>{
       this.dataAttribute = res as AttributeComponentModel

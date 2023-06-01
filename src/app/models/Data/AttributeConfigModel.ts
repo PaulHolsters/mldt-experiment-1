@@ -6,6 +6,7 @@ import {RadioAttributeConfigModel} from "./RadioAttributeConfigModel";
 export class AttributeConfigModel {
 constructor(
   public name:string,// attribuutnaam of conceptnaam
+  public dataType:string|undefined,
   public disabled:boolean|NoValueType=NoValueType.NA, // indien concept is dit niet van toepassing
   public floatLabel:boolean|NoValueType=NoValueType.NA,// indien concept is dit niet van toepassing
   public text:TextAttributeConfigModel|undefined,// indien concept is dit niet van toepassing

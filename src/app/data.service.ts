@@ -22,7 +22,7 @@ export class DataService {
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
   // todo a way to order data
-  private data:ConceptConfigModel[] = []
+  private data:ConceptComponentModel[] = []
   private capitalizeFirst(text:string):string{
     return text.charAt(0).toUpperCase()+text.substring(1)
   }
@@ -34,8 +34,8 @@ export class DataService {
     // todo haal de verschillende attributen op via de business types configuratie
     return 'name\nbasePrice\ncreationDate'
   }
-  private createExtendedConceptModel(componentName:string, data:Object, compConfig:ConceptConfigModel):ConceptConfigModel{
-    let newObj: ConceptConfigModel = {conceptName:compConfig.conceptName,attributes:[],errorMessages:NoValueType.NI}
+  private createExtendedConceptModel(componentName:string, data:Object, compConfig:ConceptConfigModel):ConceptComponentModel{
+    let newObj: ConceptComponentModel = {conceptName:compConfig.conceptName,attributes:[],errorMessages:NoValueType.NI}
     const configCopy = {...compConfig}
     if(configCopy.attributes && configCopy.attributes instanceof Array)
       configCopy.attributes?.forEach(attr=>{
@@ -44,9 +44,9 @@ export class DataService {
         })
         if(entry && attr.name){
           // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
-          const attrExp = {name:attr.name,dataType:entry[1]}
-          const attrCopy = {...attr};
-          (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel,attrCopy))}
+          const attrExp = {...attr}
+          attrExp.dataType = entry[1];
+          (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel,{}))}
       })
     return newObj
   }
@@ -87,11 +87,10 @@ export class DataService {
       return dataObj.conceptName === dataLinkCopy[0]
     })
     if(obj){
-      const objComponent:ConceptComponentModel = this.replaceDBIValues(obj)
       dataLinkCopy.splice(0,1)
-      let attributes = [...objComponent.attributes]
+      let attributes = [...obj.attributes]
       let currentAttr: AttributeComponentModel|undefined = attributes.find(attr=>{
-        return attr.name === dataLinkCopy[0]
+          return attr.name === dataLinkCopy[0]
       })
       dataLinkCopy.splice(0,1)
       while(currentAttr && dataLinkCopy.length>0){
@@ -106,8 +105,10 @@ export class DataService {
         }
         dataLinkCopy.splice(0,1)
       }
-      if(currentAttr!==undefined)
-      return currentAttr
+      if(currentAttr!==undefined){
+        currentAttr = this.replaceDBIValues(obj,currentAttr)
+        return currentAttr
+      }
     }
     throw new Error('Data niet gevonden.')
   }
@@ -184,22 +185,26 @@ export class DataService {
       console.log(res,'yeah!')
     })
   }
-  private replaceDBIValues(concept:ConceptConfigModel):ConceptComponentModel{
-    const returnConcept = new ConceptComponentModel(concept.conceptName,[],concept.errorMessages)
-    if(concept.attributes instanceof Array)
-      concept.attributes.forEach(attr=>{
-        if(attr.radio){
-          if(attr.radio.conceptName === NoValueType.DBI){
-            // todo
-          }
-          if(attr.radio.values === NoValueType.DBI){
-            // todo
-          }
-        } else{
-          returnConcept.attributes.push(attr as AttributeComponentModel)
+  private replaceDBIValues(concept:ConceptComponentModel,attr:AttributeComponentModel):AttributeComponentModel{
+    if(attr.radio){
+      if(attr.radio.conceptName === NoValueType.DBI){
+        attr.radio.conceptName = concept.conceptName
+      }
+      if(attr.radio.values === NoValueType.DBI){
+        const dataType = (concept.attributes as AttributeConfigModel[]).find(attrConfig=>{
+          return attrConfig.radio !== undefined
+        })?.dataType
+        if(dataType && dataType.indexOf('enumVal')!==-1){
+          const arr1Temp = dataType.split('},{enumVal:')
+          if(arr1Temp.length>0 && typeof arr1Temp[0] === 'string')
+            arr1Temp[0] = arr1Temp[0].substring(9)
+          arr1Temp[arr1Temp.length-1] = arr1Temp[arr1Temp.length-1].substring(0,arr1Temp[arr1Temp.length-1].length-1)
+          const arr2Temp = arr1Temp.map(el=>el.trim())
+          attr.radio.values = [...arr2Temp]
         }
-      })
-    return returnConcept
+      }
+    }
+    return attr
   }
   public async getDataBluePrint(action: ActionModel) {
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
@@ -217,12 +222,9 @@ export class DataService {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
-            // todo op dit moment moet compObj de verschillende enum values al als een array van strings hebben
-            //      alsook conceptNaam met ingevuld zijn door de create... methode
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel)
-            console.log(compObj)
             this.data.push(compObj)
-            this.setDataState(this.replaceDBIValues(compObj))
+            this.setDataState(compObj)
           }
         })
       }

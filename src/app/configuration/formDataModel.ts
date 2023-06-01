@@ -20,14 +20,16 @@ export const formData = new ConceptConfigModel(
   [
     new AttributeConfigModel(
       'name',
-      false,
+      undefined,
       true,
+      false,
       new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
         InputFontSizeType.Large, NoValueType.NVY),
       undefined, undefined,undefined, 'Product naam', 'Geef een adequate naam'
     ),
     new AttributeConfigModel(
       'cat',
+      undefined,
       false,
       false,
       undefined,
@@ -41,6 +43,7 @@ export const formData = new ConceptConfigModel(
     ,
     new AttributeConfigModel(
       'price',
+      undefined,
       false,
       false,
       undefined,

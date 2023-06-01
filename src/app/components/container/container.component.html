@@ -173,7 +173,7 @@
       </ng-container>
       <ng-container *ngSwitchCase="componentType.RadioButton">
         <m-radio *ngIf="dataAttribute && dataLink && dataAttribute.radio"  [name]="dataLink.join('_')"
-                 [values]="dataAttribute.radio.values"
+                 [values]="getValues()"
                  [conceptName]="dataAttribute.radio.conceptName"
                 [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
