@@ -37,7 +37,7 @@ export class InputNumberComponent implements OnInit {
   @Input() incrementButtonIcon:string|undefined
   @Input() decrementButtonIcon:string|undefined
   @Input() buttonLayout:string|undefined
-  @Input() value:number|undefined
+  @Input() value:number|undefined | NoValueType.NA | NoValueType.NVY
   @ViewChild('input') input: ElementRef | undefined
   calcHeight$: Observable<any>|undefined
   calcWidth$: Observable<any>|undefined

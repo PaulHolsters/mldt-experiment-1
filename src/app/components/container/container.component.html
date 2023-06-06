@@ -88,7 +88,7 @@
                      [name]="child.name"></m-formcontrol>
       <ng-container *ngSwitchCase="componentType.Label">
         <m-label *ngIf="dataAttribute && !dataAttribute.floatLabel" [text]="(dataAttribute.label !== NoValueType.DBI)
-        && (dataAttribute.label !== NoValueType.NA) ? dataAttribute.label : dataAttribute.name"
+        && (dataAttribute.label !== NoValueType.NA) ? dataAttribute?.label : dataAttribute?.name"
                  [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -104,63 +104,63 @@
                       [style.height]="'100%'"
                       [style.width]="'100%'"
                        [name]="nameFormControl"
-                       [value]="dataAttribute.text.value === NoValueType.NVY
-                       || dataAttribute.text.value === NoValueType.NA  ? undefined : dataAttribute.text.value"
-                       [icon]="dataAttribute.text.icon"
-                       [iconPosition]="dataAttribute.text.iconPosition"
-                       [advisoryText]="dataAttribute.advisoryText"
+                       [value]="dataAttribute?.text?.value === NoValueType.NVY
+                       || dataAttribute?.text?.value === NoValueType.NA  ? undefined : dataAttribute?.text?.value"
+                       [icon]="dataAttribute?.text?.icon"
+                       [iconPosition]="dataAttribute?.text?.iconPosition"
+                       [advisoryText]="dataAttribute?.advisoryText"
                        [keyFilter]="
-                      dataAttribute.text.only === RestrictionType.Alphanumeric ? 'alphanum' :
-                      dataAttribute.text.only === RestrictionType.Hex ? 'hex' :
-                      dataAttribute.text.only === RestrictionType.Alphabetic ? 'alpha' :
-                      dataAttribute.text.only === RestrictionType.Integer ? 'int' :
-                      dataAttribute.text.only === RestrictionType.Money ? 'money' :
-                      dataAttribute.text.only === RestrictionType.Number ? 'number' :
-                      dataAttribute.text.only === RestrictionType.Custom ? (dataAttribute.text['customRestriction'] !== RestrictionType.NA ?
-                      dataAttribute.text.customRestriction : undefined) : undefined"
-                       [label]="dataAttribute.label"
-                       [floatLabel]="dataAttribute.floatLabel"
+                      dataAttribute?.text?.only === RestrictionType.Alphanumeric ? 'alphanum' :
+                      dataAttribute?.text?.only === RestrictionType.Hex ? 'hex' :
+                      dataAttribute?.text?.only === RestrictionType.Alphabetic ? 'alpha' :
+                      dataAttribute?.text?.only === RestrictionType.Integer ? 'int' :
+                      dataAttribute?.text?.only === RestrictionType.Money ? 'money' :
+                      dataAttribute?.text?.only === RestrictionType.Number ? 'number' :
+                      dataAttribute?.text?.only === RestrictionType.Custom ? (dataAttribute.text['customRestriction'] !== RestrictionType.NA ?
+                      dataAttribute?.text?.customRestriction : undefined) : undefined"
+                       [label]="dataAttribute?.label"
+                       [floatLabel]="dataAttribute?.floatLabel"
                        [dirty]="false"
                        [invalid]="false"
-                       [small]="dataAttribute.text.inputFontSize===InputFontSize.Small"
-                       [large]="dataAttribute.text.inputFontSize===InputFontSize.Large"
-                       [disabled]="dataAttribute.disabled"
+                       [small]="dataAttribute?.text?.inputFontSize===InputFontSize.Small"
+                       [large]="dataAttribute?.text?.inputFontSize===InputFontSize.Large"
+                       [disabled]="dataAttribute?.disabled"
         ></m-input-text>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.InputNumber">
         <m-input-number
-          *ngIf="dataAttribute && nameFormControl && dataAttribute.number"
+          *ngIf="dataAttribute && nameFormControl && dataAttribute?.number"
           [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
           [style.height]="'100%'"
           [style.width]="'100%'"
           [name]="nameFormControl"
-          [value]="dataAttribute.number.value === NoValueType.NVY || dataAttribute.number.value === NoValueType.NA ? undefined : dataAttribute.number.value"
-          [advisoryText]="dataAttribute.advisoryText"
-          [label]="dataAttribute.label"
-          [floatLabel]="dataAttribute.floatLabel"
+          [value]="dataAttribute?.number?.value === NoValueType.NVY || dataAttribute?.number?.value === NoValueType.NA ? undefined : dataAttribute?.number?.value"
+          [advisoryText]="dataAttribute?.advisoryText"
+          [label]="dataAttribute?.label"
+          [floatLabel]="dataAttribute?.floatLabel"
           [dirty]="false"
           [invalid]="false"
-          [disabled]="dataAttribute.disabled"
-          [useGrouping]="dataAttribute.number.useGrouping"
-          [mode]="dataAttribute.number.mode"
-          [suffix]="dataAttribute.number.suffix"
-          [prefix]="dataAttribute.number.prefix"
-          [locale]="dataAttribute.number.locale"
-          [currency]="dataAttribute.number.currency"
-          [currencyDisplay]="dataAttribute.number.currencyDisplay"
-          [minFractionDigits]="dataAttribute.number.minFractionDigits"
-          [maxFractionDigits]="dataAttribute.number.maxFractionDigits"
-          [min]="dataAttribute.number.min"
-          [max]="dataAttribute.number.max"
-          [showButtons]="dataAttribute.number.showButtons"
-          [step]="dataAttribute.number.step"
-          [incrementButtonIcon]="dataAttribute.number.incrementButtonIcon"
-          [decrementButtonIcon]="dataAttribute.number.decrementButtonIcon"
-          [decrementButtonClass]="dataAttribute.number.decrementButtonClass"
-          [incrementButtonClass]="dataAttribute.number.incrementButtonClass"
-          [buttonLayout]="dataAttribute.number.buttonLayout"
+          [disabled]="dataAttribute?.disabled"
+          [useGrouping]="dataAttribute?.number?.useGrouping"
+          [mode]="dataAttribute?.number?.mode"
+          [suffix]="dataAttribute?.number?.suffix"
+          [prefix]="dataAttribute?.number?.prefix"
+          [locale]="dataAttribute?.number?.locale"
+          [currency]="dataAttribute?.number?.currency"
+          [currencyDisplay]="dataAttribute?.number?.currencyDisplay"
+          [minFractionDigits]="dataAttribute?.number?.minFractionDigits"
+          [maxFractionDigits]="dataAttribute?.number?.maxFractionDigits"
+          [min]="dataAttribute?.number?.min"
+          [max]="dataAttribute?.number?.max"
+          [showButtons]="dataAttribute?.number?.showButtons"
+          [step]="dataAttribute?.number?.step"
+          [incrementButtonIcon]="dataAttribute?.number?.incrementButtonIcon"
+          [decrementButtonIcon]="dataAttribute?.number?.decrementButtonIcon"
+          [decrementButtonClass]="dataAttribute?.number?.decrementButtonClass"
+          [incrementButtonClass]="dataAttribute?.number?.incrementButtonClass"
+          [buttonLayout]="dataAttribute?.number?.buttonLayout"
         ></m-input-number>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.DateInput">

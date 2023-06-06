@@ -11,6 +11,7 @@ import {DataService} from "../../../data.service";
 import {Observable} from "rxjs";
 import {StoreService} from "../../../store.service";
 import {NoValueType} from "../../../enums/no_value_type";
+import {RestrictionType} from "../../../enums/restrictionType.enum";
 
 @Component({
   selector: 'm-input-text',
@@ -30,7 +31,7 @@ export class InputTextComponent implements OnInit {
   @Input() large: boolean | undefined
   @Input() disabled: boolean | undefined
   @Input() value: string | undefined
-  @Input() keyFilter: string | RegExp | undefined
+  @Input() keyFilter: string | RegExp | undefined | RestrictionType.NA | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"
   @ViewChild('input') input: ElementRef | undefined
   calcHeight$: Observable<any> | undefined
   calcWidth$: Observable<any> | undefined
