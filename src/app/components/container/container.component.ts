@@ -2,11 +2,9 @@ import {AfterContentChecked, ChangeDetectorRef, Component, ElementRef, Input, On
 import {Observable} from "rxjs";
 import {StoreService} from "../../store.service";
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {DataService} from "../../data.service";
 import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {RestrictionType} from "../../enums/restrictionType.enum";
-import {EventsService} from "../../events.service";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
 
