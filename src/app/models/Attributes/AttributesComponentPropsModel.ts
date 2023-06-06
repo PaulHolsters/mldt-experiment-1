@@ -1,7 +1,5 @@
 import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
-import {ConceptComponentModel} from "../Data/ConceptComponentModel";
-import {ResponsiveChildLayoutConfigModel} from "../ChildLayout/ResponsiveChildLayoutConfigModel";
 export class AttributesComponentPropsModel {
   constructor(  public src?:string|undefined,
                 public alt?:string|undefined,

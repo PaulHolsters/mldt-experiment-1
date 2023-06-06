@@ -66,7 +66,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   InputFontSize = InputFontSizeType
   nameFormControl:string|undefined
 
-  constructor(private storeService: StoreService, private cd:ChangeDetectorRef, private dataService:DataService,private eventService:EventsService) {
+  constructor(private storeService: StoreService, private cd:ChangeDetectorRef) {
   }
   ngAfterContentChecked(): void {
         this.cd.detectChanges()
