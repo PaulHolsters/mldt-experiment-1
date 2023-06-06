@@ -10,8 +10,8 @@ import {StoreService} from "../../../store.service";
 })
 export class RadioButtonComponent implements OnInit {
   @Input() name = ''
+  @Input() selectedValue: string | undefined
   @Input() value: string | undefined
-  @Input() values:string[]|undefined
   @Input() conceptName: string | undefined
   @ViewChild('radio') radio: ElementRef | undefined
   calcHeight$: Observable<any> | undefined

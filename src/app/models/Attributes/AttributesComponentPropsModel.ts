@@ -1,6 +1,7 @@
 import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
 import {ConceptComponentModel} from "../Data/ConceptComponentModel";
+import {ResponsiveChildLayoutConfigModel} from "../ChildLayout/ResponsiveChildLayoutConfigModel";
 export class AttributesComponentPropsModel {
   constructor(  public src?:string|undefined,
                 public alt?:string|undefined,
@@ -8,6 +9,7 @@ export class AttributesComponentPropsModel {
                 public icon?:string|undefined,
                 public label?:string|undefined,
                 public width?:number|undefined,
+                public childLayout?: ResponsiveChildLayoutConfigModel|undefined,
                 public menuItems?:MenuItem[]|undefined,
                 public start?:ComponentModel|undefined,
                 public end?:ComponentModel|undefined,

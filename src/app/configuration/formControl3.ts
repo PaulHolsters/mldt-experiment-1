@@ -68,9 +68,23 @@ export const formControl3 = {
           type: ComponentType.Label,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
         }, {
-          // todo je hebt hier soeiwosd een repeater voor nodig
           name: 'fc3-radio-button-group', type: ComponentType.RadioButton,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          attributes: new ResponsiveAttributesConfigModel({
+            childLayout:new ResponsiveChildLayoutConfigModel(          new ChildLayoutConfigPropsModel(
+              // todo zorg voor default layout bij een container voor simpele gevallen
+              new HorizontalLayoutConfigPropsModel(
+                AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
+                new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                  DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
+                ),DynamicDimensionValueConfigType.NC),
+                CrossAxisHorizontalLanesPositioningConfigType.Center),
+              new VerticalLayoutConfigPropsModel(
+                AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
+                HeightValueConfigType.NC,
+                CrossAxisVerticalLanesPositioningConfigType.NA)
+            ))
+          })
         }],
         undefined,
         undefined),

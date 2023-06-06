@@ -78,6 +78,7 @@
                      [style.width]="'100%'"
                *ngSwitchCase="componentType.Block"
                [name]="child.name"></m-block>
+      <!-- todo voeg hier ook een ngFor aan toe zodat de config vereenvoudigd kan worden-->
       <m-formcontrol       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -171,16 +172,22 @@
                 [style.width]="'100%'"
         ></m-date>
       </ng-container>
+      <!--todo 1  je kan per component eveneens extra container achtige layout voorzien
+                  maw een functionaliteit in de configuratie waarbij je een bepaalde component promoveert tot container
+                  asContainer: true of zoiets
+                  dit is natuurlijk alleen maar nuttig voor deze componenten die een ngFor loop op hun root component hebben
+                  en dus per definitie kinderen hebben
+          todo 2  label en waarde staan nu als aparte componenten terwijl die steeds bijeen horen    -->
       <ng-container *ngSwitchCase="componentType.RadioButton">
-        <m-radio *ngIf="dataAttribute && dataLink && dataAttribute.radio"  [name]="dataLink.join('_')"
-                 [values]="getValues()"
-                 [conceptName]="dataAttribute.radio.conceptName"
-                [class]="['flex',
-         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
-         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                [style.height]="'100%'"
-                [style.width]="'100%'"
-        ></m-radio>
+        <ng-container *ngFor="let val of getValues()">
+          <m-radio *ngIf="dataAttribute && dataLink && dataAttribute.radio"  [name]="dataLink.join('_')"
+                   [value]="val"
+                   [conceptName]="dataAttribute.radio.conceptName"
+                  [class]="['flex',
+           'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+           'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+          ></m-radio>
+        </ng-container>
       </ng-container>
       <m-button       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),

@@ -1,14 +1,9 @@
-<ng-container *ngFor="let val of values">
-  <p-radioButton name="{{conceptName}}" [(ngModel)]="value" value="{{val}}"
-  ></p-radioButton>
-  <label>{{val}}</label>
-</ng-container>
-<!-- todo standard make it a group in a default container ? werk met index zodat je ook een 'toon' waarde kan meegeven indien gewenst
-            zie dat je het label ook kan customizen !! je gaat hier een repeat mechanisme nodig hebben
-            als je niet wil inboeten aan customizability  deze repeater heeft
-            in de attributesz een content waar je de verschillende componenten kan
-            meegeven zoals een radiobutton en een bijhorend label en er moet een meechanise
-            zijn dat maakt dat data naar deze repeater kan gestuurd worden to be processed ?-->
+<div>
+  <p-radioButton name="{{conceptName}}" [(ngModel)]="selectedValue" value="{{value}}"></p-radioButton>
+  <!-- todo: geef styling aan op basis van config input-->
+  <m-label [text]="value"></m-label>
+</div>
+
 <!--
 [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
 [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
