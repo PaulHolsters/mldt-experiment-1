@@ -33,6 +33,7 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {FormcontrolComponent} from "./components/form/formcontrol/formcontrol.component";
 import {RadioButtonComponent} from "./components/form/radio-button/radio-button.component";
 import {RadioButtonModule} from "primeng/radiobutton";
+import {WrapperComponent} from "./components/wrapper/wrapper.component";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {RadioButtonModule} from "primeng/radiobutton";
     DateComponent,
     FormComponent,
     FormcontrolComponent,
-    RadioButtonComponent
+    RadioButtonComponent,
+    WrapperComponent
   ],
   imports: [
     BrowserModule,

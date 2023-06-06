@@ -9,9 +9,9 @@ import {StoreService} from "../../../store.service";
   styleUrls: ['./radio-button.component.css']
 })
 export class RadioButtonComponent implements OnInit {
-  @Input() name = ''
+  @Input() name:string|undefined
   @Input() selectedValue: string | undefined
-  @Input() value: string | undefined
+  @Input() values: string[] | undefined
   @Input() conceptName: string | undefined
   @ViewChild('radio') radio: ElementRef | undefined
   calcHeight$: Observable<any> | undefined
@@ -19,11 +19,15 @@ export class RadioButtonComponent implements OnInit {
   width: string | undefined
   height: string | undefined
 
+
+
   constructor(private dataService: DataService, private storeService: StoreService) { }
 
   ngOnInit(): void {
-    this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
-    this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
+    if(this.name){
+      this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
+      this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
+    }
   }
   setCalculatedHeight(val: any): boolean {
     if (typeof val === 'string') {

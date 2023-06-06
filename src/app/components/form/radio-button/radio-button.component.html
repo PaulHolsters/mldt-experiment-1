@@ -1,8 +1,13 @@
-<div>
-  <p-radioButton name="{{conceptName}}" [(ngModel)]="selectedValue" value="{{value}}"></p-radioButton>
-  <!-- todo: geef styling aan op basis van config input-->
-  <m-label [text]="value"></m-label>
-</div>
+<m-wrapper [name]="name">
+  <ng-container *ngFor="let val of values">
+    <div>
+      <p-radioButton name="{{name}}" [(ngModel)]="selectedValue" value="{{val}}"></p-radioButton>
+      <!-- todo: geef styling aan op basis van config input-->
+      <m-label [text]="val"></m-label>
+    </div>
+  </ng-container>
+</m-wrapper>
+
 
 <!--
 [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"

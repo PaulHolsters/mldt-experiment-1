@@ -48,6 +48,7 @@ export class DataService {
           attrExp.dataType = entry[1];
           (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel,{}))}
       })
+    console.log(newObj)
     return newObj
   }
   public updateData(name:string,value:number|string|undefined){

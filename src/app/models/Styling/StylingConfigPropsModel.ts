@@ -6,10 +6,6 @@ import {FontStyleType} from "../../enums/fontStyleType.enum";
 import {FontSizeType} from "../../enums/fontSizeType.enum";
 import {TextColorType} from "../../enums/textColorType.enum";
 import {TextDecorationType} from "../../enums/textDecorationType.enum";
-import {BorderRadiusType} from "../../enums/borderRadiusType.enum";
-import {BorderWidthType} from "../../enums/borderWidthType.enum";
-import {BorderStyleType} from "../../enums/borderStyleType.enum";
-import {BorderColorType} from "../../enums/borderColorType.enum";
 import {BorderModel} from "../BorderModel";
 import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 

@@ -55,10 +55,12 @@ export const formControl1 = {
           new WidthConfigPropsModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
-        )), new ResponsiveAttributesConfigModel({
+        )),
+        new ResponsiveAttributesConfigModel({
           dataLink: ['product', 'name']
         }),
-        new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()), undefined,
+        new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        undefined,
         [{
           // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
           // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
@@ -68,7 +70,10 @@ export const formControl1 = {
         }, {
           name: 'fc1-input', type: ComponentType.InputText,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-        }], undefined, undefined),
+          // todo voeg de functionaliteit toe om te bepalen of iets disabled moet zijn en dergelijke
+        }],
+        undefined,
+        undefined),
 
     }
   ),

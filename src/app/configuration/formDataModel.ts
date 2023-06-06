@@ -21,7 +21,7 @@ export const formData = new ConceptConfigModel(
     new AttributeConfigModel(
       'name',
       undefined,
-      true,
+      false,
       false,
       new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
         InputFontSizeType.Large, NoValueType.NVY),

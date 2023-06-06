@@ -1,0 +1,45 @@
+<div
+  [class.flex]="(visible$ | async)"
+  [class.flex-row]="(row$|async)"
+  [class.flex-column]="(column$|async)"
+  [class.flex-wrap]="(wrap$|async)"
+  [class.justify-content-start]="(justifyContentStart$|async)"
+  [class.justify-content-center]="(justifyContentCenter$|async)"
+  [class.justify-content-end]="(justifyContentEnd$|async)"
+  [class.justify-content-evenly]="(justifyContentEvenly$|async)"
+  [class.justify-content-around]="(justifyContentAround$|async)"
+  [class.justify-content-between]="(justifyContentBetween$|async)"
+  [class.align-items-start]="(alignItemsStart$|async)"
+  [class.align-items-center]="(alignItemsCenter$|async)"
+  [class.align-items-end]="(alignItemsEnd$|async)"
+  [class.align-items-stretch]="(alignItemsStretch$|async)"
+  [class.align-content-start]="(alignContentStart$|async)"
+  [class.align-content-center]="(alignContentCenter$|async)"
+  [class.align-content-end]="(alignContentEnd$|async)"
+  [class.align-content-evenly]="(alignContentEvenly$|async)"
+  [class.align-content-around]="(alignContentAround$|async)"
+  [class.align-content-between]="(alignContentBetween$|async)"
+
+  [class.overflow-hidden]="(overflowHidden$|async)"
+  [class.overflow-x-hidden]="(overflowXHidden$|async)"
+
+  [class.overflow-auto]="(overflowAuto$|async)"
+  [class.overflow-x-auto]="(overflowXAuto$|async)"
+
+  [class.overflow-scroll]="(overflowScroll$|async)"
+  [class.overflow-x-scroll]="(overflowXScroll$|async)"
+
+  [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
+  [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async)"
+
+  [style.height]="height$ | async"
+  [style.width]="width$ | async"
+
+  [class.bg-primary]="backgroundColorPrimary$ | async"
+  [class.bg-white]="backgroundColorWhite$ | async"
+  [class.bg-orange-400]="backgroundColorDanger$ | async"
+  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+#container>
+  <ng-content></ng-content>
+</div>

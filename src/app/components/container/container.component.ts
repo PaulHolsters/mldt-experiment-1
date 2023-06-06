@@ -9,7 +9,6 @@ import {RestrictionType} from "../../enums/restrictionType.enum";
 import {EventsService} from "../../events.service";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
-import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
 
 @Component({
   selector: 'm-container',
@@ -90,6 +89,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
       this.nameFormControl = this.dataLink.join('_')
     })
     this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
+
     this.row$ = this.storeService.bindToStateProperty(this.name, 'row')
     this.column$ = this.storeService.bindToStateProperty(this.name, 'column')
     this.wrap$ = this.storeService.bindToStateProperty(this.name, 'wrap')

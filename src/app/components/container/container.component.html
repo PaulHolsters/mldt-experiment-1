@@ -87,8 +87,8 @@
                      *ngSwitchCase="componentType.FormControl"
                      [name]="child.name"></m-formcontrol>
       <ng-container *ngSwitchCase="componentType.Label">
-        <m-label *ngIf="dataAttribute && !dataAttribute.floatLabel" [text]="(dataAttribute.label !== NoValueType.DBI)
-        && (dataAttribute.label !== NoValueType.NA) ? dataAttribute?.label : dataAttribute?.name"
+        <m-label *ngIf="!dataAttribute?.floatLabel" [text]="(dataAttribute?.label !== NoValueType.DBI)
+        && (dataAttribute?.label !== NoValueType.NA) ? dataAttribute?.label : dataAttribute?.name"
                  [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -97,7 +97,7 @@
         ></m-label>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.InputText">
-        <m-input-text *ngIf="dataAttribute && nameFormControl && dataAttribute.text"
+        <m-input-text *ngIf="nameFormControl && dataAttribute?.text"
                       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -116,7 +116,7 @@
                       dataAttribute?.text?.only === RestrictionType.Integer ? 'int' :
                       dataAttribute?.text?.only === RestrictionType.Money ? 'money' :
                       dataAttribute?.text?.only === RestrictionType.Number ? 'number' :
-                      dataAttribute?.text?.only === RestrictionType.Custom ? (dataAttribute.text['customRestriction'] !== RestrictionType.NA ?
+                      dataAttribute?.text?.only === RestrictionType.Custom ? (dataAttribute?.text?.customRestriction !== RestrictionType.NA ?
                       dataAttribute?.text?.customRestriction : undefined) : undefined"
                        [label]="dataAttribute?.label"
                        [floatLabel]="dataAttribute?.floatLabel"
@@ -129,7 +129,7 @@
       </ng-container>
       <ng-container *ngSwitchCase="componentType.InputNumber">
         <m-input-number
-          *ngIf="dataAttribute && nameFormControl && dataAttribute?.number"
+          *ngIf="nameFormControl && dataAttribute?.number"
           [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -164,7 +164,7 @@
         ></m-input-number>
       </ng-container>
       <ng-container *ngSwitchCase="componentType.DateInput">
-        <m-date *ngIf="dataAttribute && dataLink"  [name]="dataLink.join('_')"
+        <m-date *ngIf="dataLink"  [name]="dataLink.join('_')"
                 [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -172,22 +172,15 @@
                 [style.width]="'100%'"
         ></m-date>
       </ng-container>
-      <!--todo 1  je kan per component eveneens extra container achtige layout voorzien
-                  maw een functionaliteit in de configuratie waarbij je een bepaalde component promoveert tot container
-                  asContainer: true of zoiets
-                  dit is natuurlijk alleen maar nuttig voor deze componenten die een ngFor loop op hun root component hebben
-                  en dus per definitie kinderen hebben
-          todo 2  label en waarde staan nu als aparte componenten terwijl die steeds bijeen horen    -->
+<!--      [name]="dataLink?.join('_')"-->
       <ng-container *ngSwitchCase="componentType.RadioButton">
-        <ng-container *ngFor="let val of getValues()">
-          <m-radio *ngIf="dataAttribute && dataLink && dataAttribute.radio"  [name]="dataLink.join('_')"
-                   [value]="val"
-                   [conceptName]="dataAttribute.radio.conceptName"
-                  [class]="['flex',
+          <m-radio [name]="child.name"
+                   [values]="getValues()"
+                   [conceptName]="dataAttribute?.radio?.conceptName"
+                   [class]="['flex',
            'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
            'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
           ></m-radio>
-        </ng-container>
       </ng-container>
       <m-button       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
