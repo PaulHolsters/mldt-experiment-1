@@ -38,8 +38,8 @@ export const formControl3 = {
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
               new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-                DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
-              ),DynamicDimensionValueConfigType.NC),
+                DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+              ), DynamicDimensionValueConfigType.NC),
               CrossAxisHorizontalLanesPositioningConfigType.Center),
             new VerticalLayoutConfigPropsModel(
               AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
@@ -61,31 +61,63 @@ export const formControl3 = {
         new ResponsiveVisibilityConfigModel(
           new VisibilityConfigPropsModel()),
         undefined,
-        [{
-          // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
-          // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
-          name: 'fc3-label',
-          type: ComponentType.Label,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-        }, {
-          name: 'fc3-radio-button-group', type: ComponentType.RadioButton,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          attributes: new ResponsiveAttributesConfigModel({
-            childLayout:new ResponsiveChildLayoutConfigModel(          new ChildLayoutConfigPropsModel(
-              // todo zorg voor default layout bij een container voor simpele gevallen
+        [
+          {
+            // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
+            // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
+            name: 'fc3-label',
+            type: ComponentType.Label,
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          },
+          new ComponentModel(
+            'radio-button-container',
+            ComponentType.Container,
+            new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigPropsModel(
               new HorizontalLayoutConfigPropsModel(
                 AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
                 new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-                  DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
-                ),DynamicDimensionValueConfigType.NC),
+                  DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                ), DynamicDimensionValueConfigType.NC),
                 CrossAxisHorizontalLanesPositioningConfigType.Center),
               new VerticalLayoutConfigPropsModel(
                 AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
                 HeightValueConfigType.NC,
                 CrossAxisVerticalLanesPositioningConfigType.NA)
-            ))
-          })
-        }],
+            )),
+            undefined,
+            new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+              new HeightConfigPropsModel(
+                new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
+              ),
+              new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+              ), DynamicDimensionValueConfigType.NC)
+            )),
+            undefined,
+            new ResponsiveVisibilityConfigModel(),
+            undefined,
+            [
+              {
+                name: 'fc3-radio-button-group', type: ComponentType.RadioButton,
+                visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                childLayout: new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigPropsModel(
+                  new HorizontalLayoutConfigPropsModel(
+                    AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
+                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                      DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                    ), DynamicDimensionValueConfigType.NC),
+                    CrossAxisHorizontalLanesPositioningConfigType.Center),
+                  new VerticalLayoutConfigPropsModel(
+                    AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
+                    HeightValueConfigType.NC,
+                    CrossAxisVerticalLanesPositioningConfigType.NA)
+                ))
+              }
+            ],
+            undefined,
+            undefined
+          ),
+        ],
         undefined,
         undefined),
     }
@@ -94,9 +126,9 @@ export const formControl3 = {
   ,
   // todo zorg dat er constraints komen die errors geven bv als je height en width in je config omwisselt!
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,220
-      ,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100
-      ,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC)
+    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 220
+      , DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
+    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100
+      , DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC)
   ))
 }

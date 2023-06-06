@@ -1,4 +1,4 @@
-<m-wrapper [name]="name">
+<m-container [name]="name">
   <ng-container *ngFor="let val of values">
     <div>
       <p-radioButton name="{{name}}" [(ngModel)]="selectedValue" value="{{val}}"></p-radioButton>
@@ -6,7 +6,7 @@
       <m-label [text]="val"></m-label>
     </div>
   </ng-container>
-</m-wrapper>
+</m-container>
 
 
 <!--

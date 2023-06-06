@@ -16,7 +16,7 @@ import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
   styleUrls: ['./container.component.css']
 })
 export class ContainerComponent implements OnInit, AfterContentChecked{
-  @Input() name = ''
+  @Input() name:string|undefined
   @ViewChild('container') container: ElementRef | undefined
   dataConcept:ConceptComponentModel|undefined
   dataAttribute:AttributeComponentModel|undefined // voorlopig lijkt het er op dat er qua data niets anders nodig is dan attributes
@@ -77,56 +77,59 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
     else return []
   }
   ngOnInit(): void {
-    this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
-      this.dataConcept = res as ConceptComponentModel
-    })
-    this.storeService.bindToStateProperty(this.name,'dataAttribute')?.subscribe(res=>{
-      this.dataAttribute = res as AttributeComponentModel
-      console.log(this.dataAttribute,this.name)
-    })
-    this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
-      this.dataLink = res as string[]
-      this.nameFormControl = this.dataLink.join('_')
-    })
-    this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
+    if(this.name){
+      this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
+        this.dataConcept = res as ConceptComponentModel
+      })
+      // todo fix bug dataAttribute wordt niet meer correct gebonden
+      this.storeService.bindToStateProperty(this.name,'dataAttribute')?.subscribe(res=>{
+        this.dataAttribute = res as AttributeComponentModel
+        console.log(this.dataAttribute,this.name)
+      })
+      this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
+        this.dataLink = res as string[]
+        this.nameFormControl = this.dataLink.join('_')
+      })
+      this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
 
-    this.row$ = this.storeService.bindToStateProperty(this.name, 'row')
-    this.column$ = this.storeService.bindToStateProperty(this.name, 'column')
-    this.wrap$ = this.storeService.bindToStateProperty(this.name, 'wrap')
-    this.justifyContentStart$ = this.storeService.bindToStateProperty(this.name, 'justifyContentStart')
-    this.justifyContentCenter$ = this.storeService.bindToStateProperty(this.name, 'justifyContentCenter')
-    this.justifyContentEnd$ = this.storeService.bindToStateProperty(this.name, 'justifyContentEnd')
-    this.justifyContentBetween$ = this.storeService.bindToStateProperty(this.name, 'justifyContentBetween')
-    this.justifyContentEvenly$ = this.storeService.bindToStateProperty(this.name, 'justifyContentEvenly')
-    this.justifyContentAround$ = this.storeService.bindToStateProperty(this.name, 'justifyContentAround')
-    this.alignItemsStart$ = this.storeService.bindToStateProperty(this.name, 'alignItemsStart')
-    this.alignItemsCenter$ = this.storeService.bindToStateProperty(this.name, 'alignItemsCenter')
-    this.alignItemsEnd$ = this.storeService.bindToStateProperty(this.name, 'alignItemsEnd')
-    this.alignContentStart$ = this.storeService.bindToStateProperty(this.name, 'alignContentStart')
-    this.alignContentCenter$ = this.storeService.bindToStateProperty(this.name, 'alignContentCenter')
-    this.alignContentEnd$ = this.storeService.bindToStateProperty(this.name, 'alignContentEnd')
-    this.alignContentBetween$ = this.storeService.bindToStateProperty(this.name, 'alignContentBetween')
-    this.alignContentEvenly$ = this.storeService.bindToStateProperty(this.name, 'alignContentEvenly')
-    this.alignContentAround$ = this.storeService.bindToStateProperty(this.name, 'alignContentAround')
-    this.overflowHidden$ = this.storeService.bindToStateProperty(this.name, 'overflowHidden')
-    this.overflowXHidden$ = this.storeService.bindToStateProperty(this.name, 'overflowXHidden')
-    this.overflowScroll$ = this.storeService.bindToStateProperty(this.name, 'overflowScroll')
-    this.overflowXScroll$ = this.storeService.bindToStateProperty(this.name, 'overflowXScroll')
-    this.overflowAuto$ = this.storeService.bindToStateProperty(this.name, 'overflowAuto')
-    this.overflowXAuto$ = this.storeService.bindToStateProperty(this.name, 'overflowXAuto')
-    this.height$ = this.storeService.bindToStateProperty(this.name, 'height')
-    this.width$ = this.storeService.bindToStateProperty(this.name, 'width')
-    this.backgroundColorPrimary$ = this.storeService.bindToStateProperty(this.name, 'backgroundColorPrimary')
-    this.backgroundColorWhite$ = this.storeService.bindToStateProperty(this.name, 'backgroundColorWhite')
-    this.backgroundColorDanger$ = this.storeService.bindToStateProperty(this.name, 'backgroundColorDanger')
-    this.visible$ = this.storeService.bindToStateProperty(this.name, 'visible')
-    this.holdSpace$ = this.storeService.bindToStateProperty(this.name, 'holdSpace')
-    this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
-    this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
-    this.alignSelfStretch$ = this.storeService.bindToStateProperty(this.name, 'alignSelfStretch')
-    this.alignItemsStretch$ = this.storeService.bindToStateProperty(this.name, 'alignItemsStretch')
-    this.grow$ = this.storeService.bindToStateProperty(this.name, 'grow')
-    this.shrink$ = this.storeService.bindToStateProperty(this.name, 'shrink')
+      this.row$ = this.storeService.bindToStateProperty(this.name, 'row')
+      this.column$ = this.storeService.bindToStateProperty(this.name, 'column')
+      this.wrap$ = this.storeService.bindToStateProperty(this.name, 'wrap')
+      this.justifyContentStart$ = this.storeService.bindToStateProperty(this.name, 'justifyContentStart')
+      this.justifyContentCenter$ = this.storeService.bindToStateProperty(this.name, 'justifyContentCenter')
+      this.justifyContentEnd$ = this.storeService.bindToStateProperty(this.name, 'justifyContentEnd')
+      this.justifyContentBetween$ = this.storeService.bindToStateProperty(this.name, 'justifyContentBetween')
+      this.justifyContentEvenly$ = this.storeService.bindToStateProperty(this.name, 'justifyContentEvenly')
+      this.justifyContentAround$ = this.storeService.bindToStateProperty(this.name, 'justifyContentAround')
+      this.alignItemsStart$ = this.storeService.bindToStateProperty(this.name, 'alignItemsStart')
+      this.alignItemsCenter$ = this.storeService.bindToStateProperty(this.name, 'alignItemsCenter')
+      this.alignItemsEnd$ = this.storeService.bindToStateProperty(this.name, 'alignItemsEnd')
+      this.alignContentStart$ = this.storeService.bindToStateProperty(this.name, 'alignContentStart')
+      this.alignContentCenter$ = this.storeService.bindToStateProperty(this.name, 'alignContentCenter')
+      this.alignContentEnd$ = this.storeService.bindToStateProperty(this.name, 'alignContentEnd')
+      this.alignContentBetween$ = this.storeService.bindToStateProperty(this.name, 'alignContentBetween')
+      this.alignContentEvenly$ = this.storeService.bindToStateProperty(this.name, 'alignContentEvenly')
+      this.alignContentAround$ = this.storeService.bindToStateProperty(this.name, 'alignContentAround')
+      this.overflowHidden$ = this.storeService.bindToStateProperty(this.name, 'overflowHidden')
+      this.overflowXHidden$ = this.storeService.bindToStateProperty(this.name, 'overflowXHidden')
+      this.overflowScroll$ = this.storeService.bindToStateProperty(this.name, 'overflowScroll')
+      this.overflowXScroll$ = this.storeService.bindToStateProperty(this.name, 'overflowXScroll')
+      this.overflowAuto$ = this.storeService.bindToStateProperty(this.name, 'overflowAuto')
+      this.overflowXAuto$ = this.storeService.bindToStateProperty(this.name, 'overflowXAuto')
+      this.height$ = this.storeService.bindToStateProperty(this.name, 'height')
+      this.width$ = this.storeService.bindToStateProperty(this.name, 'width')
+      this.backgroundColorPrimary$ = this.storeService.bindToStateProperty(this.name, 'backgroundColorPrimary')
+      this.backgroundColorWhite$ = this.storeService.bindToStateProperty(this.name, 'backgroundColorWhite')
+      this.backgroundColorDanger$ = this.storeService.bindToStateProperty(this.name, 'backgroundColorDanger')
+      this.visible$ = this.storeService.bindToStateProperty(this.name, 'visible')
+      this.holdSpace$ = this.storeService.bindToStateProperty(this.name, 'holdSpace')
+      this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
+      this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
+      this.alignSelfStretch$ = this.storeService.bindToStateProperty(this.name, 'alignSelfStretch')
+      this.alignItemsStretch$ = this.storeService.bindToStateProperty(this.name, 'alignItemsStretch')
+      this.grow$ = this.storeService.bindToStateProperty(this.name, 'grow')
+      this.shrink$ = this.storeService.bindToStateProperty(this.name, 'shrink')
+    }
   }
 
   setCalculatedHeight(val: any): boolean {

@@ -9,7 +9,6 @@ export class AttributesComponentPropsModel {
                 public icon?:string|undefined,
                 public label?:string|undefined,
                 public width?:number|undefined,
-                public childLayout?: ResponsiveChildLayoutConfigModel|undefined,
                 public menuItems?:MenuItem[]|undefined,
                 public start?:ComponentModel|undefined,
                 public end?:ComponentModel|undefined,

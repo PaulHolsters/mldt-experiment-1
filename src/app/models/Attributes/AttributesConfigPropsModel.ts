@@ -10,7 +10,6 @@ export class AttributesConfigPropsModel {
     public width?: number,
     public icon?:string|undefined,
     public label?:string|undefined,
-    public childLayout?: ResponsiveChildLayoutConfigModel|undefined,
     public menuItems?: MenuItem[],
     public start?: ComponentModel,
     public end?: ComponentModel,

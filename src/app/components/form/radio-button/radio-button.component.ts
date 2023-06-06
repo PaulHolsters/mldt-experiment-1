@@ -27,6 +27,7 @@ export class RadioButtonComponent implements OnInit {
     if(this.name){
       this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
       this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
+      console.log(this.values)
     }
   }
   setCalculatedHeight(val: any): boolean {
