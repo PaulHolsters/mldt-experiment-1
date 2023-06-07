@@ -7,7 +7,24 @@ import {NoValueType} from "../../enums/no_value_type";
 import {RestrictionType} from "../../enums/restrictionType.enum";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
-
+import {EventsService} from "../../events.service";
+import {EventType} from "../../enums/eventTypes.enum";
+import AppConfig from "../../configuration/main";
+import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
+import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
+import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
+import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
+import {mainDimensions} from "../../configuration/mainDimensions";
+import {mainChildLayout} from "../../configuration/mainChildLayout";
+import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
+import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
+import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
+import {header} from "../../configuration/header";
+import {form} from "../../configuration/form";
+import {ActionType} from "../../enums/actionTypes.enum";
+import {ActionSubType} from "../../enums/actionSubTypes.enum";
+import {TargetType} from "../../enums/targetTypes.enum";
 @Component({
   selector: 'm-container',
   templateUrl: './container.component.html',
@@ -64,7 +81,8 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   InputFontSize = InputFontSizeType
   nameFormControl:string|undefined
 
-  constructor(private storeService: StoreService, private cd:ChangeDetectorRef) {
+  constructor(private storeService: StoreService, private cd:ChangeDetectorRef,private eventsService:EventsService) {
+    console.log('constructing cont')
   }
   ngAfterContentChecked(): void {
         this.cd.detectChanges()
@@ -75,7 +93,58 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
     else return []
   }
   ngOnInit(): void {
+    console.log('cont init')
     if(this.name){
+      if(this.name === 'content-container'){
+       this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,
+        new AppConfig( {
+        components: [
+          {
+            // todo start adding constraints
+            // todo add a minimum/maximum dimension
+            name: 'content-container',
+            type: ComponentType.Container,
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NA)),
+            dimensions: mainDimensions,
+            childLayout: mainChildLayout,
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
+            children: [
+              header,
+              form
+            ]
+          },
+        ],
+        actions: [
+          // hou er rekening mee dat de volgorde van de actions in deze array gevolgen kunnen hebben op
+          // de condities zoals gedefinieerd in de overeenkomstige actie
+          {
+            actionType: ActionType.Server,
+            actionSubType: ActionSubType.GetDataBluePrint,
+            targetType: TargetType.Component,
+            targetName: 'form-container',
+            sourceName: 'my first form',
+            on: EventType.ComponentReady
+          },
+          {
+            actionType: ActionType.Server,
+            actionSubType: ActionSubType.PersistNewData,
+            targetType: TargetType.API,
+            targetName: NoValueType.NA,
+            sourceName: 'submitbtn',
+            on: EventType.ComponentClicked
+          },
+          {
+            actionType: ActionType.Client,
+            actionSubType: ActionSubType.SetResponsiveBehaviour,
+            // todo zorg dat je hier ook "geen waarde" kan ingeven
+            targetType: TargetType.Component,
+            targetName: '',
+            sourceName: 'content-container',
+            on: EventType.RootComponentReady
+          }
+        ]
+      }))}
       this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
         this.dataConcept = res as ConceptComponentModel
       })

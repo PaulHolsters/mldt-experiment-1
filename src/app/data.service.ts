@@ -11,13 +11,13 @@ import {NoValueType} from "./enums/no_value_type";
 import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 import {Observable} from "rxjs";
-import {ConfigService} from "./config.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private storeService: StoreService, private apollo: Apollo, private configService:ConfigService) {
+  constructor(private storeService: StoreService, private apollo: Apollo) {
+    console.log('data')
   }
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
@@ -118,8 +118,8 @@ export class DataService {
     // en verzend de gevraagde data op basis van een data property of een datalink property
     this.storeService.getStatePropertySubjects().forEach(propSubj=>{
       // todo refactor
-      let comp = this.configService.getComponentConfig(propSubj.componentName)
-      if(!comp) comp = this.configService.getComponentConfigThroughAttributes(propSubj.componentName)
+      let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
+      if(!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if(propSubj.propName==='dataConcept' && comp && comp.data){
         if(comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
@@ -178,9 +178,9 @@ export class DataService {
     } else throw new Error('Geen geldige data configuratie.')
   }
   public async persistNewData(action:ActionModel){
-    let comp = this.configService.getParentComponentConfigWithProperty(action.sourceName,'data')
+    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName,'data')
     if(!comp){
-      comp = this.configService.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName,'data')
+      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName,'data')
     }
     await this.mutate(comp?.data,MutationType.Create)?.subscribe(res=>{
       console.log(res,'yeah!')
@@ -208,15 +208,16 @@ export class DataService {
     return attr
   }
   public async getDataBluePrint(action: ActionModel) {
+    debugger
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
     // of een deel van de data nodig hebben daarvan op de hoogte gebracht door middel van een event
     // welke componenten dat zijn kan worden afgeleid uit de configuratie van de gebruiker
     if (action.targetType === TargetType.Component) {
-      let compModel = this.configService.getComponentConfig(action.targetName)?.data
+      let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)?.data
       if (!compModel) {
-        compModel = this.configService.getComponentConfigThroughAttributes(action.targetName)?.data
+        compModel = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)?.data
       }
       if (compModel !== undefined) {
         await this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown)=>{

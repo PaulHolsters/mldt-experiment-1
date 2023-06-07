@@ -19,7 +19,7 @@ export class FormComponent implements OnInit{
   height:string|undefined
 
   constructor(private storeService:StoreService,private eventsService:EventsService) {
-
+    console.log('instance of a form')
   }
 
   ngOnInit(): void {

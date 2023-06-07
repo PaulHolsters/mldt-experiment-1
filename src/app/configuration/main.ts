@@ -1,65 +1,236 @@
 import {ComponentModel} from "../models/ComponentModel";
 import {ActionModel} from "../models/ActionModel";
-import {ComponentType} from "../enums/componentTypes.enum";
-import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVisibilityConfigModel";
-import {ResponsiveOverflowConfigModel} from "../models/Overflow/self/ResponsiveOverflowConfigModel";
-import {OverflowConfigPropsModel} from "../models/Overflow/self/OverflowConfigPropsModel";
-import {OverflowValueConfigType} from "../enums/overflowValueConfigTypes.enum";
-import {ResponsiveStylingConfigModel} from "../models/Styling/ResponsiveStylingConfigModel";
-import {StylingConfigPropsModel} from "../models/Styling/StylingConfigPropsModel";
-import {BackgroundColorType} from "../enums/backgroundColorType.enum";
-import {NoValueType} from "../enums/no_value_type";
-import {ActionType} from "../enums/actionTypes.enum";
-import {ActionSubType} from "../enums/actionSubTypes.enum";
-import {TargetType} from "../enums/targetTypes.enum";
 import {EventType} from "../enums/eventTypes.enum";
-import {form} from "./form";
-import {header} from "./header";
-import {mainChildLayout} from "./mainChildLayout";
-import {mainDimensions} from "./mainDimensions";
+import {ResponsiveAttributesConfigModel} from "../models/Attributes/ResponsiveAttributesConfigModel";
 
-export const userConfig: {
-  components: ComponentModel[],
-  actions: ActionModel[]
-} = {
-  components: [
-    {
-      // todo start adding constraints
-      // todo add a minimum/maximum dimension
-      name: 'content-container',
-      type: ComponentType.Container,
-      visibility: new ResponsiveVisibilityConfigModel(),
-      overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NA)),
-      dimensions: mainDimensions,
-      childLayout: mainChildLayout,
-      styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
-      children: [
-        header,
-        form
-      ]
-    },
-  ],
-  actions: [
-    // hou er rekening mee dat de volgorde van de actions in deze array implicaties kunnen hebben op
-    // de condities zoals gedefinieerd in de overeenkomstige actie
-    {
-      actionType: ActionType.Server,
-      actionSubType: ActionSubType.GetDataBluePrint,
-      targetType: TargetType.Component,
-      targetName: 'form-container',
-      sourceName: 'my first form',
-      on: EventType.ComponentReady
-    },
-    {
-      actionType: ActionType.Server,
-      actionSubType: ActionSubType.PersistNewData,
-      targetType: TargetType.API,
-      targetName: NoValueType.NA,
-      sourceName: 'submitbtn',
-      on: EventType.ComponentClicked
-    },
-  ]
+export default class AppConfig {
+  constructor(private _userConfig: {components:ComponentModel[],actions:ActionModel[]}) {
+  }
+  public get userConfig(){
+    return this._userConfig
+  }
+
+  public getActionsForComponent(name:string):ActionModel[]{
+    return this.userConfig.actions.filter((action: { targetName: string; })=>{
+      return action.targetName===name
+    })
+  }
+  public getActionsForEvent(event:EventType){
+    return this.userConfig.actions.filter((action: { on: EventType; })=>{
+      return action.on === event
+    })
+  }
+  public getComponentConfig(compName: string ,component?:ComponentModel): ComponentModel | undefined {
+    // todo later string [] variant toevoegen
+    if(component){
+      if(component.name !== compName){
+        if(component.children){
+          for (let j=0;j<component.children.length;j++){
+            // hier ga je bv de menubar component hebben
+            const comp = this.getComponentConfig(compName,component.children[j] as ComponentModel)
+            if(comp){
+              return comp
+            }
+          }
+        }
+      } else return component
+    } else{
+      for (let i=0;i<this.userConfig.components.length;i++){
+        if(this.userConfig.components[i].name !== compName){
+          if(this.userConfig.components[i].children){
+            for (let k=0;k<(this.userConfig.components[i].children as ComponentModel[]).length;k++){
+              const comp = this.getComponentConfig(compName,(this.userConfig.components[i].children as ComponentModel[])[k])
+              if(comp){
+                return comp
+              }
+            }
+          }
+        } else return this.userConfig.components[i]
+      }
+    }
+    return undefined
+  }
+  public getParentComponentConfigWithProperty(compName: string ,property:string, component?:ComponentModel, previousComponent?:ComponentModel): ComponentModel | undefined {
+    // todo later string [] variant toevoegen
+    if(component){
+      if(component.name !== compName){
+        if(component.children){
+          for (let j=0;j<component.children.length;j++){
+            let previousComponent
+            if((component.children[j] as ComponentModel).hasOwnProperty(property)){
+              previousComponent = component.children[j] as ComponentModel
+            }
+            const comp = this.getParentComponentConfigWithProperty(compName,property,component.children[j] as ComponentModel,previousComponent)
+            if(comp){
+              return comp
+            }
+          }
+        }
+      } else return previousComponent
+    } else{
+      for (let i=0;i<this.userConfig.components.length;i++){
+        if(this.userConfig.components[i].name !== compName){
+          if(this.userConfig.components[i].children){
+            for (let k=0;k<(this.userConfig.components[i].children as ComponentModel[]).length;k++){
+              let previousComponent
+              if((this.userConfig.components[i].children as ComponentModel[])[k].hasOwnProperty(property)){
+                previousComponent = (this.userConfig.components[i].children as ComponentModel[])[k]
+              }
+              const comp = this.getParentComponentConfigWithProperty(compName,property,(this.userConfig.components[i].children as ComponentModel[])[k],previousComponent)
+              if(comp){
+                return comp
+              }
+            }
+          }
+        } else return previousComponent
+      }
+    }
+    return undefined
+  }
+  public getParentComponentConfigWithPropertyThroughAttributes(compName: string,property:string,childComp?:ComponentModel,previous?:ComponentModel): ComponentModel | undefined{
+    if(childComp){
+      if(childComp.name === compName) return previous
+      if(childComp.attributes !== undefined){
+        const attributes = childComp.attributes as ResponsiveAttributesConfigModel
+        for (let [k,v] of Object.entries(attributes)){
+          if(v){
+            for (let[j,l] of Object.entries(v)){
+              if(l instanceof ComponentModel && l.name === compName){
+                return previous
+              }
+              let previousComponent
+              if(l instanceof ComponentModel && l.hasOwnProperty(property)){
+                previousComponent = l
+              }
+              if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
+                let component
+                if(previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName,property,l,previousComponent)
+                else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName,property,l,previous)
+                if(component){
+                  return component
+                }
+              }
+            }
+          }
+        }
+      }
+      if(childComp.children!==undefined){
+        for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
+          let previousComponent
+          if((childComp.children as ComponentModel[])[j].hasOwnProperty(property)){
+            previousComponent = (childComp.children as ComponentModel[])[j]
+          }
+          let component
+          if(previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previousComponent)
+          else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previous)
+          if(component){
+            return component
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < this.userConfig.components.length; i++) {
+        if (this.userConfig.components[i].attributes !== undefined) {
+          const attributes = this.userConfig.components[i].attributes as ResponsiveAttributesConfigModel
+          for (let [k, v] of Object.entries(attributes)) {
+            if (v) {
+              for (let [j, l] of Object.entries(v)) {
+                if (l instanceof ComponentModel && l.name === compName) {
+                  return previous
+                }
+                let previousComponent
+                if (l instanceof ComponentModel && l.hasOwnProperty(property)) {
+                  previousComponent = l
+                }
+                if (l instanceof ComponentModel) {
+                  let component
+                  if (previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property, l, previousComponent)
+                  else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property, l, previous)
+                  if (component) return component
+                }
+              }
+            }
+          }
+        }
+        if (this.userConfig.components[i].children !== undefined) {
+          for (let j = 0; j < (this.userConfig.components[i].children as ComponentModel[]).length; j++) {
+            let previousComponent
+            if ((this.userConfig.components[i].children as ComponentModel[])[j].hasOwnProperty(property)) {
+              previousComponent = (this.userConfig.components[i].children as ComponentModel[])[j]
+            }
+            let component
+            if (previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property, (this.userConfig.components[i].children as ComponentModel[])[j], previousComponent)
+            else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property, (this.userConfig.components[i].children as ComponentModel[])[j], previous)
+            if (component) {
+              return component
+            }
+          }
+        }
+      }
+    }
+    return undefined
+  }
+  public getComponentConfigThroughAttributes(compName: string,childComp?:ComponentModel): ComponentModel | undefined{
+    if(childComp){
+      if(childComp.name === compName) return childComp
+      if(childComp.attributes !== undefined){
+        const attributes = childComp.attributes as ResponsiveAttributesConfigModel
+        for (let [k,v] of Object.entries(attributes)){
+          if(v){
+            for (let[j,l] of Object.entries(v)){
+              // todo het is niet per se een instance omdat het niet met het new keyword werd aangemaakt => maar ik zou
+              //      dit dus voorlopig in de constraints wel afdwingen
+              if(l instanceof ComponentModel && l.name === compName){
+                return l
+              }
+              if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
+                const component = this.getComponentConfigThroughAttributes(compName,l)
+                if(component){
+                  return component
+                }
+              }
+            }
+          }
+        }
+      }
+      if(childComp.children!==undefined){
+        for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
+          const component = this.getComponentConfigThroughAttributes(compName,(childComp.children as ComponentModel[])[j])
+          if(component){
+            return component
+          }
+        }
+      }
+    } else if(this.userConfig.components!==undefined){
+      for (let i=0;i<this.userConfig.components.length;i++){
+        if(this.userConfig.components[i].attributes !== undefined){
+          const attributes = this.userConfig.components[i].attributes as ResponsiveAttributesConfigModel
+          for (let [k,v] of Object.entries(attributes)){
+            if(v){
+              for (let[j,l] of Object.entries(v)){
+                if(l instanceof ComponentModel && l.name === compName){
+                  return l
+                }
+              }
+            }
+          }
+        }
+        if(this.userConfig.components[i].children !== undefined){
+          for (let j = 0; j < (this.userConfig.components[i].children as ComponentModel[]).length; j++) {
+            const component = this.getComponentConfigThroughAttributes(compName,(this.userConfig.components[i].children as ComponentModel[])[j])
+            if(component){
+              return component
+            }
+          }
+        }
+      }
+    }
+    return undefined
+  }
+
 }
+
+
 
 /*
 *       {

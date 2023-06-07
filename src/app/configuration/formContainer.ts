@@ -31,7 +31,7 @@ export const formContainer = new ComponentModel(
     ), DynamicDimensionValueConfigType.NC)
   )),
   undefined,
-  new ResponsiveVisibilityConfigModel(),
+  new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   undefined,
   [
     formControl1,

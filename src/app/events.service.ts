@@ -1,35 +1,37 @@
 import {Injectable} from '@angular/core';
-import {StoreService} from "./store.service";
 import {EventType} from "./enums/eventTypes.enum";
 import {ActionModel} from "./models/ActionModel";
 import {ActionType} from "./enums/actionTypes.enum";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {DataService} from "./data.service";
-import {ConfigService} from "./config.service";
 import {ScreenSize} from "./enums/screenSizes.enum";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
+import {StoreService} from "./store.service";
+import AppConfig from "./configuration/main";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService{
   private screensize:ScreenSize|undefined
-  constructor(private storeService:StoreService,private dataService:DataService,private configService:ConfigService, private responsiveBehaviourService:ResponsiveBehaviourService) {
-    this.setResponsiveBehaviour()
+  constructor(private dataService:DataService,private responsiveBehaviourService:ResponsiveBehaviourService,private storeService:StoreService) {
+    console.log('construct eventsser')
   }
-
   public get screenSize(){
     return this.screensize
   }
-
-  public triggerEvent(event:EventType,source:string){
-    this.configService.getActionsForEvent(event).forEach(action=>{
+  public triggerEvent(event:EventType,source:string,data?:any){
+    if(data && data instanceof AppConfig){
+      this.storeService.saveConfig(data)
+    }
+    this.storeService.appConfig?.getActionsForEvent(event).forEach(action=>{
       if(action.sourceName===source){
         this.executeAction(action)
       }
     })
   }
   private setResponsiveBehaviour() {
+    debugger
     const mqSM1 = window.matchMedia("(max-width: 480px)") //smartphone
     const mqPT1 = window.matchMedia("(min-width: 481px)") //portrait-tablet
     const mqPT2 = window.matchMedia("(max-width: 799px)") //portrait-tablet
@@ -46,6 +48,7 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqSM1.matches) {
+        console.log('load')
         this.screensize = ScreenSize.smartphone
         this.responsiveBehaviourService.setComponentStates( ScreenSize.smartphone)
       }
@@ -64,6 +67,7 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqPT1.matches && mqPT2.matches) {
+        console.log('load')
         this.screensize = ScreenSize.portraitTablet
         this.responsiveBehaviourService.setComponentStates( ScreenSize.portraitTablet)
       }
@@ -82,6 +86,7 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqT1.matches && mqT2.matches) {
+        console.log('load')
         this.screensize = ScreenSize.tablet
         this.responsiveBehaviourService.setComponentStates(ScreenSize.tablet)
       }
@@ -100,6 +105,7 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqL1.matches && mqL2.matches) {
+        console.log('load')
         this.screensize = ScreenSize.laptop
         this.responsiveBehaviourService.setComponentStates(ScreenSize.laptop)
       }
@@ -112,6 +118,7 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqHR1.matches) {
+        console.log('load')
         this.screensize = ScreenSize.highResolution
         this.responsiveBehaviourService.setComponentStates( ScreenSize.highResolution)
       }
@@ -119,9 +126,30 @@ export class EventsService{
   }
   private executeAction(action:ActionModel){
     switch (action.on){
+      case EventType.RootComponentReady:
+        switch (action.actionType){
+          case ActionType.Client:
+            switch (action.actionSubType){
+              case ActionSubType.SetResponsiveBehaviour:
+                this.storeService.createStore()
+                this.setResponsiveBehaviour()
+                break
+              default:
+            }
+            break
+          case ActionType.Server:
+            switch (action.actionSubType){
+              case ActionSubType.GetDataBluePrint:
+                this.dataService.getDataBluePrint(action)
+                break
+              default:
+            }
+            break
+        }
+        break
       case EventType.ComponentReady:
         switch (action.actionType){
-          case ActionType.Component:
+          case ActionType.Client:
             break
           case ActionType.Server:
             switch (action.actionSubType){
@@ -135,7 +163,7 @@ export class EventsService{
         break
       case EventType.ComponentClicked:
         switch (action.actionType){
-          case ActionType.Component:
+          case ActionType.Client:
             break
           case ActionType.Server:
             switch (action.actionSubType){

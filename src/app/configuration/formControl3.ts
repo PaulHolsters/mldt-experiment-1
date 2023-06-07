@@ -69,6 +69,7 @@ export const formControl3 = {
             type: ComponentType.Label,
             visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
           },
+          // todo fix displayNone
           new ComponentModel(
             'radio-button-container',
             ComponentType.Container,

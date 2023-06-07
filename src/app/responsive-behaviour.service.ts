@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
 import {ComponentModel} from "./models/ComponentModel";
 import {StoreService} from "./store.service";
-import {userConfig} from "./configuration/main";
 @Injectable({
   providedIn: 'root'
 })
-export class ResponsiveBehaviourService {
-  constructor(private storeService: StoreService) {
+export class ResponsiveBehaviourService{
+  constructor(private storeService:StoreService) {
+    console.log('rbs')
   }
   private setState(component: ComponentModel, screenSize: number) {
-    if (component.visibility)
+    if (component.visibility){
       this.storeService.setRBSState(component.name, this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize))
+    }
     if (component.position)
       this.storeService.setRBSState(component.name, this.storeService.getPositionComponentProps(component.name, component.position, screenSize))
     if (component.dimensions){
@@ -44,7 +45,7 @@ export class ResponsiveBehaviourService {
 
   }
   public setComponentStates( screenSize: number) {
-    userConfig.components.forEach(comp => {
+    this.storeService.appConfig?.userConfig.components.forEach(comp => {
       this.setState(comp, screenSize)
     })
   }

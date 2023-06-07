@@ -41,15 +41,21 @@ import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTy
 import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
-import {ConfigService} from "./config.service";
-import {userConfig} from "./configuration/main";
+import AppConfig from "./configuration/main";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
-  constructor(private configService:ConfigService) {
-    this.createStore()
+  private _appConfig:AppConfig|undefined
+  constructor() {
+    console.log('store')
+  }
+  public saveConfig(config:AppConfig){
+    this._appConfig = Object.create(config)
+  }
+  public get appConfig(){
+    return this._appConfig
   }
   private statePropertySubjects: StatePropertySubjectModel[] = []
   private hasScreenSizeProperty(stateModel:
@@ -357,9 +363,9 @@ export class StoreService {
       }
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
-          let parent = this.configService.getComponentConfig(componentName)
+          let parent = this.appConfig?.getComponentConfig(componentName)
           if(!parent){
-            parent = this.configService.getComponentConfigThroughAttributes(componentName)
+            parent = this.appConfig?.getComponentConfigThroughAttributes(componentName)
           }
           if (parent?.children) {
             if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
@@ -500,7 +506,7 @@ export class StoreService {
     }
   }
   public createStore() {
-    userConfig.components.forEach(comp => {
+    this.appConfig?.userConfig.components.forEach(comp => {
       this.createProps(comp)}
     )
   }
