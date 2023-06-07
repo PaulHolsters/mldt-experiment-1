@@ -15,7 +15,6 @@ import AppConfig from "./configuration/main";
 export class EventsService{
   private screensize:ScreenSize|undefined
   constructor(private dataService:DataService,private responsiveBehaviourService:ResponsiveBehaviourService,private storeService:StoreService) {
-    console.log('construct eventsser')
   }
   public get screenSize(){
     return this.screensize
@@ -31,7 +30,6 @@ export class EventsService{
     })
   }
   private setResponsiveBehaviour() {
-    debugger
     const mqSM1 = window.matchMedia("(max-width: 480px)") //smartphone
     const mqPT1 = window.matchMedia("(min-width: 481px)") //portrait-tablet
     const mqPT2 = window.matchMedia("(max-width: 799px)") //portrait-tablet

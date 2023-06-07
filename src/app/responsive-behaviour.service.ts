@@ -6,7 +6,6 @@ import {StoreService} from "./store.service";
 })
 export class ResponsiveBehaviourService{
   constructor(private storeService:StoreService) {
-    console.log('rbs')
   }
   private setState(component: ComponentModel, screenSize: number) {
     if (component.visibility){

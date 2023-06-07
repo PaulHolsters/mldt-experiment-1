@@ -88,12 +88,11 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
         this.cd.detectChanges()
   }
   getValues():string[]{
-    if(this.dataAttribute?.radio?.values && typeof this.dataAttribute?.radio?.values !== 'string')
-    return this.dataAttribute?.radio?.values
-    else return []
+    if(this.dataAttribute?.radio?.values && typeof this.dataAttribute?.radio?.values !== 'string'){
+      return this.dataAttribute?.radio?.values
+    } else return []
   }
   ngOnInit(): void {
-    console.log('cont init')
     if(this.name){
       if(this.name === 'content-container'){
        this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,

@@ -17,7 +17,6 @@ import {Observable} from "rxjs";
 })
 export class DataService {
   constructor(private storeService: StoreService, private apollo: Apollo) {
-    console.log('data')
   }
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
@@ -48,7 +47,6 @@ export class DataService {
           attrExp.dataType = entry[1];
           (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel,{}))}
       })
-    console.log(newObj)
     return newObj
   }
   public updateData(name:string,value:number|string|undefined){
@@ -208,7 +206,6 @@ export class DataService {
     return attr
   }
   public async getDataBluePrint(action: ActionModel) {
-    debugger
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data

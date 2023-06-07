@@ -49,7 +49,6 @@ import AppConfig from "./configuration/main";
 export class StoreService {
   private _appConfig:AppConfig|undefined
   constructor() {
-    console.log('store')
   }
   public saveConfig(config:AppConfig){
     this._appConfig = Object.create(config)

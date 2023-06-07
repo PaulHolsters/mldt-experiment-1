@@ -36,7 +36,7 @@ export const formControl3 = {
           new ChildLayoutConfigPropsModel(
             // todo zorg voor default layout bij een container voor simpele gevallen
             new HorizontalLayoutConfigPropsModel(
-              AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
+              AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
               new WidthConfigPropsModel(new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
               ), DynamicDimensionValueConfigType.NC),
@@ -55,7 +55,8 @@ export const formControl3 = {
           new WidthConfigPropsModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
-        )), new ResponsiveAttributesConfigModel({
+        )),
+        new ResponsiveAttributesConfigModel({
           dataLink: ['product', 'cat']
         }),
         new ResponsiveVisibilityConfigModel(
@@ -75,11 +76,11 @@ export const formControl3 = {
             ComponentType.Container,
             new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigPropsModel(
               new HorizontalLayoutConfigPropsModel(
-                AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
+                AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
                 new WidthConfigPropsModel(new FixedDimensioningConfigModel(
                   DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
                 ), DynamicDimensionValueConfigType.NC),
-                CrossAxisHorizontalLanesPositioningConfigType.Center),
+                CrossAxisHorizontalLanesPositioningConfigType.Left),
               new VerticalLayoutConfigPropsModel(
                 AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
                 HeightValueConfigType.NC,
@@ -94,7 +95,9 @@ export const formControl3 = {
                 DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
               ), DynamicDimensionValueConfigType.NC)
             )),
-            undefined,
+            new ResponsiveAttributesConfigModel({
+              dataLink: ['product', 'cat']
+            }),
             new ResponsiveVisibilityConfigModel(),
             undefined,
             [
@@ -103,11 +106,11 @@ export const formControl3 = {
                 visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
                 childLayout: new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigPropsModel(
                   new HorizontalLayoutConfigPropsModel(
-                    AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
+                    AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
                     new WidthConfigPropsModel(new FixedDimensioningConfigModel(
                       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
                     ), DynamicDimensionValueConfigType.NC),
-                    CrossAxisHorizontalLanesPositioningConfigType.Center),
+                    CrossAxisHorizontalLanesPositioningConfigType.Left),
                   new VerticalLayoutConfigPropsModel(
                     AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
                     HeightValueConfigType.NC,
