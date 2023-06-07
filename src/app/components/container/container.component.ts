@@ -136,9 +136,8 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
           {
             actionType: ActionType.Client,
             actionSubType: ActionSubType.SetResponsiveBehaviour,
-            // todo zorg dat je hier ook "geen waarde" kan ingeven
             targetType: TargetType.Component,
-            targetName: '',
+            targetName: NoValueType.NA,
             sourceName: 'content-container',
             on: EventType.RootComponentReady
           }

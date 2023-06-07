@@ -4,7 +4,7 @@ export class RadioAttributeConfigModel {
 constructor(
   public conceptName:string|NoValueType.DBI,
   public values:string[]|NoValueType.DBI,
-  public value:number|NoValueType.NA|NoValueType.NVY,
+  public value:string|NoValueType.NA|NoValueType.NVY,
   ) {
 }
 }

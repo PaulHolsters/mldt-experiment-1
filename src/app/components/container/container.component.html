@@ -179,6 +179,7 @@
           <m-radio [name]="child.name"
                    [values]="getValues()"
                    [conceptName]="dataAttribute?.radio?.conceptName"
+                   [dataName]="nameFormControl"
                    [class]="['flex',
            'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
            'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

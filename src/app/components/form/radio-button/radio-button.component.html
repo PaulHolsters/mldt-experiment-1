@@ -1,7 +1,7 @@
 <m-container [name]="name">
   <ng-container *ngFor="let val of values">
     <div>
-      <p-radioButton name="{{name}}" [(ngModel)]="selectedValue" value="{{val}}"></p-radioButton>
+      <p-radioButton (onClick)="updateData()" name="{{name}}" [(ngModel)]="selectedValue" value="{{val}}"></p-radioButton>
       <!-- todo: geef styling aan op basis van config input-->
       <m-label [text]="val"></m-label>
     </div>

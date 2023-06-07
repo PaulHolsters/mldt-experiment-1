@@ -13,13 +13,21 @@ export class RadioButtonComponent implements OnInit {
   @Input() selectedValue: string | undefined
   @Input() values: string[] | undefined
   @Input() conceptName: string | undefined
+  @Input() dataName: string | undefined
   @ViewChild('radio') radio: ElementRef | undefined
   calcHeight$: Observable<any> | undefined
   calcWidth$: Observable<any> | undefined
   width: string | undefined
   height: string | undefined
 
+  updateData() {
+    // todo zorg ervoor dat je hier de dataLink naam hebt van de parent container
+    if (this.dataName){
+      console.log(this.dataName)
+      this.dataService.updateData(this.dataName, this.selectedValue)
+    }
 
+  }
 
   constructor(private dataService: DataService, private storeService: StoreService) { }
 

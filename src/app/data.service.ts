@@ -50,6 +50,7 @@ export class DataService {
     return newObj
   }
   public updateData(name:string,value:number|string|undefined){
+    console.log(name,value)
     const parts = name.split('_')
     const obj = this.data.find(dataObj=>{
       return dataObj.conceptName === parts[0]
@@ -66,6 +67,9 @@ export class DataService {
           if(attr.number && typeof value === 'number'){
             attr.number.value = value
           }
+          if(attr.radio && typeof value ==='string'){
+            attr.radio.value = value
+          }
           // todo alle andere datatypes
 
           (obj.attributes as AttributeConfigModel[]).splice( (obj.attributes as AttributeConfigModel[]).findIndex(attr=>{
@@ -74,6 +78,7 @@ export class DataService {
           this.data.splice(this.data.findIndex(dataObj=>{
             return dataObj.conceptName === parts[0]
           }),1,obj)
+          // todo radio button werkt tot hier
         }
       } else{
         // Het gaat om een concept
@@ -150,6 +155,19 @@ export class DataService {
     }
   }
   private getMutationParams(data:AttributeConfigModel[]|NoValueType.DBI):string{
+    // todo radiobutton wordt hier vergeten
+
+    /*        mutation Mutation {
+          createProduct(name:
+          "momentoftruth",
+
+            ,
+            price:
+          43456) {
+            id
+          }
+        }*/
+
     if(data===NoValueType.DBI) return ''
     const strVal = data.map(x=>{return `
       ${(x.number?.value||x.text?.value) ? (x.name+':'||'') : ''}
@@ -164,6 +182,12 @@ export class DataService {
         return dataObj.conceptName === data.conceptName
       })
       if(currentData){
+        console.log(`mutation Mutation {
+              ${verb}${this.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
+                    id
+              }
+            }`)
+
         return this.apollo
           .mutate({
             mutation: gql`mutation Mutation {
