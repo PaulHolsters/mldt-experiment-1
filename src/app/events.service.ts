@@ -7,7 +7,7 @@ import {DataService} from "./data.service";
 import {ScreenSize} from "./enums/screenSizes.enum";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StoreService} from "./store.service";
-import AppConfig from "./configuration/main";
+import AppConfig from "./configuration/appConfig";
 
 @Injectable({
   providedIn: 'root'

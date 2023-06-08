@@ -2,22 +2,27 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../../../data.service";
 import {StoreService} from "../../../store.service";
 import {Observable} from "rxjs";
+import {NoValueType} from "../../../enums/no_value_type";
 
 @Component({
-  selector: 'app-multiselect',
+  selector: 'm-multiselect',
   templateUrl: './multiselect.component.html',
   styleUrls: ['./multiselect.component.css']
 })
 export class MultiselectComponent implements OnInit {
   @Input() name:string|undefined
-  @Input() options:string[]|undefined
-  @Input() selectedOptions:string[]|undefined
-  @Input() optionLabel:string|undefined
+  @Input() options:string[]|undefined|NoValueType.DBI
+  @Input() selectedOptions:string[]|undefined|NoValueType.DBI
+  @Input() optionLabel:string|undefined|NoValueType.DBI
+  @Input() dirty: boolean | undefined
+  @Input() invalid: boolean | undefined
+  @Input() disabled: boolean | undefined
   @ViewChild('multiselect') multiselect: ElementRef | undefined
   calcHeight$: Observable<any> | undefined
   calcWidth$: Observable<any> | undefined
   width: string | undefined
   height: string | undefined
+  NoValueType = NoValueType
   constructor(private dataService: DataService, private storeService: StoreService) { }
 
   ngOnInit(): void {

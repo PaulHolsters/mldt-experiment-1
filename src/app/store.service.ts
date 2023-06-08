@@ -41,7 +41,7 @@ import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTy
 import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
-import AppConfig from "./configuration/main";
+import AppConfig from "./configuration/appConfig";
 
 @Injectable({
   providedIn: 'root'

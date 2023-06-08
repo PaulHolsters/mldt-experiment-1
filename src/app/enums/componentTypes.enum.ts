@@ -13,5 +13,7 @@ export enum ComponentType {
   Label,
   Form,
   DateInput,
-  RadioButton
+  RadioButton,
+  Picklist,
+  MultiSelect
 }

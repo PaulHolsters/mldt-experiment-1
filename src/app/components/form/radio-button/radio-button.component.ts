@@ -14,6 +14,9 @@ export class RadioButtonComponent implements OnInit {
   @Input() values: string[] | undefined
   @Input() conceptName: string | undefined
   @Input() dataName: string | undefined
+  @Input() dirty: boolean | undefined
+  @Input() invalid: boolean | undefined
+  @Input() disabled: boolean | undefined
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
   calcHeight$: Observable<any> | undefined
   calcWidth$: Observable<any> | undefined

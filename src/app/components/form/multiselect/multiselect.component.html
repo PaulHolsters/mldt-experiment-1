@@ -4,5 +4,5 @@
      [style.height]="height"
      [style.width]="width"
      #multiselect>
-  <p-multiSelect [options]="options" [(ngModel)]="selectedOptions" optionLabel="{{optionLabel}}"></p-multiSelect>
+  <p-multiSelect [options]="options===NoValueType.DBI? [] : options" [(ngModel)]="selectedOptions" optionLabel="{{optionLabel}}"></p-multiSelect>
 </div>
