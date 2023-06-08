@@ -1,32 +1,23 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {Observable} from "rxjs";
 import {DataService} from "../../../data.service";
 import {StoreService} from "../../../store.service";
+import {Observable} from "rxjs";
 
 @Component({
-  selector: 'm-radio',
-  templateUrl: './radio-button.component.html',
-  styleUrls: ['./radio-button.component.css']
+  selector: 'app-multiselect',
+  templateUrl: './multiselect.component.html',
+  styleUrls: ['./multiselect.component.css']
 })
-export class RadioButtonComponent implements OnInit {
+export class MultiselectComponent implements OnInit {
   @Input() name:string|undefined
-  @Input() selectedValue: string | undefined
-  @Input() values: string[] | undefined
-  @Input() conceptName: string | undefined
-  @Input() dataName: string | undefined
-  @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
+  @Input() options:string[]|undefined
+  @Input() selectedOptions:string[]|undefined
+  @Input() optionLabel:string|undefined
+  @ViewChild('multiselect') multiselect: ElementRef | undefined
   calcHeight$: Observable<any> | undefined
   calcWidth$: Observable<any> | undefined
   width: string | undefined
   height: string | undefined
-
-  updateData() {
-    // todo zorg ervoor dat je hier de dataLink naam hebt van de parent container
-    if (this.dataName){
-      console.log(this.dataName)
-      this.dataService.updateData(this.dataName, this.selectedValue)
-    }
-  }
   constructor(private dataService: DataService, private storeService: StoreService) { }
 
   ngOnInit(): void {
@@ -37,7 +28,7 @@ export class RadioButtonComponent implements OnInit {
   }
   setCalculatedHeight(val: any): boolean {
     if (typeof val === 'string') {
-      this.inputWrapper?.nativeElement.style?.setProperty('--heightVal', 'calc(' + val + ')')
+      this.multiselect?.nativeElement.style?.setProperty('--heightVal', 'calc(' + val + ')')
       this.height = undefined
       return true
     }
@@ -46,11 +37,12 @@ export class RadioButtonComponent implements OnInit {
   }
   setCalculatedWidth(val: any): boolean {
     if (typeof val === 'string') {
-      this.inputWrapper?.nativeElement.style?.setProperty('--widthVal', 'calc(' + val + ')')
+      this.multiselect?.nativeElement.style?.setProperty('--widthVal', 'calc(' + val + ')')
       this.width = undefined
       return true
     }
     this.width = '100%'
     return false
   }
+
 }

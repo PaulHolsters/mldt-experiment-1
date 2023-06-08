@@ -1,6 +1,11 @@
 <m-container [name]="name">
   <ng-container *ngFor="let val of values">
-    <div>
+    <div
+      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+      [style.height]="height"
+      [style.width]="width"
+    #inputWrapper>
       <p-radioButton (onClick)="updateData()" name="{{name}}" [(ngModel)]="selectedValue" value="{{val}}"></p-radioButton>
       <!-- todo: geef styling aan op basis van config input-->
       <m-label [text]="val"></m-label>

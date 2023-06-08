@@ -190,12 +190,11 @@ export class DataService {
         return dataObj.conceptName === data.conceptName
       })
       if (currentData) {
-        console.log(`mutation Mutation {
+/*        console.log(`mutation Mutation {
               ${verb}${this.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
                     id
               }
-            }`)
-
+            }`)*/
         return this.apollo
           .mutate({
             mutation: gql`mutation Mutation {

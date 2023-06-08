@@ -32,7 +32,7 @@ export class InputTextComponent implements OnInit {
   @Input() disabled: boolean | undefined
   @Input() value: string | undefined
   @Input() keyFilter: string | RegExp | undefined | RestrictionType.NA | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"
-  @ViewChild('input') input: ElementRef | undefined
+  @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
   calcHeight$: Observable<any> | undefined
   calcWidth$: Observable<any> | undefined
   width: string | undefined
@@ -50,7 +50,7 @@ export class InputTextComponent implements OnInit {
 
   setCalculatedHeight(val: any): boolean {
     if (typeof val === 'string') {
-      this.input?.nativeElement.style?.setProperty('--heightVal', 'calc(' + val + ')')
+      this.inputWrapper?.nativeElement.style?.setProperty('--heightVal', 'calc(' + val + ')')
       this.height = undefined
       return true
     }
@@ -60,7 +60,7 @@ export class InputTextComponent implements OnInit {
 
   setCalculatedWidth(val: any): boolean {
     if (typeof val === 'string') {
-      this.input?.nativeElement.style?.setProperty('--widthVal', 'calc(' + val + ')')
+      this.inputWrapper?.nativeElement.style?.setProperty('--widthVal', 'calc(' + val + ')')
       this.width = undefined
       return true
     }

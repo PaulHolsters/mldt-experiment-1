@@ -16,7 +16,8 @@
       [style.height]="height"
       [style.width]="width"
       [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
-      [class.p-input-icon-right]="iconPosition===iconPositionType.Right">
+      [class.p-input-icon-right]="iconPosition===iconPositionType.Right"
+     #inputWrapper>
     <i class="pi pi-{{icon}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <small *ngIf="advisoryText">{{advisoryText}}</small>
@@ -27,6 +28,7 @@
       [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
       [style.height]="height"
       [style.width]="width"
+     #inputWrapper
 >
   <ng-template [ngTemplateOutlet]="input"></ng-template>
   <small *ngIf="advisoryText">{{advisoryText}}</small>
@@ -37,6 +39,7 @@
       [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
       [style.height]="height"
       [style.width]="width"
+     #inputWrapper
 >
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{label}}</label>
@@ -49,7 +52,8 @@
       [style.height]="height"
       [style.width]="width"
       [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
-      [class.p-input-icon-right]="iconPosition===iconPositionType.Right" class="p-float-label">
+      [class.p-input-icon-right]="iconPosition===iconPositionType.Right" class="p-float-label"
+     #inputWrapper>
     <i class="pi pi-{{icon}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{label}}</label>

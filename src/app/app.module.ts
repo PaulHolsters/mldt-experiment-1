@@ -34,6 +34,9 @@ import {FormcontrolComponent} from "./components/form/formcontrol/formcontrol.co
 import {RadioButtonComponent} from "./components/form/radio-button/radio-button.component";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {WrapperComponent} from "./components/wrapper/wrapper.component";
+import {MultiselectComponent} from "./components/form/multiselect/multiselect.component";
+import {PicklistComponent} from "./components/form/picklist/picklist.component";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @NgModule({
   declarations: [
@@ -59,7 +62,9 @@ import {WrapperComponent} from "./components/wrapper/wrapper.component";
     FormComponent,
     FormcontrolComponent,
     RadioButtonComponent,
-    WrapperComponent
+    WrapperComponent,
+    MultiselectComponent,
+    PicklistComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +78,8 @@ import {WrapperComponent} from "./components/wrapper/wrapper.component";
     HttpClientModule,
     KeyFilterModule,
     InputNumberModule,
-    RadioButtonModule
+    RadioButtonModule,
+    MultiSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
