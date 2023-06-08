@@ -33,7 +33,7 @@ export const  RootComponent = new AppConfig( {
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
         header,
-        form2
+        form
       ]
     },
   ],

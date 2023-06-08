@@ -14,6 +14,7 @@ import {CurrencyDisplayType} from "../../enums/currencyDisplayType.enum";
 import {ButtonClassType} from "../../enums/buttonClassType.enum";
 import {ButtonLayoutType} from "../../enums/buttonLayoutType.enum";
 import {RadioAttributeConfigModel} from "../../models/Data/RadioAttributeConfigModel";
+import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttributeConfigModel";
 
 export const formData = new ConceptConfigModel(
   'product',
@@ -57,4 +58,27 @@ export const formData = new ConceptConfigModel(
       undefined,undefined,undefined,
       'Basisprijs',
       'Geef een getal in tussen -445 en 10'),
+    new AttributeConfigModel(
+      'specifications',
+      undefined,
+      false,
+      NoValueType.NA,
+      undefined,
+      undefined,
+      undefined,
+      new MultiSelectAttributeConfigModel(NoValueType.DBI, NoValueType.DBI,NoValueType.DBI,NoValueType.DBI),
+      new ConceptConfigModel('specification',[
+        new AttributeConfigModel(
+          'name',
+          undefined,
+          false,
+          false,
+          new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
+            InputFontSizeType.Large, NoValueType.NVY),
+          undefined, undefined,undefined,undefined, 'Specificatie', 'Geef een adequate naam'
+        )
+      ]),
+      'Product specificaties',
+      'Selecteer alle eigenschappen van toepassing op het product'
+    )
   ])

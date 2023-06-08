@@ -224,6 +224,7 @@ export class DataService {
   }
 
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
+    // todo aanpassen voor multiselect
     if (attr.radio) {
       if (attr.radio.conceptName === NoValueType.DBI) {
         attr.radio.conceptName = concept.conceptName
@@ -241,6 +242,15 @@ export class DataService {
           attr.radio.values = [...arr2Temp]
         }
       }
+    } else if(attr.multiselect){
+      if (attr.multiselect.conceptName === NoValueType.DBI) {
+        attr.multiselect.conceptName = concept.conceptName
+      }
+      // todo afwerken!!
+      // fields:
+      // options
+      // selectedOptions
+      // optionLabel
     }
     return attr
   }
