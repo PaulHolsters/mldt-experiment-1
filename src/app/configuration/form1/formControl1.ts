@@ -70,7 +70,6 @@ export const formControl1 = {
         }, {
           name: 'fc1-input', type: ComponentType.InputText,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-          // todo voeg de functionaliteit toe om te bepalen of iets disabled moet zijn en dergelijke
         }],
         undefined,
         undefined),

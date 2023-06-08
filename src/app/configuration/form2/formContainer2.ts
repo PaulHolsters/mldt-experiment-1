@@ -14,15 +14,16 @@ import {multiSelect} from "./multiSelect";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 import {formData2} from "./formDataModel2";
+import {productSpec} from "./product-spec";
 
 export const formContainer2 = new ComponentModel(
-  'form-container',
+  'form-container2',
   ComponentType.Container,
   formLayout2,
   undefined,
   new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
     new HeightConfigPropsModel(
-      new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
+      new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 50, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
     ),
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
@@ -32,9 +33,9 @@ export const formContainer2 = new ComponentModel(
   new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   undefined,
   [
-    multiSelect,
+    productSpec,
     {
-      name:'submitbtn',
+      name:'submitForm2',
       type:ComponentType.Button,
       attributes: new ResponsiveAttributesConfigModel({
         label:'Bewaar'

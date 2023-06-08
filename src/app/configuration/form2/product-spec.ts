@@ -24,13 +24,13 @@ import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfi
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 
-export const multiSelect = {
-  name: 'multi-select',
+export const productSpec = {
+  name: 'fc-product-spec',
   type: ComponentType.FormControl,
   attributes: new ResponsiveAttributesConfigModel(
     {
       content: new ComponentModel(
-        'multis-container',
+        'fc1-p-s-container',
         ComponentType.Container,
         new ResponsiveChildLayoutConfigModel(
           new ChildLayoutConfigPropsModel(
@@ -57,20 +57,19 @@ export const multiSelect = {
           ), DynamicDimensionValueConfigType.NC)
         )),
         new ResponsiveAttributesConfigModel({
-          dataLink: ['product', 'name']
+          dataLink: ['specification', 'name']
         }),
         new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
         undefined,
         [{
           // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
           // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
-          name: 'fc1-label',
+          name: 'fc1-p-s-label',
           type: ComponentType.Label,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
         }, {
-          name: 'fc1-input', type: ComponentType.InputText,
+          name: 'fc1-input-p-s', type: ComponentType.InputText,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-          // todo voeg de functionaliteit toe om te bepalen of iets disabled moet zijn en dergelijke
         }],
         undefined,
         undefined),

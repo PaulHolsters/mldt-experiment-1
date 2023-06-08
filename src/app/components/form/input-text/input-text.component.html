@@ -20,7 +20,7 @@
      #inputWrapper>
     <i class="pi pi-{{icon}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
-    <small *ngIf="advisoryText">{{advisoryText}}</small>
+    <small *ngIf="advisoryText!==NoValueType.NI">{{advisoryText}}</small>
 </div>
 <!-- non-floating label inputs without an icon inside -->
 <div *ngIf="!icon && !floatLabel"
@@ -31,7 +31,7 @@
      #inputWrapper
 >
   <ng-template [ngTemplateOutlet]="input"></ng-template>
-  <small *ngIf="advisoryText">{{advisoryText}}</small>
+  <small *ngIf="advisoryText!==NoValueType.NI">{{advisoryText}}</small>
 </div>
 <!-- floating label inputs without icons -->
 <div *ngIf="floatLabel && !icon" class="p-float-label"
@@ -43,7 +43,7 @@
 >
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{label}}</label>
-    <small *ngIf="advisoryText">{{advisoryText}}</small>
+    <small *ngIf="advisoryText!==NoValueType.NI">{{advisoryText}}</small>
 </div>
 <!-- floating label inputs with icons -->
 <div *ngIf="icon && floatLabel"
@@ -57,5 +57,5 @@
     <i class="pi pi-{{icon}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{label}}</label>
-    <small *ngIf="advisoryText">{{advisoryText}}</small>
+    <small *ngIf="advisoryText!==NoValueType.NI">{{advisoryText}}</small>
 </div>

@@ -71,4 +71,6 @@ export class InputTextComponent implements OnInit {
   updateData() {
     this.dataService.updateData(this.name, this.value)
   }
+
+  protected readonly NoValueType = NoValueType;
 }

@@ -35,7 +35,7 @@ export const formData = new ConceptConfigModel(
       undefined,
       undefined,
       new RadioAttributeConfigModel(
-        NoValueType.DBI, // todo bij het omzetten moeten values en conceptName uit de dataBlueprint gehaald worden
+        NoValueType.DBI,
         NoValueType.DBI,
         NoValueType.NVY
       ),undefined,undefined,'Categorie','Selecteer één van de mogelijke categorieën',undefined

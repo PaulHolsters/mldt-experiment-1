@@ -10,13 +10,13 @@ import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/Dimen
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
-import {formContainer} from "./formContainer2";
-export const form = {
-  name: 'my first form',
+import {formContainer2} from "./formContainer2";
+export const form2 = {
+  name: 'my 2e form',
   type: ComponentType.Form,
   attributes: new ResponsiveAttributesConfigModel(
     {
-      content: formContainer
+      content: formContainer2
     }
   ),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),

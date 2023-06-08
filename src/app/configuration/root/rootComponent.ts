@@ -17,6 +17,7 @@ import {ActionSubType} from "../../enums/actionSubTypes.enum";
 import {TargetType} from "../../enums/targetTypes.enum";
 import {EventType} from "../../enums/eventTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
+import {form2} from "../form2/form2";
 
 export const  RootComponent = new AppConfig( {
   components: [
@@ -32,7 +33,7 @@ export const  RootComponent = new AppConfig( {
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
         header,
-        form
+        form2
       ]
     },
   ],
@@ -53,6 +54,22 @@ export const  RootComponent = new AppConfig( {
       targetType: TargetType.API,
       targetName: NoValueType.NA,
       sourceName: 'submitbtn',
+      on: EventType.ComponentClicked
+    },
+    {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.GetDataBluePrint,
+      targetType: TargetType.Component,
+      targetName: 'form-container2',
+      sourceName: 'my 2e form',
+      on: EventType.ComponentReady
+    },
+    {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.PersistNewData,
+      targetType: TargetType.API,
+      targetName: NoValueType.NA,
+      sourceName: 'submitForm2',
       on: EventType.ComponentClicked
     },
     {

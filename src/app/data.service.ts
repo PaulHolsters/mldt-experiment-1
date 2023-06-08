@@ -62,7 +62,6 @@ export class DataService {
   }
 
   public updateData(name: string, value: number | string | undefined) {
-    console.log(name, value)
     const parts = name.split('_')
     const obj = this.data.find(dataObj => {
       return dataObj.conceptName === parts[0]
@@ -190,11 +189,17 @@ export class DataService {
         return dataObj.conceptName === data.conceptName
       })
       if (currentData) {
-/*        console.log(`mutation Mutation {
+        console.log(`mutation Mutation {
               ${verb}${this.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
                     id
               }
-            }`)*/
+            }`)
+/*        mutation Mutation($name: String) {
+          createSpecification(name: $name) {
+            id
+            name
+          }
+        }*/
         return this.apollo
           .mutate({
             mutation: gql`mutation Mutation {
