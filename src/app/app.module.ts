@@ -37,6 +37,7 @@ import {WrapperComponent} from "./components/wrapper/wrapper.component";
 import {MultiselectComponent} from "./components/form/multiselect/multiselect.component";
 import {PicklistComponent} from "./components/form/picklist/picklist.component";
 import {MultiSelectModule} from "primeng/multiselect";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import {MultiSelectModule} from "primeng/multiselect";
     KeyFilterModule,
     InputNumberModule,
     RadioButtonModule,
-    MultiSelectModule
+    MultiSelectModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

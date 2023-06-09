@@ -154,6 +154,9 @@ export class EventsService{
               case ActionSubType.GetDataBluePrint:
                 this.dataService.getDataBluePrint(action)
                 break
+              case ActionSubType.GetAllData:
+                this.dataService.getAllData(action)
+                break
               default:
             }
             break

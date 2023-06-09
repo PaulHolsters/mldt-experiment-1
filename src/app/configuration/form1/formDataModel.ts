@@ -66,7 +66,8 @@ export const formData = new ConceptConfigModel(
       undefined,
       undefined,
       undefined,
-      new MultiSelectAttributeConfigModel(NoValueType.DBI, NoValueType.DBI,NoValueType.DBI,NoValueType.DBI),
+      // todo ervoor zorgen dat je voor optionLabel ook een datamanipulatie kan doen
+      new MultiSelectAttributeConfigModel(NoValueType.DBI, NoValueType.DBI,undefined,'name'),
       new ConceptConfigModel('specification',[
         new AttributeConfigModel(
           'name',

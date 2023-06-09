@@ -164,7 +164,18 @@ export class DataService {
         // todo
         break
       case QuerySubType.GetAllData:
-        // todo
+        const GET_ALL = gql`
+                    {
+                      get${this.capitalizeFirst(data.conceptName)}s{
+                        ${this.getAllAttributes(data)}
+                      }
+                    }
+        `
+        debugger
+        return this.apollo
+          .watchQuery<any>({
+            query: GET_ALL
+          }).valueChanges
         break
     }
   }
@@ -243,14 +254,26 @@ export class DataService {
         }
       }
     } else if(attr.multiselect){
+      const dataType = (concept.attributes as AttributeConfigModel[]).find(attrConfig => {
+        return attrConfig.multiselect !== undefined
+      })?.dataType
+      //{name:String}[]
       if (attr.multiselect.conceptName === NoValueType.DBI) {
         attr.multiselect.conceptName = concept.conceptName
       }
-      // todo afwerken!!
-      // fields:
-      // options
-      // selectedOptions
-      // optionLabel
+      // todo test of je een multiselect ook hardcoded kan invullen via de configuratie
+      if(attr.multiselect.options === NoValueType.DBI){
+        if(dataType && dataType.lastIndexOf('}') === dataType.length-3
+          && dataType.lastIndexOf('[') === dataType.length-2
+          && dataType.lastIndexOf(']') === dataType.length-1){
+          // todo dit betekent dat de exacte waarden moeten opgehaald worden van de server
+          // todo als dit manueel gebeurt hoe moet de configuratie er dan uitzien?
+          debugger
+        }
+      }
+      if(attr.multiselect.optionLabel === NoValueType.DBI){
+        // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren
+      }
     }
     return attr
   }
@@ -278,5 +301,32 @@ export class DataService {
         })
       }
     }
+  }
+
+  public async getAllData(action: ActionModel) {
+    // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
+    // er door elke component bevraging kan gedaan worden naar deze data
+    // eens de data binnen is worden de verschillende componenten die de data
+    // of een deel van de data nodig hebben daarvan op de hoogte gebracht door
+    // de data door te sturen via de dataAttribute of dataConcept component property
+    if (action.targetType === TargetType.Component) {
+      let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)?.data
+      if (!compModel) {
+        compModel = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)?.data
+      }
+      if (compModel !== undefined) {
+        await this.query(QuerySubType.GetAllData, compModel).subscribe((res: unknown) => {
+          if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
+            debugger
+            const allData = (res as { data: {} })['data']
+            const data = Object.values(allData)[0] as Object
+            const compObj = this.createExtendedConceptModel(action.targetName, data, compModel)
+            this.data.push(compObj)
+            this.setDataState(compObj)
+          }
+        })
+      }
+    }
+    // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
 }

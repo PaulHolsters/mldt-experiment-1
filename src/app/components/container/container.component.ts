@@ -10,17 +10,18 @@ import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
 import {EventsService} from "../../events.service";
 import {EventType} from "../../enums/eventTypes.enum";
 import {RootComponent} from "../../configuration/root/rootComponent";
+
 @Component({
   selector: 'm-container',
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.css']
 })
-export class ContainerComponent implements OnInit, AfterContentChecked{
-  @Input() name:string|undefined
+export class ContainerComponent implements OnInit, AfterContentChecked {
+  @Input() name: string | undefined
   @ViewChild('container') container: ElementRef | undefined
-  dataConcept:ConceptComponentModel|undefined
-  dataAttribute:AttributeComponentModel|undefined // voorlopig lijkt het er op dat er qua data niets anders nodig is dan attributes
-  dataLink:string[]|undefined
+  dataConcept: ConceptComponentModel | undefined
+  dataAttribute: AttributeComponentModel | undefined // voorlopig lijkt het er op dat er qua data niets anders nodig is dan attributes
+  dataLink: string[] | undefined
   componentType = ComponentType
   children$: Observable<any> | undefined
   //  todo voeg baseline align toe
@@ -61,36 +62,38 @@ export class ContainerComponent implements OnInit, AfterContentChecked{
   alignItemsStretch$: Observable<any> | undefined
   grow$: Observable<any> | undefined
   shrink$: Observable<any> | undefined
-  NoValueType=NoValueType
+  NoValueType = NoValueType
   RestrictionType = RestrictionType
   InputFontSize = InputFontSizeType
-  nameFormControl:string|undefined
+  nameFormControl: string | undefined
 
-  constructor(private storeService: StoreService, private cd:ChangeDetectorRef,private eventsService:EventsService) {
+  constructor(private storeService: StoreService, private cd: ChangeDetectorRef, private eventsService: EventsService) {
     console.log('constructing cont')
   }
+
   ngAfterContentChecked(): void {
-        this.cd.detectChanges()
+    this.cd.detectChanges()
   }
-  getValues():string[]{
-    if(this.dataAttribute?.radio?.values && typeof this.dataAttribute?.radio?.values !== 'string'){
+
+  getValues(): string[] {
+    if (this.dataAttribute?.radio?.values && typeof this.dataAttribute?.radio?.values !== 'string') {
       return this.dataAttribute?.radio?.values
     } else return []
   }
+
   ngOnInit(): void {
-    if(this.name){
-      if(this.name === 'content-container'){
-       this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,
-        RootComponent)}
-      this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
+    if (this.name) {
+      if (this.name === 'content-container') {
+        this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,
+          RootComponent)
+      }
+      this.storeService.bindToStateProperty(this.name, 'dataConcept')?.subscribe(res => {
         this.dataConcept = res as ConceptComponentModel
       })
-      // todo fix bug dataAttribute wordt niet meer correct gebonden
-      this.storeService.bindToStateProperty(this.name,'dataAttribute')?.subscribe(res=>{
+      this.storeService.bindToStateProperty(this.name, 'dataAttribute')?.subscribe(res => {
         this.dataAttribute = res as AttributeComponentModel
-        console.log(this.dataAttribute,this.name)
       })
-      this.storeService.bindToStateProperty(this.name,'dataLink')?.subscribe(res=>{
+      this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
         this.dataLink = res as string[]
         this.nameFormControl = this.dataLink.join('_')
       })

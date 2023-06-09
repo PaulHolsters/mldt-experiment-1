@@ -50,6 +50,14 @@ export const  RootComponent = new AppConfig( {
     },
     {
       actionType: ActionType.Server,
+      actionSubType: ActionSubType.GetAllData,
+      targetType: TargetType.Component,
+      targetName: 'fc4-container',
+      sourceName: 'my first form',
+      on: EventType.ComponentReady
+    },
+    {
+      actionType: ActionType.Server,
       actionSubType: ActionSubType.PersistNewData,
       targetType: TargetType.API,
       targetName: NoValueType.NA,
