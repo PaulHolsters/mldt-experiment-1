@@ -25,15 +25,6 @@ import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/Dimen
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
-import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
-import {AttributeConfigModel} from "../../models/Data/AttributeConfigModel";
-import {NoValueType} from "../../enums/no_value_type";
-import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttributeConfigModel";
-import {TextAttributeConfigModel} from "../../models/Data/TextAttributeConfigModel";
-import {RestrictionType} from "../../enums/restrictionType.enum";
-import {IconType} from "../../enums/iconType.enum";
-import {IconPositionType} from "../../enums/iconPositionType.enum";
-import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 
 export const formControl4 = {
   name: 'formcontrol4',
@@ -83,32 +74,7 @@ export const formControl4 = {
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
         }],
         undefined,
-        new ConceptConfigModel('specification', [
-          new AttributeConfigModel(
-            'specifications',
-            undefined,
-            false,
-            NoValueType.NA,
-            undefined,
-            undefined,
-            undefined,
-            // todo ervoor zorgen dat je voor optionLabel ook een datamanipulatie kan doen
-            new MultiSelectAttributeConfigModel(NoValueType.DBI, NoValueType.DBI, undefined, 'name'),
-            new ConceptConfigModel('specification', [
-              new AttributeConfigModel(
-                'name',
-                undefined,
-                false,
-                false,
-                new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
-                  InputFontSizeType.Large, NoValueType.NVY),
-                undefined, undefined, undefined, undefined, 'Specificatie', 'Geef een adequate naam'
-              )
-            ]),
-            'Product specificaties',
-            'Selecteer alle eigenschappen van toepassing op het product'
-          )]
-        )
+        ['product', 'specifications']
       ),
     }
   ),

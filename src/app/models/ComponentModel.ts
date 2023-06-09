@@ -19,7 +19,7 @@ export class ComponentModel {
                 public overflow?:ResponsiveOverflowConfigModel,
                 public children?:(ComponentModel|string)[],
                 public styling?:ResponsiveStylingConfigModel,
-                public data?:ConceptConfigModel) {
+                public data?:ConceptConfigModel|string[]) {
     // todo toevoegen constraints zoals dat je geen padding mag gebruiken bij een label
   }
 }

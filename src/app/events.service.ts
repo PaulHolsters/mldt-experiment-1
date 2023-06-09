@@ -122,12 +122,12 @@ export class EventsService{
       }
     }))
   }
-  private executeAction(action:ActionModel){
-    switch (action.on){
+  private async executeAction(action: ActionModel) {
+    switch (action.on) {
       case EventType.RootComponentReady:
-        switch (action.actionType){
+        switch (action.actionType) {
           case ActionType.Client:
-            switch (action.actionSubType){
+            switch (action.actionSubType) {
               case ActionSubType.SetResponsiveBehaviour:
                 this.storeService.createStore()
                 this.setResponsiveBehaviour()
@@ -136,9 +136,9 @@ export class EventsService{
             }
             break
           case ActionType.Server:
-            switch (action.actionSubType){
+            switch (action.actionSubType) {
               case ActionSubType.GetDataBluePrint:
-                this.dataService.getDataBluePrint(action)
+                await this.dataService.getDataBluePrint(action)
                 break
               default:
             }
@@ -146,17 +146,18 @@ export class EventsService{
         }
         break
       case EventType.ComponentReady:
-        switch (action.actionType){
+        switch (action.actionType) {
           case ActionType.Client:
             break
           case ActionType.Server:
-            switch (action.actionSubType){
+            switch (action.actionSubType) {
               case ActionSubType.GetDataBluePrint:
-                this.dataService.getDataBluePrint(action)
+                debugger
+                await this.dataService.getDataBluePrint(action)
                 break
               case ActionSubType.GetAllData:
                 debugger
-                this.dataService.getAllData(action)
+                await this.dataService.getAllData(action)
                 break
               default:
             }
@@ -164,16 +165,16 @@ export class EventsService{
         }
         break
       case EventType.ComponentClicked:
-        switch (action.actionType){
+        switch (action.actionType) {
           case ActionType.Client:
             break
           case ActionType.Server:
-            switch (action.actionSubType){
+            switch (action.actionSubType) {
               case ActionSubType.GetDataBluePrint:
-                this.dataService.getDataBluePrint(action)
+                await this.dataService.getDataBluePrint(action)
                 break
               case ActionSubType.PersistNewData:
-                this.dataService.persistNewData(action)
+                await this.dataService.persistNewData(action)
                 break
               default:
             }

@@ -34,33 +34,37 @@ export class DataService {
       return data.attributes.map(x => {
         return x.name || ''
       }).reduce((x, y) => x += '\n' + y, '')
-    } else{
-      // todo
+    } else if(!(data instanceof ConceptConfigModel)){
+      const attrCompModel = this.getData(data)
+      return ''
     }
     // todo haal de verschillende attributen op via de business types configuratie
     return 'name\nbasePrice\ncreationDate'
   }
 
-  private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel): ConceptComponentModel {
-    let newObj: ConceptComponentModel = {
-      conceptName: compConfig.conceptName,
-      attributes: [],
-      errorMessages: NoValueType.NI
-    }
-    const configCopy = {...compConfig}
-    if (configCopy.attributes && configCopy.attributes instanceof Array)
-      configCopy.attributes?.forEach(attr => {
-        const entry = Object.entries(data).find(([k, v]) => {
-          return k === attr.name
+  private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]): ConceptComponentModel|undefined {
+    if(compConfig instanceof ConceptConfigModel){
+      let newObj: ConceptComponentModel = {
+        conceptName: compConfig.conceptName,
+        attributes: [],
+        errorMessages: NoValueType.NI
+      }
+      const configCopy = {...compConfig}
+      if (configCopy.attributes && configCopy.attributes instanceof Array)
+        configCopy.attributes?.forEach(attr => {
+          const entry = Object.entries(data).find(([k, v]) => {
+            return k === attr.name
+          })
+          if (entry && attr.name) {
+            // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
+            const attrExp = {...attr}
+            attrExp.dataType = entry[1];
+            (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
+          }
         })
-        if (entry && attr.name) {
-          // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
-          const attrExp = {...attr}
-          attrExp.dataType = entry[1];
-          (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
-        }
-      })
-    return newObj
+      return newObj
+    }
+    return undefined
   }
 
   public updateData(name: string, value: number | string | undefined) {
@@ -139,7 +143,7 @@ export class DataService {
       let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
-      if (propSubj.propName === 'dataConcept' && comp && comp.data) {
+      if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
         if (comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
         const data: AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
@@ -149,6 +153,7 @@ export class DataService {
   }
 
   private query(querySubType: QuerySubType, data: ConceptConfigModel|string[]): any {
+    debugger
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         if(data instanceof ConceptConfigModel){
@@ -170,7 +175,9 @@ export class DataService {
         break
       case QuerySubType.GetAllData:
         // todo getAllAttributes geeft "specifications" terug terwijl dit "name" moet zijn ....
+        debugger
         if(!(data instanceof ConceptConfigModel)){
+          debugger
           console.log(`
                     {
                       get${data[data.length-1]}{
@@ -178,9 +185,10 @@ export class DataService {
                       }
                     }
         `)
+          debugger
           const GET_ALL = gql`
                     {
-                      get${this.capitalizeFirst(data.conceptName)}s{
+                      get${data[data.length-1]}{
                         ${this.getAllAttributes(data)}
                       }
                     }
@@ -208,8 +216,8 @@ export class DataService {
     return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal
   }
 
-  public mutate(data: ConceptConfigModel | undefined, verb: MutationType): Observable<any> | undefined {
-    if (data) {
+  public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType): Observable<any> | undefined {
+    if (data instanceof ConceptConfigModel) {
       const currentData = this.data.find(dataObj => {
         return dataObj.conceptName === data.conceptName
       })
@@ -305,12 +313,15 @@ export class DataService {
       }
       if (compModel !== undefined) {
         await this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
+          debugger
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel)
-            this.data.push(compObj)
-            this.setDataState(compObj)
+            if(compObj){
+              this.data.push(compObj)
+              this.setDataState(compObj)
+            }
           }
         })
       }
@@ -318,7 +329,6 @@ export class DataService {
   }
 
   public async getAllData(action: ActionModel) {
-    debugger
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
@@ -326,20 +336,19 @@ export class DataService {
     // de data door te sturen via de dataAttribute of dataConcept component property
     if (action.targetType === TargetType.Component) {
       // todo hier aanpassen kan ook in niet data zitten?
-      let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)?.data
-      if (!compModel) {
-        compModel = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)?.data
-      }
-      if (compModel !== undefined) {
-        debugger
-        await this.query(QuerySubType.GetAllData, compModel).subscribe((res: unknown) => {
-          if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
-            debugger
+      let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
+      if(!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
+      if (comp !== undefined && comp.data) {
+        await this.query(QuerySubType.GetAllData, comp.data).subscribe((res: unknown) => {
+          debugger
+          if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as Object
-            const compObj = this.createExtendedConceptModel(action.targetName, data, compModel)
-            this.data.push(compObj)
-            this.setDataState(compObj)
+            const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
+            if(compObj){
+              this.data.push(compObj)
+              this.setDataState(compObj)
+            }
           }
         })
       }
