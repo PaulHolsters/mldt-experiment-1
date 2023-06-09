@@ -28,12 +28,14 @@ export class DataService {
     return text.charAt(0).toUpperCase() + text.substring(1)
   }
 
-  private getAllAttributes(data: ConceptConfigModel): string {
+  private getAllAttributes(data: ConceptConfigModel|string[]): string {
     // todo voorlopig enkel 1 diep
-    if (data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
+    if (data instanceof ConceptConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
         return x.name || ''
       }).reduce((x, y) => x += '\n' + y, '')
+    } else{
+      // todo
     }
     // todo haal de verschillende attributen op via de business types configuratie
     return 'name\nbasePrice\ncreationDate'
@@ -146,36 +148,48 @@ export class DataService {
     })
   }
 
-  private query(querySubType: QuerySubType, data: ConceptConfigModel): any {
+  private query(querySubType: QuerySubType, data: ConceptConfigModel|string[]): any {
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
-        const GET_BLUEPRINT = gql`
+        if(data instanceof ConceptConfigModel){
+          const GET_BLUEPRINT = gql`
                     {
                       getBluePrintOf${this.capitalizeFirst(data.conceptName)}{
                         ${this.getAllAttributes(data)}
                       }
                     }
         `
-        return this.apollo
-          .watchQuery<any>({
-            query: GET_BLUEPRINT
-          }).valueChanges
+          return this.apollo
+            .watchQuery<any>({
+              query: GET_BLUEPRINT
+            }).valueChanges
+        }
+      break
       case QuerySubType.GetDataByID:
         // todo
         break
       case QuerySubType.GetAllData:
-        const GET_ALL = gql`
+        // todo getAllAttributes geeft "specifications" terug terwijl dit "name" moet zijn ....
+        if(!(data instanceof ConceptConfigModel)){
+          console.log(`
+                    {
+                      get${data[data.length-1]}{
+                        ${this.getAllAttributes(data)}
+                      }
+                    }
+        `)
+          const GET_ALL = gql`
                     {
                       get${this.capitalizeFirst(data.conceptName)}s{
                         ${this.getAllAttributes(data)}
                       }
                     }
         `
-        debugger
-        return this.apollo
-          .watchQuery<any>({
-            query: GET_ALL
-          }).valueChanges
+          return this.apollo
+            .watchQuery<any>({
+              query: GET_ALL
+            }).valueChanges
+        }
         break
     }
   }
@@ -304,17 +318,20 @@ export class DataService {
   }
 
   public async getAllData(action: ActionModel) {
+    debugger
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
     // of een deel van de data nodig hebben daarvan op de hoogte gebracht door
     // de data door te sturen via de dataAttribute of dataConcept component property
     if (action.targetType === TargetType.Component) {
+      // todo hier aanpassen kan ook in niet data zitten?
       let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)?.data
       if (!compModel) {
         compModel = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)?.data
       }
       if (compModel !== undefined) {
+        debugger
         await this.query(QuerySubType.GetAllData, compModel).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
             debugger
