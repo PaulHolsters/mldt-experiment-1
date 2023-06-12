@@ -66,6 +66,7 @@ export class DataService {
       let newObj: ConceptComponentModel = {
         conceptName: compConfig.conceptName,
         attributes: [],
+        dataObject:NoValueType.NA,
         errorMessages: NoValueType.NI
       }
       const configCopy = {...compConfig}
@@ -132,7 +133,7 @@ export class DataService {
         return attr.text !== undefined
       case ComponentType.RadioButton:
         return attr.radio !== undefined
-      default: throw new Error('correct type for attribute could not be found')
+      default: return true
     }
   }
 
@@ -141,38 +142,37 @@ export class DataService {
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0]
     })
-    debugger
     if (obj) {
       dataLinkCopy.splice(0, 1)
       let attributes = [...obj.attributes]
-      let currentAttr: AttributeComponentModel | undefined = attributes.find(attr => {
-        return attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
+      let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
+        return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
       })
       dataLinkCopy.splice(0, 1)
       while (currentAttr && dataLinkCopy.length > 0) {
         // todo zoek een use case hiervoor
         //      dit is in het specifieke geval je echt een attribuut wilt hebben in plaats van een volledig concept al
         //      dan niet in een lijst
-        if (currentAttr.concept) {
+        if (currentAttr instanceof AttributeComponentModel && currentAttr.concept) {
           // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
           attributes = [...currentAttr?.concept?.attributes]
           currentAttr = attributes.find(attr => {
-            return attr.name === dataLinkCopy[0]
+            return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
           })
         } else {
           throw new Error('Datalink bevat teveel entries.')
         }
         dataLinkCopy.splice(0, 1)
       }
-      if (currentAttr !== undefined) {
+      if (currentAttr && typeof currentAttr !== 'string') {
         currentAttr = this.replaceDBIValues(obj, currentAttr)
         return currentAttr
       }
     }
-    throw new Error('Data niet gevonden.')
+    throw new Error('Data voor datalink '+dataLink.toString()+' en component type '+componentType+' niet gevonden.')
   }
 
-  private setDataState(compConcept: ConceptComponentModel) {
+  private setDataState(compConcept: ConceptComponentModel,componentType:ComponentType) {
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
@@ -185,7 +185,7 @@ export class DataService {
         if (comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
         // dit zal worden gebruikt bij een multiselect
-        const data: AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
+        const data: AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink,componentType)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })
@@ -293,7 +293,6 @@ export class DataService {
   }
 
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
-    // todo aanpassen voor multiselect
     if (attr.radio) {
       if (attr.radio.conceptName === NoValueType.DBI) {
         attr.radio.conceptName = concept.conceptName
@@ -312,6 +311,7 @@ export class DataService {
         }
       }
     } else if(attr.multiselect){
+      // op dit punt mag je er al vanuit gaan dat het inderdaad gaat om een multiselect die data nodig heeft
       const dataType = (concept.attributes as AttributeConfigModel[]).find(attrConfig => {
         return attrConfig.multiselect !== undefined
       })?.dataType
@@ -319,11 +319,11 @@ export class DataService {
       if (attr.multiselect.conceptName === NoValueType.DBI) {
         attr.multiselect.conceptName = concept.conceptName
       }
-      // todo test of je een multiselect ook hardcoded kan invullen via de configuratie
       if(attr.multiselect.options === NoValueType.DBI){
         if(dataType && dataType.lastIndexOf('}') === dataType.length-3
           && dataType.lastIndexOf('[') === dataType.length-2
           && dataType.lastIndexOf(']') === dataType.length-1){
+          // nu moet je de juiste data halen uit de listData
 
         }
       }
@@ -354,7 +354,7 @@ export class DataService {
             if(compObj){
               this.objectData.push(compObj)
               debugger
-              this.setDataState(compObj)
+              this.setDataState(compObj,compModel.type)
             }
           }
         })
@@ -376,12 +376,18 @@ export class DataService {
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
-            const data = Object.values(allData)[0] as Object
-            // bij getAll mag je hier te allen tijde een array verwachten met daarin objecten (denk ik toch)
-            // todo bestaande blueprint aanvullen: zal dit altijd zo zijn?
-
+            const data = Object.values(allData)[0] as []
+            if(comp.data && !(comp.data instanceof ConceptConfigModel)){
+              data.forEach(record=>{
+                if(comp && comp.data && !(comp.data instanceof ConceptConfigModel)){
+                  const conceptName:string = comp.data[comp.data.length-1]
+                  this.listObjectData.push(new ConceptComponentModel(
+                    conceptName,NoValueType.NA, record,NoValueType.NI))
+                }
+              })
+              debugger
+            }
             debugger
-
           }
         })
       }
