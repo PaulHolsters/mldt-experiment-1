@@ -5,7 +5,7 @@ export class ConceptComponentModel {
 constructor(
   public conceptName:string,
   public attributes:AttributeComponentModel[]|NoValueType.NA,
-  public dataObject:Object|NoValueType.NA,
+  public dataList:Object[]|NoValueType.NA,
   public errorMessages:string[]|NoValueType.NI // error boodschap op concept ipv attribuut niveau
   ) {
 }

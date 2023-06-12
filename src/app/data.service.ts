@@ -66,7 +66,7 @@ export class DataService {
       let newObj: ConceptComponentModel = {
         conceptName: compConfig.conceptName,
         attributes: [],
-        dataObject:NoValueType.NA,
+        dataList:NoValueType.NA,
         errorMessages: NoValueType.NI
       }
       const configCopy = {...compConfig}
@@ -165,6 +165,8 @@ export class DataService {
         dataLinkCopy.splice(0, 1)
       }
       if (currentAttr && typeof currentAttr !== 'string') {
+        // todo probleem is dat getAllData nog niet klaar zit terwijl al wel de cvall gebeurt ???
+        debugger
         currentAttr = this.replaceDBIValues(obj, currentAttr)
         return currentAttr
       }
@@ -323,9 +325,18 @@ export class DataService {
         if(dataType && dataType.lastIndexOf('}') === dataType.length-3
           && dataType.lastIndexOf('[') === dataType.length-2
           && dataType.lastIndexOf(']') === dataType.length-1){
-          // nu moet je de juiste data halen uit de listData
-
+          debugger
+          const list = this.listObjectData.find(list=>{
+            return list.conceptName == concept.conceptName
+          })
+          debugger
+          if(list && list.dataList && typeof list.dataList !== 'string'){
+            debugger
+            attr.multiselect.options = [...list.dataList]
+            debugger
+          }
         }
+        debugger
       }
       if(attr.multiselect.optionLabel === NoValueType.DBI){
         // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren
@@ -354,6 +365,7 @@ export class DataService {
             if(compObj){
               this.objectData.push(compObj)
               debugger
+              // todo fix bug: hier wordt de data voor multiselect opgehaald terwijl die nog niet klaar is
               this.setDataState(compObj,compModel.type)
             }
           }
@@ -378,13 +390,14 @@ export class DataService {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as []
             if(comp.data && !(comp.data instanceof ConceptConfigModel)){
+              const conceptName:string = comp.data[comp.data.length-1]
+              const newModel = new ConceptComponentModel(conceptName,NoValueType.NA,[],NoValueType.NI)
               data.forEach(record=>{
-                if(comp && comp.data && !(comp.data instanceof ConceptConfigModel)){
-                  const conceptName:string = comp.data[comp.data.length-1]
-                  this.listObjectData.push(new ConceptComponentModel(
-                    conceptName,NoValueType.NA, record,NoValueType.NI))
+                if(comp && comp.data && !(comp.data instanceof ConceptConfigModel) && typeof newModel.dataList !== 'string'){
+                  newModel.dataList.push(record)
                 }
               })
+              this.listObjectData.push(newModel)
               debugger
             }
             debugger
