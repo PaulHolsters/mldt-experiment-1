@@ -12,8 +12,8 @@ import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 import {Observable} from "rxjs";
 import {ComponentModel} from "./models/ComponentModel";
-import AppConfig from "./configuration/appConfig";
 import {RootComponent} from "./configuration/root/rootComponent";
+import {ComponentType} from "./enums/componentTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,8 @@ export class DataService {
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
   // todo a way to order data
-  private data: ConceptComponentModel[] = []
+  private objectData: ConceptComponentModel[] = []
+  private listObjectData: ConceptComponentModel[] = []
 
   private capitalizeFirst(text: string): string {
     return text.charAt(0).toUpperCase() + text.substring(1)
@@ -61,7 +62,7 @@ export class DataService {
   }
 
   private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]): ConceptComponentModel|undefined {
-    if(compConfig instanceof ConceptConfigModel){
+    if(compConfig instanceof ConceptConfigModel && !(data instanceof Array)){
       let newObj: ConceptComponentModel = {
         conceptName: compConfig.conceptName,
         attributes: [],
@@ -87,7 +88,7 @@ export class DataService {
 
   public updateData(name: string, value: number | string | undefined) {
     const parts = name.split('_')
-    const obj = this.data.find(dataObj => {
+    const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === parts[0]
     })
     if (obj && obj.attributes) {
@@ -110,7 +111,7 @@ export class DataService {
           (obj.attributes as AttributeConfigModel[]).splice((obj.attributes as AttributeConfigModel[]).findIndex(attr => {
             return attr.name === parts[1]
           }), 1, attr)
-          this.data.splice(this.data.findIndex(dataObj => {
+          this.objectData.splice(this.objectData.findIndex(dataObj => {
             return dataObj.conceptName === parts[0]
           }), 1, obj)
           // todo radio button werkt tot hier
@@ -121,19 +122,37 @@ export class DataService {
     }
   }
 
-  public getData(dataLink: string[]): AttributeComponentModel {
+  private isCorrectType(attr:AttributeComponentModel,componentType:ComponentType):boolean{
+    switch (componentType){
+      case ComponentType.MultiSelect:
+        return attr.multiselect!==undefined
+      case ComponentType.InputNumber:
+        return attr.number !==undefined
+      case ComponentType.InputText:
+        return attr.text !== undefined
+      case ComponentType.RadioButton:
+        return attr.radio !== undefined
+      default: throw new Error('correct type for attribute could not be found')
+    }
+  }
+
+  public getData(dataLink: string[],componentType:ComponentType): AttributeComponentModel {
     const dataLinkCopy = [...dataLink]
-    const obj = this.data.find(dataObj => {
+    const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0]
     })
+    debugger
     if (obj) {
       dataLinkCopy.splice(0, 1)
       let attributes = [...obj.attributes]
       let currentAttr: AttributeComponentModel | undefined = attributes.find(attr => {
-        return attr.name === dataLinkCopy[0]
+        return attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
       })
       dataLinkCopy.splice(0, 1)
       while (currentAttr && dataLinkCopy.length > 0) {
+        // todo zoek een use case hiervoor
+        //      dit is in het specifieke geval je echt een attribuut wilt hebben in plaats van een volledig concept al
+        //      dan niet in een lijst
         if (currentAttr.concept) {
           // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
           attributes = [...currentAttr?.concept?.attributes]
@@ -162,8 +181,10 @@ export class DataService {
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
+        // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van
         if (comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
+        // dit zal worden gebruikt bij een multiselect
         const data: AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
@@ -203,6 +224,7 @@ export class DataService {
           const GET_ALL = gql`
                     {
                       get${this.capitalizeFirst(compConfig.data[compConfig.data.length-1])}{
+                      id
                         ${this.getAllAttributes(compConfig.name,compConfig.data)}
                       }
                     }
@@ -232,7 +254,7 @@ export class DataService {
 
   public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType): Observable<any> | undefined {
     if (data instanceof ConceptConfigModel) {
-      const currentData = this.data.find(dataObj => {
+      const currentData = this.objectData.find(dataObj => {
         return dataObj.conceptName === data.conceptName
       })
       if (currentData) {
@@ -302,8 +324,7 @@ export class DataService {
         if(dataType && dataType.lastIndexOf('}') === dataType.length-3
           && dataType.lastIndexOf('[') === dataType.length-2
           && dataType.lastIndexOf(']') === dataType.length-1){
-          // todo dit betekent dat de exacte waarden moeten opgehaald worden van de server
-          // todo als dit manueel gebeurt hoe moet de configuratie er dan uitzien?
+
         }
       }
       if(attr.multiselect.optionLabel === NoValueType.DBI){
@@ -331,7 +352,8 @@ export class DataService {
             const bluePrint = Object.values(bluePrintData)[0] as Object
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
             if(compObj){
-              this.data.push(compObj)
+              this.objectData.push(compObj)
+              debugger
               this.setDataState(compObj)
             }
           }
@@ -352,15 +374,14 @@ export class DataService {
       if(!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
-          console.log(res)
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as Object
-            const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
-            if(compObj){
-              this.data.push(compObj)
-              this.setDataState(compObj)
-            }
+            // bij getAll mag je hier te allen tijde een array verwachten met daarin objecten (denk ik toch)
+            // todo bestaande blueprint aanvullen: zal dit altijd zo zijn?
+
+            debugger
+
           }
         })
       }
