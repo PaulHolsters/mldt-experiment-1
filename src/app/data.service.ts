@@ -11,6 +11,9 @@ import {NoValueType} from "./enums/no_value_type";
 import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 import {Observable} from "rxjs";
+import {ComponentModel} from "./models/ComponentModel";
+import AppConfig from "./configuration/appConfig";
+import {RootComponent} from "./configuration/root/rootComponent";
 
 @Injectable({
   providedIn: 'root'
@@ -28,17 +31,32 @@ export class DataService {
     return text.charAt(0).toUpperCase() + text.substring(1)
   }
 
-  private getAllAttributes(data: ConceptConfigModel|string[]): string {
+  private getAllAttributes(compName:string,data: ConceptConfigModel|string[]): string {
     // todo voorlopig enkel 1 diep
     if (data instanceof ConceptConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
         return x.name || ''
       }).reduce((x, y) => x += '\n' + y, '')
     } else if(!(data instanceof ConceptConfigModel)){
-      const attrCompModel = this.getData(data)
-      return ''
+      let compConfig = RootComponent.getParentComponentConfigWithProperty(compName,'data')
+      if(!compConfig) compConfig = RootComponent.getParentComponentConfigWithPropertyThroughAttributes(compName,'data')
+      if(!compConfig) throw new Error('attributen voor '+data.toString()+' en component met naam '+compName+
+      ' werden niet gevonden. Kijk je configuratie na.')
+      if(compConfig.data
+        && (compConfig.data instanceof ConceptConfigModel)
+        && typeof compConfig.data.attributes !=='string'
+        && compConfig.data?.conceptName===data[0]){
+        const concept = compConfig.data.attributes.find(attr=>{
+          return attr.name===data[1]
+        })?.concept
+        if(concept && typeof concept.attributes !== 'string'){
+          return concept.attributes.map(a=>a.name).join('\n')
+        }
+      } else{
+        throw new Error('Attributen niet gevonden. Kijk je configuratie na.')
+      }
+      throw new Error('Methode getAllAttributes onvolledig of incorrect')
     }
-    // todo haal de verschillende attributen op via de business types configuratie
     return 'name\nbasePrice\ncreationDate'
   }
 
@@ -152,15 +170,14 @@ export class DataService {
     })
   }
 
-  private query(querySubType: QuerySubType, data: ConceptConfigModel|string[]): any {
-    debugger
+  private query(querySubType: QuerySubType, compConfig:ComponentModel): any {
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
-        if(data instanceof ConceptConfigModel){
+        if(compConfig.data instanceof ConceptConfigModel){
           const GET_BLUEPRINT = gql`
                     {
-                      getBluePrintOf${this.capitalizeFirst(data.conceptName)}{
-                        ${this.getAllAttributes(data)}
+                      getBluePrintOf${this.capitalizeFirst(compConfig.data.conceptName)}{
+                        ${this.getAllAttributes(compConfig.name,compConfig.data)}
                       }
                     }
         `
@@ -175,21 +192,18 @@ export class DataService {
         break
       case QuerySubType.GetAllData:
         // todo getAllAttributes geeft "specifications" terug terwijl dit "name" moet zijn ....
-        debugger
-        if(!(data instanceof ConceptConfigModel)){
-          debugger
+        if(compConfig.data && !(compConfig.data instanceof ConceptConfigModel)){
           console.log(`
                     {
-                      get${data[data.length-1]}{
-                        ${this.getAllAttributes(data)}
+                      get${this.capitalizeFirst(compConfig.data[compConfig.data.length-1])}{
+                        ${this.getAllAttributes(compConfig.name,compConfig.data)}
                       }
                     }
         `)
-          debugger
           const GET_ALL = gql`
                     {
-                      get${data[data.length-1]}{
-                        ${this.getAllAttributes(data)}
+                      get${this.capitalizeFirst(compConfig.data[compConfig.data.length-1])}{
+                        ${this.getAllAttributes(compConfig.name,compConfig.data)}
                       }
                     }
         `
@@ -290,7 +304,6 @@ export class DataService {
           && dataType.lastIndexOf(']') === dataType.length-1){
           // todo dit betekent dat de exacte waarden moeten opgehaald worden van de server
           // todo als dit manueel gebeurt hoe moet de configuratie er dan uitzien?
-          debugger
         }
       }
       if(attr.multiselect.optionLabel === NoValueType.DBI){
@@ -307,17 +320,16 @@ export class DataService {
     // of een deel van de data nodig hebben daarvan op de hoogte gebracht door middel van een event
     // welke componenten dat zijn kan worden afgeleid uit de configuratie van de gebruiker
     if (action.targetType === TargetType.Component) {
-      let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)?.data
+      let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!compModel) {
-        compModel = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)?.data
+        compModel = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       }
       if (compModel !== undefined) {
         await this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
-          debugger
-          if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel) {
+          if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
-            const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel)
+            const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
             if(compObj){
               this.data.push(compObj)
               this.setDataState(compObj)
@@ -339,8 +351,8 @@ export class DataService {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if(!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
-        await this.query(QuerySubType.GetAllData, comp.data).subscribe((res: unknown) => {
-          debugger
+        await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
+          console.log(res)
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as Object

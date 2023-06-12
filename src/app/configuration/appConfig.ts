@@ -9,7 +9,6 @@ export default class AppConfig {
   public get userConfig(){
     return this._userConfig
   }
-
   public getActionsForComponent(name:string):ActionModel[]{
     return this.userConfig.actions.filter((action: { targetName: string; })=>{
       return action.targetName===name
