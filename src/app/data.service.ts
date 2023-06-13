@@ -137,7 +137,7 @@ export class DataService {
     }
   }
 
-  public getData(dataLink: string[],componentType:ComponentType): AttributeComponentModel {
+  public getDataObject(dataLink: string[],componentType:ComponentType): AttributeComponentModel {
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0]
@@ -173,21 +173,23 @@ export class DataService {
     throw new Error('Data voor datalink '+dataLink.toString()+' en component type '+componentType+' niet gevonden.')
   }
 
-  private setDataState(compConcept: ConceptComponentModel,componentType:ComponentType) {
+  private setDataObjectState(nameComponent:string,compConcept: ConceptComponentModel,componentType:ComponentType) {
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
-      // todo refactor
-      let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
-      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
-      // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
-      if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
-        // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van
-        if (comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
-      } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
-        // dit zal worden gebruikt bij een multiselect
-        const data: AttributeComponentModel = this.getData(comp.attributes?.smartphone?.dataLink,componentType)
-        this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
+      if(propSubj.componentName===nameComponent){
+        // todo refactor
+        let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
+        if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
+        // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
+        if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
+          // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van
+          if (comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
+        } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
+          // dit zal worden gebruikt bij een multiselect
+          const data: AttributeComponentModel = this.getDataObject(comp.attributes?.smartphone?.dataLink,componentType)
+          this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
+        }
       }
     })
   }
@@ -359,7 +361,7 @@ export class DataService {
             if(compObj){
               this.objectData.push(compObj)
               // todo fix bug: hier wordt de data voor multiselect opgehaald terwijl die nog niet klaar is
-              this.setDataState(compObj,compModel.type)
+              this.setDataObjectState(compModel.name,compObj,compModel.type)
             }
           }
         })
@@ -391,11 +393,71 @@ export class DataService {
                 }
               })
               this.listObjectData.push(newModel)
+              this.setDataListState(comp.name,newModel,comp.type)
             }
           }
         })
       }
     }
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
+  }
+
+  private setDataListState(nameComponent:string,newModel: ConceptComponentModel, componentType: ComponentType) {
+    this.storeService.getStatePropertySubjects().forEach(propSubj => {
+      if(propSubj.componentName===nameComponent){
+        // todo refactor
+        let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
+        if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
+        // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
+        if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
+          // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van!!!
+          debugger
+          if (comp.data.conceptName === newModel.conceptName) propSubj.propValue.next(newModel)
+          // todo gewoon een extra if toevoegen voor dataConcept maar geeb instance = wellicht ideaal voor multiselect
+        } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
+          // dit zal worden gebruikt bij een multiselect
+          const data: ConceptComponentModel|undefined = this.getListData(comp.attributes.smartphone.dataLink,componentType)
+          debugger
+          // todo probleem dataAttribute is geen ideaal formaat voor deze data
+          this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
+        }
+      }
+    })
+  }
+
+  private getListData(dataLink: string[], componentType: ComponentType):ConceptComponentModel|undefined {
+    const dataLinkCopy = [...dataLink]
+    return this.listObjectData.find(listDataObj => {
+      return listDataObj.conceptName === dataLinkCopy[dataLinkCopy.length-1]
+    })
+/*    if (obj) {
+      dataLinkCopy.splice(0, 1)
+      let attributes = [...obj.attributes]
+      let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
+        return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
+      })
+      dataLinkCopy.splice(0, 1)
+      while (currentAttr && dataLinkCopy.length > 0) {
+        // todo zoek een use case hiervoor
+        //      dit is in het specifieke geval je echt een attribuut wilt hebben in plaats van een volledig concept al
+        //      dan niet in een lijst
+        if (currentAttr instanceof AttributeComponentModel && currentAttr.concept) {
+          // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
+          attributes = [...currentAttr?.concept?.attributes]
+          currentAttr = attributes.find(attr => {
+            return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
+          })
+        } else {
+          throw new Error('Datalink bevat teveel entries.')
+        }
+        dataLinkCopy.splice(0, 1)
+      }
+      if (currentAttr && typeof currentAttr !== 'string') {
+        // todo probleem is dat getAllData nog niet klaar zit terwijl al wel de cvall gebeurt ???
+        currentAttr = this.replaceDBIValues(obj, currentAttr)
+        return currentAttr
+      }
+    }*/
+    //throw new Error('Data voor datalink '+dataLink.toString()+' en component type '+componentType+' niet gevonden.')
   }
 }

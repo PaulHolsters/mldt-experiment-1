@@ -165,9 +165,10 @@
             [buttonLayout]="dataAttribute?.number?.buttonLayout"
           ></m-input-number>
         </ng-container>
+        <!-- todo label hangt af van attribute dus data moet op de een of andere manier in een attribuut niet in een dataconcept gegoten worden-->
         <ng-container *ngSwitchCase="componentType.MultiSelect">
           <m-multiselect
-            *ngIf="nameFormControl && dataAttribute?.multiselect"
+            *ngIf="nameFormControl && dataConcept?.dataList"
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
