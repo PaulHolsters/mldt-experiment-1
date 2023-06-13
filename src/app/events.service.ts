@@ -152,11 +152,9 @@ export class EventsService{
           case ActionType.Server:
             switch (action.actionSubType) {
               case ActionSubType.GetDataBluePrint:
-                debugger
                 await this.dataService.getDataBluePrint(action)
                 break
               case ActionSubType.GetAllData:
-                debugger
                 await this.dataService.getAllData(action)
                 break
               default:

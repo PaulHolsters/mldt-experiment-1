@@ -166,7 +166,6 @@ export class DataService {
       }
       if (currentAttr && typeof currentAttr !== 'string') {
         // todo probleem is dat getAllData nog niet klaar zit terwijl al wel de cvall gebeurt ???
-        debugger
         currentAttr = this.replaceDBIValues(obj, currentAttr)
         return currentAttr
       }
@@ -325,18 +324,13 @@ export class DataService {
         if(dataType && dataType.lastIndexOf('}') === dataType.length-3
           && dataType.lastIndexOf('[') === dataType.length-2
           && dataType.lastIndexOf(']') === dataType.length-1){
-          debugger
           const list = this.listObjectData.find(list=>{
             return list.conceptName == concept.conceptName
           })
-          debugger
           if(list && list.dataList && typeof list.dataList !== 'string'){
-            debugger
             attr.multiselect.options = [...list.dataList]
-            debugger
           }
         }
-        debugger
       }
       if(attr.multiselect.optionLabel === NoValueType.DBI){
         // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren
@@ -364,7 +358,6 @@ export class DataService {
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
             if(compObj){
               this.objectData.push(compObj)
-              debugger
               // todo fix bug: hier wordt de data voor multiselect opgehaald terwijl die nog niet klaar is
               this.setDataState(compObj,compModel.type)
             }
@@ -398,9 +391,7 @@ export class DataService {
                 }
               })
               this.listObjectData.push(newModel)
-              debugger
             }
-            debugger
           }
         })
       }

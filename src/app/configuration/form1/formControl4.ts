@@ -58,6 +58,7 @@ export const formControl4 = {
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )),
+// undefined,
         new ResponsiveAttributesConfigModel({
           dataLink: ['product', 'specifications']
         }),

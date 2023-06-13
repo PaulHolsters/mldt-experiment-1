@@ -11,8 +11,8 @@ import {NoValueType} from "../../../enums/no_value_type";
 })
 export class MultiselectComponent implements OnInit {
   @Input() name:string|undefined
-  @Input() options:string[]|undefined|NoValueType.DBI
-  @Input() selectedOptions:string[]|undefined|NoValueType.DBI
+  @Input() options:Object[]|undefined|NoValueType.DBI
+  @Input() selectedOptions:Object[]|undefined|NoValueType.DBI
   @Input() optionLabel:string|undefined|NoValueType.DBI
   @Input() dirty: boolean | undefined
   @Input() invalid: boolean | undefined
