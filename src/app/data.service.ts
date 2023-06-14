@@ -26,34 +26,33 @@ export class DataService {
   // todo a way to filter data
   // todo a way to order data
   private objectData: ConceptComponentModel[] = []
-  private listObjectData: ConceptComponentModel[] = []
 
   private capitalizeFirst(text: string): string {
     return text.charAt(0).toUpperCase() + text.substring(1)
   }
 
-  private getAllAttributes(compName:string,data: ConceptConfigModel|string[]): string {
+  private getAllAttributes(compName: string, data: ConceptConfigModel | string[]): string {
     // todo voorlopig enkel 1 diep
     if (data instanceof ConceptConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
         return x.name || ''
       }).reduce((x, y) => x += '\n' + y, '')
-    } else if(!(data instanceof ConceptConfigModel)){
-      let compConfig = RootComponent.getParentComponentConfigWithProperty(compName,'data')
-      if(!compConfig) compConfig = RootComponent.getParentComponentConfigWithPropertyThroughAttributes(compName,'data')
-      if(!compConfig) throw new Error('attributen voor '+data.toString()+' en component met naam '+compName+
-      ' werden niet gevonden. Kijk je configuratie na.')
-      if(compConfig.data
+    } else if (!(data instanceof ConceptConfigModel)) {
+      let compConfig = RootComponent.getParentComponentConfigWithProperty(compName, 'data')
+      if (!compConfig) compConfig = RootComponent.getParentComponentConfigWithPropertyThroughAttributes(compName, 'data')
+      if (!compConfig) throw new Error('attributen voor ' + data.toString() + ' en component met naam ' + compName +
+        ' werden niet gevonden. Kijk je configuratie na.')
+      if (compConfig.data
         && (compConfig.data instanceof ConceptConfigModel)
-        && typeof compConfig.data.attributes !=='string'
-        && compConfig.data?.conceptName===data[0]){
-        const concept = compConfig.data.attributes.find(attr=>{
-          return attr.name===data[1]
+        && typeof compConfig.data.attributes !== 'string'
+        && compConfig.data?.conceptName === data[0]) {
+        const concept = compConfig.data.attributes.find(attr => {
+          return attr.name === data[1]
         })?.concept
-        if(concept && typeof concept.attributes !== 'string'){
-          return concept.attributes.map(a=>a.name).join('\n')
+        if (concept && typeof concept.attributes !== 'string') {
+          return concept.attributes.map(a => a.name).join('\n')
         }
-      } else{
+      } else {
         throw new Error('Attributen niet gevonden. Kijk je configuratie na.')
       }
       throw new Error('Methode getAllAttributes onvolledig of incorrect')
@@ -61,12 +60,11 @@ export class DataService {
     return 'name\nbasePrice\ncreationDate'
   }
 
-  private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]): ConceptComponentModel|undefined {
-    if(compConfig instanceof ConceptConfigModel && !(data instanceof Array)){
+  private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]): ConceptComponentModel | undefined {
+    if (compConfig instanceof ConceptConfigModel && !(data instanceof Array)) {
       let newObj: ConceptComponentModel = {
         conceptName: compConfig.conceptName,
         attributes: [],
-        dataList:NoValueType.NA,
         errorMessages: NoValueType.NI
       }
       const configCopy = {...compConfig}
@@ -123,21 +121,22 @@ export class DataService {
     }
   }
 
-  private isCorrectType(attr:AttributeComponentModel,componentType:ComponentType):boolean{
-    switch (componentType){
+  private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
+    switch (componentType) {
       case ComponentType.MultiSelect:
-        return attr.multiselect!==undefined
+        return attr.multiselect !== undefined
       case ComponentType.InputNumber:
-        return attr.number !==undefined
+        return attr.number !== undefined
       case ComponentType.InputText:
         return attr.text !== undefined
       case ComponentType.RadioButton:
         return attr.radio !== undefined
-      default: return true
+      default:
+        return true
     }
   }
 
-  public getDataObject(dataLink: string[],componentType:ComponentType): AttributeComponentModel {
+  public getDataObject(dataLink: string[], componentType: ComponentType): AttributeComponentModel {
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0]
@@ -146,7 +145,7 @@ export class DataService {
       dataLinkCopy.splice(0, 1)
       let attributes = [...obj.attributes]
       let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
-        return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
+        return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
       })
       dataLinkCopy.splice(0, 1)
       while (currentAttr && dataLinkCopy.length > 0) {
@@ -157,7 +156,7 @@ export class DataService {
           // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
           attributes = [...currentAttr?.concept?.attributes]
           currentAttr = attributes.find(attr => {
-            return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
+            return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
           })
         } else {
           throw new Error('Datalink bevat teveel entries.')
@@ -170,38 +169,36 @@ export class DataService {
         return currentAttr
       }
     }
-    throw new Error('Data voor datalink '+dataLink.toString()+' en component type '+componentType+' niet gevonden.')
+    throw new Error('Data voor datalink ' + dataLink.toString() + ' en component type ' + componentType + ' niet gevonden.')
   }
 
-  private setDataObjectState(nameComponent:string,compConcept: ConceptComponentModel,componentType:ComponentType) {
+  private setDataObjectState(nameComponent: string, compConcept: ConceptComponentModel, componentType: ComponentType) {
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
-      if(propSubj.componentName===nameComponent){
-        // todo refactor
-        let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
-        if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
-        // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
-        if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
-          // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van
-          if (comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
-        } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
-          // dit zal worden gebruikt bij een multiselect
-          const data: AttributeComponentModel = this.getDataObject(comp.attributes?.smartphone?.dataLink,componentType)
-          this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
-        }
+      // todo refactor
+      let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
+      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
+      // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
+      if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
+        // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van
+        if (comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
+      } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
+        // dit zal worden gebruikt bij een multiselect
+        const data: AttributeComponentModel = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType)
+        this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })
   }
 
-  private query(querySubType: QuerySubType, compConfig:ComponentModel): any {
+  private query(querySubType: QuerySubType, compConfig: ComponentModel): any {
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
-        if(compConfig.data instanceof ConceptConfigModel){
+        if (compConfig.data instanceof ConceptConfigModel) {
           const GET_BLUEPRINT = gql`
                     {
                       getBluePrintOf${this.capitalizeFirst(compConfig.data.conceptName)}{
-                        ${this.getAllAttributes(compConfig.name,compConfig.data)}
+                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
                       }
                     }
         `
@@ -210,25 +207,25 @@ export class DataService {
               query: GET_BLUEPRINT
             }).valueChanges
         }
-      break
+        break
       case QuerySubType.GetDataByID:
         // todo
         break
       case QuerySubType.GetAllData:
         // todo getAllAttributes geeft "specifications" terug terwijl dit "name" moet zijn ....
-        if(compConfig.data && !(compConfig.data instanceof ConceptConfigModel)){
+        if (compConfig.data && !(compConfig.data instanceof ConceptConfigModel)) {
           console.log(`
                     {
-                      get${this.capitalizeFirst(compConfig.data[compConfig.data.length-1])}{
-                        ${this.getAllAttributes(compConfig.name,compConfig.data)}
+                      get${this.capitalizeFirst(compConfig.data[compConfig.data.length - 1])}{
+                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
                       }
                     }
         `)
           const GET_ALL = gql`
                     {
-                      get${this.capitalizeFirst(compConfig.data[compConfig.data.length-1])}{
+                      get${this.capitalizeFirst(compConfig.data[compConfig.data.length - 1])}{
                       id
-                        ${this.getAllAttributes(compConfig.name,compConfig.data)}
+                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
                       }
                     }
         `
@@ -246,7 +243,7 @@ export class DataService {
     const strVal = data.map(x => {
         return `
       ${(x.number?.value || x.text?.value || x.radio?.value) ? (x.name + ':' || '') : ''}
-      ${(x.text?.value || x.radio?.value) ? '"' : ''}${(x.number?.value || x.text?.value || x.radio?.value) || ''}${(x.text?.value || x.radio?.value)  ? '"' : ''}
+      ${(x.text?.value || x.radio?.value) ? '"' : ''}${(x.number?.value || x.text?.value || x.radio?.value) || ''}${(x.text?.value || x.radio?.value) ? '"' : ''}
       `
       }
     )
@@ -266,12 +263,12 @@ export class DataService {
                     id
               }
             }`)
-/*        mutation Mutation($name: String) {
-          createSpecification(name: $name) {
-            id
-            name
-          }
-        }*/
+        /*        mutation Mutation($name: String) {
+                  createSpecification(name: $name) {
+                    id
+                    name
+                  }
+                }*/
         return this.apollo
           .mutate({
             mutation: gql`mutation Mutation {
@@ -313,7 +310,7 @@ export class DataService {
           attr.radio.values = [...arr2Temp]
         }
       }
-    } else if(attr.multiselect){
+    } else if (attr.multiselect) {
       // op dit punt mag je er al vanuit gaan dat het inderdaad gaat om een multiselect die data nodig heeft
       const dataType = (concept.attributes as AttributeConfigModel[]).find(attrConfig => {
         return attrConfig.multiselect !== undefined
@@ -322,19 +319,24 @@ export class DataService {
       if (attr.multiselect.conceptName === NoValueType.DBI) {
         attr.multiselect.conceptName = concept.conceptName
       }
-      if(attr.multiselect.options === NoValueType.DBI){
-        if(dataType && dataType.lastIndexOf('}') === dataType.length-3
-          && dataType.lastIndexOf('[') === dataType.length-2
-          && dataType.lastIndexOf(']') === dataType.length-1){
-          const list = this.listObjectData.find(list=>{
-            return list.conceptName == concept.conceptName
+      if (attr.multiselect.options === NoValueType.DBI) {
+        if (dataType && dataType.lastIndexOf('}') === dataType.length - 3
+          && dataType.lastIndexOf('[') === dataType.length - 2
+          && dataType.lastIndexOf(']') === dataType.length - 1) {
+          const conceptModel = this.objectData.find(conceptData => {
+            return conceptData.conceptName == concept.conceptName
           })
-          if(list && list.dataList && typeof list.dataList !== 'string'){
-            attr.multiselect.options = [...list.dataList]
+          const attributes = conceptModel?.attributes
+          if (typeof attributes !== 'string') {
+            const optionList = attributes?.find(attrCache => {
+              return attrCache.name === attr.name
+            })?.dataList ?? []
+            if (optionList) attr.multiselect.options = [...optionList]
           }
+          debugger
         }
       }
-      if(attr.multiselect.optionLabel === NoValueType.DBI){
+      if (attr.multiselect.optionLabel === NoValueType.DBI) {
         // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren
       }
     }
@@ -358,10 +360,11 @@ export class DataService {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
-            if(compObj){
+            if (compObj) {
               this.objectData.push(compObj)
               // todo fix bug: hier wordt de data voor multiselect opgehaald terwijl die nog niet klaar is
-              this.setDataObjectState(compModel.name,compObj,compModel.type)
+              this.setDataObjectState(compModel.name, compObj, compModel.type)
+              debugger
             }
           }
         })
@@ -378,86 +381,27 @@ export class DataService {
     if (action.targetType === TargetType.Component) {
       // todo hier aanpassen kan ook in niet data zitten?
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
-      if(!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
+      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as []
-            if(comp.data && !(comp.data instanceof ConceptConfigModel)){
-              const conceptName:string = comp.data[comp.data.length-1]
-              const newModel = new ConceptComponentModel(conceptName,NoValueType.NA,[],NoValueType.NI)
-              data.forEach(record=>{
-                if(comp && comp.data && !(comp.data instanceof ConceptConfigModel) && typeof newModel.dataList !== 'string'){
-                  newModel.dataList.push(record)
+            if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
+              //todo refactor
+              const attributeModel = this.getDataObject(comp.data,comp.type)
+              // todo push elk record in de datalist van de multiselect aan de hand van de inputparameters
+              data.forEach(record => {
+                if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
+                  attributeModel?.dataList?.push(record)
                 }
               })
-              this.listObjectData.push(newModel)
-              this.setDataListState(comp.name,newModel,comp.type)
+              this.setDataObjectState(comp.name,comp.data,comp.type)
             }
           }
         })
       }
     }
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
-  }
-
-  private setDataListState(nameComponent:string,newModel: ConceptComponentModel, componentType: ComponentType) {
-    this.storeService.getStatePropertySubjects().forEach(propSubj => {
-      if(propSubj.componentName===nameComponent){
-        // todo refactor
-        let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
-        if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
-        // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
-        if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
-          // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van!!!
-          debugger
-          if (comp.data.conceptName === newModel.conceptName) propSubj.propValue.next(newModel)
-          // todo gewoon een extra if toevoegen voor dataConcept maar geeb instance = wellicht ideaal voor multiselect
-        } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
-          // dit zal worden gebruikt bij een multiselect
-          const data: ConceptComponentModel|undefined = this.getListData(comp.attributes.smartphone.dataLink,componentType)
-          debugger
-          // todo probleem dataAttribute is geen ideaal formaat voor deze data
-          this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
-        }
-      }
-    })
-  }
-
-  private getListData(dataLink: string[], componentType: ComponentType):ConceptComponentModel|undefined {
-    const dataLinkCopy = [...dataLink]
-    return this.listObjectData.find(listDataObj => {
-      return listDataObj.conceptName === dataLinkCopy[dataLinkCopy.length-1]
-    })
-/*    if (obj) {
-      dataLinkCopy.splice(0, 1)
-      let attributes = [...obj.attributes]
-      let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
-        return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
-      })
-      dataLinkCopy.splice(0, 1)
-      while (currentAttr && dataLinkCopy.length > 0) {
-        // todo zoek een use case hiervoor
-        //      dit is in het specifieke geval je echt een attribuut wilt hebben in plaats van een volledig concept al
-        //      dan niet in een lijst
-        if (currentAttr instanceof AttributeComponentModel && currentAttr.concept) {
-          // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
-          attributes = [...currentAttr?.concept?.attributes]
-          currentAttr = attributes.find(attr => {
-            return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr,componentType)
-          })
-        } else {
-          throw new Error('Datalink bevat teveel entries.')
-        }
-        dataLinkCopy.splice(0, 1)
-      }
-      if (currentAttr && typeof currentAttr !== 'string') {
-        // todo probleem is dat getAllData nog niet klaar zit terwijl al wel de cvall gebeurt ???
-        currentAttr = this.replaceDBIValues(obj, currentAttr)
-        return currentAttr
-      }
-    }*/
-    //throw new Error('Data voor datalink '+dataLink.toString()+' en component type '+componentType+' niet gevonden.')
   }
 }

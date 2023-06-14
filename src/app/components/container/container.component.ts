@@ -89,6 +89,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
       }
       this.storeService.bindToStateProperty(this.name, 'dataConcept')?.subscribe(res => {
         this.dataConcept = res as ConceptComponentModel
+        debugger
       })
       this.storeService.bindToStateProperty(this.name, 'dataAttribute')?.subscribe(res => {
         this.dataAttribute = res as AttributeComponentModel
