@@ -172,7 +172,7 @@ export class DataService {
     throw new Error('Data voor datalink ' + dataLink.toString() + ' en component type ' + componentType + ' niet gevonden.')
   }
 
-  private setDataObjectState(nameComponent: string, compConcept: ConceptComponentModel, componentType: ComponentType) {
+  private setDataObjectState(nameComponent: string, componentType: ComponentType,compConcept?: ConceptComponentModel) {
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
@@ -182,9 +182,9 @@ export class DataService {
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
         // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van
-        if (comp.data.conceptName === compConcept.conceptName) propSubj.propValue.next(compConcept)
+        if (comp.data.conceptName === nameComponent) propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
-        // dit zal worden gebruikt bij een multiselect
+        // todo na een nieuwe actie gaan alle attributen terug opgehaald worden wat niet nodig is
         const data: AttributeComponentModel = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
@@ -323,7 +323,9 @@ export class DataService {
         if (dataType && dataType.lastIndexOf('}') === dataType.length - 3
           && dataType.lastIndexOf('[') === dataType.length - 2
           && dataType.lastIndexOf(']') === dataType.length - 1) {
-          const conceptModel = this.objectData.find(conceptData => {
+          debugger
+          if(attr.dataList) attr.multiselect.options = [...attr.dataList]
+/*          const conceptModel = this.objectData.find(conceptData => {
             return conceptData.conceptName == concept.conceptName
           })
           const attributes = conceptModel?.attributes
@@ -332,12 +334,11 @@ export class DataService {
               return attrCache.name === attr.name
             })?.dataList ?? []
             if (optionList) attr.multiselect.options = [...optionList]
-          }
-          debugger
+          }*/
         }
       }
       if (attr.multiselect.optionLabel === NoValueType.DBI) {
-        // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren
+        // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
       }
     }
     return attr
@@ -363,8 +364,8 @@ export class DataService {
             if (compObj) {
               this.objectData.push(compObj)
               // todo fix bug: hier wordt de data voor multiselect opgehaald terwijl die nog niet klaar is
-              this.setDataObjectState(compModel.name, compObj, compModel.type)
-              debugger
+              this.setDataObjectState(compModel.name, compModel.type,compObj)
+
             }
           }
         })
@@ -373,6 +374,7 @@ export class DataService {
   }
 
   public async getAllData(action: ActionModel) {
+
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
@@ -390,13 +392,14 @@ export class DataService {
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
               //todo refactor
               const attributeModel = this.getDataObject(comp.data,comp.type)
+              attributeModel.dataList = []
               // todo push elk record in de datalist van de multiselect aan de hand van de inputparameters
               data.forEach(record => {
                 if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
                   attributeModel?.dataList?.push(record)
                 }
               })
-              this.setDataObjectState(comp.name,comp.data,comp.type)
+              this.setDataObjectState(comp.name,comp.type)
             }
           }
         })
