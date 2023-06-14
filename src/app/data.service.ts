@@ -85,7 +85,8 @@ export class DataService {
     return undefined
   }
 
-  public updateData(name: string, value: number | string | undefined) {
+  public updateData(name: string, value: Object[]|number | string | undefined) {
+    // todo fix zodat ook data multiselect werken voor bewaren
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === parts[0]
@@ -105,6 +106,9 @@ export class DataService {
           if (attr.radio && typeof value === 'string') {
             attr.radio.value = value
           }
+          if(attr.multiselect && value instanceof Array){
+            attr.multiselect.selectedOptions = value
+          }
           // todo alle andere datatypes
 
           (obj.attributes as AttributeConfigModel[]).splice((obj.attributes as AttributeConfigModel[]).findIndex(attr => {
@@ -113,7 +117,6 @@ export class DataService {
           this.objectData.splice(this.objectData.findIndex(dataObj => {
             return dataObj.conceptName === parts[0]
           }), 1, obj)
-          // todo radio button werkt tot hier
         }
       } else {
         // Het gaat om een concept
@@ -239,11 +242,13 @@ export class DataService {
   }
 
   private getMutationParams(data: AttributeConfigModel[] | NoValueType.DBI): string {
+    // TODO steeds aanvullen met elke nieuw form component => uitproberen specifications
     if (data === NoValueType.DBI) return ''
     const strVal = data.map(x => {
         return `
-      ${(x.number?.value || x.text?.value || x.radio?.value) ? (x.name + ':' || '') : ''}
-      ${(x.text?.value || x.radio?.value) ? '"' : ''}${(x.number?.value || x.text?.value || x.radio?.value) || ''}${(x.text?.value || x.radio?.value) ? '"' : ''}
+      ${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions) ? (x.name + ':' || '') : ''}
+      ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '[':''}
+      ${(x.number?.value || x.text?.value || x.radio?.value) || ''}${(x.text?.value || x.radio?.value) ? '"' : ''}
       `
       }
     )
@@ -323,18 +328,7 @@ export class DataService {
         if (dataType && dataType.lastIndexOf('}') === dataType.length - 3
           && dataType.lastIndexOf('[') === dataType.length - 2
           && dataType.lastIndexOf(']') === dataType.length - 1) {
-          debugger
           if(attr.dataList) attr.multiselect.options = [...attr.dataList]
-/*          const conceptModel = this.objectData.find(conceptData => {
-            return conceptData.conceptName == concept.conceptName
-          })
-          const attributes = conceptModel?.attributes
-          if (typeof attributes !== 'string') {
-            const optionList = attributes?.find(attrCache => {
-              return attrCache.name === attr.name
-            })?.dataList ?? []
-            if (optionList) attr.multiselect.options = [...optionList]
-          }*/
         }
       }
       if (attr.multiselect.optionLabel === NoValueType.DBI) {
