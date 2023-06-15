@@ -41,6 +41,14 @@ export const  RootComponent = new AppConfig( {
     // hou er rekening mee dat de volgorde van de actions in deze array gevolgen kunnen hebben op
     // de condities zoals gedefinieerd in de overeenkomstige actie
     {
+      actionType: ActionType.Client,
+      actionSubType: ActionSubType.SetResponsiveBehaviour,
+      targetType: TargetType.Component,
+      targetName: NoValueType.NA,
+      sourceName: 'content-container',
+      on: EventType.RootComponentReady
+    },
+    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataBluePrint,
       targetType: TargetType.Component,
@@ -58,13 +66,30 @@ export const  RootComponent = new AppConfig( {
     },
     {
       actionType: ActionType.Server,
+      actionSubType: ActionSubType.GetDataByID,
+      targetType: TargetType.Component,
+      targetName: 'form-container',
+      sourceName: 'my first form',
+      on: EventType.ComponentReady
+    },
+
+/*    {
+      actionType: ActionType.Server,
       actionSubType: ActionSubType.PersistNewData,
       targetType: TargetType.API,
       targetName: NoValueType.NA,
       sourceName: 'submitbtn',
       on: EventType.ComponentClicked
-    },
+    },*/
     {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.PersistUpdatedData,
+      targetType: TargetType.API,
+      targetName: NoValueType.NA,
+      sourceName: 'submitbtn',
+      on: EventType.ComponentClicked
+    },
+/*    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataBluePrint,
       targetType: TargetType.Component,
@@ -79,14 +104,7 @@ export const  RootComponent = new AppConfig( {
       targetName: NoValueType.NA,
       sourceName: 'submitForm2',
       on: EventType.ComponentClicked
-    },
-    {
-      actionType: ActionType.Client,
-      actionSubType: ActionSubType.SetResponsiveBehaviour,
-      targetType: TargetType.Component,
-      targetName: NoValueType.NA,
-      sourceName: 'content-container',
-      on: EventType.RootComponentReady
-    }
+    },*/
+
   ]
 })

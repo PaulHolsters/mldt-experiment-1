@@ -4,5 +4,6 @@ export enum ActionSubType {
   PersistUpdatedData,
   PersistDeletedData,
   SetResponsiveBehaviour,
-  GetAllData
+  GetAllData,
+  GetDataByID
 }

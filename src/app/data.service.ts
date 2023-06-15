@@ -64,6 +64,7 @@ export class DataService {
   private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]): ConceptComponentModel | undefined {
     if (compConfig instanceof ConceptConfigModel && !(data instanceof Array)) {
       let newObj: ConceptComponentModel = {
+        conceptId:NoValueType.NA,
         conceptName: compConfig.conceptName,
         attributes: [],
         errorMessages: NoValueType.NI
@@ -86,7 +87,7 @@ export class DataService {
     return undefined
   }
 
-  public updateData(name: string, value: DataObjectModel[]|number | string | undefined) {
+  public updateData(name: string, value: DataObjectModel[] | number | string | undefined) {
     // todo fix zodat ook data multiselect werken voor bewaren
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {
@@ -107,7 +108,7 @@ export class DataService {
           if (attr.radio && typeof value === 'string') {
             attr.radio.value = value
           }
-          if(attr.multiselect && value instanceof Array){
+          if (attr.multiselect && value instanceof Array) {
             attr.multiselect.selectedOptions = value
           }
           // todo alle andere datatypes
@@ -176,7 +177,7 @@ export class DataService {
     throw new Error('Data voor datalink ' + dataLink.toString() + ' en component type ' + componentType + ' niet gevonden.')
   }
 
-  private setDataObjectState(nameComponent: string, componentType: ComponentType,compConcept?: ConceptComponentModel) {
+  private setDataObjectState(nameComponent: string, componentType: ComponentType, compConcept?: ConceptComponentModel) {
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
@@ -213,18 +214,26 @@ export class DataService {
         }
         break
       case QuerySubType.GetDataByID:
-        // todo
+        if (compConfig.data instanceof ConceptConfigModel) {
+          const GET_BY_ID = `{
+        getDetailsOf${this.capitalizeFirst(compConfig.data.conceptName)}(id:${
+            this.objectData.find(conceptM => {
+              return conceptM.conceptName === compConfig?.name
+            })?.conceptId
+          }){
+        ${this.getAllAttributes(compConfig.name, compConfig.data)}
+        }
+        }`
+          console.log(GET_BY_ID)
+          return this.apollo
+            .watchQuery<any>({
+              query: gql`${GET_BY_ID}`
+            }).valueChanges
+        }
         break
       case QuerySubType.GetAllData:
         // todo getAllAttributes geeft "specifications" terug terwijl dit "name" moet zijn ....
         if (compConfig.data && !(compConfig.data instanceof ConceptConfigModel)) {
-          console.log(`
-                    {
-                      get${this.capitalizeFirst(compConfig.data[compConfig.data.length - 1])}{
-                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
-                      }
-                    }
-        `)
           const GET_ALL = gql`
                     {
                       get${this.capitalizeFirst(compConfig.data[compConfig.data.length - 1])}{
@@ -247,11 +256,11 @@ export class DataService {
     const strVal = data.map(x => {
         return `\
 ${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions) ? (x.name + ':' || '') : ''}\
-${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '[':''}${(x.multiselect?.selectedOptions?.length ?? 0)>0 ? '"':''}\
-${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions?.map(opt=>{
-  return opt.id
-  }).join('","')) || ''}${(x.multiselect?.selectedOptions?.length ?? 0)>0 ? '"':''}\
-${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']':''}
+${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '[' : ''}${(x.multiselect?.selectedOptions?.length ?? 0) > 0 ? '"' : ''}\
+${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions?.map(opt => {
+          return opt.id
+        }).join('","')) || ''}${(x.multiselect?.selectedOptions?.length ?? 0) > 0 ? '"' : ''}\
+${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
 `
       }
     )
@@ -301,6 +310,16 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     })
   }
 
+  public async persistUpdatedData(action: ActionModel) {
+    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
+    if (!comp) {
+      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
+    }
+    await this.mutate(comp?.data, MutationType.Update)?.subscribe(res => {
+      console.log(res, 'yeah!')
+    })
+  }
+
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
     if (attr.radio) {
       if (attr.radio.conceptName === NoValueType.DBI) {
@@ -332,7 +351,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         if (dataType && dataType.lastIndexOf('}') === dataType.length - 3
           && dataType.lastIndexOf('[') === dataType.length - 2
           && dataType.lastIndexOf(']') === dataType.length - 1) {
-          if(attr.dataList) attr.multiselect.options = [...attr.dataList]
+          if (attr.dataList) attr.multiselect.options = [...attr.dataList]
         }
       }
       if (attr.multiselect.optionLabel === NoValueType.DBI) {
@@ -343,6 +362,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
   }
 
   public async getDataBluePrint(action: ActionModel) {
+    debugger
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
@@ -362,8 +382,8 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             if (compObj) {
               this.objectData.push(compObj)
               // todo fix bug: hier wordt de data voor multiselect opgehaald terwijl die nog niet klaar is
-              this.setDataObjectState(compModel.name, compModel.type,compObj)
-
+              this.setDataObjectState(compModel.name, compModel.type, compObj)
+debugger
             }
           }
         })
@@ -372,14 +392,12 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
   }
 
   public async getAllData(action: ActionModel) {
-
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
     // of een deel van de data nodig hebben daarvan op de hoogte gebracht door
     // de data door te sturen via de dataAttribute of dataConcept component property
     if (action.targetType === TargetType.Component) {
-      // todo hier aanpassen kan ook in niet data zitten?
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
@@ -388,21 +406,70 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as []
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
-              //todo refactor
-              const attributeModel = this.getDataObject(comp.data,comp.type)
+              const attributeModel = this.getDataObject(comp.data, comp.type)
               attributeModel.dataList = []
-              // todo push elk record in de datalist van de multiselect aan de hand van de inputparameters
               data.forEach(record => {
                 if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
                   attributeModel?.dataList?.push(record)
                 }
               })
-              this.setDataObjectState(comp.name,comp.type)
+              this.setDataObjectState(comp.name, comp.type)
             }
           }
         })
       }
     }
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
+  }
+
+  public async getDataByID(action: ActionModel) {
+    // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
+    // er door elke component bevraging kan gedaan worden naar deze data
+    // eens de data binnen is worden de verschillende componenten die de data
+    // of een deel van de data nodig hebben daarvan op de hoogte gebracht door
+    // de data door te sturen via de dataAttribute of dataConcept component property
+    if (action.targetType === TargetType.Component) {
+      let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
+      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
+      if (comp !== undefined && comp.data) {
+        await this.query(QuerySubType.GetDataByID, comp).subscribe((res: unknown) => {
+          if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
+
+            // todo aanpassen!!!!!!!!!!!!!!!!!!!!!!!
+            const dataByID = (res as { data: {} })['data']
+            const data = Object.values(dataByID)[0] as []
+            if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
+              const attributeModel = this.getDataObject(comp.data, comp.type)
+              attributeModel.dataList = []
+              data.forEach(record => {
+                if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
+                  attributeModel?.dataList?.push(record)
+                }
+              })
+              this.setDataObjectState(comp.name, comp.type)
+            }
+
+
+          }
+        })
+      }
+    }
+    // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
+  }
+
+  saveConceptId(data: string, action: ActionModel) {
+    debugger
+    if (action.targetType === TargetType.Component) {
+      let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
+      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
+      if (comp) {
+        const concept = this.objectData.find(conceptM => {
+          return conceptM.conceptName === comp?.name
+        })
+        if (concept) {
+          concept.conceptId = data
+        } else throw new Error('no concept found matching id ' + data)
+      } else throw new Error('configuration not in accordance with components')
+    }
   }
 }

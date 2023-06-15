@@ -1,8 +1,9 @@
-import {  Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {StoreService} from "../../store.service";
 import {EventsService} from "../../events.service";
 import {EventType} from "../../enums/eventTypes.enum";
 import {Observable} from "rxjs";
+import {NoValueType} from "../../enums/no_value_type";
 
 @Component({
   selector: 'm-form',
@@ -11,23 +12,21 @@ import {Observable} from "rxjs";
 })
 export class FormComponent implements OnInit{
   @Input() name = ''
+  @Input() conceptId:string|NoValueType.NA=NoValueType.NA
   @ViewChild('form') form:ElementRef|undefined
   content$:Observable<any>|undefined
   calcHeight$: Observable<any>|undefined
   calcWidth$: Observable<any>|undefined
   width:string|undefined
   height:string|undefined
-
   constructor(private storeService:StoreService,private eventsService:EventsService) {
-    console.log('instance of a form')
   }
 
   ngOnInit(): void {
     // hierdoor wordt de blueprint opgehaald => nadat die binnen is moet die
     // gedistribueerd naar de verschillende subscribers op deze (delen van de) data
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(EventType.ComponentReady, this.name,this.conceptId)
     this.content$ = this.storeService.bindToStateProperty(this.name,'content')
-
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
   }

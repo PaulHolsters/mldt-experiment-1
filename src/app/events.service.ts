@@ -8,6 +8,7 @@ import {ScreenSize} from "./enums/screenSizes.enum";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StoreService} from "./store.service";
 import AppConfig from "./configuration/appConfig";
+import {NoValueType} from "./enums/no_value_type";
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,13 @@ export class EventsService{
     if(data && data instanceof AppConfig){
       this.storeService.saveConfig(data)
     }
-    this.storeService.appConfig?.getActionsForEvent(event).forEach(action=>{
+    this.storeService.appConfig?.getActionsForEvent(event).forEach(async action=>{
       if(action.sourceName===source){
-        this.executeAction(action)
+        if(data !== NoValueType.NA && !(data instanceof AppConfig) && action.actionSubType === 7){
+          // todo dit gebeurt voordat getDataBluePrint klaar is, dat is een probleem
+          this.dataService.saveConceptId(data,action)
+        }
+        await this.executeAction(action)
       }
     })
   }
@@ -157,6 +162,9 @@ export class EventsService{
               case ActionSubType.GetAllData:
                 await this.dataService.getAllData(action)
                 break
+              case ActionSubType.GetDataByID:
+                await this.dataService.getDataByID(action)
+                break
               default:
             }
             break
@@ -173,6 +181,9 @@ export class EventsService{
                 break
               case ActionSubType.PersistNewData:
                 await this.dataService.persistNewData(action)
+                break
+              case ActionSubType.PersistUpdatedData:
+                await this.dataService.persistUpdatedData(action)
                 break
               default:
             }
