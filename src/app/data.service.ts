@@ -14,6 +14,7 @@ import {Observable} from "rxjs";
 import {ComponentModel} from "./models/ComponentModel";
 import {RootComponent} from "./configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
+import {DataObjectModel} from "./models/DataObjectModel";
 
 @Injectable({
   providedIn: 'root'
@@ -85,7 +86,7 @@ export class DataService {
     return undefined
   }
 
-  public updateData(name: string, value: Object[]|number | string | undefined) {
+  public updateData(name: string, value: DataObjectModel[]|number | string | undefined) {
     // todo fix zodat ook data multiselect werken voor bewaren
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {
@@ -242,14 +243,16 @@ export class DataService {
   }
 
   private getMutationParams(data: AttributeConfigModel[] | NoValueType.DBI): string {
-    // TODO steeds aanvullen met elke nieuw form component => uitproberen specifications
     if (data === NoValueType.DBI) return ''
     const strVal = data.map(x => {
-        return `
-      ${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions) ? (x.name + ':' || '') : ''}
-      ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '[':''}
-      ${(x.number?.value || x.text?.value || x.radio?.value) || ''}${(x.text?.value || x.radio?.value) ? '"' : ''}
-      `
+        return `\
+${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions) ? (x.name + ':' || '') : ''}\
+${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '[':''}${(x.multiselect?.selectedOptions?.length ?? 0)>0 ? '"':''}\
+${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions?.map(opt=>{
+  return opt.id
+  }).join('","')) || ''}${(x.multiselect?.selectedOptions?.length ?? 0)>0 ? '"':''}\
+${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']':''}
+`
       }
     )
       .reduce((x, y) => x += `,` + y).trim()
@@ -274,6 +277,7 @@ export class DataService {
                     name
                   }
                 }*/
+        debugger
         return this.apollo
           .mutate({
             mutation: gql`mutation Mutation {

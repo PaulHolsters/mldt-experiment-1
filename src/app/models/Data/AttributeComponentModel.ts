@@ -5,6 +5,7 @@ import {NumberAttributeComponentModel} from "./NumberAttributeComponentModel";
 import {RadioAttributeComponentModel} from "./RadioAttributeComponentModel";
 import {MultiSelectAttributeConfigModel} from "./MultiSelectAttributeConfigModel";
 import {MultiSelectAttributeComponentModel} from "./MultiSelectAttributeComponentModel";
+import {DataObjectModel} from "../DataObjectModel";
 export class AttributeComponentModel {
 constructor(
   public name:string,
@@ -16,7 +17,7 @@ constructor(
   public radio:RadioAttributeComponentModel|undefined,
   public multiselect:MultiSelectAttributeComponentModel|undefined,// todo nogaan hoe dit allemaal zit
   public concept:ConceptComponentModel|undefined,
-  public dataList:Object[]|undefined,
+  public dataList:DataObjectModel[]|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA,
   public advisoryText:string|NoValueType,
   public errorMessages:string[]|NoValueType,
