@@ -10,7 +10,7 @@ import {AttributeComponentModel} from "./models/Data/AttributeComponentModel";
 import {NoValueType} from "./enums/no_value_type";
 import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
-import {Observable} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {ComponentModel} from "./models/ComponentModel";
 import {RootComponent} from "./configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
@@ -27,13 +27,13 @@ export class DataService {
   // todo a way to filter data
   // todo a way to order data
   private objectData: ConceptComponentModel[] = []
-
   private capitalizeFirst(text: string): string {
     return text.charAt(0).toUpperCase() + text.substring(1)
   }
 
   private getAllAttributes(compName: string, data: ConceptConfigModel | string[]): string {
-    // todo voorlopig enkel 1 diep
+    // TODO voorlopig enkel 1 diep => inderdaad nu zijn er specifications en we moeten specifieren welke attributen we daarvan nodig hebben
+    //      dus op zijn minst twee diep gaan!
     if (data instanceof ConceptConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
         return x.name || ''
@@ -56,9 +56,8 @@ export class DataService {
       } else {
         throw new Error('Attributen niet gevonden. Kijk je configuratie na.')
       }
-      throw new Error('Methode getAllAttributes onvolledig of incorrect')
     }
-    return 'name\nbasePrice\ncreationDate'
+    throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
 
   private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]): ConceptComponentModel | undefined {
@@ -196,7 +195,7 @@ export class DataService {
     })
   }
 
-  private query(querySubType: QuerySubType, compConfig: ComponentModel): any {
+  private query(querySubType: QuerySubType, compConfig: ComponentModel,id?:string): any {
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         if (compConfig.data instanceof ConceptConfigModel) {
@@ -215,12 +214,11 @@ export class DataService {
         break
       case QuerySubType.GetDataByID:
         if (compConfig.data instanceof ConceptConfigModel) {
+          debugger
+          console.log(this.capitalizeFirst(compConfig.data.conceptName),id,this.getAllAttributes(compConfig.name, compConfig.data))
+          debugger
           const GET_BY_ID = `{
-        getDetailsOf${this.capitalizeFirst(compConfig.data.conceptName)}(id:${
-            this.objectData.find(conceptM => {
-              return conceptM.conceptName === compConfig?.name
-            })?.conceptId
-          }){
+        getDetailsOf${this.capitalizeFirst(compConfig.data.conceptName)}(id:"${id}"){
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
         }
         }`
@@ -230,6 +228,7 @@ export class DataService {
               query: gql`${GET_BY_ID}`
             }).valueChanges
         }
+        debugger
         break
       case QuerySubType.GetAllData:
         // todo getAllAttributes geeft "specifications" terug terwijl dit "name" moet zijn ....
@@ -361,7 +360,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     return attr
   }
 
-  public async getDataBluePrint(action: ActionModel) {
+  public getDataBluePrint(action: ActionModel) {
     debugger
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
@@ -374,7 +373,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         compModel = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       }
       if (compModel !== undefined) {
-        await this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
+        this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
@@ -383,8 +382,9 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
               this.objectData.push(compObj)
               // todo fix bug: hier wordt de data voor multiselect opgehaald terwijl die nog niet klaar is
               this.setDataObjectState(compModel.name, compModel.type, compObj)
-debugger
+
             }
+            debugger
           }
         })
       }
@@ -422,23 +422,21 @@ debugger
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
 
-  public async getDataByID(action: ActionModel) {
-    // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
-    // er door elke component bevraging kan gedaan worden naar deze data
-    // eens de data binnen is worden de verschillende componenten die de data
-    // of een deel van de data nodig hebben daarvan op de hoogte gebracht door
-    // de data door te sturen via de dataAttribute of dataConcept component property
+  public async getDataByID(action: ActionModel,id:string) {
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
-        await this.query(QuerySubType.GetDataByID, comp).subscribe((res: unknown) => {
+        debugger
+        await this.query(QuerySubType.GetDataByID, comp,id).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
-
+            debugger
             // todo aanpassen!!!!!!!!!!!!!!!!!!!!!!!
             const dataByID = (res as { data: {} })['data']
+            debugger
             const data = Object.values(dataByID)[0] as []
-            if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
+            debugger
+/*            if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
               const attributeModel = this.getDataObject(comp.data, comp.type)
               attributeModel.dataList = []
               data.forEach(record => {
@@ -447,7 +445,7 @@ debugger
                 }
               })
               this.setDataObjectState(comp.name, comp.type)
-            }
+            }*/
 
 
           }

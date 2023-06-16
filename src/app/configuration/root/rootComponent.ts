@@ -48,7 +48,7 @@ export const  RootComponent = new AppConfig( {
       sourceName: 'content-container',
       on: EventType.RootComponentReady
     },
-    {
+/*    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataBluePrint,
       targetType: TargetType.Component,
@@ -63,7 +63,7 @@ export const  RootComponent = new AppConfig( {
       targetName: 'fc4-container',
       sourceName: 'my first form',
       on: EventType.ComponentReady
-    },
+    },*/
     {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataByID,

@@ -26,11 +26,7 @@ export class EventsService{
     }
     this.storeService.appConfig?.getActionsForEvent(event).forEach(async action=>{
       if(action.sourceName===source){
-        if(data !== NoValueType.NA && !(data instanceof AppConfig) && action.actionSubType === 7){
-          // todo dit gebeurt voordat getDataBluePrint klaar is, dat is een probleem
-          this.dataService.saveConceptId(data,action)
-        }
-        await this.executeAction(action)
+        await this.executeAction(action,data)
       }
     })
   }
@@ -127,7 +123,7 @@ export class EventsService{
       }
     }))
   }
-  private async executeAction(action: ActionModel) {
+  private async executeAction(action: ActionModel,data?:string){
     switch (action.on) {
       case EventType.RootComponentReady:
         switch (action.actionType) {
@@ -163,7 +159,8 @@ export class EventsService{
                 await this.dataService.getAllData(action)
                 break
               case ActionSubType.GetDataByID:
-                await this.dataService.getDataByID(action)
+                if(data)
+                await this.dataService.getDataByID(action,data)
                 break
               default:
             }
@@ -189,9 +186,9 @@ export class EventsService{
             }
             break
         }
-
         break
-      default:
+      default: return undefined
     }
+    return undefined
   }
 }
