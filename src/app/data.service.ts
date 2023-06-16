@@ -32,10 +32,12 @@ export class DataService {
   }
 
   private getAllAttributes(compName: string, data: ConceptConfigModel | string[]): string {
-    // TODO voorlopig enkel 1 diep => inderdaad nu zijn er specifications en we moeten specifieren welke attributen we daarvan nodig hebben
-    //      dus op zijn minst twee diep gaan!
     if (data instanceof ConceptConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
+        if(x.concept && x.concept.attributes && x.concept.attributes instanceof Array){
+          // todo zie dat je eindeloos kan gaan indien nodig
+          return x.name+`{id\n${x.concept.attributes.map(attr=>attr.name).join('\n')}}`
+        }
         return x.name || ''
       }).reduce((x, y) => x += '\n' + y, '')
     } else if (!(data instanceof ConceptConfigModel)) {
@@ -87,7 +89,6 @@ export class DataService {
   }
 
   public updateData(name: string, value: DataObjectModel[] | number | string | undefined) {
-    // todo fix zodat ook data multiselect werken voor bewaren
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === parts[0]
@@ -168,7 +169,6 @@ export class DataService {
         dataLinkCopy.splice(0, 1)
       }
       if (currentAttr && typeof currentAttr !== 'string') {
-        // todo probleem is dat getAllData nog niet klaar zit terwijl al wel de cvall gebeurt ???
         currentAttr = this.replaceDBIValues(obj, currentAttr)
         return currentAttr
       }
@@ -199,36 +199,32 @@ export class DataService {
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         if (compConfig.data instanceof ConceptConfigModel) {
-          const GET_BLUEPRINT = gql`
+          const GET_BLUEPRINT = `
                     {
                       getBluePrintOf${this.capitalizeFirst(compConfig.data.conceptName)}{
-                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
+                      ${this.getAllAttributes(compConfig.name, compConfig.data)}
                       }
                     }
         `
+          console.log(GET_BLUEPRINT)
           return this.apollo
             .watchQuery<any>({
-              query: GET_BLUEPRINT
+              query: gql`${GET_BLUEPRINT}`
             }).valueChanges
         }
         break
       case QuerySubType.GetDataByID:
         if (compConfig.data instanceof ConceptConfigModel) {
-          debugger
-          console.log(this.capitalizeFirst(compConfig.data.conceptName),id,this.getAllAttributes(compConfig.name, compConfig.data))
-          debugger
           const GET_BY_ID = `{
         getDetailsOf${this.capitalizeFirst(compConfig.data.conceptName)}(id:"${id}"){
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
         }
         }`
-          console.log(GET_BY_ID)
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BY_ID}`
             }).valueChanges
         }
-        debugger
         break
       case QuerySubType.GetAllData:
         // todo getAllAttributes geeft "specifications" terug terwijl dit "name" moet zijn ....
@@ -285,7 +281,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
                     name
                   }
                 }*/
-        debugger
         return this.apollo
           .mutate({
             mutation: gql`mutation Mutation {
@@ -318,7 +313,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       console.log(res, 'yeah!')
     })
   }
-
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
     if (attr.radio) {
       if (attr.radio.conceptName === NoValueType.DBI) {
@@ -338,6 +332,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         }
       }
     } else if (attr.multiselect) {
+      debugger
       // op dit punt mag je er al vanuit gaan dat het inderdaad gaat om een multiselect die data nodig heeft
       const dataType = (concept.attributes as AttributeConfigModel[]).find(attrConfig => {
         return attrConfig.multiselect !== undefined
@@ -347,10 +342,8 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         attr.multiselect.conceptName = concept.conceptName
       }
       if (attr.multiselect.options === NoValueType.DBI) {
-        if (dataType && dataType.lastIndexOf('}') === dataType.length - 3
-          && dataType.lastIndexOf('[') === dataType.length - 2
-          && dataType.lastIndexOf(']') === dataType.length - 1) {
-          if (attr.dataList) attr.multiselect.options = [...attr.dataList]
+        if (attr.dataType instanceof Array) {
+          attr.multiselect.options = [...attr.dataType]
         }
       }
       if (attr.multiselect.optionLabel === NoValueType.DBI) {
@@ -359,9 +352,8 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     }
     return attr
   }
-
   public getDataBluePrint(action: ActionModel) {
-    debugger
+    // todo deze methode moet alles ophalen niet alleen de enum values, ook multiselect waarden
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
@@ -377,21 +369,20 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
+            debugger
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
+            debugger
             if (compObj) {
               this.objectData.push(compObj)
-              // todo fix bug: hier wordt de data voor multiselect opgehaald terwijl die nog niet klaar is
               this.setDataObjectState(compModel.name, compModel.type, compObj)
-
             }
-            debugger
           }
         })
       }
     }
   }
-
   public async getAllData(action: ActionModel) {
+    // todo deze methode moet weg en vervangen worden voor een lijst van volwaardige concepten
     // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
     // er door elke component bevraging kan gedaan worden naar deze data
     // eens de data binnen is worden de verschillende componenten die de data
@@ -421,40 +412,30 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     }
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-
   public async getDataByID(action: ActionModel,id:string) {
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
-        debugger
         await this.query(QuerySubType.GetDataByID, comp,id).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
-            debugger
-            // todo aanpassen!!!!!!!!!!!!!!!!!!!!!!!
             const dataByID = (res as { data: {} })['data']
-            debugger
-            const data = Object.values(dataByID)[0] as []
-            debugger
-/*            if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
-              const attributeModel = this.getDataObject(comp.data, comp.type)
-              attributeModel.dataList = []
-              data.forEach(record => {
-                if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
-                  attributeModel?.dataList?.push(record)
-                }
-              })
-              this.setDataObjectState(comp.name, comp.type)
-            }*/
-
-
+            const data = Object.values(dataByID)[0] as Object
+            // todo deze methode zet de effectieve waarde in dataType
+            // todo zorg dta je alle enums krijgt en ook alle waarde voor multiselect
+            //      maw deze methode werkt goed voor getDataBluePrint maar niet ideaal voor andere methodes
+            const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
+            console.log(data,compObj)
+            if (compObj) {
+              this.objectData.push(compObj)
+              this.setDataObjectState(comp.name, comp.type, compObj)
+            }
           }
         })
       }
     }
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-
   saveConceptId(data: string, action: ActionModel) {
     debugger
     if (action.targetType === TargetType.Component) {

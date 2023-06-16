@@ -9,7 +9,7 @@ import {DataObjectModel} from "../DataObjectModel";
 export class AttributeComponentModel {
 constructor(
   public name:string,
-  public dataType:string,
+  public dataType:string|DataObjectModel[],
   public disabled:boolean,
   public floatLabel:boolean,
   public text:TextAttributeComponentModel|undefined,
