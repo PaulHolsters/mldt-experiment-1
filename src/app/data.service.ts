@@ -62,7 +62,7 @@ export class DataService {
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
 
-  private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]): ConceptComponentModel | undefined {
+  private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
     if (compConfig instanceof ConceptConfigModel && !(data instanceof Array)) {
       let newObj: ConceptComponentModel = {
         conceptId:NoValueType.NA,
@@ -71,7 +71,7 @@ export class DataService {
         errorMessages: NoValueType.NI
       }
       const configCopy = {...compConfig}
-      if (configCopy.attributes && configCopy.attributes instanceof Array)
+      if (configCopy.attributes && configCopy.attributes instanceof Array){
         configCopy.attributes?.forEach(attr => {
           const entry = Object.entries(data).find(([k, v]) => {
             return k === attr.name
@@ -83,7 +83,17 @@ export class DataService {
             (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
           }
         })
-      return newObj
+        return newObj
+      }
+    } else if(data instanceof Array && compConfig instanceof ConceptConfigModel){
+      return {
+        conceptId:NoValueType.NA,
+        conceptName: compConfig.conceptName,
+        // todo vul aan met attributes door deze methode in recursie nog is te doorlopen
+        attributes: [],
+        errorMessages: NoValueType.NI,
+        dataList:data
+      }
     }
     return undefined
   }
@@ -174,18 +184,15 @@ export class DataService {
     throw new Error('Data voor datalink ' + dataLink.toString() + ' en component type ' + componentType + ' niet gevonden.')
   }
   private setDataObjectState(nameComponent: string, componentType: ComponentType, compConcept?: ConceptComponentModel) {
-    // ga elke component af in de statePropertySubjects
-    // en verzend de gevraagde data op basis van een data property of een datalink property
+    // todo prepareer voor een table component
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       // todo refactor
       let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
-        // dit zal er voor zorgen dat multiselect hier niet zal reageren => comp.data is geen instance van
         if (comp.data.conceptName === nameComponent) propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
-        // todo na een nieuwe actie gaan alle attributen terug opgehaald worden wat niet nodig is
         const data: AttributeComponentModel = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
@@ -246,8 +253,6 @@ export class DataService {
                       }
                     }
         `
-          console.log(GET_ALL)
-          debugger
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_ALL}`
@@ -273,24 +278,12 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     // todo zorg nog voor een meer ordelijke GQL string hier
     return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal
   }
-
   public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType): Observable<any> | undefined {
     if (data instanceof ConceptConfigModel) {
       const currentData = this.objectData.find(dataObj => {
         return dataObj.conceptName === data.conceptName
       })
       if (currentData) {
-        console.log(`mutation Mutation {
-              ${verb}${this.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
-                    id
-              }
-            }`)
-        /*        mutation Mutation($name: String) {
-                  createSpecification(name: $name) {
-                    id
-                    name
-                  }
-                }*/
         return this.apollo
           .mutate({
             mutation: gql`mutation Mutation {
@@ -303,7 +296,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       return undefined
     } else throw new Error('Geen geldige data configuratie.')
   }
-
   public async persistNewData(action: ActionModel) {
     let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
@@ -313,7 +305,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       console.log(res, 'yeah!')
     })
   }
-
   public async persistUpdatedData(action: ActionModel) {
     let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
@@ -373,9 +364,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as Object
-            debugger
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
-            debugger
             if (compObj) {
               this.objectData.push(compObj)
               this.setDataObjectState(compModel.name, compModel.type, compObj)
@@ -394,6 +383,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as []
+            const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
               const attributeModel = this.getDataObject(comp.data, comp.type)
               // TODO ik denk niet dat een datalist nog nodig is
@@ -404,9 +394,11 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
                 }
               })
               this.setDataObjectState(comp.name, comp.type)
-            } else {
+            } else if(compObj) {
               // todo maak een tabel component zodat je dit degelijker kan testen
-
+              this.objectData.push(compObj)
+              this.setDataObjectState(comp.name, comp.type, compObj)
+              debugger
             }
           }
         })
