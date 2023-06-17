@@ -10,7 +10,7 @@ import {AttributeComponentModel} from "./models/Data/AttributeComponentModel";
 import {NoValueType} from "./enums/no_value_type";
 import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
-import {lastValueFrom, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {ComponentModel} from "./models/ComponentModel";
 import {RootComponent} from "./configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
@@ -25,7 +25,7 @@ export class DataService {
 
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
-  // todo a way to order data
+  // todo a way to order data (sort)
   private objectData: ConceptComponentModel[] = []
   private capitalizeFirst(text: string): string {
     return text.charAt(0).toUpperCase() + text.substring(1)
@@ -125,7 +125,6 @@ export class DataService {
       }
     }
   }
-
   private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
     switch (componentType) {
       case ComponentType.MultiSelect:
@@ -140,7 +139,6 @@ export class DataService {
         return true
     }
   }
-
   public getDataObject(dataLink: string[], componentType: ComponentType): AttributeComponentModel {
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
@@ -175,7 +173,6 @@ export class DataService {
     }
     throw new Error('Data voor datalink ' + dataLink.toString() + ' en component type ' + componentType + ' niet gevonden.')
   }
-
   private setDataObjectState(nameComponent: string, componentType: ComponentType, compConcept?: ConceptComponentModel) {
     // ga elke component af in de statePropertySubjects
     // en verzend de gevraagde data op basis van een data property of een datalink property
@@ -194,7 +191,6 @@ export class DataService {
       }
     })
   }
-
   private query(querySubType: QuerySubType, compConfig: ComponentModel,id?:string): any {
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
@@ -206,7 +202,6 @@ export class DataService {
                       }
                     }
         `
-          console.log(GET_BLUEPRINT)
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BLUEPRINT}`
@@ -227,9 +222,9 @@ export class DataService {
         }
         break
       case QuerySubType.GetAllData:
-        // todo getAllAttributes geeft "specifications" terug terwijl dit "name" moet zijn ....
+        // typisch voor een component zoals een tabel
         if (compConfig.data && !(compConfig.data instanceof ConceptConfigModel)) {
-          const GET_ALL = gql`
+          const GET_ALL = `
                     {
                       get${this.capitalizeFirst(compConfig.data[compConfig.data.length - 1])}{
                       id
@@ -239,13 +234,28 @@ export class DataService {
         `
           return this.apollo
             .watchQuery<any>({
-              query: GET_ALL
+              query: gql`${GET_ALL}`
+            }).valueChanges
+        } else if(compConfig.data instanceof ConceptConfigModel){
+          // het bovenste is voor als je enkel een subconcept nodig zou hebben, mogelijk is dat zelfs nooit het geval
+          const GET_ALL = `
+                    {
+                      get${this.capitalizeFirst(compConfig.data.conceptName)}s{
+                      id
+                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
+                      }
+                    }
+        `
+          console.log(GET_ALL)
+          debugger
+          return this.apollo
+            .watchQuery<any>({
+              query: gql`${GET_ALL}`
             }).valueChanges
         }
         break
     }
   }
-
   private getMutationParams(data: AttributeConfigModel[] | NoValueType.DBI): string {
     if (data === NoValueType.DBI) return ''
     const strVal = data.map(x => {
@@ -353,12 +363,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     return attr
   }
   public getDataBluePrint(action: ActionModel) {
-    // todo deze methode moet alles ophalen niet alleen de enum values, ook multiselect waarden
-    // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
-    // er door elke component bevraging kan gedaan worden naar deze data
-    // eens de data binnen is worden de verschillende componenten die de data
-    // of een deel van de data nodig hebben daarvan op de hoogte gebracht door middel van een event
-    // welke componenten dat zijn kan worden afgeleid uit de configuratie van de gebruiker
     if (action.targetType === TargetType.Component) {
       let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!compModel) {
@@ -382,12 +386,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     }
   }
   public async getAllData(action: ActionModel) {
-    // todo deze methode moet weg en vervangen worden voor een lijst van volwaardige concepten
-    // nadat de data opgehaald is van de server wordt deze opgeslagen zodat
-    // er door elke component bevraging kan gedaan worden naar deze data
-    // eens de data binnen is worden de verschillende componenten die de data
-    // of een deel van de data nodig hebben daarvan op de hoogte gebracht door
-    // de data door te sturen via de dataAttribute of dataConcept component property
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
@@ -398,6 +396,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const data = Object.values(allData)[0] as []
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
               const attributeModel = this.getDataObject(comp.data, comp.type)
+              // TODO ik denk niet dat een datalist nog nodig is
               attributeModel.dataList = []
               data.forEach(record => {
                 if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
@@ -405,6 +404,9 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
                 }
               })
               this.setDataObjectState(comp.name, comp.type)
+            } else {
+              // todo maak een tabel component zodat je dit degelijker kan testen
+
             }
           }
         })

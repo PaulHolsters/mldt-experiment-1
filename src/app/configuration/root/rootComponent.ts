@@ -40,14 +40,15 @@ export const  RootComponent = new AppConfig( {
   // hou er rekening mee dat de volgorde van de actions in deze array gevolgen kunnen hebben op
   // de condities zoals gedefinieerd in de overeenkomstige actie
   actions: [
-       {
+/*       {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataBluePrint,
       targetType: TargetType.Component,
       targetName: 'form-container',
       sourceName: 'my first form',
       on: EventType.ComponentReady
-    },/*
+    },*/
+    /*
     {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetAllData,
@@ -87,6 +88,14 @@ export const  RootComponent = new AppConfig( {
       targetName: NoValueType.NA,
       sourceName: 'content-container',
       on: EventType.RootComponentReady
+    },
+           {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.GetAllData,
+      targetType: TargetType.Component,
+      targetName: 'form-container',
+      sourceName: 'my first form',
+      on: EventType.ComponentReady
     },
 /*    {
       actionType: ActionType.Server,
