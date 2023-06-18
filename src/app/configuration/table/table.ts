@@ -10,6 +10,7 @@ import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfi
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
+import {conceptModel} from "../root/appDataModel";
 export const table = {
   name: 'table',
   type: ComponentType.Table,
@@ -23,5 +24,5 @@ export const table = {
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
     ), DynamicDimensionValueConfigType.NC)
   )),
-  data:new ConceptConfigModel('product')
+  data:conceptModel
 }

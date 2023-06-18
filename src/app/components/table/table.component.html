@@ -1,4 +1,4 @@
-<p-table [columns]="getColumns()" [value]="(value$|async) ?? []">
+<p-table [columns]="getColumns()" [value]="dataList ?? []">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let column of columns">{{column['header']}}</th>

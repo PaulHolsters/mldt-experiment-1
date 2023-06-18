@@ -16,7 +16,7 @@ import {ButtonLayoutType} from "../../enums/buttonLayoutType.enum";
 import {RadioAttributeConfigModel} from "../../models/Data/RadioAttributeConfigModel";
 import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttributeConfigModel";
 
-export const formData = new ConceptConfigModel(
+export const conceptModel = new ConceptConfigModel(
   'product',
   [
     new AttributeConfigModel(

@@ -179,14 +179,13 @@ export class DataService {
     throw new Error('Data voor datalink ' + dataLink.toString() + ' en component type ' + componentType + ' niet gevonden.')
   }
   private setDataObjectState(nameComponent: string, componentType: ComponentType, compConcept?: ConceptComponentModel) {
-    // todo prepareer voor een table component
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       // todo refactor
       let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel) {
-        if (comp.data.conceptName === nameComponent) propSubj.propValue.next(compConcept)
+        if (comp.name === nameComponent) propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
         const data: AttributeComponentModel = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)

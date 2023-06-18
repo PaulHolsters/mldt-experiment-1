@@ -14,7 +14,7 @@ import {formControl1} from "./formControl1";
 import {formControl2} from "./formControl2";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
-import {formData} from "./formDataModel";
+import {conceptModel} from "../root/appDataModel";
 import {formControl3} from "./formControl3";
 import {formControl4} from "./formControl4";
 
@@ -49,5 +49,5 @@ export const formContainer = new ComponentModel(
     }
   ],
   undefined,
-  formData
+  conceptModel
 )
