@@ -15,14 +15,12 @@ import {ComponentModel} from "./models/ComponentModel";
 import {RootComponent} from "./configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
 import {DataObjectModel} from "./models/DataObjectModel";
-
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   constructor(private storeService: StoreService, private apollo: Apollo) {
   }
-
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
   // todo a way to order data (sort)
@@ -30,7 +28,6 @@ export class DataService {
   private capitalizeFirst(text: string): string {
     return text.charAt(0).toUpperCase() + text.substring(1)
   }
-
   private getAllAttributes(compName: string, data: ConceptConfigModel | string[]): string {
     if (data instanceof ConceptConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
@@ -61,7 +58,6 @@ export class DataService {
     }
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
-
   private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
     if (compConfig instanceof ConceptConfigModel && !(data instanceof Array)) {
       let newObj: ConceptComponentModel = {
@@ -97,7 +93,6 @@ export class DataService {
     }
     return undefined
   }
-
   public updateData(name: string, value: DataObjectModel[] | number | string | undefined) {
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {

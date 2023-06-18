@@ -38,6 +38,8 @@ import {MultiselectComponent} from "./components/form/multiselect/multiselect.co
 import {PicklistComponent} from "./components/form/picklist/picklist.component";
 import {MultiSelectModule} from "primeng/multiselect";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { TableComponent } from './components/table/table.component';
+import {TableModule} from "primeng/table";
 
 @NgModule({
   declarations: [
@@ -65,24 +67,26 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     RadioButtonComponent,
     WrapperComponent,
     MultiselectComponent,
-    PicklistComponent
+    PicklistComponent,
+    TableComponent
   ],
-  imports: [
-    BrowserModule,
-    CardModule,
-    ButtonModule,
-    MenubarModule,
-    InputTextModule,
-    ImageModule,
-    FormsModule,
-    GraphQLModule,
-    HttpClientModule,
-    KeyFilterModule,
-    InputNumberModule,
-    RadioButtonModule,
-    MultiSelectModule,
-    BrowserAnimationsModule
-  ],
+    imports: [
+        BrowserModule,
+        CardModule,
+        ButtonModule,
+        MenubarModule,
+        InputTextModule,
+        ImageModule,
+        FormsModule,
+        GraphQLModule,
+        HttpClientModule,
+        KeyFilterModule,
+        InputNumberModule,
+        RadioButtonModule,
+        MultiSelectModule,
+        BrowserAnimationsModule,
+        TableModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

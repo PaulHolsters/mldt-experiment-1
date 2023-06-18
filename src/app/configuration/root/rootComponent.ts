@@ -17,7 +17,7 @@ import {ActionSubType} from "../../enums/actionSubTypes.enum";
 import {TargetType} from "../../enums/targetTypes.enum";
 import {EventType} from "../../enums/eventTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
-import {form2} from "../form2/form2";
+import {table} from "../table/table";
 
 export const  RootComponent = new AppConfig( {
   components: [
@@ -33,7 +33,8 @@ export const  RootComponent = new AppConfig( {
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
         header,
-        form
+        form,
+        table
       ]
     },
   ],
