@@ -25,7 +25,7 @@ export class DataService {
   // todo a way to filter data
   // todo a way to order data (sort)
   private objectData: ConceptComponentModel[] = []
-  private capitalizeFirst(text: string): string {
+  capitalizeFirst(text: string): string {
     return text.charAt(0).toUpperCase() + text.substring(1)
   }
   private getAllAttributes(compName: string, data: ConceptConfigModel | string[]): string {
