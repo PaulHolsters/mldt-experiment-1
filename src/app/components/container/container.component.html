@@ -44,6 +44,11 @@
   <ng-content></ng-content>
   <ng-container *ngIf="(children$|async)">
     <ng-container *ngFor="let child of children$|async">
+      <!--
+      TODO
+            !!! fix bug: de hoogte moet hier automatisch 100% zijn al kan het zijn dat dit dan weer op een ander vlak problemen geeft !!
+            of bepaalde componenten moeten verplicht in een container zitten van hun eigen? Bij form in config moet overflow nog opgezet worden
+      -->
       <div
         *ngIf="(dataAttribute && !dataAttribute.floatLabel)||child.type !== componentType.Label||(child.type === componentType.Label &&
       !dataAttribute
@@ -249,6 +254,14 @@
                          [name]="child.name"
                          [conceptId]="'648ae00b9b404a9b8fa2a3c1'"
        ></m-form>
+        <m-table          [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                         [style.height]="'100%'"
+                         [style.width]="'100%'"
+                         *ngSwitchCase="componentType.Table"
+                         [name]="child.name"
+        ></m-table>
         <m-container *ngSwitchCase="componentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

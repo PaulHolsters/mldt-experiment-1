@@ -94,18 +94,18 @@ export const  RootComponent = new AppConfig( {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetAllData,
       targetType: TargetType.Component,
-      targetName: 'form-container',
-      sourceName: 'my first form',
+      targetName: 'table',
+      sourceName: 'table',
       on: EventType.ComponentReady
     },
-/*    {
+    {
       actionType: ActionType.Server,
-      actionSubType: ActionSubType.GetDataByID,
+      actionSubType: ActionSubType.GetDataBluePrint,
       targetType: TargetType.Component,
       targetName: 'form-container',
       sourceName: 'my first form',
       on: EventType.ComponentReady
-    },*/
+    },
     {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.PersistNewData,
