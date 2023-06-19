@@ -68,7 +68,6 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
   nameFormControl: string | undefined
 
   constructor(private storeService: StoreService, private cd: ChangeDetectorRef, private eventsService: EventsService) {
-    console.log('constructing cont')
   }
 
   ngAfterContentChecked(): void {

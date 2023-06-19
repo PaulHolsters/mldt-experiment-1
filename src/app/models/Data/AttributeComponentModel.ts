@@ -3,13 +3,13 @@ import {NoValueType} from "../../enums/no_value_type";
 import {TextAttributeComponentModel} from "./TextAttributeComponentModel";
 import {NumberAttributeComponentModel} from "./NumberAttributeComponentModel";
 import {RadioAttributeComponentModel} from "./RadioAttributeComponentModel";
-import {MultiSelectAttributeConfigModel} from "./MultiSelectAttributeConfigModel";
 import {MultiSelectAttributeComponentModel} from "./MultiSelectAttributeComponentModel";
 import {DataObjectModel} from "../DataObjectModel";
 export class AttributeComponentModel {
 constructor(
   public name:string,
   public dataType:string|DataObjectModel[],
+  public bluePrint:Map<string, string|DataObjectModel[]>|undefined,
   public disabled:boolean,
   public floatLabel:boolean|NoValueType.NA,
   public text:TextAttributeComponentModel|undefined,
