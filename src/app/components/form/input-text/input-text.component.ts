@@ -24,7 +24,7 @@ export class InputTextComponent implements OnInit {
   @Input() iconPosition: IconPositionType |NoValueType.NI| undefined
   @Input() advisoryText: string | undefined
   @Input() label: string | undefined
-  @Input() floatLabel: boolean | undefined
+  @Input() floatLabel: boolean | undefined | NoValueType.NA
   @Input() dirty: boolean | undefined
   @Input() invalid: boolean | undefined
   @Input() small: boolean | undefined

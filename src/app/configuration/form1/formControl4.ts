@@ -58,22 +58,21 @@ export const formControl4 = {
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )),
-// undefined,
         new ResponsiveAttributesConfigModel({
           dataLink: ['product', 'specifications']
         }),
         new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
         undefined,
-        [{
-          // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
-          // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
+        [
+          {
           name: 'fc4-label',
           type: ComponentType.Label,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-        }, {
-          name: 'fc4-multiselect', type: ComponentType.MultiSelect,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-        }],
+        },
+          {
+            name: 'fc4-multiselect', type: ComponentType.MultiSelect,
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+          }],
         undefined,
         ['product', 'specifications']
       ),

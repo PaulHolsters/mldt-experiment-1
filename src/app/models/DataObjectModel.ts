@@ -1,4 +1,5 @@
 export interface DataObjectModel
   extends Object {
-  id:string
+  id:string,
+  bluePrint:Object
 }

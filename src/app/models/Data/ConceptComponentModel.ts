@@ -8,7 +8,8 @@ constructor(
   public conceptName:string,
   public attributes:AttributeComponentModel[]|NoValueType.NA,
   public errorMessages:string[]|NoValueType.NI, // error boodschap op concept ipv attribuut niveau
-  public dataList?:DataObjectModel[]
+  public dataList?:DataObjectModel[],
+  public conceptBluePrint?:Object
 ) {
 }
 }

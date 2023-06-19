@@ -18,7 +18,9 @@ import {
 import {VerticalLayoutConfigPropsModel} from "../../models/ChildLayout/VerticalLayoutConfigPropsModel";
 import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisVerticalPositioningConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
-import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
+import {
+  CrossAxisVerticalLanesPositioningConfigType
+} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
@@ -29,6 +31,8 @@ import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfi
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
+import {FixedDimensionValueConfigType} from "../../enums/FixedDimensionValueConfigTypes.enum";
+import {WidthValueConfigType} from "../../enums/WidthValueConfigTypes.enum";
 
 export const header = {
   name: 'header-content',
@@ -270,8 +274,9 @@ export const header = {
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo hier moet een soort auto height of fit content height komen
-  /*            dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-                new HeightConfigPropsModel(FixedDimensionValueConfigType.NC, new DynamicDimensioningConfigModel(1,0,StretchValueConfigType.NA)),
-                WidthValueConfigType.NC
-              ))*/
+  dimensions: new ResponsiveDimensioningConfigModel(
+    new DimensioningConfigPropsModel(
+                new HeightConfigPropsModel(FixedDimensionValueConfigType.NC,DynamicDimensionValueConfigType.NC),
+                WidthValueConfigType.Parent
+    ))
 }

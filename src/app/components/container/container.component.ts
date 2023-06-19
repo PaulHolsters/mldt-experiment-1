@@ -93,6 +93,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
       })*/
       this.storeService.bindToStateProperty(this.name, 'dataAttribute')?.subscribe(res => {
         this.dataAttribute = res as AttributeComponentModel
+        console.log(this.name,res)
       })
       this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
         this.dataLink = res as string[]

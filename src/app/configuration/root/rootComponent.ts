@@ -19,7 +19,7 @@ import {EventType} from "../../enums/eventTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {table} from "../table/table";
 
-export const  RootComponent = new AppConfig( {
+export const RootComponent = new AppConfig({
   components: [
     {
       // todo start adding constraints
@@ -33,22 +33,22 @@ export const  RootComponent = new AppConfig( {
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
         header,
-        form,
-        table
+        table,
+        form
       ]
     },
   ],
   // hou er rekening mee dat de volgorde van de actions in deze array gevolgen kunnen hebben op
   // de condities zoals gedefinieerd in de overeenkomstige actie
   actions: [
-/*       {
-      actionType: ActionType.Server,
-      actionSubType: ActionSubType.GetDataBluePrint,
-      targetType: TargetType.Component,
-      targetName: 'form-container',
-      sourceName: 'my first form',
-      on: EventType.ComponentReady
-    },*/
+    /*       {
+          actionType: ActionType.Server,
+          actionSubType: ActionSubType.GetDataBluePrint,
+          targetType: TargetType.Component,
+          targetName: 'form-container',
+          sourceName: 'my first form',
+          on: EventType.ComponentReady
+        },*/
     /*
     {
       actionType: ActionType.Server,
@@ -90,7 +90,7 @@ export const  RootComponent = new AppConfig( {
       sourceName: 'content-container',
       on: EventType.RootComponentReady
     },
-           {
+    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetAllData,
       targetType: TargetType.Component,
@@ -98,9 +98,25 @@ export const  RootComponent = new AppConfig( {
       sourceName: 'table',
       on: EventType.ComponentReady
     },
+    /*    {
+          actionType: ActionType.Server,
+          actionSubType: ActionSubType.GetDataBluePrint,
+          targetType: TargetType.Component,
+          targetName: 'form-container',
+          sourceName: 'my first form',
+          on: EventType.ComponentReady
+        },
+        {
+          actionType: ActionType.Server,
+          actionSubType: ActionSubType.PersistNewData,
+          targetType: TargetType.API,
+          targetName: NoValueType.NA,
+          sourceName: 'submitbtn',
+          on: EventType.ComponentClicked
+        },*/
     {
       actionType: ActionType.Server,
-      actionSubType: ActionSubType.GetDataBluePrint,
+      actionSubType: ActionSubType.GetDataByID,
       targetType: TargetType.Component,
       targetName: 'form-container',
       sourceName: 'my first form',
@@ -108,7 +124,7 @@ export const  RootComponent = new AppConfig( {
     },
     {
       actionType: ActionType.Server,
-      actionSubType: ActionSubType.PersistNewData,
+      actionSubType: ActionSubType.PersistUpdatedData,
       targetType: TargetType.API,
       targetName: NoValueType.NA,
       sourceName: 'submitbtn',

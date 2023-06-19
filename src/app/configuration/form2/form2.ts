@@ -11,6 +11,9 @@ import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfi
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 import {formContainer2} from "./formContainer2";
+import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
+import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
+import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 export const form2 = {
   name: 'my 2e form',
   type: ComponentType.Form,
@@ -19,6 +22,7 @@ export const form2 = {
       content: formContainer2
     }
   ),
+  overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
     new HeightConfigPropsModel(

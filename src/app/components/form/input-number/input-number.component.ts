@@ -14,7 +14,7 @@ export class InputNumberComponent implements OnInit {
   @Input() name = ''
   @Input() advisoryText:string|undefined
   @Input() label:string|undefined
-  @Input() floatLabel:boolean|undefined
+  @Input() floatLabel:boolean|undefined| NoValueType.NA
   @Input() disabled:boolean|undefined
   @Input() dirty:boolean|undefined
   @Input() invalid:boolean|undefined

@@ -11,7 +11,7 @@ constructor(
   public name:string,
   public dataType:string|DataObjectModel[],
   public disabled:boolean,
-  public floatLabel:boolean,
+  public floatLabel:boolean|NoValueType.NA,
   public text:TextAttributeComponentModel|undefined,
   public number:NumberAttributeComponentModel|undefined,
   public radio:RadioAttributeComponentModel|undefined,

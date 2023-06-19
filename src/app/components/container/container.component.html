@@ -94,7 +94,7 @@
                              *ngSwitchCase="componentType.FormControl"
                              [name]="child.name"></m-formcontrol>
         <ng-container *ngSwitchCase="componentType.Label">
-          <m-label *ngIf="!dataAttribute?.floatLabel" [text]="(dataAttribute?.label !== NoValueType.DBI)
+          <m-label *ngIf="!dataAttribute?.floatLabel && dataAttribute?.floatLabel !== NoValueType.NA" [text]="(dataAttribute?.label !== NoValueType.DBI)
         && (dataAttribute?.label !== NoValueType.NA) ? dataAttribute?.label : dataAttribute?.name"
                    [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
@@ -126,7 +126,7 @@
                       dataAttribute?.text?.only === RestrictionType.Custom ? (dataAttribute?.text?.customRestriction !== RestrictionType.NA ?
                       dataAttribute?.text?.customRestriction : undefined) : undefined"
                         [label]="dataAttribute?.label"
-                        [floatLabel]="dataAttribute?.floatLabel"
+                        [floatLabel]="dataAttribute?.floatLabel === NoValueType.NA ? false : dataAttribute?.floatLabel"
                         [dirty]="false"
                         [invalid]="false"
                         [small]="dataAttribute?.text?.inputFontSize===InputFontSize.Small"
@@ -146,7 +146,7 @@
             [value]="dataAttribute?.number?.value === NoValueType.NVY || dataAttribute?.number?.value === NoValueType.NA ? undefined : dataAttribute?.number?.value"
             [advisoryText]="dataAttribute?.advisoryText"
             [label]="dataAttribute?.label"
-            [floatLabel]="dataAttribute?.floatLabel"
+            [floatLabel]="dataAttribute?.floatLabel === NoValueType.NA ? false : dataAttribute?.floatLabel"
             [dirty]="false"
             [invalid]="false"
             [disabled]="dataAttribute?.disabled"

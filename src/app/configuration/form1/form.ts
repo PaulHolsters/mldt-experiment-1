@@ -11,6 +11,9 @@ import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfi
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 import {formContainer} from "./formContainer";
+import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
+import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
+import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 export const form = {
   name: 'my first form',
   type: ComponentType.Form,
@@ -19,14 +22,6 @@ export const form = {
       content: formContainer
     }
   ),
+  overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    new HeightConfigPropsModel(
-      new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '90vh - 150px'),
-      DynamicDimensionValueConfigType.NC
-    ),
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-      DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
-    ), DynamicDimensionValueConfigType.NC)
-  ))
 }

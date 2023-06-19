@@ -11,18 +11,13 @@ import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/Responsiv
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
 import {conceptModel} from "../root/appDataModel";
+import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
+import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
+import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 export const table = {
   name: 'table',
   type: ComponentType.Table,
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    new HeightConfigPropsModel(
-      new FixedDimensioningConfigModel(DimensionValueConfigType.Calculated, '90vh - 150px'),
-      DynamicDimensionValueConfigType.NC
-    ),
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-      DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
-    ), DynamicDimensionValueConfigType.NC)
-  )),
+  overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   data:conceptModel
 }

@@ -62,7 +62,7 @@ export const conceptModel = new ConceptConfigModel(
       'specifications',
       undefined,
       false,
-      NoValueType.NA,
+      false,
       undefined,
       undefined,
       undefined,

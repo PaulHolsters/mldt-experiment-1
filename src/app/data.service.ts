@@ -15,6 +15,7 @@ import {ComponentModel} from "./models/ComponentModel";
 import {RootComponent} from "./configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
 import {DataObjectModel} from "./models/DataObjectModel";
+import {Data} from "@angular/router";
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +34,7 @@ export class DataService {
       return data.attributes.map(x => {
         if(x.concept && x.concept.attributes && x.concept.attributes instanceof Array){
           // todo zie dat je eindeloos kan gaan indien nodig
-          return x.name+`{id\n${x.concept.attributes.map(attr=>attr.name).join('\n')}}`
+          return x.name+`{\nid\n${x.concept.attributes.map(attr=>attr.name).join('\n')}}`
         }
         return x.name || ''
       }).reduce((x, y) => x += '\n' + y, '')
@@ -58,15 +59,17 @@ export class DataService {
     }
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
-  private createExtendedConceptModel(componentName: string, data: Object, compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
+  private createExtendedConceptModel(componentName: string, data: DataObjectModel|DataObjectModel[], compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
     if (compConfig instanceof ConceptConfigModel && !(data instanceof Array)) {
       let newObj: ConceptComponentModel = {
-        conceptId:NoValueType.NA,
+        conceptId: data.id ?? NoValueType.NA,
         conceptName: compConfig.conceptName,
         attributes: [],
-        errorMessages: NoValueType.NI
+        errorMessages: NoValueType.NI,
+        conceptBluePrint:data.bluePrint
       }
       const configCopy = {...compConfig}
+      debugger
       if (configCopy.attributes && configCopy.attributes instanceof Array){
         configCopy.attributes?.forEach(attr => {
           const entry = Object.entries(data).find(([k, v]) => {
@@ -79,9 +82,11 @@ export class DataService {
             (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
           }
         })
+        debugger
         return newObj
       }
     } else if(data instanceof Array && compConfig instanceof ConceptConfigModel){
+      debugger
       return {
         conceptId:NoValueType.NA,
         conceptName: compConfig.conceptName,
@@ -179,6 +184,7 @@ export class DataService {
     throw new Error('Data voor datalink ' + dataLink.toString() + ' en component type ' + componentType + ' niet gevonden.')
   }
   private setDataObjectState(nameComponent: string, componentType: ComponentType, compConcept?: ConceptComponentModel) {
+    //  TODO maak dit ook bruikbaar voor een getByID
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       // todo refactor
       let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
@@ -213,9 +219,12 @@ export class DataService {
         if (compConfig.data instanceof ConceptConfigModel) {
           const GET_BY_ID = `{
         getDetailsOf${this.capitalizeFirst(compConfig.data.conceptName)}(id:"${id}"){
+        id
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
+        bluePrint{${this.getAllAttributes(compConfig.name, compConfig.data)}}
         }
         }`
+          console.log(GET_BY_ID)
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BY_ID}`
@@ -327,7 +336,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         }
       }
     } else if (attr.multiselect) {
-      debugger
       // op dit punt mag je er al vanuit gaan dat het inderdaad gaat om een multiselect die data nodig heeft
       const dataType = (concept.attributes as AttributeConfigModel[]).find(attrConfig => {
         return attrConfig.multiselect !== undefined
@@ -357,7 +365,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
-            const bluePrint = Object.values(bluePrintData)[0] as Object
+            const bluePrint = Object.values(bluePrintData)[0] as DataObjectModel
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
             if (compObj) {
               this.objectData.push(compObj)
@@ -373,14 +381,11 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
-        debugger
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as []
-            debugger
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
-            debugger
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
               const attributeModel = this.getDataObject(comp.data, comp.type)
               // TODO ik denk niet dat een datalist nog nodig is
@@ -392,10 +397,8 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
               })
               this.setDataObjectState(comp.name, comp.type)
             } else if(compObj) {
-              // todo maak een tabel component zodat je dit degelijker kan testen
               this.objectData.push(compObj)
               this.setDataObjectState(comp.name, comp.type, compObj)
-              debugger
             }
           }
         })
@@ -411,16 +414,13 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         await this.query(QuerySubType.GetDataByID, comp,id).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const dataByID = (res as { data: {} })['data']
-            const data = Object.values(dataByID)[0] as Object
-            // todo deze methode zet de effectieve waarde in dataType
-            // todo zorg dta je alle enums krijgt en ook alle waarde voor multiselect
-            //      maw deze methode werkt goed voor getDataBluePrint maar niet ideaal voor andere methodes
+            const data = Object.values(dataByID)[0] as DataObjectModel
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
-            console.log(data,compObj)
             if (compObj) {
               this.objectData.push(compObj)
               this.setDataObjectState(comp.name, comp.type, compObj)
             }
+            debugger
           }
         })
       }
