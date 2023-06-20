@@ -200,6 +200,7 @@
         <ng-container *ngSwitchCase="componentType.RadioButton">
           <m-radio [name]="child.name"
                    [values]="getValues()"
+                   [selectedValue]="dataAttribute?.radio?.value"
                    [conceptName]="dataAttribute?.radio?.conceptName"
                    [dataName]="nameFormControl"
                    [dirty]="false"

@@ -22,6 +22,7 @@ export const conceptModel = new ConceptConfigModel(
     new AttributeConfigModel(
       'name',
       undefined,
+      undefined,
       false,
       false,
       new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
@@ -30,6 +31,7 @@ export const conceptModel = new ConceptConfigModel(
     ),
     new AttributeConfigModel(
       'cat',
+      undefined,
       undefined,
       false,
       false,
@@ -44,6 +46,7 @@ export const conceptModel = new ConceptConfigModel(
     ,
     new AttributeConfigModel(
       'price',
+      undefined,
       undefined,
       false,
       false,
@@ -61,6 +64,7 @@ export const conceptModel = new ConceptConfigModel(
     new AttributeConfigModel(
       'specifications',
       undefined,
+      undefined,
       false,
       false,
       undefined,
@@ -71,6 +75,7 @@ export const conceptModel = new ConceptConfigModel(
       new ConceptConfigModel('specification',[
         new AttributeConfigModel(
           'name',
+          undefined,
           undefined,
           false,
           false,

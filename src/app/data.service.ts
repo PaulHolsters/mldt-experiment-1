@@ -151,10 +151,8 @@ export class DataService {
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0] && dataObj.attributes.length > 0
     })
-    // TODO fix bu
     if (obj) {
       dataLinkCopy.splice(0, 1)
-      // todo haal de dataTypes op in de blueprint en zet dit er ook bij
       let attributes = [...obj.attributes]
       let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
         return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
@@ -178,7 +176,6 @@ export class DataService {
       if (currentAttr && typeof currentAttr !== 'string') {
         currentAttr = this.replaceDBIValues(obj, currentAttr)
         currentAttr = this.replaceNVYValues(obj,currentAttr)
-        debugger
          const [k,v] = Object.entries(obj.conceptBluePrint ?? {}).find(([k,v])=>{
           return k===spliced[0]
         }) ?? []
@@ -191,7 +188,6 @@ export class DataService {
     return undefined
   }
   private setDataObjectState(nameComponent: string, componentType: ComponentType, compConcept?: ConceptComponentModel) {
-    //  TODO maak dit ook bruikbaar voor een getByID
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       // todo refactor
       let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
@@ -231,7 +227,6 @@ export class DataService {
         bluePrint{${this.getAllAttributes(compConfig.name, compConfig.data)}}
         }
         }`
-          console.log(GET_BY_ID)
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BY_ID}`
@@ -325,41 +320,39 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     })
   }
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
-    if (attr.radio) {
-      if (attr.radio.conceptName === NoValueType.DBI) {
-        attr.radio.conceptName = concept.conceptName
-      }
-      if (attr.radio.values === NoValueType.DBI) {
-        const dataType = (concept.attributes as AttributeConfigModel[]).find(attrConfig => {
-          return attrConfig.radio !== undefined
-        })?.dataType
-        if (dataType && dataType.indexOf('enumVal') !== -1) {
-          const arr1Temp = dataType.split('},{enumVal:')
-          if (arr1Temp.length > 0 && typeof arr1Temp[0] === 'string')
-            arr1Temp[0] = arr1Temp[0].substring(9)
-          arr1Temp[arr1Temp.length - 1] = arr1Temp[arr1Temp.length - 1].substring(0, arr1Temp[arr1Temp.length - 1].length - 1)
-          const arr2Temp = arr1Temp.map(el => el.trim())
-          // todo fix fout is ook niet meer wat het was
-          attr.radio.values = [...arr2Temp]
+    if(concept.conceptBluePrint){
+      const arr = Object.entries(concept.conceptBluePrint).find(([k,v])=>{
+        return k === attr.name
+      })
+      if(arr){
+        const value = arr[1] as string|[]
+        if (attr.radio) {
+          if (attr.radio.conceptName === NoValueType.DBI) {
+            attr.radio.conceptName = concept.conceptName
+          }
+          if (attr.radio.values === NoValueType.DBI) {
+            if(typeof value === 'string' && value.indexOf('enumVal') !== -1){
+              const arr1Temp = value.split('},{enumVal:')
+              if (arr1Temp.length > 0 && typeof arr1Temp[0] === 'string')
+                arr1Temp[0] = arr1Temp[0].substring(9)
+              arr1Temp[arr1Temp.length - 1] = arr1Temp[arr1Temp.length - 1].substring(0, arr1Temp[arr1Temp.length - 1].length - 1)
+              const arr2Temp = arr1Temp.map(el => el.trim())
+              attr.radio.values = [...arr2Temp]
+            }
+          }
+        } else if (attr.multiselect) {
+          if (attr.multiselect.conceptName === NoValueType.DBI) {
+            attr.multiselect.conceptName = concept.conceptName
+          }
+          if (attr.multiselect.options === NoValueType.DBI) {
+            if (value instanceof Array) {
+              attr.multiselect.options = [...value]
+            }
+          }
+          if (attr.multiselect.optionLabel === NoValueType.DBI) {
+            // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
+          }
         }
-      }
-    } else if (attr.multiselect) {
-      // op dit punt mag je er al vanuit gaan dat het inderdaad gaat om een multiselect die data nodig heeft
-      const dataType = (concept.attributes as AttributeConfigModel[]).find(attrConfig => {
-        return attrConfig.multiselect !== undefined
-      })?.dataType
-      //{name:String}[]
-      if (attr.multiselect.conceptName === NoValueType.DBI) {
-        attr.multiselect.conceptName = concept.conceptName
-      }
-      if (attr.multiselect.options === NoValueType.DBI) {
-        if (attr.dataType instanceof Array) {
-          // todo fout nu is value neit volledige lijst met options
-          attr.multiselect.options = [...attr.dataType]
-        }
-      }
-      if (attr.multiselect.optionLabel === NoValueType.DBI) {
-        // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
       }
     }
     return attr
@@ -374,8 +367,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     if (attr.radio && attr.radio.value === NoValueType.NVY && attr.dataType && typeof attr.dataType === 'string') {
       attr.radio.value = attr.dataType
     }
-    if (attr.multiselect && attr.multiselect.selectedOptions === [] && attr.dataType && attr.dataType instanceof Array) {
-      debugger
+    if (attr.multiselect && attr.multiselect.selectedOptions.length===0 && attr.dataType && attr.dataType instanceof Array) {
       attr.multiselect.selectedOptions = attr.dataType
     }
     return attr
@@ -447,7 +439,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
               this.objectData.push(compObj)
               this.setDataObjectState(comp.name, comp.type, compObj)
             }
-            debugger
           }
         })
       }
@@ -455,7 +446,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
   saveConceptId(data: string, action: ActionModel) {
-    debugger
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)

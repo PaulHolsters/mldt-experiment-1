@@ -15,7 +15,7 @@ constructor(
   public text:TextAttributeComponentModel|undefined,
   public number:NumberAttributeComponentModel|undefined,
   public radio:RadioAttributeComponentModel|undefined,
-  public multiselect:MultiSelectAttributeComponentModel|undefined,// todo nogaan hoe dit allemaal zit
+  public multiselect:MultiSelectAttributeComponentModel|undefined,
   public concept:ConceptComponentModel|undefined,
   public dataList:DataObjectModel[]|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA,

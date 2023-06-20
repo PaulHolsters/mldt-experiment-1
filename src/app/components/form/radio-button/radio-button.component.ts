@@ -34,6 +34,7 @@ export class RadioButtonComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.name){
+      console.log(this.selectedValue)
       this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
       this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
     }

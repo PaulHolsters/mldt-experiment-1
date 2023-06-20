@@ -4,10 +4,12 @@ import {NumberAttributeConfigModel} from "./NumberAttributeConfigModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {RadioAttributeConfigModel} from "./RadioAttributeConfigModel";
 import {MultiSelectAttributeConfigModel} from "./MultiSelectAttributeConfigModel";
+import {DataObjectModel} from "../DataObjectModel";
 export class AttributeConfigModel {
 constructor(
   public name:string,// attribuutnaam of conceptnaam
   public dataType:string|undefined,
+  public bluePrint:Map<string, string|DataObjectModel[]>|undefined,
   public disabled:boolean|NoValueType=NoValueType.NA, // indien concept is dit niet van toepassing
   public floatLabel:boolean|NoValueType=NoValueType.NA,// indien concept is dit niet van toepassing
   public text:TextAttributeConfigModel|undefined,// indien concept is dit niet van toepassing
