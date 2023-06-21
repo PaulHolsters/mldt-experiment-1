@@ -8,7 +8,6 @@ import {ScreenSize} from "./enums/screenSizes.enum";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StoreService} from "./store.service";
 import AppConfig from "./configuration/appConfig";
-import {NoValueType} from "./enums/no_value_type";
 
 @Injectable({
   providedIn: 'root'
@@ -181,7 +180,7 @@ export class EventsService{
                 await this.dataService.persistNewData(action)
                 break
               case ActionSubType.PersistUpdatedData:
-                await this.dataService.persistUpdatedData(action)
+                  await this.dataService.persistUpdatedData(action)
                 break
               default:
             }

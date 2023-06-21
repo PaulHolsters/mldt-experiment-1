@@ -528,13 +528,11 @@ export class StoreService {
       return state.componentName === componentName && state.propName === propName
     })?.prop$
   }
-
   public hasStateProperty(compName:string,propName:string):boolean{
     return this.statePropertySubjects.find(propSubj=>{
       return propSubj.propName === propName && propSubj.componentName === compName
     }) !== undefined
   }
-
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
   }

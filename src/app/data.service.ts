@@ -283,41 +283,26 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     // todo zorg nog voor een meer ordelijke GQL string hier
     return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal
   }
-  public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType): Observable<any> | undefined {
+  public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType,id?:string): Observable<any> | undefined {
     if (data instanceof ConceptConfigModel) {
       const currentData = this.objectData.find(dataObj => {
         return dataObj.conceptName === data.conceptName
       })
       if (currentData) {
-        return this.apollo
-          .mutate({
-            mutation: gql`mutation Mutation {
-              ${verb}${this.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
+        const toEdit = id ? `id:"${id}",`: ''
+        const MUTATION = `mutation Mutation {
+              ${verb}${this.capitalizeFirst(data.conceptName)}(${toEdit}${this.getMutationParams(data.attributes)}) {
                     id
               }
             }`
+        console.log(MUTATION)
+        return this.apollo
+          .mutate({
+            mutation: gql`${MUTATION}`
           }) as unknown as Observable<any>
       }
       return undefined
     } else throw new Error('Geen geldige data configuratie.')
-  }
-  public async persistNewData(action: ActionModel) {
-    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
-    if (!comp) {
-      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
-    }
-    await this.mutate(comp?.data, MutationType.Create)?.subscribe(res => {
-      console.log(res, 'yeah!')
-    })
-  }
-  public async persistUpdatedData(action: ActionModel) {
-    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
-    if (!comp) {
-      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
-    }
-    await this.mutate(comp?.data, MutationType.Update)?.subscribe(res => {
-      console.log(res, 'yeah!')
-    })
   }
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
     if(concept.conceptBluePrint){
@@ -371,6 +356,32 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       attr.multiselect.selectedOptions = attr.dataType
     }
     return attr
+  }
+  public async persistNewData(action: ActionModel) {
+    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
+    if (!comp) {
+      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
+    }
+    await this.mutate(comp?.data, MutationType.Create)?.subscribe(res => {
+      console.log(res, 'yeah!')
+    })
+  }
+  public async persistUpdatedData(action: ActionModel) {
+    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
+    if (!comp) {
+      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
+    }
+    if(comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName){
+      const cname = comp.data.conceptName
+      const conceptId = this.objectData.find(d=>{
+        return d.conceptName === cname && d.conceptId !== NoValueType.NA
+      })?.conceptId
+      if(this.objectData.find(obj=>{return obj.conceptId===conceptId})){
+        await this.mutate(comp?.data, MutationType.Update,conceptId)?.subscribe(res => {
+          console.log(res, 'yeah!')
+        })
+      }
+    } else throw new Error('No valid conceptId could be found')
   }
   public getDataBluePrint(action: ActionModel) {
     if (action.targetType === TargetType.Component) {

@@ -69,6 +69,8 @@ export class InputTextComponent implements OnInit {
   }
 
   updateData() {
+    // todo fix bug: bij een edit action wordt de data niet gesynct
+    //      voor geen enkele formcontrol!
     this.dataService.updateData(this.name, this.value)
   }
 

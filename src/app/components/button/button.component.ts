@@ -49,6 +49,8 @@ export class ButtonComponent implements OnInit,AfterViewInit {
     this.cd.detectChanges()
   }
   trigger(event: EventType){
+    // todo hoe zorgen we ervoor dat we het juiste id krijgen?
+    //
     this.componentEventsService.triggerEvent(event,this.name)
   }
 }

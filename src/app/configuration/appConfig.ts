@@ -2,7 +2,6 @@ import {ComponentModel} from "../models/ComponentModel";
 import {ActionModel} from "../models/ActionModel";
 import {EventType} from "../enums/eventTypes.enum";
 import {ResponsiveAttributesConfigModel} from "../models/Attributes/ResponsiveAttributesConfigModel";
-
 export default class AppConfig {
   constructor(private _userConfig: {components:ComponentModel[],actions:ActionModel[]}) {
   }
@@ -226,11 +225,7 @@ export default class AppConfig {
     }
     return undefined
   }
-
 }
-
-
-
 /*
 *       {
       source: 'test-click-action',
