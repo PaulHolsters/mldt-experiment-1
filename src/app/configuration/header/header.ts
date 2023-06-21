@@ -31,7 +31,6 @@ import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfi
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
-import {FixedDimensionValueConfigType} from "../../enums/FixedDimensionValueConfigTypes.enum";
 import {WidthValueConfigType} from "../../enums/WidthValueConfigTypes.enum";
 
 export const header = {
@@ -276,7 +275,7 @@ export const header = {
   // todo hier moet een soort auto height of fit content height komen
   dimensions: new ResponsiveDimensioningConfigModel(
     new DimensioningConfigPropsModel(
-                new HeightConfigPropsModel(FixedDimensionValueConfigType.NC,DynamicDimensionValueConfigType.NC),
+               HeightValueConfigType.NC,
                 WidthValueConfigType.Parent
     ))
 }

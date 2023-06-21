@@ -60,13 +60,15 @@ export class DataService {
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
   private createExtendedConceptModel(componentName: string, data: DataObjectModel|DataObjectModel[], compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
+    // todo wat gebeurt er indien getById?
+    debugger
     if (compConfig instanceof ConceptConfigModel && !(data instanceof Array)) {
       let newObj: ConceptComponentModel = {
         conceptId: data.id ?? NoValueType.NA,
         conceptName: compConfig.conceptName,
         attributes: [],
         errorMessages: NoValueType.NI,
-        conceptBluePrint:data.bluePrint
+        conceptBluePrint:data.bluePrint ?? data // todo
       }
       const configCopy = {...compConfig}
       if (configCopy.attributes && configCopy.attributes instanceof Array){
@@ -77,7 +79,8 @@ export class DataService {
           if (entry && attr.name) {
             // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
             const attrExp = {...attr}
-            attrExp.dataType = entry[1];
+            attrExp.dataServer = entry[1];
+            //attrExp.dataType = entry[1];
             (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
           }
         })
@@ -107,17 +110,20 @@ export class DataService {
         })
         if (attr) {
           if (attr.text && typeof value === 'string') {
-            debugger
             attr.text.value = value
+            attr.dataServer = value
           }
           if (attr.number && typeof value === 'number') {
             attr.number.value = value
+            attr.dataServer = value
           }
           if (attr.radio && typeof value === 'string') {
             attr.radio.value = value
+            attr.dataServer = value
           }
           if (attr.multiselect && value instanceof Array) {
             attr.multiselect.selectedOptions = value
+            attr.dataServer = value
           }
           // todo alle andere datatypes
 
@@ -181,7 +187,7 @@ export class DataService {
           return k===spliced[0]
         }) ?? []
         if(k){
-          currentAttr.bluePrint = new Map([[k,v]])
+          currentAttr.dataBluePrint = new Map([[k,v]])
         }
         return currentAttr
       }
@@ -344,17 +350,17 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     return attr
   }
   private replaceNVYValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
-    if(attr.text && attr.text.value === NoValueType.NVY && attr.dataType && typeof attr.dataType === 'string'){
-      attr.text.value = attr.dataType
+    if(attr.text && attr.text.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string'){
+      attr.text.value = attr.dataServer
     }
-    if(attr.number && attr.number.value === NoValueType.NVY && attr.dataType && typeof attr.dataType === 'number'){
-      attr.number.value = attr.dataType
+    if(attr.number && attr.number.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'number'){
+      attr.number.value = attr.dataServer
     }
-    if (attr.radio && attr.radio.value === NoValueType.NVY && attr.dataType && typeof attr.dataType === 'string') {
-      attr.radio.value = attr.dataType
+    if (attr.radio && attr.radio.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string') {
+      attr.radio.value = attr.dataServer
     }
-    if (attr.multiselect && attr.multiselect.selectedOptions.length===0 && attr.dataType && attr.dataType instanceof Array) {
-      attr.multiselect.selectedOptions = attr.dataType
+    if (attr.multiselect && attr.multiselect.selectedOptions.length===0 && attr.dataServer && attr.dataServer instanceof Array) {
+      attr.multiselect.selectedOptions = attr.dataServer
     }
     return attr
   }
@@ -395,6 +401,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
             const bluePrint = Object.values(bluePrintData)[0] as DataObjectModel
+            debugger
             const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
             if (compObj) {
               this.objectData.push(compObj)
@@ -414,6 +421,8 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as []
+            // todo serverData in serverData, blueprint data in dataBluePrint
+            debugger
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
               const attributeModel = this.getDataObject(comp.data, comp.type)
@@ -446,6 +455,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const dataByID = (res as { data: {} })['data']
             const data = Object.values(dataByID)[0] as DataObjectModel
+            debugger
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
             if (compObj) {
               this.objectData.push(compObj)

@@ -51,9 +51,7 @@ export const formControl4 = {
         ),
         undefined,
         new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-          new HeightConfigPropsModel(
-            new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
-          ),
+          HeightValueConfigType.NC,
           new WidthConfigPropsModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
@@ -82,8 +80,7 @@ export const formControl4 = {
   ,
   // todo zorg dat er constraints komen die errors geven bv als je height en width in je config omwisselt!
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 220
-      , DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
+    HeightValueConfigType.NC,
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100
       , DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC)
   ))

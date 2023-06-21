@@ -17,7 +17,9 @@ import {
 import {VerticalLayoutConfigPropsModel} from "../../models/ChildLayout/VerticalLayoutConfigPropsModel";
 import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalPositioningConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
-import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
+import {
+  CrossAxisVerticalLanesPositioningConfigType
+} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
@@ -49,9 +51,7 @@ export const formControl1 = {
         ),
         undefined,
         new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-          new HeightConfigPropsModel(
-            new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
-          ),
+          HeightValueConfigType.NC,
           new WidthConfigPropsModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
@@ -80,8 +80,7 @@ export const formControl1 = {
   ,
   // todo zorg dat er constraints komen die errors geven bv als je height en width in je config omwisselt!
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,220
-      ,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
+    HeightValueConfigType.NC,
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100
       ,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC)
   ))

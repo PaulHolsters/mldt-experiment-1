@@ -17,6 +17,7 @@ import {
   CrossAxisVerticalLanesPositioningConfigType
 } from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
+import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 
 export const mainChildLayout = new ResponsiveChildLayoutConfigModel(
   // todo add the other parts too like visibility, styling etc., change scroll into overflow
@@ -43,10 +44,7 @@ export const mainChildLayout = new ResponsiveChildLayoutConfigModel(
       // todo nagaan is hier eigenlijk iets voor geimpelmenteerd?
       true,
       MainAxisVerticalPositioningConfigType.Top,
-      new HeightConfigPropsModel(
-        new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,50,DimensionUnitConfigType.Percentage),
-        DynamicDimensionValueConfigType.NC
-      ),
+      HeightValueConfigType.NC,
       CrossAxisVerticalLanesPositioningConfigType.NA
     )
   )

@@ -8,8 +8,8 @@ import {DataObjectModel} from "../DataObjectModel";
 export class AttributeComponentModel {
 constructor(
   public name:string,
-  public dataType:string|DataObjectModel[],
-  public bluePrint:Map<string, string|DataObjectModel[]>|undefined,
+  public dataServer:string|undefined|DataObjectModel[]|number,
+  public dataBluePrint:Map<string, string|DataObjectModel[]>|undefined,
   public disabled:boolean,
   public floatLabel:boolean|NoValueType.NA,
   public text:TextAttributeComponentModel|undefined,

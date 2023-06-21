@@ -41,6 +41,7 @@
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
 #container>
+<!--  todo height en width van een container worden onterecht op 100% gezet-->
   <ng-content></ng-content>
   <ng-container *ngIf="(children$|async)">
     <ng-container *ngFor="let child of children$|async">
@@ -89,11 +90,10 @@
         <m-formcontrol       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                             [style.height]="'100%'"
-                             [style.width]="'100%'"
                              *ngSwitchCase="componentType.FormControl"
                              [name]="child.name"></m-formcontrol>
         <ng-container *ngSwitchCase="componentType.Label">
+          <!-- todo nagaan of automatische hoogte en breedte van 100% wel wenselijk is-->
           <m-label *ngIf="!dataAttribute?.floatLabel && dataAttribute?.floatLabel !== NoValueType.NA" [text]="(dataAttribute?.label !== NoValueType.DBI)
         && (dataAttribute?.label !== NoValueType.NA) ? dataAttribute?.label : dataAttribute?.name"
                    [class]="['flex',
@@ -236,8 +236,6 @@
         <m-menubar          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                            [style.height]="'100%'"
-                            [style.width]="'100%'"
                             *ngSwitchCase="componentType.Menubar"
                             [name]="child.name"></m-menubar>
         <m-logo          [class]="['flex',
@@ -250,8 +248,6 @@
         <m-form          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                         [style.height]="'100%'"
-                         [style.width]="'100%'"
                          *ngSwitchCase="componentType.Form"
                          [name]="child.name"
                          [conceptId]="'648ae00b9b404a9b8fa2a3c1'"
@@ -259,18 +255,21 @@
         <m-table          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                         [style.height]="'100%'"
-                         [style.width]="'100%'"
                          *ngSwitchCase="componentType.Table"
                          [name]="child.name"
         ></m-table>
         <m-container *ngSwitchCase="componentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                     [style.height]="'100%'"
-                     [style.width]="'100%'"
         ></m-container>
       </div>
     </ng-container>
   </ng-container>
 </div>
+<!--
+[style.height]="'100%'"
+[style.width]="'100%'"
+                             [style.height]="'100%'"
+                             [style.width]="'100%'"
+
+-->

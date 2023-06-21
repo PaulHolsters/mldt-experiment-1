@@ -38,6 +38,7 @@ export const formLayout = new ResponsiveChildLayoutConfigModel(
       false,
       false,
       MainAxisVerticalPositioningConfigType.Top,
+      // todo fix bug dit is automatisch 100% hoog terwijl dat niet mag eerder auto!
       HeightValueConfigType.NC,
       CrossAxisVerticalLanesPositioningConfigType.NA
     )

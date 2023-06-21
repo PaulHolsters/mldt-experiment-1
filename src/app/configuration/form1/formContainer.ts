@@ -25,7 +25,7 @@ export const formContainer = new ComponentModel(
   undefined,
   new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
     new HeightConfigPropsModel(
-      new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 50, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
+      new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
     ),
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage

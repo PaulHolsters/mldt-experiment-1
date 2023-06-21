@@ -33,13 +33,14 @@ export const RootComponent = new AppConfig({
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
         header,
-        table,
+        // table,
         form
       ]
     },
   ],
   // hou er rekening mee dat de volgorde van de actions in deze array gevolgen kunnen hebben op
   // de condities zoals gedefinieerd in de overeenkomstige actie
+  // todo: test of dbp nog werkt
   actions: [
     /*       {
           actionType: ActionType.Server,
@@ -90,15 +91,15 @@ export const RootComponent = new AppConfig({
       sourceName: 'content-container',
       on: EventType.RootComponentReady
     },
-    {
+/*    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetAllData,
       targetType: TargetType.Component,
       targetName: 'table',
       sourceName: 'table',
       on: EventType.ComponentReady
-    },
-    /*    {
+    },*/
+        {
           actionType: ActionType.Server,
           actionSubType: ActionSubType.GetDataBluePrint,
           targetType: TargetType.Component,
@@ -113,8 +114,8 @@ export const RootComponent = new AppConfig({
           targetName: NoValueType.NA,
           sourceName: 'submitbtn',
           on: EventType.ComponentClicked
-        },*/
-    {
+        },
+/*    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataByID,
       targetType: TargetType.Component,
@@ -129,6 +130,6 @@ export const RootComponent = new AppConfig({
       targetName: NoValueType.NA,
       sourceName: 'submitbtn',
       on: EventType.ComponentClicked
-    },
+    },*/
   ]
 })
