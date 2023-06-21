@@ -132,6 +132,7 @@
                         [small]="dataAttribute?.text?.inputFontSize===InputFontSize.Small"
                         [large]="dataAttribute?.text?.inputFontSize===InputFontSize.Large"
                         [disabled]="dataAttribute?.disabled"
+                        [conceptId]="dataConcept?.conceptId"
           ></m-input-text>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.InputNumber">

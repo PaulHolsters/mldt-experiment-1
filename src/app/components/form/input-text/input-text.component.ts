@@ -20,6 +20,7 @@ import {RestrictionType} from "../../../enums/restrictionType.enum";
 })
 export class InputTextComponent implements OnInit {
   @Input() name = ''
+  @Input() conceptId:string|undefined
   @Input() icon: IconType | undefined
   @Input() iconPosition: IconPositionType |NoValueType.NI| undefined
   @Input() advisoryText: string | undefined
@@ -69,9 +70,7 @@ export class InputTextComponent implements OnInit {
   }
 
   updateData() {
-    // todo fix bug: bij een edit action wordt de data niet gesynct
-    //      voor geen enkele formcontrol!
-    this.dataService.updateData(this.name, this.value)
+    this.dataService.updateData(this.name, this.value,this.conceptId)
   }
 
   protected readonly NoValueType = NoValueType;

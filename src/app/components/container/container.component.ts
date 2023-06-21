@@ -19,7 +19,7 @@ import {RootComponent} from "../../configuration/root/rootComponent";
 export class ContainerComponent implements OnInit, AfterContentChecked {
   @Input() name: string | undefined
   @ViewChild('container') container: ElementRef | undefined
-  //dataConcept: ConceptComponentModel | undefined
+  dataConcept: ConceptComponentModel | undefined
   dataAttribute: AttributeComponentModel | undefined // voorlopig lijkt het er op dat er qua data niets anders nodig is dan attributes
   dataLink: string[] | undefined
   componentType = ComponentType
@@ -86,10 +86,10 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
         this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,
           RootComponent)
       }
-/*      this.storeService.bindToStateProperty(this.name, 'dataConcept')?.subscribe(res => {
+      this.storeService.bindToStateProperty(this.name, 'dataConcept')?.subscribe(res => {
         console.log(res)
         this.dataConcept = res as ConceptComponentModel
-      })*/
+      })
       this.storeService.bindToStateProperty(this.name, 'dataAttribute')?.subscribe(res => {
         this.dataAttribute = res as AttributeComponentModel
         console.log(this.name,res)

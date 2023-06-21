@@ -95,10 +95,10 @@ export class DataService {
     }
     return undefined
   }
-  public updateData(name: string, value: DataObjectModel[] | number | string | undefined) {
+  public updateData(name: string, value: DataObjectModel[] | number | string | undefined, id?:string) {
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptName === parts[0]
+      return dataObj.conceptId === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
     })
     if (obj && obj.attributes) {
       if (parts.length === 2) {
@@ -107,6 +107,7 @@ export class DataService {
         })
         if (attr) {
           if (attr.text && typeof value === 'string') {
+            debugger
             attr.text.value = value
           }
           if (attr.number && typeof value === 'number') {
@@ -124,7 +125,7 @@ export class DataService {
             return attr.name === parts[1]
           }), 1, attr)
           this.objectData.splice(this.objectData.findIndex(dataObj => {
-            return dataObj.conceptName === parts[0]
+            return dataObj.conceptId === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
           }), 1, obj)
         }
       } else {
