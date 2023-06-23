@@ -1,5 +1,5 @@
-export interface DataObjectModel
-  extends Object {
-  id:string|undefined,
+export interface DataObjectModel {
+  id:string|undefined
+  serverData:Object|undefined,
   bluePrint:Object|undefined
 }

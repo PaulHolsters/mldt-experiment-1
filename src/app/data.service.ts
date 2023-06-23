@@ -60,15 +60,14 @@ export class DataService {
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
   private createExtendedConceptModel(componentName: string, data: DataObjectModel|DataObjectModel[], compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
-    // todo wat gebeurt er indien getById?
-    debugger
+    // todo vanaf de server komt een blueprint in een blueprint prop en data in een serverData prop!
     if (compConfig instanceof ConceptConfigModel && !(data instanceof Array)) {
       let newObj: ConceptComponentModel = {
         conceptId: data.id ?? NoValueType.NA,
         conceptName: compConfig.conceptName,
         attributes: [],
         errorMessages: NoValueType.NI,
-        conceptBluePrint:data.bluePrint ?? data // todo
+        conceptBluePrint:data.bluePrint
       }
       const configCopy = {...compConfig}
       if (configCopy.attributes && configCopy.attributes instanceof Array){
@@ -84,6 +83,7 @@ export class DataService {
             (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
           }
         })
+        debugger
         return newObj
       }
     } else if(data instanceof Array && compConfig instanceof ConceptConfigModel){
@@ -219,6 +219,7 @@ export class DataService {
                       }
                     }
         `
+          debugger
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BLUEPRINT}`
