@@ -4,6 +4,7 @@ import {StoreService} from "../../../store.service";
 import {Observable} from "rxjs";
 import {NoValueType} from "../../../enums/no_value_type";
 import {DataObjectModel} from "../../../models/DataObjectModel";
+import {DataRecordModel} from "../../../models/DataRecordModel";
 
 @Component({
   selector: 'm-multiselect',
@@ -12,8 +13,8 @@ import {DataObjectModel} from "../../../models/DataObjectModel";
 })
 export class MultiselectComponent implements OnInit {
   @Input() name:string|undefined
-  @Input() options:DataObjectModel[]|undefined|NoValueType.DBI
-  @Input() selectedOptions:DataObjectModel[]|undefined|NoValueType.DBI
+  @Input() options:DataRecordModel[]|undefined|NoValueType.DBI
+  @Input() selectedOptions:DataRecordModel[]|undefined|NoValueType.DBI
   @Input() optionLabel:string|undefined|NoValueType.DBI
   @Input() dirty: boolean | undefined
   @Input() invalid: boolean | undefined

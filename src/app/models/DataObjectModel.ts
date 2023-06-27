@@ -1,5 +1,7 @@
+import {DataRecordModel} from "./DataRecordModel";
+
 export interface DataObjectModel {
-  id:string|undefined
-  serverData:Object|undefined,
-  bluePrint:Object|undefined
+  dataMultiple:DataRecordModel[]|undefined,
+  dataSingle:DataRecordModel|undefined,
+  blueprint:Object|undefined
 }

@@ -5,11 +5,12 @@ import {NumberAttributeComponentModel} from "./NumberAttributeComponentModel";
 import {RadioAttributeComponentModel} from "./RadioAttributeComponentModel";
 import {MultiSelectAttributeComponentModel} from "./MultiSelectAttributeComponentModel";
 import {DataObjectModel} from "../DataObjectModel";
+import {DataRecordModel} from "../DataRecordModel";
 export class AttributeComponentModel {
 constructor(
   public name:string,
-  public dataServer:string|undefined|DataObjectModel[]|number,
-  public dataBluePrint:Map<string, string|DataObjectModel[]>|undefined,
+  public dataServer:string|undefined|DataRecordModel[]|number,
+  public dataBluePrint:Map<string, string|Object[]>|undefined,
   public disabled:boolean,
   public floatLabel:boolean|NoValueType.NA,
   public text:TextAttributeComponentModel|undefined,
@@ -17,7 +18,7 @@ constructor(
   public radio:RadioAttributeComponentModel|undefined,
   public multiselect:MultiSelectAttributeComponentModel|undefined,
   public concept:ConceptComponentModel|undefined,
-  public dataList:DataObjectModel[]|undefined,
+  public dataList:DataRecordModel[]|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA,
   public advisoryText:string|NoValueType,
   public errorMessages:string[]|NoValueType,

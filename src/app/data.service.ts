@@ -15,6 +15,8 @@ import {ComponentModel} from "./models/ComponentModel";
 import {RootComponent} from "./configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
 import {DataObjectModel} from "./models/DataObjectModel";
+import {Data} from "@angular/router";
+import {DataRecordModel} from "./models/DataRecordModel";
 
 @Injectable({
   providedIn: 'root'
@@ -59,16 +61,19 @@ export class DataService {
     }
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
-  private createExtendedConceptModel(componentName: string, data: DataObjectModel|DataObjectModel[], compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
-    // todo vanaf de server komt een blueprint in een blueprint prop en data in een serverData prop!
-    if (compConfig instanceof ConceptConfigModel && !(data instanceof Array)) {
+  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
+    // todo vanaf de server komt een blueprint in een blueprint prop en multiple en/of singleData prop voor de respectievelijke data
+    if (compConfig instanceof ConceptConfigModel) {
       let newObj: ConceptComponentModel = {
-        conceptId: data.id ?? NoValueType.NA,
+        conceptId: data?.dataSingle?.id ?? NoValueType.NA,
         conceptName: compConfig.conceptName,
         attributes: [],
         errorMessages: NoValueType.NI,
-        conceptBluePrint:data.bluePrint
+        conceptBluePrint:data?.blueprint
       }
+
+      // todo vanaf hier oog af te werken
+
       const configCopy = {...compConfig}
       if (configCopy.attributes && configCopy.attributes instanceof Array){
         configCopy.attributes?.forEach(attr => {
@@ -98,7 +103,7 @@ export class DataService {
     }
     return undefined
   }
-  public updateData(name: string, value: DataObjectModel[] | number | string | undefined, id?:string) {
+  public updateData(name: string, value: DataRecordModel[] | number | string | undefined, id?:string) {
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptId === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
@@ -214,8 +219,10 @@ export class DataService {
         if (compConfig.data instanceof ConceptConfigModel) {
           const GET_BLUEPRINT = `
                     {
-                      getBluePrintOf${this.capitalizeFirst(compConfig.data.conceptName)}{
-                      ${this.getAllAttributes(compConfig.name, compConfig.data)}
+                      get${this.capitalizeFirst(compConfig.data.conceptName)}(blueprint:true){
+                      blueprint{
+                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
+                      }
                       }
                     }
         `
@@ -401,9 +408,9 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
-            const bluePrint = Object.values(bluePrintData)[0] as DataObjectModel
+            const value = Object.values(bluePrintData)[0] as DataObjectModel
+            const compObj = this.createExtendedConceptModel(action.targetName, value, compModel.data)
             debugger
-            const compObj = this.createExtendedConceptModel(action.targetName, bluePrint, compModel.data)
             if (compObj) {
               this.objectData.push(compObj)
               this.setDataObjectState(compModel.name, compModel.type, compObj)
@@ -421,7 +428,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
-            const data = Object.values(allData)[0] as []
+            const data = Object.values(allData)[0] as DataObjectModel
             // todo serverData in serverData, blueprint data in dataBluePrint
             debugger
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
@@ -430,7 +437,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
               // TODO ik denk niet dat een datalist nog nodig is
               if(attributeModel){
                 attributeModel.dataList = []
-                data.forEach(record => {
+                data?.dataMultiple?.forEach(record => {
                   if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
                     attributeModel?.dataList?.push(record)
                   }
