@@ -10,7 +10,7 @@ export class AttributeConfigModel {
 constructor(
   public name:string,// attribuutnaam of conceptnaam
   public dataServer:string|undefined|DataRecordModel[]|number,
-  public dataBluePrint:Map<string, string|Object[]>|undefined,
+  public dataBlueprint:Map<string, string|Object[]>|undefined,
   public disabled:boolean|NoValueType=NoValueType.NA, // indien concept is dit niet van toepassing
   public floatLabel:boolean|NoValueType=NoValueType.NA,// indien concept is dit niet van toepassing
   public text:TextAttributeConfigModel|undefined,// indien concept is dit niet van toepassing

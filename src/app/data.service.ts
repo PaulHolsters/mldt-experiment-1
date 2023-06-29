@@ -65,41 +65,43 @@ export class DataService {
     // todo vanaf de server komt een blueprint in een blueprint prop en multiple en/of singleData prop voor de respectievelijke data
     if (compConfig instanceof ConceptConfigModel) {
       let newObj: ConceptComponentModel = {
-        conceptId: data?.dataSingle?.id ?? NoValueType.NA,
+        conceptId: data.dataSingle?.id ?? NoValueType.NA,
         conceptName: compConfig.conceptName,
         attributes: [],
         errorMessages: NoValueType.NI,
-        conceptBluePrint:data?.blueprint
+        conceptBluePrint:data.blueprint,
+        conceptData:data.dataSingle,
+        dataList:data.dataMultiple
       }
-
-      // todo vanaf hier oog af te werken
-
       const configCopy = {...compConfig}
       if (configCopy.attributes && configCopy.attributes instanceof Array){
         configCopy.attributes?.forEach(attr => {
-          const entry = Object.entries(data).find(([k, v]) => {
+          const entry = Object.entries(data.dataSingle ?? {}).find(([k, v]) => {
             return k === attr.name
           })
           if (entry && attr.name) {
             // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
             const attrExp = {...attr}
             attrExp.dataServer = entry[1];
-            //attrExp.dataType = entry[1];
+            (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
+          }
+        })
+        configCopy.attributes?.forEach(attr => {
+          const entry = Object.entries(data.blueprint ?? {}).find(([k, v]) => {
+            return k === attr.name
+          })
+          if (entry && attr.name) {
+            // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
+            const attrExp = {...attr}
+            attrExp.dataBlueprint = entry[1];
             (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
           }
         })
         debugger
         return newObj
       }
-    } else if(data instanceof Array && compConfig instanceof ConceptConfigModel){
-      return {
-        conceptId:NoValueType.NA,
-        conceptName: compConfig.conceptName,
-        // todo vul aan met attributes door deze methode in recursie nog is te doorlopen
-        attributes: [],
-        errorMessages: NoValueType.NI,
-        dataList:data
-      }
+    } else {
+      throw new Error('unfinished else condition')
     }
     return undefined
   }
@@ -192,7 +194,7 @@ export class DataService {
           return k===spliced[0]
         }) ?? []
         if(k){
-          currentAttr.dataBluePrint = new Map([[k,v]])
+          currentAttr.dataBlueprint = new Map([[k,v]])
         }
         return currentAttr
       }
@@ -320,6 +322,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     } else throw new Error('Geen geldige data configuratie.')
   }
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
+    // todo aanpassen multiselect opties worden niet ingevuld
     if(concept.conceptBluePrint){
       const arr = Object.entries(concept.conceptBluePrint).find(([k,v])=>{
         return k === attr.name

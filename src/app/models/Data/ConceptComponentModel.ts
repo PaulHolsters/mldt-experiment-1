@@ -10,6 +10,7 @@ constructor(
   public attributes:AttributeComponentModel[]|NoValueType.NA,
   public errorMessages:string[]|NoValueType.NI, // error boodschap op concept ipv attribuut niveau
   public dataList?:DataRecordModel[],
+  public conceptData?:DataRecordModel,
   public conceptBluePrint?:Object
 ) {
 }
