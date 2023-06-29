@@ -1,8 +1,13 @@
-<div *ngIf="options"
-     [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-     [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-     [style.height]="height"
-     [style.width]="width"
-     #multiselect>
-  <p-multiSelect [options]="options===NoValueType.DBI? [] : options" (click)="updateData()" [(ngModel)]="selectedOptions" optionLabel="{{optionLabel}}"></p-multiSelect>
-</div>
+
+  <div *ngIf="options"
+       [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
+       [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+       [style.height]="height"
+       [style.width]="width"
+       [style.position]="'absolute'"
+       #multiselect>
+    <p-multiSelect [options]="options===NoValueType.DBI? [] : options" (click)="updateData()" [(ngModel)]="selectedOptions" optionLabel="{{optionLabel}}"></p-multiSelect>
+  </div>
+  <div [style.min-height]="'50px'"></div>
+
+<!--[style.position]="'absolute'"-->
