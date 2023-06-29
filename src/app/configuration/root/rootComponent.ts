@@ -27,7 +27,6 @@ export const RootComponent = new AppConfig({
       name: 'content-container',
       type: ComponentType.Container,
       visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-      overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NA)),
       dimensions: mainDimensions,
       childLayout: mainChildLayout,
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),

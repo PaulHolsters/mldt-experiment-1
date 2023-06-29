@@ -177,8 +177,6 @@
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-            [style.height]="'100%'"
-            [style.width]="'100%'"
             [name]="nameFormControl"
             [options]="dataAttribute?.multiselect?.options"
             [selectedOptions]="dataAttribute?.multiselect?.selectedOptions"

@@ -271,11 +271,10 @@ export const header = {
     }
   ),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
-  // todo hier moet een soort auto height of fit content height komen
+  // todo hier moet een soort auto height of fit content height komen => de header doet maar raar
   dimensions: new ResponsiveDimensioningConfigModel(
     new DimensioningConfigPropsModel(
                HeightValueConfigType.NC,
-                WidthValueConfigType.Parent
+      WidthValueConfigType.Parent
     ))
 }

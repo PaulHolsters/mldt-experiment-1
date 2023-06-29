@@ -25,6 +25,9 @@ import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/Dimen
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
+import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
+import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 
 export const formControl4 = {
   name: 'formcontrol4',

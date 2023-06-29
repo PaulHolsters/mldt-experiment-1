@@ -3,7 +3,6 @@ import {ComponentType} from "../../enums/componentTypes.enum";
 import {formLayout} from "./formLayout";
 import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
@@ -17,6 +16,10 @@ import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConf
 import {conceptModel} from "../root/appDataModel";
 import {formControl3} from "./formControl3";
 import {formControl4} from "./formControl4";
+import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
+import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
+import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
+import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 
 export const formContainer = new ComponentModel(
   'form-container',
@@ -24,16 +27,14 @@ export const formContainer = new ComponentModel(
   formLayout,
   undefined,
   new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    new HeightConfigPropsModel(
-      new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
-    ),
+    HeightValueConfigType.NC,
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
     ), DynamicDimensionValueConfigType.NC)
   )),
   undefined,
   new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  undefined,
+  new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
   [
     formControl1,
     formControl2,

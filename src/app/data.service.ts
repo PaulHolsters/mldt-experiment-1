@@ -62,7 +62,6 @@ export class DataService {
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
   private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[]|ConceptConfigModel[]): ConceptComponentModel | undefined {
-    // todo vanaf de server komt een blueprint in een blueprint prop en multiple en/of singleData prop voor de respectievelijke data
     if (compConfig instanceof ConceptConfigModel) {
       let newObj: ConceptComponentModel = {
         conceptId: data.dataSingle?.id ?? NoValueType.NA,
@@ -79,25 +78,19 @@ export class DataService {
           const entry = Object.entries(data.dataSingle ?? {}).find(([k, v]) => {
             return k === attr.name
           })
-          if (entry && attr.name) {
-            // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
-            const attrExp = {...attr}
-            attrExp.dataServer = entry[1];
-            (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
-          }
-        })
-        configCopy.attributes?.forEach(attr => {
-          const entry = Object.entries(data.blueprint ?? {}).find(([k, v]) => {
+          const entry2 = Object.entries(data.blueprint ?? {}).find(([k, v]) => {
             return k === attr.name
           })
+          const attrExp = {...attr}
           if (entry && attr.name) {
-            // todo hou er rekening mee dat hier in de toekomst ook geen naam kan zijn (en verder dus ook geen configuratie op attribuut niveau)
-            const attrExp = {...attr}
-            attrExp.dataBlueprint = entry[1];
-            (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
+            attrExp.dataServer = entry[1];
           }
+          if(entry2 && attr.name){
+            attrExp.dataBlueprint = new Map();
+            attrExp.dataBlueprint.set(attr.name,entry2[1]);
+          }
+          (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
         })
-        debugger
         return newObj
       }
     } else {
@@ -163,11 +156,11 @@ export class DataService {
   public getDataObject(dataLink: string[], componentType: ComponentType): AttributeComponentModel|undefined {
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptName === dataLinkCopy[0] && dataObj.attributes.length > 0
+      return dataObj.conceptName === dataLinkCopy[0]
     })
     if (obj) {
       dataLinkCopy.splice(0, 1)
-      let attributes = [...obj.attributes]
+      let attributes = [...obj.attributes] // leeg bij blueprint
       let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
         return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
       })
@@ -228,7 +221,6 @@ export class DataService {
                       }
                     }
         `
-          debugger
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BLUEPRINT}`
@@ -322,40 +314,32 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     } else throw new Error('Geen geldige data configuratie.')
   }
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
-    // todo aanpassen multiselect opties worden niet ingevuld
-    if(concept.conceptBluePrint){
-      const arr = Object.entries(concept.conceptBluePrint).find(([k,v])=>{
-        return k === attr.name
-      })
-      if(arr){
-        const value = arr[1] as string|[]
-        if (attr.radio) {
-          if (attr.radio.conceptName === NoValueType.DBI) {
-            attr.radio.conceptName = concept.conceptName
-          }
-          if (attr.radio.values === NoValueType.DBI) {
-            if(typeof value === 'string' && value.indexOf('enumVal') !== -1){
-              const arr1Temp = value.split('},{enumVal:')
-              if (arr1Temp.length > 0 && typeof arr1Temp[0] === 'string')
-                arr1Temp[0] = arr1Temp[0].substring(9)
-              arr1Temp[arr1Temp.length - 1] = arr1Temp[arr1Temp.length - 1].substring(0, arr1Temp[arr1Temp.length - 1].length - 1)
-              const arr2Temp = arr1Temp.map(el => el.trim())
-              attr.radio.values = [...arr2Temp]
-            }
-          }
-        } else if (attr.multiselect) {
-          if (attr.multiselect.conceptName === NoValueType.DBI) {
-            attr.multiselect.conceptName = concept.conceptName
-          }
-          if (attr.multiselect.options === NoValueType.DBI) {
-            if (value instanceof Array) {
-              attr.multiselect.options = [...value]
-            }
-          }
-          if (attr.multiselect.optionLabel === NoValueType.DBI) {
-            // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
-          }
+    const bp = attr.dataBlueprint?.get(attr.name)
+    if (attr.radio) {
+      if (attr.radio.conceptName === NoValueType.DBI) {
+        attr.radio.conceptName = concept.conceptName
+      }
+      if (attr.radio.values === NoValueType.DBI) {
+        if(bp && typeof bp === 'string' && bp.indexOf('enumVal') !== -1){
+          const arr1Temp = bp.split('},{enumVal:')
+          if (arr1Temp.length > 0 && typeof arr1Temp[0] === 'string')
+            arr1Temp[0] = arr1Temp[0].substring(9)
+          arr1Temp[arr1Temp.length - 1] = arr1Temp[arr1Temp.length - 1].substring(0, arr1Temp[arr1Temp.length - 1].length - 1)
+          const arr2Temp = arr1Temp.map(el => el.trim())
+          attr.radio.values = [...arr2Temp]
         }
+      }
+    } else if (attr.multiselect) {
+      if (attr.multiselect.conceptName === NoValueType.DBI) {
+        attr.multiselect.conceptName = concept.conceptName
+      }
+      if (attr.multiselect.options === NoValueType.DBI) {
+        if (bp instanceof Array) {
+          attr.multiselect.options = [...bp]
+        }
+      }
+      if (attr.multiselect.optionLabel === NoValueType.DBI) {
+        // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
       }
     }
     return attr
@@ -413,7 +397,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const bluePrintData = (res as { data: {} })['data']
             const value = Object.values(bluePrintData)[0] as DataObjectModel
             const compObj = this.createExtendedConceptModel(action.targetName, value, compModel.data)
-            debugger
             if (compObj) {
               this.objectData.push(compObj)
               this.setDataObjectState(compModel.name, compModel.type, compObj)

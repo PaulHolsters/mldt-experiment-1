@@ -10,7 +10,7 @@ export class AttributeComponentModel {
 constructor(
   public name:string,
   public dataServer:string|undefined|DataRecordModel[]|number,
-  public dataBlueprint:Map<string, string|Object[]>|undefined,
+  public dataBlueprint:Map<string, string|DataRecordModel[]>|undefined,
   public disabled:boolean,
   public floatLabel:boolean|NoValueType.NA,
   public text:TextAttributeComponentModel|undefined,
