@@ -301,10 +301,9 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         const toEdit = id ? `id:"${id}",`: ''
         const MUTATION = `mutation Mutation {
               ${verb}${this.capitalizeFirst(data.conceptName)}(${toEdit}${this.getMutationParams(data.attributes)}) {
-                    id
+                    dataSingle{id}
               }
             }`
-        console.log(MUTATION)
         return this.apollo
           .mutate({
             mutation: gql`${MUTATION}`
