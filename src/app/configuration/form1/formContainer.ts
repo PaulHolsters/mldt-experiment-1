@@ -20,6 +20,8 @@ import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/Responsi
 import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
+import {buttons} from "./buttons";
+import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 
 export const formContainer = new ComponentModel(
   'form-container',
@@ -27,27 +29,21 @@ export const formContainer = new ComponentModel(
   formLayout,
   undefined,
   new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    HeightValueConfigType.NC,
+    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
     ), DynamicDimensionValueConfigType.NC)
   )),
   undefined,
   new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
+  undefined,
+  // new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
   [
     formControl1,
     formControl2,
     formControl3,
     formControl4,
-    {
-      name:'submitbtn',
-      type:ComponentType.Button,
-      attributes: new ResponsiveAttributesConfigModel({
-        label:'Bewaar'
-      }),
-      visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-    }
+    buttons
   ],
   undefined,
   conceptModel

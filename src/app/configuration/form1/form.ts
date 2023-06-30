@@ -8,8 +8,14 @@ import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfi
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {WidthValueConfigType} from "../../enums/WidthValueConfigTypes.enum";
+import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
+import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
+import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
+import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
+
 export const form = {
   // todo waarom is dit 100%?
   name: 'my first form',
@@ -19,12 +25,14 @@ export const form = {
       content: formContainer
     }
   ),
-  overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   // todo hier moet een soort auto height of fit content height komen => de header doet maar raar
+  // overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
   dimensions: new ResponsiveDimensioningConfigModel(
     new DimensioningConfigPropsModel(
-      HeightValueConfigType.NC,
-      WidthValueConfigType.Parent
+      new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,50,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
+      new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+        DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+      ), DynamicDimensionValueConfigType.NC)
     ))
 }

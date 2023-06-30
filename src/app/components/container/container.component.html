@@ -78,6 +78,7 @@
         [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+        [class.flex]="(child.type === componentType.Form)"
         [ngSwitch]="child.type">
         <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
@@ -249,6 +250,8 @@
                          *ngSwitchCase="componentType.Form"
                          [name]="child.name"
                          [conceptId]="'648ae00b9b404a9b8fa2a3c1'"
+                         [style.height]="'100%'"
+                         [style.width]="'100%'"
        ></m-form>
         <m-table          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
