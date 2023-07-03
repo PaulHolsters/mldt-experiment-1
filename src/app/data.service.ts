@@ -230,12 +230,14 @@ export class DataService {
       case QuerySubType.GetDataByID:
         if (compConfig.data instanceof ConceptConfigModel) {
           const GET_BY_ID = `{
-        getDetailsOf${this.capitalizeFirst(compConfig.data.conceptName)}(id:"${id}"){
-        id
+        get${this.capitalizeFirst(compConfig.data.conceptName)}(id:"${id}",blueprint:true){
+        dataSingle{
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
-        bluePrint{${this.getAllAttributes(compConfig.name, compConfig.data)}}
+        }
+        blueprint{${this.getAllAttributes(compConfig.name, compConfig.data)}}
         }
         }`
+          debugger
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BY_ID}`
@@ -446,6 +448,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
+        debugger
         await this.query(QuerySubType.GetDataByID, comp,id).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const dataByID = (res as { data: {} })['data']
