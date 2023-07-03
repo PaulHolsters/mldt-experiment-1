@@ -22,4 +22,9 @@ export class ComponentModel {
                 public data?:ConceptConfigModel|string[]) {
     // todo toevoegen constraints zoals dat je geen padding mag gebruiken bij een label
   }
+
+  getPropertyValue?(property:string){
+    if(Reflect.has(this, property)) return Reflect.get(this,property)
+    throw new Error('U vraagt naar een roperty die niet bestaat bij een ComponentModel')
+  }
 }

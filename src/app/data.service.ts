@@ -293,6 +293,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal
   }
   public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType,id?:string): Observable<any> | undefined {
+    debugger
     if (data instanceof ConceptConfigModel) {
       const currentData = this.objectData.find(dataObj => {
         return dataObj.conceptName === data.conceptName
@@ -304,6 +305,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
                     dataSingle{id}
               }
             }`
+        debugger
         return this.apollo
           .mutate({
             mutation: gql`${MUTATION}`

@@ -55,10 +55,14 @@ export default class AppConfig {
         if(component.children){
           for (let j=0;j<component.children.length;j++){
             let previousComponent
-            if((component.children[j] as ComponentModel).hasOwnProperty(property)){
+            const componentNow = (component.children[j] as ComponentModel)
+            if(componentNow.hasOwnProperty(property)
+              && componentNow.getPropertyValue
+            && componentNow.getPropertyValue(property)!==undefined){
               previousComponent = component.children[j] as ComponentModel
             }
-            const comp = this.getParentComponentConfigWithProperty(compName,property,component.children[j] as ComponentModel,previousComponent)
+            const comp
+              = this.getParentComponentConfigWithProperty(compName,property,component.children[j] as ComponentModel,previousComponent)
             if(comp){
               return comp
             }
@@ -71,7 +75,10 @@ export default class AppConfig {
           if(this.userConfig.components[i].children){
             for (let k=0;k<(this.userConfig.components[i].children as ComponentModel[]).length;k++){
               let previousComponent
-              if((this.userConfig.components[i].children as ComponentModel[])[k].hasOwnProperty(property)){
+              const componentNow = (this.userConfig.components[i].children as ComponentModel[])[k]
+              if(componentNow.hasOwnProperty(property)
+                && componentNow.getPropertyValue
+               && componentNow.getPropertyValue(property)!==undefined){
                 previousComponent = (this.userConfig.components[i].children as ComponentModel[])[k]
               }
               const comp = this.getParentComponentConfigWithProperty(compName,property,(this.userConfig.components[i].children as ComponentModel[])[k],previousComponent)
@@ -97,7 +104,9 @@ export default class AppConfig {
                 return previous
               }
               let previousComponent
-              if(l instanceof ComponentModel && l.hasOwnProperty(property)){
+              if(l instanceof ComponentModel && l.hasOwnProperty(property)
+                && l.getPropertyValue
+                && l.getPropertyValue(property)!==undefined){
                 previousComponent = l
               }
               if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
@@ -115,7 +124,10 @@ export default class AppConfig {
       if(childComp.children!==undefined){
         for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
           let previousComponent
-          if((childComp.children as ComponentModel[])[j].hasOwnProperty(property)){
+          const componentNow = (childComp.children as ComponentModel[])[j]
+          if(componentNow.hasOwnProperty(property)
+            && componentNow.getPropertyValue
+            && componentNow.getPropertyValue(property)!==undefined){
             previousComponent = (childComp.children as ComponentModel[])[j]
           }
           let component
@@ -137,7 +149,12 @@ export default class AppConfig {
                   return previous
                 }
                 let previousComponent
-                if (l instanceof ComponentModel && l.hasOwnProperty(property)) {
+                if (
+                  l instanceof ComponentModel
+                  && l.hasOwnProperty(property)
+                    && l.getPropertyValue
+                  && l.getPropertyValue(property)!==undefined
+                ){
                   previousComponent = l
                 }
                 if (l instanceof ComponentModel) {
@@ -153,7 +170,11 @@ export default class AppConfig {
         if (this.userConfig.components[i].children !== undefined) {
           for (let j = 0; j < (this.userConfig.components[i].children as ComponentModel[]).length; j++) {
             let previousComponent
-            if ((this.userConfig.components[i].children as ComponentModel[])[j].hasOwnProperty(property)) {
+            const componentNow = (this.userConfig.components[i].children as ComponentModel[])[j]
+            if (componentNow.hasOwnProperty(property)
+              && componentNow.getPropertyValue !== undefined
+              && componentNow.getPropertyValue(property)!==undefined
+            ) {
               previousComponent = (this.userConfig.components[i].children as ComponentModel[])[j]
             }
             let component
