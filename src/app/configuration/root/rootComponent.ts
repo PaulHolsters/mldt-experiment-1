@@ -32,8 +32,8 @@ export const RootComponent = new AppConfig({
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
         header,
-        // table,
-        form
+        form,
+        table
       ]
     },
   ],
@@ -90,14 +90,14 @@ export const RootComponent = new AppConfig({
       sourceName: 'content-container',
       on: EventType.RootComponentReady
     },
-/*    {
+    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetAllData,
       targetType: TargetType.Component,
       targetName: 'table',
       sourceName: 'table',
       on: EventType.ComponentReady
-    },*/
+    },
 /*        {
           actionType: ActionType.Server,
           actionSubType: ActionSubType.GetDataBluePrint,

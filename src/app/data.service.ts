@@ -237,7 +237,6 @@ export class DataService {
         blueprint{${this.getAllAttributes(compConfig.name, compConfig.data)}}
         }
         }`
-          debugger
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BY_ID}`
@@ -263,9 +262,10 @@ export class DataService {
           // het bovenste is voor als je enkel een subconcept nodig zou hebben, mogelijk is dat zelfs nooit het geval
           const GET_ALL = `
                     {
-                      get${this.capitalizeFirst(compConfig.data.conceptName)}s{
-                      id
-                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
+                      get${this.capitalizeFirst(compConfig.data.conceptName)}(multiple:true){
+                              dataMultiple{
+        ${this.getAllAttributes(compConfig.name, compConfig.data)}
+        }
                       }
                     }
         `
@@ -295,7 +295,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal
   }
   public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType,id?:string): Observable<any> | undefined {
-    debugger
     if (data instanceof ConceptConfigModel) {
       const currentData = this.objectData.find(dataObj => {
         return dataObj.conceptName === data.conceptName
@@ -307,7 +306,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
                     dataSingle{id}
               }
             }`
-        debugger
         return this.apollo
           .mutate({
             mutation: gql`${MUTATION}`
@@ -418,8 +416,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as DataObjectModel
-            // todo serverData in serverData, blueprint data in dataBluePrint
-            debugger
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
               const attributeModel = this.getDataObject(comp.data, comp.type)
@@ -448,13 +444,12 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
-        debugger
         await this.query(QuerySubType.GetDataByID, comp,id).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const dataByID = (res as { data: {} })['data']
             const data = Object.values(dataByID)[0] as DataObjectModel
-            debugger
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
+            debugger
             if (compObj) {
               this.objectData.push(compObj)
               this.setDataObjectState(comp.name, comp.type, compObj)

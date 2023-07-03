@@ -159,7 +159,6 @@ export class EventsService{
                 break
               case ActionSubType.GetDataByID:
                 if(data){
-                  debugger
                   await this.dataService.getDataByID(action,data)
                 }
                 break
