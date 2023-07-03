@@ -15,8 +15,8 @@ import {ComponentModel} from "./models/ComponentModel";
 import {RootComponent} from "./configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
 import {DataObjectModel} from "./models/DataObjectModel";
-import {Data} from "@angular/router";
 import {DataRecordModel} from "./models/DataRecordModel";
+import {DataSpecificationType} from "./enums/dataSpecifications.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -153,11 +153,18 @@ export class DataService {
         return true
     }
   }
-  public getDataObject(dataLink: string[], componentType: ComponentType): AttributeComponentModel|undefined {
+  public getDataObject(dataLink: string[], componentType: ComponentType,dataSpecs:DataSpecificationType[]): AttributeComponentModel|undefined {
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptName === dataLinkCopy[0]
+      return dataObj.conceptName === dataLinkCopy[0] && (dataSpecs.reduce(
+        (specA,specB)=>
+          // todo de getValueFor wordt niet gebruikt
+        ((specA.toString() in dataObj && dataObj.getValueFor && dataObj.getValueFor(specA.toString())) && (specB.toString() in dataObj
+          && dataObj.getValueFor && dataObj.getValueFor(specB.toString())))
+      )
+      )
     })
+    debugger
     if (obj) {
       dataLinkCopy.splice(0, 1)
       let attributes = [...obj.attributes] // leeg bij blueprint
@@ -194,7 +201,7 @@ export class DataService {
     }
     return undefined
   }
-  private setDataObjectState(nameComponent: string, componentType: ComponentType, compConcept?: ConceptComponentModel) {
+  private setDataObjectState(nameComponent: string, componentType: ComponentType,dataSpecs:DataSpecificationType[], compConcept?: ConceptComponentModel) {
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       // todo refactor
       let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
@@ -203,7 +210,7 @@ export class DataService {
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel && comp.name === nameComponent) {
         propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
-        const data: AttributeComponentModel|undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType)
+        const data: AttributeComponentModel|undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType,dataSpecs)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })
@@ -400,7 +407,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const compObj = this.createExtendedConceptModel(action.targetName, value, compModel.data)
             if (compObj) {
               this.objectData.push(compObj)
-              this.setDataObjectState(compModel.name, compModel.type, compObj)
+              this.setDataObjectState(compModel.name, compModel.type,[DataSpecificationType.Blueprint], compObj)
             }
           }
         })
@@ -417,8 +424,9 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as DataObjectModel
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
+            debugger
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
-              const attributeModel = this.getDataObject(comp.data, comp.type)
+              const attributeModel = this.getDataObject(comp.data, comp.type,[DataSpecificationType.DataList])
               // TODO ik denk niet dat een datalist nog nodig is
               if(attributeModel){
                 attributeModel.dataList = []
@@ -427,11 +435,11 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
                     attributeModel?.dataList?.push(record)
                   }
                 })
-                this.setDataObjectState(comp.name, comp.type)
+                this.setDataObjectState(comp.name, comp.type,[DataSpecificationType.DataList])
               }
             } else if(compObj) {
               this.objectData.push(compObj)
-              this.setDataObjectState(comp.name, comp.type, compObj)
+              this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList],compObj)
             }
           }
         })
@@ -449,12 +457,12 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const dataByID = (res as { data: {} })['data']
             const data = Object.values(dataByID)[0] as DataObjectModel
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
-            debugger
             if (compObj) {
               this.objectData.push(compObj)
-              this.setDataObjectState(comp.name, comp.type, compObj)
+              this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.Id,DataSpecificationType.Blueprint],compObj)
             }
           }
+          debugger
         })
       }
     }

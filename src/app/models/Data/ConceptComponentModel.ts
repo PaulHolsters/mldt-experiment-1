@@ -14,4 +14,8 @@ constructor(
   public conceptBluePrint?:Object
 ) {
 }
+getValueFor?(prop:string){
+  console.log('dit heb ik gevonden')
+  return Reflect.get(this,prop)
+}
 }
