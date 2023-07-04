@@ -26,11 +26,11 @@ export const form = {
     }
   ),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  // todo hier moet een soort auto height of fit content height komen => de header doet maar raar
+  // todo verhinderen dat gebruikers een kleine hoogte kunnen meegeven terwijl auto niet opstaat omdat de multiselect dan niet werkt
   // overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
   dimensions: new ResponsiveDimensioningConfigModel(
     new DimensioningConfigPropsModel(
-      new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,50,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
+      new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,40,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
       new WidthConfigPropsModel(new FixedDimensioningConfigModel(
         DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
       ), DynamicDimensionValueConfigType.NC)
