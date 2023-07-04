@@ -164,16 +164,15 @@ export class DataService {
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0] && (dataSpecs.reduce(
-          (specA, specB) =>{
-            const copyDataObj = new ConceptComponentModel(dataObj.conceptId,dataObj.conceptName,dataObj.attributes,dataObj.errorMessages,dataObj.dataList,dataObj.conceptData,
+          (specA, specB) => {
+            const copyDataObj = new ConceptComponentModel(dataObj.conceptId, dataObj.conceptName, dataObj.attributes, dataObj.errorMessages, dataObj.dataList, dataObj.conceptData,
               dataObj.conceptBluePrint)
-          console.log(specA.toString() in copyDataObj,copyDataObj.getValueFor,(copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())))
             return ((specA.toString() in copyDataObj && copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())) && (specB.toString() in copyDataObj
-              && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))}
+              && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))
+          }
         )
       )
     })
-    debugger
     if (obj) {
       dataLinkCopy.splice(0, 1)
       let attributes = [...obj.attributes] // leeg bij blueprint
@@ -445,7 +444,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as DataObjectModel
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
-            debugger
             if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
               const attributeModel = this.getDataObject(comp.data, comp.type, [DataSpecificationType.DataList])
               // TODO ik denk niet dat een datalist nog nodig is
@@ -484,7 +482,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
               this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.Id, DataSpecificationType.Blueprint], compObj)
             }
           }
-          debugger
         })
       }
     }

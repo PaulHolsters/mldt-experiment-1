@@ -47,7 +47,6 @@ export class InputTextComponent implements OnInit {
   ngOnInit(): void {
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
-    console.log('value textfield ',this.value)
   }
 
   setCalculatedHeight(val: any): boolean {
