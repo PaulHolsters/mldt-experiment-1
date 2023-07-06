@@ -4,6 +4,7 @@ import {StoreService} from "../../store.service";
 import {EventType} from "../../enums/eventTypes.enum";
 import {EventsService} from "../../events.service";
 import {DataService} from "../../data.service";
+import utilFunctions from "../../utils/utilFunctions";
 
 @Component({
   selector: 'm-table',
@@ -27,7 +28,7 @@ export class TableComponent implements OnInit {
   getColumns():{field:string,header:string}[]{
     if(this.dataList && this.dataList?.length > 0){
       return Object.keys(this.dataList[0]).map(key=>{
-        return {field:key,header:this.dataService.capitalizeFirst(key)}
+        return {field:key,header:utilFunctions.capitalizeFirst(key)}
       }).filter(col=>{
         return col.field !== 'id' && col.field !== '__typename'
       })

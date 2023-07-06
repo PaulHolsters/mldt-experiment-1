@@ -17,5 +17,17 @@ export default  {
   getNumberFromCss: function (val:string):number {
     if(!this.isCss(val)) throw ('only css value is allowed as param')
     return parseFloat(val)
+  },
+  capitalizeFirst: function(text: string): string {
+    return text.charAt(0).toUpperCase() + text.substring(1)
+  },
+  toUpperCase: function(text:string):string{
+    return text.toUpperCase()
+  },
+  toLowerCase: function(text:string):string{
+    return text.toLowerCase()
+  },
+  createSpaces: function(text:string):string{
+    return text.replace(/_/g,' ')
   }
 }

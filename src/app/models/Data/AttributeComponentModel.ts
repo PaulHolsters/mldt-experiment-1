@@ -21,8 +21,7 @@ constructor(
   public dataList:DataRecordModel[]|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA,
   public advisoryText:string|NoValueType,
-  public errorMessages:string[]|NoValueType,
-  public dataPipe:Function[]|NoValueType
+  public errorMessages:string[]|NoValueType
   ) {
 }
 }

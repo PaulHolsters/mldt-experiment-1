@@ -17,6 +17,8 @@ import {ComponentType} from "./enums/componentTypes.enum";
 import {DataObjectModel} from "./models/DataObjectModel";
 import {DataRecordModel} from "./models/DataRecordModel";
 import {DataSpecificationType} from "./enums/dataSpecifications.enum";
+import {FunctionType} from "./enums/functionTypes.enum";
+import utilFunctions from "./utils/utilFunctions";
 
 @Injectable({
   providedIn: 'root'
@@ -24,15 +26,10 @@ import {DataSpecificationType} from "./enums/dataSpecifications.enum";
 export class DataService {
   constructor(private storeService: StoreService, private apollo: Apollo) {
   }
-
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
   // todo a way to order data (sort)
   private objectData: ConceptComponentModel[] = []
-
-  capitalizeFirst(text: string): string {
-    return text.charAt(0).toUpperCase() + text.substring(1)
-  }
 
   private getAllAttributes(compName: string, data: ConceptConfigModel | string[]): string {
     if (data instanceof ConceptConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
@@ -198,6 +195,7 @@ export class DataService {
       if (currentAttr && typeof currentAttr !== 'string') {
         currentAttr = this.replaceDBIValues(obj, currentAttr)
         currentAttr = this.replaceNVYValues(obj, currentAttr)
+        currentAttr = this.pipeValue(obj,currentAttr)
         const [k, v] = Object.entries(obj.conceptBluePrint ?? {}).find(([k, v]) => {
           return k === spliced[0]
         }) ?? []
@@ -209,7 +207,34 @@ export class DataService {
     }
     return undefined
   }
-
+  private calculatePipeValue(value:string,array:FunctionType[]):string{
+    let valCopy = value
+    array.forEach(func=>{
+      switch (func){
+        case FunctionType.ToLowerCase:
+          valCopy = utilFunctions.toLowerCase(valCopy)
+          break
+        case FunctionType.ToUpperCase:
+          valCopy = utilFunctions.toUpperCase(valCopy)
+          break
+        case FunctionType.CreateSpaces:
+          valCopy = utilFunctions.createSpaces(valCopy)
+          break
+        case FunctionType.CapitalizeFirstLetter:
+          valCopy = utilFunctions.capitalizeFirst(valCopy)
+          break
+      }
+    })
+    return valCopy
+  }
+  private pipeValue(concept:ConceptComponentModel,attr:AttributeComponentModel):AttributeComponentModel{
+    if (attr.radio && attr.radio.pipe instanceof Array) {
+      const pipeCopy = attr.radio.pipe
+      if(attr.radio.values instanceof Array && pipeCopy)
+      attr.radio.values = attr.radio.values.map(val =>{ return this.calculatePipeValue(val,pipeCopy)})
+    }
+    return attr
+  }
   private setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       // todo refactor
@@ -231,7 +256,7 @@ export class DataService {
         if (compConfig.data instanceof ConceptConfigModel) {
           const GET_BLUEPRINT = `
                     {
-                      get${this.capitalizeFirst(compConfig.data.conceptName)}(blueprint:true){
+                      get${utilFunctions.capitalizeFirst(compConfig.data.conceptName)}(blueprint:true){
                       blueprint{
                         ${this.getAllAttributes(compConfig.name, compConfig.data)}
                       }
@@ -247,7 +272,7 @@ export class DataService {
       case QuerySubType.GetDataByID:
         if (compConfig.data instanceof ConceptConfigModel) {
           const GET_BY_ID = `{
-        get${this.capitalizeFirst(compConfig.data.conceptName)}(id:"${id}",blueprint:true){
+        get${utilFunctions.capitalizeFirst(compConfig.data.conceptName)}(id:"${id}",blueprint:true){
         dataSingle{
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
         }
@@ -265,7 +290,7 @@ export class DataService {
         if (compConfig.data && !(compConfig.data instanceof ConceptConfigModel)) {
           const GET_ALL = `
                     {
-                      get${this.capitalizeFirst(compConfig.data[compConfig.data.length - 1])}{
+                      get${utilFunctions.capitalizeFirst(compConfig.data[compConfig.data.length - 1])}{
                       id
                         ${this.getAllAttributes(compConfig.name, compConfig.data)}
                       }
@@ -279,7 +304,7 @@ export class DataService {
           // het bovenste is voor als je enkel een subconcept nodig zou hebben, mogelijk is dat zelfs nooit het geval
           const GET_ALL = `
                     {
-                      get${this.capitalizeFirst(compConfig.data.conceptName)}(multiple:true){
+                      get${utilFunctions.capitalizeFirst(compConfig.data.conceptName)}(multiple:true){
                               dataMultiple{
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
         }
@@ -321,7 +346,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       if (currentData) {
         const toEdit = id ? `id:"${id}",` : ''
         const MUTATION = `mutation Mutation {
-              ${verb}${this.capitalizeFirst(data.conceptName)}(${toEdit}${this.getMutationParams(data.attributes)}) {
+              ${verb}${utilFunctions.capitalizeFirst(data.conceptName)}(${toEdit}${this.getMutationParams(data.attributes)}) {
                     dataSingle{id}
               }
             }`

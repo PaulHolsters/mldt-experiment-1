@@ -15,6 +15,7 @@ import {ButtonClassType} from "../../enums/buttonClassType.enum";
 import {ButtonLayoutType} from "../../enums/buttonLayoutType.enum";
 import {RadioAttributeConfigModel} from "../../models/Data/RadioAttributeConfigModel";
 import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttributeConfigModel";
+import {FunctionType} from "../../enums/functionTypes.enum";
 
 export const conceptModel = new ConceptConfigModel(
   'product',
@@ -40,7 +41,8 @@ export const conceptModel = new ConceptConfigModel(
       new RadioAttributeConfigModel(
         NoValueType.DBI,
         NoValueType.DBI,
-        NoValueType.NVY
+        NoValueType.NVY,
+        [FunctionType.ToLowerCase,FunctionType.CreateSpaces,FunctionType.CapitalizeFirstLetter]
       ),undefined,undefined,'Categorie','Selecteer één van de mogelijke categorieën',undefined
     )
     ,
