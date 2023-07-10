@@ -207,21 +207,21 @@ export class DataService {
     }
     return undefined
   }
-  private calculatePipeValue(value:string,array:FunctionType[]):string{
-    let valCopy = value
+  private calculatePipeValue(radioValue:{label:string,value:string},array:FunctionType[]):{label:string,value:string}{
+    let valCopy = {...radioValue}
     array.forEach(func=>{
       switch (func){
         case FunctionType.ToLowerCase:
-          valCopy = utilFunctions.toLowerCase(valCopy)
+          valCopy.label = utilFunctions.toLowerCase(valCopy.label)
           break
         case FunctionType.ToUpperCase:
-          valCopy = utilFunctions.toUpperCase(valCopy)
+          valCopy.label = utilFunctions.toUpperCase(valCopy.label)
           break
         case FunctionType.CreateSpaces:
-          valCopy = utilFunctions.createSpaces(valCopy)
+          valCopy.label = utilFunctions.createSpaces(valCopy.label)
           break
         case FunctionType.CapitalizeFirstLetter:
-          valCopy = utilFunctions.capitalizeFirst(valCopy)
+          valCopy.label = utilFunctions.capitalizeFirst(valCopy.label)
           break
       }
     })
@@ -230,8 +230,8 @@ export class DataService {
   private pipeValue(concept:ConceptComponentModel,attr:AttributeComponentModel):AttributeComponentModel{
     if (attr.radio && attr.radio.pipe instanceof Array) {
       const pipeCopy = attr.radio.pipe
-      if(attr.radio.values instanceof Array && pipeCopy)
-      attr.radio.values = attr.radio.values.map(val =>{ return this.calculatePipeValue(val,pipeCopy)})
+      if(attr.radio.radioValues instanceof Array && pipeCopy)
+      attr.radio.radioValues = attr.radio.radioValues.map(val =>{ return this.calculatePipeValue(val,pipeCopy)})
     }
     return attr
   }
@@ -365,14 +365,16 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
       if (attr.radio.conceptName === NoValueType.DBI) {
         attr.radio.conceptName = concept.conceptName
       }
-      if (attr.radio.values === NoValueType.DBI) {
+      if (attr.radio.radioValues === NoValueType.DBI) {
         if (bp && typeof bp === 'string' && bp.indexOf('enumVal') !== -1) {
           const arr1Temp = bp.split('},{enumVal:')
           if (arr1Temp.length > 0 && typeof arr1Temp[0] === 'string')
             arr1Temp[0] = arr1Temp[0].substring(9)
           arr1Temp[arr1Temp.length - 1] = arr1Temp[arr1Temp.length - 1].substring(0, arr1Temp[arr1Temp.length - 1].length - 1)
-          const arr2Temp = arr1Temp.map(el => el.trim())
-          attr.radio.values = [...arr2Temp]
+          const arr2Temp = arr1Temp.map(el => el.trim()).map(el=>{
+            return {label:el,value:el}
+          })
+          attr.radio.radioValues = [...arr2Temp]
         }
       }
     } else if (attr.multiselect) {

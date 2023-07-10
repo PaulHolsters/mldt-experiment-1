@@ -6,9 +6,9 @@
       [style.height]="height"
       [style.width]="width"
     #inputWrapper>
-      <p-radioButton (onClick)="updateData()" name="{{name}}" [(ngModel)]="selectedValue" value="{{val}}"></p-radioButton>
+      <p-radioButton (onClick)="updateData()" name="{{name}}" [(ngModel)]="selectedValue" value="{{val.value}}"></p-radioButton>
       <!-- todo: geef styling aan op basis van config input-->
-      <m-label [text]="val"></m-label>
+      <m-label [text]="val.label"></m-label>
     </div>
   </ng-container>
 </m-container>

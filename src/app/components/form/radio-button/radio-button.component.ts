@@ -11,7 +11,7 @@ import {StoreService} from "../../../store.service";
 export class RadioButtonComponent implements OnInit {
   @Input() name:string|undefined
   @Input() selectedValue: string | undefined
-  @Input() values: string[] | undefined
+  @Input() values: {label:string,value:string}[] | undefined
   @Input() conceptName: string | undefined
   @Input() dataName: string | undefined
   @Input() dirty: boolean | undefined

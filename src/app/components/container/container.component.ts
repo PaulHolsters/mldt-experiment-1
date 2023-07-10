@@ -74,9 +74,9 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
     this.cd.detectChanges()
   }
 
-  getValues(): string[] {
-    if (this.dataAttribute?.radio?.values && typeof this.dataAttribute?.radio?.values !== 'string') {
-      return this.dataAttribute?.radio?.values
+  getValues(): {label:string,value:string}[] {
+    if (this.dataAttribute?.radio?.radioValues && typeof this.dataAttribute?.radio?.radioValues !== 'string') {
+      return this.dataAttribute?.radio?.radioValues
     } else return []
   }
 
