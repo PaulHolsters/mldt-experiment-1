@@ -19,5 +19,6 @@ export const table = {
   type: ComponentType.Table,
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
+  // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
   data:conceptModel
 }

@@ -503,6 +503,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const dataByID = (res as { data: {} })['data']
             const data = Object.values(dataByID)[0] as DataObjectModel
+            // todo in deze methode zal voor beide dataobjecten de formcontrols referen naar dezelfde data in het geheugen
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
             if (compObj) {
               this.objectData.push(compObj)
