@@ -23,12 +23,10 @@ export class FormComponent implements OnInit{
   }
   ngOnInit(): void {
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name,this.conceptId)
-    this.storeService.bindToStateProperty(this.name,'content')?.subscribe(res=>{
-      console.log('de data komt binnen ',res)
-    })
     this.content$ = this.storeService.bindToStateProperty(this.name,'content')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    console.log('form')
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

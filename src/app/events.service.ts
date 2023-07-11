@@ -46,7 +46,6 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqSM1.matches) {
-        console.log('load')
         this.screensize = ScreenSize.smartphone
         this.responsiveBehaviourService.setComponentStates( ScreenSize.smartphone)
       }
@@ -65,7 +64,6 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqPT1.matches && mqPT2.matches) {
-        console.log('load')
         this.screensize = ScreenSize.portraitTablet
         this.responsiveBehaviourService.setComponentStates( ScreenSize.portraitTablet)
       }
@@ -84,7 +82,6 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqT1.matches && mqT2.matches) {
-        console.log('load')
         this.screensize = ScreenSize.tablet
         this.responsiveBehaviourService.setComponentStates(ScreenSize.tablet)
       }
@@ -103,7 +100,6 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqL1.matches && mqL2.matches) {
-        console.log('load')
         this.screensize = ScreenSize.laptop
         this.responsiveBehaviourService.setComponentStates(ScreenSize.laptop)
       }
@@ -116,7 +112,6 @@ export class EventsService{
     }))
     window.addEventListener("load", (e => {
       if (mqHR1.matches) {
-        console.log('load')
         this.screensize = ScreenSize.highResolution
         this.responsiveBehaviourService.setComponentStates( ScreenSize.highResolution)
       }

@@ -65,12 +65,11 @@ export class DataService {
   private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[] | ConceptConfigModel[]): ConceptComponentModel | undefined {
     if (compConfig instanceof ConceptConfigModel) {
       let newObj: ConceptComponentModel = {
-        conceptId: data.dataSingle?.id ?? NoValueType.NA,
         conceptName: compConfig.conceptName,
         attributes: [],
         errorMessages: NoValueType.NI,
         conceptBluePrint: data.blueprint,
-        conceptData: data.dataSingle,
+        conceptData: data.dataSingle ? Object.assign(data.dataSingle,{id:data.dataSingle?.id ?? NoValueType.NA}) : undefined,
         dataList: data.dataMultiple
       }
       const configCopy = {...compConfig}
@@ -103,7 +102,7 @@ export class DataService {
   public updateData(name: string, value: DataRecordModel[] | number | string | undefined, id?: string) {
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptId === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
+      return dataObj.conceptData?.id === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
     })
     if (obj && obj.attributes) {
       if (parts.length === 2) {
@@ -133,7 +132,7 @@ export class DataService {
             return attr.name === parts[1]
           }), 1, attr)
           this.objectData.splice(this.objectData.findIndex(dataObj => {
-            return dataObj.conceptId === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
+            return dataObj.conceptData?.id === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
           }), 1, obj)
         }
       } else {
@@ -162,7 +161,7 @@ export class DataService {
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0] && (dataSpecs.reduce(
           (specA, specB) => {
-            const copyDataObj = new ConceptComponentModel(dataObj.conceptId, dataObj.conceptName, dataObj.attributes, dataObj.errorMessages, dataObj.dataList, dataObj.conceptData,
+            const copyDataObj = new ConceptComponentModel(dataObj.conceptName, dataObj.attributes, dataObj.errorMessages, dataObj.dataList, dataObj.conceptData,
               dataObj.conceptBluePrint)
             return ((specA.toString() in copyDataObj && copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())) && (specB.toString() in copyDataObj
               && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))
@@ -245,6 +244,7 @@ export class DataService {
         propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
+        debugger
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })
@@ -274,6 +274,7 @@ export class DataService {
           const GET_BY_ID = `{
         get${utilFunctions.capitalizeFirst(compConfig.data.conceptName)}(id:"${id}",blueprint:true){
         dataSingle{
+        id
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
         }
         blueprint{${this.getAllAttributes(compConfig.name, compConfig.data)}}
@@ -306,6 +307,7 @@ export class DataService {
                     {
                       get${utilFunctions.capitalizeFirst(compConfig.data.conceptName)}(multiple:true){
                               dataMultiple{
+                              id
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
         }
                       }
@@ -427,11 +429,9 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
       const conceptId = this.objectData.find(d => {
-        return d.conceptName === cname && d.conceptId !== NoValueType.NA
-      })?.conceptId
-      if (this.objectData.find(obj => {
-        return obj.conceptId === conceptId
-      })) {
+        return d.conceptName === cname && d.conceptData?.id && d.conceptData.id !== NoValueType.NA
+      })?.conceptData?.id
+      if (conceptId) {
         await this.mutate(comp?.data, MutationType.Update, conceptId)?.subscribe(res => {
           console.log(res, 'yeah!')
         })
@@ -462,6 +462,10 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
   }
 
   public async getAllData(action: ActionModel) {
+    // todo gebruik conceptBluePrint voor het klaarzetten van de kolommen, zodat je iets deftigs kan tonen indien
+    //      de datalist leeg is + als die leeg is wordt er nu niets getoond omdat de getDataObject methode dan undefined teruggeeft en
+    //      de componenten zijn daar nu niet op voorzien
+    //      zelfde probleem bij ophalen van id indien record niet (meer) zou bestaan
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
@@ -495,6 +499,10 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
   }
 
   public async getDataByID(action: ActionModel, id: string) {
+    // todo gebruik conceptBluePrint voor het klaarzetten van de kolommen, zodat je iets deftigs kan tonen indien
+    //      de datalist leeg is + als die leeg is wordt er nu niets getoond omdat de getDataObject methode dan undefined teruggeeft en
+    //      de componenten zijn daar nu niet op voorzien
+    //      zelfde probleem bij ophalen van id indien record niet (meer) zou bestaan
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
@@ -524,8 +532,8 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
         const concept = this.objectData.find(conceptM => {
           return conceptM.conceptName === comp?.name
         })
-        if (concept) {
-          concept.conceptId = data
+        if (concept && concept.conceptData) {
+          concept.conceptData.id = data
         } else throw new Error('no concept found matching id ' + data)
       } else throw new Error('configuration not in accordance with components')
     }

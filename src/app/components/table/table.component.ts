@@ -20,6 +20,7 @@ export class TableComponent implements OnInit {
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       this.dataList = (res as {dataList:DataObjectModel[]} )?.dataList
+      // todo door een fout op de server kan het zijn dat bepaalde records null zijn maar deze uitzondering wordt niet opgevangen in de frontend
     })
   }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
@@ -27,6 +28,8 @@ export class TableComponent implements OnInit {
   //      de mogelijkheid van datapresentatie
   getColumns():{field:string,header:string}[]{
     if(this.dataList && this.dataList?.length > 0){
+      // bij problemen op de server kan het zijn dat this.dataList[0] null is en dat mag niet!
+      if(this.dataList[0] === null) return []
       return Object.keys(this.dataList[0]).map(key=>{
         return {field:key,header:utilFunctions.capitalizeFirst(key)}
       }).filter(col=>{

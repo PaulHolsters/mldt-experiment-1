@@ -41,24 +41,21 @@
   [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
   [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
 #container>
-<!--  todo height en width van een container worden onterecht op 100% gezet-->
   <ng-content></ng-content>
   <ng-container *ngIf="(children$|async)">
     <ng-container *ngFor="let child of children$|async">
       <!--
       TODO
-            !!! fix bug: de hoogte moet hier automatisch 100% zijn al kan het zijn dat dit dan weer op een ander vlak problemen geeft !!
-            of bepaalde componenten moeten verplicht in een container zitten van hun eigen? Bij form in config moet overflow nog opgezet worden
+          Bij form in config moet overflow nog opgezet worden
       -->
       <div
-        *ngIf="(dataAttribute && !dataAttribute.floatLabel)||child.type !== componentType.Label||(child.type === componentType.Label &&
-      !dataAttribute
-      )"
+        *ngIf="(dataAttribute && !dataAttribute.floatLabel)
+        ||child.type !== componentType.Label
+        ||(child.type === componentType.Label && !dataAttribute)"
         [class.visibilityHidden]="
       (child.type !== componentType.Container) &&
       !(bindToStateProperty(child.name,'visible') | async)
       && (bindToStateProperty(child.name,'holdSpace') | async) "
-
         [class.displayNone]="(child.type !== componentType.Container)
       &&!(bindToStateProperty(child.name,'visible') | async)
       && !(bindToStateProperty(child.name,'holdSpace') | async)"
@@ -80,6 +77,7 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
         [class.flex]="(child.type === componentType.Form)"
         [ngSwitch]="child.type">
+
         <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -133,7 +131,7 @@
                         [small]="dataAttribute?.text?.inputFontSize===InputFontSize.Small"
                         [large]="dataAttribute?.text?.inputFontSize===InputFontSize.Large"
                         [disabled]="dataAttribute?.disabled"
-                        [conceptId]="dataConcept?.conceptId"
+                        [conceptId]="dataConcept?.conceptData?.id"
           ></m-input-text>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.InputNumber">
@@ -244,6 +242,7 @@
                          [style.width]="'100%'"
                          *ngSwitchCase="componentType.Logo"
                          [name]="child.name"></m-logo>
+
         <m-form          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -253,6 +252,7 @@
                          [style.height]="'100%'"
                          [style.width]="'100%'"
        ></m-form>
+
         <m-table          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

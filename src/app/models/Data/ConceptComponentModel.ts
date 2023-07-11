@@ -5,7 +5,6 @@ import {DataRecordModel} from "../DataRecordModel";
 
 export class ConceptComponentModel {
 constructor(
-  public conceptId:string|NoValueType.NA,
   public conceptName:string,
   public attributes:AttributeComponentModel[]|NoValueType.NA,
   public errorMessages:string[]|NoValueType.NI, // error boodschap op concept ipv attribuut niveau
@@ -15,7 +14,6 @@ constructor(
 ) {
 }
 getValueFor?(prop:string){
-  console.log('dit heb ik gevonden')
   return Reflect.get(this,prop)
 }
 }

@@ -19,12 +19,10 @@ export class FormcontrolComponent implements OnInit {
   height:string|undefined
   constructor(private dataService: DataService,private storeService:StoreService) { }
   ngOnInit(): void {
-    this.storeService.bindToStateProperty(this.name,'content')?.subscribe(res=>{
-      console.log('formcontrols',res)
-    })
     this.content$ = this.storeService.bindToStateProperty(this.name,'content')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    console.log('form control',this.name)
   }
 
   setCalculatedHeight(val:any):boolean{
