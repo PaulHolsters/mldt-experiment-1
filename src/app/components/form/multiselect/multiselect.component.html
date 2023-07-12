@@ -5,7 +5,7 @@
        [style.height]="height"
        [style.width]="width"
        #multiselect>
-    <p-multiSelect appendTo="body" [options]="options===NoValueType.DBI? [] : options" (click)="updateData()" [(ngModel)]="selectedOptions" optionLabel="{{optionLabel}}"></p-multiSelect>
+    <p-multiSelect appendTo="body" [options]="options===NoValueType.DBI? [] : options" (onPanelHide)="updateData()" [(ngModel)]="selectedOptions" optionLabel="{{optionLabel}}"></p-multiSelect>
   </div>
 <!--
        [style.position]="'absolute'"

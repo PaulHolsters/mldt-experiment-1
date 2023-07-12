@@ -53,8 +53,10 @@ export class MultiselectComponent implements OnInit {
   }
 
   updateData() {
-    if(this.name)
-    this.dataService.updateData(this.name, this.selectedOptions)
+    if(this.name){
+      this.dataService.updateData(this.name, this.selectedOptions)
+    }
+
   }
 
 }
