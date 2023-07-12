@@ -31,7 +31,7 @@ export const conceptModel = new ConceptConfigModel(
       undefined, undefined,undefined,undefined, 'Product naam', 'Geef een adequate naam'
     ),
     new AttributeConfigModel(
-      'cat',
+      'category',
       undefined,
       undefined,
       false,

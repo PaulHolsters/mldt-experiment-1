@@ -244,7 +244,6 @@ export class DataService {
         propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
-        debugger
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })
@@ -289,6 +288,7 @@ export class DataService {
       case QuerySubType.GetAllData:
         // typisch voor een component zoals een tabel
         if (compConfig.data && !(compConfig.data instanceof ConceptConfigModel)) {
+          // dit is voor als je enkel een subconcept nodig zou hebben, mogelijk is dat zelfs nooit het geval
           const GET_ALL = `
                     {
                       get${utilFunctions.capitalizeFirst(compConfig.data[compConfig.data.length - 1])}{
@@ -302,10 +302,12 @@ export class DataService {
               query: gql`${GET_ALL}`
             }).valueChanges
         } else if (compConfig.data instanceof ConceptConfigModel) {
-          // het bovenste is voor als je enkel een subconcept nodig zou hebben, mogelijk is dat zelfs nooit het geval
           const GET_ALL = `
                     {
-                      get${utilFunctions.capitalizeFirst(compConfig.data.conceptName)}(multiple:true){
+                      get${utilFunctions.capitalizeFirst(compConfig.data.conceptName)}(multiple:true,blueprint:true){
+                                            blueprint{
+                        ${this.getAllAttributes(compConfig.name, compConfig.data)}
+                      }
                               dataMultiple{
                               id
         ${this.getAllAttributes(compConfig.name, compConfig.data)}
@@ -327,11 +329,11 @@ export class DataService {
     const strVal = data.map(x => {
         return `\
 ${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions) ? (x.name + ':' || '') : ''}\
-${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '[' : ''}${(x.multiselect?.selectedOptions?.length ?? 0) > 0 ? '"' : ''}\
+${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? '[' : ''}${(x.multiselect?.selectedOptions?.length ?? 0) > 0 ? '"' : ''}\
 ${(x.number?.value || x.text?.value || x.radio?.value || x.multiselect?.selectedOptions?.map(opt => {
           return opt.id
         }).join('","')) || ''}${(x.multiselect?.selectedOptions?.length ?? 0) > 0 ? '"' : ''}\
-${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
+${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
 `
       }
     )
@@ -352,6 +354,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
                     dataSingle{id}
               }
             }`
+        console.log(MUTATION)
         return this.apollo
           .mutate({
             mutation: gql`${MUTATION}`
@@ -462,10 +465,7 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
   }
 
   public async getAllData(action: ActionModel) {
-    // todo gebruik conceptBluePrint voor het klaarzetten van de kolommen, zodat je iets deftigs kan tonen indien
-    //      de datalist leeg is + als die leeg is wordt er nu niets getoond omdat de getDataObject methode dan undefined teruggeeft en
-    //      de componenten zijn daar nu niet op voorzien
-    //      zelfde probleem bij ophalen van id indien record niet (meer) zou bestaan
+    // todo in de table component empty value opvangen
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
@@ -475,7 +475,9 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as DataObjectModel
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
-            if (comp.data && !(comp.data instanceof ConceptConfigModel)) {
+            const error = compObj?.dataList?.includes(null) || compObj?.dataList === null
+              || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
+            if (comp.data && !(comp.data instanceof ConceptConfigModel) && !error) {
               const attributeModel = this.getDataObject(comp.data, comp.type, [DataSpecificationType.DataList])
               // TODO ik denk niet dat een datalist nog nodig is
               if (attributeModel) {
@@ -487,10 +489,10 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
                 })
                 this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList])
               }
-            } else if (compObj) {
+            } else if (compObj && !error) {
               this.objectData.push(compObj)
               this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList], compObj)
-            }
+            } else throw new Error('Error on the graphQL server')
           }
         })
       }
@@ -499,10 +501,6 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
   }
 
   public async getDataByID(action: ActionModel, id: string) {
-    // todo gebruik conceptBluePrint voor het klaarzetten van de kolommen, zodat je iets deftigs kan tonen indien
-    //      de datalist leeg is + als die leeg is wordt er nu niets getoond omdat de getDataObject methode dan undefined teruggeeft en
-    //      de componenten zijn daar nu niet op voorzien
-    //      zelfde probleem bij ophalen van id indien record niet (meer) zou bestaan
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
       if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
@@ -513,10 +511,14 @@ ${(x.text?.value || x.radio?.value) ? '"' : (x.multiselect?.selectedOptions) ? '
             const data = Object.values(dataByID)[0] as DataObjectModel
             // todo in deze methode zal voor beide dataobjecten de formcontrols referen naar dezelfde data in het geheugen
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
-            if (compObj) {
+            const error = compObj?.conceptData === undefined
+              || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
+            if (compObj && !error) {
               this.objectData.push(compObj)
               this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.Id, DataSpecificationType.Blueprint], compObj)
-            }
+              // todo bij error de desbtreffende component vervangen door een standaard errortext component
+            } else throw new Error('Error on the graphQL server: voor het id '+id+' bestaat geen record (meer). Mogelijks is het verwijderd geweest door een ' +
+              'andere gebruiker.')
           }
         })
       }

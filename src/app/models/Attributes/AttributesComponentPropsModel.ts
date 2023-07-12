@@ -11,6 +11,7 @@ export class AttributesComponentPropsModel {
                 public start?:ComponentModel|undefined,
                 public end?:ComponentModel|undefined,
                 public content?: ComponentModel,
+                public textWhenEmpty?:string|undefined,
                 public dataLink?:string[]
                 ) {
   }

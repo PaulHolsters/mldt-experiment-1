@@ -258,6 +258,8 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                          *ngSwitchCase="componentType.Table"
                          [name]="child.name"
+                          [style.height]="'100%'"
+                          [style.width]="'100%'"
         ></m-table>
         <m-container *ngSwitchCase="componentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),

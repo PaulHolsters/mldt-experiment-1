@@ -68,6 +68,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
   nameFormControl: string | undefined
 
   constructor(private storeService: StoreService, private cd: ChangeDetectorRef, private eventsService: EventsService) {
+
   }
 
   ngAfterContentChecked(): void {
@@ -76,6 +77,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
 
   getValues(): {label:string,value:string}[] {
     if (this.dataAttribute?.radio?.radioValues && typeof this.dataAttribute?.radio?.radioValues !== 'string') {
+      console.log('radio',this.dataAttribute?.radio?.radioValues)
       return this.dataAttribute?.radio?.radioValues
     } else return []
   }

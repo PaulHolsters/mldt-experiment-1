@@ -13,6 +13,7 @@ export class AttributesConfigPropsModel {
     public start?: ComponentModel,
     public end?: ComponentModel,
     public content?: ComponentModel,
+    public textWhenEmpty?:string,
     public dataLink?:string[]
   ) {
   }

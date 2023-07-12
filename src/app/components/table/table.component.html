@@ -1,4 +1,4 @@
-<p-table [columns]="getColumns()" [value]="dataList ?? []">
+<p-table [columns]="getColumns()" [value]="dataList ?? []" [style.width]="'100%'" [style.height]="'100%'">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let column of columns">{{column['header']}}</th>
@@ -10,6 +10,9 @@
         {{ rowData[column['field']] }}
       </td>
     </tr>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p *ngIf="this.dataList && this.dataList.length===0">{{textWhenEmpty$|async}}</p>
   </ng-template>
 </p-table>
 <!-- todo alternatief tonen voor als data geladen wordt of door een serverprobleem niet werkt! -->

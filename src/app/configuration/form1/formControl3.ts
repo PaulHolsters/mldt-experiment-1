@@ -55,7 +55,7 @@ export const formControl3 = {
           ), DynamicDimensionValueConfigType.NC)
         )),
         new ResponsiveAttributesConfigModel({
-          dataLink: ['product', 'cat']
+          dataLink: ['product', 'category']
         }),
         new ResponsiveVisibilityConfigModel(
           new VisibilityConfigPropsModel()),
@@ -93,7 +93,7 @@ export const formControl3 = {
               ), DynamicDimensionValueConfigType.NC)
             )),
             new ResponsiveAttributesConfigModel({
-              dataLink: ['product', 'cat']
+              dataLink: ['product', 'category']
             }),
             new ResponsiveVisibilityConfigModel(),
             undefined,

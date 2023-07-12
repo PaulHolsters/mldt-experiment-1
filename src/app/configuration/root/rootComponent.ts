@@ -95,7 +95,7 @@ export const RootComponent = new AppConfig({
       sourceName: 'table',
       on: EventType.ComponentReady
     },
-/*        {
+        {
           actionType: ActionType.Server,
           actionSubType: ActionSubType.GetDataBluePrint,
           targetType: TargetType.Component,
@@ -110,8 +110,8 @@ export const RootComponent = new AppConfig({
           targetName: NoValueType.NA,
           sourceName: 'submitbtn',
           on: EventType.ComponentClicked
-        },*/
-    {
+        },
+/*    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataByID,
       targetType: TargetType.Component,
@@ -126,6 +126,6 @@ export const RootComponent = new AppConfig({
       targetName: NoValueType.NA,
       sourceName: 'submitbtn',
       on: EventType.ComponentClicked
-    },
+    },*/
   ]
 })
