@@ -343,7 +343,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
   }
 
   public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType, id?: string): Observable<any> | undefined {
-    debugger
     if (data instanceof ConceptConfigModel) {
       const currentData = this.objectData.find(dataObj => {
         return dataObj.conceptName === data.conceptName
