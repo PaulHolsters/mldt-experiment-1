@@ -13,7 +13,6 @@ export class AnchorComponent implements OnInit {
   componentType = ComponentType
   constructor(private storeService: StoreService) { }
   ngOnInit(): void {
-    console.log('init anchor', this.component)
   }
   bindToStateProperty(componentName: string, property: string): Observable<string> {
     return this.storeService.bindToStateProperty(componentName, property) as Observable<string>

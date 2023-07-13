@@ -36,7 +36,7 @@ export class DataService {
       return data.attributes.map(x => {
         if (x.concept && x.concept.attributes && x.concept.attributes instanceof Array) {
           // todo zie dat je eindeloos kan gaan indien nodig
-          return x.name + `{\nid\n${x.concept.attributes.map(attr => attr.name).join('\n')}}`
+          return x.name + `{\n${x.concept.attributes.map(attr => attr.name).join('\n')}}`
         }
         return x.name || ''
       }).reduce((x, y) => x += '\n' + y, '')
@@ -262,6 +262,7 @@ export class DataService {
                       }
                     }
         `
+          console.log(GET_BLUEPRINT)
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BLUEPRINT}`
@@ -354,7 +355,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
                     dataSingle{id}
               }
             }`
-        console.log(MUTATION)
+        debugger
         return this.apollo
           .mutate({
             mutation: gql`${MUTATION}`
@@ -436,6 +437,34 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       })?.conceptData?.id
       if (conceptId) {
         await this.mutate(comp?.data, MutationType.Update, conceptId)?.subscribe(res => {
+          console.log(res, 'yeah!')
+        })
+      }
+    } else throw new Error('No valid conceptId could be found')
+  }
+
+  public async deleteData(action: ActionModel) {
+    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
+    if (!comp) {
+      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
+    }
+    if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
+      const cname = comp.data.conceptName
+      let conceptId
+      const dataObj = this.objectData.find(d => {
+        return d.conceptName === cname && (d.conceptData?.id && d.conceptData.id !== NoValueType.NA)||(d.conceptBluePrint&&
+          typeof d.attributes !== 'string' &&
+          d.attributes.find(attr=>{
+            if(attr.name === 'id' && attr?.text?.value && attr.text.value !== NoValueType.NA){
+              conceptId = attr.text.value
+              return true
+            }
+            return false
+          }))
+      })
+      if(!conceptId) conceptId = dataObj?.conceptData?.id
+      if (conceptId) {
+        await this.mutate(comp?.data, MutationType.Delete, conceptId)?.subscribe(res => {
           console.log(res, 'yeah!')
         })
       }

@@ -22,7 +22,6 @@ export class FormcontrolComponent implements OnInit {
     this.content$ = this.storeService.bindToStateProperty(this.name,'content')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
     this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
-    console.log('form control',this.name)
   }
 
   setCalculatedHeight(val:any):boolean{

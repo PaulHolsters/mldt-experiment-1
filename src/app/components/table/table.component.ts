@@ -23,11 +23,7 @@ export class TableComponent implements OnInit {
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       this.dataList = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.dataList
-      console.log(this.dataList?.length)
       this.blueprint = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.conceptBluePrint
-    })
-    this.storeService.bindToStateProperty(this.name,'textWhenEmpty')?.subscribe(res=>{
-      console.log(res)
     })
     this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
   }

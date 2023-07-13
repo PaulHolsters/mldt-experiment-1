@@ -77,7 +77,6 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
 
   getValues(): {label:string,value:string}[] {
     if (this.dataAttribute?.radio?.radioValues && typeof this.dataAttribute?.radio?.radioValues !== 'string') {
-      console.log('radio',this.dataAttribute?.radio?.radioValues)
       return this.dataAttribute?.radio?.radioValues
     } else return []
   }
@@ -88,11 +87,14 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
         this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,
           RootComponent)
       }
+      this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
       this.storeService.bindToStateProperty(this.name, 'dataConcept')?.subscribe(res => {
         this.dataConcept = res as ConceptComponentModel
+        console.log(this.dataConcept)
       })
       this.storeService.bindToStateProperty(this.name, 'dataAttribute')?.subscribe(res => {
         this.dataAttribute = res as AttributeComponentModel
+        console.log(this.dataAttribute)
       })
       this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
         this.dataLink = res as string[]

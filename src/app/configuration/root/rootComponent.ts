@@ -15,6 +15,7 @@ import {TargetType} from "../../enums/targetTypes.enum";
 import {EventType} from "../../enums/eventTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {table} from "../table/table";
+import {deleteContainer} from "../deleteContainer/deleteContainer";
 
 export const RootComponent = new AppConfig({
   components: [
@@ -28,9 +29,10 @@ export const RootComponent = new AppConfig({
       childLayout: mainChildLayout,
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
-        header,
-        form,
-        table
+        //header,
+        deleteContainer
+        //form,
+        //table
       ]
     },
   ],
@@ -87,13 +89,29 @@ export const RootComponent = new AppConfig({
       sourceName: 'content-container',
       on: EventType.RootComponentReady
     },
-    {
+/*    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetAllData,
       targetType: TargetType.Component,
       targetName: 'table',
       sourceName: 'table',
       on: EventType.ComponentReady
+    },*/
+    {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.GetDataBluePrint,
+      targetType: TargetType.Component,
+      targetName: 'delete-container',
+      sourceName: 'delete-container',
+      on: EventType.ComponentReady
+    },
+    {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.DeleteByID,
+      targetType: TargetType.API,
+      targetName: NoValueType.NA,
+      sourceName: 'delete-btn',
+      on: EventType.ComponentClicked
     },
 /*        {
           actionType: ActionType.Server,
@@ -111,7 +129,7 @@ export const RootComponent = new AppConfig({
           sourceName: 'submitbtn',
           on: EventType.ComponentClicked
         },*/
-    {
+/*    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataByID,
       targetType: TargetType.Component,
@@ -126,6 +144,6 @@ export const RootComponent = new AppConfig({
       targetName: NoValueType.NA,
       sourceName: 'submitbtn',
       on: EventType.ComponentClicked
-    },
+    },*/
   ]
 })

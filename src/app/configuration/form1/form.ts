@@ -16,7 +16,6 @@ import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValue
 import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
 
 export const form = {
-  // todo waarom is dit 100%?
   name: 'my first form',
   type: ComponentType.Form,
   attributes: new ResponsiveAttributesConfigModel(

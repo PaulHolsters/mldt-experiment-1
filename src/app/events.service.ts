@@ -174,8 +174,12 @@ export class EventsService{
               case ActionSubType.PersistNewData:
                 await this.dataService.persistNewData(action)
                 break
+              // todo voorzien dat je data en masse kan wijzigen aanmaken of verwijderen
               case ActionSubType.PersistUpdatedData:
                   await this.dataService.persistUpdatedData(action)
+                break
+              case ActionSubType.DeleteByID:
+                await this.dataService.deleteData(action)
                 break
               default:
             }
