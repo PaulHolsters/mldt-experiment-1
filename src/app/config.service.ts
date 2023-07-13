@@ -12,6 +12,17 @@ export class ConfigService {
 
   }
 
+  setValue(action:ActionModel){
+    const currentConfig = this.store.appConfig
+    if(currentConfig){
+      let config = currentConfig.getComponentConfig(action.targetName)
+      if(!config) config = currentConfig.getComponentConfigThroughAttributes(action.targetName)
+      if(!config) throw new Error('action was not configured correctly')
+      // todo change the property
+
+    }
+  }
+
 
 /*  private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []

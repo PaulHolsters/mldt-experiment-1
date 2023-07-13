@@ -3,6 +3,12 @@ import {TargetType} from "../enums/targetTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {EventType} from "../enums/eventTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
+import {ResponsiveAttributesConfigModel} from "./Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveDimensioningConfigModel} from "./Dimensioning/self/ResponsiveDimensioningConfigModel";
+import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
+import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
+import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
+import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
 
 export class ActionModel {
   constructor(
@@ -11,7 +17,14 @@ export class ActionModel {
     public targetName:string|NoValueType.NA,
     public sourceName:string|NoValueType.NA,
     public actionType:ActionType,
-    public actionSubType?:ActionSubType
+    public actionSubType?:ActionSubType,
+    public id?:string,
+    public targetId?:string,
+    public sourceId?:string,
+    public value?:
+      ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
+      |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
+      ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel,
   ) {
   }
   // props?:{name:string,value?:any,condition?:{comparison:string,values:(Object|string)[]}}[]

@@ -47,14 +47,16 @@ import AppConfig from "./configuration/appConfig";
   providedIn: 'root'
 })
 export class StoreService {
-  private _appConfig:AppConfig|undefined
+  private _appConfig:AppConfig[]=[]
   constructor() {
   }
   public saveConfig(config:AppConfig){
-    this._appConfig = Object.create(config)
+    this._appConfig.push(Object.create(config))
   }
-  public get appConfig(){
-    return this._appConfig
+  public get appConfig():AppConfig|undefined{
+    if(this._appConfig.length>0)
+    return Object.create(this._appConfig[this._appConfig.length-1])
+    return undefined
   }
   private statePropertySubjects: StatePropertySubjectModel[] = []
   private hasScreenSizeProperty(stateModel:

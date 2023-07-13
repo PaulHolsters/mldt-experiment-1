@@ -6,5 +6,6 @@ export enum ActionSubType {
   SetResponsiveBehaviour,
   GetAllData,
   GetDataByID,
-  DeleteByID
+  DeleteByID,
+  SetValue
 }

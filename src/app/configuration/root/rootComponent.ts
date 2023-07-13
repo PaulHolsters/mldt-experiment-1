@@ -7,14 +7,11 @@ import {mainChildLayout} from "./mainChildLayout";
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
-import {header} from "../header/header";
-import {form} from "../form1/form";
 import {ActionType} from "../../enums/actionTypes.enum";
 import {ActionSubType} from "../../enums/actionSubTypes.enum";
 import {TargetType} from "../../enums/targetTypes.enum";
 import {EventType} from "../../enums/eventTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
-import {table} from "../table/table";
 import {deleteContainer} from "../deleteContainer/deleteContainer";
 
 export const RootComponent = new AppConfig({
@@ -111,8 +108,18 @@ export const RootComponent = new AppConfig({
       targetType: TargetType.API,
       targetName: NoValueType.NA,
       sourceName: 'delete-btn',
-      on: EventType.ComponentClicked
+      on: EventType.ComponentClicked,
+      id:'delete-product'
     },
+    {
+      on:EventType.ActionFinished,
+      sourceId:'delete-product',
+      actionType:ActionType.Client,
+      actionSubType:ActionSubType.SetValue,
+      targetName:'delete-container',
+      sourceName:NoValueType.NA,
+      targetType:TargetType.Component,
+    }
 /*        {
           actionType: ActionType.Server,
           actionSubType: ActionSubType.GetDataBluePrint,
