@@ -349,13 +349,13 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
         return dataObj.conceptName === data.conceptName
       })
       if (currentData) {
-        const toEdit = id ? `id:"${id}",` : ''
+        // const toEdit = id ? `id:"${id}",` : ''
+        /*${toEdit}*/
         const MUTATION = `mutation Mutation {
-              ${verb}${utilFunctions.capitalizeFirst(data.conceptName)}(${toEdit}${this.getMutationParams(data.attributes)}) {
+              ${verb}${utilFunctions.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
                     dataSingle{id}
               }
             }`
-        debugger
         return this.apollo
           .mutate({
             mutation: gql`${MUTATION}`
