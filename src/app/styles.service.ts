@@ -12,11 +12,16 @@ import {FontStyleType} from "./enums/fontStyleType.enum";
 import {FontSizeType} from "./enums/fontSizeType.enum";
 import {TextColorType} from "./enums/textColorType.enum";
 import {TextDecorationType} from "./enums/textDecorationType.enum";
+import {ActionType} from "./enums/actionTypes.enum";
+import {ActionSubType} from "./enums/actionSubTypes.enum";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StylesService {
+  public bindActions(){
+    debugger
+  }
   public getFont(
     fontWeight:FontWeightType,
     fontStyle:FontStyleType,
@@ -273,6 +278,8 @@ export class StylesService {
     return Object.assign(this.getPadding(padding),this.getMargin(margin),
       this.getBorder(border),this.getBackgroundColor(backgroundColor))
   }
-  constructor() { }
+  constructor() {
+    debugger
+  }
 
 }

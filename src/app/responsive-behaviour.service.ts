@@ -5,6 +5,7 @@ import {ActionType} from "./enums/actionTypes.enum";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {ActionsService} from "./actions.service";
 import {ScreenSize} from "./enums/screenSizes.enum";
+import {ConfigService} from "./config.service";
 @Injectable({
   providedIn: 'root'
 })
@@ -22,12 +23,23 @@ export class ResponsiveBehaviourService implements OnInit{
   private mqL2 = window.matchMedia("(max-width: 1280px)") //desktop
   private mqHR1 = window.matchMedia("(min-width: 1281px)") //HR
 
-  constructor(private storeService:StoreService,private actionsService:ActionsService) {
+  constructor(private storeService:StoreService,
+              private configService:ConfigService,
+              private actionsService:ActionsService) {
+    this.actionsService.bindToActionsEmitter.subscribe(res=>{
+      this.bindActions()
+    })
+    debugger
   }
-  ngOnInit(): void {
+  public bindActions(){
+    debugger
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{
+      debugger
       this.setResponsiveBehaviour()
     })
+  }
+  ngOnInit(): void {
+
   }
   private setResponsiveBehaviour() {
     this.mqSM1.addEventListener("change", (e => {
@@ -168,7 +180,7 @@ export class ResponsiveBehaviourService implements OnInit{
 
   }
   public setComponentStates( screenSize: number) {
-    this.storeService.appConfig?.userConfig.components.forEach(comp => {
+    this.configService.appConfig?.userConfig.components.forEach(comp => {
       this.setState(comp, screenSize)
     })
   }

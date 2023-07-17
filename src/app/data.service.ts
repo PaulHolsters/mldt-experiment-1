@@ -24,41 +24,56 @@ import {EventType} from "./enums/eventTypes.enum";
 import {ActionType} from "./enums/actionTypes.enum";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {ActionsService} from "./actions.service";
+import {ConfigService} from "./config.service";
 @Injectable({
   providedIn: 'root'
 })
 export class DataService implements OnInit{
-  constructor(private storeService: StoreService, private apollo: Apollo,private eventsService:EventsService,private actionsService:ActionsService) {
+  constructor(private configService:ConfigService,
+              private storeService: StoreService,
+              private apollo: Apollo,
+              private eventsService:EventsService,
+              private actionsService:ActionsService) {
+    this.actionsService.bindToActionsEmitter.subscribe(res=>{
+      debugger
+      this.bindActions()
+    })
+  debugger
   }
-  ngOnInit(): void {
+  public bindActions(){
+    // todo actions geraken niet gebonden omwille van weerkerende circular dependency
+    debugger
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataBluePrint)?.subscribe(res=>{
-      this.getDataBluePrint(res.action)
+      if(res)this.getDataBluePrint(res.action)
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataByID)?.subscribe(res=>{
-      this.getDataByID(res.action, res.data).then(r => {
+      if(res)this.getDataByID(res.action, res.data).then(r => {
 
       })
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetAllData)?.subscribe(res=>{
-      this.getAllData(res.action).then(r => {
+      if(res)this.getAllData(res.action).then(r => {
 
       })
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.DeleteByID)?.subscribe(res=>{
-      this.deleteData(res.action).then(r => {
+      if(res)this.deleteData(res.action).then(r => {
 
       })
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.PersistNewData)?.subscribe(res=>{
-      this.persistNewData(res.action).then(r => {
+      if(res)this.persistNewData(res.action).then(r => {
 
       })
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.PersistUpdatedData)?.subscribe(res=>{
-      this.persistUpdatedData(res.action).then(r => {
+      if(res)this.persistUpdatedData(res.action).then(r => {
 
       })
     })
+  }
+  ngOnInit(): void {
+
   }
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
@@ -266,8 +281,8 @@ export class DataService implements OnInit{
   private setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       // todo refactor
-      let comp = this.storeService.appConfig?.getComponentConfig(propSubj.componentName)
-      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
+      let comp = this.configService.appConfig?.getComponentConfig(propSubj.componentName)
+      if (!comp) comp = this.configService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel && comp.name === nameComponent) {
         propSubj.propValue.next(compConcept)
@@ -439,18 +454,18 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     return attr
   }
   public async persistNewData(action: ActionModel) {
-    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
+    let comp = this.configService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
-      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
+      comp = this.configService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
     }
     await this.mutate(comp?.data, MutationType.Create)?.subscribe(res => {
       console.log(res, 'yeah!')
     })
   }
   public async persistUpdatedData(action: ActionModel) {
-    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
+    let comp = this.configService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
-      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
+      comp = this.configService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
     }
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
@@ -465,9 +480,9 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     } else throw new Error('No valid conceptId could be found')
   }
   public async deleteData(action: ActionModel) {
-    let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
+    let comp = this.configService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
-      comp = this.storeService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
+      comp = this.configService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
     }
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
@@ -493,10 +508,11 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     } else throw new Error('No valid conceptId could be found')
   }
   public getDataBluePrint(action: ActionModel) {
+    debugger
     if (action.targetType === TargetType.Component) {
-      let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)
+      let compModel = this.configService.appConfig?.getComponentConfig(action.targetName)
       if (!compModel) {
-        compModel = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
+        compModel = this.configService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       }
       if (compModel !== undefined) {
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
@@ -516,8 +532,8 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
   public async getAllData(action: ActionModel) {
     // todo in de table component empty value opvangen
     if (action.targetType === TargetType.Component) {
-      let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
-      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
+      let comp = this.configService.appConfig?.getComponentConfig(action.targetName)
+      if (!comp) comp = this.configService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
@@ -550,8 +566,8 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
   }
   public async getDataByID(action: ActionModel, id: string) {
     if (action.targetType === TargetType.Component) {
-      let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
-      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
+      let comp = this.configService.appConfig?.getComponentConfig(action.targetName)
+      if (!comp) comp = this.configService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
       if (comp !== undefined && comp.data) {
         await this.query(QuerySubType.GetDataByID, comp, id).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {

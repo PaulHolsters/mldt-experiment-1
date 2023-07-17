@@ -2,25 +2,37 @@ import {Injectable} from '@angular/core';
 import {ActionModel} from "./models/ActionModel";
 import {ComponentModel} from "./models/ComponentModel";
 import {StoreService} from "./store.service";
+import {ActionsService} from "./actions.service";
+import AppConfig from "./configuration/appConfig";
+import {DataService} from "./data.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
 
-  constructor(private store:StoreService) {
-
+  constructor() {
+debugger
   }
+  public saveConfig(config:AppConfig){
+    // todo laat dit verlopen via een event!
+    this._appConfig.push(Object.create(config))
+  }
+  public get appConfig():AppConfig|undefined{
+    if(this._appConfig.length>0)
+      return Object.create(this._appConfig[this._appConfig.length-1])
+    return undefined
+  }
+  private _appConfig:AppConfig[]=[]
 
   setValue(action:ActionModel){
-    const currentAppConfig = this.store.appConfig
+    const currentAppConfig = this.appConfig
     if(currentAppConfig){
       let config = currentAppConfig.getComponentConfig(action.targetName)
       if(!config) config = currentAppConfig.getComponentConfigThroughAttributes(action.targetName)
       if(!config) throw new Error('action was not configured correctly')
       // todo change the property
       // config prop replacen en terug uploaden
-      
     }
   }
 
@@ -116,6 +128,6 @@ export class ConfigService {
   }*/
 
   getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] }|undefined {
-    return this.store.appConfig?.userConfig
+    return this.appConfig?.userConfig
   }
 }

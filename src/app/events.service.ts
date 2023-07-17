@@ -1,24 +1,31 @@
 import {Injectable} from '@angular/core';
 import {EventType} from "./enums/eventTypes.enum";
-import {StoreService} from "./store.service";
 import AppConfig from "./configuration/appConfig";
 import {NoValueType} from "./enums/no_value_type";
 import {ActionsService} from "./actions.service";
+import {ConfigService} from "./config.service";
+import {DataService} from "./data.service";
+import {StylesService} from "./styles.service";
+import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
+import {StoreService} from "./store.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService{
-  constructor(private storeService:StoreService,
+  constructor(private configService:ConfigService,
               private actionsService:ActionsService) {
+    debugger
   }
   public triggerEvent(event:EventType,source:string,data?:any){
     if(data && data instanceof AppConfig){
-      this.storeService.saveConfig(data)
+      this.configService.saveConfig(data)
+      this.actionsService.createActionSubjects()
     }
-    this.storeService.appConfig?.getActionsForEvent(event).forEach(async action=>{
+    debugger
+    this.configService.appConfig?.getActionsForEvent(event).forEach(action=>{
       if(action.sourceName===source || (action.sourceId === source && action.sourceName === NoValueType.NA)){
-        await this.actionsService.triggerAction(action,data)
+        this.actionsService.triggerAction(action,data)
       }
     })
   }

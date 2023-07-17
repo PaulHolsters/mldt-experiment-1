@@ -1,132 +1,49 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActionType} from "./enums/actionTypes.enum";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {ActionModel} from "./models/ActionModel";
 import {ActionSubjectModel} from "./models/ActionSubject";
-import {EventType} from "./enums/eventTypes.enum";
+import {ConfigService} from "./config.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ActionsService {
-
-  private actionSubjects:ActionSubjectModel[] = [
-  ]
-  public bindToAction(actionType:ActionType,actionSubtype:ActionSubType):Observable<{action:ActionModel,data:any}>|undefined{
-    return this.actionSubjects.find(actionSubject => {
+export class ActionsService{
+  private actionSubjects:ActionSubjectModel[]|undefined
+  public bindToActionsEmitter = new Subject()
+  public bindToAction(actionType:ActionType,actionSubtype:ActionSubType):Observable<{action:ActionModel,data:any}|undefined>|undefined{
+    // todo maak een extra actie bij in de root waarbij de create ActionSubjects method wordt opegroepen na rootcomponentready
+    //    en wel in die volgorde dat de config is ingeladen in de configservice
+    return this.actionSubjects?.find(actionSubject => {
       return actionSubject.actionType === actionType && actionSubject.actionSubType === actionSubtype
     })?.action$
   }
-  private createActionSubjects(){
+  public createActionSubjects(){
+    // todo deze methode word geccalled wanneer configservice nog niet klaar is omdat rootcomponent event nog niet gelopen heeft
+    //    maw je moet nu ALLES met events doen of het werkt niet
+    this.actionSubjects = []
+    this.configService.appConfig?.userConfig.actions.forEach(action=>{
+      const subj = new BehaviorSubject<{action: ActionModel; data: any}|undefined>(undefined)
+      const newActionSubject:ActionSubjectModel = {
+        actionType:action.actionType,
+        actionSubType:action.actionSubType,
+        subj:subj,
+        action$:subj.asObservable()
+      }
+      this.actionSubjects?.push(newActionSubject)
+    })
+    // todo hier een soort event emitten waar bij aanmaak wordt op ingeschreven door de verschillende services
+    //      op het moment dat het ook effectief doorkomt => dan bindToAction ...
+    this.bindToActionsEmitter.next(undefined)
+    debugger
 
   }
-  public triggerAction(action: ActionModel,data?:string){
-    this.actionSubjects.find(subj => {
+  public triggerAction(action: ActionModel,data?:string):void{
+    this.actionSubjects?.find(subj => {
       return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
     })?.subj.next({action:action,data:data})
-
-    /*
-    *      BIJVOORBEELD ActionSubType.SetResponsiveBehaviour:
-                this.storeService.createStore() // storeservice moet hier op intekenen en dan doen: this.createStore
-                this.createActionSubjects() // idem voor actionService
-                this.setResponsiveBehaviour() // idem voor RBS service
-    * */
-
-
-/*    switch (action.on) {
-      case EventType.RootComponentReady:
-        switch (action.actionType) {
-          case ActionType.Client:
-            switch (action.actionSubType) {
-              case ActionSubType.SetResponsiveBehaviour:
-                this.storeService.createStore()
-                this.createActionSubjects()
-                this.setResponsiveBehaviour()
-                break
-              default:
-            }
-            break
-          case ActionType.Server:
-            switch (action.actionSubType) {
-              case ActionSubType.GetDataBluePrint:
-                // todo zoek actionSubj op en doe de next method
-                await this.dataService.getDataBluePrint(action)
-                break
-              default:
-            }
-            break
-        }
-        break
-      case EventType.ComponentReady:
-        switch (action.actionType) {
-          case ActionType.Client:
-            break
-          case ActionType.Server:
-            switch (action.actionSubType) {
-              case ActionSubType.GetDataBluePrint:
-                await this.dataService.getDataBluePrint(action)
-                break
-              case ActionSubType.GetAllData:
-                await this.dataService.getAllData(action)
-                break
-              case ActionSubType.GetDataByID:
-                if(data){
-                  await this.dataService.getDataByID(action,data)
-                }
-                break
-              default:
-            }
-            break
-        }
-        break
-      case EventType.ComponentClicked:
-        switch (action.actionType) {
-          case ActionType.Client:
-            break
-          case ActionType.Server:
-            switch (action.actionSubType) {
-              case ActionSubType.GetDataBluePrint:
-                await this.dataService.getDataBluePrint(action)
-                break
-              case ActionSubType.PersistNewData:
-                await this.dataService.persistNewData(action)
-                break
-              // todo voorzien dat je data en masse kan wijzigen aanmaken of verwijderen
-              case ActionSubType.PersistUpdatedData:
-                await this.dataService.persistUpdatedData(action)
-                break
-              case ActionSubType.DeleteByID:
-                await this.dataService.deleteData(action)
-                break
-              default:
-            }
-            break
-        }
-        break
-      case EventType.ActionFinished:
-        switch (action.actionType){
-          case ActionType.Client:
-            switch (action.actionSubType){
-              case ActionSubType.SetValue:
-                await this.configService.setValue(action)
-                // todo het rerenderen optimaliseren zodat enkel dat wordt gererendered dat aangepast werd.
-                this.rerender()
-                break
-              default:
-            }
-            break
-          default:
-        }
-        break
-      default: return undefined
-    }*/
-    return undefined
   }
-  constructor() {
-    this.createActionSubjects()
+  constructor(private configService:ConfigService) {
   }
-
-
-
 }

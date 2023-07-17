@@ -45,30 +45,34 @@ import AppConfig from "./configuration/appConfig";
 import {ActionsService} from "./actions.service";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {ActionType} from "./enums/actionTypes.enum";
+import {ConfigService} from "./config.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService implements OnInit{
-  private _appConfig:AppConfig[]=[]
 
-  constructor(private actionsService:ActionsService) {
+
+  constructor(private actionsService:ActionsService, private configService:ConfigService) {
+    this.actionsService.bindToActionsEmitter.subscribe(res=>{
+      debugger
+      this.bindActions()
+    })
+    debugger
   }
   ngOnInit(): void {
     // vervang behavioursubject indien nodig door iets dat maximaal 1 keer vuurt zodat je kan garanderen dat de store maar 1 keer wordt aangemaakt ,
     // al denk ik dan dit misschien best in het begin al kan gebeuren zonder action
-        this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{
-          this.createStore()
-        })
+
   }
-  public saveConfig(config:AppConfig){
-    this._appConfig.push(Object.create(config))
+
+  public bindActions(){
+    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{
+      debugger
+      this.createStore()
+    })
   }
-  public get appConfig():AppConfig|undefined{
-    if(this._appConfig.length>0)
-    return Object.create(this._appConfig[this._appConfig.length-1])
-    return undefined
-  }
+
   private statePropertySubjects: StatePropertySubjectModel[] = []
 
   private hasScreenSizeProperty(stateModel:
@@ -376,9 +380,9 @@ export class StoreService implements OnInit{
       }
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
-          let parent = this.appConfig?.getComponentConfig(componentName)
+          let parent = this.configService.appConfig?.getComponentConfig(componentName)
           if(!parent){
-            parent = this.appConfig?.getComponentConfigThroughAttributes(componentName)
+            parent = this.configService.appConfig?.getComponentConfigThroughAttributes(componentName)
           }
           if (parent?.children) {
             if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
@@ -519,7 +523,7 @@ export class StoreService implements OnInit{
     }
   }
   public createStore() {
-    this.appConfig?.userConfig.components.forEach(comp => {
+    this.configService.appConfig?.userConfig.components.forEach(comp => {
       this.createProps(comp)}
     )
   }
