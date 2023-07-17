@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {StoreService} from "./store.service";
 import {ConceptComponentModel} from "./models/Data/ConceptComponentModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
@@ -19,18 +19,51 @@ import {DataRecordModel} from "./models/DataRecordModel";
 import {DataSpecificationType} from "./enums/dataSpecifications.enum";
 import {FunctionType} from "./enums/functionTypes.enum";
 import utilFunctions from "./utils/utilFunctions";
-
+import {EventsService} from "./events.service";
+import {EventType} from "./enums/eventTypes.enum";
+import {ActionType} from "./enums/actionTypes.enum";
+import {ActionSubType} from "./enums/actionSubTypes.enum";
+import {ActionsService} from "./actions.service";
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
-  constructor(private storeService: StoreService, private apollo: Apollo) {
+export class DataService implements OnInit{
+  constructor(private storeService: StoreService, private apollo: Apollo,private eventsService:EventsService,private actionsService:ActionsService) {
+  }
+  ngOnInit(): void {
+    this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataBluePrint)?.subscribe(res=>{
+      this.getDataBluePrint(res.action)
+    })
+    this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataByID)?.subscribe(res=>{
+      this.getDataByID(res.action, res.data).then(r => {
+
+      })
+    })
+    this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetAllData)?.subscribe(res=>{
+      this.getAllData(res.action).then(r => {
+
+      })
+    })
+    this.actionsService.bindToAction(ActionType.Server,ActionSubType.DeleteByID)?.subscribe(res=>{
+      this.deleteData(res.action).then(r => {
+
+      })
+    })
+    this.actionsService.bindToAction(ActionType.Server,ActionSubType.PersistNewData)?.subscribe(res=>{
+      this.persistNewData(res.action).then(r => {
+
+      })
+    })
+    this.actionsService.bindToAction(ActionType.Server,ActionSubType.PersistUpdatedData)?.subscribe(res=>{
+      this.persistUpdatedData(res.action).then(r => {
+
+      })
+    })
   }
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
   // todo a way to order data (sort)
   private objectData: ConceptComponentModel[] = []
-
   private getAllAttributes(compName: string, data: ConceptConfigModel | string[]): string {
     if (data instanceof ConceptConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
@@ -61,7 +94,6 @@ export class DataService {
     }
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
-
   private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[] | ConceptConfigModel[]): ConceptComponentModel | undefined {
     if (compConfig instanceof ConceptConfigModel) {
       let newObj: ConceptComponentModel = {
@@ -98,7 +130,6 @@ export class DataService {
     }
     return undefined
   }
-
   public updateData(name: string, value: DataRecordModel[] | number | string | undefined, id?: string) {
     const parts = name.split('_')
     const obj = this.objectData.find(dataObj => {
@@ -140,7 +171,6 @@ export class DataService {
       }
     }
   }
-
   private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
     switch (componentType) {
       case ComponentType.MultiSelect:
@@ -155,7 +185,6 @@ export class DataService {
         return true
     }
   }
-
   public getDataObject(dataLink: string[], componentType: ComponentType, dataSpecs: DataSpecificationType[]): AttributeComponentModel | undefined {
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
@@ -248,7 +277,6 @@ export class DataService {
       }
     })
   }
-
   private query(querySubType: QuerySubType, compConfig: ComponentModel, id?: string): any {
     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
@@ -324,7 +352,6 @@ export class DataService {
         break
     }
   }
-
   private getMutationParams(data: AttributeConfigModel[] | NoValueType.DBI): string {
     if (data === NoValueType.DBI) return ''
     const strVal = data.map(x => {
@@ -342,7 +369,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     // todo zorg nog voor een meer ordelijke GQL string hier
     return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal
   }
-
   public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType, id?: string): Observable<any> | undefined {
     if (data instanceof ConceptConfigModel) {
       const currentData = this.objectData.find(dataObj => {
@@ -364,7 +390,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       return undefined
     } else throw new Error('Geen geldige data configuratie.')
   }
-
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
     const bp = attr.dataBlueprint?.get(attr.name)
     if (attr.radio) {
@@ -398,7 +423,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     }
     return attr
   }
-
   private replaceNVYValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
     if (attr.text && attr.text.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string') {
       attr.text.value = attr.dataServer
@@ -414,7 +438,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     }
     return attr
   }
-
   public async persistNewData(action: ActionModel) {
     let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
@@ -424,7 +447,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       console.log(res, 'yeah!')
     })
   }
-
   public async persistUpdatedData(action: ActionModel) {
     let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
@@ -442,7 +464,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       }
     } else throw new Error('No valid conceptId could be found')
   }
-
   public async deleteData(action: ActionModel) {
     let comp = this.storeService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
@@ -465,12 +486,12 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       if(!conceptId) conceptId = dataObj?.conceptData?.id
       if (conceptId) {
         await this.mutate(comp?.data, MutationType.Delete, conceptId)?.subscribe(res => {
-          console.log(res, 'yeah!')
+          if(action.sourceId) this.eventsService.triggerEvent(EventType.ActionFinished,action.sourceId)
+          // todo een controle inbouwen in de actions die nagaat of bij deze actions de nodige id's voorzien zijn
         })
       }
     } else throw new Error('No valid conceptId could be found')
   }
-
   public getDataBluePrint(action: ActionModel) {
     if (action.targetType === TargetType.Component) {
       let compModel = this.storeService.appConfig?.getComponentConfig(action.targetName)
@@ -492,7 +513,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       }
     }
   }
-
   public async getAllData(action: ActionModel) {
     // todo in de table component empty value opvangen
     if (action.targetType === TargetType.Component) {
@@ -528,7 +548,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     }
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-
   public async getDataByID(action: ActionModel, id: string) {
     if (action.targetType === TargetType.Component) {
       let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
@@ -553,20 +572,5 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       }
     }
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
-  }
-
-  saveConceptId(data: string, action: ActionModel) {
-    if (action.targetType === TargetType.Component) {
-      let comp = this.storeService.appConfig?.getComponentConfig(action.targetName)
-      if (!comp) comp = this.storeService.appConfig?.getComponentConfigThroughAttributes(action.targetName)
-      if (comp) {
-        const concept = this.objectData.find(conceptM => {
-          return conceptM.conceptName === comp?.name
-        })
-        if (concept && concept.conceptData) {
-          concept.conceptData.id = data
-        } else throw new Error('no concept found matching id ' + data)
-      } else throw new Error('configuration not in accordance with components')
-    }
   }
 }

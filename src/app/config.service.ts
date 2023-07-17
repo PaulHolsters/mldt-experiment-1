@@ -13,16 +13,16 @@ export class ConfigService {
   }
 
   setValue(action:ActionModel){
-    const currentConfig = this.store.appConfig
-    if(currentConfig){
-      let config = currentConfig.getComponentConfig(action.targetName)
-      if(!config) config = currentConfig.getComponentConfigThroughAttributes(action.targetName)
+    const currentAppConfig = this.store.appConfig
+    if(currentAppConfig){
+      let config = currentAppConfig.getComponentConfig(action.targetName)
+      if(!config) config = currentAppConfig.getComponentConfigThroughAttributes(action.targetName)
       if(!config) throw new Error('action was not configured correctly')
       // todo change the property
-
+      // config prop replacen en terug uploaden
+      
     }
   }
-
 
 /*  private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []

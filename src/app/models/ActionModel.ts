@@ -9,6 +9,7 @@ import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowC
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
 import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
+import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
 
 export class ActionModel {
   constructor(
@@ -24,7 +25,7 @@ export class ActionModel {
     public value?:
       ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
       |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
-      ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel,
+      ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel,
   ) {
   }
   // props?:{name:string,value?:any,condition?:{comparison:string,values:(Object|string)[]}}[]

@@ -115,11 +115,21 @@ export const RootComponent = new AppConfig({
       on:EventType.ActionFinished,
       sourceId:'delete-product',
       actionType:ActionType.Client,
-      actionSubType:ActionSubType.SetValue,
+      actionSubType:ActionSubType.GetDataByID,
       targetName:'delete-container',
       sourceName:NoValueType.NA,
       targetType:TargetType.Component,
-    }
+    },
+/*    {
+      on:EventType.ActionFinished,
+      sourceId:'delete-product',
+      actionType:ActionType.Client,
+      actionSubType:ActionSubType.SetValue,
+      value:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)),
+      targetName:'delete-container',
+      sourceName:NoValueType.NA,
+      targetType:TargetType.Component,
+    }*/
 /*        {
           actionType: ActionType.Server,
           actionSubType: ActionSubType.GetDataBluePrint,

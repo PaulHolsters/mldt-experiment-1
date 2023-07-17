@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {ResponsivePositioningConfigModel} from "./models/Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
@@ -42,13 +42,24 @@ import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConf
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
 import AppConfig from "./configuration/appConfig";
+import {ActionsService} from "./actions.service";
+import {ActionSubType} from "./enums/actionSubTypes.enum";
+import {ActionType} from "./enums/actionTypes.enum";
 
 @Injectable({
   providedIn: 'root'
 })
-export class StoreService {
+export class StoreService implements OnInit{
   private _appConfig:AppConfig[]=[]
-  constructor() {
+
+  constructor(private actionsService:ActionsService) {
+  }
+  ngOnInit(): void {
+    // vervang behavioursubject indien nodig door iets dat maximaal 1 keer vuurt zodat je kan garanderen dat de store maar 1 keer wordt aangemaakt ,
+    // al denk ik dan dit misschien best in het begin al kan gebeuren zonder action
+        this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{
+          this.createStore()
+        })
   }
   public saveConfig(config:AppConfig){
     this._appConfig.push(Object.create(config))
@@ -59,6 +70,7 @@ export class StoreService {
     return undefined
   }
   private statePropertySubjects: StatePropertySubjectModel[] = []
+
   private hasScreenSizeProperty(stateModel:
                                   ResponsivePositioningConfigModel | ResponsiveOverflowConfigModel | ResponsiveStylingConfigModel | ResponsiveDimensioningConfigModel | ResponsiveAttributesConfigModel
                                   | ResponsiveVisibilityConfigModel, property: string): boolean {
@@ -511,6 +523,20 @@ export class StoreService {
       this.createProps(comp)}
     )
   }
+
+  /*
+  *   private async executeAction(action: ActionModel,data?:string){
+    this.actionSubjects.find(subj => {
+      return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
+    })?.subj.next({action:action,data:data})
+
+    /*
+    *      BIJVOORBEELD ActionSubType.SetResponsiveBehaviour:
+                this.storeService.createStore() // storeservice moet hier op intekenen en dan doen: this.createStore
+                this.createActionSubjects() // idem voor actionService
+                this.setResponsiveBehaviour() // idem voor RBS service
+    * */
+
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |
