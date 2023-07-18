@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {StoreService} from "./store.service";
 import {ConceptComponentModel} from "./models/Data/ConceptComponentModel";
 import {ConceptConfigModel} from "./models/Data/ConceptConfigModel";
@@ -10,7 +10,7 @@ import {AttributeComponentModel} from "./models/Data/AttributeComponentModel";
 import {NoValueType} from "./enums/no_value_type";
 import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {ComponentModel} from "./models/ComponentModel";
 import {RootComponent} from "./configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
@@ -28,12 +28,13 @@ import {ConfigService} from "./config.service";
 @Injectable({
   providedIn: 'root'
 })
-export class DataService implements OnInit{
+export class DataService{
+  public actionFinished = new Subject()
   constructor(private configService:ConfigService,
               private storeService: StoreService,
               private apollo: Apollo,
-              private eventsService:EventsService,
               private actionsService:ActionsService) {
+    debugger
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       debugger
       this.bindActions()
@@ -71,9 +72,6 @@ export class DataService implements OnInit{
 
       })
     })
-  }
-  ngOnInit(): void {
-
   }
   // todo een taal bedenken voor extra calculated fields based on related data and concepts
   // todo a way to filter data
@@ -305,7 +303,6 @@ export class DataService implements OnInit{
                       }
                     }
         `
-          console.log(GET_BLUEPRINT)
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BLUEPRINT}`
@@ -501,7 +498,12 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       if(!conceptId) conceptId = dataObj?.conceptData?.id
       if (conceptId) {
         await this.mutate(comp?.data, MutationType.Delete, conceptId)?.subscribe(res => {
-          if(action.sourceId) this.eventsService.triggerEvent(EventType.ActionFinished,action.sourceId)
+          // todo het is deze depency die je moet wegwerken. Er mag NOOIT een dependcy zijn tussen een service en de eventsservice
+          //      dit kan je doen door in deze situaties te werken met een emitter die de eventsservice waarschuwt dat een actie geëindigt is
+          //      vervolgens kan je dan de desbtreffende services initialiseren via deze eventsservice en de CD vermijden
+          if(action.sourceId){
+            this.actionFinished.next({event:EventType.ActionFinished,data:action.sourceId})
+          }
           // todo een controle inbouwen in de actions die nagaat of bij deze actions de nodige id's voorzien zijn
         })
       }

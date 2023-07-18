@@ -2,7 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {ResponsivePositioningConfigModel} from "./models/Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {StatePropertySubjectModel} from "./models/StatePropertySubject";
 import {CalculationModel} from "./models/CalculationModel";
 import {ComponentModel} from "./models/ComponentModel";
@@ -41,7 +41,6 @@ import {FixedDimensionValueConfigType} from "./enums/FixedDimensionValueConfigTy
 import {DynamicDimensionValueConfigType} from "./enums/DynamicDimensionValueConfigTypes.enum";
 import {GrowValueConfigType} from "./enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "./enums/ShrinkValueConfigTypes.enum";
-import AppConfig from "./configuration/appConfig";
 import {ActionsService} from "./actions.service";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {ActionType} from "./enums/actionTypes.enum";
@@ -52,7 +51,7 @@ import {ConfigService} from "./config.service";
 })
 export class StoreService implements OnInit{
 
-
+  public actionFinished = new Subject()
   constructor(private actionsService:ActionsService, private configService:ConfigService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       debugger

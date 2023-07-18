@@ -6,11 +6,13 @@ import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {ActionsService} from "./actions.service";
 import {ScreenSize} from "./enums/screenSizes.enum";
 import {ConfigService} from "./config.service";
+import {Subject} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
 export class ResponsiveBehaviourService implements OnInit{
   private screensize:ScreenSize|undefined
+  public actionFinished = new Subject()
   public get screenSize(){
     return this.screensize
   }
