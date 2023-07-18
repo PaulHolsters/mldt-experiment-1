@@ -58,10 +58,16 @@ export class DataService{
       })
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.DeleteByID)?.subscribe(res=>{
-      if(res)this.deleteData(res.action).then(r => {
-
-      })
-    })
+      if(res){
+        const actionPromiselike = this.deleteData(res.action)
+          if(actionPromiselike){
+            actionPromiselike.subscribe((res2: any) => {
+              debugger
+              // todo source and data en zo zijn leeg en die heb je nodig om een volgende actie te kunnen uitvoeren
+                this.actionFinished.next({event:EventType.ActionFinished,data:res.data})
+            })
+          }
+        }})
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.PersistNewData)?.subscribe(res=>{
       if(res)this.persistNewData(res.action).then(r => {
 
@@ -476,7 +482,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       }
     } else throw new Error('No valid conceptId could be found')
   }
-  public async deleteData(action: ActionModel) {
+  public deleteData(action: ActionModel) {
     let comp = this.configService.appConfig?.getParentComponentConfigWithProperty(action.sourceName, 'data')
     if (!comp) {
       comp = this.configService.appConfig?.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
@@ -497,16 +503,8 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       })
       if(!conceptId) conceptId = dataObj?.conceptData?.id
       if (conceptId) {
-        await this.mutate(comp?.data, MutationType.Delete, conceptId)?.subscribe(res => {
-          // todo het is deze depency die je moet wegwerken. Er mag NOOIT een dependcy zijn tussen een service en de eventsservice
-          //      dit kan je doen door in deze situaties te werken met een emitter die de eventsservice waarschuwt dat een actie geëindigt is
-          //      vervolgens kan je dan de desbtreffende services initialiseren via deze eventsservice en de CD vermijden
-          if(action.sourceId){
-            this.actionFinished.next({event:EventType.ActionFinished,data:action.sourceId})
-          }
-          // todo een controle inbouwen in de actions die nagaat of bij deze actions de nodige id's voorzien zijn
-        })
-      }
+        return this.mutate(comp?.data, MutationType.Delete, conceptId)
+      } else return undefined
     } else throw new Error('No valid conceptId could be found')
   }
   public getDataBluePrint(action: ActionModel) {
