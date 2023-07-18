@@ -20,8 +20,6 @@ export class ActionsService{
     })?.action$
   }
   public createActionSubjects(){
-    // todo deze methode word geccalled wanneer configservice nog niet klaar is omdat rootcomponent event nog niet gelopen heeft
-    //    maw je moet nu ALLES met events doen of het werkt niet
     this.actionSubjects = []
     this.configService.appConfig?.userConfig.actions.forEach(action=>{
       const subj = new BehaviorSubject<{action: ActionModel; data: any}|undefined>(undefined)
@@ -33,13 +31,10 @@ export class ActionsService{
       }
       this.actionSubjects?.push(newActionSubject)
     })
-    // todo hier een soort event emitten waar bij aanmaak wordt op ingeschreven door de verschillende services
-    //      op het moment dat het ook effectief doorkomt => dan bindToAction ...
     this.bindToActionsEmitter.next(undefined)
-    debugger
-
   }
   public triggerAction(action: ActionModel,data?:string):void{
+    debugger
     this.actionSubjects?.find(subj => {
       return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
     })?.subj.next({action:action,data:data})

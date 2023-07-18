@@ -54,10 +54,8 @@ export class StoreService implements OnInit{
   public actionFinished = new Subject()
   constructor(private actionsService:ActionsService, private configService:ConfigService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
-      debugger
       this.bindActions()
     })
-    debugger
   }
   ngOnInit(): void {
     // vervang behavioursubject indien nodig door iets dat maximaal 1 keer vuurt zodat je kan garanderen dat de store maar 1 keer wordt aangemaakt ,
@@ -67,6 +65,7 @@ export class StoreService implements OnInit{
 
   public bindActions(){
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{
+      // todo deze methode wordt onnodig tweemaal opgeroepen
       debugger
       this.createStore()
     })

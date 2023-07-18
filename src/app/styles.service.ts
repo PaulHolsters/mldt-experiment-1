@@ -279,7 +279,6 @@ export class StylesService {
       this.getBorder(border),this.getBackgroundColor(backgroundColor))
   }
   constructor() {
-    debugger
   }
 
 }

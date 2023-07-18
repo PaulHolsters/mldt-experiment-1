@@ -34,22 +34,18 @@ export class DataService{
               private storeService: StoreService,
               private apollo: Apollo,
               private actionsService:ActionsService) {
-    debugger
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
-      debugger
       this.bindActions()
     })
-  debugger
   }
   public bindActions(){
-    // todo actions geraken niet gebonden omwille van weerkerende circular dependency
-    debugger
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataBluePrint)?.subscribe(res=>{
       if(res)this.getDataBluePrint(res.action)
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataByID)?.subscribe(res=>{
+      debugger
       if(res)this.getDataByID(res.action, res.data).then(r => {
-
+        debugger
       })
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetAllData)?.subscribe(res=>{
@@ -59,12 +55,10 @@ export class DataService{
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.DeleteByID)?.subscribe(res=>{
       if(res){
-        const actionPromiselike = this.deleteData(res.action)
-          if(actionPromiselike){
-            actionPromiselike.subscribe((res2: any) => {
-              debugger
-              // todo source and data en zo zijn leeg en die heb je nodig om een volgende actie te kunnen uitvoeren
-                this.actionFinished.next({event:EventType.ActionFinished,data:res.data})
+        const action = this.deleteData(res.action)
+          if(action){
+            action.subscribe((res2: any) => {
+                this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
             })
           }
         }})

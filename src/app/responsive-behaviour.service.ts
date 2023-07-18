@@ -34,9 +34,7 @@ export class ResponsiveBehaviourService implements OnInit{
     debugger
   }
   public bindActions(){
-    debugger
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{
-      debugger
       this.setResponsiveBehaviour()
     })
   }

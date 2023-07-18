@@ -111,7 +111,7 @@ export const RootComponent = new AppConfig({
       on: EventType.ComponentClicked,
       id:'delete-product'
     },
-    {
+/*    {
       on:EventType.ActionFinished,
       sourceId:'delete-product',
       actionType:ActionType.Client,
@@ -119,8 +119,8 @@ export const RootComponent = new AppConfig({
       targetName:'delete-container',
       sourceName:NoValueType.NA,
       targetType:TargetType.Component,
-    },
-/*    {
+    },*/
+    {
       on:EventType.ActionFinished,
       sourceId:'delete-product',
       actionType:ActionType.Client,
@@ -129,7 +129,7 @@ export const RootComponent = new AppConfig({
       targetName:'delete-container',
       sourceName:NoValueType.NA,
       targetType:TargetType.Component,
-    }*/
+    }
 /*        {
           actionType: ActionType.Server,
           actionSubType: ActionSubType.GetDataBluePrint,

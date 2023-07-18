@@ -19,28 +19,25 @@ export class EventsService{
               private storeService:StoreService) {
 
     this.dataService.actionFinished.subscribe(res =>{
-      const eventData = res as {event:EventType,source:string,data:any}
-      this.triggerEvent(eventData.event,eventData.source,eventData.data)
+      const eventData = res as {event:EventType,sourceId:string}
+      this.triggerEvent(eventData.event,eventData.sourceId)
     })
 
     this.RBSService.actionFinished.subscribe(res =>{
-      const eventData = res as {event:EventType,source:string,data:any}
-      this.triggerEvent(eventData.event,eventData.source,eventData.data)
+      const eventData = res as {event:EventType,sourceId:string}
+      this.triggerEvent(eventData.event,eventData.sourceId)
     })
 
     this.storeService.actionFinished.subscribe(res =>{
-      const eventData = res as {event:EventType,source:string,data:any}
-      this.triggerEvent(eventData.event,eventData.source,eventData.data)
+      const eventData = res as {event:EventType,sourceId:string}
+      this.triggerEvent(eventData.event,eventData.sourceId)
     })
-
-    debugger
   }
   public triggerEvent(event:EventType,source:string,data?:any){
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
     }
-    debugger
     this.configService.appConfig?.getActionsForEvent(event).forEach(action=>{
       if(action.sourceName===source || (action.sourceId === source && action.sourceName === NoValueType.NA)){
         this.actionsService.triggerAction(action,data)

@@ -12,7 +12,6 @@ import {DataService} from "./data.service";
 export class ConfigService {
 
   constructor() {
-debugger
   }
   public saveConfig(config:AppConfig){
     // todo laat dit verlopen via een event!
