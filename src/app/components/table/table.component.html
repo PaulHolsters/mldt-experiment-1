@@ -1,4 +1,36 @@
+<!-- todo
+          gridlines,
+          stripedrows,
+          conditional rowstyling,
+          stacked layout,
+          paginator,
+          sorting,
+          custom sorting,
+          loadingspinner,
+          filtering,
+          clear filter,
+          row selection,
+          multiple row selection,
+          checkbox selection,
+          radiobutton selection + na selectie is laten gebeuren,
+          column selection,
+          row expand !!!,
+          row edit,
+           cell edit,  !!!!,
+           scroll,
+           frozen rows/cols,
+           grouping,
+           column resize,
+           reorder,
+           column toggle,
+           export functionality ,
+          stateful,
+          contextmenu
+          -->
 <p-table [columns]="getColumns()" [value]="dataList ?? []" [style.width]="'100%'" [style.height]="'100%'">
+  <ng-template pTemplate="caption">
+    <m-anchor [component]="caption$|async"></m-anchor>
+  </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let column of columns">{{column['header']}}</th>
@@ -13,6 +45,9 @@
   </ng-template>
   <ng-template pTemplate="footer">
     <p *ngIf="this.dataList && this.dataList.length===0">{{textWhenEmpty$|async}}</p>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <m-anchor [component]="summary$|async"></m-anchor>
   </ng-template>
 </p-table>
 <!-- todo alternatief tonen voor als data geladen wordt of door een serverprobleem niet werkt! -->

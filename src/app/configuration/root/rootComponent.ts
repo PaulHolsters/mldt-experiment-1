@@ -13,6 +13,7 @@ import {TargetType} from "../../enums/targetTypes.enum";
 import {EventType} from "../../enums/eventTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {deleteContainer} from "../deleteContainer/deleteContainer";
+import {table} from "../table/table";
 
 export const RootComponent = new AppConfig({
   components: [
@@ -27,9 +28,9 @@ export const RootComponent = new AppConfig({
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
         //header,
-        deleteContainer
+        deleteContainer,
         //form,
-        //table
+        table
       ]
     },
   ],
@@ -86,14 +87,14 @@ export const RootComponent = new AppConfig({
       sourceName: 'content-container',
       on: EventType.RootComponentReady
     },
-/*    {
+    {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetAllData,
       targetType: TargetType.Component,
       targetName: 'table',
       sourceName: 'table',
       on: EventType.ComponentReady
-    },*/
+    },
     {
       actionType: ActionType.Server,
       actionSubType: ActionSubType.GetDataBluePrint,

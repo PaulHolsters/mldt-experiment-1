@@ -16,6 +16,8 @@ export class TableComponent implements OnInit {
   dataList: DataObjectModel[] |  undefined
   blueprint: Object |  undefined
   textWhenEmpty$:Observable<any> | undefined
+  caption$:Observable<any>|undefined
+  summary$:Observable<any>|undefined
   @Input()name!:string
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
 
@@ -26,6 +28,8 @@ export class TableComponent implements OnInit {
       this.blueprint = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.conceptBluePrint
     })
     this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
+    this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
+    this.summary$ = this.storeService.bindToStateProperty(this.name,'summary')
   }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer
