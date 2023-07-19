@@ -7,6 +7,7 @@ import {ConfigService} from "./config.service";
 import {DataService} from "./data.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StoreService} from "./store.service";
+import {UIActionsService} from "./uiactions.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,15 @@ export class EventsService{
               private actionsService:ActionsService,
               private dataService:DataService,
               private RBSService:ResponsiveBehaviourService,
-              private storeService:StoreService) {
+              private storeService:StoreService,
+              private UIActionsService:UIActionsService) {
 
     this.dataService.actionFinished.subscribe(res =>{
+      const eventData = res as {event:EventType,sourceId:string}
+      this.triggerEvent(eventData.event,eventData.sourceId)
+    })
+
+    this.UIActionsService.actionFinished.subscribe(res =>{
       const eventData = res as {event:EventType,sourceId:string}
       this.triggerEvent(eventData.event,eventData.sourceId)
     })
