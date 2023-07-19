@@ -6,4 +6,7 @@ export class ResponsiveVisibilityConfigModel {
               public laptop?: VisibilityConfigPropsModel,
               public highResolution?: VisibilityConfigPropsModel) {
   }
+  getInstance(){
+    return 'visibility'
+  }
 }

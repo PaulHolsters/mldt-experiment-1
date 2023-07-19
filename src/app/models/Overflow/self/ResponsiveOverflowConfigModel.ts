@@ -6,4 +6,7 @@ export class ResponsiveOverflowConfigModel {
               public laptop?: OverflowConfigPropsModel,
               public highResolution?: OverflowConfigPropsModel) {
   }
+  getInstance(){
+    return 'overflow'
+  }
 }

@@ -19,7 +19,6 @@ import {DataRecordModel} from "./models/DataRecordModel";
 import {DataSpecificationType} from "./enums/dataSpecifications.enum";
 import {FunctionType} from "./enums/functionTypes.enum";
 import utilFunctions from "./utils/utilFunctions";
-import {EventsService} from "./events.service";
 import {EventType} from "./enums/eventTypes.enum";
 import {ActionType} from "./enums/actionTypes.enum";
 import {ActionSubType} from "./enums/actionSubTypes.enum";

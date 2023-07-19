@@ -6,4 +6,8 @@ export class ResponsiveAttributesConfigModel {
               public laptop?: AttributesConfigPropsModel,
               public highResolution?: AttributesConfigPropsModel) {
   }
+
+  getInstance(){
+    return 'attributes'
+  }
 }

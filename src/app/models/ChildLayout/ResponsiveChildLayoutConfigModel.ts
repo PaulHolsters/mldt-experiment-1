@@ -6,4 +6,7 @@ export class ResponsiveChildLayoutConfigModel {
               public laptop?: ChildLayoutConfigPropsModel,
               public highResolution?: ChildLayoutConfigPropsModel) {
   }
+  getInstance(){
+    return 'childLayout'
+  }
 }

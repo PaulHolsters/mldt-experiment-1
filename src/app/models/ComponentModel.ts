@@ -27,4 +27,12 @@ export class ComponentModel {
     if(Reflect.has(this, property)) return Reflect.get(this,property)
     throw new Error('U vraagt naar een roperty die niet bestaat bij een ComponentModel')
   }
+
+  replace?(key:string|undefined,value:ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
+    |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
+    ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel|undefined){
+    if(key){
+      Reflect.set(this,key,value)
+    }
+  }
 }

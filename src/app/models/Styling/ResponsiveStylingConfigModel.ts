@@ -6,4 +6,7 @@ export class ResponsiveStylingConfigModel {
               public laptop?: StylingConfigPropsModel,
               public highResolution?: StylingConfigPropsModel) {
   }
+  public getInstance(){
+    return 'styling'
+  }
 }

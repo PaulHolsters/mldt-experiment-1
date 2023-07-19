@@ -6,4 +6,7 @@ export class ResponsivePositioningConfigModel {
               public laptop?: PositioningConfigPropsModel,
               public highResolution?: PositioningConfigPropsModel) {
   }
+  getInstance(){
+    return 'position'
+  }
 }

@@ -5,6 +5,9 @@ import {StoreService} from "./store.service";
 import {ActionsService} from "./actions.service";
 import AppConfig from "./configuration/appConfig";
 import {DataService} from "./data.service";
+import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
+import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -23,17 +26,6 @@ export class ConfigService {
     return undefined
   }
   private _appConfig:AppConfig[]=[]
-
-  setValue(action:ActionModel){
-    const currentAppConfig = this.appConfig
-    if(currentAppConfig){
-      let config = currentAppConfig.getComponentConfig(action.targetName)
-      if(!config) config = currentAppConfig.getComponentConfigThroughAttributes(action.targetName)
-      if(!config) throw new Error('action was not configured correctly')
-      // todo change the property
-      // config prop replacen en terug uploaden
-    }
-  }
 
 /*  private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []

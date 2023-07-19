@@ -6,4 +6,7 @@ export class ResponsiveDimensioningConfigModel {
               public laptop?: DimensioningConfigPropsModel,
               public highResolution?: DimensioningConfigPropsModel) {
   }
+  getInstance(){
+    return 'dimensions'
+  }
 }
