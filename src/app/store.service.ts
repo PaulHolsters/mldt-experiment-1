@@ -166,7 +166,8 @@ export class StoreService implements OnInit{
           stylingConfig.textColor,
           stylingConfig.textDecoration,
           stylingConfig.fontSize,
-          stylingConfig.fontStyle
+          stylingConfig.fontStyle,
+          stylingConfig.tableStyle
         )
       }
     let lastScreenSize = screenSize

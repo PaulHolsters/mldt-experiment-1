@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActionType} from "./enums/actionTypes.enum";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import { Observable, Subject} from "rxjs";
 import {ActionModel} from "./models/ActionModel";
 import {ActionSubjectModel} from "./models/ActionSubject";
 import {ConfigService} from "./config.service";
@@ -13,7 +13,6 @@ export class ActionsService{
   private actionSubjects:ActionSubjectModel[]|undefined
   public bindToActionsEmitter = new Subject()
   public bindToAction(actionType:ActionType,actionSubtype:ActionSubType):Observable<{action:ActionModel,data:any}|undefined>|undefined{
-    debugger
     return this.actionSubjects?.find(actionSubject => {
       return actionSubject.actionType === actionType && actionSubject.actionSubType === actionSubtype
     })?.action$
