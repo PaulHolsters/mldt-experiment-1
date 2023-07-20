@@ -13,6 +13,8 @@ import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfi
 import {dataContainer} from "./dataContainer";
 import {containerLayout} from "./containerLayout";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
+import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {NoValueType} from "../../enums/no_value_type";
 
 export const deleteContainer = new ComponentModel(
   'delete-container',
@@ -25,9 +27,9 @@ export const deleteContainer = new ComponentModel(
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
     ), DynamicDimensionValueConfigType.NC)
   )),
-  new ResponsiveAttributesConfigModel({
-    dataLink: ['product', 'id']
-  }),
+  new ResponsiveAttributesConfigModel(
+    new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+      NoValueType.NA,false,NoValueType.NA,['product', 'id'])),
   new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   undefined,
   [
@@ -39,9 +41,9 @@ export const deleteContainer = new ComponentModel(
     {
       name: 'delete-btn',
       type: ComponentType.Button,
-      attributes: new ResponsiveAttributesConfigModel({
-        label: 'Verwijder product'
-      }),
+      attributes: new ResponsiveAttributesConfigModel(
+        new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,'Verwijder product',
+          NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA)),
       visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
     }
   ],

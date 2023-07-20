@@ -20,6 +20,8 @@ export class TableComponent implements OnInit {
   summary$:Observable<any>|undefined
   style$:Observable<any>|undefined
   responsiveLayout$:Observable<any>|undefined
+  paginator$:Observable<any>|undefined
+  rows = 5
   breakpoint = '960px'
   @Input()name!:string
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
@@ -35,9 +37,15 @@ export class TableComponent implements OnInit {
     this.summary$ = this.storeService.bindToStateProperty(this.name,'summary')
     this.style$ = this.storeService.bindToStateProperty(this.name,'tableStyle')
     this.responsiveLayout$ = this.storeService.bindToStateProperty(this.name,'responsiveTableLayout')
+    this.paginator$ = this.storeService.bindToStateProperty(this.name,'paginator')
     this.storeService.bindToStateProperty(this.name,'tableBreakpoint')?.subscribe(res=>{
       if(res && typeof res === 'number'){
         this.breakpoint = res+'px'
+      }
+    })
+    this.storeService.bindToStateProperty(this.name,'rows')?.subscribe(res=>{
+      if(res && typeof res === 'number'){
+        this.rows = res
       }
     })
   }

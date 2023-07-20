@@ -29,6 +29,8 @@
 <p-table
   styleClass="{{style$|async}}"
   responsiveLayout="{{responsiveLayout$|async}}"
+  [paginator]="paginator$|async"
+  [rows]="rows"
   [breakpoint]="breakpoint"
   [columns]="getColumns()"
   [value]="dataList ?? []"
@@ -48,6 +50,7 @@
       </td>
     </tr>
   </ng-template>
+<!--  todo zorg ervoor dat je de volgorde kan meegeven in de configuratie van al deze subcomponents-->
   <ng-template pTemplate="footer">
     <p *ngIf="this.dataList && this.dataList.length===0">{{textWhenEmpty$|async}}</p>
   </ng-template>

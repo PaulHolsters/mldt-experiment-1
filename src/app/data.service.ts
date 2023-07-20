@@ -281,7 +281,7 @@ export class DataService{
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel && comp.name === nameComponent) {
         propSubj.propValue.next(compConcept)
-      } else if (propSubj.propName === 'dataLink' && comp && comp.attributes?.smartphone?.dataLink) {
+      } else if (propSubj.propName === 'dataLink' && comp  && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }

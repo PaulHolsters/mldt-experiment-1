@@ -97,6 +97,7 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
         console.log(this.dataAttribute)
       })
       this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
+        debugger
         this.dataLink = res as string[]
         this.nameFormControl = this.dataLink.join('_')
       })

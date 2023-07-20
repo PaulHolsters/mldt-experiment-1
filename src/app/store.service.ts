@@ -45,6 +45,7 @@ import {ActionsService} from "./actions.service";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {ActionType} from "./enums/actionTypes.enum";
 import {ConfigService} from "./config.service";
+import {NoValueType} from "./enums/no_value_type";
 
 @Injectable({
   providedIn: 'root'
@@ -279,7 +280,22 @@ export class StoreService implements OnInit{
   }
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
-      const compPropsObj = new AttributesComponentPropsModel()
+      const compPropsObj = new AttributesComponentPropsModel(
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        false,
+        NoValueType.NA,
+        NoValueType.NA,
+      )
       Object.entries(attributesConfig).forEach(([k, v]) => {
         compPropsObj.setProperty(k, v)
       })

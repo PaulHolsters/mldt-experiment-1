@@ -21,10 +21,10 @@ constructor(
   public textColor: TextColorType|NoValueType.NA,
   public textDecoration: TextDecorationType|NoValueType.NA,
   public fontSize: FontSizeType|NoValueType.NA,
-  public fontStyle?: FontStyleType|NoValueType.NA,
-  public tableStyle?: TableStylingType|NoValueType.NA,
-  public responsiveTableLayout?: ResponsiveTableLayoutType|NoValueType.NA,
-  public tableBreakpoint?: number,
+  public fontStyle: FontStyleType|NoValueType.NA,
+  public tableStyle: TableStylingType|NoValueType.NA,
+  public responsiveTableLayout: ResponsiveTableLayoutType|NoValueType.NA,
+  public tableBreakpoint: number,
 
   ) {
 }
