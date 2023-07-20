@@ -31,7 +31,6 @@ export class ResponsiveBehaviourService implements OnInit{
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
-    debugger
   }
   public bindActions(){
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{

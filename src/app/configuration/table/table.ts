@@ -14,11 +14,26 @@ import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/Fixed
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
+import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
+import {TableStylingType} from "../../enums/tableStylingType.enum";
+import {NoValueType} from "../../enums/no_value_type";
+import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 
 export const table = {
   name: 'table',
   type: ComponentType.Table,
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+  styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+    NoValueType.NA,
+    NoValueType.NA,
+    NoValueType.NA,
+    NoValueType.NA,
+    NoValueType.NA,
+    NoValueType.NA,
+    NoValueType.NA,
+    NoValueType.NA,
+    NoValueType.NA,
+    TableStylingType.Gridlines)),
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.NC, new WidthConfigPropsModel(
     new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC
   ))),

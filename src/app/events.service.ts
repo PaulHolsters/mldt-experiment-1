@@ -48,6 +48,7 @@ export class EventsService{
     this.configService.appConfig?.getActionsForEvent(event).forEach(action=>{
       if(action.sourceName===source || (action.sourceId === source && action.sourceName === NoValueType.NA)){
         this.actionsService.triggerAction(action,data)
+
       }
     })
   }

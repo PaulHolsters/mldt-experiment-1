@@ -27,9 +27,9 @@
           stateful,
           contextmenu
           -->
-<p-table [columns]="getColumns()" [value]="dataList ?? []" [style.width]="'100%'" [style.height]="'100%'">
-  <ng-template pTemplate="caption">
-    <m-anchor [component]="caption$|async"></m-anchor>
+<p-table styleClass="{{style$|async}}" [columns]="getColumns()" [value]="dataList ?? []" [style.width]="'100%'" [style.height]="'100%'">
+  <ng-template *ngIf="caption$|async" pTemplate="caption">
+    <m-anchor  [component]="caption$|async"></m-anchor>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -46,7 +46,7 @@
   <ng-template pTemplate="footer">
     <p *ngIf="this.dataList && this.dataList.length===0">{{textWhenEmpty$|async}}</p>
   </ng-template>
-  <ng-template pTemplate="summary">
+  <ng-template  *ngIf="summary$|async" pTemplate="summary">
     <m-anchor [component]="summary$|async"></m-anchor>
   </ng-template>
 </p-table>

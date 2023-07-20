@@ -17,13 +17,11 @@ export class UIActionsService {
 
   constructor(private configService:ConfigService,private actionsService:ActionsService,private RBS:ResponsiveBehaviourService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
-      debugger
       this.bindActions()
     })
   }
   public bindActions(){
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetValue)?.subscribe(res=>{
-      debugger
       if(res){
         const action = this.setValue(res.action)
         if(action){
@@ -33,23 +31,17 @@ export class UIActionsService {
     })
   }
   private setValue(action:ActionModel){
-    debugger
     const currentAppConfig = this.configService.appConfig
     if(currentAppConfig){
       let config = currentAppConfig.getComponentConfig(action.targetName)
       if(!config) config = currentAppConfig.getComponentConfigThroughAttributes(action.targetName)
       if(!config) throw new Error('action was not configured correctly')
-      debugger
-      // todo change the property
-      // config prop replacen en terug uploaden
       if(config.replace){
         config.replace(action.value?.getInstance(),action.value)
-        debugger
         this.configService.saveConfig(currentAppConfig)
         this.RBS.rerender()
         return true
       }
-      debugger
     }
     return false
   }

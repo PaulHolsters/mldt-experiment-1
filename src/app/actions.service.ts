@@ -13,8 +13,7 @@ export class ActionsService{
   private actionSubjects:ActionSubjectModel[]|undefined
   public bindToActionsEmitter = new Subject()
   public bindToAction(actionType:ActionType,actionSubtype:ActionSubType):Observable<{action:ActionModel,data:any}|undefined>|undefined{
-    // todo maak een extra actie bij in de root waarbij de create ActionSubjects method wordt opegroepen na rootcomponentready
-    //    en wel in die volgorde dat de config is ingeladen in de configservice
+    debugger
     return this.actionSubjects?.find(actionSubject => {
       return actionSubject.actionType === actionType && actionSubject.actionSubType === actionSubtype
     })?.action$
@@ -22,7 +21,8 @@ export class ActionsService{
   public createActionSubjects(){
     this.actionSubjects = []
     this.configService.appConfig?.userConfig.actions.forEach(action=>{
-      const subj = new BehaviorSubject<{action: ActionModel; data: any}|undefined>(undefined)
+      // todo dit is de reden waarom er direct undefnied wordt uitgespuwd
+      const subj = new Subject<{action: ActionModel; data: any}|undefined>()
       const newActionSubject:ActionSubjectModel = {
         actionType:action.actionType,
         actionSubType:action.actionSubType,
@@ -34,7 +34,6 @@ export class ActionsService{
     this.bindToActionsEmitter.next(undefined)
   }
   public triggerAction(action: ActionModel,data?:string):void{
-    debugger
     this.actionSubjects?.find(subj => {
       return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
     })?.subj.next({action:action,data:data})

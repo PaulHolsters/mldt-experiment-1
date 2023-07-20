@@ -65,8 +65,6 @@ export class StoreService implements OnInit{
 
   public bindActions(){
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{
-      // todo deze methode wordt onnodig tweemaal opgeroepen
-      debugger
       this.createStore()
     })
   }
@@ -525,20 +523,6 @@ export class StoreService implements OnInit{
       this.createProps(comp)}
     )
   }
-
-  /*
-  *   private async executeAction(action: ActionModel,data?:string){
-    this.actionSubjects.find(subj => {
-      return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
-    })?.subj.next({action:action,data:data})
-
-    /*
-    *      BIJVOORBEELD ActionSubType.SetResponsiveBehaviour:
-                this.storeService.createStore() // storeservice moet hier op intekenen en dan doen: this.createStore
-                this.createActionSubjects() // idem voor actionService
-                this.setResponsiveBehaviour() // idem voor RBS service
-    * */
-
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |

@@ -18,6 +18,7 @@ export class TableComponent implements OnInit {
   textWhenEmpty$:Observable<any> | undefined
   caption$:Observable<any>|undefined
   summary$:Observable<any>|undefined
+  style$:Observable<any>|undefined
   @Input()name!:string
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
 
@@ -30,6 +31,7 @@ export class TableComponent implements OnInit {
     this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
     this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
     this.summary$ = this.storeService.bindToStateProperty(this.name,'summary')
+    this.style$ = this.storeService.bindToStateProperty(this.name,'tableStyle')
   }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer

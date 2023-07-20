@@ -42,9 +42,7 @@ export class DataService{
       if(res)this.getDataBluePrint(res.action)
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataByID)?.subscribe(res=>{
-      debugger
       if(res)this.getDataByID(res.action, res.data).then(r => {
-        debugger
       })
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetAllData)?.subscribe(res=>{
@@ -501,7 +499,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     } else throw new Error('No valid conceptId could be found')
   }
   public getDataBluePrint(action: ActionModel) {
-    debugger
     if (action.targetType === TargetType.Component) {
       let compModel = this.configService.appConfig?.getComponentConfig(action.targetName)
       if (!compModel) {
