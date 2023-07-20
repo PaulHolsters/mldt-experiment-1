@@ -1,33 +1,38 @@
 <!-- todo
-          gridlines,
-          stripedrows,
-          conditional rowstyling,
-          stacked layout,
-          paginator,
-          sorting,
-          custom sorting,
-          loadingspinner,
-          filtering,
-          clear filter,
-          row selection,
-          multiple row selection,
-          checkbox selection,
-          radiobutton selection + na selectie is laten gebeuren,
-          column selection,
-          row expand !!!,
-          row edit,
-           cell edit,  !!!!,
-           scroll,
-           frozen rows/cols,
-           grouping,
-           column resize,
-           reorder,
-           column toggle,
-           export functionality ,
-          stateful,
-          contextmenu
+          conditional row styling : conditionele frontend is voor later,
+
+          todo
+            paginator,
+            sorting,
+            custom sorting,
+            loading spinner,
+            filtering,
+            clear filter,
+            row selection,
+            multiple row selection,
+            checkbox selection,
+            radiobutton selection + na selectie is laten gebeuren,
+            column selection,
+            row expand !!!,
+            row edit,
+             cell edit,  !!!!,
+             scroll,
+             frozen rows/cols,
+             grouping,
+             column resize,
+             reorder,
+             column toggle,
+             export functionality ,
+            stateful,
+            contextmenu
           -->
-<p-table styleClass="{{style$|async}}" [columns]="getColumns()" [value]="dataList ?? []" [style.width]="'100%'" [style.height]="'100%'">
+<p-table
+  styleClass="{{style$|async}}"
+  responsiveLayout="{{responsiveLayout$|async}}"
+  [breakpoint]="breakpoint"
+  [columns]="getColumns()"
+  [value]="dataList ?? []"
+  [style.width]="'100%'" [style.height]="'100%'">
   <ng-template *ngIf="caption$|async" pTemplate="caption">
     <m-anchor  [component]="caption$|async"></m-anchor>
   </ng-template>

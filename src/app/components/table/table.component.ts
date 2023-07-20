@@ -19,6 +19,8 @@ export class TableComponent implements OnInit {
   caption$:Observable<any>|undefined
   summary$:Observable<any>|undefined
   style$:Observable<any>|undefined
+  responsiveLayout$:Observable<any>|undefined
+  breakpoint = '960px'
   @Input()name!:string
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
 
@@ -32,6 +34,12 @@ export class TableComponent implements OnInit {
     this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
     this.summary$ = this.storeService.bindToStateProperty(this.name,'summary')
     this.style$ = this.storeService.bindToStateProperty(this.name,'tableStyle')
+    this.responsiveLayout$ = this.storeService.bindToStateProperty(this.name,'responsiveTableLayout')
+    this.storeService.bindToStateProperty(this.name,'tableBreakpoint')?.subscribe(res=>{
+      if(res && typeof res === 'number'){
+        this.breakpoint = res+'px'
+      }
+    })
   }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer

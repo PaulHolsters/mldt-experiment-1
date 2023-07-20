@@ -9,6 +9,7 @@ import {BorderModel} from "../BorderModel";
 import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 import {TableStylingType} from "../../enums/tableStylingType.enum";
 import {NoValueType} from "../../enums/no_value_type";
+import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 
 export class StylingComponentPropsModel {
 constructor(
@@ -21,7 +22,9 @@ constructor(
   public textDecoration: TextDecorationType|NoValueType.NA,
   public fontSize: FontSizeType|NoValueType.NA,
   public fontStyle?: FontStyleType|NoValueType.NA,
-  public tableStyle?: TableStylingType|NoValueType.NA
+  public tableStyle?: TableStylingType|NoValueType.NA,
+  public responsiveTableLayout?: ResponsiveTableLayoutType|NoValueType.NA,
+  public tableBreakpoint?: number,
 
   ) {
 }

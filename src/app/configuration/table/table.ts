@@ -18,6 +18,7 @@ import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStyli
 import {TableStylingType} from "../../enums/tableStylingType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
+import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 
 export const table = {
   name: 'table',
@@ -33,7 +34,9 @@ export const table = {
     NoValueType.NA,
     NoValueType.NA,
     NoValueType.NA,
-    TableStylingType.Gridlines)),
+    TableStylingType.Gridlines,
+    ResponsiveTableLayoutType.Stacked,
+    400)),
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.NC, new WidthConfigPropsModel(
     new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC
   ))),
