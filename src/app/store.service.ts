@@ -542,7 +542,6 @@ export class StoreService implements OnInit{
     this.configService.appConfig?.userConfig.components.forEach(comp => {
       this.createProps(comp)}
     )
-    debugger
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
