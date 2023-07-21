@@ -4,7 +4,6 @@ import {StoreService} from "../../store.service";
 import {EventType} from "../../enums/eventTypes.enum";
 import {EventsService} from "../../events.service";
 import {DataService} from "../../data.service";
-import utilFunctions from "../../utils/utilFunctions";
 import {Observable} from "rxjs";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 
@@ -64,16 +63,5 @@ export class TableComponent implements OnInit {
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer
   //      de mogelijkheid van datapresentatie
-/*  getColumns():{field:string,header:string}[]{
-    //    field is dan "name" van het desbtreffende attribuut
-    if(this.blueprint){
-      return Object.keys(this.blueprint).map(key=>{
-        return {field:key,header:utilFunctions.capitalizeFirst(key)}
-      }).filter(col=>{
-        return col.field !== 'id' && col.field !== '__typename'
-      })
-    }
-    return []
-  }*/
 
 }
