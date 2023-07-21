@@ -22,6 +22,7 @@ export class TableComponent implements OnInit {
   responsiveLayout$:Observable<any>|undefined
   paginator$:Observable<any>|undefined
   rows = 5
+  rowsPerPage:number[] = [10,25,50]
   breakpoint = '960px'
   @Input()name!:string
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
@@ -47,6 +48,9 @@ export class TableComponent implements OnInit {
       if(res && typeof res === 'number'){
         this.rows = res
       }
+    })
+    this.storeService.bindToStateProperty(this.name,'rowsPerPage')?.subscribe(res=>{
+        this.rowsPerPage = res as number[]
     })
   }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data

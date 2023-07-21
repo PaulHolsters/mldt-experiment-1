@@ -552,6 +552,7 @@ export class StoreService implements OnInit{
       string |
       number |
       boolean |
+      number[]|
       CalculationModel |
       ComponentModel |
       ComponentModel[]> |

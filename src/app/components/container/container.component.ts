@@ -90,19 +90,15 @@ export class ContainerComponent implements OnInit, AfterContentChecked {
       this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
       this.storeService.bindToStateProperty(this.name, 'dataConcept')?.subscribe(res => {
         this.dataConcept = res as ConceptComponentModel
-        console.log(this.dataConcept)
       })
       this.storeService.bindToStateProperty(this.name, 'dataAttribute')?.subscribe(res => {
         this.dataAttribute = res as AttributeComponentModel
-        console.log(this.dataAttribute)
       })
       this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
-        debugger
         this.dataLink = res as string[]
         this.nameFormControl = this.dataLink.join('_')
       })
       this.children$ = this.storeService.bindToStateProperty(this.name, 'children')
-
       this.row$ = this.storeService.bindToStateProperty(this.name, 'row')
       this.column$ = this.storeService.bindToStateProperty(this.name, 'column')
       this.wrap$ = this.storeService.bindToStateProperty(this.name, 'wrap')
