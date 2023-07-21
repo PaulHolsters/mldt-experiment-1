@@ -16,6 +16,7 @@ import {ButtonLayoutType} from "../../enums/buttonLayoutType.enum";
 import {RadioAttributeConfigModel} from "../../models/Data/RadioAttributeConfigModel";
 import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttributeConfigModel";
 import {FunctionType} from "../../enums/functionTypes.enum";
+import {TableColumnAttributeConfigModel} from "../../models/Data/TableColumnAttributeConfigModel";
 
 export const conceptModel = new ConceptConfigModel(
   'product',
@@ -26,9 +27,21 @@ export const conceptModel = new ConceptConfigModel(
       undefined,
       false,
       false,
-      new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
-        InputFontSizeType.Large, NoValueType.NVY),
-      undefined, undefined,undefined,undefined, 'Product naam', 'Geef een adequate naam'
+      new TextAttributeConfigModel(
+        RestrictionType.Alphanumeric,
+        RestrictionType.NA,
+        IconType.Check,
+        IconPositionType.Left,
+        InputFontSizeType.Large,
+        NoValueType.NVY),
+      undefined,
+      undefined,
+      undefined,
+      new TableColumnAttributeConfigModel(
+        true,
+        NoValueType.DBI
+      ),
+      undefined, 'Product naam', 'Geef een adequate naam'
     ),
     new AttributeConfigModel(
       'category',
@@ -43,7 +56,10 @@ export const conceptModel = new ConceptConfigModel(
         NoValueType.DBI,
         NoValueType.NVY,
         [FunctionType.ToLowerCase,FunctionType.CreateSpaces,FunctionType.CapitalizeFirstLetter]
-      ),undefined,undefined,'Categorie','Selecteer één van de mogelijke categorieën',undefined
+      ),undefined,      new TableColumnAttributeConfigModel(
+        false,
+        NoValueType.DBI
+      ),undefined,'Categorie','Selecteer één van de mogelijke categorieën',undefined
     )
     ,
     new AttributeConfigModel(
@@ -60,7 +76,10 @@ export const conceptModel = new ConceptConfigModel(
         NumberInputModeType.Currency, LocaleType.nl_NL, CurrencyType.EUR, CurrencyDisplayType.CODE, undefined, undefined,
         undefined, undefined, ButtonClassType.Success,
         ButtonClassType.Primary, IconType.Plus, IconType.Min, undefined, undefined, ButtonLayoutType.Stacked, NoValueType.NVY),
-      undefined,undefined,undefined,
+      undefined,undefined,      new TableColumnAttributeConfigModel(
+        false,
+        NoValueType.DBI
+      ),undefined,
       'Basisprijs',
       'Geef een getal in tussen -445 en 10'),
     new AttributeConfigModel(
@@ -74,6 +93,10 @@ export const conceptModel = new ConceptConfigModel(
       undefined,
       // todo ervoor zorgen dat je voor optionLabel ook een datamanipulatie kan doen
       new MultiSelectAttributeConfigModel(NoValueType.DBI, NoValueType.DBI,undefined,'name'),
+      new TableColumnAttributeConfigModel(
+        true,
+        NoValueType.DBI
+      ),
       new ConceptConfigModel('specification',[
         new AttributeConfigModel(
           'name',
@@ -83,7 +106,7 @@ export const conceptModel = new ConceptConfigModel(
           false,
           new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
             InputFontSizeType.Large, NoValueType.NVY),
-          undefined, undefined,undefined,undefined, 'Specificatie', 'Geef een adequate naam'
+          undefined, undefined,undefined,undefined,undefined, 'Specificatie', 'Geef een adequate naam'
         )
       ]),
       'Product specificaties',

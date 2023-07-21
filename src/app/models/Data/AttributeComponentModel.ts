@@ -4,8 +4,9 @@ import {TextAttributeComponentModel} from "./TextAttributeComponentModel";
 import {NumberAttributeComponentModel} from "./NumberAttributeComponentModel";
 import {RadioAttributeComponentModel} from "./RadioAttributeComponentModel";
 import {MultiSelectAttributeComponentModel} from "./MultiSelectAttributeComponentModel";
-import {DataObjectModel} from "../DataObjectModel";
 import {DataRecordModel} from "../DataRecordModel";
+import {TableColumnAttributeConfigModel} from "./TableColumnAttributeConfigModel";
+import {TableColumnAttributeComponentModel} from "./TableColumnAttributeComponentModel";
 export class AttributeComponentModel {
 constructor(
   public name:string,
@@ -17,6 +18,7 @@ constructor(
   public number:NumberAttributeComponentModel|undefined,
   public radio:RadioAttributeComponentModel|undefined,
   public multiselect:MultiSelectAttributeComponentModel|undefined,
+  public tableColumn:TableColumnAttributeComponentModel|undefined,
   public concept:ConceptComponentModel|undefined,
   public dataList:DataRecordModel[]|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA,

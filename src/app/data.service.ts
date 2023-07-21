@@ -24,6 +24,7 @@ import {ActionType} from "./enums/actionTypes.enum";
 import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -167,7 +168,7 @@ export class DataService{
             attr.multiselect.selectedOptions = value
             attr.dataServer = value
           }
-          // todo alle andere datatypes
+          // todo alle andere datatypes (form controls)
 
           (obj.attributes as AttributeConfigModel[]).splice((obj.attributes as AttributeConfigModel[]).findIndex(attr => {
             return attr.name === parts[1]
@@ -196,6 +197,8 @@ export class DataService{
     }
   }
   public getDataObject(dataLink: string[], componentType: ComponentType, dataSpecs: DataSpecificationType[]): AttributeComponentModel | undefined {
+    // todo bij een tabek is er geen datalink en dus wordt er niets gereplaced
+    debugger
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0] && (dataSpecs.reduce(
@@ -280,8 +283,14 @@ export class DataService{
       if (!comp) comp = this.configService.appConfig?.getComponentConfigThroughAttributes(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel && comp.name === nameComponent) {
+        // todo replaceDBI values in attributes
+        if(compConcept?.attributes && compConcept?.attributes instanceof Array){
+          compConcept.attributes = compConcept.attributes.map(attr=>{
+            return this.replaceDBIValues(compConcept,attr)
+          })
+        }
         propSubj.propValue.next(compConcept)
-      } else if (propSubj.propName === 'dataLink' && comp  && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
+      } else if (propSubj.propName === 'dataLink' && comp && comp.name === nameComponent  && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
@@ -400,6 +409,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     } else throw new Error('Geen geldige data configuratie.')
   }
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
+    debugger
     const bp = attr.dataBlueprint?.get(attr.name)
     if (attr.radio) {
       if (attr.radio.conceptName === NoValueType.DBI) {
@@ -429,6 +439,15 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       if (attr.multiselect.optionLabel === NoValueType.DBI) {
         // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
       }
+    }
+    debugger
+    if(attr.tableColumn){
+      if(attr.tableColumn.label === NoValueType.DBI){
+        attr.tableColumn.label = utilFunctions.capitalizeFirst(attr.name)
+        debugger
+      }
+      // todo voor het gebruik van een functie zou je een function value type kunnen aanmaken?
+      //    vervang novaluetype maar gewoon gelijk door valuetype
     }
     return attr
   }
@@ -546,6 +565,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
               }
             } else if (compObj && !error) {
               this.objectData.push(compObj)
+              debugger
               this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList], compObj)
             } else throw new Error('Error on the graphQL server')
           }

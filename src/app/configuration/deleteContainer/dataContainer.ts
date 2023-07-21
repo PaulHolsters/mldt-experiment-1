@@ -19,6 +19,7 @@ export const dataContainer = new ConceptConfigModel(
       false,
       new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
         InputFontSizeType.Large, NoValueType.NVY),
-      undefined, undefined,undefined,undefined, 'Id product', 'Geef het id van het product in dat u wenst te verwijderen'
+      undefined, undefined,undefined,undefined,undefined,
+      'Id product', 'Geef het id van het product in dat u wenst te verwijderen'
     )
   ])

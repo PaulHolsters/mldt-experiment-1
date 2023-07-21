@@ -2,7 +2,6 @@
           conditional row styling : conditionele frontend is voor later,
 
           todo
-            paginator,
             sorting,
             custom sorting,
             loading spinner,
@@ -41,7 +40,7 @@
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let column of columns">{{column['header']}}</th>
+      <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns">{{column['header']}} <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">

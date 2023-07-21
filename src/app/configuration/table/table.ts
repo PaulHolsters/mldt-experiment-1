@@ -4,9 +4,6 @@ import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/Dimen
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 import {conceptModel} from "../root/appDataModel";
-import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
-import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
-import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
@@ -43,7 +40,7 @@ export const table = {
   ))),
   attributes:new ResponsiveAttributesConfigModel(
       new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-        'Geen producten aanwezig.',true,10,[5,10,15],['product', 'id'])),
+        'Geen producten aanwezig.',true,5,[5,10,15],NoValueType.NA)),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
   data:conceptModel

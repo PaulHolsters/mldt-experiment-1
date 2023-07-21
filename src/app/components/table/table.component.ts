@@ -6,6 +6,7 @@ import {EventsService} from "../../events.service";
 import {DataService} from "../../data.service";
 import utilFunctions from "../../utils/utilFunctions";
 import {Observable} from "rxjs";
+import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 
 @Component({
   selector: 'm-table',
@@ -15,6 +16,7 @@ import {Observable} from "rxjs";
 export class TableComponent implements OnInit {
   dataList: DataObjectModel[] |  undefined
   blueprint: Object |  undefined
+  attributes: AttributeComponentModel[] | undefined
   textWhenEmpty$:Observable<any> | undefined
   caption$:Observable<any>|undefined
   summary$:Observable<any>|undefined
@@ -32,6 +34,7 @@ export class TableComponent implements OnInit {
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       this.dataList = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.dataList
       this.blueprint = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.conceptBluePrint
+      this.attributes =  (res as {dataList:DataObjectModel[],conceptBluePrint:Object,attributes:AttributeComponentModel[]} )?.attributes
     })
     this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
     this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
@@ -53,10 +56,16 @@ export class TableComponent implements OnInit {
         this.rowsPerPage = res as number[]
     })
   }
+  getColumns():{field:string,header:string,sort:boolean}[]{
+    return this.attributes?.map(attr=>{
+      return {field:attr.name,header:attr.tableColumn?.label ?? '',sort:attr.tableColumn?.sort ?? false}
+    }) ?? []
+  }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer
   //      de mogelijkheid van datapresentatie
-  getColumns():{field:string,header:string}[]{
+/*  getColumns():{field:string,header:string}[]{
+    //    field is dan "name" van het desbtreffende attribuut
     if(this.blueprint){
       return Object.keys(this.blueprint).map(key=>{
         return {field:key,header:utilFunctions.capitalizeFirst(key)}
@@ -65,6 +74,6 @@ export class TableComponent implements OnInit {
       })
     }
     return []
-  }
+  }*/
 
 }
