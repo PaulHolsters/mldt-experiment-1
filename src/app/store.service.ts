@@ -295,6 +295,7 @@ export class StoreService implements OnInit{
         false,
         NoValueType.NA,
         NoValueType.NA,
+        NoValueType.NA,
       )
       Object.entries(attributesConfig).forEach(([k, v]) => {
         compPropsObj.setProperty(k, v)

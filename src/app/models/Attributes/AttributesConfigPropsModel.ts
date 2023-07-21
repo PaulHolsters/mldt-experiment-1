@@ -17,6 +17,7 @@ export class AttributesConfigPropsModel {
     public textWhenEmpty:string|NoValueType.NA = NoValueType.NA,
     public paginator:boolean = false,
     public rows:number|NoValueType.NA = 5,
+    public rowsPerPage:number[]|NoValueType.NA = [10,25,50],
     public dataLink:string[]|NoValueType.NA = NoValueType.NA
   ) {
   }

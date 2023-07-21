@@ -15,6 +15,7 @@ export class AttributesComponentPropsModel {
               public textWhenEmpty: string | NoValueType.NA,
               public paginator: boolean,
               public rows: number | NoValueType.NA,
+              public rowsPerPage:number[]|NoValueType.NA,
               public dataLink: string[] | NoValueType.NA
   ) {
   }
