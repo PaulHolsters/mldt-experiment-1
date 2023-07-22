@@ -1,9 +1,9 @@
 <!-- todo
           conditional row styling : conditionele frontend is voor later,
+          filtering: gaat niet zie mail jeroen
 
           todo
-            filtering,
-            clear filter,
+            clear filter + globale filtering
             row selection,
             multiple row selection,
             checkbox selection,
@@ -23,6 +23,7 @@
             contextmenu
           -->
 <p-table
+  #dt2
   styleClass="{{style$|async}}"
   responsiveLayout="{{responsiveLayout$|async}}"
   [paginator]="paginator$|async"
@@ -34,9 +35,8 @@
   [style.width]="'100%'" [style.height]="'100%'"
   (sortFunction)="customSort($event)"
   [customSort]="cstmSort"
-  [globalFilterFields]="['name','category','price','specifications']"
-  [showCurrentPageReport]="true"
-  dataKey="id"
+  selectionMode="single"
+  [(selection)]="selectedItem"
   >
   <ng-template *ngIf="caption$|async" pTemplate="caption">
     <m-anchor  [component]="caption$|async"></m-anchor>
@@ -44,13 +44,16 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns">
-        {{column['header']}} <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>
-        <p-columnFilter type="text" field="{{column['field']}}" display="menu"></p-columnFilter>
+        {{column['header']}}<p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>
+<!--        <p-columnFilter field="{{column['field']}}" [display]="'menu'"></p-columnFilter>-->
+<!--        <div (click)="filterByColumn(column)"><i  class="pi pi-filter"></i></div>-->
+        <!-- todo een oplossing is een event gebruiken en daarmee de filtering van de data te doen en wijzig het icon in een algemeen icon-->
+<!--   niet onbelangrijk: dit kan ook gewoon een betaalde feature zijn  -->
       </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
-    <tr>
+    <tr [pSelectableRow]="rowData" (click)="handleRow()">
       <td *ngFor="let column of columns">
         {{ rowData[column['field']] }}
       </td>

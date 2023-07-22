@@ -15,6 +15,7 @@ import {NoValueType} from "../../enums/no_value_type";
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
+  concept:string|undefined
   dataList: DataObjectModel[] |  undefined
   blueprint: Object |  undefined
   attributes: AttributeComponentModel[] | undefined
@@ -29,6 +30,8 @@ export class TableComponent implements OnInit {
   rowsPerPage:number[] = [10,25,50]
   breakpoint = '960px'
   cstmSort = false
+  selectedItem:{}|undefined
+  singleRowSelect$:Observable<any>|undefined
   @Input()name!:string
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
 
@@ -38,6 +41,7 @@ export class TableComponent implements OnInit {
       this.dataList = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.dataList
       this.blueprint = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.conceptBluePrint
       this.attributes =  (res as {dataList:DataObjectModel[],conceptBluePrint:Object,attributes:AttributeComponentModel[]} )?.attributes
+      this.concept =  (res as {conceptName:string} )?.conceptName
     })
     this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
     this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
@@ -59,6 +63,13 @@ export class TableComponent implements OnInit {
     this.storeService.bindToStateProperty(this.name,'rowsPerPage')?.subscribe(res=>{
         this.rowsPerPage = res as number[]
     })
+  }
+  filterByColumn(column:any){
+
+  }
+  handleRow(){
+    console.log(this.selectedItem)
+    debugger
   }
   customSort(event: SortEvent) {
     // todo voeg functionaliteit toe waarmee je op meerdere kolommen
