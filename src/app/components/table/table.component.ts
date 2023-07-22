@@ -21,6 +21,7 @@ export class TableComponent implements OnInit {
   textWhenEmpty$:Observable<any> | undefined
   caption$:Observable<any>|undefined
   summary$:Observable<any>|undefined
+  footer$:Observable<any>|undefined
   style$:Observable<any>|undefined
   responsiveLayout$:Observable<any>|undefined
   paginator$:Observable<any>|undefined
@@ -41,6 +42,7 @@ export class TableComponent implements OnInit {
     this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
     this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
     this.summary$ = this.storeService.bindToStateProperty(this.name,'summary')
+    this.footer$ = this.storeService.bindToStateProperty(this.name,'footer')
     this.style$ = this.storeService.bindToStateProperty(this.name,'tableStyle')
     this.responsiveLayout$ = this.storeService.bindToStateProperty(this.name,'responsiveTableLayout')
     this.paginator$ = this.storeService.bindToStateProperty(this.name,'paginator')

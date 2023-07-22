@@ -1,17 +1,7 @@
 <!-- todo
           conditional row styling : conditionele frontend is voor later,
-          custom sorting: niet heel duidelijk hoe de interface werkt
-            import { SortMeta } from './sortmeta';
-            export interface SortEvent {
-                data?: any[]; => wat zit hierin?
-                mode?: string; => wat is dit hierin?
-                field?: string;
-                order?: number; => wat is -1, 0 en 1 mbt elA en elB in de array?
-                multiSortMeta?: SortMeta[];
-            }
 
           todo
-            loading spinner,
             filtering,
             clear filter,
             row selection,
@@ -44,13 +34,19 @@
   [style.width]="'100%'" [style.height]="'100%'"
   (sortFunction)="customSort($event)"
   [customSort]="cstmSort"
+  [globalFilterFields]="['name','category','price','specifications']"
+  [showCurrentPageReport]="true"
+  dataKey="id"
   >
   <ng-template *ngIf="caption$|async" pTemplate="caption">
     <m-anchor  [component]="caption$|async"></m-anchor>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns">{{column['header']}} <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon></th>
+      <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns">
+        {{column['header']}} <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>
+        <p-columnFilter type="text" field="{{column['field']}}" display="menu"></p-columnFilter>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -61,9 +57,17 @@
     </tr>
   </ng-template>
 <!--  todo zorg ervoor dat je de volgorde kan meegeven in de configuratie van al deze subcomponents-->
-  <ng-template pTemplate="footer">
-    <p *ngIf="this.dataList && this.dataList.length===0">{{textWhenEmpty$|async}}</p>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="7">{{textWhenEmpty$|async}}</td>
+    </tr>
   </ng-template>
+  <ng-template pTemplate="footer">
+    <m-anchor [component]="footer$|async"></m-anchor>
+  </ng-template>
+<!--
+ <p *ngIf="this.dataList && this.dataList.length===0"></p>
+-->
   <ng-template  *ngIf="summary$|async" pTemplate="summary">
     <m-anchor [component]="summary$|async"></m-anchor>
   </ng-template>
