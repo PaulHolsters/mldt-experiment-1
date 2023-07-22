@@ -59,27 +59,30 @@ export class TableComponent implements OnInit {
     })
   }
   customSort(event: SortEvent) {
+    // todo voeg functionaliteit toe waarmee je op meerdere kolommen
+    //  kan sorteren => dit zou bv. een mooie feature zijn waarvoor mensen moeten betalen!
     const field = this.attributes?.find(attr => attr.name === event.field)
     if (field && field.tableColumn?.sort && field.tableColumn?.customSort === NoValueType.NA) {
-      // default sorting: sorteer volgens event.field in alfabetische volgorde oplopend dan wel aflopend
-      event.data?.sort((val1,val2)=>{
+      (event.data as (string|number|Date|boolean)[])?.sort((val1,val2)=>{
+        // todo code kan korter door het field attribuut als indexer
         const val1temp = Object.entries(val1).find(([k,v])=>{
           return (k===event.field)
-        }) ?? ''
+        })
         const val2temp = Object.entries(val2).find(([k,v])=>{
           return (k===event.field)
-        }) ?? ''
-        return ((val1temp < val2temp)?-1:(val1temp === val2temp)?0:1)*(event.order??1)
+        })
+        if(val1temp && val2temp){
+          return ((val1temp[1] < val2temp[1])?-1:(val1temp[1] === val2temp[1])?0:1)*(event.order??1)
+        }
+        return 0
       })
-    } else if (field && field.tableColumn?.sort) {
-      // todo test!
+    } else if (field && field.tableColumn?.sort && field.tableColumn?.customSort instanceof Function) {
+      const func = field.tableColumn?.customSort
       event.data?.sort((data1, data2) => {
         let value1 = event.field ? data1[event.field] : undefined // de overige zijn wellicht header, sort , ...
         let value2 = event.field ? data2[event.field] : undefined
         let result = -1
-        debugger
-        if (field.tableColumn?.customSort instanceof Function)
-          return field.tableColumn?.customSort(value1, value2, result)
+          return func(value1, value2, result)*(event.order??1)
       })
     }
   }

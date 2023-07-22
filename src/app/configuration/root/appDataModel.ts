@@ -38,7 +38,7 @@ export const conceptModel = new ConceptConfigModel(
       undefined,
       undefined,
       new TableColumnAttributeConfigModel(
-        true,
+        false,
         NoValueType.DBI
       ),
       undefined, 'Product naam', 'Geef een adequate naam'
@@ -57,8 +57,10 @@ export const conceptModel = new ConceptConfigModel(
         NoValueType.NVY,
         [FunctionType.ToLowerCase,FunctionType.CreateSpaces,FunctionType.CapitalizeFirstLetter]
       ),undefined,      new TableColumnAttributeConfigModel(
-        false,
+        true,
         NoValueType.DBI
+        // todo in principe zou je hier gewoon strings kunnen ingeven die als
+        //  body geprint wordt in de functies waar dan per veld een nieuwe prop wordt ingemaakt in de customFunctions file
       ),undefined,'Categorie','Selecteer één van de mogelijke categorieën',undefined
     )
     ,
@@ -91,12 +93,7 @@ export const conceptModel = new ConceptConfigModel(
         NoValueType.NVY),
       undefined,undefined,      new TableColumnAttributeConfigModel(
         true,
-        NoValueType.DBI,
-        // todo in principe zou je hier gewoon strings kunnen ingeven die als
-        //  body geprint wordt in de functies waar dan per veld een nieuwe prop wordt ingemaakt in de customFunctions file
-        (val1:number,val2:number,result:number)=>{
-          return val2-val1 // van hoog naar laag
-        }
+        NoValueType.DBI
       ),undefined,
       'Basisprijs',
       'Geef een getal in tussen -445 en 10'),
@@ -112,7 +109,7 @@ export const conceptModel = new ConceptConfigModel(
       // todo ervoor zorgen dat je voor optionLabel ook een datamanipulatie kan doen
       new MultiSelectAttributeConfigModel(NoValueType.DBI, NoValueType.DBI,undefined,'name'),
       new TableColumnAttributeConfigModel(
-        true,
+        false,
         NoValueType.DBI
       ),
       new ConceptConfigModel('specification',[
