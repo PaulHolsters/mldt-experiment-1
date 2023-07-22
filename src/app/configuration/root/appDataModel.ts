@@ -73,12 +73,30 @@ export const conceptModel = new ConceptConfigModel(
         true,
         true,
         1,
-        NumberInputModeType.Currency, LocaleType.nl_NL, CurrencyType.EUR, CurrencyDisplayType.CODE, undefined, undefined,
-        undefined, undefined, ButtonClassType.Success,
-        ButtonClassType.Primary, IconType.Plus, IconType.Min, undefined, undefined, ButtonLayoutType.Stacked, NoValueType.NVY),
+        NumberInputModeType.Currency,
+        LocaleType.nl_NL,
+        CurrencyType.EUR,
+        CurrencyDisplayType.CODE,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        ButtonClassType.Success,
+        ButtonClassType.Primary,
+        IconType.Plus,
+        IconType.Min,
+        undefined,
+        undefined,
+        ButtonLayoutType.Stacked,
+        NoValueType.NVY),
       undefined,undefined,      new TableColumnAttributeConfigModel(
-        false,
-        NoValueType.DBI
+        true,
+        NoValueType.DBI,
+        // todo in principe zou je hier gewoon strings kunnen ingeven die als
+        //  body geprint wordt in de functies waar dan per veld een nieuwe prop wordt ingemaakt in de customFunctions file
+        (val1:number,val2:number,result:number)=>{
+          return val2-val1 // van hoog naar laag
+        }
       ),undefined,
       'Basisprijs',
       'Geef een getal in tussen -445 en 10'),

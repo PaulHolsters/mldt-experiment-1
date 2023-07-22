@@ -6,6 +6,8 @@ import {EventsService} from "../../events.service";
 import {DataService} from "../../data.service";
 import {Observable} from "rxjs";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
+import {SortEvent} from "primeng/api";
+import {NoValueType} from "../../enums/no_value_type";
 
 @Component({
   selector: 'm-table',
@@ -25,6 +27,7 @@ export class TableComponent implements OnInit {
   rows = 5
   rowsPerPage:number[] = [10,25,50]
   breakpoint = '960px'
+  cstmSort = false
   @Input()name!:string
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
 
@@ -55,8 +58,37 @@ export class TableComponent implements OnInit {
         this.rowsPerPage = res as number[]
     })
   }
+  customSort(event: SortEvent) {
+    const field = this.attributes?.find(attr => attr.name === event.field)
+    if (field && field.tableColumn?.sort && field.tableColumn?.customSort === NoValueType.NA) {
+      // default sorting: sorteer volgens event.field in alfabetische volgorde oplopend dan wel aflopend
+      event.data?.sort((val1,val2)=>{
+        const val1temp = Object.entries(val1).find(([k,v])=>{
+          return (k===event.field)
+        }) ?? ''
+        const val2temp = Object.entries(val2).find(([k,v])=>{
+          return (k===event.field)
+        }) ?? ''
+        return ((val1temp < val2temp)?-1:(val1temp === val2temp)?0:1)*(event.order??1)
+      })
+    } else if (field && field.tableColumn?.sort) {
+      // todo test!
+      event.data?.sort((data1, data2) => {
+        let value1 = event.field ? data1[event.field] : undefined // de overige zijn wellicht header, sort , ...
+        let value2 = event.field ? data2[event.field] : undefined
+        let result = -1
+        debugger
+        if (field.tableColumn?.customSort instanceof Function)
+          return field.tableColumn?.customSort(value1, value2, result)
+      })
+    }
+  }
   getColumns():{field:string,header:string,sort:boolean}[]{
+    // todo test total default sort
     return this.attributes?.map(attr=>{
+      if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
+        this.cstmSort = true
+      }
       return {field:attr.name,header:attr.tableColumn?.label ?? '',sort:attr.tableColumn?.sort ?? false}
     }) ?? []
   }

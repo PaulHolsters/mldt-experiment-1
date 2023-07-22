@@ -1,8 +1,16 @@
 <!-- todo
           conditional row styling : conditionele frontend is voor later,
+          custom sorting: niet heel duidelijk hoe de interface werkt
+            import { SortMeta } from './sortmeta';
+            export interface SortEvent {
+                data?: any[]; => wat zit hierin?
+                mode?: string; => wat is dit hierin?
+                field?: string;
+                order?: number; => wat is -1, 0 en 1 mbt elA en elB in de array?
+                multiSortMeta?: SortMeta[];
+            }
 
           todo
-            custom sorting,
             loading spinner,
             filtering,
             clear filter,
@@ -33,7 +41,10 @@
   [breakpoint]="breakpoint"
   [columns]="getColumns()"
   [value]="dataList ?? []"
-  [style.width]="'100%'" [style.height]="'100%'">
+  [style.width]="'100%'" [style.height]="'100%'"
+  (sortFunction)="customSort($event)"
+  [customSort]="cstmSort"
+  >
   <ng-template *ngIf="caption$|async" pTemplate="caption">
     <m-anchor  [component]="caption$|async"></m-anchor>
   </ng-template>
