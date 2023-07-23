@@ -40,6 +40,7 @@ import {MultiSelectModule} from "primeng/multiselect";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { TableComponent } from './components/table/table.component';
 import {TableModule} from "primeng/table";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import {TableModule} from "primeng/table";
         RadioButtonModule,
         MultiSelectModule,
         BrowserAnimationsModule,
-        TableModule
+        TableModule,
+        DialogModule
     ],
   providers: [],
   bootstrap: [AppComponent]

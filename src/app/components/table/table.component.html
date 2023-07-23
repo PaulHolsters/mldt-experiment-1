@@ -31,7 +31,7 @@
   [rowsPerPageOptions]="rowsPerPage"
   [breakpoint]="breakpoint"
   [columns]="getColumns()"
-  [value]="dataList ?? []"
+  [value]="currentDataList ?? []"
   [style.width]="'100%'" [style.height]="'100%'"
   (sortFunction)="customSort($event)"
   [customSort]="cstmSort"
@@ -45,8 +45,8 @@
     <tr>
       <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns">
         {{column['header']}} <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>
-         <span (click)="filterByColumn(column,columns)" class="pi pi-filter" style="font-size: 1rem"></span>
-<!--        <p-columnFilter field="{{column['field']}}" [display]="'menu'"></p-columnFilter>-->
+         <span (click)="filterByColumn($event,column,columns)" class="pi pi-filter" style="font-size: 1rem"></span>
+<!--        <p-columnFilter (click)="filterByColumn(column,columns)" type="text" field="{{column['field']}}" display="menu"></p-columnFilter>-->
 <!--        <div (click)="filterByColumn(column)"><i  class="pi pi-filter"></i></div>-->
         <!-- todo een oplossing is een event gebruiken en daarmee de filtering van de data te doen en wijzig het icon in een algemeen icon-->
 <!--   niet onbelangrijk: dit kan ook gewoon een betaalde feature zijn  -->
@@ -77,3 +77,9 @@
   </ng-template>
 </p-table>
 <!-- todo alternatief tonen voor als data geladen wordt of door een serverprobleem niet werkt! -->
+<p-dialog header="Header" [(visible)]="visible" [style]="{ width: '50vw',
+ position:'absolute',top:y+'px',left:x+'px'}">
+  <div class="flex py-2 justify-content-center">
+    <p>cava</p>
+  </div>
+</p-dialog>

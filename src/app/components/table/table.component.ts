@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {SortEvent} from "primeng/api";
 import {NoValueType} from "../../enums/no_value_type";
+import {DataRecordModel} from "../../models/DataRecordModel";
 
 @Component({
   selector: 'm-table',
@@ -16,7 +17,11 @@ import {NoValueType} from "../../enums/no_value_type";
 })
 export class TableComponent implements OnInit {
   concept:string|undefined
-  dataList: DataObjectModel[] |  undefined
+  visible = false
+  x:number=0
+  y:number=0
+  dataList: DataRecordModel[] |  undefined
+  currentDataList: DataRecordModel[] |  undefined
   blueprint: Object |  undefined
   attributes: AttributeComponentModel[] | undefined
   textWhenEmpty$:Observable<any> | undefined
@@ -38,9 +43,10 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
-      this.dataList = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.dataList
-      this.blueprint = (res as {dataList:DataObjectModel[],conceptBluePrint:Object} )?.conceptBluePrint
-      this.attributes =  (res as {dataList:DataObjectModel[],conceptBluePrint:Object,attributes:AttributeComponentModel[]} )?.attributes
+      this.dataList = (res as {dataList:DataRecordModel[]})?.dataList
+      this.currentDataList = (res as {dataList:DataRecordModel[]})?.dataList
+      this.blueprint = (res as {conceptBluePrint:Object} )?.conceptBluePrint
+      this.attributes =  (res as {attributes:AttributeComponentModel[]} )?.attributes
       this.concept =  (res as {conceptName:string} )?.conceptName
     })
     this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
@@ -64,10 +70,22 @@ export class TableComponent implements OnInit {
         this.rowsPerPage = res as number[]
     })
   }
-  filterByColumn(column:any,columns:any){
-    // todo dialog met form open krijgen zodat je kan beginnen filteren op generische wijze
-    this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {column:column,columns:columns})
-    debugger
+  filterByColumn(event:MouseEvent,column:any,columns:any){
+    this.visible = true
+    this.x = event.clientX
+    this.y = event.clientY
+    // todo dit moet de gebruiker zelf maar regelen
+    this.currentDataList = this.currentDataList?.filter(record=>{
+      const entry = Object.entries(record).find(([k,v])=>{
+        return k === column.field
+      })
+      if(entry){
+        // todo zorg dat de gebruiker zijn functie kan meegeven : condition to filter on
+        return entry[1].toString().split("ab").length > 1
+      }
+      return false
+    })
+    this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {column:column,columns:columns,dataList:this.dataList})
   }
   handleRow(){
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)
