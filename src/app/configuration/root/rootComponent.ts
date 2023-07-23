@@ -112,6 +112,15 @@ export const RootComponent = new AppConfig({
       on: EventType.ComponentClicked,
       id:'delete-product'
     },
+    {
+      actionType: ActionType.Client,
+      actionSubType: ActionSubType.SetValue,
+      targetType: TargetType.Component,
+      targetName: 'delete-container',
+      value:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)),
+      sourceName: 'table',
+      on: EventType.RowSelected
+    },
 /*    {
       on:EventType.ActionFinished,
       sourceId:'delete-product',

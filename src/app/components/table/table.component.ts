@@ -64,11 +64,13 @@ export class TableComponent implements OnInit {
         this.rowsPerPage = res as number[]
     })
   }
-  filterByColumn(column:any){
-
+  filterByColumn(column:any,columns:any){
+    // todo dialog met form open krijgen zodat je kan beginnen filteren op generische wijze
+    this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {column:column,columns:columns})
+    debugger
   }
   handleRow(){
-    console.log(this.selectedItem)
+    this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)
     debugger
   }
   customSort(event: SortEvent) {

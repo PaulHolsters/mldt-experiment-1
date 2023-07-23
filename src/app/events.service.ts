@@ -41,6 +41,7 @@ export class EventsService{
     })
   }
   public triggerEvent(event:EventType,source:string,data?:any){
+    console.log(source,data)
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
