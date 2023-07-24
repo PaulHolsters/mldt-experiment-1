@@ -292,6 +292,8 @@ export class StoreService implements OnInit{
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
         false,
         NoValueType.NA,
         NoValueType.NA,
