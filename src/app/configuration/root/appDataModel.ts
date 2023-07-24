@@ -17,6 +17,7 @@ import {RadioAttributeConfigModel} from "../../models/Data/RadioAttributeConfigM
 import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttributeConfigModel";
 import {FunctionType} from "../../enums/functionTypes.enum";
 import {TableColumnAttributeConfigModel} from "../../models/Data/TableColumnAttributeConfigModel";
+import {DataRecordModel} from "../../models/DataRecordModel";
 
 export const conceptModel = new ConceptConfigModel(
   'product',
@@ -39,7 +40,20 @@ export const conceptModel = new ConceptConfigModel(
       undefined,
       new TableColumnAttributeConfigModel(
         false,
-        NoValueType.DBI
+        NoValueType.DBI,
+        NoValueType.NA,
+        true,
+        (obj:
+           {
+             key: string,
+             value: any,
+             record: DataRecordModel,
+             allData: DataRecordModel[],
+             column: { field: string, header: string, sort: boolean, filter: boolean },
+             allColumns: { field: string, header: string, sort: boolean, filter: boolean }[]
+           }):boolean => {
+         return false
+        }
       ),
       undefined, 'Product naam', 'Geef een adequate naam'
     ),
@@ -55,13 +69,13 @@ export const conceptModel = new ConceptConfigModel(
         NoValueType.DBI,
         NoValueType.DBI,
         NoValueType.NVY,
-        [FunctionType.ToLowerCase,FunctionType.CreateSpaces,FunctionType.CapitalizeFirstLetter]
-      ),undefined,      new TableColumnAttributeConfigModel(
+        [FunctionType.ToLowerCase, FunctionType.CreateSpaces, FunctionType.CapitalizeFirstLetter]
+      ), undefined, new TableColumnAttributeConfigModel(
         true,
         NoValueType.DBI
         // todo in principe zou je hier gewoon strings kunnen ingeven die als
         //  body geprint wordt in de functies waar dan per veld een nieuwe prop wordt ingemaakt in de customFunctions file
-      ),undefined,'Categorie','Selecteer één van de mogelijke categorieën',undefined
+      ), undefined, 'Categorie', 'Selecteer één van de mogelijke categorieën', undefined
     )
     ,
     new AttributeConfigModel(
@@ -91,10 +105,10 @@ export const conceptModel = new ConceptConfigModel(
         undefined,
         ButtonLayoutType.Stacked,
         NoValueType.NVY),
-      undefined,undefined,      new TableColumnAttributeConfigModel(
+      undefined, undefined, new TableColumnAttributeConfigModel(
         true,
         NoValueType.DBI
-      ),undefined,
+      ), undefined,
       'Basisprijs',
       'Geef een getal in tussen -445 en 10'),
     new AttributeConfigModel(
@@ -107,12 +121,12 @@ export const conceptModel = new ConceptConfigModel(
       undefined,
       undefined,
       // todo ervoor zorgen dat je voor optionLabel ook een datamanipulatie kan doen
-      new MultiSelectAttributeConfigModel(NoValueType.DBI, NoValueType.DBI,undefined,'name'),
+      new MultiSelectAttributeConfigModel(NoValueType.DBI, NoValueType.DBI, undefined, 'name'),
       new TableColumnAttributeConfigModel(
         false,
         NoValueType.DBI
       ),
-      new ConceptConfigModel('specification',[
+      new ConceptConfigModel('specification', [
         new AttributeConfigModel(
           'name',
           undefined,
@@ -121,7 +135,7 @@ export const conceptModel = new ConceptConfigModel(
           false,
           new TextAttributeConfigModel(RestrictionType.Alphanumeric, RestrictionType.NA, IconType.Check, IconPositionType.Left,
             InputFontSizeType.Large, NoValueType.NVY),
-          undefined, undefined,undefined,undefined,undefined, 'Specificatie', 'Geef een adequate naam'
+          undefined, undefined, undefined, undefined, undefined, 'Specificatie', 'Geef een adequate naam'
         )
       ]),
       'Product specificaties',

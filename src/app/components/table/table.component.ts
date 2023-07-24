@@ -70,26 +70,27 @@ export class TableComponent implements OnInit {
         this.rowsPerPage = res as number[]
     })
   }
-  filterByColumn(event:MouseEvent,column:any,columns:any){
-    this.visible = true
-    this.x = event.clientX
-    this.y = event.clientY
-    // todo dit moet de gebruiker zelf maar regelen
-    this.currentDataList = this.currentDataList?.filter(record=>{
-      const entry = Object.entries(record).find(([k,v])=>{
-        return k === column.field
+  filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean},columns:{field:string,header:string,sort:boolean,filter:boolean}[]){
+    const field = this.attributes?.find(attr => attr.name === column.field)
+    if(field  && field.tableColumn?.filter && field.tableColumn?.customFilter instanceof Function){
+      const func = field.tableColumn?.customFilter
+      this.visible = true
+      this.x = event.clientX
+      this.y = event.clientY
+      this.currentDataList = this.currentDataList?.filter(record=>{
+        const entry = Object.entries(record).find(([k,v])=>{
+          return k === column.field
+        })
+        if(entry){
+          return func({key:entry[0],value:entry[1],record:record,allData:this.currentDataList,column:column,allColumns:columns})
+        }
+        return false
       })
-      if(entry){
-        // todo zorg dat de gebruiker zijn functie kan meegeven : condition to filter on
-        return entry[1].toString().split("ab").length > 1
-      }
-      return false
-    })
+    }
     this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {column:column,columns:columns,dataList:this.dataList})
   }
   handleRow(){
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)
-    debugger
   }
   customSort(event: SortEvent) {
     // todo voeg functionaliteit toe waarmee je op meerdere kolommen
@@ -119,13 +120,12 @@ export class TableComponent implements OnInit {
       })
     }
   }
-  getColumns():{field:string,header:string,sort:boolean}[]{
-    // todo test total default sort
+  getColumns():{field:string,header:string,sort:boolean,filter:boolean}[]{
     return this.attributes?.map(attr=>{
       if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
         this.cstmSort = true
       }
-      return {field:attr.name,header:attr.tableColumn?.label ?? '',sort:attr.tableColumn?.sort ?? false}
+      return {field:attr.name,header:attr.tableColumn?.label ?? '',sort:attr.tableColumn?.sort ?? false,filter:attr.tableColumn?.filter ?? false}
     }) ?? []
   }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
