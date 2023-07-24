@@ -17,9 +17,6 @@ import {DataRecordModel} from "../../models/DataRecordModel";
 })
 export class TableComponent implements OnInit {
   concept:string|undefined
-  visible = false
-  x:number=0
-  y:number=0
   dataList: DataRecordModel[] |  undefined
   currentDataList: DataRecordModel[] |  undefined
   blueprint: Object |  undefined
@@ -30,6 +27,7 @@ export class TableComponent implements OnInit {
   footer$:Observable<any>|undefined
   style$:Observable<any>|undefined
   responsiveLayout$:Observable<any>|undefined
+  filterComponent$:Observable<any>|undefined
   paginator$:Observable<any>|undefined
   rows = 5
   rowsPerPage:number[] = [10,25,50]
@@ -56,6 +54,7 @@ export class TableComponent implements OnInit {
     this.style$ = this.storeService.bindToStateProperty(this.name,'tableStyle')
     this.responsiveLayout$ = this.storeService.bindToStateProperty(this.name,'responsiveTableLayout')
     this.paginator$ = this.storeService.bindToStateProperty(this.name,'paginator')
+    this.filterComponent$ = this.storeService.bindToStateProperty(this.name,'filterComponent')
     this.storeService.bindToStateProperty(this.name,'tableBreakpoint')?.subscribe(res=>{
       if(res && typeof res === 'number'){
         this.breakpoint = res+'px'
@@ -74,9 +73,9 @@ export class TableComponent implements OnInit {
     const field = this.attributes?.find(attr => attr.name === column.field)
     if(field  && field.tableColumn?.filter && field.tableColumn?.customFilter instanceof Function){
       const func = field.tableColumn?.customFilter
-      this.visible = true
+/*      this.visible = true
       this.x = event.clientX
-      this.y = event.clientY
+      this.y = event.clientY*/
       this.currentDataList = this.currentDataList?.filter(record=>{
         const entry = Object.entries(record).find(([k,v])=>{
           return k === column.field
@@ -87,7 +86,7 @@ export class TableComponent implements OnInit {
         return false
       })
     }
-    this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {column:column,columns:columns,dataList:this.dataList})
+    this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {allData:this.currentDataList,column:column,allColumns:columns})
   }
   handleRow(){
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)

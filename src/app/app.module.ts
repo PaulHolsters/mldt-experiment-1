@@ -41,6 +41,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { TableComponent } from './components/table/table.component';
 import {TableModule} from "primeng/table";
 import {DialogModule} from "primeng/dialog";
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {DialogModule} from "primeng/dialog";
     WrapperComponent,
     MultiselectComponent,
     PicklistComponent,
-    TableComponent
+    TableComponent,
+    DialogComponent
   ],
     imports: [
         BrowserModule,

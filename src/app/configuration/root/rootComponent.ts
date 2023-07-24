@@ -139,6 +139,16 @@ export const RootComponent = new AppConfig({
       targetName:'delete-container',
       sourceName:NoValueType.NA,
       targetType:TargetType.Component,
+    },
+    {
+      on:EventType.ColumnFilterClicked,
+      sourceId:'table',
+      actionType:ActionType.Client,
+      actionSubType:ActionSubType.SetValue,
+      value:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true,false)),
+      targetName:'column-filter-dialog',
+      sourceName:'table',
+      targetType:TargetType.Component,
     }
 /*        {
           actionType: ActionType.Server,

@@ -14,6 +14,8 @@ export class AttributesConfigPropsModel {
     public start: ComponentModel|NoValueType.NA = NoValueType.NA,
     public end: ComponentModel|NoValueType.NA = NoValueType.NA,
     public content: ComponentModel|NoValueType.NA = NoValueType.NA,
+    public filterComponent: ComponentModel|NoValueType.NA = NoValueType.NA,
+    public header:string|NoValueType.NA = NoValueType.NA,
     public textWhenEmpty:string|NoValueType.NA = NoValueType.NA,
     public paginator:boolean = false,
     public rows:number|NoValueType.NA = 5,

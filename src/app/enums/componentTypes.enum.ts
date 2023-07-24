@@ -16,5 +16,6 @@ export enum ComponentType {
   RadioButton,
   Picklist,
   MultiSelect,
-  Table
+  Table,
+  Dialog
 }

@@ -77,10 +77,6 @@
   </ng-template>
 </p-table>
 <!-- todo alternatief tonen voor als data geladen wordt of door een serverprobleem niet werkt! -->
-<p-dialog header="Header" [(visible)]="visible" [style]="{ width: '50vw',
- position:'absolute',top:y+'px',left:x+'px'}">
-  <div class="flex py-2 justify-content-center">
-    <p>cava</p>
-  </div>
-</p-dialog>
+<!---->
 <!-- todo add clear filter functionality -->
+<m-anchor [component]="filterComponent$|async"></m-anchor>

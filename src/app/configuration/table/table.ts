@@ -39,8 +39,31 @@ export const table = {
     new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC
   ))),
   attributes:new ResponsiveAttributesConfigModel(
-      new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-        'Geen producten aanwezig.',true,5,[5,10,15],NoValueType.NA)),
+      new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+        NoValueType.NA,NoValueType.NA,NoValueType.NA,
+        {
+          name:'filter-dialog',
+          type: ComponentType.Dialog,
+          attributes:new ResponsiveAttributesConfigModel(
+            new AttributesConfigPropsModel(
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              {
+                name:'filter-form',
+                type:ComponentType.Form,
+                // todo maak formulier om te filteren
+              }
+            )
+          ),
+          visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false))
+        },NoValueType.NA,'Geen producten aanwezig.',true,5,[5,10,15],NoValueType.NA)),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
   data:conceptModel
