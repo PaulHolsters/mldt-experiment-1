@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {DataObjectModel} from "../../models/DataObjectModel";
+import {Component,  Input,  OnInit} from '@angular/core';
 import {StoreService} from "../../store.service";
 import {EventType} from "../../enums/eventTypes.enum";
 import {EventsService} from "../../events.service";
@@ -9,13 +8,14 @@ import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel
 import {SortEvent} from "primeng/api";
 import {NoValueType} from "../../enums/no_value_type";
 import {DataRecordModel} from "../../models/DataRecordModel";
+import {StateService} from "../../state.service";
 
 @Component({
   selector: 'm-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit{
   concept:string|undefined
   dataList: DataRecordModel[] |  undefined
   currentDataList: DataRecordModel[] |  undefined
@@ -34,11 +34,33 @@ export class TableComponent implements OnInit {
   breakpoint = '960px'
   cstmSort = false
   selectedItem:{}|undefined
+  test:{key:string,value:string}|undefined
+  testP:{key:string,value:string}|undefined
+/*  x:{key:string,value:number}
+  xP:{key:string,value:number}
+  y:{key:string,value:number}
+  yP:{key:string,value:number}*/
   singleRowSelect$:Observable<any>|undefined
   @Input()name!:string
-  constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
+  constructor(private stateService:StateService,private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) {
 
+  }
   ngOnInit(): void {
+    const ss = this.stateService
+    const name = this.name
+    this.test = {
+      key:'test',
+      value:'test'
+    }
+    this.testP = new Proxy(this.test,{
+      set(test,value,newValue){
+        if(value!==newValue){
+          test.value = newValue
+          ss.syncData(name,test)
+          return true
+        } else return false
+      }
+    })
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       this.dataList = (res as {dataList:DataRecordModel[]})?.dataList
@@ -70,12 +92,17 @@ export class TableComponent implements OnInit {
     })
   }
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean},columns:{field:string,header:string,sort:boolean,filter:boolean}[]){
+    if(this.testP)
+   this.testP.value = 'newVal'+Math.random()
     const field = this.attributes?.find(attr => attr.name === column.field)
+/*    this.xP ? this.xP.value = event.clientX : undefined
+    this.yP ? this.yP.value = event.clientY : undefined*/
     if(field  && field.tableColumn?.filter && field.tableColumn?.customFilter instanceof Function){
       const func = field.tableColumn?.customFilter
-/*      this.visible = true
-      this.x = event.clientX
-      this.y = event.clientY*/
+      // todo pas alle info door naar de filter component
+      // todo zorg dat de filtering terug doorgaat naar hier => oplossing: zorg dat de functie altijd naar de desbetreffende component gestuurd kan worden
+      //  in dit geval is dat een filterfunctie die je toevoegt gewoon via een nromale dataproperty in de filter component
+
       this.currentDataList = this.currentDataList?.filter(record=>{
         const entry = Object.entries(record).find(([k,v])=>{
           return k === column.field
@@ -86,7 +113,7 @@ export class TableComponent implements OnInit {
         return false
       })
     }
-    this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {allData:this.currentDataList,column:column,allColumns:columns})
+    //this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {allData:this.currentDataList,column:column,allColumns:columns})
   }
   handleRow(){
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)
