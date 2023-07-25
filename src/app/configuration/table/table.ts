@@ -17,6 +17,7 @@ import {NoValueType} from "../../enums/no_value_type";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {ComponentModel} from "../../models/ComponentModel";
 
 export const table = {
   name: 'table',
@@ -41,10 +42,8 @@ export const table = {
   attributes:new ResponsiveAttributesConfigModel(
       new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
         NoValueType.NA,NoValueType.NA,NoValueType.NA,
-        {
-          name:'filter-dialog',
-          type: ComponentType.Dialog,
-          attributes:new ResponsiveAttributesConfigModel(
+        new ComponentModel('filter-dialog',ComponentType.Dialog,undefined,undefined,undefined,
+          new ResponsiveAttributesConfigModel(
             new AttributesConfigPropsModel(
               NoValueType.NA,
               NoValueType.NA,
@@ -61,9 +60,7 @@ export const table = {
                 // todo maak formulier om te filteren
               }
             )
-          ),
-          visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false))
-        },NoValueType.NA,'Geen producten aanwezig.',true,5,[5,10,15],NoValueType.NA)),
+          ),new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false))),NoValueType.NA,'Geen producten aanwezig.',true,5,[5,10,15],NoValueType.NA)),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
   data:conceptModel

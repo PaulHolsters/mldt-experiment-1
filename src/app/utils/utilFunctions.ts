@@ -29,5 +29,32 @@ export default  {
   },
   createSpaces: function(text:string):string{
     return text.replace(/_/g,' ')
+  },
+  areEqual: function(val1:any,val2:any):boolean{
+    if(val1 instanceof Array && val2 instanceof Array){
+      if(val1.length!==val2.length) return false
+      const val1Filtered:any[] = val1.filter(v1=>{
+        return val2.find(v2=>{
+          return this.areEqual(v1, v2);
+        }) === undefined
+      })
+      const val2Filtered:any[] = val2.filter(v2=>{
+        return val1.find(v1=>{
+          return this.areEqual(v2, v1);
+        }) === undefined
+      })
+      return val1Filtered.length === 0 && val2Filtered.length === 0
+    }
+    if(typeof val1 === 'object' && typeof val2 === 'object'){
+      const keys1 = Object.keys(val1)
+      const keys2 = Object.keys(val2)
+      if(this.areEqual(keys1,keys2)){
+        return keys1.find(k=>{
+          return !this.areEqual(val1[k],val2[k])
+        }) === undefined
+      }
+      return false
+    }
+    return val1===val2
   }
 }

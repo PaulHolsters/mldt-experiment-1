@@ -21,16 +21,24 @@ export class UIActionsService {
     })
   }
   public bindActions(){
-    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetValue)?.subscribe(res=>{
+    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetConfigValueAndRebuild)?.subscribe(res=>{
       if(res){
-        const action = this.setValue(res.action)
+        const action = this.setConfigValueAndRebuild(res.action)
+        if(action){
+          this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
+        }
+      }
+    })
+    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetProperty)?.subscribe(res=>{
+      if(res){
+        const action = this.setConfigValueAndRebuild(res.action)
         if(action){
           this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
         }
       }
     })
   }
-  private setValue(action:ActionModel){
+  private setConfigValueAndRebuild(action:ActionModel){
     const currentAppConfig = this.configService.appConfig
     if(currentAppConfig){
       let config = currentAppConfig.getComponentConfig(action.targetName)
@@ -39,7 +47,8 @@ export class UIActionsService {
       if(config.replace){
         config.replace(action.value?.getInstance(),action.value)
         this.configService.saveConfig(currentAppConfig)
-        this.RBS.rerender()
+        // todo verander methode naar specifieke prop update
+        this.RBS.rebuildUI()
         return true
       }
     }

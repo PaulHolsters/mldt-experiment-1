@@ -9,6 +9,7 @@ import {SortEvent} from "primeng/api";
 import {NoValueType} from "../../enums/no_value_type";
 import {DataRecordModel} from "../../models/DataRecordModel";
 import {StateService} from "../../state.service";
+import utilFunctions from "../../utils/utilFunctions";
 
 @Component({
   selector: 'm-table',
@@ -17,8 +18,10 @@ import {StateService} from "../../state.service";
 })
 export class TableComponent implements OnInit{
   concept:string|undefined
-  dataList: DataRecordModel[] |  undefined
-  currentDataList: DataRecordModel[] |  undefined
+  dataList: {key:string,value:DataRecordModel[]|undefined} |  undefined
+  dataListP: {key:string,value:DataRecordModel[]|undefined} |  undefined
+  currentDataListP: {key:string,value:DataRecordModel[]|undefined} |  undefined
+  currentDataList: {key:string,value:DataRecordModel[]|undefined} |  undefined
   blueprint: Object |  undefined
   attributes: AttributeComponentModel[] | undefined
   textWhenEmpty$:Observable<any> | undefined
@@ -34,8 +37,6 @@ export class TableComponent implements OnInit{
   breakpoint = '960px'
   cstmSort = false
   selectedItem:{}|undefined
-  test:{key:string,value:string}|undefined
-  testP:{key:string,value:string}|undefined
 /*  x:{key:string,value:number}
   xP:{key:string,value:number}
   y:{key:string,value:number}
@@ -46,25 +47,41 @@ export class TableComponent implements OnInit{
 
   }
   ngOnInit(): void {
+
     const ss = this.stateService
     const name = this.name
-    this.test = {
-      key:'test',
-      value:'test'
+
+    this.dataList = {
+      key:'dataList',
+      value:undefined
     }
-    this.testP = new Proxy(this.test,{
-      set(test,value,newValue){
-        if(value!==newValue){
-          test.value = newValue
-          ss.syncData(name,test)
-          return true
-        } else return false
+    this.dataListP = new Proxy(this.dataList,{
+      set(dataList,value,newValue){
+        if(!utilFunctions.areEqual(value,newValue)){
+          dataList.value = newValue
+          ss.syncData(name,dataList)
+        }
+        return true
       }
     })
+    this.currentDataList = {
+      key:'currentDataList',
+      value:undefined
+    }
+    this.currentDataListP = new Proxy(this.currentDataList,{
+      set(currentDataList,value,newValue,target){
+        if(!utilFunctions.areEqual(currentDataList.value,newValue)){
+          currentDataList.value = newValue
+          ss.syncData(name,currentDataList)
+        }
+        return true
+      }
+    })
+
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
-      this.dataList = (res as {dataList:DataRecordModel[]})?.dataList
-      this.currentDataList = (res as {dataList:DataRecordModel[]})?.dataList
+      if (this.dataListP) this.dataListP.value = (res as {dataList:DataRecordModel[]})?.dataList
+      if (this.currentDataListP) this.currentDataListP.value = (res as {dataList:DataRecordModel[]})?.dataList
       this.blueprint = (res as {conceptBluePrint:Object} )?.conceptBluePrint
       this.attributes =  (res as {attributes:AttributeComponentModel[]} )?.attributes
       this.concept =  (res as {conceptName:string} )?.conceptName
@@ -92,8 +109,6 @@ export class TableComponent implements OnInit{
     })
   }
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean},columns:{field:string,header:string,sort:boolean,filter:boolean}[]){
-    if(this.testP)
-   this.testP.value = 'newVal'+Math.random()
     const field = this.attributes?.find(attr => attr.name === column.field)
 /*    this.xP ? this.xP.value = event.clientX : undefined
     this.yP ? this.yP.value = event.clientY : undefined*/
@@ -102,18 +117,21 @@ export class TableComponent implements OnInit{
       // todo pas alle info door naar de filter component
       // todo zorg dat de filtering terug doorgaat naar hier => oplossing: zorg dat de functie altijd naar de desbetreffende component gestuurd kan worden
       //  in dit geval is dat een filterfunctie die je toevoegt gewoon via een nromale dataproperty in de filter component
-
-      this.currentDataList = this.currentDataList?.filter(record=>{
-        const entry = Object.entries(record).find(([k,v])=>{
-          return k === column.field
+/*      if(this.currentDataListP){
+        // todo debug de areEqual methode die is niet goed
+        this.currentDataListP.value  = this.currentDataListP.value?.filter(record=>{
+          const entry = Object.entries(record).find(([k,v])=>{
+            return k === column.field
+          })
+          if(entry){
+            return func({key:entry[0],value:entry[1],record:record,allData:this.currentDataList,column:column,allColumns:columns})
+          }
+          return false
         })
-        if(entry){
-          return func({key:entry[0],value:entry[1],record:record,allData:this.currentDataList,column:column,allColumns:columns})
-        }
-        return false
-      })
+      }*/
     }
-    //this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name, {allData:this.currentDataList,column:column,allColumns:columns})
+    //{allData:this.currentDataList,column:column,allColumns:columns}
+    this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name)
   }
   handleRow(){
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)

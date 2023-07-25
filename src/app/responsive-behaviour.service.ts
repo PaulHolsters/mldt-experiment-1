@@ -120,7 +120,7 @@ export class ResponsiveBehaviourService implements OnInit{
       }
     }))
   }
-  public rerender(){
+  public rebuildUI(){
     if (this.mqSM1.matches) {
       this.screensize = ScreenSize.smartphone
       this.setComponentStates(ScreenSize.smartphone)

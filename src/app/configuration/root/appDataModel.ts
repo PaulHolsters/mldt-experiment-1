@@ -52,7 +52,16 @@ export const conceptModel = new ConceptConfigModel(
              column: { field: string, header: string, sort: boolean, filter: boolean },
              allColumns: { field: string, header: string, sort: boolean, filter: boolean }[]
            }):boolean => {
-         return false
+            return false
+/*          this.currentDataListP.value?.filter(record=>{
+            const entry = Object.entries(record).find(([k,v])=>{
+              return k === column.field
+            })
+            if(entry){
+              return func({key:entry[0],value:entry[1],record:record,allData:this.currentDataList,column:column,allColumns:columns})
+            }
+            return false
+         return (Boolean)(Math.round(Math.random()))*/
         }
       ),
       undefined, 'Product naam', 'Geef een adequate naam'

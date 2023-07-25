@@ -12,7 +12,6 @@ export class StateService {
   constructor(private configService:ConfigService,private storeService:StoreService) {
   }
   private createMap(name:string):Map<string,any>{
-    debugger
     let compModel = this.configService.appConfig?.getComponentConfig(name)
     if (!compModel) {
       compModel = this.configService.appConfig?.getComponentConfigThroughAttributes(name)
@@ -33,7 +32,6 @@ export class StateService {
     if(!obj){
       const newObj = {name:name,properties:this.createMap(name)}
       this.componentData.push(newObj)
-      debugger
     }
     this.updateMap(name,data)
   }
@@ -41,7 +39,6 @@ export class StateService {
     const obj = this.componentData.find(cd=>{
       return cd.name===name
     })
-    debugger
     if(data instanceof Array){
       data.forEach(data=>{
         if(obj)
@@ -50,7 +47,6 @@ export class StateService {
     } else{
       if(obj)
         obj.properties.set(data.key,data.value)
-      debugger
     }
   }
 }
