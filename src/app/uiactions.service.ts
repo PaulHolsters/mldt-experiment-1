@@ -6,8 +6,8 @@ import {EventType} from "./enums/eventTypes.enum";
 import {ActionModel} from "./models/ActionModel";
 import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
-import {StoreService} from "./store.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
+import {StateService} from "./state.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 export class UIActionsService {
   public actionFinished = new Subject()
 
-  constructor(private configService:ConfigService,private actionsService:ActionsService,private RBS:ResponsiveBehaviourService) {
+  constructor(private stateService:StateService,private configService:ConfigService,private actionsService:ActionsService,private RBS:ResponsiveBehaviourService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
@@ -31,7 +31,7 @@ export class UIActionsService {
     })
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetProperty)?.subscribe(res=>{
       if(res){
-        const action = this.setConfigValueAndRebuild(res.action)
+        const action = this.setProperty(res.action)
         if(action){
           this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
         }
@@ -53,5 +53,9 @@ export class UIActionsService {
       }
     }
     return false
+  }
+  private setProperty(action:ActionModel){
+    // todo via statePropertySubjects
+    return true
   }
 }
