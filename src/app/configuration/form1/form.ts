@@ -14,14 +14,14 @@ import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.en
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {NoValueType} from "../../enums/no_value_type";
 
 export const form = {
   name: 'my first form',
   type: ComponentType.Form,
-  attributes: new ResponsiveAttributesConfigModel(
-    {
-      content: formContainer
-    }
+  attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,NoValueType.NA,
+    NoValueType.NA, NoValueType.NA, NoValueType.NA,formContainer )
   ),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   // todo verhinderen dat gebruikers een kleine hoogte kunnen meegeven terwijl auto niet opstaat omdat de multiselect dan niet werkt

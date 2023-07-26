@@ -20,16 +20,18 @@ import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {NoValueType} from "../../enums/no_value_type";
 
 export const formControl2 = {
   name: 'formcontrol2',
   type: ComponentType.FormControl,
   attributes: new ResponsiveAttributesConfigModel(
-    {
-      content: new ComponentModel(
+    new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,NoValueType.NA,
+      NoValueType.NA, NoValueType.NA, NoValueType.NA,
+      new ComponentModel(
         'fc2-container',
         ComponentType.Container,
         new ResponsiveChildLayoutConfigModel(
@@ -52,9 +54,26 @@ export const formControl2 = {
           new WidthConfigPropsModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
-        )), new ResponsiveAttributesConfigModel({
-          dataLink: ['product', 'price']
-        }),
+        )),
+        new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          false,
+          NoValueType.NA,
+          NoValueType.NA,
+          ['product', 'price']
+        )),
         new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()), undefined,
         [{
           // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
@@ -65,9 +84,7 @@ export const formControl2 = {
         }, {
           name: 'fc2-input', type: ComponentType.InputNumber,
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-        }], undefined, undefined),
-
-    }
+        }], undefined, undefined))
   ),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(

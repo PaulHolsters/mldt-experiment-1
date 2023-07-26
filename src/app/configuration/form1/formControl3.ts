@@ -23,13 +23,17 @@ import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/Dimen
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {NoValueType} from "../../enums/no_value_type";
 
 export const formControl3 = {
   name: 'formcontrol3',
   type: ComponentType.FormControl,
   attributes: new ResponsiveAttributesConfigModel(
-    {
-      content: new ComponentModel(
+    new AttributesConfigPropsModel(
+      NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,NoValueType.NA,
+      NoValueType.NA, NoValueType.NA, NoValueType.NA,
+      new ComponentModel(
         'fc3-container',
         ComponentType.Container,
         new ResponsiveChildLayoutConfigModel(
@@ -54,9 +58,23 @@ export const formControl3 = {
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )),
-        new ResponsiveAttributesConfigModel({
-          dataLink: ['product', 'category']
-        }),
+        new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          false,
+          NoValueType.NA,
+          NoValueType.NA, ['product', 'category'])),
         new ResponsiveVisibilityConfigModel(
           new VisibilityConfigPropsModel()),
         undefined,
@@ -92,9 +110,23 @@ export const formControl3 = {
                 DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
               ), DynamicDimensionValueConfigType.NC)
             )),
-            new ResponsiveAttributesConfigModel({
-              dataLink: ['product', 'category']
-            }),
+            new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              NoValueType.NA,
+              false,
+              NoValueType.NA,
+              NoValueType.NA,['product', 'category'])),
             new ResponsiveVisibilityConfigModel(),
             undefined,
             [
@@ -120,12 +152,9 @@ export const formControl3 = {
           ),
         ],
         undefined,
-        undefined),
-    }
+        undefined))
   ),
-  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-  ,
-  // todo zorg dat er constraints komen die errors geven bv als je height en width in je config omwisselt!
+  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
     HeightValueConfigType.NC,
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100

@@ -24,6 +24,8 @@ import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {NoValueType} from "../../enums/no_value_type";
 
 export const buttons= new ComponentModel(
   'buttons',
@@ -53,11 +55,10 @@ export const buttons= new ComponentModel(
   new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   undefined,
   [    {
-    name:'submitbtn',
+    name:'filter-btn',
     type:ComponentType.Button,
-    attributes: new ResponsiveAttributesConfigModel({
-      label:'Bewaar'
-    }),
+    attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+      'Filter op kolom')),
     visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
   }],
   undefined,

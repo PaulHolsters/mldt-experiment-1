@@ -22,60 +22,74 @@ import {
 } from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {NoValueType} from "../../enums/no_value_type";
 
 export const formControl1 = {
   name: 'formcontrol1',
   type: ComponentType.FormControl,
-  attributes: new ResponsiveAttributesConfigModel(
-    {
-      content: new ComponentModel(
-        'fc1-container',
-        ComponentType.Container,
-        new ResponsiveChildLayoutConfigModel(
-          new ChildLayoutConfigPropsModel(
-            // todo zorg voor default layout bij een container voor simpele gevallen
-            new HorizontalLayoutConfigPropsModel(
-              AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
-              new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-                DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
-              ),DynamicDimensionValueConfigType.NC),
-              CrossAxisHorizontalLanesPositioningConfigType.Center),
-            new VerticalLayoutConfigPropsModel(
-              AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
-              HeightValueConfigType.NC,
-              CrossAxisVerticalLanesPositioningConfigType.NA)
-          )
-        ),
-        undefined,
-        new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-          HeightValueConfigType.NC,
-          new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-            DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
-          ), DynamicDimensionValueConfigType.NC)
+  attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,NoValueType.NA,
+      NoValueType.NA, NoValueType.NA, NoValueType.NA,new ComponentModel(
+      'fc1-container',
+      ComponentType.Container,
+      new ResponsiveChildLayoutConfigModel(
+        new ChildLayoutConfigPropsModel(
+          // todo zorg voor default layout bij een container voor simpele gevallen
+          new HorizontalLayoutConfigPropsModel(
+            AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
+            new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+              DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
+            ),DynamicDimensionValueConfigType.NC),
+            CrossAxisHorizontalLanesPositioningConfigType.Center),
+          new VerticalLayoutConfigPropsModel(
+            AxisConfigType.Main, undefined, false, MainAxisVerticalPositioningConfigType.Evenly,
+            HeightValueConfigType.NC,
+            CrossAxisVerticalLanesPositioningConfigType.NA)
+        )
+      ),
+      undefined,
+      new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+        HeightValueConfigType.NC,
+        new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+          DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+        ), DynamicDimensionValueConfigType.NC)
+      )),
+      new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        false,
+        NoValueType.NA,
+        NoValueType.NA,
+        ['product', 'name']
         )),
-        new ResponsiveAttributesConfigModel({
-          dataLink: ['product', 'name']
-        }),
-        new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-        undefined,
-        [{
-          // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
-          // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
-          name: 'fc1-label',
-          type: ComponentType.Label,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-        }, {
-          name: 'fc1-input', type: ComponentType.InputText,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-        }],
-        undefined,
-        undefined),
-
-    }
-  ),
+      new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+      undefined,
+      [{
+        // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
+        // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
+        name: 'fc1-label',
+        type: ComponentType.Label,
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+      }, {
+        name: 'fc1-input', type: ComponentType.InputText,
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+      }],
+      undefined,
+      undefined) )
+    ),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
   ,
   // todo zorg dat er constraints komen die errors geven bv als je height en width in je config omwisselt!

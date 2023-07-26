@@ -18,6 +18,16 @@ import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsMo
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {ComponentModel} from "../../models/ComponentModel";
+import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
+import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
+import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
+import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
+import {formLayout} from "../form1/formLayout";
+import {formControl1} from "../form1/formControl1";
+import {formControl2} from "../form1/formControl2";
+import {formControl3} from "../form1/formControl3";
+import {formControl4} from "../form1/formControl4";
+import {buttons} from "../form1/buttons";
 
 export const table = {
   name: 'table',
@@ -57,7 +67,37 @@ export const table = {
               {
                 name:'filter-form',
                 type:ComponentType.Form,
-                // todo maak formulier om te filteren
+                attributes: new ResponsiveAttributesConfigModel(
+                  new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA,NoValueType.NA, NoValueType.NA, NoValueType.NA,NoValueType.NA,
+                    NoValueType.NA, NoValueType.NA, NoValueType.NA,
+                    new ComponentModel(
+                      'filter-form-container',
+                      ComponentType.Container,
+                      formLayout,
+                      undefined,
+                      new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                        new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
+                        new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                          DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                        ), DynamicDimensionValueConfigType.NC)
+                      )),
+                      undefined,
+                      new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                      undefined,
+                      [
+                        buttons
+                      ]))
+                ),
+                visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                // todo verhinderen dat gebruikers een kleine hoogte kunnen meegeven terwijl auto niet opstaat omdat de multiselect dan niet werkt
+                overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
+                dimensions: new ResponsiveDimensioningConfigModel(
+                  new DimensioningConfigPropsModel(
+                    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,20,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
+                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                      DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
+                    ), DynamicDimensionValueConfigType.NC)
+                  ))
               }
             )
           ),new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false))),NoValueType.NA,'Geen producten aanwezig.',true,5,[5,10,15],NoValueType.NA)),

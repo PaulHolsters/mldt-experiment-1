@@ -28,13 +28,16 @@ import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConf
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
 import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
+import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {NoValueType} from "../../enums/no_value_type";
 
 export const formControl4 = {
   name: 'formcontrol4',
   type: ComponentType.FormControl,
   attributes: new ResponsiveAttributesConfigModel(
-    {
-      content: new ComponentModel(
+    new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,NoValueType.NA,
+      NoValueType.NA, NoValueType.NA, NoValueType.NA,
+      new ComponentModel(
         'fc4-container',
         ComponentType.Container,
         new ResponsiveChildLayoutConfigModel(
@@ -59,9 +62,23 @@ export const formControl4 = {
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )),
-        new ResponsiveAttributesConfigModel({
-          dataLink: ['product', 'specifications']
-        }),
+        new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          NoValueType.NA,
+          false,
+          NoValueType.NA,
+          NoValueType.NA, ['product', 'specifications'])),
         new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
         undefined,
         [
@@ -76,12 +93,9 @@ export const formControl4 = {
           }],
         undefined,
         ['product', 'specifications']
-      ),
-    }
+      ))
   ),
-  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-  ,
-  // todo zorg dat er constraints komen die errors geven bv als je height en width in je config omwisselt!
+  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
     HeightValueConfigType.NC,
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100
