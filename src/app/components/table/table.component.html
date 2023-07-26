@@ -45,7 +45,7 @@
     <tr>
       <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns">
         {{column['header']}} <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>
-          <span *ngIf="column['filter']" (click)="filterByColumn($event,column,columns)" class="pi pi-filter" style="font-size: 1rem; color:rgba(255, 255, 255, 0.6);"></span>
+          <span *ngIf="column['filter']" (click)="filterByColumn($event,column)" class="pi pi-filter" style="font-size: 1rem; color:rgba(255, 255, 255, 0.6);"></span>
 <!--        <p-columnFilter (click)="filterByColumn(column,columns)" type="text" field="{{column['field']}}" display="menu"></p-columnFilter>-->
 <!--        <div (click)="filterByColumn(column)"><i  class="pi pi-filter"></i></div>-->
         <!-- todo een oplossing is een event gebruiken en daarmee de filtering van de data te doen en wijzig het icon in een algemeen icon-->

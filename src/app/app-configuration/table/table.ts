@@ -23,10 +23,6 @@ import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfi
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {formLayout} from "../form1/formLayout";
-import {formControl1} from "../form1/formControl1";
-import {formControl2} from "../form1/formControl2";
-import {formControl3} from "../form1/formControl3";
-import {formControl4} from "../form1/formControl4";
 import {buttons} from "../form1/buttons";
 
 export const table = {

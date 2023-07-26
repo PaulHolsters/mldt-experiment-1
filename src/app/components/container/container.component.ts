@@ -9,7 +9,7 @@ import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel
 import {ConceptComponentModel} from "../../models/Data/ConceptComponentModel";
 import {EventsService} from "../../events.service";
 import {EventType} from "../../enums/eventTypes.enum";
-import {RootComponent} from "../../configuration/root/rootComponent";
+import {RootComponent} from "../../app-configuration/root/rootComponent";
 
 @Component({
   selector: 'm-container',

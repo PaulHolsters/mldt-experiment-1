@@ -46,6 +46,8 @@ import {ActionSubType} from "./enums/actionSubTypes.enum";
 import {ActionType} from "./enums/actionTypes.enum";
 import {ConfigService} from "./config.service";
 import {NoValueType} from "./enums/no_value_type";
+import {ComponentType} from "./enums/componentTypes.enum";
+import {Table} from "./componentclasses/Table";
 
 @Injectable({
   providedIn: 'root'
@@ -426,6 +428,9 @@ export class StoreService implements OnInit{
     }
   }
   private createProps(component: ComponentModel) {
+    // todo alle methodes weggooien, enkel alle componenten uit de config halen
+    //      vervolgens voor dat type de props toevoegen zoals vermeld in de overeenkomstige klasse
+    //
     if(component.data){
       const propSubj = new BehaviorSubject<any | undefined>(undefined)
       this.statePropertySubjects.push({
@@ -434,6 +439,7 @@ export class StoreService implements OnInit{
       })
     }
     if (component.attributes) {
+      // todo je zou gewoon het
       Object.entries(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(([k,v]) => {
         if(k==='dataLink'){
           const propSubj = new BehaviorSubject<any | undefined>(undefined)
@@ -544,6 +550,7 @@ export class StoreService implements OnInit{
     this.configService.appConfig?.userConfig.components.forEach(comp => {
       this.createProps(comp)}
     )
+    debugger
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<

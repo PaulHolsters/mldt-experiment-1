@@ -12,7 +12,7 @@ import {MutationType} from "./enums/mutationTypes.enum";
 import {AttributeConfigModel} from "./models/Data/AttributeConfigModel";
 import {Observable, Subject} from "rxjs";
 import {ComponentModel} from "./models/ComponentModel";
-import {RootComponent} from "./configuration/root/rootComponent";
+import {RootComponent} from "./app-configuration/root/rootComponent";
 import {ComponentType} from "./enums/componentTypes.enum";
 import {DataObjectModel} from "./models/DataObjectModel";
 import {DataRecordModel} from "./models/DataRecordModel";

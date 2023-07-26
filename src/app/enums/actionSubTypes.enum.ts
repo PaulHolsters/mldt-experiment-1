@@ -8,5 +8,6 @@ export enum ActionSubType {
   GetDataByID,
   DeleteByID,
   SetProperty,
-  SetConfigValueAndRebuild
+  SetConfigValueAndRebuild,
+  ExecuteCustomFunction
 }

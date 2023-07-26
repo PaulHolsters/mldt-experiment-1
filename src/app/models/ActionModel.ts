@@ -3,14 +3,6 @@ import {TargetType} from "../enums/targetTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {EventType} from "../enums/eventTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
-import {ResponsiveAttributesConfigModel} from "./Attributes/ResponsiveAttributesConfigModel";
-import {ResponsiveDimensioningConfigModel} from "./Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
-import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
-import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
-import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
-import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
-import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {ActionValueModel} from "./ActionValueModel";
 import {ResponsiveConfigModel} from "../types/type-aliases";
 

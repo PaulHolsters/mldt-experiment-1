@@ -22,6 +22,8 @@ export class TableComponent implements OnInit{
   dataListP: {key:string,value:DataRecordModel[]|undefined} |  undefined
   currentDataListP: {key:string,value:DataRecordModel[]|undefined} |  undefined
   currentDataList: {key:string,value:DataRecordModel[]|undefined} |  undefined
+  currentColumn:{key:string,value:{field:string,header:string,sort:boolean,filter:boolean}|undefined}|undefined
+  currentColumnP:{key:string,value:{field:string,header:string,sort:boolean,filter:boolean}|undefined}|undefined
   blueprint: Object |  undefined
   attributes: AttributeComponentModel[] | undefined
   textWhenEmpty$:Observable<any> | undefined
@@ -47,7 +49,6 @@ export class TableComponent implements OnInit{
 
   }
   ngOnInit(): void {
-
     const ss = this.stateService
     const name = this.name
 
@@ -57,7 +58,7 @@ export class TableComponent implements OnInit{
     }
     this.dataListP = new Proxy(this.dataList,{
       set(dataList,value,newValue){
-        if(!utilFunctions.areEqual(value,newValue)){
+        if(!utilFunctions.areEqual(dataList.value,newValue)){
           dataList.value = newValue
           ss.syncData(name,dataList)
         }
@@ -77,6 +78,20 @@ export class TableComponent implements OnInit{
         return true
       }
     })
+    this.currentColumn = {
+      key:'currentColumn',
+      value:undefined
+    }
+    this.currentColumnP = new Proxy(this.currentColumn,{
+      set(currentColumn,value,newValue,target){
+        if(!utilFunctions.areEqual(currentColumn.value,newValue)){
+          currentColumn.value = newValue
+          ss.syncData(name,currentColumn)
+          debugger
+        }
+        return true
+      }
+    })
 
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
     this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
@@ -86,6 +101,8 @@ export class TableComponent implements OnInit{
       this.attributes =  (res as {attributes:AttributeComponentModel[]} )?.attributes
       this.concept =  (res as {conceptName:string} )?.conceptName
     })
+    // todo de property currentDataList bestaat niet in de modellen en dus kan je er ook niets naar versturen!
+    //      best tot 1 systeem verwerken!
     this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
     this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
     this.summary$ = this.storeService.bindToStateProperty(this.name,'summary')
@@ -108,30 +125,15 @@ export class TableComponent implements OnInit{
         this.rowsPerPage = res as number[]
     })
   }
-  filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean},columns:{field:string,header:string,sort:boolean,filter:boolean}[]){
+  filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
     const field = this.attributes?.find(attr => attr.name === column.field)
 /*    this.xP ? this.xP.value = event.clientX : undefined
     this.yP ? this.yP.value = event.clientY : undefined*/
-    if(field  && field.tableColumn?.filter && field.tableColumn?.customFilter instanceof Function){
-      const func = field.tableColumn?.customFilter
-      // todo pas alle info door naar de filter component
-      // todo zorg dat de filtering terug doorgaat naar hier => oplossing: zorg dat de functie altijd naar de desbetreffende component gestuurd kan worden
-      //  in dit geval is dat een filterfunctie die je toevoegt gewoon via een nromale dataproperty in de filter component
-/*      if(this.currentDataListP){
-        // todo debug de areEqual methode die is niet goed
-        this.currentDataListP.value  = this.currentDataListP.value?.filter(record=>{
-          const entry = Object.entries(record).find(([k,v])=>{
-            return k === column.field
-          })
-          if(entry){
-            return func({key:entry[0],value:entry[1],record:record,allData:this.currentDataList,column:column,allColumns:columns})
-          }
-          return false
-        })
-      }*/
+    if(field && field.tableColumn?.filter && this.currentColumnP){
+      this.currentColumnP.value = column
+      debugger
+      this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name)
     }
-    //{allData:this.currentDataList,column:column,allColumns:columns}
-    this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name)
   }
   handleRow(){
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)

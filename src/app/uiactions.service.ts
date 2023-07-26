@@ -9,9 +9,7 @@ import {Subject} from "rxjs";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StateService} from "./state.service";
 import {StoreService} from "./store.service";
-import {PropertyName} from "./enums/PropertyNameTypes.enum";
 import {ActionValueModel} from "./models/ActionValueModel";
-import {ResponsiveConfigModel} from "./types/type-aliases";
 
 @Injectable({
   providedIn: 'root'
@@ -58,11 +56,20 @@ export class UIActionsService {
     return false
   }
   private setProperty(action:ActionModel){
+    console.log(this.storeService.getStatePropertySubjects().find(prop=>{
+      if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
+        return prop.propName === action.value.name
+      return false
+    }))
+    debugger
+
       this.storeService.getStatePropertySubjects().find(prop=>{
         if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
           return prop.propName === action.value.name
         return false
-      })?.propValue.next((action.value as ActionValueModel).value)
+      })?.propValue.next(typeof (action.value as ActionValueModel).value === 'function'
+        ? (action.value as ActionValueModel).value(this.stateService)
+        : (action.value as ActionValueModel).value)
     return true
   }
 }

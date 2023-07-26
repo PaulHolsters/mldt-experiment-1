@@ -35,6 +35,9 @@ export class StateService {
     }
     this.updateMap(name,data)
   }
+  public getValue(name:string,propName:string):any{
+
+  }
   private updateMap(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
     const obj = this.componentData.find(cd=>{
       return cd.name===name
