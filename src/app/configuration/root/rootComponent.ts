@@ -14,6 +14,8 @@ import {EventType} from "../../enums/eventTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {deleteContainer} from "../deleteContainer/deleteContainer";
 import {table} from "../table/table";
+import {PropertyName} from "../../enums/PropertyNameTypes.enum";
+import {ActionValueModel} from "../../models/ActionValueModel";
 
 export const RootComponent = new AppConfig({
   components: [
@@ -142,10 +144,9 @@ export const RootComponent = new AppConfig({
     },
     {
       on:EventType.ColumnFilterClicked,
-      sourceId:'table',
       actionType:ActionType.Client,
       actionSubType:ActionSubType.SetProperty,
-      value:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true,false)),
+      value:new ActionValueModel(PropertyName.visible,true),
       targetName:'filter-dialog',
       sourceName:'table',
       targetType:TargetType.Component,

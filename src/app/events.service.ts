@@ -41,7 +41,6 @@ export class EventsService{
     })
   }
   public triggerEvent(event:EventType,source:string,data?:any){
-    console.log(source,data)
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
@@ -49,7 +48,6 @@ export class EventsService{
     this.configService.appConfig?.getActionsForEvent(event).forEach(action=>{
       if(action.sourceName===source || (action.sourceId === source && action.sourceName === NoValueType.NA)){
         this.actionsService.triggerAction(action,data)
-
       }
     })
   }

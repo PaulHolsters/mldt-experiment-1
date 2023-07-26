@@ -10,6 +10,9 @@ import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigMod
 import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {ActionValueModel} from "./ActionValueModel";
+import {ResponsiveConfigModel} from "../types/type-aliases";
 
 export class ActionModel {
   constructor(
@@ -22,10 +25,7 @@ export class ActionModel {
     public id?:string,
     public targetId?:string,
     public sourceId?:string,
-    public value?:
-      ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
-      |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
-      ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel,
+    public value?:ResponsiveConfigModel|ActionValueModel,
   ) {
   }
   // props?:{name:string,value?:any,condition?:{comparison:string,values:(Object|string)[]}}[]

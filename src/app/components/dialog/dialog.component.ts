@@ -10,7 +10,7 @@ import {DataService} from "../../data.service";
   styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent implements OnInit {
-  visible$:Observable<any>|undefined
+  visible:boolean|undefined
   header$:Observable<any>|undefined
   content$:Observable<any>|undefined
   @Input()name!:string
@@ -19,7 +19,9 @@ export class DialogComponent implements OnInit {
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
 
   ngOnInit(): void {
-    this.visible$ = this.storeService.bindToStateProperty(this.name,'visible')
+    this.storeService.bindToStateProperty(this.name,'visible')?.subscribe(res=>{
+      this.visible = res as boolean|undefined
+    })
     this.header$ = this.storeService.bindToStateProperty(this.name,'header')
     this.content$ = this.storeService.bindToStateProperty(this.name,'content')
   }

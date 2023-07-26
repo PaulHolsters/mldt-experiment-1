@@ -8,6 +8,10 @@ import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StateService} from "./state.service";
+import {StoreService} from "./store.service";
+import {PropertyName} from "./enums/PropertyNameTypes.enum";
+import {ActionValueModel} from "./models/ActionValueModel";
+import {ResponsiveConfigModel} from "./types/type-aliases";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +19,7 @@ import {StateService} from "./state.service";
 export class UIActionsService {
   public actionFinished = new Subject()
 
-  constructor(private stateService:StateService,private configService:ConfigService,private actionsService:ActionsService,private RBS:ResponsiveBehaviourService) {
+  constructor(private storeService:StoreService,private stateService:StateService,private configService:ConfigService,private actionsService:ActionsService,private RBS:ResponsiveBehaviourService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
@@ -44,10 +48,9 @@ export class UIActionsService {
       let config = currentAppConfig.getComponentConfig(action.targetName)
       if(!config) config = currentAppConfig.getComponentConfigThroughAttributes(action.targetName)
       if(!config) throw new Error('action was not configured correctly')
-      if(config.replace){
+      if(config.replace && !(action.value instanceof ActionValueModel)){
         config.replace(action.value?.getInstance(),action.value)
         this.configService.saveConfig(currentAppConfig)
-        // todo verander methode naar specifieke prop update
         this.RBS.rebuildUI()
         return true
       }
@@ -55,7 +58,11 @@ export class UIActionsService {
     return false
   }
   private setProperty(action:ActionModel){
-    // todo via statePropertySubjects
+      this.storeService.getStatePropertySubjects().find(prop=>{
+        if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
+          return prop.propName === action.value.name
+        return false
+      })?.propValue.next((action.value as ActionValueModel).value)
     return true
   }
 }
