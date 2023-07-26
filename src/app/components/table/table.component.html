@@ -31,7 +31,7 @@
   [rowsPerPageOptions]="rowsPerPage"
   [breakpoint]="breakpoint"
   [columns]="getColumns()"
-  [value]="currentDataList?.value ?? []"
+  [value]="getPropValue(propNames.currentDataList) ?? []"
   [style.width]="'100%'" [style.height]="'100%'"
   (sortFunction)="customSort($event)"
   [customSort]="cstmSort"

@@ -10,6 +10,8 @@ import {NoValueType} from "../../enums/no_value_type";
 import {DataRecordModel} from "../../models/DataRecordModel";
 import {StateService} from "../../state.service";
 import utilFunctions from "../../utils/utilFunctions";
+import {Table} from "../../componentclasses/Table";
+import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 
 @Component({
   selector: 'm-table',
@@ -44,15 +46,28 @@ export class TableComponent implements OnInit{
   y:{key:string,value:number}
   yP:{key:string,value:number}*/
   singleRowSelect$:Observable<any>|undefined
+
+  props:{key:string,value:Map<string,any>}|undefined
+  propsP:{key:string,value:Map<string,any>}|undefined
   @Input()name!:string
+  propNames = PropertyName
   constructor(private stateService:StateService,private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) {
 
   }
   ngOnInit(): void {
     const ss = this.stateService
     const name = this.name
-
-    this.dataList = {
+    this.props = {key:'properties',value:Table.getProperties()}
+    this.propsP = new Proxy(this.props,{
+      set(props,value,newValue){
+        if(!utilFunctions.areEqual(props.value,newValue)){
+          props.value = newValue
+          ss.syncData(name,props)
+        }
+        return true
+      }
+    })
+/*    this.dataList = {
       key:'dataList',
       value:undefined
     }
@@ -70,7 +85,7 @@ export class TableComponent implements OnInit{
       value:undefined
     }
     this.currentDataListP = new Proxy(this.currentDataList,{
-      set(currentDataList,value,newValue,target){
+      set(currentDataList,value,newValue){
         if(!utilFunctions.areEqual(currentDataList.value,newValue)){
           currentDataList.value = newValue
           ss.syncData(name,currentDataList)
@@ -91,19 +106,22 @@ export class TableComponent implements OnInit{
         }
         return true
       }
-    })
-
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
-    this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
+    })*/
+/*    this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       if (this.dataListP) this.dataListP.value = (res as {dataList:DataRecordModel[]})?.dataList
       if (this.currentDataListP) this.currentDataListP.value = (res as {dataList:DataRecordModel[]})?.dataList
       this.blueprint = (res as {conceptBluePrint:Object} )?.conceptBluePrint
       this.attributes =  (res as {attributes:AttributeComponentModel[]} )?.attributes
       this.concept =  (res as {conceptName:string} )?.conceptName
-    })
+    })*/
     // todo de property currentDataList bestaat niet in de modellen en dus kan je er ook niets naar versturen!
     //      best tot 1 systeem verwerken!
-    this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
+      this.props.value.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        this.setPropValue(k,res)
+      })
+    })
+/*    this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
     this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
     this.summary$ = this.storeService.bindToStateProperty(this.name,'summary')
     this.footer$ = this.storeService.bindToStateProperty(this.name,'footer')
@@ -123,15 +141,24 @@ export class TableComponent implements OnInit{
     })
     this.storeService.bindToStateProperty(this.name,'rowsPerPage')?.subscribe(res=>{
         this.rowsPerPage = res as number[]
-    })
+    })*/
+    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
   }
+
+  getPropValue(key:string){
+    return this.props?.value.get(key)
+  }
+
+  setPropValue(key:string,value:any){
+    this.propsP?.value.set(key,value)
+  }
+
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
     const field = this.attributes?.find(attr => attr.name === column.field)
 /*    this.xP ? this.xP.value = event.clientX : undefined
     this.yP ? this.yP.value = event.clientY : undefined*/
-    if(field && field.tableColumn?.filter && this.currentColumnP){
-      this.currentColumnP.value = column
-      debugger
+    if(field && field.tableColumn?.filter && this.getPropValue(PropertyName.currentColumn)){
+      this.setPropValue(PropertyName.currentColumn,column)
       this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name)
     }
   }
