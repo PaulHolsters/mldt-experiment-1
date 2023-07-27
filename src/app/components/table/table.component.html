@@ -24,12 +24,12 @@
           -->
 <p-table
   #dt2
-  styleClass="{{style$|async}}"
-  responsiveLayout="{{responsiveLayout$|async}}"
-  [paginator]="paginator$|async"
-  [rows]="rows"
-  [rowsPerPageOptions]="rowsPerPage"
-  [breakpoint]="breakpoint"
+  styleClass="{{getPropValue(propNames.tableStyle)}}"
+  responsiveLayout="{{getPropValue(propNames.responsiveTableLayout)}}"
+  [paginator]="getPropValue(propNames.paginator)"
+  [rows]="getPropValue(propNames.rows)"
+  [rowsPerPageOptions]="getPropValue(propNames.rowsPerPage)"
+  [breakpoint]="getPropValue(propNames.tableBreakPoint)"
   [columns]="getColumns()"
   [value]="getPropValue(propNames.currentDataList) ?? []"
   [style.width]="'100%'" [style.height]="'100%'"
@@ -38,8 +38,8 @@
   selectionMode="single"
   [(selection)]="selectedItem"
   >
-  <ng-template *ngIf="caption$|async" pTemplate="caption">
-    <m-anchor  [component]="caption$|async"></m-anchor>
+  <ng-template *ngIf="getPropValue(propNames.caption)" pTemplate="caption">
+    <m-anchor  [component]="getPropValue(propNames.caption)"></m-anchor>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -63,17 +63,17 @@
 <!--  todo zorg ervoor dat je de volgorde kan meegeven in de configuratie van al deze subcomponents-->
   <ng-template pTemplate="emptymessage">
     <tr>
-      <td colspan="7">{{textWhenEmpty$|async}}</td>
+      <td colspan="7">{{getPropValue(propNames.textWhenEmpty)}}</td>
     </tr>
   </ng-template>
   <ng-template pTemplate="footer">
-    <m-anchor [component]="footer$|async"></m-anchor>
+    <m-anchor [component]="getPropValue(propNames.footer)"></m-anchor>
   </ng-template>
 <!--
  <p *ngIf="this.dataList && this.dataList.length===0"></p>
 -->
-  <ng-template  *ngIf="summary$|async" pTemplate="summary">
-    <m-anchor [component]="summary$|async"></m-anchor>
+  <ng-template  *ngIf="getPropValue(propNames.summary)" pTemplate="summary">
+    <m-anchor [component]="getPropValue(propNames.summary)"></m-anchor>
   </ng-template>
 </p-table>
 <!-- todo alternatief tonen voor als data geladen wordt of door een serverprobleem niet werkt! -->

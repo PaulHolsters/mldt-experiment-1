@@ -19,23 +19,11 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit{
-  concept:string|undefined
-  dataList: {key:string,value:DataRecordModel[]|undefined} |  undefined
-  dataListP: {key:string,value:DataRecordModel[]|undefined} |  undefined
-  currentDataListP: {key:string,value:DataRecordModel[]|undefined} |  undefined
-  currentDataList: {key:string,value:DataRecordModel[]|undefined} |  undefined
-  currentColumn:{key:string,value:{field:string,header:string,sort:boolean,filter:boolean}|undefined}|undefined
-  currentColumnP:{key:string,value:{field:string,header:string,sort:boolean,filter:boolean}|undefined}|undefined
-  blueprint: Object |  undefined
-  attributes: AttributeComponentModel[] | undefined
-  textWhenEmpty$:Observable<any> | undefined
-  caption$:Observable<any>|undefined
-  summary$:Observable<any>|undefined
-  footer$:Observable<any>|undefined
-  style$:Observable<any>|undefined
-  responsiveLayout$:Observable<any>|undefined
+  props:Map<string,any>|undefined
+  @Input()name!:string
+  propNames = PropertyName
   filterComponent$:Observable<any>|undefined
-  paginator$:Observable<any>|undefined
+  // todo zie dat de default waarden werken
   rows = 5
   rowsPerPage:number[] = [10,25,50]
   breakpoint = '960px'
@@ -46,10 +34,6 @@ export class TableComponent implements OnInit{
   y:{key:string,value:number}
   yP:{key:string,value:number}*/
   singleRowSelect$:Observable<any>|undefined
-
-  props:Map<string,any>|undefined
-  @Input()name!:string
-  propNames = PropertyName
   constructor(private stateService:StateService,private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) {
   }
   ngOnInit(): void {
@@ -103,19 +87,19 @@ export class TableComponent implements OnInit{
     }
   }
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
-    const field = this.attributes?.find(attr => attr.name === column.field)
-/*    this.xP ? this.xP.value = event.clientX : undefined
-    this.yP ? this.yP.value = event.clientY : undefined*/
+/*    const field = this.attributes?.find(attr => attr.name === column.field)
+/!*    this.xP ? this.xP.value = event.clientX : undefined
+    this.yP ? this.yP.value = event.clientY : undefined*!/
     if(field && field.tableColumn?.filter && this.getPropValue(PropertyName.currentColumn)){
       this.setPropValue(PropertyName.currentColumn,column)
       this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name)
-    }
+    }*/
   }
   handleRow(){
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)
   }
   customSort(event: SortEvent) {
-    // todo voeg functionaliteit toe waarmee je op meerdere kolommen
+/*    // todo voeg functionaliteit toe waarmee je op meerdere kolommen
     //  kan sorteren => dit zou bv. een mooie feature zijn waarvoor mensen moeten betalen!
     const field = this.attributes?.find(attr => attr.name === event.field)
     if (field && field.tableColumn?.sort && field.tableColumn?.customSort === NoValueType.NA) {
@@ -140,10 +124,11 @@ export class TableComponent implements OnInit{
         let result = -1
           return func(value1, value2, result)*(event.order??1)
       })
-    }
+    }*/
   }
   getColumns():{field:string,header:string,sort:boolean,filter:boolean}[]{
-    return this.attributes?.map(attr=>{
+    // todo fix/controleer
+    return this.getPropValue(PropertyName.attributes).map((attr:AttributeComponentModel)=>{
       if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
         this.cstmSort = true
       }
