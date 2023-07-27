@@ -47,39 +47,58 @@ export class TableComponent implements OnInit{
   yP:{key:string,value:number}*/
   singleRowSelect$:Observable<any>|undefined
 
-  props:{key:string,value:Map<string,any>}|undefined
+  props:Map<string,any>|undefined
   @Input()name!:string
   propNames = PropertyName
   constructor(private stateService:StateService,private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) {
   }
   ngOnInit(): void {
-    const ss = this.stateService
-    const name = this.name
-    this.props = {key:'properties',value:Table.getProperties()}
-/*    this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
-      if (this.dataListP) this.dataListP.value = (res as {dataList:DataRecordModel[]})?.dataList
-      if (this.currentDataListP) this.currentDataListP.value = (res as {dataList:DataRecordModel[]})?.dataList
-      this.blueprint = (res as {conceptBluePrint:Object} )?.conceptBluePrint
-      this.attributes =  (res as {attributes:AttributeComponentModel[]} )?.attributes
-      this.concept =  (res as {conceptName:string} )?.conceptName
-    })*/
-      this.props.value.forEach((v,k)=>{
+    this.props = Table.getProperties()
+      this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
-        this.setPropValue(k,res)
+        if(k===PropertyName.dataConcept){
+          this.setPropValue(
+            k,
+            res,
+            [
+              PropertyName.dataList,
+              PropertyName.conceptName,
+              PropertyName.conceptBluePrint,
+              PropertyName.attributes
+            ],
+            [{prop:PropertyName.currentDataList,use:PropertyName.dataList}]
+          )
+        } else{
+          this.setPropValue(k,res)
+        }
       })
     })
-    // todo fix bug dataConcept, blueprint, dataList en zo blijven leeg!
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
   }
   getPropValue(key:string){
-    return this.props?.value.get(key)
+    return this.props?.get(key)
   }
-  setPropValue(key:string,value:any){
-    if(this.props?.value){
-      if(!utilFunctions.areEqual(this.props.value.get(key),value)){
-        this.props.value.set(key,value)
+  setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
+    if(this.props){
+      if(!utilFunctions.areEqual(this.props.get(key),value)){
+        this.props.set(key,value)
         this.stateService.syncData(this.name,{key:key,value:value})
+        if(setProps){
+          setProps.forEach(p=>{
+            if(this.props && typeof value === 'object' && value.hasOwnProperty(p) && !utilFunctions.areEqual(this.props.get(p),value[p])){
+              this.props.set(p,value[p])
+            }
+          })
+        }
+        if(useProps){
+          useProps.forEach(p=>{
+            if(this.props && typeof value === 'object'
+              && !utilFunctions.areEqual(this.props.get(p.prop),this.props.get(p.use))){
+              this.props.set(p.prop,this.props.get(p.use))
+            }
+          })
+        }
       }
     }
   }

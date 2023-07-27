@@ -26,7 +26,6 @@ export class StateService {
     }else throw new Error('Er bestaat geen component met deze naam')
   }
   public syncData(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
-    debugger
     const obj = this.componentData.find(obj=>{
       return obj.name===name
     })
@@ -35,7 +34,6 @@ export class StateService {
       this.componentData.push(newObj)
     }
     this.updateMap(name,data)
-    debugger
   }
   public getValue(name:string,propName:string):any{
 

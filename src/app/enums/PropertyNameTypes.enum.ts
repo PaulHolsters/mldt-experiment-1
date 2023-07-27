@@ -2,6 +2,10 @@ export enum PropertyName {
   visible='visible',
   dataList='dataList',
   currentDataList='currentDataList',
-  currentColumn='currentColumn'
+  currentColumn='currentColumn',
+  dataConcept = 'dataConcept',
+  conceptName = 'conceptName',
+  conceptBluePrint = 'conceptBluePrint',
+  attributes = 'attributes'
 
 }

@@ -10,8 +10,8 @@ export abstract class Table extends Component{
   // todo deze properties kunnen gewijzigd worden door middel van een setValue functie nadat de applicatie klaar is met opstarten
   // todo de createStore method gebruikt deze klasse voor het aanmaken van de store properties van elk table component die
   //      er in de configuratie staat
-  public static datalist:DataRecordModel[]|undefined=undefined
-  public static currentDatalist:DataRecordModel[]|undefined=undefined
+  public static dataList:DataRecordModel[]|undefined=undefined
+  public static currentDataList:DataRecordModel[]|undefined=undefined
   public static currentColumn:{field:string,header:string,sort:boolean,filter:boolean}|undefined=undefined
   public static textWhenEmpty:string|undefined=undefined
   public static caption:ComponentModel|undefined=undefined
@@ -24,7 +24,7 @@ export abstract class Table extends Component{
   public static rows:number|undefined=undefined
   public static rowsPerPage:number[]|undefined=undefined
   public static dataConcept:ConceptComponentModel|undefined=undefined
-  public static blueprint:Object|undefined=undefined
+  public static conceptBlueprint:Object|undefined=undefined
   public static attributes:AttributeComponentModel[]|undefined=undefined
-  public static concept:string|undefined=undefined
+  public static conceptName:string|undefined=undefined
 }
