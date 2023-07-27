@@ -48,65 +48,14 @@ export class TableComponent implements OnInit{
   singleRowSelect$:Observable<any>|undefined
 
   props:{key:string,value:Map<string,any>}|undefined
-  propsP:{key:string,value:Map<string,any>}|undefined
   @Input()name!:string
   propNames = PropertyName
   constructor(private stateService:StateService,private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) {
-
   }
   ngOnInit(): void {
     const ss = this.stateService
     const name = this.name
     this.props = {key:'properties',value:Table.getProperties()}
-    this.propsP = new Proxy(this.props,{
-      set(props,value,newValue){
-        if(!utilFunctions.areEqual(props.value,newValue)){
-          props.value = newValue
-          ss.syncData(name,props)
-        }
-        return true
-      }
-    })
-/*    this.dataList = {
-      key:'dataList',
-      value:undefined
-    }
-    this.dataListP = new Proxy(this.dataList,{
-      set(dataList,value,newValue){
-        if(!utilFunctions.areEqual(dataList.value,newValue)){
-          dataList.value = newValue
-          ss.syncData(name,dataList)
-        }
-        return true
-      }
-    })
-    this.currentDataList = {
-      key:'currentDataList',
-      value:undefined
-    }
-    this.currentDataListP = new Proxy(this.currentDataList,{
-      set(currentDataList,value,newValue){
-        if(!utilFunctions.areEqual(currentDataList.value,newValue)){
-          currentDataList.value = newValue
-          ss.syncData(name,currentDataList)
-        }
-        return true
-      }
-    })
-    this.currentColumn = {
-      key:'currentColumn',
-      value:undefined
-    }
-    this.currentColumnP = new Proxy(this.currentColumn,{
-      set(currentColumn,value,newValue,target){
-        if(!utilFunctions.areEqual(currentColumn.value,newValue)){
-          currentColumn.value = newValue
-          ss.syncData(name,currentColumn)
-          debugger
-        }
-        return true
-      }
-    })*/
 /*    this.storeService.bindToStateProperty(this.name,'dataConcept')?.subscribe(res=>{
       if (this.dataListP) this.dataListP.value = (res as {dataList:DataRecordModel[]})?.dataList
       if (this.currentDataListP) this.currentDataListP.value = (res as {dataList:DataRecordModel[]})?.dataList
@@ -114,45 +63,26 @@ export class TableComponent implements OnInit{
       this.attributes =  (res as {attributes:AttributeComponentModel[]} )?.attributes
       this.concept =  (res as {conceptName:string} )?.conceptName
     })*/
-    // todo de property currentDataList bestaat niet in de modellen en dus kan je er ook niets naar versturen!
-    //      best tot 1 systeem verwerken!
       this.props.value.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
         this.setPropValue(k,res)
       })
     })
-/*    this.textWhenEmpty$ = this.storeService.bindToStateProperty(this.name,'textWhenEmpty')
-    this.caption$ = this.storeService.bindToStateProperty(this.name,'caption')
-    this.summary$ = this.storeService.bindToStateProperty(this.name,'summary')
-    this.footer$ = this.storeService.bindToStateProperty(this.name,'footer')
-    this.style$ = this.storeService.bindToStateProperty(this.name,'tableStyle')
-    this.responsiveLayout$ = this.storeService.bindToStateProperty(this.name,'responsiveTableLayout')
-    this.paginator$ = this.storeService.bindToStateProperty(this.name,'paginator')
-    this.filterComponent$ = this.storeService.bindToStateProperty(this.name,'filterComponent')
-    this.storeService.bindToStateProperty(this.name,'tableBreakpoint')?.subscribe(res=>{
-      if(res && typeof res === 'number'){
-        this.breakpoint = res+'px'
-      }
-    })
-    this.storeService.bindToStateProperty(this.name,'rows')?.subscribe(res=>{
-      if(res && typeof res === 'number'){
-        this.rows = res
-      }
-    })
-    this.storeService.bindToStateProperty(this.name,'rowsPerPage')?.subscribe(res=>{
-        this.rowsPerPage = res as number[]
-    })*/
+    // todo fix bug dataConcept, blueprint, dataList en zo blijven leeg!
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
   }
-
   getPropValue(key:string){
     return this.props?.value.get(key)
   }
-
   setPropValue(key:string,value:any){
-    this.propsP?.value.set(key,value)
+    if(this.props?.value){
+      if(!utilFunctions.areEqual(this.props.value.get(key),value)){
+        this.props.value.set(key,value)
+        this.stateService.syncData(this.name,{key:key,value:value})
+      }
+    }
   }
-
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
     const field = this.attributes?.find(attr => attr.name === column.field)
 /*    this.xP ? this.xP.value = event.clientX : undefined
