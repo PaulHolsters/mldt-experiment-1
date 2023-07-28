@@ -22,7 +22,6 @@ export class TableComponent implements OnInit{
   props:Map<string,any>|undefined
   @Input()name!:string
   propNames = PropertyName
-  filterComponent$:Observable<any>|undefined
   // todo zie dat de default waarden werken
   rows = 5
   rowsPerPage:number[] = [10,25,50]
@@ -87,13 +86,13 @@ export class TableComponent implements OnInit{
     }
   }
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
-/*    const field = this.attributes?.find(attr => attr.name === column.field)
-/!*    this.xP ? this.xP.value = event.clientX : undefined
-    this.yP ? this.yP.value = event.clientY : undefined*!/
-    if(field && field.tableColumn?.filter && this.getPropValue(PropertyName.currentColumn)){
+    const field = this.getPropValue(PropertyName.attributes)?.find((attr:AttributeComponentModel) => attr.name === column.field)
+    /*this.xP ? this.xP.value = event.clientX : undefined
+    this.yP ? this.yP.value = event.clientY : undefined*/
+    if(field && field.tableColumn?.filter){
       this.setPropValue(PropertyName.currentColumn,column)
       this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name)
-    }*/
+    }
   }
   handleRow(){
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)
@@ -127,8 +126,7 @@ export class TableComponent implements OnInit{
     }*/
   }
   getColumns():{field:string,header:string,sort:boolean,filter:boolean}[]{
-    // todo fix/controleer
-    return this.getPropValue(PropertyName.attributes).map((attr:AttributeComponentModel)=>{
+    return this.getPropValue(PropertyName.attributes)?.map((attr:AttributeComponentModel)=>{
       if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
         this.cstmSort = true
       }

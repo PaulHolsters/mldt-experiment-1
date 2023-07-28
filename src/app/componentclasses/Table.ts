@@ -27,4 +27,5 @@ export abstract class Table extends Component{
   public static conceptBlueprint:Object|undefined=undefined
   public static attributes:AttributeComponentModel[]|undefined=undefined
   public static conceptName:string|undefined=undefined
+  public static filterComponent:string|undefined=undefined
 }

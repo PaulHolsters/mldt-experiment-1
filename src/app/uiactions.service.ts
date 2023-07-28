@@ -60,9 +60,8 @@ export class UIActionsService {
       if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
         return prop.propName === action.value.name
       return false
-    }))
+    }),(action.value as ActionValueModel).value)
     debugger
-
       this.storeService.getStatePropertySubjects().find(prop=>{
         if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
           return prop.propName === action.value.name

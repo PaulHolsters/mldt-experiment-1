@@ -17,6 +17,7 @@ export enum PropertyName {
   tableBreakPoint = 'tableBreakPoint',
   rows = 'rows',
   rowsPerPage = 'rowsPerPage',
+  filterComponent = 'filterComponent'
 
 
 }
