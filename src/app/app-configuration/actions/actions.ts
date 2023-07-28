@@ -9,12 +9,10 @@ import {ActionValueModel} from "../../models/ActionValueModel";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {StateService} from "../../state.service";
 import {DataRecordModel} from "../../models/DataRecordModel";
-const customFunction = (stateService: StateService): boolean => {
-
+const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
   const cc = stateService.getValue('table', PropertyName.currentColumn)
-  debugger
-  cl.filter((record: DataRecordModel) => {
+  return cl.filter((record: DataRecordModel) => {
     const entry = Object.entries(record).find(([k, v]) => {
       return k === cc.field
     })
@@ -23,7 +21,6 @@ const customFunction = (stateService: StateService): boolean => {
     }
     return false
   })
-  return true
 }
 
 export const actions = [

@@ -36,7 +36,9 @@ export class StateService {
     this.updateMap(name,data)
   }
   public getValue(name:string,propName:string):any{
-    // todo dit werkt niet!
+    return this.componentData.find(c=>{
+      return c.name === name
+    })?.properties.get(propName)
   }
   private updateMap(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
     const obj = this.componentData.find(cd=>{

@@ -28,4 +28,6 @@ export abstract class Table extends Component{
   public static attributes:AttributeComponentModel[]|undefined=undefined
   public static conceptName:string|undefined=undefined
   public static filterComponent:string|undefined=undefined
+  // todo aanvullen met alle props die nog ontbreken!
+
 }

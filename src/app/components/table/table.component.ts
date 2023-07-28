@@ -71,7 +71,7 @@ export class TableComponent implements OnInit{
           setProps.forEach(p=>{
             if(this.props && typeof value === 'object' && value.hasOwnProperty(p) && !utilFunctions.areEqual(this.props.get(p),value[p])){
               this.props.set(p,value[p])
-              // todo sync data!
+              this.stateService.syncData(this.name,{key:p,value:this.getPropValue(p)})
             }
           })
         }
@@ -80,7 +80,7 @@ export class TableComponent implements OnInit{
             if(this.props && typeof value === 'object'
               && !utilFunctions.areEqual(this.props.get(p.prop),this.props.get(p.use))){
               this.props.set(p.prop,this.props.get(p.use))
-              // todo sync data!
+              this.stateService.syncData(this.name,{key:p.prop,value:this.getPropValue(p.prop)})
             }
           })
         }
