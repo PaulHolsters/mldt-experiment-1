@@ -17,7 +17,13 @@ export enum PropertyName {
   tableBreakPoint = 'tableBreakPoint',
   rows = 'rows',
   rowsPerPage = 'rowsPerPage',
-  filterComponent = 'filterComponent'
+  filterComponent = 'filterComponent',
+  height = 'height',
+  width = 'width',
+  label = 'label',
+  icon = 'icon',
+  calcHeight = 'calcHeight',
+  calcWidth = 'calcWidth'
 
 
 }

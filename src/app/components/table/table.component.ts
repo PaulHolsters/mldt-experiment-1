@@ -1,26 +1,18 @@
-import {Component,  Input,  OnInit} from '@angular/core';
-import {StoreService} from "../../store.service";
+import {Component, OnInit} from '@angular/core';
 import {EventType} from "../../enums/eventTypes.enum";
-import {EventsService} from "../../events.service";
-import {DataService} from "../../data.service";
 import {Observable} from "rxjs";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {SortEvent} from "primeng/api";
-import {NoValueType} from "../../enums/no_value_type";
-import {DataRecordModel} from "../../models/DataRecordModel";
-import {StateService} from "../../state.service";
-import utilFunctions from "../../utils/utilFunctions";
 import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
-
+import {Component as AbstractComponent} from "../Component"
 @Component({
   selector: 'm-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit{
-  props:Map<string,any>|undefined
-  @Input()name!:string
+export class TableComponent extends AbstractComponent implements OnInit{
+
   propNames = PropertyName
   // todo zie dat de default waarden werken
   rows = 5
@@ -33,8 +25,6 @@ export class TableComponent implements OnInit{
   y:{key:string,value:number}
   yP:{key:string,value:number}*/
   singleRowSelect$:Observable<any>|undefined
-  constructor(private stateService:StateService,private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) {
-  }
   ngOnInit(): void {
     this.props = Table.getProperties()
       this.props.forEach((v,k)=>{
@@ -59,34 +49,7 @@ export class TableComponent implements OnInit{
     })
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
   }
-  getPropValue(key:string){
-    return this.props?.get(key)
-  }
-  setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
-    if(this.props){
-      if(!utilFunctions.areEqual(this.props.get(key),value)){
-        this.props.set(key,value)
-        this.stateService.syncData(this.name,{key:key,value:value})
-        if(setProps){
-          setProps.forEach(p=>{
-            if(this.props && typeof value === 'object' && value.hasOwnProperty(p) && !utilFunctions.areEqual(this.props.get(p),value[p])){
-              this.props.set(p,value[p])
-              this.stateService.syncData(this.name,{key:p,value:this.getPropValue(p)})
-            }
-          })
-        }
-        if(useProps){
-          useProps.forEach(p=>{
-            if(this.props && typeof value === 'object'
-              && !utilFunctions.areEqual(this.props.get(p.prop),this.props.get(p.use))){
-              this.props.set(p.prop,this.props.get(p.use))
-              this.stateService.syncData(this.name,{key:p.prop,value:this.getPropValue(p.prop)})
-            }
-          })
-        }
-      }
-    }
-  }
+
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
     const field = this.getPropValue(PropertyName.attributes)?.find((attr:AttributeComponentModel) => attr.name === column.field)
     /*this.xP ? this.xP.value = event.clientX : undefined

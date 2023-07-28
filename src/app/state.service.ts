@@ -3,6 +3,7 @@ import {ConfigService} from "./config.service";
 import {StoreService} from "./store.service";
 import {ComponentType} from "./enums/componentTypes.enum";
 import {Table} from "./componentclasses/Table";
+import utilFunctions from "./utils/utilFunctions";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class StateService {
       }
     }else throw new Error('Er bestaat geen component met deze naam')
   }
+
   public syncData(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
     const obj = this.componentData.find(obj=>{
       return obj.name===name

@@ -1,17 +1,19 @@
 <p-button
-  *ngIf="(label$|async) && (icon$|async)" label="{{(label$|async)}}" icon="pi pi-{{(icon$|async)}}"
-  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-  [style.height]="height"
-  [style.width]="width" #button
+  *ngIf="getPropValue(PropertyName.label) && getPropValue(PropertyName.icon)"
+  label="{{getPropValue(PropertyName.label)}}"
+  icon="pi pi-{{getPropValue(PropertyName.icon)}}"
+  [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+  [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+  [style.height]="getPropValue(PropertyName.height)"
+  [style.width]="getPropValue(PropertyName.width)" #button
   (click)="trigger(EventType.ComponentClicked)"></p-button>
-<p-button *ngIf="(label$|async) && !(icon$|async)" label="{{(label$|async)}}" (click)="trigger(EventType.ComponentClicked)"></p-button>
-<p-button *ngIf="!(label$|async) && (icon$|async)" icon="pi pi-{{(icon$|async)}}" (click)="trigger(EventType.ComponentClicked)"></p-button>
+<p-button *ngIf="getPropValue(PropertyName.label) && !getPropValue(PropertyName.icon)" label="{{getPropValue(PropertyName.label)}}" (click)="trigger(EventType.ComponentClicked)"></p-button>
+<p-button *ngIf="!getPropValue(PropertyName.label) && getPropValue(PropertyName.icon)" icon="pi pi-{{getPropValue(PropertyName.icon)}}" (click)="trigger(EventType.ComponentClicked)"></p-button>
 <p-button
-  *ngIf="!(label$|async) && !(icon$|async)"
-  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-  [style.height]="height"
-  [style.width]="width"
+  *ngIf="!getPropValue(PropertyName.label) && !getPropValue(PropertyName.icon)"
+  [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+  [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+  [style.height]="getPropValue(PropertyName.height)"
+  [style.width]="getPropValue(PropertyName.width)"
   (click)="trigger(EventType.ComponentClicked)"
   #button></p-button>

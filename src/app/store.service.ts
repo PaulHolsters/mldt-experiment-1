@@ -49,6 +49,13 @@ import {NoValueType} from "./enums/no_value_type";
 import {ComponentType} from "./enums/componentTypes.enum";
 import {Component} from "./componentclasses/Component";
 import {Table} from "./componentclasses/Table";
+import {Container} from "./componentclasses/Container";
+import {Form} from "./componentclasses/Form";
+import {Dialog} from "./componentclasses/Dialog";
+import {Button} from "./componentclasses/Button";
+import {Label} from "./componentclasses/Label";
+import {TextInput} from "./componentclasses/TextInput";
+import {FormControl} from "./componentclasses/FormControl";
 
 @Injectable({
   providedIn: 'root'
@@ -452,22 +459,73 @@ export class StoreService implements OnInit {
         })
         break
       case ComponentType.Container:
+        Container.getProperties().forEach(([v,k])=>{
+          const propSubj = new BehaviorSubject<any | undefined>(v)
+          this.statePropertySubjects.push({
+            componentName: component.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
         break
       case ComponentType.Form:
+        Form.getProperties().forEach(([v,k])=>{
+          const propSubj = new BehaviorSubject<any | undefined>(v)
+          this.statePropertySubjects.push({
+            componentName: component.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
         break
       case ComponentType.Dialog:
+        Dialog.getProperties().forEach(([v,k])=>{
+          const propSubj = new BehaviorSubject<any | undefined>(v)
+          this.statePropertySubjects.push({
+            componentName: component.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
         break
       case ComponentType.Button:
+        Button.getProperties().forEach(([v,k])=>{
+          const propSubj = new BehaviorSubject<any | undefined>(v)
+          this.statePropertySubjects.push({
+            componentName: component.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
         break
       case ComponentType.Label:
+        Label.getProperties().forEach(([v,k])=>{
+          const propSubj = new BehaviorSubject<any | undefined>(v)
+          this.statePropertySubjects.push({
+            componentName: component.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
         break
       case ComponentType.TextInput:
+        TextInput.getProperties().forEach(([v,k])=>{
+          const propSubj = new BehaviorSubject<any | undefined>(v)
+          this.statePropertySubjects.push({
+            componentName: component.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
         break
       case ComponentType.FormControl:
+        FormControl.getProperties().forEach(([v,k])=>{
+          const propSubj = new BehaviorSubject<any | undefined>(v)
+          this.statePropertySubjects.push({
+            componentName: component.name, propName: k, propValue:
+            propSubj, prop$: propSubj.asObservable()
+          })
+        })
         break
     }
     return undefined
   }
+
+
 /*  private createProps(component: ComponentModel) {
     // todo alle methodes weggooien, enkel alle componenten uit de config halen
     //      vervolgens voor dat type de props toevoegen zoals vermeld in de overeenkomstige klasse
