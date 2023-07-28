@@ -35,7 +35,7 @@ export const deleteContainer = new ComponentModel(
   [
     {
       name: 'id-text-field',
-      type: ComponentType.InputText,
+      type: ComponentType.TextInput,
       visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
     },
     {

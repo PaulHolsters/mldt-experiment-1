@@ -186,9 +186,9 @@ export class DataService{
     switch (componentType) {
       case ComponentType.MultiSelect:
         return attr.multiselect !== undefined
-      case ComponentType.InputNumber:
+      case ComponentType.NumberInput:
         return attr.number !== undefined
-      case ComponentType.InputText:
+      case ComponentType.TextInput:
         return attr.text !== undefined
       case ComponentType.RadioButton:
         return attr.radio !== undefined

@@ -102,7 +102,7 @@
                    [style.width]="'100%'"
           ></m-label>
         </ng-container>
-        <ng-container *ngSwitchCase="componentType.InputText">
+        <ng-container *ngSwitchCase="componentType.TextInput">
           <m-input-text *ngIf="nameFormControl && dataAttribute?.text"
                         [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
@@ -134,7 +134,7 @@
                         [conceptId]="dataConcept?.conceptData?.id"
           ></m-input-text>
         </ng-container>
-        <ng-container *ngSwitchCase="componentType.InputNumber">
+        <ng-container *ngSwitchCase="componentType.NumberInput">
           <m-input-number
             *ngIf="nameFormControl && dataAttribute?.number"
             [class]="['flex',

@@ -461,7 +461,7 @@ export class StoreService implements OnInit {
         break
       case ComponentType.Label:
         break
-      case ComponentType.InputText:
+      case ComponentType.TextInput:
         break
       case ComponentType.FormControl:
         break
