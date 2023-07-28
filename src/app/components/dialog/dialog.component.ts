@@ -19,9 +19,7 @@ export class DialogComponent implements OnInit {
   constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
 
   ngOnInit(): void {
-    debugger
     this.storeService.bindToStateProperty(this.name,'visible')?.subscribe(res=>{
-      debugger
       this.visible = res as boolean|undefined
     })
     this.header$ = this.storeService.bindToStateProperty(this.name,'header')

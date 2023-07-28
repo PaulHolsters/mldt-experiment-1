@@ -56,12 +56,11 @@ export class UIActionsService {
     return false
   }
   private setProperty(action:ActionModel){
-    console.log(this.storeService.getStatePropertySubjects().find(prop=>{
-      if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
-        return prop.propName === action.value.name
-      return false
-    }),(action.value as ActionValueModel).value)
-    debugger
+    if(typeof (action.value as ActionValueModel).value === 'function'){
+      (action.value as ActionValueModel).value(this.stateService)
+      // todo de gebruikte variabelen zijn undefined
+      debugger
+    }
       this.storeService.getStatePropertySubjects().find(prop=>{
         if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
           return prop.propName === action.value.name

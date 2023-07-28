@@ -48,6 +48,7 @@ export const table = {
   attributes:new ResponsiveAttributesConfigModel(
       new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
         NoValueType.NA,NoValueType.NA,NoValueType.NA,
+        // todo dit is het attribuut filterComponent (je zou evengoed content kunnen nemen en deze prop dus schrappen wegens niet generiek)
         new ComponentModel('filter-dialog',ComponentType.Dialog,undefined,undefined,undefined,
           new ResponsiveAttributesConfigModel(
             new AttributesConfigPropsModel(
