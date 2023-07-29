@@ -34,6 +34,7 @@ export class ActionsService{
   }
   public triggerAction(action: ActionModel,data?:string):void{
     this.actionSubjects?.find(subj => {
+      // todo wat als er twee acties zijn met hetzelfde type en subtype? => filter ook op id en event indien nodig, of zie dat je ze allemaal uitvoert!
       return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
     })?.subj.next({action:action,data:data})
   }

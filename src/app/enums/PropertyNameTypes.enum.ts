@@ -23,7 +23,45 @@ export enum PropertyName {
   label = 'label',
   icon = 'icon',
   calcHeight = 'calcHeight',
-  calcWidth = 'calcWidth'
+  calcWidth = 'calcWidth',
+  dataAttribute = 'dataAttribute',
+  row = 'row',
+  column = 'column',
+  wrap = 'wrap',
+  justifyContentStart = 'justifyContentStart',
+  justifyContentCenter = 'justifyContentCenter',
+  justifyContentEnd = 'justifyContentEnd',
+  justifyContentEvenly = 'justifyContentEvenly',
+  justifyContentAround= 'justifyContentAround',
+  justifyContentBetween = 'justifyContentBetween',
+  alignItemsStart = 'alignItemsStart',
+  alignItemsCenter = 'alignItemsCenter',
+  alignItemsEnd = 'alignItemsEnd',
+  alignItemsStretch = 'alignItemsStretch',
+  alignContentStart =   'alignContentStart',
+  alignContentCenter =  'alignContentCenter',
+  alignContentEnd =     'alignContentEnd',
+  alignContentEvenly =  'alignContentEvenly',
+  alignContentAround=   'alignContentAround',
+  alignContentBetween = 'alignContentBetween',
+  overflowAuto = 'overflowAuto',
+  overflowHidden = 'overflowHidden',
+  overflowScroll = 'overflowScroll',
+  overflowXAuto = 'overflowXAuto',
+  overflowXHidden = 'overflowXHidden',
+  overflowXScroll = 'overflowXScroll',
+  overflowYAuto = 'overflowYAuto',
+  overflowYHidden = 'overflowYHidden',
+  overflowYScroll = 'overflowYScroll',
+  holdSpace = 'holdSpace',
+  backgroundColorPrimary = 'backgroundColorPrimary',
+  backgroundColorWhite = 'backgroundColorWhite',
+  backgroundColorDanger = 'backgroundColorDanger',
+  children = 'children',
+  dataLink = 'dataLink'
+
+
+
 
 
 }

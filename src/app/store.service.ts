@@ -47,7 +47,6 @@ import {ActionType} from "./enums/actionTypes.enum";
 import {ConfigService} from "./config.service";
 import {NoValueType} from "./enums/no_value_type";
 import {ComponentType} from "./enums/componentTypes.enum";
-import {Component} from "./componentclasses/Component";
 import {Table} from "./componentclasses/Table";
 import {Container} from "./componentclasses/Container";
 import {Form} from "./componentclasses/Form";
@@ -56,6 +55,7 @@ import {Button} from "./componentclasses/Button";
 import {Label} from "./componentclasses/Label";
 import {TextInput} from "./componentclasses/TextInput";
 import {FormControl} from "./componentclasses/FormControl";
+import {StateService} from "./state.service";
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +64,7 @@ export class StoreService implements OnInit {
 
   public actionFinished = new Subject()
 
-  constructor(private actionsService: ActionsService, private configService: ConfigService) {
+  constructor(private actionsService: ActionsService, private configService: ConfigService,private stateService:StateService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
@@ -448,81 +448,17 @@ export class StoreService implements OnInit {
   }
 
   private createProps(component: ComponentModel){
-    switch (component.type) {
-      case ComponentType.Table:
-        Table.getProperties().forEach(([v,k])=>{
-          const propSubj = new BehaviorSubject<any | undefined>(v)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: k, propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        })
-        break
-      case ComponentType.Container:
-        Container.getProperties().forEach(([v,k])=>{
-          const propSubj = new BehaviorSubject<any | undefined>(v)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: k, propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        })
-        break
-      case ComponentType.Form:
-        Form.getProperties().forEach(([v,k])=>{
-          const propSubj = new BehaviorSubject<any | undefined>(v)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: k, propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        })
-        break
-      case ComponentType.Dialog:
-        Dialog.getProperties().forEach(([v,k])=>{
-          const propSubj = new BehaviorSubject<any | undefined>(v)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: k, propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        })
-        break
-      case ComponentType.Button:
-        Button.getProperties().forEach(([v,k])=>{
-          const propSubj = new BehaviorSubject<any | undefined>(v)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: k, propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        })
-        break
-      case ComponentType.Label:
-        Label.getProperties().forEach(([v,k])=>{
-          const propSubj = new BehaviorSubject<any | undefined>(v)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: k, propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        })
-        break
-      case ComponentType.TextInput:
-        TextInput.getProperties().forEach(([v,k])=>{
-          const propSubj = new BehaviorSubject<any | undefined>(v)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: k, propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        })
-        break
-      case ComponentType.FormControl:
-        FormControl.getProperties().forEach(([v,k])=>{
-          const propSubj = new BehaviorSubject<any | undefined>(v)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: k, propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        })
-        break
-    }
-    return undefined
+    this.stateService.getProperties(component.type)?.forEach((v,k)=>{
+      const propSubj = new BehaviorSubject<any | undefined>(v)
+      this.statePropertySubjects.push({
+        componentName: component.name,
+        propName: k,
+        propValue:propSubj,
+        prop$: propSubj.asObservable()
+      })
+    })
+    // todo zoek nu verder naar geneste componenten en doe hetzelfde recursief
+
   }
 
 
@@ -653,12 +589,10 @@ export class StoreService implements OnInit {
       debugger
     }*/
   public createStore() {
-    debugger
     this.configService.appConfig?.userConfig.components.forEach(comp => {
         this.createProps(comp)
       }
     )
-
   }
 
   public bindToStateProperty(componentName: string, propName: string):

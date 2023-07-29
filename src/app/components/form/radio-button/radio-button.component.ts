@@ -9,7 +9,7 @@ import {StoreService} from "../../../store.service";
   styleUrls: ['./radio-button.component.css']
 })
 export class RadioButtonComponent implements OnInit {
-  @Input() name:string|undefined
+  @Input() name!:string
   @Input() selectedValue: string | undefined
   @Input() values: {label:string,value:string}[] | undefined
   @Input() conceptName: string | undefined

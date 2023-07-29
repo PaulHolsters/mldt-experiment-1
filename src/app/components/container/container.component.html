@@ -1,57 +1,51 @@
 <div
-  [class.flex]="(visible$ | async)"
-  [class.flex-row]="(row$|async)"
-  [class.flex-column]="(column$|async)"
-  [class.flex-wrap]="(wrap$|async)"
-  [class.justify-content-start]="(justifyContentStart$|async)"
-  [class.justify-content-center]="(justifyContentCenter$|async)"
-  [class.justify-content-end]="(justifyContentEnd$|async)"
-  [class.justify-content-evenly]="(justifyContentEvenly$|async)"
-  [class.justify-content-around]="(justifyContentAround$|async)"
-  [class.justify-content-between]="(justifyContentBetween$|async)"
-  [class.align-items-start]="(alignItemsStart$|async)"
-  [class.align-items-center]="(alignItemsCenter$|async)"
-  [class.align-items-end]="(alignItemsEnd$|async)"
-  [class.align-items-stretch]="(alignItemsStretch$|async)"
-  [class.align-content-start]="(alignContentStart$|async)"
-  [class.align-content-center]="(alignContentCenter$|async)"
-  [class.align-content-end]="(alignContentEnd$|async)"
-  [class.align-content-evenly]="(alignContentEvenly$|async)"
-  [class.align-content-around]="(alignContentAround$|async)"
-  [class.align-content-between]="(alignContentBetween$|async)"
-
-  [class.overflow-hidden]="(overflowHidden$|async)"
-  [class.overflow-x-hidden]="(overflowXHidden$|async)"
-
-  [class.overflow-auto]="(overflowAuto$|async)"
-  [class.overflow-x-auto]="(overflowXAuto$|async)"
-
-  [class.overflow-scroll]="(overflowScroll$|async)"
-  [class.overflow-x-scroll]="(overflowXScroll$|async)"
-
-  [class.displayNone]="!(visible$ | async) && !(holdSpace$ | async)"
-  [class.visibilityHidden]="!(visible$ | async) && (holdSpace$ | async)"
-
-  [style.height]="height$ | async"
-  [style.width]="width$ | async"
-
-  [class.bg-primary]="backgroundColorPrimary$ | async"
-  [class.bg-white]="backgroundColorWhite$ | async"
-  [class.bg-orange-400]="backgroundColorDanger$ | async"
-  [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-  [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
+  [class.flex]="getPropValue(PropertyName.visible)"
+  [class.flex-row]="getPropValue(PropertyName.row)"
+  [class.flex-column]="getPropValue(PropertyName.column)"
+  [class.flex-wrap]="getPropValue(PropertyName.wrap)"
+  [class.justify-content-start]="getPropValue(PropertyName.justifyContentStart)"
+  [class.justify-content-center]="getPropValue(PropertyName.justifyContentCenter)"
+  [class.justify-content-end]="getPropValue(PropertyName.justifyContentEnd)"
+  [class.justify-content-evenly]="getPropValue(PropertyName.justifyContentEvenly)"
+  [class.justify-content-around]="getPropValue(PropertyName.justifyContentAround)"
+  [class.justify-content-between]="getPropValue(PropertyName.justifyContentBetween)"
+  [class.align-items-start]="getPropValue(PropertyName.alignItemsStart)"
+  [class.align-items-center]="getPropValue(PropertyName.alignItemsCenter)"
+  [class.align-items-end]="getPropValue(PropertyName.alignItemsEnd)"
+  [class.align-items-stretch]="getPropValue(PropertyName.alignItemsStretch)"
+  [class.align-content-start]="getPropValue(PropertyName.alignContentStart)"
+  [class.align-content-center]="getPropValue(PropertyName.alignContentCenter)"
+  [class.align-content-end]="getPropValue(PropertyName.alignContentEnd)"
+  [class.align-content-evenly]="getPropValue(PropertyName.alignContentEvenly)"
+  [class.align-content-around]="getPropValue(PropertyName.alignContentAround)"
+  [class.align-content-between]="getPropValue(PropertyName.alignContentBetween)"
+  [class.overflow-hidden]="getPropValue(PropertyName.overflowHidden)"
+  [class.overflow-x-hidden]="getPropValue(PropertyName.overflowXHidden)"
+  [class.overflow-auto]="getPropValue(PropertyName.overflowAuto)"
+  [class.overflow-x-auto]="getPropValue(PropertyName.overflowXAuto)"
+  [class.overflow-scroll]="getPropValue(PropertyName.overflowScroll)"
+  [class.overflow-x-scroll]="getPropValue(PropertyName.overflowXScroll)"
+  [class.displayNone]="!getPropValue(PropertyName.visible) && !getPropValue(PropertyName.holdSpace)"
+  [class.visibilityHidden]="!getPropValue(PropertyName.visible) && getPropValue(PropertyName.holdSpace)"
+  [style.height]="getPropValue(PropertyName.height)"
+  [style.width]="getPropValue(PropertyName.width)"
+  [class.bg-primary]="getPropValue(PropertyName.backgroundColorPrimary)"
+  [class.bg-white]="getPropValue(PropertyName.backgroundColorWhite)"
+  [class.bg-orange-400]="getPropValue(PropertyName.backgroundColorDanger)"
+  [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+  [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
 #container>
   <ng-content></ng-content>
-  <ng-container *ngIf="(children$|async)">
-    <ng-container *ngFor="let child of children$|async">
+  <ng-container *ngIf="getPropValue(PropertyName.children)">
+    <ng-container *ngFor="let child of getPropValue(PropertyName.children)">
       <!--
       TODO
           Bij form in config moet overflow nog opgezet worden
       -->
       <div
-        *ngIf="(dataAttribute && !dataAttribute.floatLabel)
+        *ngIf="(getPropValue(PropertyName.dataAttribute) && !getPropValue(PropertyName.dataAttribute)['floatLabel'])
         ||child.type !== componentType.Label
-        ||(child.type === componentType.Label && !dataAttribute)"
+        ||(child.type === componentType.Label && !getPropValue(PropertyName.dataAttribute))"
         [class.visibilityHidden]="
       (child.type !== componentType.Container) &&
       !(bindToStateProperty(child.name,'visible') | async)
@@ -59,17 +53,13 @@
         [class.displayNone]="(child.type !== componentType.Container)
       &&!(bindToStateProperty(child.name,'visible') | async)
       && !(bindToStateProperty(child.name,'holdSpace') | async)"
-
         [style.height]="(child.type !== componentType.Container) ? (bindToStateProperty(child.name,'height') | async) : ''"
         [style.width]="(child.type !== componentType.Container) ? (bindToStateProperty(child.name,'width') | async) : ''"
-
         [class.align-self-stretch]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'alignSelfStretch')|async)"
         [class.overflow-hidden]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowHidden')|async)"
         [class.overflow-x-hidden]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowXHidden')|async)"
-
         [class.overflow-auto]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowAuto')|async)"
         [class.overflow-x-auto]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowXAuto')|async)"
-
         [class.overflow-scroll]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowScroll')|async)"
         [class.overflow-x-scroll]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowXScroll')|async)"
         [class]="[
@@ -77,7 +67,6 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
         [class.flex]="(child.type === componentType.Form)"
         [ngSwitch]="child.type">
-
         <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -93,8 +82,11 @@
                              [name]="child.name"></m-formcontrol>
         <ng-container *ngSwitchCase="componentType.Label">
           <!-- todo nagaan of automatische hoogte en breedte van 100% wel wenselijk is-->
-          <m-label *ngIf="!dataAttribute?.floatLabel && dataAttribute?.floatLabel !== NoValueType.NA" [text]="(dataAttribute?.label !== NoValueType.DBI)
-        && (dataAttribute?.label !== NoValueType.NA) ? dataAttribute?.label : dataAttribute?.name"
+          <m-label *ngIf="!getPropValue(PropertyName.dataAttribute)['floatLabel'] && getPropValue(PropertyName.dataAttribute)['floatLabel'] !== NoValueType.NA"
+                   [text]="(getPropValue(PropertyName.dataAttribute)?.label !== NoValueType.DBI)
+        && (getPropValue(PropertyName.dataAttribute)?.label !== NoValueType.NA)
+        ? getPropValue(PropertyName.dataAttribute)?.label
+        : getPropValue(PropertyName.dataAttribute)?.name"
                    [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -103,90 +95,93 @@
           ></m-label>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.TextInput">
-          <m-input-text *ngIf="nameFormControl && dataAttribute?.text"
+          <m-input-text *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)?.text"
                         [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                         [style.height]="'100%'"
                         [style.width]="'100%'"
                         [name]="nameFormControl"
-                        [value]="dataAttribute?.text?.value === NoValueType.NVY
-                       || dataAttribute?.text?.value === NoValueType.NA  ? undefined : dataAttribute?.text?.value"
-                        [icon]="dataAttribute?.text?.icon"
-                        [iconPosition]="dataAttribute?.text?.iconPosition"
-                        [advisoryText]="dataAttribute?.advisoryText"
+                        [value]="getPropValue(PropertyName.dataAttribute)?.text?.value === NoValueType.NVY
+                       || getPropValue(PropertyName.dataAttribute)?.text?.value === NoValueType.NA  ? undefined : getPropValue(PropertyName.dataAttribute)?.text?.value"
+                        [icon]="getIconType(getPropValue(PropertyName.dataAttribute)?.text?.icon)"
+                        [iconPosition]="getPropValue(PropertyName.dataAttribute)?.text['iconPosition']"
+                        [advisoryText]="getPropValue(PropertyName.dataAttribute)['advisoryText']"
                         [keyFilter]="
-                      dataAttribute?.text?.only === RestrictionType.Alphanumeric ? 'alphanum' :
-                      dataAttribute?.text?.only === RestrictionType.Hex ? 'hex' :
-                      dataAttribute?.text?.only === RestrictionType.Alphabetic ? 'alpha' :
-                      dataAttribute?.text?.only === RestrictionType.Integer ? 'int' :
-                      dataAttribute?.text?.only === RestrictionType.Money ? 'money' :
-                      dataAttribute?.text?.only === RestrictionType.Number ? 'number' :
-                      dataAttribute?.text?.only === RestrictionType.Custom ? (dataAttribute?.text?.customRestriction !== RestrictionType.NA ?
-                      dataAttribute?.text?.customRestriction : undefined) : undefined"
-                        [label]="dataAttribute?.label"
-                        [floatLabel]="dataAttribute?.floatLabel === NoValueType.NA ? false : dataAttribute?.floatLabel"
+                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Alphanumeric ? 'alphanum' :
+                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Hex ? 'hex' :
+                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Alphabetic ? 'alpha' :
+                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Integer ? 'int' :
+                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Money ? 'money' :
+                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Number ? 'number' :
+                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Custom
+                      ? (getPropValue(PropertyName.dataAttribute)?.text['customRestriction'] !== RestrictionType.NA ?
+                      getPropValue(PropertyName.dataAttribute)?.text['customRestriction'] : undefined) : undefined"
+                        [label]="replaceUndefinedWithString(getPropValue(PropertyName.dataAttribute)?.label)"
+                        [floatLabel]="getPropValue(PropertyName.dataAttribute)['floatLabel'] === NoValueType.NA
+                        ? false : getPropValue(PropertyName.dataAttribute)['floatLabel']"
                         [dirty]="false"
                         [invalid]="false"
-                        [small]="dataAttribute?.text?.inputFontSize===InputFontSize.Small"
-                        [large]="dataAttribute?.text?.inputFontSize===InputFontSize.Large"
-                        [disabled]="dataAttribute?.disabled"
-                        [conceptId]="dataConcept?.conceptData?.id"
+                        [small]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSize.Small"
+                        [large]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSize.Large"
+                        [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
+                        [conceptId]="getPropValue(PropertyName.dataConcept)['conceptData']?.id"
           ></m-input-text>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.NumberInput">
           <m-input-number
-            *ngIf="nameFormControl && dataAttribute?.number"
+            *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)?.number"
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
             [style.height]="'100%'"
             [style.width]="'100%'"
             [name]="nameFormControl"
-            [value]="dataAttribute?.number?.value === NoValueType.NVY || dataAttribute?.number?.value === NoValueType.NA ? undefined : dataAttribute?.number?.value"
-            [advisoryText]="dataAttribute?.advisoryText"
-            [label]="dataAttribute?.label"
-            [floatLabel]="dataAttribute?.floatLabel === NoValueType.NA ? false : dataAttribute?.floatLabel"
+            [value]="getPropValue(PropertyName.dataAttribute)?.number?.value === NoValueType.NVY
+            || getPropValue(PropertyName.dataAttribute)?.number?.value === NoValueType.NA ? undefined : getPropValue(PropertyName.dataAttribute)?.number?.value"
+            [advisoryText]="getPropValue(PropertyName.dataAttribute)['advisoryText']"
+            [label]="replaceWithStringOrUndefined(getPropValue(PropertyName.dataAttribute)?.label)"
+            [floatLabel]="getPropValue(PropertyName.dataAttribute)['floatLabel'] === NoValueType.NA ? false : getPropValue(PropertyName.dataAttribute)['floatLabel']"
             [dirty]="false"
             [invalid]="false"
-            [disabled]="dataAttribute?.disabled"
-            [useGrouping]="dataAttribute?.number?.useGrouping"
-            [mode]="dataAttribute?.number?.mode"
-            [suffix]="dataAttribute?.number?.suffix"
-            [prefix]="dataAttribute?.number?.prefix"
-            [locale]="dataAttribute?.number?.locale"
-            [currency]="dataAttribute?.number?.currency"
-            [currencyDisplay]="dataAttribute?.number?.currencyDisplay"
-            [minFractionDigits]="dataAttribute?.number?.minFractionDigits"
-            [maxFractionDigits]="dataAttribute?.number?.maxFractionDigits"
-            [min]="dataAttribute?.number?.min"
-            [max]="dataAttribute?.number?.max"
-            [showButtons]="dataAttribute?.number?.showButtons"
-            [step]="dataAttribute?.number?.step"
-            [incrementButtonIcon]="dataAttribute?.number?.incrementButtonIcon"
-            [decrementButtonIcon]="dataAttribute?.number?.decrementButtonIcon"
-            [decrementButtonClass]="dataAttribute?.number?.decrementButtonClass"
-            [incrementButtonClass]="dataAttribute?.number?.incrementButtonClass"
-            [buttonLayout]="dataAttribute?.number?.buttonLayout"
+            [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
+            [useGrouping]="getPropValue(PropertyName.dataAttribute)?.number?.useGrouping"
+            [mode]="getPropValue(PropertyName.dataAttribute)?.number?.mode"
+            [suffix]="getPropValue(PropertyName.dataAttribute)?.number?.suffix"
+            [prefix]="replaceWithStringOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.prefix)"
+            [locale]="getPropValue(PropertyName.dataAttribute)?.number?.locale"
+            [currency]="getPropValue(PropertyName.dataAttribute)?.number?.currency"
+            [currencyDisplay]="getPropValue(PropertyName.dataAttribute)?.number?.currencyDisplay"
+            [minFractionDigits]="getPropValue(PropertyName.dataAttribute)?.number['minFractionDigits']"
+            [maxFractionDigits]="getPropValue(PropertyName.dataAttribute)?.number['maxFractionDigits']"
+            [min]="replaceWithNumberOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.min)"
+            [max]="getPropValue(PropertyName.dataAttribute)?.number?.max"
+            [showButtons]="getPropValue(PropertyName.dataAttribute)?.number['showButtons']"
+            [step]="replaceWithNumberOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.step)"
+            [incrementButtonIcon]="getPropValue(PropertyName.dataAttribute)?.number['incrementButtonIcon']"
+            [decrementButtonIcon]="getPropValue(PropertyName.dataAttribute)?.number['decrementButtonIcon']"
+            [decrementButtonClass]="getPropValue(PropertyName.dataAttribute)?.number['decrementButtonClass']"
+            [incrementButtonClass]="getPropValue(PropertyName.dataAttribute)?.number['incrementButtonClass']"
+            [buttonLayout]="getPropValue(PropertyName.dataAttribute)?.number['buttonLayout']"
           ></m-input-number>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.MultiSelect">
           <m-multiselect
-            *ngIf="nameFormControl && dataAttribute?.multiselect"
+            *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)['multiselect']"
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
             [name]="nameFormControl"
-            [options]="dataAttribute?.multiselect?.options"
-            [selectedOptions]="dataAttribute?.multiselect?.selectedOptions"
-            [optionLabel]="dataAttribute?.multiselect?.optionLabel"
+            [options]="getPropValue(PropertyName.dataAttribute)['multiselect']?.options"
+            [selectedOptions]="getPropValue(PropertyName.dataAttribute)['multiselect']['selectedOptions']"
+            [optionLabel]="getPropValue(PropertyName.dataAttribute)['multiselect']['optionLabel']"
             [dirty]="false"
             [invalid]="false"
-            [disabled]="dataAttribute?.disabled"
+            [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
           ></m-multiselect>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.DateInput">
-          <m-date *ngIf="dataLink"  [name]="dataLink.join('_')"
+          <m-date *ngIf="getPropValue(PropertyName.dataLink)"  [name]="getPropValue(PropertyName.dataLink).join('_')"
                   [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -198,12 +193,12 @@
         <ng-container *ngSwitchCase="componentType.RadioButton">
           <m-radio [name]="child.name"
                    [values]="getValues()"
-                   [selectedValue]="dataAttribute?.radio?.value"
-                   [conceptName]="dataAttribute?.radio?.conceptName"
+                   [selectedValue]="getPropValue(PropertyName.dataAttribute)['radio']?.value"
+                   [conceptName]="getPropValue(PropertyName.dataAttribute)['radio']['conceptName']"
                    [dataName]="nameFormControl"
                    [dirty]="false"
                    [invalid]="false"
-                   [disabled]="dataAttribute?.disabled"
+                   [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
                    [class]="['flex',
            'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
            'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -270,12 +265,3 @@
     </ng-container>
   </ng-container>
 </div>
-<!--
-[style.height]="'100%'"
-[style.width]="'100%'"
-                             [style.height]="'100%'"
-                             [style.width]="'100%'"
-
-                             [conceptId]="'648ae00b9b404a9b8fa2a3c1'"
-
--->
