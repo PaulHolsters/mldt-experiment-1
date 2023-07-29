@@ -73,7 +73,6 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
   }
 
   ngOnInit(): void {
-    if (this.name) {
       if (this.name === 'content-container') {
         this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,
           RootComponent)
@@ -89,7 +88,6 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
       this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
         this.nameFormControl = (res as string[]).join('_')
       })
-    }
   }
 
   setCalculatedHeight(val: any): boolean {

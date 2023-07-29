@@ -1,10 +1,9 @@
 <form #form
-      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-      [style.height]="height"
-      [style.width]="width"
+      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+      [class.calcWidth]="getPropValue(PropertyName.calcWidth)"
+      [style.height]="getPropValue(PropertyName.height)"
+      [style.width]="getPropValue(PropertyName.width)"
 >
-    <m-anchor [component]="content$|async"
+    <m-anchor [component]="getPropValue(PropertyName.content)"
     ></m-anchor>
-  <!-- todo add a attribute - concept as a foldable fieldset/dialogbox -->
 </form>

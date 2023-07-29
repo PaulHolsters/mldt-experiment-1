@@ -7,19 +7,20 @@ import {
 } from '@angular/core';
 import {IconPositionType} from "../../../enums/iconPositionType.enum";
 import {IconType} from "../../../enums/iconType.enum";
-import {DataService} from "../../../data.service";
 import {Observable} from "rxjs";
-import {StoreService} from "../../../store.service";
 import {NoValueType} from "../../../enums/no_value_type";
 import {RestrictionType} from "../../../enums/restrictionType.enum";
+import {Component as AbstractComponent} from "../../Component"
+import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
+import {FormControl} from "../../../componentclasses/FormControl";
+import {TextInput} from "../../../componentclasses/TextInput";
 
 @Component({
   selector: 'm-input-text',
   templateUrl: './input-text.component.html',
   styleUrls: ['./input-text.component.css']
 })
-export class InputTextComponent implements OnInit {
-  @Input() name = ''
+export class InputTextComponent extends AbstractComponent implements OnInit {
   @Input() conceptId:string|undefined
   @Input() icon: IconType | undefined
   @Input() iconPosition: IconPositionType |NoValueType.NI| undefined
@@ -34,39 +35,36 @@ export class InputTextComponent implements OnInit {
   @Input() value: string | undefined
   @Input() keyFilter: string | RegExp | undefined | RestrictionType.NA | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
-  calcHeight$: Observable<any> | undefined
-  calcWidth$: Observable<any> | undefined
-  width: string | undefined
-  height: string | undefined
   iconType = IconType
   iconPositionType = IconPositionType
-
-  constructor(private dataService: DataService, private storeService: StoreService) {
-  }
+  PropertyName = PropertyName
 
   ngOnInit(): void {
-    this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
-    this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
-    console.log('text comp')
+    this.props = TextInput.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        this.setPropValue(k,res)
+      })
+    })
   }
 
-  setCalculatedHeight(val: any): boolean {
-    if (typeof val === 'string') {
-      this.inputWrapper?.nativeElement.style?.setProperty('--heightVal', 'calc(' + val + ')')
-      this.height = undefined
+  setCalculatedHeight(val:any):boolean{
+    if(typeof val === 'string'){
+      this.inputWrapper?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
+      this.setPropValue(PropertyName.height,undefined)
       return true
     }
-    this.height = '100%'
+    this.setPropValue(PropertyName.height,'100%')
     return false
   }
-
-  setCalculatedWidth(val: any): boolean {
-    if (typeof val === 'string') {
-      this.inputWrapper?.nativeElement.style?.setProperty('--widthVal', 'calc(' + val + ')')
-      this.width = undefined
+  setCalculatedWidth(val:any):boolean{
+    if(typeof val === 'string'){
+      this.inputWrapper?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
+      this.setPropValue(PropertyName.width,undefined)
       return true
     }
-    this.width = '100%'
+    this.setPropValue(PropertyName.width,'100%')
     return false
   }
 

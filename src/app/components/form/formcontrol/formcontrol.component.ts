@@ -1,45 +1,41 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {DataService} from "../../../data.service";
-import {StoreService} from "../../../store.service";
-import {Observable} from "rxjs";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component as AbstractComponent} from "../../Component"
+import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
+import {FormControl} from "../../../componentclasses/FormControl";
 @Component({
   selector: 'm-formcontrol',
   templateUrl: './formcontrol.component.html',
   styleUrls: ['./formcontrol.component.css']
 })
-export class FormcontrolComponent implements OnInit {
-  @Input() name = ''
-  @ViewChild('') formcontrol:ElementRef|undefined
-
-  content$:Observable<any>|undefined
-  calcHeight$: Observable<any>|undefined
-  calcWidth$: Observable<any>|undefined
-
-  width:string|undefined
-  height:string|undefined
-  constructor(private dataService: DataService,private storeService:StoreService) { }
+export class FormcontrolComponent extends AbstractComponent implements OnInit {
+  @ViewChild('') formControl:ElementRef|undefined
+  PropertyName = PropertyName
   ngOnInit(): void {
-    this.content$ = this.storeService.bindToStateProperty(this.name,'content')
-    this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
-    this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    this.props = FormControl.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        this.setPropValue(k,res)
+      })
+    })
   }
 
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
-      this.formcontrol?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
-      this.height = undefined
+      this.formControl?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
+      this.setPropValue(PropertyName.height,undefined)
       return true
     }
-    this.height = '100%'
+    this.setPropValue(PropertyName.height,'100%')
     return false
   }
   setCalculatedWidth(val:any):boolean{
     if(typeof val === 'string'){
-      this.formcontrol?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
-      this.width = undefined
+      this.formControl?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
+      this.setPropValue(PropertyName.width,undefined)
       return true
     }
-    this.width = '100%'
+    this.setPropValue(PropertyName.width,'100%')
     return false
   }
 

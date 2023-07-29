@@ -58,9 +58,9 @@ export enum PropertyName {
   backgroundColorWhite = 'backgroundColorWhite',
   backgroundColorDanger = 'backgroundColorDanger',
   children = 'children',
-  dataLink = 'dataLink'
-
-
+  dataLink = 'dataLink',
+  content = 'content',
+  header = 'header'
 
 
 

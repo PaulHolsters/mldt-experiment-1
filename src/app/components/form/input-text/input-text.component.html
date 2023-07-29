@@ -11,10 +11,10 @@
 </ng-template>
 <!-- non-floating label inputs with an icon inside -->
 <div *ngIf="icon && !floatLabel"
-      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-      [style.height]="height"
-      [style.width]="width"
+      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+      [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+      [style.height]="getPropValue(PropertyName.height)"
+      [style.width]="getPropValue(PropertyName.width)"
       [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
       [class.p-input-icon-right]="iconPosition===iconPositionType.Right"
      #inputWrapper>
@@ -24,10 +24,10 @@
 </div>
 <!-- non-floating label inputs without an icon inside -->
 <div *ngIf="!icon && !floatLabel"
-      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-      [style.height]="height"
-      [style.width]="width"
+      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+      [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+      [style.height]="getPropValue(PropertyName.height)"
+      [style.width]="getPropValue(PropertyName.width)"
      #inputWrapper
 >
   <ng-template [ngTemplateOutlet]="input"></ng-template>
@@ -35,10 +35,10 @@
 </div>
 <!-- floating label inputs without icons -->
 <div *ngIf="floatLabel && !icon" class="p-float-label"
-      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-      [style.height]="height"
-      [style.width]="width"
+      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+      [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+      [style.height]="getPropValue(PropertyName.height)"
+      [style.width]="getPropValue(PropertyName.width)"
      #inputWrapper
 >
     <ng-template [ngTemplateOutlet]="input"></ng-template>
@@ -47,10 +47,10 @@
 </div>
 <!-- floating label inputs with icons -->
 <div *ngIf="icon && floatLabel"
-      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-      [style.height]="height"
-      [style.width]="width"
+      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+      [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+      [style.height]="getPropValue(PropertyName.height)"
+      [style.width]="getPropValue(PropertyName.width)"
       [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
       [class.p-input-icon-right]="iconPosition===iconPositionType.Right" class="p-float-label"
      #inputWrapper>

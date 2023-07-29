@@ -4,10 +4,17 @@ import {StoreService} from "../store.service";
 import {EventsService} from "../events.service";
 import {DataService} from "../data.service";
 import {ChangeDetectorRef, Directive, Input} from "@angular/core";
+import {StylesService} from "../styles.service";
 @Directive()
 export class Component{
   @Input() public name!:string
-  constructor(protected cd: ChangeDetectorRef,protected stateService:StateService,protected storeService:StoreService,protected eventsService:EventsService,protected dataService:DataService) {
+  constructor(
+    protected cd: ChangeDetectorRef,
+    protected stateService:StateService,
+    protected storeService:StoreService,
+    protected eventsService:EventsService,
+    protected dataService:DataService,
+    protected stylesService:StylesService) {
   }
   protected props:Map<string,any>|undefined
   getPropValue(key:string){

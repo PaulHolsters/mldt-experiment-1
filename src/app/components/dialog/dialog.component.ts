@@ -1,29 +1,27 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {StoreService} from "../../store.service";
-import {EventsService} from "../../events.service";
-import {DataService} from "../../data.service";
+import {Component, OnInit} from '@angular/core';
+import {Component as AbstractComponent} from "../Component"
+import {Dialog} from "../../componentclasses/Dialog";
+import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 
 @Component({
   selector: 'm-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.css']
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent extends AbstractComponent implements OnInit {
+  PropertyName = PropertyName
   visible:boolean|undefined
-  header$:Observable<any>|undefined
-  content$:Observable<any>|undefined
-  @Input()name!:string
-  x:number=0
-  y:number=0
-  constructor(private storeService:StoreService,private eventsService:EventsService,private dataService:DataService) { }
-
   ngOnInit(): void {
-    this.storeService.bindToStateProperty(this.name,'visible')?.subscribe(res=>{
-      this.visible = res as boolean|undefined
+    this.props = Dialog.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        this.setPropValue(k,res)
+      })
     })
-    this.header$ = this.storeService.bindToStateProperty(this.name,'header')
-    this.content$ = this.storeService.bindToStateProperty(this.name,'content')
+    this.storeService.bindToStateProperty(this.name, 'visible')?.subscribe(res => {
+      this.visible = res as boolean
+    })
   }
 
 }

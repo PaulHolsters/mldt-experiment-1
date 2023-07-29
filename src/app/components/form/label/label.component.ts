@@ -1,9 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {StoreService} from "../../../store.service";
 import {MarginType} from "../../../enums/marginType.enum";
 import {PaddingType} from "../../../enums/paddingType.enum";
 import {BorderModel} from "../../../models/BorderModel";
-import {StylesService} from "../../../styles.service";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
 import {LabelType} from "../../../enums/labelType.enum";
 import {FontWeightType} from "../../../enums/fontWeightType.enum";
@@ -11,14 +9,15 @@ import {FontSizeType} from "../../../enums/fontSizeType.enum";
 import {FontStyleType} from "../../../enums/fontStyleType.enum";
 import {TextColorType} from "../../../enums/textColorType.enum";
 import {TextDecorationType} from "../../../enums/textDecorationType.enum";
+import {Component as AbstractComponent} from "../../Component"
+import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 
 @Component({
   selector: 'm-label',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.css']
 })
-export class LabelComponent implements OnInit {
-  @Input() name = ''
+export class LabelComponent extends AbstractComponent implements OnInit {
   @Input() text:string|undefined
   @Input() backgroundColor: BackgroundColorType|undefined
   @Input() calcHeight: string|undefined
@@ -33,28 +32,25 @@ export class LabelComponent implements OnInit {
   FontStyle = FontStyleType
   TextColor = TextColorType
   TextDecoration = TextDecorationType
-  width:string|undefined
-  height:string|undefined
-  constructor(private storeService:StoreService,private stylesService:StylesService) {
-  }
+  PropertyName = PropertyName
   ngOnInit(): void {
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
       this.label?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
-      this.height = undefined
+      this.setPropValue(PropertyName.height,undefined)
       return true
     }
-    this.height = '100%'
+    this.setPropValue(PropertyName.height,'100%')
     return false
   }
   setCalculatedWidth(val:any):boolean{
     if(typeof val === 'string'){
       this.label?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
-      this.width = undefined
+      this.setPropValue(PropertyName.width,undefined)
       return true
     }
-    this.width = '100%'
+    this.setPropValue(PropertyName.width,'100%')
     return false
   }
   getStyleClasses(padding:PaddingType|undefined,margin:MarginType|undefined,
