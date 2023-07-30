@@ -56,6 +56,7 @@ import {Label} from "./componentclasses/Label";
 import {TextInput} from "./componentclasses/TextInput";
 import {FormControl} from "./componentclasses/FormControl";
 import {StateService} from "./state.service";
+import {ComponentObjectModel} from "./models/ComponentObjectModel";
 
 @Injectable({
   providedIn: 'root'
@@ -446,8 +447,7 @@ export class StoreService implements OnInit {
       })?.propValue.next(newState)
     }
   }
-
-  private createProps(component: ComponentModel){
+  private createProps(component: ComponentModel|ComponentObjectModel){
     this.stateService.getProperties(component.type)?.forEach((v,k)=>{
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
@@ -457,144 +457,33 @@ export class StoreService implements OnInit {
         prop$: propSubj.asObservable()
       })
     })
-    // todo zoek nu verder naar geneste componenten en doe hetzelfde recursief
-
-  }
-
-
-/*  private createProps(component: ComponentModel) {
-    // todo alle methodes weggooien, enkel alle componenten uit de config halen
-    //      vervolgens voor dat type de props toevoegen zoals vermeld in de overeenkomstige klasse
-    //
-    if (component.data) {
-      const propSubj = new BehaviorSubject<any | undefined>(undefined)
-      this.statePropertySubjects.push({
-        componentName: component.name, propName: 'dataConcept', propValue:
-        propSubj, prop$: propSubj.asObservable()
-      })
-    }
-    if (component.attributes) {
-      // todo je zou gewoon het
-      Object.entries(this.getAttributesComponentProps(component.name, component.attributes, ScreenSize.highResolution)).forEach(([k, v]) => {
-        if (k === 'dataLink') {
-          const propSubj = new BehaviorSubject<any | undefined>(undefined)
-          this.statePropertySubjects.push({
-            componentName: component.name, propName: 'dataAttribute', propValue:
-            propSubj, prop$: propSubj.asObservable()
-          })
-        }
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: k, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-        if (typeof v === 'object' && v.isComponent) {
-          this.createProps(v)
+    if(component.children && component.children.length > 0){
+      component.children.forEach(child=>{
+        if(child instanceof ComponentModel || (typeof child === 'object'&& child?.hasOwnProperty('name') && child?.hasOwnProperty('type'))){
+          this.createProps(child)
+        } else{
+          // string!
         }
       })
     }
-    if (component.visibility) {
-      Object.keys(this.getVisibilityComponentProps(component.name, component.visibility, ScreenSize.highResolution)).forEach(k => {
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: k, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-      })
-    }
-    if (component.childLayout) {
-      const childLayout = this.getChildLayoutComponentProps(component.name, component.childLayout, ScreenSize.highResolution)
-      Object.keys(childLayout.parentProps).forEach(propName => {
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: propName, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-      })
-      if (childLayout.childProps)
-        Object.keys(childLayout.childProps).forEach(propName => {
-          if (component.children) {
-            if (component.children?.length > 0 && typeof component.children[0] === 'string') {
-              (component.children as string[]).forEach(childName => {
-                const propSubj = new BehaviorSubject<any | undefined>(undefined)
-                this.statePropertySubjects.push({
-                  componentName: childName, propName: propName, propValue:
-                  propSubj, prop$: propSubj.asObservable()
-                })
-              })
-            } else {
-              (component.children as ComponentModel[]).forEach(childComp => {
-                const propSubj = new BehaviorSubject<any | undefined>(undefined)
-                this.statePropertySubjects.push({
-                  componentName: childComp.name, propName: propName, propValue:
-                  propSubj, prop$: propSubj.asObservable()
-                })
-              })
+    if(component.attributes){
+      for (let [k,v] of Object.entries(component.attributes)){
+        if(v){
+          for (let[j,l] of Object.entries(v)){
+            if(l instanceof ComponentModel || (typeof l === 'object' && l?.hasOwnProperty('name') && l?.hasOwnProperty('type'))){
+              this.createProps(l as ComponentObjectModel)
             }
           }
-        })
+        }
+      }
     }
-    if (component.position) {
-      Object.keys(this.getPositionComponentProps(component.name, component.position, ScreenSize.highResolution)).forEach(k => {
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: k, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-      })
-    }
-    if (component.dimensions) {
-      Object.keys(this.getDimensionsComponentProps(component.name, component.dimensions, ScreenSize.highResolution)).forEach(k => {
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: k, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-      })
-    }
-    if (component.overflow) {
-      Object.keys(this.getOverflowComponentProps(component.name, component.overflow, ScreenSize.highResolution)).forEach(k => {
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: k, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-      })
-    }
-    if (component.styling) {
-      Object.keys(this.getStylingComponentProps(component.name, component.styling, ScreenSize.highResolution)).forEach(k => {
-        const propSubj = new BehaviorSubject<any | undefined>(undefined)
-        this.statePropertySubjects.push({
-          componentName: component.name, propName: k, propValue:
-          propSubj, prop$: propSubj.asObservable()
-        })
-      })
-    }
-    if (component.children && component.children.length > 0) {
-      const propSubj = new BehaviorSubject<ComponentModel[] | undefined>(undefined)
-      this.statePropertySubjects.push({
-        componentName: component.name, propName: 'children', propValue:
-        propSubj, prop$: propSubj.asObservable()
-      });
-      (component.children as ComponentModel[]).forEach(child => {
-        this.createProps(child)
-      })
-    }
-  }*/
-  /*  public createStore() {
-      // todo nieuwe store props methode aanmaken want currentDataList bv zit er niet in!
-      this.configService.appConfig?.userConfig.components.forEach(comp => {
-        this.createProps(comp)}
-      )
-      debugger
-    }*/
+  }
   public createStore() {
     this.configService.appConfig?.userConfig.components.forEach(comp => {
         this.createProps(comp)
       }
     )
   }
-
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |

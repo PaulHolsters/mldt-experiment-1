@@ -14,7 +14,7 @@ import {Component as AbstractComponent} from "../Component"
 export class TableComponent extends AbstractComponent implements OnInit{
 
   propNames = PropertyName
-  // todo zie dat de default waarden werken
+  // todo zie dat de default waarden werken => zet die ook in de component
   rows = 5
   rowsPerPage:number[] = [10,25,50]
   breakpoint = '960px'
@@ -49,7 +49,6 @@ export class TableComponent extends AbstractComponent implements OnInit{
     })
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
   }
-
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
     const field = this.getPropValue(PropertyName.attributes)?.find((attr:AttributeComponentModel) => attr.name === column.field)
     /*this.xP ? this.xP.value = event.clientX : undefined

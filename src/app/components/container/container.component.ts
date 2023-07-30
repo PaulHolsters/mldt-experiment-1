@@ -71,7 +71,6 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
       return this.getPropValue(PropertyName.dataAttribute)?.radio?.radioValues
     } else return []
   }
-
   ngOnInit(): void {
       if (this.name === 'content-container') {
         this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,
@@ -86,10 +85,9 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
         })
       })
       this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
-        this.nameFormControl = (res as string[]).join('_')
+        this.nameFormControl = (res as string[])?.join('_')
       })
   }
-
   setCalculatedHeight(val: any): boolean {
     if (typeof val === 'string') {
       this.container?.nativeElement.style.setProperty('--heightVal', 'calc' + val + '')
@@ -97,7 +95,6 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     }
     return false
   }
-
   setCalculatedWidth(val: any): boolean {
     if (typeof val === 'string') {
       this.container?.nativeElement.style.setProperty('--widthVal', 'calc' + val + '')
@@ -105,15 +102,12 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     }
     return false
   }
-
   getShrinkVal(componentName: string): Observable<number> {
     return this.storeService.bindToStateProperty(componentName, 'shrink') as Observable<number>
   }
-
   getGrowVal(componentName: string): Observable<number> {
     return this.storeService.bindToStateProperty(componentName, 'grow') as Observable<number>
   }
-
   bindToStateProperty(componentName: string, property: string): Observable<string> {
     return this.storeService.bindToStateProperty(componentName, property) as Observable<string>
   }

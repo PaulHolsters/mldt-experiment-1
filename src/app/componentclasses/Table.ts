@@ -5,6 +5,7 @@ import {TableStylingType} from "../enums/tableStylingType.enum";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
 import {ConceptComponentModel} from "../models/Data/ConceptComponentModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
+import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 
 export abstract class Table extends Component{
   // todo deze properties kunnen gewijzigd worden door middel van een setValue functie nadat de applicatie klaar is met opstarten
@@ -28,6 +29,9 @@ export abstract class Table extends Component{
   public static attributes:AttributeComponentModel[]|undefined=undefined
   public static conceptName:string|undefined=undefined
   public static filterComponent:string|undefined=undefined
-  // todo aanvullen met alle props die nog ontbreken!
+  public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
+  public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
+  public static visible: boolean|undefined = undefined
+  public static holdSpace: boolean|undefined = undefined
 
 }

@@ -43,8 +43,8 @@ export abstract class Container extends Component{
   public static alignItemsStretch:boolean|undefined=undefined
   public static grow:number|undefined=undefined
   public static shrink:number|undefined=undefined
-  public static dataConcept: ConceptComponentModel | undefined
-  public static dataAttribute: AttributeComponentModel | undefined
-  public static dataLink: string[] | undefined
+  public static dataConcept: ConceptComponentModel | undefined = undefined
+  public static dataAttribute: AttributeComponentModel | undefined = undefined
+  public static dataLink: string[] | undefined = undefined
 
 }

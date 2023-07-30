@@ -38,6 +38,7 @@ export class InputNumberComponent implements OnInit {
   @Input() decrementButtonIcon:string|undefined
   @Input() buttonLayout:string|undefined
   @Input() value:number|undefined | NoValueType.NA | NoValueType.NVY
+  @Input() updateKey!: string
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
   calcHeight$: Observable<any>|undefined
   calcWidth$: Observable<any>|undefined

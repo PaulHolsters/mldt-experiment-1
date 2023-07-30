@@ -2,88 +2,183 @@ import {ComponentModel} from "../models/ComponentModel";
 import {ActionModel} from "../models/ActionModel";
 import {EventType} from "../enums/eventTypes.enum";
 import {ResponsiveAttributesConfigModel} from "../models/Attributes/ResponsiveAttributesConfigModel";
+import {ComponentObjectModel} from "../models/ComponentObjectModel";
+
 export default class AppConfig {
-  constructor(private _userConfig: {components:ComponentModel[],actions:ActionModel[]}) {
+  constructor(private _userConfig: { components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] }) {
   }
-  public get userConfig(){
+
+  public get userConfig() {
     return this._userConfig
   }
-  public getActionsForComponent(name:string):ActionModel[]{
-    return this.userConfig.actions.filter((action: { targetName: string; })=>{
-      return action.targetName===name
+
+  public getActionsForComponent(name: string): ActionModel[] {
+    return this.userConfig.actions.filter((action: { targetName: string; }) => {
+      return action.targetName === name
     })
   }
-  public getActionsForEvent(event:EventType){
-    return this.userConfig.actions.filter((action: { on: EventType; })=>{
+
+  public getActionsForEvent(event: EventType) {
+    return this.userConfig.actions.filter((action: { on: EventType; }) => {
       return action.on === event
     })
   }
-  public getComponentConfig(compName: string ,component?:ComponentModel): ComponentModel | undefined {
-    // todo later string [] variant toevoegen
-    if(component){
-      if(component.name !== compName){
-        if(component.children){
-          for (let j=0;j<component.children.length;j++){
+
+  private getComponentObjectModelPropertyValue(comp: any, prop: string): any {
+    if (!this.isComponentObjectModel(comp)) return undefined
+    switch (prop) {
+      case 'name':
+        return comp.name
+      case 'dimensions':
+        return comp.dimensions
+      case 'visibility':
+        return comp.visibility
+      case 'children':
+        return comp.children
+      case 'childLayout':
+        return comp.childLayout
+      case 'styling':
+        return comp.styling
+      case 'overflow':
+        return comp.overflow
+      case 'attributes':
+        return comp.attributes
+      case 'position':
+        return comp.position
+      case 'type':
+        return comp.type
+      case 'data':
+        return comp.data
+      default:
+        throw new Error('unknown property ' + prop)
+    }
+  }
+  private isComponentObjectModel(l: unknown): boolean {
+    if (l && typeof l === 'object' && !(l instanceof ComponentModel)) {
+      return Object.keys(l).filter(k => {
+        return !(k in ['name', 'dimensions', 'position', 'children', 'childLayout', 'visibility', 'styling', 'overflow', 'attributes', 'type', 'data'])
+      }).length > 0
+    }
+    return false
+  }
+  private convertToComponentModel(comp: ComponentObjectModel | ComponentModel | undefined | unknown): ComponentModel | undefined {
+    if (this.isComponentObjectModel(comp)) {
+      return new ComponentModel(
+        this.getComponentObjectModelPropertyValue(comp, 'name'),
+        this.getComponentObjectModelPropertyValue(comp, 'type'),
+        this.getComponentObjectModelPropertyValue(comp, 'childLayout'),
+        this.getComponentObjectModelPropertyValue(comp, 'position'),
+        this.getComponentObjectModelPropertyValue(comp, 'dimensions'),
+        this.getComponentObjectModelPropertyValue(comp, 'attributes'),
+        this.getComponentObjectModelPropertyValue(comp, 'visibility'),
+        this.getComponentObjectModelPropertyValue(comp, 'overflow'),
+        this.getComponentObjectModelPropertyValue(comp, 'children'),
+        this.getComponentObjectModelPropertyValue(comp, 'styling'),
+        this.getComponentObjectModelPropertyValue(comp, 'data'))
+    } else if (comp instanceof ComponentModel || comp === undefined) {
+      return comp
+    }
+    throw new Error('convertToComponentModel method cannot be used  for any other type but ComponentObjectModel | ComponentModel | undefined')
+  }
+  public getComponentConfig(compName: string, component?: ComponentModel): ComponentModel | undefined {
+    if (component) {
+      if (component.name !== compName) {
+        if (component.children) {
+          for (let j = 0; j < component.children.length; j++) {
             // hier ga je bv de menubar component hebben
-            const comp = this.getComponentConfig(compName,component.children[j] as ComponentModel)
-            if(comp){
-              return comp
+            const childComp = component.children[j]
+            if (typeof childComp !== 'string') {
+              const comp = this.getComponentConfig(compName, this.convertToComponentModel(childComp))
+              if (comp) {
+                return comp
+              }
+            } else {
+              // todo later string [] variant toevoegen
+              throw new Error('string components not implemented')
             }
           }
         }
       } else return component
-    } else{
-      for (let i=0;i<this.userConfig.components.length;i++){
-        if(this.userConfig.components[i].name !== compName){
-          if(this.userConfig.components[i].children){
-            for (let k=0;k<(this.userConfig.components[i].children as ComponentModel[]).length;k++){
-              const comp = this.getComponentConfig(compName,(this.userConfig.components[i].children as ComponentModel[])[k])
-              if(comp){
-                return comp
+    } else {
+      for (let i = 0; i < this.userConfig.components.length; i++) {
+        if (this.userConfig.components[i].name !== compName) {
+          const children = this.userConfig.components[i].children
+          if (children) {
+            for (let k = 0; k < children.length; k++) {
+              const elTemp = children[k]
+              if (typeof elTemp !== 'string') {
+                const comp = this.getComponentConfig(compName, this.convertToComponentModel(elTemp))
+                if (comp) {
+                  return comp
+                }
+              } else {
+                // todo later string [] variant toevoegen
+                throw new Error('string components not implemented')
               }
             }
           }
-        } else return this.userConfig.components[i]
+        } else {
+          return this.convertToComponentModel(this.userConfig.components[i])
+        }
       }
     }
     return undefined
   }
-  public getParentComponentConfigWithProperty(compName: string ,property:string, component?:ComponentModel, previousComponent?:ComponentModel): ComponentModel | undefined {
-    // todo later string [] variant toevoegen
-    if(component){
-      if(component.name !== compName){
-        if(component.children){
-          for (let j=0;j<component.children.length;j++){
+
+  public getParentComponentConfigWithProperty(compName: string,
+                                              property: string,
+                                              component?: ComponentModel,
+                                              previousComponent?: ComponentModel)
+    : ComponentModel | undefined {
+    // todo ga na of de referenties mekaar niet beginnen wijzigen en er dus deep copies nodig zijn
+    if (component) {
+      if (component.name !== compName) {
+        if (component.children) {
+          for (let j = 0; j < component.children.length; j++) {
             let previousComponent
-            const componentNow = (component.children[j] as ComponentModel)
-            if(componentNow.hasOwnProperty(property)
-              && componentNow.getPropertyValue
-            && componentNow.getPropertyValue(property)!==undefined){
-              previousComponent = component.children[j] as ComponentModel
-            }
-            const comp
-              = this.getParentComponentConfigWithProperty(compName,property,component.children[j] as ComponentModel,previousComponent)
-            if(comp){
-              return comp
+            let componentNow: ComponentModel | undefined | string = (component.children[j])
+            if (typeof componentNow !== 'string') {
+              componentNow = this.convertToComponentModel(componentNow)
+              if (componentNow && componentNow.hasOwnProperty(property)
+                && componentNow.getPropertyValue
+                && componentNow.getPropertyValue(property) !== undefined
+              ) {
+                previousComponent = componentNow
+              }
+              const comp = this.getParentComponentConfigWithProperty(compName, property, componentNow, previousComponent)
+              if (comp) {
+                return comp
+              }
+            } else {
+              // todo als comp string is
+              throw new Error('string components not implemented')
             }
           }
         }
       } else return previousComponent
-    } else{
-      for (let i=0;i<this.userConfig.components.length;i++){
-        if(this.userConfig.components[i].name !== compName){
-          if(this.userConfig.components[i].children){
-            for (let k=0;k<(this.userConfig.components[i].children as ComponentModel[]).length;k++){
+    } else {
+      for (let i = 0; i < this.userConfig.components.length; i++) {
+        if (this.userConfig.components[i].name !== compName) {
+          const childComponents = this.userConfig.components[i].children
+          if (childComponents) {
+            for (let k = 0; k < childComponents.length; k++) {
               let previousComponent
-              const componentNow = (this.userConfig.components[i].children as ComponentModel[])[k]
-              if(componentNow.hasOwnProperty(property)
-                && componentNow.getPropertyValue
-               && componentNow.getPropertyValue(property)!==undefined){
-                previousComponent = (this.userConfig.components[i].children as ComponentModel[])[k]
-              }
-              const comp = this.getParentComponentConfigWithProperty(compName,property,(this.userConfig.components[i].children as ComponentModel[])[k],previousComponent)
-              if(comp){
-                return comp
+              let childComp = childComponents[k]
+              if (typeof childComp !== 'string') {
+                const componentNow = this.convertToComponentModel(childComp)
+                if (componentNow && componentNow.hasOwnProperty(property)
+                  && componentNow.getPropertyValue
+                  && componentNow.getPropertyValue(property) !== undefined
+                ) {
+                  previousComponent = componentNow
+                }
+                const comp = this.getParentComponentConfigWithProperty(compName, property, componentNow, previousComponent)
+                if (comp) {
+                  return comp
+                }
+              } else {
+                // todo als comp string is
+                throw new Error('string components not implemented')
               }
             }
           }
@@ -92,28 +187,41 @@ export default class AppConfig {
     }
     return undefined
   }
-  public getParentComponentConfigWithPropertyThroughAttributes(compName: string,property:string,childComp?:ComponentModel,previous?:ComponentModel): ComponentModel | undefined{
-    if(childComp){
-      if(childComp.name === compName) return previous
-      if(childComp.attributes !== undefined){
-        const attributes = childComp.attributes as ResponsiveAttributesConfigModel
-        for (let [k,v] of Object.entries(attributes)){
-          if(v){
-            for (let[j,l] of Object.entries(v)){
-              if(l instanceof ComponentModel && l.name === compName){
+
+  public getParentComponentConfigWithPropertyThroughAttributes(compName: string,
+                                                               property: string,
+                                                               childComp?: ComponentModel,
+                                                               previous?: ComponentModel): ComponentModel | undefined {
+    if (childComp) {
+      if (childComp.name === compName) return previous
+      if (childComp.attributes !== undefined) {
+        for (let [k, v] of Object.entries(childComp.attributes)) {
+          if (v) {
+            for (let [j, l] of Object.entries(v)) {
+              if (
+                (l instanceof ComponentModel && l.name === compName)
+                || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)
+              ) {
                 return previous
               }
               let previousComponent
-              if(l instanceof ComponentModel && l.hasOwnProperty(property)
-                && l.getPropertyValue
-                && l.getPropertyValue(property)!==undefined){
+              if ((l instanceof ComponentModel && l.hasOwnProperty(property)
+                  && l.getPropertyValue
+                  && l.getPropertyValue(property) !== undefined)
+                || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, property) !== undefined)) {
                 previousComponent = l
               }
-              if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
+              if ((l instanceof ComponentModel && (l.attributes !== undefined || l.children !== undefined))
+                || (this.isComponentObjectModel(l) && (this.getComponentObjectModelPropertyValue(l, 'attributes') ||
+                  this.getComponentObjectModelPropertyValue(l, 'children')))) {
                 let component
-                if(previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName,property,l,previousComponent)
-                else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName,property,l,previous)
-                if(component){
+                if (previousComponent) component =
+                  this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+                    this.convertToComponentModel(l),
+                    this.convertToComponentModel(previousComponent))
+                else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+                  this.convertToComponentModel(l), previous)
+                if (component) {
                   return component
                 }
               }
@@ -121,67 +229,89 @@ export default class AppConfig {
           }
         }
       }
-      if(childComp.children!==undefined){
-        for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
+      if (childComp.children !== undefined) {
+        for (let j = 0; j < childComp.children.length; j++) {
           let previousComponent
-          const componentNow = (childComp.children as ComponentModel[])[j]
-          if(componentNow.hasOwnProperty(property)
-            && componentNow.getPropertyValue
-            && componentNow.getPropertyValue(property)!==undefined){
-            previousComponent = (childComp.children as ComponentModel[])[j]
+          const actualComp = childComp.children[j]
+          if(typeof actualComp !== 'string'){
+            const componentNow = this.convertToComponentModel(actualComp)
+            if((componentNow instanceof ComponentModel && componentNow.hasOwnProperty(property)
+                && componentNow.getPropertyValue
+                && componentNow.getPropertyValue(property) !== undefined)
+              || (this.isComponentObjectModel(componentNow) && this.getComponentObjectModelPropertyValue(componentNow, property) !== undefined)) {
+              previousComponent = componentNow
+            }
+            let component
+            if (previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+              componentNow, previousComponent)
+            else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+              componentNow, previous)
+            if (component) {
+              return component
+            }
+          } else{
+            // todo als comp string is
+            throw new Error('string components not implemented')
           }
-          let component
-          if(previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previousComponent)
-          else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName,property,(childComp.children as ComponentModel[])[j],previous)
-          if(component){
-            return component
-          }
+
         }
       }
     } else {
       for (let i = 0; i < this.userConfig.components.length; i++) {
-        if (this.userConfig.components[i].attributes !== undefined) {
-          const attributes = this.userConfig.components[i].attributes as ResponsiveAttributesConfigModel
-          for (let [k, v] of Object.entries(attributes)) {
+        const comp = this.userConfig.components[i]
+        if (comp.attributes !== undefined) {
+          for (let [k, v] of Object.entries(comp.attributes)) {
             if (v) {
               for (let [j, l] of Object.entries(v)) {
-                if (l instanceof ComponentModel && l.name === compName) {
+                if ( (l instanceof ComponentModel && l.name === compName)
+                  || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
                   return previous
                 }
                 let previousComponent
-                if (
-                  l instanceof ComponentModel
-                  && l.hasOwnProperty(property)
+                if ((l instanceof ComponentModel && l.hasOwnProperty(property)
                     && l.getPropertyValue
-                  && l.getPropertyValue(property)!==undefined
-                ){
+                    && l.getPropertyValue(property) !== undefined)
+                  || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, property) !== undefined)) {
                   previousComponent = l
                 }
-                if (l instanceof ComponentModel) {
+                if (l instanceof ComponentModel || this.isComponentObjectModel(l)) {
                   let component
-                  if (previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property, l, previousComponent)
-                  else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property, l, previous)
+                  if (previousComponent) component =
+                    this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+                      this.convertToComponentModel(l), this.convertToComponentModel(previousComponent))
+                  else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+                    this.convertToComponentModel(l), previous)
                   if (component) return component
                 }
               }
             }
           }
         }
-        if (this.userConfig.components[i].children !== undefined) {
-          for (let j = 0; j < (this.userConfig.components[i].children as ComponentModel[]).length; j++) {
+        if (comp.children !== undefined) {
+          for (let j = 0; j < comp.children.length; j++) {
             let previousComponent
-            const componentNow = (this.userConfig.components[i].children as ComponentModel[])[j]
-            if (componentNow.hasOwnProperty(property)
-              && componentNow.getPropertyValue !== undefined
-              && componentNow.getPropertyValue(property)!==undefined
-            ) {
-              previousComponent = (this.userConfig.components[i].children as ComponentModel[])[j]
-            }
-            let component
-            if (previousComponent) component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property, (this.userConfig.components[i].children as ComponentModel[])[j], previousComponent)
-            else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property, (this.userConfig.components[i].children as ComponentModel[])[j], previous)
-            if (component) {
-              return component
+            const actualC = comp.children[j]
+            if(typeof actualC !== 'string'){
+              const componentNow = this.convertToComponentModel(actualC)
+              if ((componentNow instanceof ComponentModel && componentNow.hasOwnProperty(property)
+                  && componentNow.getPropertyValue
+                  && componentNow.getPropertyValue(property) !== undefined)
+                || (this.isComponentObjectModel(componentNow) && this.getComponentObjectModelPropertyValue(componentNow, property) !== undefined)) {
+                previousComponent = actualC
+              }
+              let component
+              if (previousComponent) component =
+                this.getParentComponentConfigWithPropertyThroughAttributes(compName,
+                  property, componentNow, previousComponent)
+              else component =
+                this.getParentComponentConfigWithPropertyThroughAttributes(compName,
+                  property, componentNow, previous)
+              if (component) {
+                return component
+              }
+            } else{
+              // todo als comp string is
+              throw new Error('string components not implemented')
             }
           }
         }
@@ -189,22 +319,23 @@ export default class AppConfig {
     }
     return undefined
   }
-  public getComponentConfigThroughAttributes(compName: string,childComp?:ComponentModel): ComponentModel | undefined{
-    if(childComp){
-      if(childComp.name === compName) return childComp
-      if(childComp.attributes !== undefined){
-        const attributes = childComp.attributes as ResponsiveAttributesConfigModel
-        for (let [k,v] of Object.entries(attributes)){
-          if(v){
-            for (let[j,l] of Object.entries(v)){
-              // todo het is niet per se een instance omdat het niet met het new keyword werd aangemaakt => maar ik zou
-              //      dit dus voorlopig in de constraints wel afdwingen
-              if(l instanceof ComponentModel && l.name === compName){
-                return l
+
+  public getComponentConfigThroughAttributes(compName: string, childComp?: ComponentModel): ComponentModel | undefined {
+    if (childComp) {
+      if (childComp.name === compName) return childComp
+      if (childComp.attributes !== undefined) {
+        for (let [k, v] of Object.entries(childComp.attributes)) {
+          if (v) {
+            for (let [j, l] of Object.entries(v)) {
+              if ((l instanceof ComponentModel && l.name === compName)
+                || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
+                return this.convertToComponentModel(l)
               }
-              if(l instanceof ComponentModel && (l.attributes!==undefined||l.children!==undefined)){
-                const component = this.getComponentConfigThroughAttributes(compName,l)
-                if(component){
+              if ((l instanceof ComponentModel && (l.attributes !== undefined || l.children !== undefined))
+                || (this.isComponentObjectModel(l) && (this.getComponentObjectModelPropertyValue(l, 'attributes') ||
+                  this.getComponentObjectModelPropertyValue(l, 'children')))) {
+                const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(l))
+                if (component) {
                   return component
                 }
               }
@@ -212,33 +343,47 @@ export default class AppConfig {
           }
         }
       }
-      if(childComp.children!==undefined){
-        for (let j = 0; j < (childComp.children as ComponentModel[]).length; j++) {
-          const component = this.getComponentConfigThroughAttributes(compName,(childComp.children as ComponentModel[])[j])
-          if(component){
-            return component
+      if (childComp.children !== undefined) {
+        for (let j = 0; j < childComp.children.length; j++) {
+          const actualC = childComp.children[j]
+          if(typeof actualC !== 'string'){
+            const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(actualC))
+            if (component) {
+              return component
+            }
+          } else{
+            // todo als comp string is
+            throw new Error('string components not implemented')
           }
         }
       }
-    } else if(this.userConfig.components!==undefined){
-      for (let i=0;i<this.userConfig.components.length;i++){
-        if(this.userConfig.components[i].attributes !== undefined){
-          const attributes = this.userConfig.components[i].attributes as ResponsiveAttributesConfigModel
-          for (let [k,v] of Object.entries(attributes)){
-            if(v){
-              for (let[j,l] of Object.entries(v)){
-                if(l instanceof ComponentModel && l.name === compName){
-                  return l
+    } else if (this.userConfig.components !== undefined) {
+      for (let i = 0; i < this.userConfig.components.length; i++) {
+        const childComp = this.userConfig.components[i]
+        if (childComp.attributes !== undefined) {
+          for (let [k, v] of Object.entries(childComp.attributes)) {
+            if (v) {
+              for (let [j, l] of Object.entries(v)) {
+                if ((l instanceof ComponentModel && l.name === compName)
+                  || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
+                  return this.convertToComponentModel(l)
                 }
               }
             }
           }
         }
-        if(this.userConfig.components[i].children !== undefined){
-          for (let j = 0; j < (this.userConfig.components[i].children as ComponentModel[]).length; j++) {
-            const component = this.getComponentConfigThroughAttributes(compName,(this.userConfig.components[i].children as ComponentModel[])[j])
-            if(component){
-              return component
+        if (childComp.children !== undefined) {
+          for (let j = 0; j < childComp.children.length; j++) {
+            const actualC = childComp.children[j]
+            if(typeof actualC !== 'string'){
+              const component =
+                this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(actualC))
+              if (component) {
+                return component
+              }
+            } else{
+              // todo als comp string is
+              throw new Error('string components not implemented')
             }
           }
         }

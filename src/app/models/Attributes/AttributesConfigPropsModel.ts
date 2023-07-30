@@ -20,6 +20,7 @@ export class AttributesConfigPropsModel {
     public paginator:boolean = false,
     public rows:number|NoValueType.NA = 5,
     public rowsPerPage:number[]|NoValueType.NA = [10,25,50],
+    // todo zou het niet logischer zijn om dataLink te verplaatsen naar het datamodel?
     public dataLink:string[]|NoValueType.NA = NoValueType.NA
   ) {
   }

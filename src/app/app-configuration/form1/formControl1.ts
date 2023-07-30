@@ -84,7 +84,7 @@ export const formControl1 = {
         type: ComponentType.Label,
         visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
       }, {
-        name: 'fc1-input', type: ComponentType.InputText,
+        name: 'fc1-input', type: ComponentType.TextInput,
         visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
       }],
       undefined,

@@ -7,6 +7,7 @@ import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowC
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ConceptConfigModel} from "./Data/ConceptConfigModel";
+import {ComponentObjectModel} from "./ComponentObjectModel";
 export class ComponentModel {
   isComponent?:boolean = true
   constructor(  public name:string,
@@ -17,7 +18,7 @@ export class ComponentModel {
                 public attributes?:ResponsiveAttributesConfigModel,
                 public visibility?:ResponsiveVisibilityConfigModel,
                 public overflow?:ResponsiveOverflowConfigModel,
-                public children?:(ComponentModel|string)[],
+                public children?:(ComponentModel|ComponentObjectModel|string)[],
                 public styling?:ResponsiveStylingConfigModel,
                 public data?:ConceptConfigModel|string[]) {
     // todo toevoegen constraints zoals dat je geen padding mag gebruiken bij een label

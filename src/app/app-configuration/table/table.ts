@@ -61,6 +61,7 @@ export const table = {
               NoValueType.NA,
               NoValueType.NA,
               NoValueType.NA,
+              // todo aanpassen methodes die gebruik maken van instanceof ComponentModel
               {
                 name:'filter-form',
                 type:ComponentType.Form,

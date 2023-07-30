@@ -19,6 +19,7 @@ export class MultiselectComponent implements OnInit {
   @Input() dirty: boolean | undefined
   @Input() invalid: boolean | undefined
   @Input() disabled: boolean | undefined
+  @Input() updateKey!: string
   @ViewChild('multiselect') multiselect: ElementRef | undefined
   calcHeight$: Observable<any> | undefined
   calcWidth$: Observable<any> | undefined

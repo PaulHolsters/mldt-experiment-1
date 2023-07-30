@@ -7,12 +7,10 @@ import {
 } from '@angular/core';
 import {IconPositionType} from "../../../enums/iconPositionType.enum";
 import {IconType} from "../../../enums/iconType.enum";
-import {Observable} from "rxjs";
 import {NoValueType} from "../../../enums/no_value_type";
 import {RestrictionType} from "../../../enums/restrictionType.enum";
 import {Component as AbstractComponent} from "../../Component"
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
-import {FormControl} from "../../../componentclasses/FormControl";
 import {TextInput} from "../../../componentclasses/TextInput";
 
 @Component({
@@ -33,6 +31,7 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
   @Input() large: boolean | undefined
   @Input() disabled: boolean | undefined
   @Input() value: string | undefined
+  @Input() updateKey!: string
   @Input() keyFilter: string | RegExp | undefined | RestrictionType.NA | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
   iconType = IconType
@@ -69,7 +68,7 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
   }
 
   updateData() {
-    this.dataService.updateData(this.name, this.value,this.conceptId)
+    this.dataService.updateData(this.updateKey, this.value,this.conceptId)
   }
 
   protected readonly NoValueType = NoValueType;

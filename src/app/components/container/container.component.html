@@ -25,7 +25,9 @@
   [class.overflow-x-auto]="getPropValue(PropertyName.overflowXAuto)"
   [class.overflow-scroll]="getPropValue(PropertyName.overflowScroll)"
   [class.overflow-x-scroll]="getPropValue(PropertyName.overflowXScroll)"
+
   [class.displayNone]="!getPropValue(PropertyName.visible) && !getPropValue(PropertyName.holdSpace)"
+
   [class.visibilityHidden]="!getPropValue(PropertyName.visible) && getPropValue(PropertyName.holdSpace)"
   [style.height]="getPropValue(PropertyName.height)"
   [style.width]="getPropValue(PropertyName.width)"
@@ -50,9 +52,11 @@
       (child.type !== componentType.Container) &&
       !(bindToStateProperty(child.name,'visible') | async)
       && (bindToStateProperty(child.name,'holdSpace') | async) "
+
         [class.displayNone]="(child.type !== componentType.Container)
       &&!(bindToStateProperty(child.name,'visible') | async)
       && !(bindToStateProperty(child.name,'holdSpace') | async)"
+
         [style.height]="(child.type !== componentType.Container) ? (bindToStateProperty(child.name,'height') | async) : ''"
         [style.width]="(child.type !== componentType.Container) ? (bindToStateProperty(child.name,'width') | async) : ''"
         [class.align-self-stretch]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'alignSelfStretch')|async)"
@@ -101,7 +105,8 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                         [style.height]="'100%'"
                         [style.width]="'100%'"
-                        [name]="nameFormControl"
+                        [name]="child.name"
+                        [updateKey]="nameFormControl"
                         [value]="getPropValue(PropertyName.dataAttribute)?.text?.value === NoValueType.NVY
                        || getPropValue(PropertyName.dataAttribute)?.text?.value === NoValueType.NA  ? undefined : getPropValue(PropertyName.dataAttribute)?.text?.value"
                         [icon]="getIconType(getPropValue(PropertyName.dataAttribute)?.text?.icon)"
@@ -136,7 +141,8 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
             [style.height]="'100%'"
             [style.width]="'100%'"
-            [name]="nameFormControl"
+            [name]="child.name"
+            [updateKey]="nameFormControl"
             [value]="getPropValue(PropertyName.dataAttribute)?.number?.value === NoValueType.NVY
             || getPropValue(PropertyName.dataAttribute)?.number?.value === NoValueType.NA ? undefined : getPropValue(PropertyName.dataAttribute)?.number?.value"
             [advisoryText]="getPropValue(PropertyName.dataAttribute)['advisoryText']"
@@ -171,7 +177,8 @@
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-            [name]="nameFormControl"
+            [name]="child.name"
+            [updateKey]="nameFormControl"
             [options]="getPropValue(PropertyName.dataAttribute)['multiselect']?.options"
             [selectedOptions]="getPropValue(PropertyName.dataAttribute)['multiselect']['selectedOptions']"
             [optionLabel]="getPropValue(PropertyName.dataAttribute)['multiselect']['optionLabel']"
