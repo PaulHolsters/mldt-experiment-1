@@ -1,29 +1,24 @@
 import {ComponentModel} from "../models/ComponentModel";
 import {ActionModel} from "../models/ActionModel";
 import {EventType} from "../enums/eventTypes.enum";
-import {ResponsiveAttributesConfigModel} from "../models/Attributes/ResponsiveAttributesConfigModel";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
 
 export default class AppConfig {
   constructor(private _userConfig: { components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] }) {
   }
-
   public get userConfig() {
     return this._userConfig
   }
-
   public getActionsForComponent(name: string): ActionModel[] {
     return this.userConfig.actions.filter((action: { targetName: string; }) => {
       return action.targetName === name
     })
   }
-
   public getActionsForEvent(event: EventType) {
     return this.userConfig.actions.filter((action: { on: EventType; }) => {
       return action.on === event
     })
   }
-
   private getComponentObjectModelPropertyValue(comp: any, prop: string): any {
     if (!this.isComponentObjectModel(comp)) return undefined
     switch (prop) {
