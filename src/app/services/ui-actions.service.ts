@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import {ActionsService} from "./actions.service";
-import {ActionType} from "./enums/actionTypes.enum";
-import {ActionSubType} from "./enums/actionSubTypes.enum";
-import {EventType} from "./enums/eventTypes.enum";
-import {ActionModel} from "./models/ActionModel";
+import {ActionType} from "../enums/actionTypes.enum";
+import {ActionSubType} from "../enums/actionSubTypes.enum";
+import {EventType} from "../enums/eventTypes.enum";
+import {ActionModel} from "../models/ActionModel";
 import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StateService} from "./state.service";
 import {StoreService} from "./store.service";
-import {ActionValueModel} from "./models/ActionValueModel";
+import {ActionValueModel} from "../models/ActionValueModel";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UIActionsService {
+export class UiActionsService {
   public actionFinished = new Subject()
 
   constructor(private storeService:StoreService,private stateService:StateService,private configService:ConfigService,private actionsService:ActionsService,private RBS:ResponsiveBehaviourService) {

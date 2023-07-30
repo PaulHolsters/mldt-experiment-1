@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {EventType} from "./enums/eventTypes.enum";
-import AppConfig from "./app-configuration/appConfig";
-import {NoValueType} from "./enums/no_value_type";
+import {EventType} from "../enums/eventTypes.enum";
+import AppConfig from "../app-configuration/appConfig";
+import {NoValueType} from "../enums/no_value_type";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
 import {DataService} from "./data.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StoreService} from "./store.service";
-import {UIActionsService} from "./uiactions.service";
+import {UiActionsService} from "./ui-actions.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class EventsService{
               private dataService:DataService,
               private RBSService:ResponsiveBehaviourService,
               private storeService:StoreService,
-              private UIActionsService:UIActionsService) {
+              private UIActionsService:UiActionsService) {
 
     this.dataService.actionFinished.subscribe(res =>{
       const eventData = res as {event:EventType,sourceId:string}

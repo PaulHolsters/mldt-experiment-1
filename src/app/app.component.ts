@@ -1,5 +1,5 @@
 import {Component, OnInit,} from '@angular/core'
-import {ConfigService} from "./config.service";
+import {ConfigService} from "./services/config.service";
 import {ComponentModel} from "./models/ComponentModel";
 import {ActionModel} from "./models/ActionModel";
 import {Apollo, gql} from "apollo-angular";

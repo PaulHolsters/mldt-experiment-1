@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ComponentModel} from "../../models/ComponentModel";
 import {ActionModel} from "../../models/ActionModel";
-import {StoreService} from "../../store.service";
+import {StoreService} from "../../services/store.service";
 
 @Component({
   selector: 'm-app-template',

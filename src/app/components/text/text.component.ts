@@ -4,8 +4,8 @@ import {FontStyleType} from "../../enums/fontStyleType.enum";
 import {FontSizeType} from "../../enums/fontSizeType.enum";
 import {TextColorType} from "../../enums/textColorType.enum";
 import {TextDecorationType} from "../../enums/textDecorationType.enum";
-import {StoreService} from "../../store.service";
-import {StylesService} from "../../styles.service";
+import {StoreService} from "../../services/store.service";
+import {StylesService} from "../../services/styles.service";
 @Component({
   selector: 'm-text',
   templateUrl: './text.component.html',

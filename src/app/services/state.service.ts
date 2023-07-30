@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
 import {ConfigService} from "./config.service";
 import {StoreService} from "./store.service";
-import {ComponentType} from "./enums/componentTypes.enum";
-import {Table} from "./componentclasses/Table";
-import utilFunctions from "./utils/utilFunctions";
-import {Container} from "./componentclasses/Container";
-import {Form} from "./componentclasses/Form";
-import {Dialog} from "./componentclasses/Dialog";
-import {Button} from "./componentclasses/Button";
-import {Label} from "./componentclasses/Label";
-import {TextInput} from "./componentclasses/TextInput";
-import {FormControl} from "./componentclasses/FormControl";
+import {ComponentType} from "../enums/componentTypes.enum";
+import {Table} from "../componentclasses/Table";
+import utilFunctions from "../utils/utilFunctions";
+import {Container} from "../componentclasses/Container";
+import {Form} from "../componentclasses/Form";
+import {Dialog} from "../componentclasses/Dialog";
+import {Button} from "../componentclasses/Button";
+import {Label} from "../componentclasses/Label";
+import {TextInput} from "../componentclasses/TextInput";
+import {FormControl} from "../componentclasses/FormControl";
 
 @Injectable({
   providedIn: 'root'

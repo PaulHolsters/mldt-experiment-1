@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {DataService} from "../../../data.service";
-import {StoreService} from "../../../store.service";
+import {DataService} from "../../../services/data.service";
+import {StoreService} from "../../../services/store.service";
 
 @Component({
   selector: 'm-radio',

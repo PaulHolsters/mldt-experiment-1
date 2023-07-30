@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {ActionType} from "./enums/actionTypes.enum";
-import {ActionSubType} from "./enums/actionSubTypes.enum";
+import {ActionType} from "../enums/actionTypes.enum";
+import {ActionSubType} from "../enums/actionSubTypes.enum";
 import { Observable, Subject} from "rxjs";
-import {ActionModel} from "./models/ActionModel";
-import {ActionSubjectModel} from "./models/ActionSubject";
+import {ActionModel} from "../models/ActionModel";
+import {ActionSubjectModel} from "../models/ActionSubject";
 import {ConfigService} from "./config.service";
 
 @Injectable({

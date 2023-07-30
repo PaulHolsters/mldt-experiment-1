@@ -7,7 +7,7 @@ import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/Responsiv
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 import {ActionValueModel} from "../../models/ActionValueModel";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
-import {StateService} from "../../state.service";
+import {StateService} from "../../services/state.service";
 import {DataRecordModel} from "../../models/DataRecordModel";
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)

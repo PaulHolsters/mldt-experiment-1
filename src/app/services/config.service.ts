@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {ActionModel} from "./models/ActionModel";
-import {ComponentModel} from "./models/ComponentModel";
+import {ActionModel} from "../models/ActionModel";
+import {ComponentModel} from "../models/ComponentModel";
 import {StoreService} from "./store.service";
 import {ActionsService} from "./actions.service";
-import AppConfig from "./app-configuration/appConfig";
+import AppConfig from "../app-configuration/appConfig";
 import {DataService} from "./data.service";
-import {ResponsiveVisibilityConfigModel} from "./models/Visibility/ResponsiveVisibilityConfigModel";
-import {ResponsiveAttributesConfigModel} from "./models/Attributes/ResponsiveAttributesConfigModel";
-import {ResponsiveDimensioningConfigModel} from "./models/Dimensioning/self/ResponsiveDimensioningConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVisibilityConfigModel";
+import {ResponsiveAttributesConfigModel} from "../models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveDimensioningConfigModel} from "../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 
 @Injectable({
   providedIn: 'root'

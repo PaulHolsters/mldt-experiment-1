@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {StoreService} from "../../store.service";
+import {StoreService} from "../../services/store.service";
 
 @Component({
   selector: 'm-wrapper',

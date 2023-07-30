@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {StoreService} from "../../store.service";
+import {StoreService} from "../../services/store.service";
 import {Observable} from "rxjs";
 @Component({
   selector: 'm-logo',

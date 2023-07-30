@@ -1,8 +1,8 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {StoreService} from "../../store.service";
+import {StoreService} from "../../services/store.service";
 import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
-import {StylesService} from "../../styles.service";
+import {StylesService} from "../../services/styles.service";
 
 @Component({
   selector: 'm-block',

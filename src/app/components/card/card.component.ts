@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {ConfigService} from "../../config.service";
+import {ConfigService} from "../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({

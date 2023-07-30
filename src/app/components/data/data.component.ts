@@ -1,7 +1,7 @@
 import { Component, Input, OnInit} from '@angular/core';
 import {DataType} from "../../enums/dataType.enum";
 import {Observable} from "rxjs";
-import {StoreService} from "../../store.service";
+import {StoreService} from "../../services/store.service";
 
 @Component({
   selector: 'm-data',

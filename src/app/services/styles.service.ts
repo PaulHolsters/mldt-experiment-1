@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import {BackgroundColorType} from "./enums/backgroundColorType.enum";
-import {MarginType} from "./enums/marginType.enum";
-import {PaddingType} from "./enums/paddingType.enum";
-import {BorderModel} from "./models/BorderModel";
-import {BorderRadiusType} from "./enums/borderRadiusType.enum";
-import {BorderWidthType} from "./enums/borderWidthType.enum";
-import {BorderStyleType} from "./enums/borderStyleType.enum";
-import {BorderColorType} from "./enums/borderColorType.enum";
-import {FontWeightType} from "./enums/fontWeightType.enum";
-import {FontStyleType} from "./enums/fontStyleType.enum";
-import {FontSizeType} from "./enums/fontSizeType.enum";
-import {TextColorType} from "./enums/textColorType.enum";
-import {TextDecorationType} from "./enums/textDecorationType.enum";
+import {BackgroundColorType} from "../enums/backgroundColorType.enum";
+import {MarginType} from "../enums/marginType.enum";
+import {PaddingType} from "../enums/paddingType.enum";
+import {BorderModel} from "../models/BorderModel";
+import {BorderRadiusType} from "../enums/borderRadiusType.enum";
+import {BorderWidthType} from "../enums/borderWidthType.enum";
+import {BorderStyleType} from "../enums/borderStyleType.enum";
+import {BorderColorType} from "../enums/borderColorType.enum";
+import {FontWeightType} from "../enums/fontWeightType.enum";
+import {FontStyleType} from "../enums/fontStyleType.enum";
+import {FontSizeType} from "../enums/fontSizeType.enum";
+import {TextColorType} from "../enums/textColorType.enum";
+import {TextDecorationType} from "../enums/textDecorationType.enum";
 
 @Injectable({
   providedIn: 'root'

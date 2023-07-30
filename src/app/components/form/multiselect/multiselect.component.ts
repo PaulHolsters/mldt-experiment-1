@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {DataService} from "../../../data.service";
-import {StoreService} from "../../../store.service";
+import {DataService} from "../../../services/data.service";
+import {StoreService} from "../../../services/store.service";
 import {Observable} from "rxjs";
 import {NoValueType} from "../../../enums/no_value_type";
 import {DataObjectModel} from "../../../models/DataObjectModel";

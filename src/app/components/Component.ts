@@ -1,10 +1,10 @@
 import utilFunctions from "../utils/utilFunctions";
-import {StateService} from "../state.service";
-import {StoreService} from "../store.service";
-import {EventsService} from "../events.service";
-import {DataService} from "../data.service";
+import {StateService} from "../services/state.service";
+import {StoreService} from "../services/store.service";
+import {EventsService} from "../services/events.service";
+import {DataService} from "../services/data.service";
 import {ChangeDetectorRef, Directive, Input} from "@angular/core";
-import {StylesService} from "../styles.service";
+import {StylesService} from "../services/styles.service";
 @Directive()
 export class Component{
   @Input() public name!:string

@@ -1,10 +1,10 @@
 import {Injectable, OnInit} from '@angular/core';
-import {ComponentModel} from "./models/ComponentModel";
+import {ComponentModel} from "../models/ComponentModel";
 import {StoreService} from "./store.service";
-import {ActionType} from "./enums/actionTypes.enum";
-import {ActionSubType} from "./enums/actionSubTypes.enum";
+import {ActionType} from "../enums/actionTypes.enum";
+import {ActionSubType} from "../enums/actionSubTypes.enum";
 import {ActionsService} from "./actions.service";
-import {ScreenSize} from "./enums/screenSizes.enum";
+import {ScreenSize} from "../enums/screenSizes.enum";
 import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
 @Injectable({
