@@ -24,6 +24,7 @@ import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
 import {formLayout} from "../form1/formLayout";
 import {buttons} from "../form1/buttons";
+import {IconType} from "../../enums/iconType.enum";
 
 export const table = {
   name: 'table',
@@ -98,7 +99,34 @@ export const table = {
                   ))
               }
             )
-          ),new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false))),NoValueType.NA,'Geen producten aanwezig.',true,5,[5,10,15],NoValueType.NA)),
+          ),
+          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false))),
+        NoValueType.NA,
+        'Geen producten aanwezig.',
+        true,
+        5,
+        [5,10,15],
+        NoValueType.NA,
+        // todo de methodes verwachten hier één component niet zoals bij children een array met componenten
+        // de eerste methode wil indien het gaat om children!
+        [
+          {name:'sort-h1',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+            NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+            ))},
+          {name:'sort-h2',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+            ))},
+          {name:'sort-h3',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+            ))},
+          {name:'sort-h4',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+            ))}
+        ])),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
   data:conceptModel

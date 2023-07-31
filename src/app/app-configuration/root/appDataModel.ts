@@ -17,7 +17,6 @@ import {RadioAttributeConfigModel} from "../../models/Data/RadioAttributeConfigM
 import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttributeConfigModel";
 import {FunctionType} from "../../enums/functionTypes.enum";
 import {TableColumnAttributeConfigModel} from "../../models/Data/TableColumnAttributeConfigModel";
-import {DataRecordModel} from "../../models/DataRecordModel";
 
 export const conceptModel = new ConceptConfigModel(
   'product',
@@ -62,8 +61,6 @@ export const conceptModel = new ConceptConfigModel(
       ), undefined, new TableColumnAttributeConfigModel(
         true,
         NoValueType.DBI
-        // todo in principe zou je hier gewoon strings kunnen ingeven die als
-        //  body geprint wordt in de functies waar dan per veld een nieuwe prop wordt ingemaakt in de customFunctions file
       ), undefined, 'Categorie', 'Selecteer één van de mogelijke categorieën', undefined
     )
     ,

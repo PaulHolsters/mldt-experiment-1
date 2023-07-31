@@ -17,14 +17,10 @@ export class Component{
     protected stylesService:StylesService) {
   }
   protected props:Map<string,any>|undefined
-  getPropValue(key:string){
-    return this.props?.get(key)
+  getPropValue(key:string,index?:number){
+    return typeof index === 'number' ? this.props?.get(key)[index] : this.props?.get(key)
   }
   setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
-    if(this.name === 'product_id'){
-      debugger
-    }
-    // todo fix bug => product_id wordt doorgegeven als een component naam
     if(this.props){
       if(!utilFunctions.areEqual(this.props.get(key),value)){
         this.props.set(key,value)

@@ -43,6 +43,7 @@ export class StateService {
   }
   private createMap(name:string):Map<string,any>{
     if(name !== 'content-container'){
+      // todo deze methodes aanpassen zodat ze ook array componenten ziet
       let compModel  = this.configService.appConfig?.getComponentConfig(name)
       if (!compModel) {
         compModel = this.configService.appConfig?.getComponentConfigThroughAttributes(name)

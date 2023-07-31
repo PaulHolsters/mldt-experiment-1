@@ -60,7 +60,9 @@ export enum PropertyName {
   children = 'children',
   dataLink = 'dataLink',
   content = 'content',
-  header = 'header'
+  header = 'header',
+  columnHeaderComponents = 'columnHeaderComponents',
+  condition = 'condition'
 
 
 

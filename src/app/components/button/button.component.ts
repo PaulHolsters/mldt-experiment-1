@@ -1,4 +1,4 @@
-import {AfterViewInit,  Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { EventType } from 'src/app/enums/eventTypes.enum';
 import {Component as AbstractComponent} from "../Component"
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
@@ -10,12 +10,16 @@ import {Button} from "../../componentclasses/Button";
 })
 export class ButtonComponent extends AbstractComponent implements OnInit,AfterViewInit {
   @ViewChild('button') button:ElementRef|undefined
+  // @Input() condition:Function|boolean|undefined
   EventType = EventType
   PropertyName = PropertyName
   ngOnInit(): void {
+    console.log(this.name+' init')
     this.props = Button.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        if(this.name === 'sort-h1') debugger
+        console.log(this.name,k,res)
         this.setPropValue(k,res)
       })
     })

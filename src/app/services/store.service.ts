@@ -46,15 +46,6 @@ import {ActionSubType} from "../enums/actionSubTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ConfigService} from "./config.service";
 import {NoValueType} from "../enums/no_value_type";
-import {ComponentType} from "../enums/componentTypes.enum";
-import {Table} from "../componentclasses/Table";
-import {Container} from "../componentclasses/Container";
-import {Form} from "../componentclasses/Form";
-import {Dialog} from "../componentclasses/Dialog";
-import {Button} from "../componentclasses/Button";
-import {Label} from "../componentclasses/Label";
-import {TextInput} from "../componentclasses/TextInput";
-import {FormControl} from "../componentclasses/FormControl";
 import {StateService} from "./state.service";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
 
@@ -317,6 +308,7 @@ export class StoreService implements OnInit {
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
+        NoValueType.NA
       )
       Object.entries(attributesConfig).forEach(([k, v]) => {
         compPropsObj.setProperty(k, v)
