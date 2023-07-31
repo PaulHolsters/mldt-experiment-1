@@ -14,12 +14,13 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
   EventType = EventType
   PropertyName = PropertyName
   ngOnInit(): void {
-    console.log(this.name+' init')
+    // todo elke component in de array van het anchor wordt 4 keer opnieuw gerenderd ipv 1
+    // todo vanuit de engine komen er geen waarden binnen dus ze worden ook niet berekend ... => de methodes zijn maw niet correct aangepast!!!
     this.props = Button.getProperties()
     this.props.forEach((v,k)=>{
+      debugger
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        if(this.name === 'sort-h1') debugger
-        console.log(this.name,k,res)
+        debugger
         this.setPropValue(k,res)
       })
     })
@@ -44,9 +45,7 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
     return false
   }
   ngAfterViewInit(): void {
-/*    this.icon$ = this.storeService.bindToStateProperty(this.name,'icon')
-    this.label$ = this.storeService.bindToStateProperty(this.name,'label')
-    this.cd.detectChanges()*/
+    this.cd.detectChanges()
   }
   trigger(event: EventType){
     this.eventsService.triggerEvent(event,this.name)

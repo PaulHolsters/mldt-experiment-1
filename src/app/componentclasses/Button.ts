@@ -1,7 +1,4 @@
 import {Component} from "./Component";
-import {ComponentModel} from "../models/ComponentModel";
-import {Observable} from "rxjs";
-import {IconType} from "../enums/iconType.enum";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 
 export abstract class Button extends Component{
