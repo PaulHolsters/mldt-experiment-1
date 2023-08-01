@@ -63,5 +63,8 @@ export enum PropertyName {
   header = 'header',
   columnHeaderComponents = 'columnHeaderComponents',
   condition = 'condition',
-  buttonSize = 'buttonSize'
+  buttonSize = 'buttonSize',
+  buttonAppearance = 'buttonAppearance',
+  buttonForm = 'buttonForm',
+  buttonMeaning = 'buttonMeaning'
 }

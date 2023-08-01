@@ -14,7 +14,12 @@
           (click)="trigger(EventType.ComponentClicked)"></p-button>
 <p-button *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)!=='Not applicable'"
           icon="{{getPropValue(PropertyName.icon)}}"
-          styleClass="{{getPropValue(PropertyName.buttonSize)}}"
+          styleClass="
+{{getPropValue(PropertyName.buttonSize)}}
+{{getPropValue(PropertyName.buttonAppearance)}}
+{{getPropValue(PropertyName.buttonForm)}}
+{{getPropValue(PropertyName.buttonMeaning)}}
+"
           (click)="trigger(EventType.ComponentClicked)"></p-button>
 <p-button
   *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)==='Not applicable'"
