@@ -50,15 +50,16 @@ export class StateService {
       }
       if(compModel)
       return this.getProperties(compModel.type)
-      debugger
       throw new Error('Er bestaat geen component met deze naam '+name)
     } else return this.getProperties(ComponentType.Container)
   }
   public syncData(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
+    if(name==='sort-h1') debugger
     const obj = this.componentData.find(obj=>{
       return obj.name===name
     })
     if(!obj){
+      if(name==='sort-h1') debugger
       const newObj = {name:name,properties:this.createMap(name)}
       this.componentData.push(newObj)
     }

@@ -158,8 +158,6 @@ export class ConfigService {
                 for (let i = 0; i < l.length; i++) {
                   if ((l[i] instanceof ComponentModel && l[i].name === compName)
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
-                    console.log(this.convertToComponentModel(l[i]))
-                    debugger
                     return this.convertToComponentModel(l[i])
                   }
                   if ((l[i] instanceof ComponentModel && (l[i].attributes !== undefined || l[i].children !== undefined))
@@ -167,8 +165,6 @@ export class ConfigService {
                       this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
                     const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(l[i]))
                     if (component) {
-                      console.log('array '+compName)
-                      debugger
                       return component
                     }
                   }
@@ -207,8 +203,6 @@ export class ConfigService {
                   for (let i = 0; i < l.length; i++) {
                     if ((l[i] instanceof ComponentModel && l[i].name === compName)
                       || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
-                      console.log('array '+compName)
-                      debugger
                       return this.convertToComponentModel(l[i])
                     }
                   }
@@ -243,6 +237,7 @@ export class ConfigService {
                                               previousComponent?: ComponentModel)
     : ComponentModel | undefined {
     // todo ga na of de referenties mekaar niet beginnen wijzigen en er dus deep copies nodig zijn
+    if(compName==='sort-h1') debugger
     if (component) {
       if (component.name !== compName) {
         if (component.children) {

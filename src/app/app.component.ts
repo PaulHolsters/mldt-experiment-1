@@ -1,8 +1,5 @@
 import {Component, OnInit,} from '@angular/core'
-import {ConfigService} from "./services/config.service";
-import {ComponentModel} from "./models/ComponentModel";
-import {ActionModel} from "./models/ActionModel";
-import {Apollo, gql} from "apollo-angular";
+import {Apollo} from "apollo-angular";
 
 @Component({
   selector: 'app-root',
@@ -10,8 +7,7 @@ import {Apollo, gql} from "apollo-angular";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  data:{components:ComponentModel[],actions:ActionModel[]}|undefined
-  constructor(private dataService:ConfigService, private apollo:Apollo) {
+  constructor(private apollo:Apollo) {
   }
 
   ngOnInit(): void {

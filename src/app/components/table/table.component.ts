@@ -101,4 +101,5 @@ export class TableComponent extends AbstractComponent implements OnInit{
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer
   //      de mogelijkheid van datapresentatie
 
+  protected readonly Math = Math;
 }

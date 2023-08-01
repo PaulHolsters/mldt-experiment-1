@@ -143,6 +143,7 @@ export class ResponsiveBehaviourService implements OnInit{
     }
   }
   private setState(component: ComponentModel, screenSize: number) {
+    // todo mogelijks werken deze methodes niet met een array, en is het teveel renderen onvermijdelijk maar op zich geen probleem?
     if (component.visibility){
       this.storeService.setRBSState(component.name, this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize))
     }
