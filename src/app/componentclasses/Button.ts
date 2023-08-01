@@ -5,6 +5,9 @@ export abstract class Button extends Component{
   public static icon:string|undefined = undefined
   public static label: string|undefined = undefined
   public static buttonSize: string|undefined = undefined
+  public static buttonMeaning: string|undefined = undefined
+  public static buttonAppearance: string|undefined = undefined
+  public static buttonForm: string|undefined = undefined
   public static calcHeight: string|undefined = undefined
   public static calcWidth: string|undefined = undefined
   public static width:string|undefined = undefined

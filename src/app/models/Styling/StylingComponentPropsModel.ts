@@ -11,6 +11,9 @@ import {TableStylingType} from "../../enums/tableStylingType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
+import {ButtonMeaningType} from "../../enums/buttonMeaningType.enum";
+import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
+import {ButtonFormType} from "../../enums/buttonFormType.enum";
 
 export class StylingComponentPropsModel {
 constructor(
@@ -26,7 +29,10 @@ constructor(
   public tableStyle: TableStylingType|NoValueType.NA,
   public responsiveTableLayout: ResponsiveTableLayoutType|NoValueType.NA,
   public tableBreakpoint: number,
-  public buttonSize:ButtonSizeType|NoValueType.NA
+  public buttonSize:ButtonSizeType|NoValueType.NA,
+  public buttonMeaning:ButtonMeaningType|NoValueType.NA,
+  public buttonAppearance:ButtonAppearanceType|NoValueType.NA,
+  public buttonForm:ButtonFormType|NoValueType.NA
 
   ) {
 }

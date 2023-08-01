@@ -26,6 +26,7 @@ import {formLayout} from "../form1/formLayout";
 import {buttons} from "../form1/buttons";
 import {IconType} from "../../enums/iconType.enum";
 import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
+import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
 
 export const table = {
   name: 'table',
@@ -117,7 +118,8 @@ export const table = {
             )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
           styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-            NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,ButtonSizeType.Small
+            NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
+            ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
           ))},
           {name:'sort-h2',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
@@ -125,7 +127,8 @@ export const table = {
             )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,ButtonSizeType.Small
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
+              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
             ))},
           {name:'sort-h3',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
@@ -133,7 +136,8 @@ export const table = {
             )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,ButtonSizeType.Small
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
+              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
             ))},
           {name:'sort-h4',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
@@ -141,7 +145,8 @@ export const table = {
             )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,ButtonSizeType.Small
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
+              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
             ))}
         ])),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),

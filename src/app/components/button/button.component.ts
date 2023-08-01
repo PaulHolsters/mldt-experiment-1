@@ -3,6 +3,16 @@ import { EventType } from 'src/app/enums/eventTypes.enum';
 import {Component as AbstractComponent} from "../Component"
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Button} from "../../componentclasses/Button";
+import {FontWeightType} from "../../enums/fontWeightType.enum";
+import {FontStyleType} from "../../enums/fontStyleType.enum";
+import {FontSizeType} from "../../enums/fontSizeType.enum";
+import {TextColorType} from "../../enums/textColorType.enum";
+import {TextDecorationType} from "../../enums/textDecorationType.enum";
+import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
+import {NoValueType} from "../../enums/no_value_type";
+import {ButtonFormType} from "../../enums/buttonFormType.enum";
+import {ButtonMeaningType} from "../../enums/buttonMeaningType.enum";
+import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
 @Component({
   selector: 'm-button',
   templateUrl: './button.component.html',
@@ -47,5 +57,14 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
   }
   trigger(event: EventType){
     this.eventsService.triggerEvent(event,this.name)
+  }
+  getStyleClasses(
+    size:ButtonSizeType|NoValueType.NA,
+    form:ButtonFormType|NoValueType.NA,
+    appearance:ButtonAppearanceType|NoValueType.NA,
+    meaning:ButtonMeaningType|NoValueType.NA):Object|undefined{
+    if(size&&form&&appearance&&meaning)
+      return Object.assign({},this.stylesService.getButtonStyle(size,form,appearance,meaning))
+    return undefined
   }
 }

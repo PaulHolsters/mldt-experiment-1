@@ -179,7 +179,10 @@ export class StoreService implements OnInit {
           stylingConfig.tableStyle,
           stylingConfig.responsiveTableLayout,
           stylingConfig.tableBreakpoint,
-          stylingConfig.buttonSize
+          stylingConfig.buttonSize,
+          stylingConfig.buttonMeaning,
+          stylingConfig.buttonAppearance,
+          stylingConfig.buttonForm
         )
       }
     let lastScreenSize = screenSize

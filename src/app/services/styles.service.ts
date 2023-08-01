@@ -12,6 +12,11 @@ import {FontStyleType} from "../enums/fontStyleType.enum";
 import {FontSizeType} from "../enums/fontSizeType.enum";
 import {TextColorType} from "../enums/textColorType.enum";
 import {TextDecorationType} from "../enums/textDecorationType.enum";
+import {ButtonSizeType} from "../enums/buttonSizeType.enum";
+import {NoValueType} from "../enums/no_value_type";
+import {ButtonFormType} from "../enums/buttonFormType.enum";
+import {ButtonMeaningType} from "../enums/buttonMeaningType.enum";
+import {ButtonAppearanceType} from "../enums/buttonAppearanceType.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -269,6 +274,13 @@ export class StylesService {
       'border-900':border.color===BorderColorType.Border_Color_10,
       // todo aanvullen met kleur
     }
+  }
+
+  getButtonStyle(size:ButtonSizeType|NoValueType.NA,
+                 form:ButtonFormType|NoValueType.NA,
+                 appearance:ButtonAppearanceType|NoValueType.NA,
+                 meaning:ButtonMeaningType|NoValueType.NA){
+
   }
 
   getStyleClasses(padding:PaddingType,margin:MarginType,

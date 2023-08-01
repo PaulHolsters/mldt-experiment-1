@@ -3,6 +3,6 @@ export enum ButtonClassType {
   Secondary = 'secondary',
   Danger = 'danger',
   Success = 'success'
-  // todo
+  // todo => is dit nog relevant?
 
 }
