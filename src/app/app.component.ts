@@ -12,7 +12,6 @@ import {Apollo, gql} from "apollo-angular";
 export class AppComponent implements OnInit {
   data:{components:ComponentModel[],actions:ActionModel[]}|undefined
   constructor(private dataService:ConfigService, private apollo:Apollo) {
-    this.data = dataService.getAppTemplateData()
   }
 
   ngOnInit(): void {

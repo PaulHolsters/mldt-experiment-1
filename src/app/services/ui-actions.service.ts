@@ -43,8 +43,8 @@ export class UiActionsService {
   private setConfigValueAndRebuild(action:ActionModel){
     const currentAppConfig = this.configService.appConfig
     if(currentAppConfig){
-      let config = currentAppConfig.getComponentConfig(action.targetName)
-      if(!config) config = currentAppConfig.getComponentConfigThroughAttributes(action.targetName)
+      let config = this.configService.getComponentConfig(action.targetName)
+      if(!config) config = this.configService.getComponentConfigThroughAttributes(action.targetName)
       if(!config) throw new Error('action was not configured correctly')
       if(config.replace && !(action.value instanceof ActionValueModel)){
         config.replace(action.value?.getInstance(),action.value)

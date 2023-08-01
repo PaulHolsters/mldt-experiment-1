@@ -412,9 +412,9 @@ export class StoreService implements OnInit {
       }
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
-          let parent = this.configService.appConfig?.getComponentConfig(componentName)
+          let parent = this.configService.getComponentConfig(componentName)
           if (!parent) {
-            parent = this.configService.appConfig?.getComponentConfigThroughAttributes(componentName)
+            parent = this.configService.getComponentConfigThroughAttributes(componentName)
           }
           if (parent?.children) {
             if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
@@ -439,8 +439,7 @@ export class StoreService implements OnInit {
       })?.propValue.next(newState)
     }
   }
-  private createProps(component: ComponentModel|ComponentObjectModel){
-    // todo pas methode aan: props worden niet aangemaakt voor array components in attributes property
+  private createProps(component: ComponentModel){
     this.stateService.getProperties(component.type)?.forEach((v,k)=>{
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
@@ -463,8 +462,19 @@ export class StoreService implements OnInit {
       for (let [k,v] of Object.entries(component.attributes)){
         if(v){
           for (let[j,l] of Object.entries(v)){
-            if(l instanceof ComponentModel || (typeof l === 'object' && l?.hasOwnProperty('name') && l?.hasOwnProperty('type'))){
-              this.createProps(l as ComponentObjectModel)
+            if(l instanceof ComponentModel || this.configService.isComponentObjectModel(l)){
+              const compT = this.configService.convertToComponentModel(l)
+              if(compT)
+              this.createProps(compT)
+            }
+            if(l instanceof Array){
+              for (let i=0;i<l.length;i++){
+                if(l[i] instanceof ComponentModel || this.configService.isComponentObjectModel(l[i])){
+                  const compT = this.configService.convertToComponentModel(l[i])
+                  if(compT)
+                    this.createProps(compT)
+                }
+              }
             }
           }
         }
@@ -473,7 +483,9 @@ export class StoreService implements OnInit {
   }
   public createStore() {
     this.configService.appConfig?.userConfig.components.forEach(comp => {
-        this.createProps(comp)
+      const compT = this.configService.convertToComponentModel(comp)
+      if(compT)
+        this.createProps(compT)
       }
     )
     debugger
