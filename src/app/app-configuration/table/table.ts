@@ -113,19 +113,19 @@ export const table = {
           {name:'sort-h1',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            ))},
+            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())},
           {name:'sort-h2',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            ))},
+            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())},
           {name:'sort-h3',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            ))},
+            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())},
           {name:'sort-h4',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            ))}
+            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())}
         ])),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed

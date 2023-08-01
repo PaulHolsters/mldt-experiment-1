@@ -150,6 +150,8 @@ export default class AppConfig {
                 for (let i = 0; i < l.length; i++) {
                   if ((l[i] instanceof ComponentModel && l[i].name === compName)
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
+                    console.log(this.convertToComponentModel(l[i]))
+                    debugger
                     return this.convertToComponentModel(l[i])
                   }
                   if ((l[i] instanceof ComponentModel && (l[i].attributes !== undefined || l[i].children !== undefined))
@@ -157,6 +159,8 @@ export default class AppConfig {
                       this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
                     const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(l[i]))
                     if (component) {
+                      console.log('array '+compName)
+                      debugger
                       return component
                     }
                   }
@@ -195,6 +199,8 @@ export default class AppConfig {
                   for (let i = 0; i < l.length; i++) {
                     if ((l[i] instanceof ComponentModel && l[i].name === compName)
                       || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
+                      console.log('array '+compName)
+                      debugger
                       return this.convertToComponentModel(l[i])
                     }
                   }
@@ -306,6 +312,8 @@ export default class AppConfig {
                 for (let i = 0; i < l.length; i++) {
                   if ((l[i] instanceof ComponentModel && l[i].name === compName)
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
+                    console.log('array '+compName)
+                    debugger
                     return previous
                   }
                 }
@@ -324,6 +332,9 @@ export default class AppConfig {
                       && l[i].getPropertyValue(property) !== undefined)
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], property) !== undefined)) {
                     previousComponent = l
+                    console.log('break missing!')
+                    debugger
+                    // todo hier lijkt een break te missen
                   }
                 }
               }
@@ -341,22 +352,28 @@ export default class AppConfig {
                   return component
                 }
               }
-              // todo tussen voegen array of components
               if (l instanceof Array) {
                 for (let i = 0; i < l.length; i++) {
                   if ((l[i] instanceof ComponentModel && (l[i].attributes !== undefined || l[i].children !== undefined))
                     || (this.isComponentObjectModel(l[i]) && (this.getComponentObjectModelPropertyValue(l[i], 'attributes') ||
                       this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
-
-
                     let component
-                    if (previousComponent) component =
-                      this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
-                        this.convertToComponentModel(l[i]),
-                        this.convertToComponentModel(previousComponent))
-                    else component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
-                      this.convertToComponentModel(l[i]), previous)
+                    if (previousComponent){
+                      console.log('array '+compName)
+                      debugger
+                      component =
+                        this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+                          this.convertToComponentModel(l[i]),
+                          this.convertToComponentModel(previousComponent))
+                    } else{
+                      console.log('array '+compName)
+                      debugger
+                      component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+                        this.convertToComponentModel(l[i]), previous)
+                    }
                     if (component) {
+                      console.log('array '+compName)
+                      debugger
                       return component
                     }
                   }
@@ -400,6 +417,7 @@ export default class AppConfig {
           for (let [k, v] of Object.entries(comp.attributes)) {
             if (v) {
               for (let [j, l] of Object.entries(v)) {
+                // todo array wordt niet gecontroleerd
                 if ((l instanceof ComponentModel && l.name === compName)
                   || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
                   return previous
@@ -420,6 +438,8 @@ export default class AppConfig {
                     this.convertToComponentModel(l), previous)
                   if (component) return component
                 }
+                console.log('NIET array '+compName)
+                debugger
               }
             }
           }

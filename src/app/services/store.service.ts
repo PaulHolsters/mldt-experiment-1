@@ -440,6 +440,7 @@ export class StoreService implements OnInit {
     }
   }
   private createProps(component: ComponentModel|ComponentObjectModel){
+    // todo pas methode aan: props worden niet aangemaakt voor array components in attributes property
     this.stateService.getProperties(component.type)?.forEach((v,k)=>{
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
@@ -475,6 +476,7 @@ export class StoreService implements OnInit {
         this.createProps(comp)
       }
     )
+    debugger
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<

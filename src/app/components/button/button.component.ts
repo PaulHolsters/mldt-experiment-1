@@ -18,9 +18,7 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
     // todo vanuit de engine komen er geen waarden binnen dus ze worden ook niet berekend ... => de methodes zijn maw niet correct aangepast!!!
     this.props = Button.getProperties()
     this.props.forEach((v,k)=>{
-      debugger
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        debugger
         this.setPropValue(k,res)
       })
     })
