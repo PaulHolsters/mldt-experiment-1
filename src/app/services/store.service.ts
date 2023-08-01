@@ -451,10 +451,13 @@ export class StoreService implements OnInit {
     })
     if(component.children && component.children.length > 0){
       component.children.forEach(child=>{
-        if(child instanceof ComponentModel || (typeof child === 'object'&& child?.hasOwnProperty('name') && child?.hasOwnProperty('type'))){
-          this.createProps(child)
+        if(child instanceof ComponentModel || this.configService.isComponentObjectModel(child)){
+          const compT = this.configService.convertToComponentModel(child)
+          if(compT)
+          this.createProps(compT)
         } else{
           // string!
+          throw new Error('string components not implemented yet')
         }
       })
     }
@@ -488,7 +491,6 @@ export class StoreService implements OnInit {
         this.createProps(compT)
       }
     )
-    debugger
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<

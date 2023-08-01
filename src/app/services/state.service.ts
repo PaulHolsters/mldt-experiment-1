@@ -43,7 +43,6 @@ export class StateService {
   }
   private createMap(name:string):Map<string,any>{
     if(name !== 'content-container'){
-      // todo deze methodes aanpassen zodat ze ook array componenten ziet
       let compModel  = this.configService.getComponentConfig(name)
       if (!compModel) {
         compModel = this.configService.getComponentConfigThroughAttributes(name)
@@ -54,12 +53,10 @@ export class StateService {
     } else return this.getProperties(ComponentType.Container)
   }
   public syncData(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
-    if(name==='sort-h1') debugger
     const obj = this.componentData.find(obj=>{
       return obj.name===name
     })
     if(!obj){
-      if(name==='sort-h1') debugger
       const newObj = {name:name,properties:this.createMap(name)}
       this.componentData.push(newObj)
     }
