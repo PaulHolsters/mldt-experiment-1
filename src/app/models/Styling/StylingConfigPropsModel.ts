@@ -10,6 +10,7 @@ import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 import {TableStylingType} from "../../enums/tableStylingType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
+import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
 
 export class StylingConfigPropsModel {
   constructor(
@@ -25,6 +26,7 @@ export class StylingConfigPropsModel {
     public tableStyle: TableStylingType|NoValueType.NA = NoValueType.NA,
     public responsiveTableLayout: ResponsiveTableLayoutType|NoValueType.NA = NoValueType.NA,
     public tableBreakpoint: number = 960,
+    public buttonSize:ButtonSizeType|NoValueType.NA = NoValueType.NA
 
   ) {
   }

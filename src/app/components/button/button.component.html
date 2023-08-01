@@ -1,23 +1,27 @@
 <p-button
-  *ngIf="getPropValue(PropertyName.label) && getPropValue(PropertyName.icon)"
+  *ngIf="getPropValue(PropertyName.label)!=='Not applicable' && getPropValue(PropertyName.icon)!=='Not applicable'"
   label="{{getPropValue(PropertyName.label)}}"
   icon="{{getPropValue(PropertyName.icon)}}"
+  styleClass="{{getPropValue(PropertyName.buttonSize)}}"
   [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
   [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
   [style.height]="getPropValue(PropertyName.height)"
   [style.width]="getPropValue(PropertyName.width)" #button
   (click)="trigger(EventType.ComponentClicked)"></p-button>
-<p-button *ngIf="getPropValue(PropertyName.label) && !getPropValue(PropertyName.icon)"
+<p-button *ngIf="getPropValue(PropertyName.label)!=='Not applicable' && getPropValue(PropertyName.icon)==='Not applicable'"
           label="{{getPropValue(PropertyName.label)}}"
+          styleClass="{{getPropValue(PropertyName.buttonSize)}}"
           (click)="trigger(EventType.ComponentClicked)"></p-button>
-<p-button *ngIf="!getPropValue(PropertyName.label) && getPropValue(PropertyName.icon)"
+<p-button *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)!=='Not applicable'"
           icon="{{getPropValue(PropertyName.icon)}}"
+          styleClass="{{getPropValue(PropertyName.buttonSize)}}"
           (click)="trigger(EventType.ComponentClicked)"></p-button>
 <p-button
-  *ngIf="!getPropValue(PropertyName.label) && !getPropValue(PropertyName.icon)"
+  *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)==='Not applicable'"
   [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
   [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
   [style.height]="getPropValue(PropertyName.height)"
   [style.width]="getPropValue(PropertyName.width)"
+  styleClass="{{getPropValue(PropertyName.buttonSize)}}"
   (click)="trigger(EventType.ComponentClicked)"
   #button></p-button>

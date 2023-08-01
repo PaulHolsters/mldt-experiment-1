@@ -25,6 +25,7 @@ import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfi
 import {formLayout} from "../form1/formLayout";
 import {buttons} from "../form1/buttons";
 import {IconType} from "../../enums/iconType.enum";
+import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
 
 export const table = {
   name: 'table',
@@ -113,19 +114,35 @@ export const table = {
           {name:'sort-h1',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())},
+            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+            NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+            NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,ButtonSizeType.Small
+          ))},
           {name:'sort-h2',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())},
+            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,ButtonSizeType.Small
+            ))},
           {name:'sort-h3',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())},
+            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,ButtonSizeType.Small
+            ))},
           {name:'sort-h4',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())}
+            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,ButtonSizeType.Small
+            ))}
         ])),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
