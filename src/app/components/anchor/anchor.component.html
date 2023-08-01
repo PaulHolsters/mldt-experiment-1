@@ -1,5 +1,5 @@
 <ng-container *ngIf="component">
-  <!-- todo fix problem with these bindings-->
+  <!-- todo de gebruiker moet hier de keuze hebben tussen een block of inline -->
   <div
     [class.visibilityHidden]="
       (component.type !== componentType.Container) &&
@@ -10,6 +10,7 @@
       && !(bindToStateProperty(component.name,'holdSpace') | async)"
     [style.height]="bindToStateProperty(component.name,'height') | async"
     [style.width]="bindToStateProperty(component.name,'width') | async"
+    [style.display]="bindToStateProperty(component.name,'display') | async"
     [ngSwitch]="component.type">
     <m-block *ngSwitchCase="componentType.Block" [name]="component.name"></m-block>
     <m-button *ngSwitchCase="componentType.Button" [name]="component.name"></m-button>

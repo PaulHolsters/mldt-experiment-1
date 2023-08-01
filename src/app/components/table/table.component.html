@@ -46,7 +46,8 @@
 <!--      <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns; let i = index">-->
       <th *ngFor="let column of columns; let i = index">
         <!-- todo conditioneel te tonen componenten bv toon dit element enkel indien column.filter true is -->
-        <!-- todo werk met index zodat je de juiste anchor comp kunnen eruit halen uit een array van anchor comps-->
+        <!-- todo zorg ervoor dat je hier kan kiezen dat het aansluiten op de tekst of eronder komt maw
+                  hier zijn meer positioneringsopties nodig-->
         {{column['header']}}
           <m-anchor  [component]="getPropValue(propNames.columnHeaderComponents,i)"></m-anchor>
 <!--         <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>-->

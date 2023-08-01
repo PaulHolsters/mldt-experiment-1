@@ -1,8 +1,11 @@
+import {DisplayType} from "../../../enums/displayType.enum";
+
 export class PositioningComponentPropsModel {
   constructor(public selfAlignStart: boolean | undefined = undefined,
               public selfAlignCenter: boolean | undefined = undefined,
               public selfAlignEnd: boolean | undefined = undefined,
-              public selfAlignBaseline: boolean | undefined = undefined) {
+              public selfAlignBaseline: boolean | undefined = undefined,
+              public display:DisplayType|undefined = undefined) {
   }
   public setProperty(propName: string, value: boolean | undefined): void {
     if (Reflect.has(this, propName))

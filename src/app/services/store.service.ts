@@ -97,12 +97,14 @@ export class StoreService implements OnInit {
                                    stateModel: ResponsivePositioningConfigModel,
                                    screenSize: number): PositioningComponentPropsModel {
     const translateToPositioningComponentProps =
+      // todo afwerken
       (positionConfig: CrossAxisVerticalPositioningConfigType | CrossAxisHorizontalPositioningConfigType): PositioningComponentPropsModel => {
         return new PositioningComponentPropsModel(
           positionConfig === CrossAxisVerticalPositioningConfigType.Top || positionConfig === CrossAxisHorizontalPositioningConfigType.Left,
           positionConfig === CrossAxisVerticalPositioningConfigType.Center || positionConfig === CrossAxisHorizontalPositioningConfigType.Center,
           positionConfig === CrossAxisVerticalPositioningConfigType.Bottom || positionConfig === CrossAxisHorizontalPositioningConfigType.Right,
-          positionConfig === CrossAxisVerticalPositioningConfigType.Baseline || positionConfig === CrossAxisHorizontalPositioningConfigType.Baseline)
+          positionConfig === CrossAxisVerticalPositioningConfigType.Baseline || positionConfig === CrossAxisHorizontalPositioningConfigType.Baseline,
+          positionConfig)
       }
     if (this.hasScreenSizeProperty(stateModel, 'selfAlign')) {
       let lastScreenSize = screenSize
