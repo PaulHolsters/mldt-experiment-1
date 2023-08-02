@@ -59,20 +59,44 @@ export const table = {
         // de eerste methode wil indien het gaat om children!
         [
           {
-            name:'sort-h1',
-            type:ComponentType.Icon,
-            attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-            NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),
+            name:'c1-header',
+            type:ComponentType.Container,
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-            styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-            undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-            NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
-            ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined,
-              IconSizeType.Large,IconMeaningType.Danger
-          )),
+            position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline)),
+            children:[
+              {
+                name:'sort-h1',
+                type:ComponentType.Icon,
+                attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+                  NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+                  NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+                )),
+                visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                  undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+                  NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
+                  ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined,
+                  IconSizeType.Normal,IconMeaningType.Danger
+                )
+          ),
             position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))},
+              {
+                name:'filter-h1',
+                type:ComponentType.Icon,
+                attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+                  NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Filter,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+                  NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+                )),
+                visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                    undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+                    NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
+                    ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined,
+                    IconSizeType.Normal,IconMeaningType.Danger
+                  )
+                ),
+                position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))}
+            ]},
           {name:'sort-h2',
             type:ComponentType.Icon,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(

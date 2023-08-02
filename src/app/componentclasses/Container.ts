@@ -46,5 +46,6 @@ export abstract class Container extends Component{
   public static dataConcept: ConceptComponentModel | undefined = undefined
   public static dataAttribute: AttributeComponentModel | undefined = undefined
   public static dataLink: string[] | undefined = undefined
+  public static display: string|undefined = undefined
 
 }

@@ -1,3 +1,3 @@
 export enum DisplayType {
-  Inline = 'inline'
+  Inline = 'inline-block'
 }

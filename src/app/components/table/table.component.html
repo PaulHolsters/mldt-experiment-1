@@ -44,14 +44,14 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
 <!--      <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns; let i = index">-->
-      <th *ngFor="let column of columns; let i = index">
+      <th *ngFor="let column of columns; let i = index" style="min-width: 400px">
         <!-- todo conditioneel te tonen componenten bv toon dit element enkel indien column.filter true is -->
         <!-- todo zorg ervoor dat je hier kan kiezen dat het aansluiten op de tekst of eronder komt maw
                   hier zijn meer positioneringsopties nodig-->
         {{column['header']}}
           <m-anchor  [component]="getPropValue(PropertyName.columnHeaderComponents,i)"></m-anchor>
 <!--         <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>-->
-          <span *ngIf="column['filter']" (click)="filterByColumn($event,column)" class="pi pi-filter" style="font-size: 1rem; color:rgba(255, 255, 255, 0.6);"></span>
+<!--          <span *ngIf="column['filter']" (click)="filterByColumn($event,column)" class="pi pi-filter" style="font-size: 1rem; color:rgba(255, 255, 255, 0.6);"></span>-->
 
 <!--        <p-columnFilter (click)="filterByColumn(column,columns)" type="text" field="{{column['field']}}" display="menu"></p-columnFilter> -->
 <!--        <div (click)="filterByColumn(column)"><i  class="pi pi-filter"></i></div> -->
