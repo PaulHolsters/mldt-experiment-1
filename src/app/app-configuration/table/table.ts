@@ -27,6 +27,9 @@ import {buttons} from "../form1/buttons";
 import {IconType} from "../../enums/iconType.enum";
 import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
 import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
+import {PositioningConfigPropsModel} from "../../models/Positioning/self/PositioningConfigPropsModel";
+import {DisplayType} from "../../enums/displayType.enum";
+import {ResponsivePositioningConfigModel} from "../../models/Positioning/self/ResponsivePositioningConfigModel";
 
 export const table = {
   name: 'table',
@@ -120,34 +123,47 @@ export const table = {
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
             ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
-          ))},
-          {name:'sort-h2',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+          )),
+            position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))},
+          {name:'sort-h2',
+            type:ComponentType.Button,
+            attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            )),
+            visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
               ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
-            ))},
-          {name:'sort-h3',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+            )),
+            position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))},
+          {name:'sort-h3',
+            type:ComponentType.Button,
+            attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            )),
+            visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
               ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
-            ))},
-          {name:'sort-h4',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+            )),
+            position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))},
+          {name:'sort-h4',
+            type:ComponentType.Button,
+            attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            )),
+            visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
               ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
-            ))}
+            )),
+            position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))}
         ])),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
