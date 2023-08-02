@@ -54,58 +54,6 @@ export const table = {
   attributes:new ResponsiveAttributesConfigModel(
       new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
         NoValueType.NA,NoValueType.NA,NoValueType.NA,
-        // todo dit is het attribuut filterComponent (je zou evengoed content kunnen nemen en deze prop dus schrappen wegens niet generiek)
-        new ComponentModel('filter-dialog',ComponentType.Dialog,undefined,undefined,undefined,
-          new ResponsiveAttributesConfigModel(
-            new AttributesConfigPropsModel(
-              NoValueType.NA,
-              NoValueType.NA,
-              NoValueType.NA,
-              NoValueType.NA,
-              NoValueType.NA,
-              NoValueType.NA,
-              NoValueType.NA,
-              NoValueType.NA,
-              NoValueType.NA,
-              // todo aanpassen methodes die gebruik maken van instanceof ComponentModel
-              {
-                name:'filter-form',
-                type:ComponentType.Form,
-                attributes: new ResponsiveAttributesConfigModel(
-                  new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA,NoValueType.NA, NoValueType.NA, NoValueType.NA,NoValueType.NA,
-                    NoValueType.NA, NoValueType.NA, NoValueType.NA,
-                    new ComponentModel(
-                      'filter-form-container',
-                      ComponentType.Container,
-                      formLayout,
-                      undefined,
-                      new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-                        new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
-                        new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-                          DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
-                        ), DynamicDimensionValueConfigType.NC)
-                      )),
-                      undefined,
-                      new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-                      undefined,
-                      [
-                        buttons
-                      ]))
-                ),
-                visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-                // todo verhinderen dat gebruikers een kleine hoogte kunnen meegeven terwijl auto niet opstaat omdat de multiselect dan niet werkt
-                overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
-                dimensions: new ResponsiveDimensioningConfigModel(
-                  new DimensioningConfigPropsModel(
-                    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,20,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
-                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(
-                      DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
-                    ), DynamicDimensionValueConfigType.NC)
-                  ))
-              }
-            )
-          ),
-          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false))),
         NoValueType.NA,
         'Geen producten aanwezig.',
         true,
@@ -117,7 +65,7 @@ export const table = {
         [
           {name:'sort-h1',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
           styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
             undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
@@ -129,7 +77,7 @@ export const table = {
             type:ComponentType.Button,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
@@ -142,7 +90,7 @@ export const table = {
             type:ComponentType.Button,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
@@ -155,7 +103,7 @@ export const table = {
             type:ComponentType.Button,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               undefined,undefined,undefined,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(

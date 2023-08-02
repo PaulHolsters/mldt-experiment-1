@@ -10,6 +10,7 @@ import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 import {deleteContainer} from "../deleteContainer/deleteContainer";
 import {table} from "../table/table";
 import {actions} from "../actions/actions";
+import {dialog} from "../dialog/dialog";
 
 export const RootComponent = new AppConfig({
   components: [
@@ -26,7 +27,8 @@ export const RootComponent = new AppConfig({
         //header,
         deleteContainer,
         //form,
-        table
+        table,
+        dialog
       ]
     },
   ],

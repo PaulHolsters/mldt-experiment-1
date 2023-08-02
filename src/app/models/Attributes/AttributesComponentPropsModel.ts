@@ -13,7 +13,6 @@ export class AttributesComponentPropsModel {
               public start: ComponentModel | NoValueType.NA,
               public end: ComponentModel | NoValueType.NA,
               public content: ComponentModel | NoValueType.NA,
-              public filterComponent: ComponentModel | NoValueType.NA,
               public textWhenEmpty: string | NoValueType.NA,
               public paginator: boolean,
               public rows: number | NoValueType.NA,

@@ -47,7 +47,6 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {ConfigService} from "./config.service";
 import {NoValueType} from "../enums/no_value_type";
 import {StateService} from "./state.service";
-import {ComponentObjectModel} from "../models/ComponentObjectModel";
 import {PositioningConfigPropsModel} from "../models/Positioning/self/PositioningConfigPropsModel";
 
 @Injectable({
@@ -295,7 +294,6 @@ export class StoreService implements OnInit {
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
       const compPropsObj = new AttributesComponentPropsModel(
-        NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
