@@ -48,6 +48,7 @@ import {ConfigService} from "./config.service";
 import {NoValueType} from "../enums/no_value_type";
 import {StateService} from "./state.service";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
+import {PositioningConfigPropsModel} from "../models/Positioning/self/PositioningConfigPropsModel";
 
 @Injectable({
   providedIn: 'root'
@@ -91,34 +92,31 @@ export class StoreService implements OnInit {
     }
     return false
   }
-
   // volgende methodes zijn pure opstartwaarden, zij geven niet de runtime waarden van de props terug, bv wanneer deze gewijzigd moeten worden!
   public getPositionComponentProps(componentName: string,
                                    stateModel: ResponsivePositioningConfigModel,
                                    screenSize: number): PositioningComponentPropsModel {
     const translateToPositioningComponentProps =
-      // todo afwerken
-      (positionConfig: CrossAxisVerticalPositioningConfigType | CrossAxisHorizontalPositioningConfigType): PositioningComponentPropsModel => {
+      (positionConfig: PositioningConfigPropsModel): PositioningComponentPropsModel => {
         return new PositioningComponentPropsModel(
-          positionConfig === CrossAxisVerticalPositioningConfigType.Top || positionConfig === CrossAxisHorizontalPositioningConfigType.Left,
-          positionConfig === CrossAxisVerticalPositioningConfigType.Center || positionConfig === CrossAxisHorizontalPositioningConfigType.Center,
-          positionConfig === CrossAxisVerticalPositioningConfigType.Bottom || positionConfig === CrossAxisHorizontalPositioningConfigType.Right,
-          positionConfig === CrossAxisVerticalPositioningConfigType.Baseline || positionConfig === CrossAxisHorizontalPositioningConfigType.Baseline,
-          positionConfig)
+          positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Top || positionConfig === CrossAxisHorizontalPositioningConfigType.Left,
+          positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Center || positionConfig === CrossAxisHorizontalPositioningConfigType.Center,
+          positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Bottom || positionConfig === CrossAxisHorizontalPositioningConfigType.Right,
+          positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Baseline || positionConfig === CrossAxisHorizontalPositioningConfigType.Baseline,
+          positionConfig.display)
       }
-    if (this.hasScreenSizeProperty(stateModel, 'selfAlign')) {
+    if (this.hasScreenSizeProperty(stateModel, 'selfAlign')||this.hasScreenSizeProperty(stateModel, 'display')) {
       let lastScreenSize = screenSize
       const stateModelObj = Object.create(stateModel)
       while (lastScreenSize >= 0) {
-        if (stateModelObj[ScreenSize[lastScreenSize]]?.selfAlign) {
-          return translateToPositioningComponentProps(stateModelObj[ScreenSize[lastScreenSize]]?.selfAlign)
+        if (stateModelObj[ScreenSize[lastScreenSize]]) {
+          return translateToPositioningComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
         }
         lastScreenSize--
       }
       throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
     } else return new PositioningComponentPropsModel()
   }
-
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
