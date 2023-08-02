@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BackgroundColorType} from "../enums/backgroundColorType.enum";
 import {MarginType} from "../enums/marginType.enum";
 import {PaddingType} from "../enums/paddingType.enum";
@@ -66,7 +66,8 @@ export class StylesService {
       'underline':textDecoration===TextDecorationType.Underline,
     }
   }
-  public getBackgroundColor(bgColor:BackgroundColorType){
+  public getBackgroundColor(bgColor:BackgroundColorType|NoValueType.NA):Object|undefined{
+    if(bgColor===NoValueType.NA) return undefined
     return {
       'bg-primary':bgColor===BackgroundColorType.Background_Color_Primary,
       'bg-primary-reverse':bgColor===BackgroundColorType.Background_Color_Primary_Reverse,
@@ -85,7 +86,8 @@ export class StylesService {
       // todo vul aan met gekleurde background en andere mogelijkheden binnen primeNG
     }
   }
-  public getMargin(margin:MarginType):Object{
+  public getMargin(margin:MarginType|NoValueType.NA):Object|undefined{
+    if(margin === NoValueType.NA) return undefined
     return {
       "m-0":margin===MarginType.All_0,
       "m-1":margin===MarginType.All_1,
@@ -153,7 +155,8 @@ export class StylesService {
     }
   }
   public getPadding(
-    padding:PaddingType):Object{
+    padding:PaddingType|NoValueType.NA):Object|undefined{
+    if(padding===NoValueType.NA)return undefined
     return {
       "p-0":padding===PaddingType.All_0,
       "p-1":padding===PaddingType.All_1,
@@ -220,7 +223,8 @@ export class StylesService {
       "py-8":padding===PaddingType.TopBottom_8,
     }
   }
-  public getBorder(border:BorderModel):Object{
+  public getBorder(border:BorderModel|NoValueType.NA):Object|undefined{
+    if(border === NoValueType.NA) return undefined
     return {
       'border-noround':border.radius===BorderRadiusType.No_rounding,
       'border-round-xs':border.radius===BorderRadiusType.Rounding_XS,
@@ -280,12 +284,11 @@ export class StylesService {
                  form:ButtonFormType|NoValueType.NA,
                  appearance:ButtonAppearanceType|NoValueType.NA,
                  meaning:ButtonMeaningType|NoValueType.NA){
-
   }
 
-  getStyleClasses(padding:PaddingType,margin:MarginType,
-                  border:BorderModel,backgroundColor:BackgroundColorType){
-    return Object.assign(this.getPadding(padding),this.getMargin(margin),
+  getStyleClasses(padding:PaddingType|NoValueType.NA,margin:MarginType|NoValueType.NA,
+                  border:BorderModel|NoValueType.NA,backgroundColor:BackgroundColorType|NoValueType.NA){
+    return Object.assign({},this.getPadding(padding),this.getMargin(margin),
       this.getBorder(border),this.getBackgroundColor(backgroundColor))
   }
   constructor() {

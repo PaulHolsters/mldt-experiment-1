@@ -66,5 +66,7 @@ export enum PropertyName {
   buttonSize = 'buttonSize',
   buttonAppearance = 'buttonAppearance',
   buttonForm = 'buttonForm',
-  buttonMeaning = 'buttonMeaning'
+  buttonMeaning = 'buttonMeaning',
+  padding = 'padding',
+  margin = 'margin'
 }

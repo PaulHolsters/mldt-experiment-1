@@ -11,6 +11,7 @@ import {TextColorType} from "../../../enums/textColorType.enum";
 import {TextDecorationType} from "../../../enums/textDecorationType.enum";
 import {Component as AbstractComponent} from "../../Component"
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
+import {NoValueType} from "../../../enums/no_value_type";
 
 @Component({
   selector: 'm-label',
@@ -19,12 +20,12 @@ import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 })
 export class LabelComponent extends AbstractComponent implements OnInit {
   @Input() text:string|undefined
-  @Input() backgroundColor: BackgroundColorType|undefined
+  @Input() backgroundColor: BackgroundColorType|NoValueType.NA=NoValueType.NA
   @Input() calcHeight: string|undefined
   @Input() calcWidth: string|undefined
-  @Input() padding: PaddingType|undefined
-  @Input() margin: MarginType|undefined
-  @Input() border: BorderModel|undefined
+  @Input() padding: PaddingType|NoValueType.NA=NoValueType.NA
+  @Input() margin: MarginType|NoValueType.NA=NoValueType.NA
+  @Input() border: BorderModel|NoValueType.NA=NoValueType.NA
   @Input() labelType: LabelType|undefined
   @ViewChild('label') label:ElementRef|undefined
   FontWeight = FontWeightType
@@ -53,10 +54,10 @@ export class LabelComponent extends AbstractComponent implements OnInit {
     this.setPropValue(PropertyName.width,'100%')
     return false
   }
-  getStyleClasses(padding:PaddingType|undefined,margin:MarginType|undefined,
-                  border:BorderModel|undefined,backgroundColor:BackgroundColorType|undefined):Object|undefined{
+  getStyleClasses(padding:PaddingType|NoValueType.NA,margin:MarginType|NoValueType.NA,
+                  border:BorderModel|NoValueType.NA,backgroundColor:BackgroundColorType|NoValueType.NA):Object|undefined{
     if(padding && margin && border && backgroundColor)
-    return Object.assign(this.stylesService.getPadding(padding),this.stylesService.getMargin(margin),
+    return Object.assign({},this.stylesService.getPadding(padding),this.stylesService.getMargin(margin),
       this.stylesService.getBorder(border),this.stylesService.getBackgroundColor(backgroundColor))
     return undefined
   }

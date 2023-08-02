@@ -120,7 +120,7 @@ export const table = {
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
           styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-            NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+            undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
             ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
           )),
@@ -133,7 +133,7 @@ export const table = {
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
               ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
             )),
@@ -146,7 +146,7 @@ export const table = {
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
               ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
             )),
@@ -154,12 +154,12 @@ export const table = {
           {name:'sort-h4',
             type:ComponentType.Button,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              undefined,undefined,undefined,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
               ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
             )),

@@ -17,5 +17,6 @@ export abstract class Button extends Component{
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
   public static display: string|undefined = undefined
-
+  public static padding: string|undefined = undefined
+  public static margin: string|undefined = undefined
 }

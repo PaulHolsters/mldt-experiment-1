@@ -2,18 +2,37 @@
   *ngIf="getPropValue(PropertyName.label)!=='Not applicable' && getPropValue(PropertyName.icon)!=='Not applicable'"
   label="{{getPropValue(PropertyName.label)}}"
   icon="{{getPropValue(PropertyName.icon)}}"
-  styleClass="{{getPropValue(PropertyName.buttonSize)}}"
+  styleClass="
+{{getPropValue(PropertyName.buttonSize)}}
+{{getPropValue(PropertyName.buttonAppearance)}}
+{{getPropValue(PropertyName.buttonForm)}}
+{{getPropValue(PropertyName.buttonMeaning)}}"
   [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
   [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
   [style.height]="getPropValue(PropertyName.height)"
-  [style.width]="getPropValue(PropertyName.width)" #button
-  (click)="trigger(EventType.ComponentClicked)"></p-button>
+  [style.width]="getPropValue(PropertyName.width)"
+  [ngClass]="getStyleClasses(
+  NoValueType.NA,
+  getPropValue(PropertyName.margin))"
+  #button
+  (click)="trigger(EventType.ComponentClicked)">
+</p-button>
 <p-button *ngIf="getPropValue(PropertyName.label)!=='Not applicable' && getPropValue(PropertyName.icon)==='Not applicable'"
           label="{{getPropValue(PropertyName.label)}}"
-          styleClass="{{getPropValue(PropertyName.buttonSize)}}"
+          styleClass="
+{{getPropValue(PropertyName.buttonSize)}}
+{{getPropValue(PropertyName.buttonAppearance)}}
+{{getPropValue(PropertyName.buttonForm)}}
+{{getPropValue(PropertyName.buttonMeaning)}}"
+          [ngClass]="getStyleClasses(
+  NoValueType.NA,
+  getPropValue(PropertyName.margin))"
           (click)="trigger(EventType.ComponentClicked)"></p-button>
 <p-button *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)!=='Not applicable'"
           icon="{{getPropValue(PropertyName.icon)}}"
+          [ngClass]="getStyleClasses(
+ NoValueType.NA,
+  getPropValue(PropertyName.margin))"
           styleClass="
 {{getPropValue(PropertyName.buttonSize)}}
 {{getPropValue(PropertyName.buttonAppearance)}}
@@ -27,6 +46,13 @@
   [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
   [style.height]="getPropValue(PropertyName.height)"
   [style.width]="getPropValue(PropertyName.width)"
-  styleClass="{{getPropValue(PropertyName.buttonSize)}}"
+  [ngClass]="getStyleClasses(
+  NoValueType.NA,
+  getPropValue(PropertyName.margin))"
+  styleClass="
+{{getPropValue(PropertyName.buttonSize)}}
+{{getPropValue(PropertyName.buttonAppearance)}}
+{{getPropValue(PropertyName.buttonForm)}}
+{{getPropValue(PropertyName.buttonMeaning)}}"
   (click)="trigger(EventType.ComponentClicked)"
   #button></p-button>

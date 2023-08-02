@@ -1,18 +1,12 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import { EventType } from 'src/app/enums/eventTypes.enum';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {EventType} from 'src/app/enums/eventTypes.enum';
 import {Component as AbstractComponent} from "../Component"
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Button} from "../../componentclasses/Button";
-import {FontWeightType} from "../../enums/fontWeightType.enum";
-import {FontStyleType} from "../../enums/fontStyleType.enum";
-import {FontSizeType} from "../../enums/fontSizeType.enum";
-import {TextColorType} from "../../enums/textColorType.enum";
-import {TextDecorationType} from "../../enums/textDecorationType.enum";
-import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
-import {ButtonFormType} from "../../enums/buttonFormType.enum";
-import {ButtonMeaningType} from "../../enums/buttonMeaningType.enum";
-import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
+import {PaddingType} from "../../enums/paddingType.enum";
+import {MarginType} from "../../enums/marginType.enum";
+
 @Component({
   selector: 'm-button',
   templateUrl: './button.component.html',
@@ -59,12 +53,10 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
     this.eventsService.triggerEvent(event,this.name)
   }
   getStyleClasses(
-    size:ButtonSizeType|NoValueType.NA,
-    form:ButtonFormType|NoValueType.NA,
-    appearance:ButtonAppearanceType|NoValueType.NA,
-    meaning:ButtonMeaningType|NoValueType.NA):Object|undefined{
-    if(size&&form&&appearance&&meaning)
-      return Object.assign({},this.stylesService.getButtonStyle(size,form,appearance,meaning))
-    return undefined
+    padding:PaddingType|NoValueType.NA,
+    margin:MarginType|NoValueType.NA):Object|undefined{
+      return this.stylesService.getStyleClasses(padding,margin,NoValueType.NA, NoValueType.NA)
   }
+
+  protected readonly NoValueType = NoValueType;
 }

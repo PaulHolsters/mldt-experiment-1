@@ -10,7 +10,7 @@
 .displayNone{
   display: none;
 }
-:host{
-  --heightVal:0;
-  --widthVal:0;
+:host {
+  --heightVal: 0;
+  --widthVal: 0;
 }
