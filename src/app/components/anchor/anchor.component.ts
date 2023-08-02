@@ -10,6 +10,7 @@ import {Component as AbstractComponent} from "../Component"
 })
 export class AnchorComponent extends AbstractComponent implements OnInit {
   @Input() component:ComponentModel|undefined
+
   ngOnInit(): void {
   }
   bindToStateProperty(componentName: string, property: string): Observable<string> {

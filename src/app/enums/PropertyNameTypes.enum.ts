@@ -71,5 +71,6 @@ export enum PropertyName {
   iconMeaning = 'iconMeaning',
   padding = 'padding',
   margin = 'margin',
+  data = 'data'
 
 }

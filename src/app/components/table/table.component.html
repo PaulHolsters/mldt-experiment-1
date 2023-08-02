@@ -44,12 +44,15 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
 <!--      <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns; let i = index">-->
-      <th *ngFor="let column of columns; let i = index" style="min-width: 400px">
-        <!-- todo conditioneel te tonen componenten bv toon dit element enkel indien column.filter true is -->
-        <!-- todo zorg ervoor dat je hier kan kiezen dat het aansluiten op de tekst of eronder komt maw
-                  hier zijn meer positioneringsopties nodig-->
+      <th *ngFor="let column of columns; let i = index">
+        <!-- todo conditioneel te tonen componenten bv toon dit element enkel indien column.filter true is
+              OPLOSSING: via een extra input in het anchor geef je de currentColumn mee die hij het zo verder doorgeeft naar beneden
+              jij weet vanuit de documentatie welke data in welke anchor wordt meegegeven van de host
+
+        -->
         {{column['header']}}
-          <m-anchor  [component]="getPropValue(PropertyName.columnHeaderComponents,i)"></m-anchor>
+          <m-anchor [data]="column" [component]="getPropValue(PropertyName.columnHeaderComponents,i)"></m-anchor>
+        <!-- todo hoe geef je atomair de aangeklikte kolom mee? -->
 <!--         <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>-->
 <!--          <span *ngIf="column['filter']" (click)="filterByColumn($event,column)" class="pi pi-filter" style="font-size: 1rem; color:rgba(255, 255, 255, 0.6);"></span>-->
 

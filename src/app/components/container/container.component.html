@@ -218,6 +218,13 @@
                         [style.width]="'100%'"
                         *ngSwitchCase="componentType.Button"
                         [name]="child.name"></m-button>
+        <m-dialog       [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                        [style.height]="'100%'"
+                        [style.width]="'100%'"
+                        *ngSwitchCase="componentType.Dialog"
+                        [name]="child.name"></m-dialog>
         <m-icon       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

@@ -13,7 +13,7 @@
     [ngSwitch]="component.type">
     <m-block *ngSwitchCase="componentType.Block" [name]="component.name"></m-block>
     <m-button *ngSwitchCase="componentType.Button" [name]="component.name"></m-button>
-    <m-icon *ngSwitchCase="componentType.Icon" [name]="component.name"></m-icon>
+    <m-icon *ngSwitchCase="componentType.Icon" [name]="component.name" [data]="getPropValue(PropertyName.data)"></m-icon>
     <m-image *ngSwitchCase="componentType.Image" [name]="component.name"></m-image>
     <m-image2 *ngSwitchCase="componentType.Image2" [name]="component.name"></m-image2>
     <m-menubar *ngSwitchCase="componentType.Menubar" [name]="component.name"></m-menubar>

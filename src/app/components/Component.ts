@@ -19,6 +19,7 @@ import {TextDecorationType} from "../enums/textDecorationType.enum";
 @Directive()
 export class Component{
   @Input() public name!:string
+  @Input() data:any|undefined
   constructor(
     protected cd: ChangeDetectorRef,
     protected stateService:StateService,
