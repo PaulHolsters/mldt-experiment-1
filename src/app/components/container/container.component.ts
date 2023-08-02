@@ -18,12 +18,7 @@ import {IconType} from "../../enums/iconType.enum";
 })
 export class ContainerComponent extends AbstractComponent implements OnInit, AfterContentChecked {
   @ViewChild('container') container: ElementRef | undefined
-  componentType = ComponentType
-  NoValueType = NoValueType
-  RestrictionType = RestrictionType
-  InputFontSize = InputFontSizeType
   nameFormControl: string | undefined
-  PropertyName = PropertyName
 
   ngAfterContentChecked(): void {
     this.cd.detectChanges()

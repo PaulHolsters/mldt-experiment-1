@@ -181,7 +181,9 @@ export class StoreService implements OnInit {
           stylingConfig.buttonSize,
           stylingConfig.buttonMeaning,
           stylingConfig.buttonAppearance,
-          stylingConfig.buttonForm
+          stylingConfig.buttonForm,
+          stylingConfig.iconSize,
+          stylingConfig.iconMeaning
         )
       }
     let lastScreenSize = screenSize
@@ -334,7 +336,6 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getVisibilityComponentProps(componentName: string, stateModel: ResponsiveVisibilityConfigModel, screenSize: number): VisibilityComponentPropsModel {
     const translateToVisibilityComponentProps = (visibilityConfig: VisibilityConfigPropsModel): VisibilityComponentPropsModel => {
       const compPropsObj = new VisibilityComponentPropsModel()

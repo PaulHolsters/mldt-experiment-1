@@ -5,6 +5,17 @@ import {EventsService} from "../services/events.service";
 import {DataService} from "../services/data.service";
 import {ChangeDetectorRef, Directive, Input} from "@angular/core";
 import {StylesService} from "../services/styles.service";
+import {EventType} from "../enums/eventTypes.enum";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {ComponentType} from "../enums/componentTypes.enum";
+import {InputFontSizeType} from "../enums/inputFontSizeType.enum";
+import {NoValueType} from "../enums/no_value_type";
+import {RestrictionType} from "../enums/restrictionType.enum";
+import {FontWeightType} from "../enums/fontWeightType.enum";
+import {FontSizeType} from "../enums/fontSizeType.enum";
+import {FontStyleType} from "../enums/fontStyleType.enum";
+import {TextColorType} from "../enums/textColorType.enum";
+import {TextDecorationType} from "../enums/textDecorationType.enum";
 @Directive()
 export class Component{
   @Input() public name!:string
@@ -17,8 +28,23 @@ export class Component{
     protected stylesService:StylesService) {
   }
   protected props:Map<string,any>|undefined
+  protected readonly EventType = EventType
+  protected readonly PropertyName = PropertyName
+  protected readonly componentType = ComponentType
+  protected readonly NoValueType = NoValueType
+  protected readonly RestrictionType = RestrictionType
+  protected readonly InputFontSizeType = InputFontSizeType
+  protected readonly Math = Math
+  protected readonly FontWeightType = FontWeightType
+  protected readonly FontSizeType = FontSizeType
+  protected readonly FontStyleType = FontStyleType
+  protected readonly TextColorType = TextColorType
+  protected readonly TextDecorationType = TextDecorationType
   getPropValue(key:string,index?:number){
     return typeof index === 'number' ? this.props?.get(key)[index] : this.props?.get(key)
+  }
+  trigger(event: EventType){
+    this.eventsService.triggerEvent(event,this.name)
   }
   setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
     if(this.props){

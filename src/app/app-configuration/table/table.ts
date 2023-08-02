@@ -17,19 +17,14 @@ import {NoValueType} from "../../enums/no_value_type";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
-import {ComponentModel} from "../../models/ComponentModel";
-import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
-import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
-import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
-import {formLayout} from "../form1/formLayout";
-import {buttons} from "../form1/buttons";
 import {IconType} from "../../enums/iconType.enum";
 import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
 import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
 import {PositioningConfigPropsModel} from "../../models/Positioning/self/PositioningConfigPropsModel";
 import {DisplayType} from "../../enums/displayType.enum";
 import {ResponsivePositioningConfigModel} from "../../models/Positioning/self/ResponsivePositioningConfigModel";
+import {IconSizeType} from "../../enums/iconSizeType.enum";
+import {IconMeaningType} from "../../enums/iconMeaningType.enum";
 
 export const table = {
   name: 'table',
@@ -63,18 +58,23 @@ export const table = {
         // todo de methodes verwachten hier één component niet zoals bij children een array met componenten
         // de eerste methode wil indien het gaat om children!
         [
-          {name:'sort-h1',type:ComponentType.Button,attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+          {
+            name:'sort-h1',
+            type:ComponentType.Icon,
+            attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
-            )),visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+            )),
+            visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
             undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
             NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
-            ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
+            ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined,
+              IconSizeType.Large,IconMeaningType.Danger
           )),
             position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))},
           {name:'sort-h2',
-            type:ComponentType.Button,
+            type:ComponentType.Icon,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
@@ -83,11 +83,12 @@ export const table = {
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
-              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
+              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined,
+              IconSizeType.Large,IconMeaningType.Danger
             )),
             position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))},
           {name:'sort-h3',
-            type:ComponentType.Button,
+            type:ComponentType.Icon,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
@@ -96,11 +97,12 @@ export const table = {
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
-              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
+              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined,
+              IconSizeType.Small,IconMeaningType.Danger
             )),
             position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))},
           {name:'sort-h4',
-            type:ComponentType.Button,
+            type:ComponentType.Icon,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               undefined,undefined,undefined,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
@@ -109,7 +111,8 @@ export const table = {
             styling:new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
               undefined,undefined,undefined,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,undefined,
-              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined
+              ButtonSizeType.Small,undefined,ButtonAppearanceType.InnerOnly,undefined,
+              IconSizeType.Large,IconMeaningType.Danger
             )),
             position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))}
         ])),

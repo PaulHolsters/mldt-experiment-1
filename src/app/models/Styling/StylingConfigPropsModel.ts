@@ -14,6 +14,8 @@ import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
 import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
 import {ButtonMeaningType} from "../../enums/buttonMeaningType.enum";
 import {ButtonFormType} from "../../enums/buttonFormType.enum";
+import {IconSizeType} from "../../enums/iconSizeType.enum";
+import {IconMeaningType} from "../../enums/iconMeaningType.enum";
 
 export class StylingConfigPropsModel {
   constructor(
@@ -32,7 +34,9 @@ export class StylingConfigPropsModel {
     public buttonSize:ButtonSizeType|NoValueType.NA = NoValueType.NA,
     public buttonMeaning:ButtonMeaningType|NoValueType.NA = NoValueType.NA,
     public buttonAppearance:ButtonAppearanceType|NoValueType.NA = NoValueType.NA,
-    public buttonForm:ButtonFormType|NoValueType.NA = NoValueType.NA
+    public buttonForm:ButtonFormType|NoValueType.NA = NoValueType.NA,
+    public iconSize:IconSizeType|NoValueType.NA = NoValueType.NA,
+    public iconMeaning:IconMeaningType|NoValueType.NA = NoValueType.NA,
 
   ) {
   }

@@ -4,11 +4,6 @@ import {PaddingType} from "../../../enums/paddingType.enum";
 import {BorderModel} from "../../../models/BorderModel";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
 import {LabelType} from "../../../enums/labelType.enum";
-import {FontWeightType} from "../../../enums/fontWeightType.enum";
-import {FontSizeType} from "../../../enums/fontSizeType.enum";
-import {FontStyleType} from "../../../enums/fontStyleType.enum";
-import {TextColorType} from "../../../enums/textColorType.enum";
-import {TextDecorationType} from "../../../enums/textDecorationType.enum";
 import {Component as AbstractComponent} from "../../Component"
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../../../enums/no_value_type";
@@ -28,12 +23,6 @@ export class LabelComponent extends AbstractComponent implements OnInit {
   @Input() border: BorderModel|NoValueType.NA=NoValueType.NA
   @Input() labelType: LabelType|undefined
   @ViewChild('label') label:ElementRef|undefined
-  FontWeight = FontWeightType
-  FontSize = FontSizeType
-  FontStyle = FontStyleType
-  TextColor = TextColorType
-  TextDecoration = TextDecorationType
-  PropertyName = PropertyName
   ngOnInit(): void {
   }
   setCalculatedHeight(val:any):boolean{

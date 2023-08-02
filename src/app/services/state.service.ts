@@ -11,6 +11,7 @@ import {Button} from "../componentclasses/Button";
 import {Label} from "../componentclasses/Label";
 import {TextInput} from "../componentclasses/TextInput";
 import {FormControl} from "../componentclasses/FormControl";
+import {Icon} from "../componentclasses/Icon";
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,8 @@ export class StateService {
         return TextInput.getProperties()
       case ComponentType.FormControl:
         return FormControl.getProperties()
+      case ComponentType.Icon:
+        return Icon.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }

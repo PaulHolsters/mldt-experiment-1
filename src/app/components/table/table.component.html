@@ -24,22 +24,22 @@
           -->
 <p-table
   #dt2
-  styleClass="{{getPropValue(propNames.tableStyle)}}"
-  responsiveLayout="{{getPropValue(propNames.responsiveTableLayout)}}"
-  [paginator]="getPropValue(propNames.paginator)"
-  [rows]="getPropValue(propNames.rows)"
-  [rowsPerPageOptions]="getPropValue(propNames.rowsPerPage)"
-  [breakpoint]="getPropValue(propNames.tableBreakPoint)"
+  styleClass="{{getPropValue(PropertyName.tableStyle)}}"
+  responsiveLayout="{{getPropValue(PropertyName.responsiveTableLayout)}}"
+  [paginator]="getPropValue(PropertyName.paginator)"
+  [rows]="getPropValue(PropertyName.rows)"
+  [rowsPerPageOptions]="getPropValue(PropertyName.rowsPerPage)"
+  [breakpoint]="getPropValue(PropertyName.tableBreakPoint)"
   [columns]="getColumns()"
-  [value]="getPropValue(propNames.currentDataList) ?? []"
+  [value]="getPropValue(PropertyName.currentDataList) ?? []"
   [style.width]="'100%'" [style.height]="'100%'"
   (sortFunction)="customSort($event)"
   [customSort]="cstmSort"
   selectionMode="single"
   [(selection)]="selectedItem"
   >
-  <ng-template *ngIf="getPropValue(propNames.caption)" pTemplate="caption">
-    <m-anchor  [component]="getPropValue(propNames.caption)"></m-anchor>
+  <ng-template *ngIf="getPropValue(PropertyName.caption)" pTemplate="caption">
+    <m-anchor  [component]="getPropValue(PropertyName.caption)"></m-anchor>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -49,7 +49,7 @@
         <!-- todo zorg ervoor dat je hier kan kiezen dat het aansluiten op de tekst of eronder komt maw
                   hier zijn meer positioneringsopties nodig-->
         {{column['header']}}
-          <m-anchor  [component]="getPropValue(propNames.columnHeaderComponents,i)"></m-anchor>
+          <m-anchor  [component]="getPropValue(PropertyName.columnHeaderComponents,i)"></m-anchor>
 <!--         <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>-->
           <span *ngIf="column['filter']" (click)="filterByColumn($event,column)" class="pi pi-filter" style="font-size: 1rem; color:rgba(255, 255, 255, 0.6);"></span>
 
@@ -70,17 +70,17 @@
 <!--  todo zorg ervoor dat je de volgorde kan meegeven in de configuratie van al deze subcomponents-->
   <ng-template pTemplate="emptymessage">
     <tr>
-      <td colspan="7">{{getPropValue(propNames.textWhenEmpty)}}</td>
+      <td colspan="7">{{getPropValue(PropertyName.textWhenEmpty)}}</td>
     </tr>
   </ng-template>
   <ng-template pTemplate="footer">
-    <m-anchor [component]="getPropValue(propNames.footer)"></m-anchor>
+    <m-anchor [component]="getPropValue(PropertyName.footer)"></m-anchor>
   </ng-template>
 <!--
  <p *ngIf="this.dataList && this.dataList.length===0"></p>
 -->
-  <ng-template  *ngIf="getPropValue(propNames.summary)" pTemplate="summary">
-    <m-anchor [component]="getPropValue(propNames.summary)"></m-anchor>
+  <ng-template  *ngIf="getPropValue(PropertyName.summary)" pTemplate="summary">
+    <m-anchor [component]="getPropValue(PropertyName.summary)"></m-anchor>
   </ng-template>
 </p-table>
 <!-- todo alternatief tonen voor als data geladen wordt of door een serverprobleem niet werkt! -->

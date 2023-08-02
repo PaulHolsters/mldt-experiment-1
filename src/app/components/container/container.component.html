@@ -127,8 +127,8 @@
                         ? false : getPropValue(PropertyName.dataAttribute)['floatLabel']"
                         [dirty]="false"
                         [invalid]="false"
-                        [small]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSize.Small"
-                        [large]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSize.Large"
+                        [small]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSizeType.Small"
+                        [large]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSizeType.Large"
                         [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
                         [conceptId]="getPropValue(PropertyName.dataConcept)['conceptData']?.id"
           ></m-input-text>

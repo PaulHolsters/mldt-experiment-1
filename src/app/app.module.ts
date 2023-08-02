@@ -42,6 +42,7 @@ import { TableComponent } from './components/table/table.component';
 import {TableModule} from "primeng/table";
 import {DialogModule} from "primeng/dialog";
 import { DialogComponent } from './components/dialog/dialog.component';
+import { IconComponent } from './components/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MultiselectComponent,
     PicklistComponent,
     TableComponent,
-    DialogComponent
+    DialogComponent,
+    IconComponent
   ],
     imports: [
         BrowserModule,

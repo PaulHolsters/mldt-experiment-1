@@ -12,8 +12,6 @@ import {Component as AbstractComponent} from "../Component"
   styleUrls: ['./table.component.css']
 })
 export class TableComponent extends AbstractComponent implements OnInit{
-
-  propNames = PropertyName
   // todo zie dat de default waarden werken => zet die ook in de component
   rows = 5
   rowsPerPage:number[] = [10,25,50]
@@ -101,5 +99,5 @@ export class TableComponent extends AbstractComponent implements OnInit{
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer
   //      de mogelijkheid van datapresentatie
 
-  protected readonly Math = Math;
+
 }

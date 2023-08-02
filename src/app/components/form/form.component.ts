@@ -13,7 +13,6 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 export class FormComponent extends AbstractComponent implements OnInit{
   @Input() conceptId:string|NoValueType.NA=NoValueType.NA
   @ViewChild('form') form:ElementRef|undefined
-  PropertyName = PropertyName
   ngOnInit(): void {
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name,this.conceptId)
     this.props = Form.getProperties()

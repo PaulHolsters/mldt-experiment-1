@@ -9,7 +9,6 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
   styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent extends AbstractComponent implements OnInit {
-  PropertyName = PropertyName
   visible:boolean|undefined
   ngOnInit(): void {
     this.props = Dialog.getProperties()

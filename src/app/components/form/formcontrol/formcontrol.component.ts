@@ -9,7 +9,6 @@ import {FormControl} from "../../../componentclasses/FormControl";
 })
 export class FormcontrolComponent extends AbstractComponent implements OnInit {
   @ViewChild('') formControl:ElementRef|undefined
-  PropertyName = PropertyName
   ngOnInit(): void {
     this.props = FormControl.getProperties()
     this.props.forEach((v,k)=>{

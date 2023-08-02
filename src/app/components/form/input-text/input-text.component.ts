@@ -36,7 +36,6 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
   iconType = IconType
   iconPositionType = IconPositionType
-  PropertyName = PropertyName
 
   ngOnInit(): void {
     this.props = TextInput.getProperties()
@@ -70,6 +69,4 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
   updateData() {
     this.dataService.updateData(this.updateKey, this.value,this.conceptId)
   }
-
-  protected readonly NoValueType = NoValueType;
 }

@@ -7,9 +7,9 @@ export enum IconType {
   Filter='pi-filter',
   FilterFill='pi-filter-fill',
   FilterSlash='pi-filter-slash',
-  Sort = 'pi-sort-alt',
-  SortAmountUp = 'pi-sort-amount-up-alt',
-  SortAmountDown = 'pi-sort-amount-down-alt',
+  Sort = 'pi pi-sort-alt',
+  SortAmountUp = 'pi pi-sort-amount-up-alt',
+  SortAmountDown = 'pi pi-sort-amount-down-alt',
   NA = 'not allowed',
   NI = 'not implemented'
 }
