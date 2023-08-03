@@ -14,4 +14,5 @@ export abstract class Form extends Component{
   public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
+  public static data: any|undefined = undefined
 }

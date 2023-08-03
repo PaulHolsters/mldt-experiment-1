@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 })
 export class LogoComponent implements OnInit {
   @Input() name = ''
+  @Input() data:any|undefined
   @ViewChild('logo') logo:HTMLImageElement|undefined
   visible$: Observable<any>|undefined
   holdSpace$: Observable<any>|undefined

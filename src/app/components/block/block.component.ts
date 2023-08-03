@@ -11,6 +11,7 @@ import {StylesService} from "../../services/styles.service";
 })
 export class BlockComponent implements OnInit, AfterViewInit {
   @Input() name = ''
+  @Input() data:any|undefined
   @ViewChild('block') block:ElementRef|undefined
   backgroundColor$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined

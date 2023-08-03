@@ -8,6 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class DateComponent implements OnInit {
   // todo
   @Input('date') date:Date|undefined
+  @Input() data:any|undefined
   @Input('name') name=''
   constructor() { }
 

@@ -13,6 +13,7 @@ import {DataRecordModel} from "../../../models/DataRecordModel";
 })
 export class MultiselectComponent implements OnInit {
   @Input() name:string|undefined
+  @Input() data:any|undefined
   @Input() options:DataRecordModel[]|undefined|NoValueType.DBI
   @Input() selectedOptions:DataRecordModel[]|undefined|NoValueType.DBI
   @Input() optionLabel:string|undefined|NoValueType.DBI

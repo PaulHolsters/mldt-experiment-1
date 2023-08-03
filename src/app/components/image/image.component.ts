@@ -8,6 +8,7 @@ import {StoreService} from "../../services/store.service";
 })
 export class ImageComponent implements OnInit {
   @Input() name = ''
+  @Input() data:any|undefined
   @ViewChild('image') image:ElementRef|undefined
   src$: Observable<any>|undefined
   alt$: Observable<any>|undefined

@@ -10,6 +10,4 @@ export abstract class Component{
     return properties
   }
 
-  public static data: any|undefined = undefined
-
 }

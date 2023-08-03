@@ -8,6 +8,7 @@ import {StoreService} from "../../services/store.service";
 })
 export class MenubarComponent implements OnInit,AfterViewInit {
   @Input() name = ''
+  @Input() data:any|undefined
   @ViewChild('menubar') menubar:ElementRef|undefined
   menuItems$:Observable<any>|undefined
   start$:Observable<any>|undefined

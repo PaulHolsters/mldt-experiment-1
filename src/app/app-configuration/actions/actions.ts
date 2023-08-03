@@ -11,9 +11,7 @@ import {StateService} from "../../services/state.service";
 import {DataRecordModel} from "../../models/DataRecordModel";
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
-  // todo fix this undefined value
-  const cc = stateService.getValue('table', PropertyName.currentColumn)
-  debugger
+  const cc = stateService.getValue('filter-dialog', PropertyName.data)
   return cl.filter((record: DataRecordModel) => {
     const entry = Object.entries(record).find(([k, v]) => {
       return k === cc.field
@@ -128,7 +126,6 @@ export const actions = [
     sourceName: NoValueType.NA,
     targetType: TargetType.Component,
   },
-  // todo omzetten naar componentClicked
   {
     on: EventType.ComponentClicked,
     actionType: ActionType.Client,
@@ -138,7 +135,6 @@ export const actions = [
     sourceName: 'filter-h1',
     targetType: TargetType.Component,
   },
-  // todo het klikken op de button werkt niet
   {
     on: EventType.ComponentClicked,
     actionType: ActionType.Client,

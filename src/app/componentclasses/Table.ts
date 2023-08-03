@@ -29,6 +29,7 @@ export abstract class Table extends Component{
   public static conceptBlueprint:Object|undefined=undefined
   public static attributes:AttributeComponentModel[]|undefined=undefined
   public static conceptName:string|undefined=undefined
+  public static data: any|undefined = undefined
   public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static visible: boolean|undefined = undefined

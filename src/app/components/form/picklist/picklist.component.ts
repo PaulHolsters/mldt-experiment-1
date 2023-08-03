@@ -8,6 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class PicklistComponent implements OnInit {
   @Input() dirty: boolean | undefined
   @Input() invalid: boolean | undefined
+  @Input() data:any|undefined
   @Input() disabled: boolean | undefined
   constructor() { }
 

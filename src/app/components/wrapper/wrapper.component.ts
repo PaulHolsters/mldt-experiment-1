@@ -9,6 +9,7 @@ import {StoreService} from "../../services/store.service";
 })
 export class WrapperComponent implements OnInit {
   @Input() name:string|undefined
+  @Input() data:any|undefined
   @ViewChild('container') container: ElementRef | undefined
   row$: Observable<any> | undefined
   column$: Observable<any> | undefined

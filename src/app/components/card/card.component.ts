@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ConfigService} from "../../services/config.service";
 import {DomSanitizer} from "@angular/platform-browser";
 
@@ -16,6 +16,9 @@ export class CardComponent implements OnInit,AfterViewInit {
   headerText:string|undefined
   subheaderText:string|undefined
   content:string|undefined
+
+  @Input() data:any|undefined
+
   headerTemplate: {element:string,attr:{
       src: string|undefined,alt:string|undefined,text:string|undefined,html:string|undefined
     }}|undefined

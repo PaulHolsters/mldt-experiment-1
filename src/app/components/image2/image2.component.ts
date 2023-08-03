@@ -8,6 +8,7 @@ import {StoreService} from "../../services/store.service";
 })
 export class Image2Component implements OnInit,AfterViewInit {
   @Input() name = ''
+  @Input() data:any|undefined
   @ViewChild('img') img:ElementRef|undefined
   alt$: Observable<any>|undefined
   calcHeight$: Observable<any>|undefined

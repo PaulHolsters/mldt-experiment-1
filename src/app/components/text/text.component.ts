@@ -13,6 +13,7 @@ import {StylesService} from "../../services/styles.service";
 })
 export class TextComponent implements OnInit {
   @Input('name') name=''
+  @Input() data:any|undefined
   @Input() text:string|undefined
   @Input() fontWeight: FontWeightType|undefined
   @Input() fontStyle: FontStyleType|undefined

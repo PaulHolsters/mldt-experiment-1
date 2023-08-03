@@ -12,6 +12,7 @@ import {StoreService} from "../../../services/store.service";
 })
 export class InputNumberComponent implements OnInit {
   @Input() name = ''
+  @Input() data:any|undefined
   @Input() advisoryText:string|undefined
   @Input() label:string|undefined
   @Input() floatLabel:boolean|undefined| NoValueType.NA
