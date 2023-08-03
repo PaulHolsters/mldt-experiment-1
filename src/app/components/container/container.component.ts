@@ -1,9 +1,5 @@
 import {AfterContentChecked, Component, ElementRef,  OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {ComponentType} from "../../enums/componentTypes.enum";
-import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
-import {NoValueType} from "../../enums/no_value_type";
-import {RestrictionType} from "../../enums/restrictionType.enum";
 import {EventType} from "../../enums/eventTypes.enum";
 import {RootComponent} from "../../app-configuration/root/rootComponent";
 import {Component as AbstractComponent} from "../Component"

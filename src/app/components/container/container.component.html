@@ -293,6 +293,16 @@
                             [data]="data"
           ></m-table>
         </ng-container>
+        <ng-container *ngSwitchCase="componentType.Paginator">
+          <m-paginator          [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                            [name]="child.name"
+                            [style.height]="'100%'"
+                            [style.width]="'100%'"
+                            [data]="data"
+          ></m-paginator>
+        </ng-container>
         <m-container *ngSwitchCase="componentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

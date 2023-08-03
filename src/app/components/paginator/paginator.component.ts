@@ -4,7 +4,7 @@ import {EventType} from "../../enums/eventTypes.enum";
 import {Paginator} from "../../componentclasses/Paginator";
 
 @Component({
-  selector: 'app-paginator',
+  selector: 'm-paginator',
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.css']
 })
