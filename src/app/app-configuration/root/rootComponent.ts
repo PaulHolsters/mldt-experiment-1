@@ -11,6 +11,7 @@ import {deleteContainer} from "../deleteContainer/deleteContainer";
 import {table} from "../table/table";
 import {actions} from "../actions/actions";
 import {dialog} from "../dialog/dialog";
+import {paginator} from "../paginator/dialog";
 
 export const RootComponent = new AppConfig({
   components: [
@@ -28,12 +29,12 @@ export const RootComponent = new AppConfig({
         deleteContainer,
         //form,
         table,
-        dialog
+        dialog,
+        paginator
       ]
     },
   ],
   // hou er rekening mee dat de volgorde van de actions in deze array gevolgen kunnen hebben op
   // de condities zoals gedefinieerd in de overeenkomstige actie
-  // todo: test of dbp nog werkt
   actions: actions
 })
