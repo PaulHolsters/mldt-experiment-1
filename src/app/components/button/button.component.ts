@@ -16,8 +16,6 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
   @ViewChild('button') button:ElementRef|undefined
   // @Input() condition:Function|boolean|undefined
   ngOnInit(): void {
-    // todo elke component in de array van het anchor wordt 4 keer opnieuw gerenderd ipv 1
-    // todo vanuit de engine komen er geen waarden binnen dus ze worden ook niet berekend ... => de methodes zijn maw niet correct aangepast!!!
     this.props = Button.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{

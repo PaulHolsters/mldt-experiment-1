@@ -53,7 +53,7 @@ export class TableComponent extends AbstractComponent implements OnInit{
     this.yP ? this.yP.value = event.clientY : undefined*/
     if(field && field.tableColumn?.filter){
       this.setPropValue(PropertyName.currentColumn,column)
-      this.eventsService.triggerEvent(EventType.ColumnFilterClicked,this.name)
+      this.eventsService.triggerEvent(EventType.ComponentClicked,this.name)
     }
   }
   handleRow(){

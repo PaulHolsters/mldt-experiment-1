@@ -4,5 +4,5 @@ export enum EventType {
   RootComponentReady,
   ActionFinished,
   RowSelected,
-  ColumnFilterClicked
+  PageChanged
 }

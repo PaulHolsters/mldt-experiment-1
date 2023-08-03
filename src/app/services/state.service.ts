@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ConfigService} from "./config.service";
-import {StoreService} from "./store.service";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {Table} from "../componentclasses/Table";
-import utilFunctions from "../utils/utilFunctions";
 import {Container} from "../componentclasses/Container";
 import {Form} from "../componentclasses/Form";
 import {Dialog} from "../componentclasses/Dialog";
@@ -12,6 +10,7 @@ import {Label} from "../componentclasses/Label";
 import {TextInput} from "../componentclasses/TextInput";
 import {FormControl} from "../componentclasses/FormControl";
 import {Icon} from "../componentclasses/Icon";
+import {Paginator} from "../componentclasses/Paginator";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +39,8 @@ export class StateService {
         return FormControl.getProperties()
       case ComponentType.Icon:
         return Icon.getProperties()
+      case ComponentType.Paginator:
+        return Paginator.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }

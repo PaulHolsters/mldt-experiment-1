@@ -18,5 +18,6 @@ export enum ComponentType {
   MultiSelect,
   Table,
   Dialog,
-  Icon
+  Icon,
+  Paginator
 }

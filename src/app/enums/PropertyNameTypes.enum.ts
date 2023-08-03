@@ -71,6 +71,14 @@ export enum PropertyName {
   iconMeaning = 'iconMeaning',
   padding = 'padding',
   margin = 'margin',
-  data = 'data'
+  data = 'data',
+  rowsPerPageOptions='rowsPerPageOptions',
+  first='first',
+  totalRecords='totalRecords',
+  showCurrentPageReport='showCurrentPageReport',
+  showPageLinks='showPageLinks',
+  showJumpToPageDropdown='showJumpToPageDropdown',
+  showFirstLastIcon='showFirstLastIcon',
+  currentPageReportTemplate='currentPageReportTemplate'
 
 }

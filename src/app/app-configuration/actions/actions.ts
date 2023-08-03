@@ -143,7 +143,18 @@ export const actions = [
     targetName: 'table',
     sourceName: 'filter-btn',
     targetType: TargetType.Component,
-  }
+    id: 'filtering table'
+  },
+  {
+    on: EventType.ActionFinished,
+    sourceId: 'filtering table',
+    actionType: ActionType.Client,
+    actionSubType: ActionSubType.SetProperty,
+    value: new ActionValueModel(PropertyName.visible, false),
+    targetName: 'filter-dialog',
+    sourceName: NoValueType.NA,
+    targetType: TargetType.Component,
+  },
   /*        {
             actionType: ActionType.Server,
             actionSubType: ActionSubType.GetDataBluePrint,
