@@ -10,6 +10,7 @@ import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StateService} from "./state.service";
 import {StoreService} from "./store.service";
 import {ActionValueModel} from "../models/ActionValueModel";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class UiActionsService {
   public bindActions(){
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetConfigValueAndRebuild)?.subscribe(res=>{
       if(res){
-        const action = this.setConfigValueAndRebuild(res.action)
+        const action = this.setConfigValueAndRebuild(res.action,res.data)
         if(action){
           this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
         }
@@ -33,14 +34,14 @@ export class UiActionsService {
     })
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetProperty)?.subscribe(res=>{
       if(res){
-        const action = this.setProperty(res.action)
+        const action = this.setProperty(res.action,res.data)
         if(action){
           this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
         }
       }
     })
   }
-  private setConfigValueAndRebuild(action:ActionModel){
+  private setConfigValueAndRebuild(action:ActionModel,data?:any){
     const currentAppConfig = this.configService.appConfig
     if(currentAppConfig){
       let config = this.configService.getComponentConfig(action.targetName)
@@ -55,12 +56,18 @@ export class UiActionsService {
     }
     return false
   }
-  private setProperty(action:ActionModel){
+  private setProperty(action:ActionModel,data?:any){
     let val
     if(typeof (action.value as ActionValueModel).value === 'function'){
       val = (action.value as ActionValueModel).value(this.stateService)
     }
     if(!val) val = (action.value as ActionValueModel).value
+    // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
+    this.storeService.getStatePropertySubjects().find(prop=>{
+      if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
+        return prop.propName === PropertyName.data
+      return false
+    })?.propValue.next(data)
       this.storeService.getStatePropertySubjects().find(prop=>{
         if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
           return prop.propName === action.value.name

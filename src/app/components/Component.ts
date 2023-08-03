@@ -45,7 +45,7 @@ export class Component{
     return typeof index === 'number' ? this.props?.get(key)[index] : this.props?.get(key)
   }
   trigger(event: EventType){
-    this.eventsService.triggerEvent(event,this.name)
+    this.eventsService.triggerEvent(event,this.name,this.data)
   }
   setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
     if(this.props){

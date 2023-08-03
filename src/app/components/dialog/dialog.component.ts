@@ -16,6 +16,7 @@ export class DialogComponent extends AbstractComponent implements OnInit {
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
         this.setPropValue(k,res)
+        if(k==='data') debugger
       })
     })
     this.storeService.bindToStateProperty(this.name, 'visible')?.subscribe(res => {

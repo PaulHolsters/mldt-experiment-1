@@ -230,6 +230,7 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                         [style.height]="'100%'"
                         [style.width]="'100%'"
+                      [data]="data"
                         *ngSwitchCase="componentType.Icon"
                         [name]="child.name"></m-icon>
         <m-image          [class]="['flex',

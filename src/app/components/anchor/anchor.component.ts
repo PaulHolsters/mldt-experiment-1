@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ComponentModel} from "../../models/ComponentModel";
-import {ComponentType} from "../../enums/componentTypes.enum";
 import {Observable} from "rxjs";
 import {Component as AbstractComponent} from "../Component"
 @Component({

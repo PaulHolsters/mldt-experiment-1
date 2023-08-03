@@ -5,8 +5,11 @@ export abstract class Component{
     keys.forEach(k=>{
       if(typeof k === 'string')
       properties.set(k,Reflect.get(this,k))
+
     })
     return properties
   }
+
+  public static data: any|undefined = undefined
 
 }

@@ -32,7 +32,7 @@ export class ActionsService{
     })
     this.bindToActionsEmitter.next(undefined)
   }
-  public triggerAction(action: ActionModel,data?:string):void{
+  public triggerAction(action: ActionModel,data?:any):void{
     this.actionSubjects?.find(subj => {
       // todo wat als er twee acties zijn met hetzelfde type en subtype? => filter ook op id en event indien nodig, of zie dat je ze allemaal uitvoert!
       return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
