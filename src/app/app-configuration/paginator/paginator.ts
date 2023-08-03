@@ -20,6 +20,19 @@ export const paginator =
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        false,
+        10,
+        [5,15,100],
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        true,
+        false,
+        true,
+        undefined,
+        100
       )
     ),
     new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true,false)))

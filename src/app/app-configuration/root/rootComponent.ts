@@ -11,7 +11,7 @@ import {deleteContainer} from "../deleteContainer/deleteContainer";
 import {table} from "../table/table";
 import {actions} from "../actions/actions";
 import {dialog} from "../dialog/dialog";
-import {paginator} from "../paginator/dialog";
+import {paginator} from "../paginator/paginator";
 
 export const RootComponent = new AppConfig({
   components: [

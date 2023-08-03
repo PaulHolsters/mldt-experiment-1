@@ -18,7 +18,13 @@ export class AttributesComponentPropsModel {
               public rows: number | NoValueType.NA,
               public rowsPerPage:number[]|NoValueType.NA,
               public dataLink: string[] | NoValueType.NA,
-              public columnHeaderComponents:ComponentModel[]|NoValueType.NA
+              public columnHeaderComponents:ComponentModel[]|NoValueType.NA,
+              public currentPageReportTemplate:string|NoValueType.NA,
+              public showFirstLastIcon:boolean ,
+              public showJumpToPageDropdown:boolean ,
+              public showPageLinks:boolean ,
+              public first:number|NoValueType.NA,
+              public totalRecords:number|NoValueType.NA,
   ) {
   }
   public setProperty(propName: string, value: string|number|MenuItem[]|ComponentModel| undefined): void {
