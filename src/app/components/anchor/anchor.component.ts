@@ -11,14 +11,15 @@ export class AnchorComponent extends AbstractComponent implements OnInit,AfterCo
   @Input() component:ComponentModel|undefined
 
   ngOnInit(): void {
-  }
-  ngAfterContentChecked(){
     const classname = this.element?.nativeElement?.parentElement?.className
     if(classname){
       if(classname.search('p-datatable-footer')!==-1){
         this.element?.nativeElement?.parentElement?.classList.add('p-0')
       }
     }
+  }
+  ngAfterContentChecked(){
+
   }
   bindToStateProperty(componentName: string, property: string): Observable<string> {
     return this.storeService.bindToStateProperty(componentName, property) as Observable<string>
