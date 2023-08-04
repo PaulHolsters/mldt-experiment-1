@@ -25,6 +25,9 @@ export class AttributesComponentPropsModel {
               public showPageLinks:boolean ,
               public first:number|NoValueType.NA,
               public totalRecords:number|NoValueType.NA,
+              public footer: ComponentModel | NoValueType.NA,
+              public summary: ComponentModel | NoValueType.NA,
+              public caption: ComponentModel | NoValueType.NA,
   ) {
   }
   public setProperty(propName: string, value: string|number|MenuItem[]|ComponentModel| undefined): void {

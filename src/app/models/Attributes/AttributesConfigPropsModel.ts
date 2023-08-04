@@ -29,6 +29,9 @@ export class AttributesConfigPropsModel {
     public showPageLinks:boolean = false,
     public first:number|NoValueType.NA = 0,
     public totalRecords:number|NoValueType.NA = 0,
+    public footer: ComponentModel|NoValueType.NA = NoValueType.NA,
+    public summary: ComponentModel|NoValueType.NA = NoValueType.NA,
+    public caption: ComponentModel|NoValueType.NA = NoValueType.NA,
   ) {
   }
 }

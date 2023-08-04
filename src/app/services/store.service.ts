@@ -196,7 +196,6 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
     const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
@@ -292,7 +291,6 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
       const compPropsObj = new AttributesComponentPropsModel(
@@ -315,7 +313,13 @@ export class StoreService implements OnInit {
         NoValueType.NA,
         NoValueType.NA,
         false,
-        false,false,NoValueType.NA,NoValueType.NA
+        false,
+        false,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA,
+        NoValueType.NA
       )
       Object.entries(attributesConfig).forEach(([k, v]) => {
         compPropsObj.setProperty(k, v)
