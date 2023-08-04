@@ -10,7 +10,6 @@ export enum PropertyName {
   textWhenEmpty='textWhenEmpty',
   caption = 'caption',
   summary = 'summary',
-  footer = 'footer',
   tableStyle = 'tableStyle',
   responsiveTableLayout = 'responsiveTableLayout',
   paginator = 'paginator',
@@ -79,6 +78,7 @@ export enum PropertyName {
   showPageLinks='showPageLinks',
   showJumpToPageDropdown='showJumpToPageDropdown',
   showFirstLastIcon='showFirstLastIcon',
-  currentPageReportTemplate='currentPageReportTemplate'
+  currentPageReportTemplate='currentPageReportTemplate',
+  display='display'
 
 }

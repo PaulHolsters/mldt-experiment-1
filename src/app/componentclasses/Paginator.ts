@@ -21,6 +21,8 @@ export abstract class Paginator extends Component {
   public static calcWidth: string|undefined = undefined
   public static width:string|undefined = undefined
   public static height:string|undefined = undefined
+  public static padding: string|undefined = undefined
+  public static margin: string|undefined = undefined
 
 
 }

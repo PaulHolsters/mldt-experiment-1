@@ -6,5 +6,12 @@
              [showCurrentPageReport]="getPropValue(PropertyName.showCurrentPageReport)"
              [showPageLinks]="getPropValue(PropertyName.showPageLinks)"
              [showJumpToPageDropdown]="getPropValue(PropertyName.showJumpToPageDropdown)"
-
+             [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+             [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+             [style.height]="getPropValue(PropertyName.height)"
+             [style.width]="getPropValue(PropertyName.width)"
+             [ngClass]="getStyleClasses(
+  getPropValue(PropertyName.padding),
+  getPropValue(PropertyName.margin))"
+             #paginator
 ></p-paginator>

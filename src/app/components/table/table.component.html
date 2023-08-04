@@ -23,7 +23,7 @@
             contextmenu
           -->
 <p-table
-  #dt2
+  #dt
   styleClass="{{getPropValue(PropertyName.tableStyle)}}"
   responsiveLayout="{{getPropValue(PropertyName.responsiveTableLayout)}}"
   [paginator]="getPropValue(PropertyName.paginator)"
@@ -37,6 +37,7 @@
   [customSort]="cstmSort"
   selectionMode="single"
   [(selection)]="selectedItem"
+
   >
   <ng-template *ngIf="getPropValue(PropertyName.caption)" pTemplate="caption">
     <m-anchor  [component]="getPropValue(PropertyName.caption)"></m-anchor>
@@ -70,18 +71,11 @@
       </td>
     </tr>
   </ng-template>
-<!--  todo zorg ervoor dat je de volgorde kan meegeven in de configuratie van al deze subcomponents-->
   <ng-template pTemplate="emptymessage">
     <tr>
       <td colspan="7">{{getPropValue(PropertyName.textWhenEmpty)}}</td>
     </tr>
   </ng-template>
-  <ng-template pTemplate="footer">
-    <m-anchor [component]="getPropValue(PropertyName.footer)"></m-anchor>
-  </ng-template>
-<!--
- <p *ngIf="this.dataList && this.dataList.length===0"></p>
--->
   <ng-template  *ngIf="getPropValue(PropertyName.summary)" pTemplate="summary">
     <m-anchor [component]="getPropValue(PropertyName.summary)"></m-anchor>
   </ng-template>

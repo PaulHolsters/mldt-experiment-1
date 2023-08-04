@@ -25,6 +25,7 @@ import {DisplayType} from "../../enums/displayType.enum";
 import {ResponsivePositioningConfigModel} from "../../models/Positioning/self/ResponsivePositioningConfigModel";
 import {IconSizeType} from "../../enums/iconSizeType.enum";
 import {IconMeaningType} from "../../enums/iconMeaningType.enum";
+import {paginator} from "../paginator/paginator";
 
 export const table = {
   name: 'table',
@@ -51,12 +52,10 @@ export const table = {
         NoValueType.NA,NoValueType.NA,NoValueType.NA,
         NoValueType.NA,
         'Geen producten aanwezig.',
-        true,
-        5,
-        [5,10,15],
+        false,
         NoValueType.NA,
-        // todo de methodes verwachten hier één component niet zoals bij children een array met componenten
-        // de eerste methode wil indien het gaat om children!
+        NoValueType.NA,
+        NoValueType.NA,
         [
           {
             name:'c1-header',
@@ -139,7 +138,14 @@ export const table = {
               IconSizeType.Large,IconMeaningType.Danger
             )),
             position:new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))}
-        ])),
+        ],NoValueType.NA,
+        false,
+        false,
+        false,
+        NoValueType.NA,
+        NoValueType.NA,
+        paginator,
+        NoValueType.NA)),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
   data:conceptModel

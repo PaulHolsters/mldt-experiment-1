@@ -17,7 +17,6 @@ export abstract class Table extends Component{
   public static textWhenEmpty:string|undefined=undefined
   public static caption:ComponentModel|undefined=undefined
   public static summary:ComponentModel|undefined=undefined
-  public static footer:ComponentModel|undefined=undefined
   public static columnHeaderComponents:ComponentModel|undefined=undefined
   public static tableStyle:TableStylingType|undefined=undefined
   public static responsiveTableLayout:ResponsiveTableLayoutType|undefined=undefined

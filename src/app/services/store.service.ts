@@ -318,7 +318,6 @@ export class StoreService implements OnInit {
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
-        NoValueType.NA,
         NoValueType.NA
       )
       Object.entries(attributesConfig).forEach(([k, v]) => {

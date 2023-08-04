@@ -30,7 +30,6 @@ export const RootComponent = new AppConfig({
         //form,
         table,
         dialog,
-        paginator
       ]
     },
   ],

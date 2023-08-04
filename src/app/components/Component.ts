@@ -3,7 +3,7 @@ import {StateService} from "../services/state.service";
 import {StoreService} from "../services/store.service";
 import {EventsService} from "../services/events.service";
 import {DataService} from "../services/data.service";
-import {ChangeDetectorRef, Directive, Input} from "@angular/core";
+import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
 import {StylesService} from "../services/styles.service";
 import {EventType} from "../enums/eventTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
@@ -21,12 +21,14 @@ export class Component{
   @Input() public name!:string
   @Input() data:any|undefined
   constructor(
+    protected element:ElementRef,
     protected cd: ChangeDetectorRef,
     protected stateService:StateService,
     protected storeService:StoreService,
     protected eventsService:EventsService,
     protected dataService:DataService,
     protected stylesService:StylesService) {
+
   }
   protected props:Map<string,any>|undefined
   protected readonly EventType = EventType
