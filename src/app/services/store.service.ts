@@ -305,7 +305,6 @@ export class StoreService implements OnInit {
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
-        NoValueType.NA,
         false,
         NoValueType.NA,
         NoValueType.NA,
@@ -387,7 +386,6 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public setRBSState(componentName: string,
                      newState: (PositioningComponentPropsModel |
                        AttributesComponentPropsModel |

@@ -8,7 +8,7 @@ export class AttributesComponentPropsModel {
               public icon: string | NoValueType.NA,
               public label: string | NoValueType.NA,
               public header: string | NoValueType.NA,
-              public width: number | NoValueType.NA,
+              //public width: number | NoValueType.NA,todo nuttig voor een bepaalde property maar clasht met width van dimensions
               public menuItems: MenuItem[] | NoValueType.NA,
               public start: ComponentModel | NoValueType.NA,
               public end: ComponentModel | NoValueType.NA,

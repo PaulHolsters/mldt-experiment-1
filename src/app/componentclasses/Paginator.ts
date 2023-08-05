@@ -1,5 +1,6 @@
 import {Component} from "./Component";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
+import {BorderModel} from "../models/BorderModel";
 
 export abstract class Paginator extends Component {
   public static data: any | undefined = undefined
@@ -22,6 +23,7 @@ export abstract class Paginator extends Component {
   public static height:string|undefined = undefined
   public static padding: string|undefined = undefined
   public static margin: string|undefined = undefined
+  public static border: BorderModel|undefined = undefined
 
 
 }

@@ -43,7 +43,7 @@ import {TableModule} from "primeng/table";
 import {DialogModule} from "primeng/dialog";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { IconComponent } from './components/icon/icon.component';
-import { PaginatorComponent } from './components/paginator/paginator.component';
+import { PaginatorComponent } from './components/table/paginator/paginator.component';
 import {PaginatorModule} from "primeng/paginator";
 import { FooterComponent } from './components/table/footer/footer.component';
 

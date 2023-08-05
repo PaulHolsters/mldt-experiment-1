@@ -80,6 +80,7 @@ export enum PropertyName {
   showFirstLastIcon='showFirstLastIcon',
   currentPageReportTemplate='currentPageReportTemplate',
   display='display',
-  component='component'
+  component='component',
+  border = 'border'
 
 }

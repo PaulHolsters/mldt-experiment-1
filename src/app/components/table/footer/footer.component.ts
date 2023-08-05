@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {EventType} from "../../../enums/eventTypes.enum";
 import {Component as AbstractComponent} from "../../Component";
 import {TableFooter} from "../../../componentclasses/TableFooter";
@@ -10,7 +10,7 @@ import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })
-export class FooterComponent extends AbstractComponent implements OnInit {
+export class FooterComponent extends AbstractComponent implements OnInit,AfterViewInit {
   @Input() component: ComponentModel | undefined
 
   ngOnInit(): void {
@@ -35,6 +35,10 @@ export class FooterComponent extends AbstractComponent implements OnInit {
       })
     })
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+  }
+
+  ngAfterViewInit(): void {
+    this.cd.detectChanges()
   }
 
 }

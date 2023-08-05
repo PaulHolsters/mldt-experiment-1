@@ -57,7 +57,7 @@ export const buttons= new ComponentModel(
   [    {
     name:'filter-btn',
     type:ComponentType.Button,
-    attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+    attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA,  NoValueType.NA, NoValueType.NA, NoValueType.NA,
       'Filter op kolom')),
     visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
   }],

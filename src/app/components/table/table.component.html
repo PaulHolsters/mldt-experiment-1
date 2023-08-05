@@ -37,7 +37,10 @@
   [customSort]="cstmSort"
   selectionMode="single"
   [(selection)]="selectedItem"
-
+  (rowsChange)="recal($event)"
+  (click)="recal($event)"
+  [pageLinks]="1"
+  [showPageLinks]="true"
   >
   <ng-template *ngIf="getPropValue(PropertyName.caption)" pTemplate="caption">
     <m-anchor  [component]="getPropValue(PropertyName.caption)"></m-anchor>

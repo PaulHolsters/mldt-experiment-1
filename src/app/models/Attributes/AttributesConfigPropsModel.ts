@@ -8,7 +8,7 @@ export class AttributesConfigPropsModel {
     public src: string|NoValueType.NA = NoValueType.NA,
     public alt: string|NoValueType.NA = NoValueType.NA,
     public name: string|NoValueType.NA = NoValueType.NA,
-    public width: number|NoValueType.NA = NoValueType.NA,
+    // public width: number|NoValueType.NA = NoValueType.NA, todo nuttig voor een bepaalde property maar clasht met width van dimensions
     public icon:string|NoValueType.NA = NoValueType.NA,
     public label:string|NoValueType.NA = NoValueType.NA,
     public menuItems: MenuItem[]|NoValueType.NA = NoValueType.NA,

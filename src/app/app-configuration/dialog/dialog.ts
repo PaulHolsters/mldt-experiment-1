@@ -31,13 +31,12 @@ export const dialog =         // todo dit is het attribuut filterComponent (je z
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
-        NoValueType.NA,
         // todo aanpassen methodes die gebruik maken van instanceof ComponentModel
         {
           name:'filter-form',
           type:ComponentType.Form,
           attributes: new ResponsiveAttributesConfigModel(
-            new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA,NoValueType.NA, NoValueType.NA, NoValueType.NA,NoValueType.NA,
+            new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA,NoValueType.NA, NoValueType.NA, NoValueType.NA,
               NoValueType.NA, NoValueType.NA, NoValueType.NA,
               new ComponentModel(
                 'filter-form-container',

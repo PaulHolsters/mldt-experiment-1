@@ -13,26 +13,24 @@ import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/Fixed
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
-import {ResponsivePositioningConfigModel} from "../../models/Positioning/self/ResponsivePositioningConfigModel";
-import {PositioningConfigPropsModel} from "../../models/Positioning/self/PositioningConfigPropsModel";
-import {DisplayType} from "../../enums/displayType.enum";
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
 import {PaddingType} from "../../enums/paddingType.enum";
 import {MarginType} from "../../enums/marginType.enum";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
+import {BorderModel} from "../../models/BorderModel";
+import {BorderWidthType} from "../../enums/borderWidthType.enum";
 
 export const paginator =
   new ComponentModel(
     'paginator',
     ComponentType.Paginator,
     undefined,
-    new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Block)),
+    undefined,
     new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.NC, new WidthConfigPropsModel(
       new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC
     ))),
     new ResponsiveAttributesConfigModel(
       new AttributesConfigPropsModel(
-        NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
@@ -60,5 +58,6 @@ export const paginator =
     new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true,false)),
     undefined,
     undefined,
-    new ResponsiveStylingConfigModel(new StylingConfigPropsModel(undefined,PaddingType.All_0,MarginType.All_0)
+    new ResponsiveStylingConfigModel(new StylingConfigPropsModel(undefined,PaddingType.All_0,MarginType.All_0,NoValueType.NA,
+      NoValueType.NA,NoValueType.NA,undefined,new BorderModel(undefined,undefined,undefined,BorderWidthType.No_width),)
     ))

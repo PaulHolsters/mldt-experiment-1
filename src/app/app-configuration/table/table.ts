@@ -49,12 +49,12 @@ export const table = {
   ))),
   attributes:new ResponsiveAttributesConfigModel(
       new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-        NoValueType.NA,NoValueType.NA,NoValueType.NA,
+        NoValueType.NA,NoValueType.NA,
         NoValueType.NA,
         'Geen producten aanwezig.',
-        false,
-        NoValueType.NA,
-        NoValueType.NA,
+        true,
+        10,
+        [5,10,20],
         NoValueType.NA,
         [
           {
@@ -67,7 +67,7 @@ export const table = {
                 name:'sort-h1',
                 type:ComponentType.Icon,
                 attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-                  NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+                  NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
                   NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
                 )),
                 visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
@@ -83,7 +83,7 @@ export const table = {
                 name:'filter-h1',
                 type:ComponentType.Icon,
                 attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-                  NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Filter,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+                  NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Filter,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
                   NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
                 )),
                 visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
@@ -99,7 +99,7 @@ export const table = {
           {name:'sort-h2',
             type:ComponentType.Icon,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
@@ -113,7 +113,7 @@ export const table = {
           {name:'sort-h3',
             type:ComponentType.Icon,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-              NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              NoValueType.NA,NoValueType.NA,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
@@ -127,7 +127,7 @@ export const table = {
           {name:'sort-h4',
             type:ComponentType.Icon,
             attributes:new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-              undefined,undefined,undefined,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+              undefined,undefined,undefined,NoValueType.NA,IconType.Sort,NoValueType.NA,NoValueType.NA,NoValueType.NA,
               NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
             )),
             visibility:new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
@@ -144,7 +144,7 @@ export const table = {
         false,
         NoValueType.NA,
         NoValueType.NA,
-        footer,
+        NoValueType.NA,
         NoValueType.NA)),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed

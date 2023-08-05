@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
@@ -16,7 +17,7 @@ import {Component as AbstractComponent} from "../Component"
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent extends AbstractComponent implements OnInit{
+export class TableComponent extends AbstractComponent implements OnInit,AfterViewInit{
   // todo zie dat de default waarden werken => zet die ook in de component
   @ViewChild('dt') dt:ElementRef|undefined
   rows = 5
@@ -29,7 +30,12 @@ export class TableComponent extends AbstractComponent implements OnInit{
   y:{key:string,value:number}
   yP:{key:string,value:number}*/
   singleRowSelect$:Observable<any>|undefined
+  // paginator:
+  // pageChangedEvent=> fetch data for next/prev page, laat ondertussen een spinner zien,
+  // ondertussen weet je wel het totaal aantal records, op basis van first, rows en het totale aantal zou
+  // je de paginator correct moeten kunnen zetten
   ngOnInit(): void {
+    // todo fix bug de lijst is weg
     this.props = Table.getProperties()
       this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
@@ -104,6 +110,11 @@ export class TableComponent extends AbstractComponent implements OnInit{
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer
   //      de mogelijkheid van datapresentatie
-
+  ngAfterViewInit(): void {
+    this.cd.detectChanges()
+  }
+  recal(event:any){
+    debugger
+  }
 
 }

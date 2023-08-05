@@ -9,6 +9,7 @@ import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStyli
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {PaddingType} from "../../enums/paddingType.enum";
 import {paginator} from "./paginator";
+import {buttons} from "../form1/buttons";
 
 export const footer =
   new ComponentModel(
@@ -28,7 +29,6 @@ export const footer =
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
-        paginator,
         NoValueType.NA,
         NoValueType.NA,
         false,
