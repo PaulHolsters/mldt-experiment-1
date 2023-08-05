@@ -35,7 +35,7 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
   // ondertussen weet je wel het totaal aantal records, op basis van first, rows en het totale aantal zou
   // je de paginator correct moeten kunnen zetten
   ngOnInit(): void {
-    // todo fix bug de lijst is weg
+    // todo onderzoek lazy loading in de docx
     this.props = Table.getProperties()
       this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
