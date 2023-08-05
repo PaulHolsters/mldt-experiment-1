@@ -24,6 +24,7 @@ import {ButtonAppearanceType} from "../enums/buttonAppearanceType.enum";
 export class StylesService {
   public bindActions(){
   }
+  // todo wijizg property van numbers naar de juiste strings en verwijder deze methodes
   public getFont(
     fontWeight:FontWeightType,
     fontStyle:FontStyleType,

@@ -47,5 +47,5 @@ export const footer =
     new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true,false)),
     undefined,
     undefined,
-    new ResponsiveStylingConfigModel(new StylingConfigPropsModel(undefined,PaddingType.All_0,NoValueType.NA)
+    new ResponsiveStylingConfigModel(new StylingConfigPropsModel(undefined,PaddingType.All_3,NoValueType.NA)
     ))
