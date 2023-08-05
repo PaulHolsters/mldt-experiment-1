@@ -26,6 +26,7 @@ import {ResponsivePositioningConfigModel} from "../../models/Positioning/self/Re
 import {IconSizeType} from "../../enums/iconSizeType.enum";
 import {IconMeaningType} from "../../enums/iconMeaningType.enum";
 import {paginator} from "../paginator/paginator";
+import {footer} from "./footer";
 
 export const table = {
   name: 'table',
@@ -144,7 +145,7 @@ export const table = {
         false,
         NoValueType.NA,
         NoValueType.NA,
-        paginator,
+        footer,
         NoValueType.NA)),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed

@@ -45,6 +45,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { IconComponent } from './components/icon/icon.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import {PaginatorModule} from "primeng/paginator";
+import { FooterComponent } from './components/table/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import {PaginatorModule} from "primeng/paginator";
     TableComponent,
     DialogComponent,
     IconComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    FooterComponent
   ],
     imports: [
         BrowserModule,

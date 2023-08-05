@@ -76,8 +76,8 @@
       <td colspan="7">{{getPropValue(PropertyName.textWhenEmpty)}}</td>
     </tr>
   </ng-template>
-  <ng-template  *ngIf="getPropValue(PropertyName.summary)" pTemplate="summary">
-    <m-anchor [component]="getPropValue(PropertyName.summary)"></m-anchor>
+  <ng-template  *ngIf="getPropValue(PropertyName.footer)" pTemplate="summary">
+    <m-table-footer [component]="getPropValue(PropertyName.footer)"></m-table-footer>
   </ng-template>
 </p-table>
 <!-- todo alternatief tonen voor als data geladen wordt of door een serverprobleem niet werkt! -->

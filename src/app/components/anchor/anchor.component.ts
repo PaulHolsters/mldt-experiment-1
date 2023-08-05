@@ -11,13 +11,6 @@ export class AnchorComponent extends AbstractComponent implements OnInit,AfterCo
   @Input() component:ComponentModel|undefined
 
   ngOnInit(): void {
-    // todo code uitwerken zodat je de primeng footer ook kan vormgeven via de configuratie
-    const classname = this.element?.nativeElement?.parentElement?.className
-    if(classname){
-      if(classname.search('p-datatable-footer')!==-1){
-        this.element?.nativeElement?.parentElement?.classList.add('p-0')
-      }
-    }
   }
   ngAfterContentChecked(){
 

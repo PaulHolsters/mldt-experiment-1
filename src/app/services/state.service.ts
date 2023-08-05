@@ -11,6 +11,7 @@ import {TextInput} from "../componentclasses/TextInput";
 import {FormControl} from "../componentclasses/FormControl";
 import {Icon} from "../componentclasses/Icon";
 import {Paginator} from "../componentclasses/Paginator";
+import {TableFooter} from "../componentclasses/TableFooter";
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,8 @@ export class StateService {
         return Icon.getProperties()
       case ComponentType.Paginator:
         return Paginator.getProperties()
+      case ComponentType.TableFooter:
+        return TableFooter.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }
