@@ -25,7 +25,6 @@ import {DisplayType} from "../../enums/displayType.enum";
 import {ResponsivePositioningConfigModel} from "../../models/Positioning/self/ResponsivePositioningConfigModel";
 import {IconSizeType} from "../../enums/iconSizeType.enum";
 import {IconMeaningType} from "../../enums/iconMeaningType.enum";
-import {paginator} from "../paginator/paginator";
 import {footer} from "./footer";
 
 export const table = {

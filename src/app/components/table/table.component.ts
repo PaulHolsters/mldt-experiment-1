@@ -1,12 +1,7 @@
 import {
-  AfterContentChecked,
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
-  TemplateRef,
   ViewChild
 } from '@angular/core';
 import {EventType} from "../../enums/eventTypes.enum";
@@ -21,7 +16,7 @@ import {Component as AbstractComponent} from "../Component"
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent extends AbstractComponent implements OnInit,AfterContentChecked{
+export class TableComponent extends AbstractComponent implements OnInit{
   // todo zie dat de default waarden werken => zet die ook in de component
   @ViewChild('dt') dt:ElementRef|undefined
   rows = 5
@@ -57,12 +52,6 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterCon
       })
     })
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
-  }
-
-  ngAfterContentChecked(){
-    this.element.nativeElement.children[0].children[0].children[0].classList.add('p-0')
-    console.log(this.element.nativeElement.children[0].children[0].children[0].classList)
-    console.log(this.element.nativeElement.parentNode)
   }
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
     const field = this.getPropValue(PropertyName.attributes)?.find((attr:AttributeComponentModel) => attr.name === column.field)

@@ -2,7 +2,6 @@ import {Component} from "./Component";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 
 export abstract class Paginator extends Component {
-
   public static data: any | undefined = undefined
   public static rowsPerPageOptions: number[] | undefined = undefined
   public static first: number | undefined = undefined
