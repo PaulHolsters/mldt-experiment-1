@@ -8,8 +8,6 @@ import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConf
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {PaddingType} from "../../enums/paddingType.enum";
-import {paginator} from "./paginator";
-import {buttons} from "../form1/buttons";
 
 export const footer =
   new ComponentModel(

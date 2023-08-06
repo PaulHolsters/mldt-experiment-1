@@ -136,103 +136,6 @@ export class ConfigService {
     }
     return undefined
   }
-
-  public getComponentConfigThroughAttributes(compName: string, childComp?: ComponentModel): ComponentModel | undefined {
-    if (childComp) {
-      if (childComp.name === compName) return childComp
-      if (childComp.attributes !== undefined) {
-        for (let [k, v] of Object.entries(childComp.attributes)) {
-          if (v) {
-            for (let [j, l] of Object.entries(v)) {
-              if ((l instanceof ComponentModel && l.name === compName)
-                || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
-                return this.convertToComponentModel(l)
-              }
-              if ((l instanceof ComponentModel && (l.attributes !== undefined || l.children !== undefined))
-                || (this.isComponentObjectModel(l) && (this.getComponentObjectModelPropertyValue(l, 'attributes') ||
-                  this.getComponentObjectModelPropertyValue(l, 'children')))) {
-                const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(l))
-                if (component) {
-                  return component
-                }
-              }
-              if (l instanceof Array) {
-                for (let i = 0; i < l.length; i++) {
-                  if ((l[i] instanceof ComponentModel && l[i].name === compName)
-                    || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
-                    return this.convertToComponentModel(l[i])
-                  }
-                  if ((l[i] instanceof ComponentModel && (l[i].attributes !== undefined || l[i].children !== undefined))
-                    || (this.isComponentObjectModel(l[i]) && (this.getComponentObjectModelPropertyValue(l[i], 'attributes') ||
-                      this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
-                    const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(l[i]))
-                    if (component) {
-                      return component
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      if (childComp.children !== undefined) {
-        for (let j = 0; j < childComp.children.length; j++) {
-          const actualC = childComp.children[j]
-          if (typeof actualC !== 'string') {
-            const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(actualC))
-            if (component) {
-              return component
-            }
-          } else {
-            // todo als comp string is
-            throw new Error('string components not implemented')
-          }
-        }
-      }
-    } else if (this.appConfig.userConfig.components !== undefined) {
-      for (let i = 0; i < this.appConfig.userConfig.components.length; i++) {
-        const childComp = this.appConfig.userConfig.components[i]
-        if (childComp.attributes !== undefined) {
-          for (let [k, v] of Object.entries(childComp.attributes)) {
-            if (v) {
-              for (let [j, l] of Object.entries(v)) {
-                if ((l instanceof ComponentModel && l.name === compName)
-                  || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
-                  return this.convertToComponentModel(l)
-                }
-                if (l instanceof Array) {
-                  for (let i = 0; i < l.length; i++) {
-                    if ((l[i] instanceof ComponentModel && l[i].name === compName)
-                      || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
-                      return this.convertToComponentModel(l[i])
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        if (childComp.children !== undefined) {
-          for (let j = 0; j < childComp.children.length; j++) {
-            const actualC = childComp.children[j]
-            if (typeof actualC !== 'string') {
-              const component =
-                this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(actualC))
-              if (component) {
-                return component
-              }
-            } else {
-              // todo als comp string is
-              throw new Error('string components not implemented')
-            }
-          }
-        }
-      }
-    }
-    return undefined
-  }
-
   public getParentComponentConfigWithProperty(compName: string,
                                               property: string,
                                               component?: ComponentModel,
@@ -296,7 +199,140 @@ export class ConfigService {
     }
     return undefined
   }
-
+  public getComponentConfigThroughAttributes(compName: string, childComp?: ComponentModel): ComponentModel | undefined {
+    // todo aanpassen zodat actionBtn's gevonden worden in een niet componentmodel achtige property =>
+    //      nedeel is dat je dan overal moet gaan doorploegen = NOK!
+    if (childComp) {
+      if (childComp.name === compName) return childComp
+      if (childComp.attributes !== undefined) {
+        for (let [k, v] of Object.entries(childComp.attributes)) {
+          if (v) {
+            for (let [j, l] of Object.entries(v)) {
+              if ((l instanceof ComponentModel && l.name === compName)
+                || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
+                return this.convertToComponentModel(l)
+              }
+              if ((l instanceof ComponentModel && (l.attributes !== undefined || l.children !== undefined))
+                || (this.isComponentObjectModel(l) && (this.getComponentObjectModelPropertyValue(l, 'attributes') ||
+                  this.getComponentObjectModelPropertyValue(l, 'children')))) {
+                const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(l))
+                if (component) {
+                  return component
+                }
+              }
+              if (l instanceof Array) {
+                for (let i = 0; i < l.length; i++) {
+                  if ((l[i] instanceof ComponentModel && l[i].name === compName)
+                    || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
+                    return this.convertToComponentModel(l[i])
+                  }
+                  if ((l[i] instanceof ComponentModel && (l[i].attributes !== undefined || l[i].children !== undefined))
+                    || (this.isComponentObjectModel(l[i]) && (this.getComponentObjectModelPropertyValue(l[i], 'attributes') ||
+                      this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
+                    const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(l[i]))
+                    if (component) {
+                      return component
+                    }
+                  }
+                  // je moet returnen op het moment dat je de component met de naam in kwestie hebt gevonden
+                  // in het geval van actionBtn kunnen dat er meer zijn
+                  if(l[i] instanceof TableColumnModel){
+                    if(l[i].anchor.name===compName) return l[i].anchor
+                    if(l[i].anchor.children !== undefined){
+                      for (let j = 0; j < l[i].anchor.children.length; j++) {
+                        const actualC = l[i].anchor.children[j]
+                        if (typeof actualC !== 'string') {
+                          const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(actualC))
+                          if (component) {
+                            return component
+                          }
+                        } else {
+                          // todo als comp string is
+                          throw new Error('string components not implemented')
+                        }
+                      }
+                    }
+                    // todo in principe moeten we nu testen op attributes maar dan is er geen stoppen meer aan en moeten de methodes
+                    //      gerefactored worden, maw in een tablecolumn magen geen componenten zitten met componenten in de attributen !!!
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      if (childComp.children !== undefined) {
+        for (let j = 0; j < childComp.children.length; j++) {
+          const actualC = childComp.children[j]
+          if (typeof actualC !== 'string') {
+            const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(actualC))
+            if (component) {
+              return component
+            }
+          } else {
+            // todo als comp string is
+            throw new Error('string components not implemented')
+          }
+        }
+      }
+    } else if (this.appConfig.userConfig.components !== undefined) {
+      for (let i = 0; i < this.appConfig.userConfig.components.length; i++) {
+        const childComp = this.appConfig.userConfig.components[i]
+        if (childComp.attributes !== undefined) {
+          for (let [k, v] of Object.entries(childComp.attributes)) {
+            if (v) {
+              for (let [j, l] of Object.entries(v)) {
+                if ((l instanceof ComponentModel && l.name === compName)
+                  || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
+                  return this.convertToComponentModel(l)
+                }
+                if (l instanceof Array) {
+                  for (let i = 0; i < l.length; i++) {
+                    if ((l[i] instanceof ComponentModel && l[i].name === compName)
+                      || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
+                      return this.convertToComponentModel(l[i])
+                    } else if(l[i] instanceof TableColumnModel){
+                      if(l[i].anchor.name===compName) return l[i].anchor
+                      if(l[i].anchor.children !== undefined){
+                        for (let j = 0; j < l[i].anchor.children.length; j++) {
+                          const actualC = l[i].anchor.children[j]
+                          if (typeof actualC !== 'string') {
+                            const component = this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(actualC))
+                            if (component) {
+                              return component
+                            }
+                          } else {
+                            // todo als comp string is
+                            throw new Error('string components not implemented')
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        if (childComp.children !== undefined) {
+          for (let j = 0; j < childComp.children.length; j++) {
+            const actualC = childComp.children[j]
+            if (typeof actualC !== 'string') {
+              const component =
+                this.getComponentConfigThroughAttributes(compName, this.convertToComponentModel(actualC))
+              if (component) {
+                return component
+              }
+            } else {
+              // todo als comp string is
+              throw new Error('string components not implemented')
+            }
+          }
+        }
+      }
+    }
+    return undefined
+  }
   public getParentComponentConfigWithPropertyThroughAttributes(compName: string,
                                                                property: string,
                                                                childComp?: ComponentModel,
@@ -317,9 +353,9 @@ export class ConfigService {
                 for (let i = 0; i < l.length; i++) {
                   if ((l[i] instanceof ComponentModel && l[i].name === compName)
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
-                    console.log('array '+compName)
-                    debugger
                     return previous
+                  } else if(l[i] instanceof TableColumnModel){
+                    if(l[i].anchor.name===compName) return previous
                   }
                 }
               }
@@ -336,10 +372,11 @@ export class ConfigService {
                       && l[i].getPropertyValue
                       && l[i].getPropertyValue(property) !== undefined)
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], property) !== undefined)) {
-                    previousComponent = l
-                    console.log('break missing!')
-                    debugger
+                    previousComponent = l[i]
                     // todo hier lijkt een break te missen
+                  } else if(l[i] instanceof TableColumnModel && l[i].anchor.hasOwnProperty(property)&& l[i].anchor.getPropertyValue
+                    && l[i].anchor.getPropertyValue(property) !== undefined){
+                    previousComponent = l[i].anchor
                   }
                 }
               }
@@ -364,21 +401,30 @@ export class ConfigService {
                       this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
                     let component
                     if (previousComponent){
-                      console.log('array '+compName)
-                      debugger
                       component =
                         this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
                           this.convertToComponentModel(l[i]),
                           this.convertToComponentModel(previousComponent))
                     } else{
-                      console.log('array '+compName)
-                      debugger
                       component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
                         this.convertToComponentModel(l[i]), previous)
                     }
                     if (component) {
-                      console.log('array '+compName)
-                      debugger
+                      return component
+                    }
+                  } else if(l[i] instanceof TableColumnModel && (l[i].anchor.attributes !== undefined || l[i].anchor.children !== undefined)){
+                    let component
+                    if (previousComponent){
+                      component =
+                        this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+                          l[i].anchor,
+                          previousComponent)
+                    } else{
+                      component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
+                        l[i].anchor,
+                        previousComponent)
+                    }
+                    if (component) {
                       return component
                     }
                   }
@@ -443,8 +489,6 @@ export class ConfigService {
                     this.convertToComponentModel(l), previous)
                   if (component) return component
                 }
-                console.log('NIET array '+compName)
-                debugger
               }
             }
           }
@@ -481,6 +525,10 @@ export class ConfigService {
     }
     return undefined
   }
+  getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] }|undefined {
+    return this.appConfig?.userConfig
+  }
+}
 
 /*  private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []
@@ -511,7 +559,6 @@ export class ConfigService {
     }
     throw ('no calculation found to be executed for ' + value.calc)
   }*/
-
 /*  private emitNewPropValueFor(componentName: string, propName: string, value: string | boolean | number | CalculationModel) {
     let valueToSet
     if (typeof value === 'object') {
@@ -523,33 +570,31 @@ export class ConfigService {
       return subj.componentName === componentName && subj.propName === propName
     })?.propValue.next(valueToSet)
   }*/
-
-  /*  executeAction(action: ActionModel) {
-      if (action.action === 'set') {
-        action.props.forEach(prop => {
-          if (this.conditionsMet(prop)) {
-            this.emitNewPropValueFor(action.target, prop.name, prop.value)
-          }
-        })
-      } else {
-        action.props.forEach(prop => {
-          for (let [attr, val] of Object.entries(myFunctions)) {
-            if (attr === action.action) {
-              if (this.conditionsMet(prop)) {
-                const paramsArr = [
-                  action.target,
-                  prop.name,
-                  this.storeService.getStatePropertySubjects()
-                ]
-                this.emitNewPropValueFor(action.target, prop.name, Reflect.apply(val.fun, null, paramsArr))
-              }
-              break
+/*  executeAction(action: ActionModel) {
+    if (action.action === 'set') {
+      action.props.forEach(prop => {
+        if (this.conditionsMet(prop)) {
+          this.emitNewPropValueFor(action.target, prop.name, prop.value)
+        }
+      })
+    } else {
+      action.props.forEach(prop => {
+        for (let [attr, val] of Object.entries(myFunctions)) {
+          if (attr === action.action) {
+            if (this.conditionsMet(prop)) {
+              const paramsArr = [
+                action.target,
+                prop.name,
+                this.storeService.getStatePropertySubjects()
+              ]
+              this.emitNewPropValueFor(action.target, prop.name, Reflect.apply(val.fun, null, paramsArr))
             }
+            break
           }
-        })
-      }
-    }*/
-
+        }
+      })
+    }
+  }*/
 /*  private conditionsMet(prop: CalculationConfigModel): boolean {
     for (let [attr, val] of Object.entries(comparisons)) {
       if (attr === prop.condition?.comparison) {
@@ -572,8 +617,3 @@ export class ConfigService {
     }
     return true
   }*/
-
-  getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] }|undefined {
-    return this.appConfig?.userConfig
-  }
-}

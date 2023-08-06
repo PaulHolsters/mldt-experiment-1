@@ -49,6 +49,7 @@ import {NoValueType} from "../enums/no_value_type";
 import {StateService} from "./state.service";
 import {PositioningConfigPropsModel} from "../models/Positioning/self/PositioningConfigPropsModel";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
+import {TableColumnModel} from "../models/TableColumnModel";
 
 @Injectable({
   providedIn: 'root'
@@ -405,8 +406,10 @@ export class StoreService implements OnInit {
       newState instanceof OverflowComponentPropsModel
     ) {
       for (let [k, v] of Object.entries(newState)) {
+        if(componentName==='actionBtn')debugger
         if (v !== ComponentDimensionValueConfigType.Parent) {
           this.getStatePropertySubjects().find(subj => {
+            if(componentName==='actionBtn' && subj.componentName ===componentName && subj.propName === 'visible' && newState instanceof VisibilityComponentPropsModel)debugger
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
         }
@@ -449,7 +452,6 @@ export class StoreService implements OnInit {
     }
   }
   private createProps(component: ComponentModel){
-    if(component.type===undefined) debugger
     this.stateService.getProperties(component.type)?.forEach((v,k)=>{
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
@@ -481,14 +483,15 @@ export class StoreService implements OnInit {
               this.createProps(compT)
             }
             if(l instanceof Array){
+              // todo => tableColumnModel array!
               for (let i=0;i<l.length;i++){
                 if(l[i] instanceof ComponentModel || this.configService.isComponentObjectModel(l[i])){
-                  // todo fix bug TableColumnModel wordt gezien als een component of componentObject Model???
-                  console.log(this.configService.isComponentObjectModel(l[i]))
-                  debugger
                   const compT = this.configService.convertToComponentModel(l[i])
                   if(compT)
                     this.createProps(compT)
+                } else if(l[i] instanceof TableColumnModel){
+                  debugger
+                  this.createProps(l[i].anchor)
                 }
               }
             }
@@ -505,10 +508,10 @@ export class StoreService implements OnInit {
         const model:ComponentModel|undefined = this.configService.convertToComponentModel(comp)
         if(model)this.createProps(model)
       }else{
-        debugger
         throw new Error('De configuratie mag enkel componenten van het type ComponentModel of ObjectComponentModel bevatten')
       }
-  })}
+  })
+  debugger}
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |
