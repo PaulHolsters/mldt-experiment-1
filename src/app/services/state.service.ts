@@ -60,14 +60,20 @@ export class StateService {
     } else return this.getProperties(ComponentType.Container)
   }
   public syncData(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
-    const obj = this.componentData.find(obj=>{
-      return obj.name===name
-    })
-    if(!obj){
-      const newObj = {name:name,properties:this.createMap(name)}
-      this.componentData.push(newObj)
+    let compModel  = this.configService.getComponentConfig(name)
+    if (!compModel) {
+      compModel = this.configService.getComponentConfigThroughAttributes(name)
     }
-    this.updateMap(name,data)
+    if(compModel){
+      const obj = this.componentData.find(obj=>{
+        return obj.name===name
+      })
+      if(!obj){
+        const newObj = {name:name,properties:this.createMap(name)}
+        this.componentData.push(newObj)
+      }
+      this.updateMap(name,data)
+    }
   }
   public getValue(name:string,propName:string):any{
     return this.componentData.find(c=>{

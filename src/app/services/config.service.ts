@@ -4,6 +4,7 @@ import {ComponentModel} from "../models/ComponentModel";
 import AppConfig from "../app-configuration/appConfig";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
 import {EventType} from "../enums/eventTypes.enum";
+import {TableColumnModel} from "../models/TableColumnModel";
 
 @Injectable({
   providedIn: 'root'
@@ -54,9 +55,10 @@ export class ConfigService {
 
   public isComponentObjectModel(l: unknown): boolean {
     if (l && typeof l === 'object' && !(l instanceof ComponentModel)) {
-      return Object.keys(l).filter(k => {
-        return !(k in ['name', 'dimensions', 'position', 'children', 'childLayout', 'visibility', 'styling', 'overflow', 'attributes', 'type', 'data'])
-      }).length > 0
+      const arrFoundKeys = Object.keys(l).filter(k => {
+        return ['name', 'dimensions', 'position', 'children', 'childLayout', 'visibility', 'styling', 'overflow', 'attributes', 'type', 'data'].includes(k)
+      })
+      return arrFoundKeys.length===Object.keys(l).length
     }
     return false
   }

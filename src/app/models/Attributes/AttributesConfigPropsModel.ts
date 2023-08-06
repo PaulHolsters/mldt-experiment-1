@@ -2,6 +2,7 @@ import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {ComponentObjectModel} from "../ComponentObjectModel";
+import {TableColumnModel} from "../TableColumnModel";
 
 export class AttributesConfigPropsModel {
   constructor(
@@ -31,6 +32,7 @@ export class AttributesConfigPropsModel {
     public totalRecords:number|NoValueType.NA = 0,
     public footer: ComponentModel|NoValueType.NA = NoValueType.NA,
     public caption: ComponentModel|NoValueType.NA = NoValueType.NA,
+    public extraColumns: TableColumnModel[]|NoValueType.NA =  NoValueType.NA,
   ) {
   }
 }

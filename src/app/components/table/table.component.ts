@@ -12,6 +12,7 @@ import {SortEvent} from "primeng/api";
 import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Component as AbstractComponent} from "../Component"
+import {TableColumnModel} from "../../models/TableColumnModel";
 @Component({
   selector: 'm-table',
   templateUrl: './table.component.html',
@@ -68,8 +69,12 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
       this.eventsService.triggerEvent(EventType.ComponentClicked,this.name)
     }
   }
-  handleRow(){
+  onRowSelect(event:any){
+    // je kan altijd je custom event maken en het orginele includen
     this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)
+  }
+  onRowUnselect(event: any) {
+
   }
   customSort(event: SortEvent) {
 /*    // todo voeg functionaliteit toe waarmee je op meerdere kolommen
@@ -99,13 +104,23 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
       })
     }*/
   }
-  getColumns():{field:string,header:string,sort:boolean,filter:boolean}[]{
-    return this.getPropValue(PropertyName.attributes)?.map((attr:AttributeComponentModel)=>{
+  getColumns():TableColumnModel[]{
+    let columns = this.getPropValue(PropertyName.attributes)?.map((attr:AttributeComponentModel)=>{
       if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
         this.cstmSort = true
       }
       return {field:attr.name,header:attr.tableColumn?.label ?? '',sort:attr.tableColumn?.sort ?? false,filter:attr.tableColumn?.filter ?? false}
     }) ?? []
+    const extraColumns = this.getPropValue(PropertyName.extraColumns)?.map((tcm:TableColumnModel)=>{
+      if(!this.cstmSort && tcm.sort && tcm.customSort){
+        this.cstmSort = true
+      }
+      return tcm
+    })
+    if(extraColumns && extraColumns.length>0){
+      return columns.concat(extraColumns)
+    }
+    return columns
   }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer
@@ -114,7 +129,10 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
     this.cd.detectChanges()
   }
   recal(event:any){
-    debugger
+
   }
+
+  // todo in de config voorzien dat je een extra kolom kan aanmaken in de tabel en deze vullen met eigen Melementen bv buttons
+  //      op zich eenvoudig aangezien
 
 }

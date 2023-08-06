@@ -81,6 +81,7 @@ export enum PropertyName {
   currentPageReportTemplate='currentPageReportTemplate',
   display='display',
   component='component',
-  border = 'border'
+  border = 'border',
+  extraColumns = 'extraColumns'
 
 }

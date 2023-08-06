@@ -41,36 +41,24 @@
   (click)="recal($event)"
   [pageLinks]="1"
   [showPageLinks]="true"
+  (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+  dataKey="name"
   >
   <ng-template *ngIf="getPropValue(PropertyName.caption)" pTemplate="caption">
     <m-anchor  [component]="getPropValue(PropertyName.caption)"></m-anchor>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
-<!--      <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns; let i = index">-->
       <th *ngFor="let column of columns; let i = index">
-        <!-- todo conditioneel te tonen componenten bv toon dit element enkel indien column.filter true is
-              OPLOSSING: via een extra input in het anchor geef je de currentColumn mee die hij het zo verder doorgeeft naar beneden
-              jij weet vanuit de documentatie welke data in welke anchor wordt meegegeven van de host
-
-        -->
         {{column['header']}}
           <m-anchor [data]="column" [component]="getPropValue(PropertyName.columnHeaderComponents,i)"></m-anchor>
-        <!-- todo hoe geef je atomair de aangeklikte kolom mee? -->
-<!--         <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>-->
-<!--          <span *ngIf="column['filter']" (click)="filterByColumn($event,column)" class="pi pi-filter" style="font-size: 1rem; color:rgba(255, 255, 255, 0.6);"></span>-->
-
-<!--        <p-columnFilter (click)="filterByColumn(column,columns)" type="text" field="{{column['field']}}" display="menu"></p-columnFilter> -->
-<!--        <div (click)="filterByColumn(column)"><i  class="pi pi-filter"></i></div> -->
-<!-- todo een oplossing is een event gebruiken en daarmee de filtering van de data te doen en wijzig het icon in een algemeen icon -->
-<!--   niet onbelangrijk: dit kan ook gewoon een betaalde feature zijn -->
       </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
-    <tr [pSelectableRow]="rowData" (click)="handleRow()">
+    <tr [pSelectableRow]="rowData">
       <td *ngFor="let column of columns">
-        {{ rowData[column['field']] }}
+        {{ rowData[column['field']] }} <m-anchor *ngIf="column['anchor']" [component]="column['anchor']"></m-anchor>
       </td>
     </tr>
   </ng-template>
@@ -84,3 +72,17 @@
   </ng-template>
 </p-table>
 <!-- todo alternatief tonen voor als data geladen wordt of door een serverprobleem niet werkt! -->
+<!-- todo hoe geef je atomair de aangeklikte kolom mee? -->
+<!--         <p-sortIcon *ngIf="column['sort']" field="{{column['field']}}"></p-sortIcon>-->
+<!--          <span *ngIf="column['filter']" (click)="filterByColumn($event,column)" class="pi pi-filter" style="font-size: 1rem; color:rgba(255, 255, 255, 0.6);"></span>-->
+
+<!--        <p-columnFilter (click)="filterByColumn(column,columns)" type="text" field="{{column['field']}}" display="menu"></p-columnFilter> -->
+<!--        <div (click)="filterByColumn(column)"><i  class="pi pi-filter"></i></div> -->
+<!-- todo een oplossing is een event gebruiken en daarmee de filtering van de data te doen en wijzig het icon in een algemeen icon -->
+<!--   niet onbelangrijk: dit kan ook gewoon een betaalde feature zijn -->
+<!-- todo conditioneel te tonen componenten bv toon dit element enkel indien column.filter true is
+      OPLOSSING: via een extra input in het anchor geef je de currentColumn mee die hij het zo verder doorgeeft naar beneden
+      jij weet vanuit de documentatie welke data in welke anchor wordt meegegeven van de host
+
+-->
+<!--      <th pSortableColumn="{{column['field']}}" *ngFor="let column of columns; let i = index">-->

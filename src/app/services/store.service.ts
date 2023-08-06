@@ -48,6 +48,7 @@ import {ConfigService} from "./config.service";
 import {NoValueType} from "../enums/no_value_type";
 import {StateService} from "./state.service";
 import {PositioningConfigPropsModel} from "../models/Positioning/self/PositioningConfigPropsModel";
+import {ComponentObjectModel} from "../models/ComponentObjectModel";
 
 @Injectable({
   providedIn: 'root'
@@ -317,6 +318,7 @@ export class StoreService implements OnInit {
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
+        NoValueType.NA,
         NoValueType.NA
       )
       Object.entries(attributesConfig).forEach(([k, v]) => {
@@ -447,6 +449,7 @@ export class StoreService implements OnInit {
     }
   }
   private createProps(component: ComponentModel){
+    if(component.type===undefined) debugger
     this.stateService.getProperties(component.type)?.forEach((v,k)=>{
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
@@ -480,6 +483,9 @@ export class StoreService implements OnInit {
             if(l instanceof Array){
               for (let i=0;i<l.length;i++){
                 if(l[i] instanceof ComponentModel || this.configService.isComponentObjectModel(l[i])){
+                  // todo fix bug TableColumnModel wordt gezien als een component of componentObject Model???
+                  console.log(this.configService.isComponentObjectModel(l[i]))
+                  debugger
                   const compT = this.configService.convertToComponentModel(l[i])
                   if(compT)
                     this.createProps(compT)
@@ -493,12 +499,16 @@ export class StoreService implements OnInit {
   }
   public createStore() {
     this.configService.appConfig?.userConfig.components.forEach(comp => {
-      const compT = this.configService.convertToComponentModel(comp)
-      if(compT)
-        this.createProps(compT)
+      if(comp instanceof ComponentModel){
+        this.createProps(comp)
+      } else if(this.configService.isComponentObjectModel(comp)){
+        const model:ComponentModel|undefined = this.configService.convertToComponentModel(comp)
+        if(model)this.createProps(model)
+      }else{
+        debugger
+        throw new Error('De configuratie mag enkel componenten van het type ComponentModel of ObjectComponentModel bevatten')
       }
-    )
-  }
+  })}
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |

@@ -36,6 +36,7 @@ import {WidthValueConfigType} from "../../enums/WidthValueConfigTypes.enum";
 export const header = {
   name: 'header-content',
   type: ComponentType.Menubar,
+  // todo zorgen dat de interface notatie ook geaccepteerd wordt door een ResponsiveConfigModel
   attributes: new ResponsiveAttributesConfigModel(
     {
       menuItems: [
