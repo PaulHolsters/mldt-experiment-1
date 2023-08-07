@@ -79,6 +79,14 @@
                        [data]="data"
                        *ngSwitchCase="componentType.Block"
                        [name]="child.name"></m-block>
+        <m-confirm-popup       [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                       [style.height]="'100%'"
+                       [style.width]="'100%'"
+                       [data]="data"
+                       *ngSwitchCase="componentType.ConfirmPopup"
+                       [name]="child.name"></m-confirm-popup>
         <!-- todo voeg hier ook een ngFor aan toe zodat de config vereenvoudigd kan worden-->
         <m-formcontrol       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),

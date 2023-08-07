@@ -86,15 +86,12 @@ export class UiActionsService {
     return true
   }
   private setConfirmation(action:ActionModel,data?:any,target?:EventTarget){
-    debugger
     if(action.targetName!==NoValueType.NA){
       let comp = this.configService.getComponentConfig(action.targetName)
       if(!comp) comp = this.configService.getComponentConfigThroughAttributes(action.targetName)
       if(comp && comp.attributes && this.RBS.screenSize){
         const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)
-        debugger
-        const cm = new ConfirmationModel(attrVal.icon,attrVal.message, target)
-        debugger
+        const cm = new ConfirmationModel(attrVal.icon,attrVal.message, target,data)
         this.storeService.getStatePropertySubjects().find(prop=>{
           if(prop.componentName === action.targetName)
             return prop.propName === PropertyName.confirmationModel
@@ -105,3 +102,4 @@ export class UiActionsService {
     return true
   }
 }
+

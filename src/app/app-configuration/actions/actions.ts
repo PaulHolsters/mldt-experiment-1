@@ -9,6 +9,7 @@ import {ActionValueModel} from "../../models/ActionValueModel";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {StateService} from "../../services/state.service";
 import {DataRecordModel} from "../../models/DataRecordModel";
+
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
   const cc = stateService.getValue('filter-dialog', PropertyName.data)
@@ -163,6 +164,15 @@ export const actions = [
     sourceName: 'actionBtn',
     targetType: TargetType.Component,
     id: 'confirmation'
+  },
+  {
+    on: EventType.ActionAccepted,
+    actionType: ActionType.Server,
+    actionSubType: ActionSubType.DeleteByID,
+    targetName: NoValueType.NA,
+    sourceName: 'confirmation popup',
+    targetType: TargetType.API,
+    id: 'item deleted'
   },
   /*        {
             actionType: ActionType.Server,

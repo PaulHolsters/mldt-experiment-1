@@ -11,6 +11,7 @@ import {deleteContainer} from "../deleteContainer/deleteContainer";
 import {table} from "../table/table";
 import {actions} from "../actions/actions";
 import {dialog} from "../dialog/dialog";
+import {confirmation} from "../confirmation/confirmation";
 
 export const RootComponent = new AppConfig({
   components: [
@@ -29,6 +30,7 @@ export const RootComponent = new AppConfig({
         //form,
         table,
         dialog,
+        confirmation
       ]
     },
   ],

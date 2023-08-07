@@ -10,6 +10,7 @@ export enum IconType {
   Sort = 'pi pi-sort-alt',
   SortAmountUp = 'pi pi-sort-amount-up-alt',
   SortAmountDown = 'pi pi-sort-amount-down-alt',
+  Danger = 'pi pi-exclamation-triangle',
   NA = 'not allowed',
   NI = 'not implemented'
 }

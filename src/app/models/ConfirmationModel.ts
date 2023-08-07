@@ -6,6 +6,7 @@ export class ConfirmationModel {
     public icon:IconType|NoValueType.NI=NoValueType.NI,
     public message:string|NoValueType.NI=NoValueType.NI,
     public target:EventTarget|NoValueType.NVY=NoValueType.NVY,
+    public data:any|NoValueType.NVY=NoValueType.NVY,
 
   ) {
   }

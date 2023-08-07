@@ -52,7 +52,9 @@ export class DataService{
     })
     this.actionsService.bindToAction(ActionType.Server,ActionSubType.DeleteByID)?.subscribe(res=>{
       if(res){
-        const action = this.deleteData(res.action)
+        let action
+        if(res.data.id) action = this.deleteDataById(res)
+        else action = this.deleteData(res.action)
           if(action){
             action.subscribe((res2: any) => {
                 this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
@@ -383,7 +385,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     // todo zorg nog voor een meer ordelijke GQL string hier
     return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal
   }
-  public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType, id?: string): Observable<any> | undefined {
+  public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType,id?:string, dataFromServer?: DataRecordModel): Observable<any> | undefined {
     if (data instanceof ConceptConfigModel) {
       const currentData = this.objectData.find(dataObj => {
         return dataObj.conceptName === data.conceptName
@@ -402,6 +404,17 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
           }) as unknown as Observable<any>
       }
       return undefined
+    } else if(id){
+      // todo we hebben toch alle data nodig!!!
+      const MUTATION = `mutation Mutation {
+              ${verb}${dataFromServer?.__typename.substring(0,dataFromServer?.__typename.length-4)}(id:"${id}") {
+                    dataSingle{id}
+              }
+            }`
+      return this.apollo
+        .mutate({
+          mutation: gql`${MUTATION}`
+        }) as unknown as Observable<any>
     } else throw new Error('Geen geldige data configuratie.')
   }
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
@@ -484,6 +497,10 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
         })
       }
     } else throw new Error('No valid conceptId could be found')
+  }
+  public deleteDataById(action:{action:ActionModel,data:any,target:EventTarget|undefined}){
+    debugger
+    return this.mutate(undefined, MutationType.Delete, action.data.id,action.data)
   }
   public deleteData(action: ActionModel) {
     let comp = this.configService.getParentComponentConfigWithProperty(action.sourceName, 'data')

@@ -5,7 +5,7 @@ import {ConfirmPopup} from "../../componentclasses/ConfirmPopup";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 
 @Component({
-  selector: 'app-confirm-popup',
+  selector: 'm-confirm-popup',
   templateUrl: './confirm-popup.component.html',
   styleUrls: ['./confirm-popup.component.css']
 })
@@ -16,7 +16,10 @@ export class ConfirmPopupComponent extends AbstractComponent implements OnInit {
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         this.setPropValue(k,res)
         if(k===PropertyName.confirmationModel && this.getPropValue(PropertyName.confirmationModel) &&
-          this.getPropValue(PropertyName.confirmationModel).target) this.onConfirm()
+          this.getPropValue(PropertyName.confirmationModel).target) {
+          this.data = this.getPropValue(PropertyName.confirmationModel).data
+          this.onConfirm()
+        }
       })
     })
     this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
