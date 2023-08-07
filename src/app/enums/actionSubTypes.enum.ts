@@ -9,5 +9,6 @@ export enum ActionSubType {
   DeleteByID,
   SetProperty,
   SetConfigValueAndRebuild,
-  ExecuteCustomFunction
+  ExecuteCustomFunction,
+  SetConfirmation
 }

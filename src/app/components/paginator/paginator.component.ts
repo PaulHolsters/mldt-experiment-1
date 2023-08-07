@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Component as AbstractComponent} from "../../Component"
-import {EventType} from "../../../enums/eventTypes.enum";
-import {Paginator} from "../../../componentclasses/Paginator";
-import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
-import {PaddingType} from "../../../enums/paddingType.enum";
-import {NoValueType} from "../../../enums/no_value_type";
-import {MarginType} from "../../../enums/marginType.enum";
-import {BorderModel} from "../../../models/BorderModel";
+import {Component as AbstractComponent} from "../Component"
+import {EventType} from "../../enums/eventTypes.enum";
+import {Paginator} from "../../componentclasses/Paginator";
+import {PropertyName} from "../../enums/PropertyNameTypes.enum";
+import {PaddingType} from "../../enums/paddingType.enum";
+import {NoValueType} from "../../enums/no_value_type";
+import {MarginType} from "../../enums/marginType.enum";
+import {BorderModel} from "../../models/BorderModel";
 
 @Component({
   selector: 'm-paginator',

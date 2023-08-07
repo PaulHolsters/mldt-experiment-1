@@ -15,7 +15,7 @@
   NoValueType.NA,
   getPropValue(PropertyName.margin))"
   #button
-  (click)="trigger(EventType.ComponentClicked)">
+  (click)="trigger(EventType.ComponentClicked,$event)">
 </p-button>
 <p-button *ngIf="getPropValue(PropertyName.label)!=='Not applicable' && getPropValue(PropertyName.icon)==='Not applicable'"
           label="{{getPropValue(PropertyName.label)}}"
@@ -27,7 +27,7 @@
           [ngClass]="getStyleClasses(
   NoValueType.NA,
   getPropValue(PropertyName.margin))"
-          (click)="trigger(EventType.ComponentClicked)"></p-button>
+          (click)="trigger(EventType.ComponentClicked,$event)"></p-button>
 <p-button *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)!=='Not applicable'"
           icon="{{getPropValue(PropertyName.icon)}}"
           [ngClass]="getStyleClasses(
@@ -39,7 +39,7 @@
 {{getPropValue(PropertyName.buttonForm)}}
 {{getPropValue(PropertyName.buttonMeaning)}}
 "
-          (click)="trigger(EventType.ComponentClicked)"></p-button>
+          (click)="trigger(EventType.ComponentClicked,$event)"></p-button>
 <p-button
   *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)==='Not applicable'"
   [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
@@ -54,5 +54,5 @@
 {{getPropValue(PropertyName.buttonAppearance)}}
 {{getPropValue(PropertyName.buttonForm)}}
 {{getPropValue(PropertyName.buttonMeaning)}}"
-  (click)="trigger(EventType.ComponentClicked)"
+  (click)="trigger(EventType.ComponentClicked,$event)"
   #button></p-button>

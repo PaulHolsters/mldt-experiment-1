@@ -16,6 +16,7 @@ import {FontSizeType} from "../enums/fontSizeType.enum";
 import {FontStyleType} from "../enums/fontStyleType.enum";
 import {TextColorType} from "../enums/textColorType.enum";
 import {TextDecorationType} from "../enums/textDecorationType.enum";
+import {ConfirmationService, MessageService} from "primeng/api";
 @Directive()
 export class Component{
   @Input() public name!:string
@@ -27,7 +28,9 @@ export class Component{
     protected storeService:StoreService,
     protected eventsService:EventsService,
     protected dataService:DataService,
-    protected stylesService:StylesService) {
+    protected stylesService:StylesService,
+    protected confirmationService: ConfirmationService,
+    protected messageService: MessageService) {
 
   }
   protected props:Map<string,any>|undefined
@@ -46,8 +49,9 @@ export class Component{
   getPropValue(key:string,index?:number){
     return typeof index === 'number' ? this.props?.get(key)[index] : this.props?.get(key)
   }
-  trigger(event: EventType){
-    this.eventsService.triggerEvent(event,this.name,this.data)
+  trigger(event: EventType,nativeEvent?:any){
+    if(nativeEvent) debugger
+    this.eventsService.triggerEvent(event,this.name,this.data,nativeEvent?.target)
   }
   setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
     if(this.props){

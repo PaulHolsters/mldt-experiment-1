@@ -12,6 +12,7 @@ import {FormControl} from "../componentclasses/FormControl";
 import {Icon} from "../componentclasses/Icon";
 import {Paginator} from "../componentclasses/Paginator";
 import {TableFooter} from "../componentclasses/TableFooter";
+import {ConfirmPopup} from "../componentclasses/ConfirmPopup";
 @Injectable({
   providedIn: 'root'
 })
@@ -43,6 +44,8 @@ export class StateService {
         return Paginator.getProperties()
       case ComponentType.TableFooter:
         return TableFooter.getProperties()
+      case ComponentType.ConfirmPopup:
+        return ConfirmPopup.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }

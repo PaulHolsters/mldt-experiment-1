@@ -43,9 +43,12 @@ import {TableModule} from "primeng/table";
 import {DialogModule} from "primeng/dialog";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { IconComponent } from './components/icon/icon.component';
-import { PaginatorComponent } from './components/table/paginator/paginator.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 import {PaginatorModule} from "primeng/paginator";
 import { FooterComponent } from './components/table/footer/footer.component';
+import { ConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -78,7 +81,8 @@ import { FooterComponent } from './components/table/footer/footer.component';
     DialogComponent,
     IconComponent,
     PaginatorComponent,
-    FooterComponent
+    FooterComponent,
+    ConfirmPopupComponent
   ],
     imports: [
         BrowserModule,
@@ -97,9 +101,10 @@ import { FooterComponent } from './components/table/footer/footer.component';
         BrowserAnimationsModule,
         TableModule,
         DialogModule,
-        PaginatorModule
+        PaginatorModule,
+        ConfirmPopupModule
     ],
-  providers: [],
+  providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

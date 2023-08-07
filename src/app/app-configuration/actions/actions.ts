@@ -155,6 +155,15 @@ export const actions = [
     sourceName: NoValueType.NA,
     targetType: TargetType.Component,
   },
+  {
+    on: EventType.ComponentClicked,
+    actionType: ActionType.Client,
+    actionSubType: ActionSubType.SetConfirmation,
+    targetName: 'confirmation popup',
+    sourceName: 'actionBtn',
+    targetType: TargetType.Component,
+    id: 'confirmation'
+  },
   /*        {
             actionType: ActionType.Server,
             actionSubType: ActionSubType.GetDataBluePrint,

@@ -40,14 +40,14 @@ export class EventsService{
       this.triggerEvent(eventData.event,eventData.sourceId)
     })
   }
-  public triggerEvent(event:EventType,source:string,data?:any){
+  public triggerEvent(event:EventType,source:string,data?:any,target?:EventTarget){
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
     }
     this.configService.appConfig?.getActionsForEvent(event).forEach(action=>{
       if(action.sourceName===source || (action.sourceId === source && action.sourceName === NoValueType.NA)){
-        this.actionsService.triggerAction(action,data)
+        this.actionsService.triggerAction(action,data,target)
       }
     })
   }

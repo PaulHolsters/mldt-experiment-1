@@ -12,7 +12,10 @@ import {ConfigService} from "./config.service";
 export class ActionsService{
   private actionSubjects:ActionSubjectModel[]|undefined
   public bindToActionsEmitter = new Subject()
-  public bindToAction(actionType:ActionType,actionSubtype:ActionSubType):Observable<{action:ActionModel,data:any}|undefined>|undefined{
+  public bindToAction(actionType:ActionType,actionSubtype:ActionSubType):Observable<{
+       action: ActionModel, data: any, target:EventTarget|undefined
+}|undefined>|undefined{
+
     return this.actionSubjects?.find(actionSubject => {
       return actionSubject.actionType === actionType && actionSubject.actionSubType === actionSubtype
     })?.action$
@@ -21,7 +24,7 @@ export class ActionsService{
     this.actionSubjects = []
     this.configService.appConfig?.userConfig.actions.forEach(action=>{
       // todo dit is de reden waarom er direct undefnied wordt uitgespuwd
-      const subj = new Subject<{action: ActionModel; data: any}|undefined>()
+      const subj = new Subject<{action: ActionModel; data: any; target:EventTarget|undefined}|undefined>()
       const newActionSubject:ActionSubjectModel = {
         actionType:action.actionType,
         actionSubType:action.actionSubType,
@@ -32,11 +35,11 @@ export class ActionsService{
     })
     this.bindToActionsEmitter.next(undefined)
   }
-  public triggerAction(action: ActionModel,data?:any):void{
+  public triggerAction(action: ActionModel,data?:any,target?:EventTarget):void{
     this.actionSubjects?.find(subj => {
       // todo wat als er twee acties zijn met hetzelfde type en subtype? => filter ook op id en event indien nodig, of zie dat je ze allemaal uitvoert!
       return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
-    })?.subj.next({action:action,data:data})
+    })?.subj.next({action:action,data:data,target:target})
   }
   constructor(private configService:ConfigService) {
   }

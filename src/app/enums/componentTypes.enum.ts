@@ -20,5 +20,6 @@ export enum ComponentType {
   Dialog,
   Icon,
   Paginator,
-  TableFooter
+  TableFooter,
+  ConfirmPopup
 }

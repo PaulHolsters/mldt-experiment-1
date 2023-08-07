@@ -44,7 +44,7 @@
   (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
   dataKey="name"
   >
-  <ng-template *ngIf="getPropValue(PropertyName.caption)" pTemplate="caption">
+  <ng-template *ngIf="getPropValue(PropertyName.caption)!==NoValueType.NA" pTemplate="caption">
     <m-anchor  [component]="getPropValue(PropertyName.caption)"></m-anchor>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
@@ -58,7 +58,7 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
       <td *ngFor="let column of columns">
-        {{ rowData[column['field']] }} <m-anchor *ngIf="column['anchor']" [component]="column['anchor']"></m-anchor>
+        {{ rowData[column['field']] }} <m-anchor *ngIf="column['anchor']" [data]="rowData" [component]="column['anchor']"></m-anchor>
       </td>
     </tr>
   </ng-template>
@@ -67,7 +67,7 @@
       <td colspan="7">{{getPropValue(PropertyName.textWhenEmpty)}}</td>
     </tr>
   </ng-template>
-  <ng-template  *ngIf="getPropValue(PropertyName.footer)" pTemplate="summary">
+  <ng-template  *ngIf="getPropValue(PropertyName.footer)!==NoValueType.NA" pTemplate="summary">
     <m-table-footer [component]="getPropValue(PropertyName.footer)"></m-table-footer>
   </ng-template>
 </p-table>

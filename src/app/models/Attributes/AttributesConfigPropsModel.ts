@@ -3,6 +3,7 @@ import {ComponentModel} from "../ComponentModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {ComponentObjectModel} from "../ComponentObjectModel";
 import {TableColumnModel} from "../TableColumnModel";
+import {ConfirmationModel} from "../ConfirmationModel";
 
 export class AttributesConfigPropsModel {
   constructor(
@@ -33,6 +34,7 @@ export class AttributesConfigPropsModel {
     public footer: ComponentModel|NoValueType.NA = NoValueType.NA,
     public caption: ComponentModel|NoValueType.NA = NoValueType.NA,
     public extraColumns: TableColumnModel[]|NoValueType.NA =  NoValueType.NA,
+    public confirmationModel:ConfirmationModel|NoValueType.NA =  NoValueType.NA,
   ) {
   }
 }

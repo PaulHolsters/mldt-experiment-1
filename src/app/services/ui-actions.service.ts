@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActionsService} from "./actions.service";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ActionSubType} from "../enums/actionSubTypes.enum";
@@ -11,6 +11,8 @@ import {StateService} from "./state.service";
 import {StoreService} from "./store.service";
 import {ActionValueModel} from "../models/ActionValueModel";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {NoValueType} from "../enums/no_value_type";
+import {ConfirmationModel} from "../models/ConfirmationModel";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +29,14 @@ export class UiActionsService {
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetConfigValueAndRebuild)?.subscribe(res=>{
       if(res){
         const action = this.setConfigValueAndRebuild(res.action,res.data)
+        if(action){
+          this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
+        }
+      }
+    })
+    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetConfirmation)?.subscribe(res=>{
+      if(res && res.target && res.target instanceof EventTarget){
+        const action = this.setConfirmation(res.action,res.data, res.target)
         if(action){
           this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
         }
@@ -73,6 +83,25 @@ export class UiActionsService {
           return prop.propName === action.value.name
         return false
       })?.propValue.next(val)
+    return true
+  }
+  private setConfirmation(action:ActionModel,data?:any,target?:EventTarget){
+    debugger
+    if(action.targetName!==NoValueType.NA){
+      let comp = this.configService.getComponentConfig(action.targetName)
+      if(!comp) comp = this.configService.getComponentConfigThroughAttributes(action.targetName)
+      if(comp && comp.attributes && this.RBS.screenSize){
+        const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)
+        debugger
+        const cm = new ConfirmationModel(attrVal.icon,attrVal.message, target)
+        debugger
+        this.storeService.getStatePropertySubjects().find(prop=>{
+          if(prop.componentName === action.targetName)
+            return prop.propName === PropertyName.confirmationModel
+          return false
+        })?.propValue.next(cm)
+      } else throw new Error('Component with name '+action.targetName+ ' could not be found')
+    }
     return true
   }
 }

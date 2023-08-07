@@ -48,7 +48,6 @@ import {ConfigService} from "./config.service";
 import {NoValueType} from "../enums/no_value_type";
 import {StateService} from "./state.service";
 import {PositioningConfigPropsModel} from "../models/Positioning/self/PositioningConfigPropsModel";
-import {ComponentObjectModel} from "../models/ComponentObjectModel";
 import {TableColumnModel} from "../models/TableColumnModel";
 
 @Injectable({
@@ -320,6 +319,7 @@ export class StoreService implements OnInit {
         false,
         false,
         false,
+        NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,

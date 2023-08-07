@@ -6,6 +6,6 @@ import {ActionModel} from "./ActionModel";
 export interface ActionSubjectModel {
   actionType:ActionType,
   actionSubType?:ActionSubType,
-  subj:Subject<{action:ActionModel,data:any}|undefined>
-  action$:Observable<{action:ActionModel,data:any}|undefined>
+  subj:Subject<{action:ActionModel,data:any,target:EventTarget|undefined}|undefined>
+  action$:Observable<{action:ActionModel,data:any,target:EventTarget|undefined}|undefined>
 }

@@ -5,6 +5,9 @@ import AppConfig from "../app-configuration/appConfig";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
 import {EventType} from "../enums/eventTypes.enum";
 import {TableColumnModel} from "../models/TableColumnModel";
+import { ScreenSize } from '../enums/screenSizes.enum';
+import { PropertyName } from '../enums/PropertyNameTypes.enum';
+import { ResponsiveAttributesConfigModel } from '../models/Attributes/ResponsiveAttributesConfigModel';
 
 @Injectable({
   providedIn: 'root'
@@ -525,9 +528,29 @@ export class ConfigService {
     }
     return undefined
   }
+  getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel):any {
+    // todo
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(attributes)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        const prop = Object.keys(stateModelObj[ScreenSize[lastScreenSize]]).find(key=>{
+          return key === confirmationModel
+        })
+        if(prop) return stateModelObj[ScreenSize[lastScreenSize]][prop]
+      }
+      lastScreenSize--
+    }
+    throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and' +
+      ' property '+confirmationModel+' and screen ' + ScreenSize[screenSize])
+  }
+
+
   getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] }|undefined {
     return this.appConfig?.userConfig
   }
+
+
 }
 
 /*  private resolve(value: CalculationModel): MixedArrayModel {

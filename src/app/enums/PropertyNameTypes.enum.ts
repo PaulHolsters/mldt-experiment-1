@@ -82,6 +82,7 @@ export enum PropertyName {
   display='display',
   component='component',
   border = 'border',
-  extraColumns = 'extraColumns'
+  extraColumns = 'extraColumns',
+  confirmationModel = 'confirmationModel'
 
 }
