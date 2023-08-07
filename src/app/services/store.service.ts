@@ -58,7 +58,7 @@ export class StoreService implements OnInit {
 
   public actionFinished = new Subject()
 
-  constructor(private actionsService: ActionsService, private configService: ConfigService,private stateService:StateService) {
+  constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
@@ -93,6 +93,7 @@ export class StoreService implements OnInit {
     }
     return false
   }
+
   // volgende methodes zijn pure opstartwaarden, zij geven niet de runtime waarden van de props terug, bv wanneer deze gewijzigd moeten worden!
   public getPositionComponentProps(componentName: string,
                                    stateModel: ResponsivePositioningConfigModel,
@@ -106,7 +107,7 @@ export class StoreService implements OnInit {
           positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Baseline || positionConfig === CrossAxisHorizontalPositioningConfigType.Baseline,
           positionConfig.display)
       }
-    if (this.hasScreenSizeProperty(stateModel, 'selfAlign')||this.hasScreenSizeProperty(stateModel, 'display')) {
+    if (this.hasScreenSizeProperty(stateModel, 'selfAlign') || this.hasScreenSizeProperty(stateModel, 'display')) {
       let lastScreenSize = screenSize
       const stateModelObj = Object.create(stateModel)
       while (lastScreenSize >= 0) {
@@ -118,6 +119,7 @@ export class StoreService implements OnInit {
       throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
     } else return new PositioningComponentPropsModel()
   }
+
   public getOverflowComponentProps(componentName: string, stateModel: ResponsiveOverflowConfigModel, screenSize: number): OverflowComponentPropsModel {
     const translateToOverflowComponentProps =
       (overflowConfig: OverflowConfigPropsModel): OverflowComponentPropsModel => {
@@ -198,6 +200,7 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
     const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
@@ -293,6 +296,7 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
       const compPropsObj = new AttributesComponentPropsModel(
@@ -344,6 +348,7 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getVisibilityComponentProps(componentName: string, stateModel: ResponsiveVisibilityConfigModel, screenSize: number): VisibilityComponentPropsModel {
     const translateToVisibilityComponentProps = (visibilityConfig: VisibilityConfigPropsModel): VisibilityComponentPropsModel => {
       const compPropsObj = new VisibilityComponentPropsModel()
@@ -389,6 +394,7 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public setRBSState(componentName: string,
                      newState: (PositioningComponentPropsModel |
                        AttributesComponentPropsModel |
@@ -406,10 +412,8 @@ export class StoreService implements OnInit {
       newState instanceof OverflowComponentPropsModel
     ) {
       for (let [k, v] of Object.entries(newState)) {
-        if(componentName==='actionBtn')debugger
         if (v !== ComponentDimensionValueConfigType.Parent) {
           this.getStatePropertySubjects().find(subj => {
-            if(componentName==='actionBtn' && subj.componentName ===componentName && subj.propName === 'visible' && newState instanceof VisibilityComponentPropsModel)debugger
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
         }
@@ -451,46 +455,45 @@ export class StoreService implements OnInit {
       })?.propValue.next(newState)
     }
   }
-  private createProps(component: ComponentModel){
-    this.stateService.getProperties(component.type)?.forEach((v,k)=>{
+
+  private createProps(component: ComponentModel) {
+    this.stateService.getProperties(component.type)?.forEach((v, k) => {
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
         componentName: component.name,
         propName: k,
-        propValue:propSubj,
+        propValue: propSubj,
         prop$: propSubj.asObservable()
       })
     })
-    if(component.children && component.children.length > 0){
-      component.children.forEach(child=>{
-        if(child instanceof ComponentModel || this.configService.isComponentObjectModel(child)){
+    if (component.children && component.children.length > 0) {
+      component.children.forEach(child => {
+        if (child instanceof ComponentModel || this.configService.isComponentObjectModel(child)) {
           const compT = this.configService.convertToComponentModel(child)
-          if(compT)
-          this.createProps(compT)
-        } else{
+          if (compT)
+            this.createProps(compT)
+        } else {
           // string!
           throw new Error('string components not implemented yet')
         }
       })
     }
-    if(component.attributes){
-      for (let [k,v] of Object.entries(component.attributes)){
-        if(v){
-          for (let[j,l] of Object.entries(v)){
-            if(l instanceof ComponentModel || this.configService.isComponentObjectModel(l)){
+    if (component.attributes) {
+      for (let [k, v] of Object.entries(component.attributes)) {
+        if (v) {
+          for (let [j, l] of Object.entries(v)) {
+            if (l instanceof ComponentModel || this.configService.isComponentObjectModel(l)) {
               const compT = this.configService.convertToComponentModel(l)
-              if(compT)
-              this.createProps(compT)
+              if (compT)
+                this.createProps(compT)
             }
-            if(l instanceof Array){
-              // todo => tableColumnModel array!
-              for (let i=0;i<l.length;i++){
-                if(l[i] instanceof ComponentModel || this.configService.isComponentObjectModel(l[i])){
+            if (l instanceof Array) {
+              for (let i = 0; i < l.length; i++) {
+                if (l[i] instanceof ComponentModel || this.configService.isComponentObjectModel(l[i])) {
                   const compT = this.configService.convertToComponentModel(l[i])
-                  if(compT)
+                  if (compT)
                     this.createProps(compT)
-                } else if(l[i] instanceof TableColumnModel){
-                  debugger
+                } else if (l[i] instanceof TableColumnModel) {
                   this.createProps(l[i].anchor)
                 }
               }
@@ -500,18 +503,20 @@ export class StoreService implements OnInit {
       }
     }
   }
+
   public createStore() {
     this.configService.appConfig?.userConfig.components.forEach(comp => {
-      if(comp instanceof ComponentModel){
+      if (comp instanceof ComponentModel) {
         this.createProps(comp)
-      } else if(this.configService.isComponentObjectModel(comp)){
-        const model:ComponentModel|undefined = this.configService.convertToComponentModel(comp)
-        if(model)this.createProps(model)
-      }else{
+      } else if (this.configService.isComponentObjectModel(comp)) {
+        const model: ComponentModel | undefined = this.configService.convertToComponentModel(comp)
+        if (model) this.createProps(model)
+      } else {
         throw new Error('De configuratie mag enkel componenten van het type ComponentModel of ObjectComponentModel bevatten')
       }
-  })
-  debugger}
+    })
+  }
+
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |
