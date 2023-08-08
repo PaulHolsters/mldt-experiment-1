@@ -72,6 +72,7 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
       this.props.forEach((v,k)=>{
         this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
           // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+          if(k==='dataAttribute' && this.name === 'form container - product edit') debugger
             this.setPropValue(k,res)
         })
       })

@@ -161,7 +161,7 @@ export const table = {
       [
         new TableColumnModel('actions', '', false, false, false,
           new ComponentModel(
-            'actionBtn', ComponentType.Button, undefined, undefined, undefined,
+            'edit-product-btn', ComponentType.Button, undefined, undefined, undefined,
             new ResponsiveAttributesConfigModel(
               new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, 'edit')),
             new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())

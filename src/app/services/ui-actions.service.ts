@@ -101,5 +101,10 @@ export class UiActionsService {
     }
     return true
   }
+  private initializeForm(action:ActionModel,data?:any,target?:EventTarget){
+    // get config of target
+    // get dataModel of config
+    //
+  }
 }
 

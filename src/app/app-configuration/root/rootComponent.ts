@@ -12,6 +12,8 @@ import {table} from "../table/table";
 import {actions} from "../actions/actions";
 import {dialog} from "../dialog/dialog";
 import {confirmation} from "../confirmation/confirmation";
+import {formEditProduct} from "../form-edit-product/form";
+import {dialogEditProduct} from "../dialog-edit-product/dialog-edit-product";
 
 export const RootComponent = new AppConfig({
   components: [
@@ -30,7 +32,8 @@ export const RootComponent = new AppConfig({
         //form,
         table,
         dialog,
-        confirmation
+        confirmation,
+        dialogEditProduct
       ]
     },
   ],

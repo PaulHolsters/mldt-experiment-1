@@ -528,8 +528,11 @@ export class ConfigService {
     }
     return undefined
   }
+  public getAncestorComponentConfig(ancestorName:string,compName:string):ComponentModel|undefined{
+
+    return undefined
+  }
   getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel):any {
-    // todo
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(attributes)
     while (lastScreenSize >= 0) {
@@ -544,7 +547,6 @@ export class ConfigService {
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and' +
       ' property '+confirmationModel+' and screen ' + ScreenSize[screenSize])
   }
-
 
   getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] }|undefined {
     return this.appConfig?.userConfig

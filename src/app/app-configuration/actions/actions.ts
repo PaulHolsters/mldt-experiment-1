@@ -159,6 +159,55 @@ export const actions = [
   {
     on: EventType.ComponentClicked,
     actionType: ActionType.Client,
+    actionSubType: ActionSubType.InitializeForm,
+    targetName: 'form container - product edit',
+    sourceName: 'edit-product-btn',
+    targetType: TargetType.Component,
+    id: 'initialize edit-product-form'
+  },
+  {
+    on: EventType.ActionFinished,
+    sourceId: 'initialize edit-product-form',
+    actionType: ActionType.Client,
+    actionSubType: ActionSubType.SetProperty,
+    value: new ActionValueModel(PropertyName.visible, true),
+    targetName: 'edit-product-dialog',
+    sourceName: NoValueType.NA,
+    targetType: TargetType.Component,
+    id:'open edit-product-dialog'
+  },
+  {
+    on: EventType.ComponentClicked,
+    actionType: ActionType.Server,
+    actionSubType: ActionSubType.PersistUpdatedData,
+    targetName: NoValueType.NA,
+    sourceName: 'submit edited product btn',
+    targetType: TargetType.API,
+    id: 'submit edited product'
+  },
+  {
+    on: EventType.ActionFinished,
+    sourceId: 'submit edited product',
+    actionType: ActionType.Client,
+    actionSubType: ActionSubType.SetProperty,
+    value: new ActionValueModel(PropertyName.visible, false),
+    targetName: 'edit-product-dialog',
+    sourceName: NoValueType.NA,
+    targetType: TargetType.Component,
+    id:'close edit-product-dialog'
+  },
+  {
+    on: EventType.ActionFinished,
+    sourceId: 'close edit-product-dialog',
+    actionType: ActionType.Server,
+    actionSubType: ActionSubType.GetAllData,
+    targetName: 'table',
+    sourceName: NoValueType.NA,
+    targetType: TargetType.Component,
+  },
+  {
+    on: EventType.ComponentClicked,
+    actionType: ActionType.Client,
     actionSubType: ActionSubType.SetConfirmation,
     targetName: 'confirmation popup',
     sourceName: 'actionBtn',
@@ -173,6 +222,15 @@ export const actions = [
     sourceName: 'confirmation popup',
     targetType: TargetType.API,
     id: 'item deleted'
+  },
+  {
+    on: EventType.ActionFinished,
+    sourceId: 'item deleted',
+    actionType: ActionType.Server,
+    actionSubType: ActionSubType.GetAllData,
+    targetName: 'table',
+    sourceName: NoValueType.NA,
+    targetType: TargetType.Component,
   },
   /*        {
             actionType: ActionType.Server,

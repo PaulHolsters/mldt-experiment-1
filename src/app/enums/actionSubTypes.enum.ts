@@ -10,5 +10,6 @@ export enum ActionSubType {
   SetProperty,
   SetConfigValueAndRebuild,
   ExecuteCustomFunction,
-  SetConfirmation
+  SetConfirmation,
+  InitializeForm
 }

@@ -202,7 +202,8 @@ export class DataService{
     const obj = this.objectData.find(dataObj => {
       return dataObj.conceptName === dataLinkCopy[0] && (dataSpecs.reduce(
           (specA, specB) => {
-            const copyDataObj = new ConceptComponentModel(dataObj.conceptName, dataObj.attributes, dataObj.errorMessages, dataObj.dataList, dataObj.conceptData,
+            const copyDataObj = new ConceptComponentModel(dataObj.conceptName, dataObj.attributes, dataObj.errorMessages,
+              dataObj.dataList, dataObj.conceptData,
               dataObj.conceptBluePrint)
             return ((specA.toString() in copyDataObj && copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())) && (specB.toString() in copyDataObj
               && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))
@@ -288,7 +289,9 @@ export class DataService{
           })
         }
         propSubj.propValue.next(compConcept)
-      } else if (propSubj.propName === 'dataLink' && comp && comp.name === nameComponent  && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
+      } else if (propSubj.propName === 'dataLink' && comp && (comp.name === nameComponent||this.configService.getAncestorComponentConfig(nameComponent,comp.name))
+        && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
+        // todo dit lijkt mij fout => formulier kan niet werken want formcontrols hebben andere naam
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }

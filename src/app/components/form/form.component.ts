@@ -19,6 +19,7 @@ export class FormComponent extends AbstractComponent implements OnInit{
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        if(k===PropertyName.data) debugger
         this.setPropValue(k,res)
       })
     })

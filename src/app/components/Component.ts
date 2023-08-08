@@ -50,6 +50,7 @@ export class Component{
     return typeof index === 'number' ? this.props?.get(key)[index] : this.props?.get(key)
   }
   trigger(event: EventType,nativeEvent?:any){
+    if(this.name === 'edit-product-btn') debugger
     this.eventsService.triggerEvent(event,this.name,this.data,nativeEvent?.target)
   }
   setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){

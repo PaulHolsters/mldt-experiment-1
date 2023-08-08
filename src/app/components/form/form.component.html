@@ -4,6 +4,6 @@
       [style.height]="getPropValue(PropertyName.height)"
       [style.width]="getPropValue(PropertyName.width)"
 >
-    <m-anchor [component]="getPropValue(PropertyName.content)"
+    <m-anchor *ngIf="data" [component]="getPropValue(PropertyName.content)" [data]="data"
     ></m-anchor>
 </form>

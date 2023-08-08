@@ -110,6 +110,7 @@
           ></m-label>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.TextInput">
+          tot hier {{nameFormControl}} en {{getPropValue(PropertyName.dataAttribute)}} en {{getPropValue(PropertyName.dataAttribute)?.text}} ???
           <m-input-text *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)?.text"
                         [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
