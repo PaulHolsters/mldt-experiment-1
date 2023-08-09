@@ -202,6 +202,9 @@ export class ConfigService {
     }
     return undefined
   }
+  public getParentComponentConfig(baseComponent: ComponentModel) : ComponentModel | undefined {
+
+  }
   public getComponentConfigThroughAttributes(compName: string, childComp?: ComponentModel): ComponentModel | undefined {
     // todo aanpassen zodat actionBtn's gevonden worden in een niet componentmodel achtige property =>
     //      nedeel is dat je dan overal moet gaan doorploegen = NOK!
@@ -528,9 +531,200 @@ export class ConfigService {
     }
     return undefined
   }
-  public getAncestorComponentConfig(ancestorName:string,compName:string):ComponentModel|undefined{
+  public getParentComponentConfigThroughAttributes(compName: string,
+                                                               childComp?: ComponentModel,
+                                                               previous?: ComponentModel): ComponentModel | undefined {
+    if (childComp) {
+      if (childComp.name === compName) return previous
+      if (childComp.attributes !== undefined) {
+        for (let [k, v] of Object.entries(childComp.attributes)) {
+          if (v) {
+            for (let [j, l] of Object.entries(v)) {
+              if (
+                (l instanceof ComponentModel && l.name === compName)
+                || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)
+              ) {
+                return previous
+              }
+              if (l instanceof Array) {
+                for (let i = 0; i < l.length; i++) {
+                  if ((l[i] instanceof ComponentModel && l[i].name === compName)
+                    || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
+                    return previous
+                  } else if(l[i] instanceof TableColumnModel){
+                    if(l[i].anchor.name===compName) return previous
+                  }
+                }
+              }
+              let previousComponent
+              if ((l instanceof ComponentModel)
+                || (this.isComponentObjectModel(l))) {
+                previousComponent = l
+              }
+              if (l instanceof Array) {
+                for (let i = 0; i < l.length; i++) {
+                  if (l[i] instanceof ComponentModel
+                    || this.isComponentObjectModel(l[i])) {
+                    previousComponent = l[i]
+                    // todo hier lijkt een break te missen
+                  } else if(l[i] instanceof TableColumnModel){
+                    previousComponent = l[i].anchor
+                  }
+                }
+              }
+              if ((l instanceof ComponentModel && (l.attributes !== undefined || l.children !== undefined))
+                || (this.isComponentObjectModel(l) && (this.getComponentObjectModelPropertyValue(l, 'attributes') ||
+                  this.getComponentObjectModelPropertyValue(l, 'children')))) {
+                let component
+                if (previousComponent) component =
+                  this.getParentComponentConfigThroughAttributes(compName,
+                    this.convertToComponentModel(l),
+                    this.convertToComponentModel(previousComponent))
+                else component = this.getParentComponentConfigThroughAttributes(compName,
+                  this.convertToComponentModel(l), previous)
+                if (component) {
+                  return component
+                }
+              }
+              if (l instanceof Array) {
+                for (let i = 0; i < l.length; i++) {
+                  if ((l[i] instanceof ComponentModel && (l[i].attributes !== undefined || l[i].children !== undefined))
+                    || (this.isComponentObjectModel(l[i]) && (this.getComponentObjectModelPropertyValue(l[i], 'attributes') ||
+                      this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
+                    let component
+                    if (previousComponent){
+                      component =
+                        this.getParentComponentConfigThroughAttributes(compName,
+                          this.convertToComponentModel(l[i]),
+                          this.convertToComponentModel(previousComponent))
+                    } else{
+                      component = this.getParentComponentConfigThroughAttributes(compName,
+                        this.convertToComponentModel(l[i]), previous)
+                    }
+                    if (component) {
+                      return component
+                    }
+                  } else if(l[i] instanceof TableColumnModel && (l[i].anchor.attributes !== undefined || l[i].anchor.children !== undefined)){
+                    let component
+                    if (previousComponent){
+                      component =
+                        this.getParentComponentConfigThroughAttributes(compName,
+                          l[i].anchor,
+                          previousComponent)
+                    } else{
+                      component = this.getParentComponentConfigThroughAttributes(compName,
+                        l[i].anchor,
+                        previousComponent)
+                    }
+                    if (component) {
+                      return component
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      if (childComp.children !== undefined) {
+        for (let j = 0; j < childComp.children.length; j++) {
+          let previousComponent
+          const actualComp = childComp.children[j]
+          if (typeof actualComp !== 'string') {
+            const componentNow = this.convertToComponentModel(actualComp)
+            if (componentNow instanceof ComponentModel
+              || this.isComponentObjectModel(componentNow)) {
+              previousComponent = componentNow
+            }
+            let component
+            if (previousComponent) component = this.getParentComponentConfigThroughAttributes(compName,
+              componentNow, previousComponent)
+            else component = this.getParentComponentConfigThroughAttributes(compName,
+              componentNow, previous)
+            if (component) {
+              return component
+            }
+          } else {
+            // todo als comp string is
+            throw new Error('string components not implemented')
+          }
 
+        }
+      }
+    } else {
+      for (let i = 0; i < this.appConfig.userConfig.components.length; i++) {
+        const comp = this.appConfig.userConfig.components[i]
+        if (comp.attributes !== undefined) {
+          for (let [k, v] of Object.entries(comp.attributes)) {
+            if (v) {
+              for (let [j, l] of Object.entries(v)) {
+                // todo array wordt niet gecontroleerd
+                if ((l instanceof ComponentModel && l.name === compName)
+                  || (this.isComponentObjectModel(l) && this.getComponentObjectModelPropertyValue(l, 'name') === compName)) {
+                  return previous
+                }
+                let previousComponent
+                if (l instanceof ComponentModel
+                  || this.isComponentObjectModel(l)) {
+                  previousComponent = l
+                }
+                if (l instanceof ComponentModel || this.isComponentObjectModel(l)) {
+                  let component
+                  if (previousComponent) component =
+                    this.getParentComponentConfigThroughAttributes(compName,
+                      this.convertToComponentModel(l), this.convertToComponentModel(previousComponent))
+                  else component = this.getParentComponentConfigThroughAttributes(compName,
+                    this.convertToComponentModel(l), previous)
+                  if (component) return component
+                }
+              }
+            }
+          }
+        }
+        if (comp.children !== undefined) {
+          for (let j = 0; j < comp.children.length; j++) {
+            let previousComponent
+            const actualC = comp.children[j]
+            if (typeof actualC !== 'string') {
+              const componentNow = this.convertToComponentModel(actualC)
+              if (componentNow instanceof ComponentModel
+                || this.isComponentObjectModel(componentNow)) {
+                previousComponent = actualC
+              }
+              let component
+              if (previousComponent) component =
+                this.getParentComponentConfigThroughAttributes(compName,
+                  componentNow, previousComponent)
+              else component =
+                this.getParentComponentConfigThroughAttributes(compName,
+                   componentNow, previous)
+              if (component) {
+                return component
+              }
+            } else {
+              // todo als comp string is
+              throw new Error('string components not implemented')
+            }
+          }
+        }
+      }
+    }
     return undefined
+  }
+  public getAncestorComponentConfig(ancestorName:string,compName:string):ComponentModel|undefined{
+    if(ancestorName===compName) throw new Error('component en ancestor can not be the same')
+    if(compName==='content-container') return undefined
+    let base = this.getComponentConfig(compName)
+    if(!base) base = this.getComponentConfigThroughAttributes(compName)
+    if(!base) throw new Error('Component '+compName+' not found in configuration')
+    // todo parent component methods don't work you just get back the same component over and over bv table => table
+    let ancestor = this.getParentComponentConfig(base.name)
+    if(!ancestor) ancestor = this.getParentComponentConfigThroughAttributes(base.name) // dit moet altijd iets geven tenzij de cc
+    if(!ancestor) throw new Error('Ancestor method is failing')
+    if(ancestor.name !==ancestorName){
+      debugger
+      return this.getAncestorComponentConfig(ancestorName,ancestor.name)
+    } return ancestor
   }
   getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel):any {
     let lastScreenSize = screenSize
