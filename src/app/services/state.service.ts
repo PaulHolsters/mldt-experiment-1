@@ -52,20 +52,14 @@ export class StateService {
   }
   private createMap(name:string):Map<string,any>{
     if(name !== 'content-container'){
-      let compModel  = this.configService.getComponentConfig(name)
-      if (!compModel) {
-        compModel = this.configService.getComponentConfigThroughAttributes(name)
-      }
+      let compModel  = this.configService.getConfigFromRoot(name)
       if(compModel)
       return this.getProperties(compModel.type)
       throw new Error('Er bestaat geen component met deze naam '+name)
     } else return this.getProperties(ComponentType.Container)
   }
   public syncData(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
-    let compModel  = this.configService.getComponentConfig(name)
-    if (!compModel) {
-      compModel = this.configService.getComponentConfigThroughAttributes(name)
-    }
+    let compModel  = this.configService.getConfigFromRoot(name)
     if(compModel){
       const obj = this.componentData.find(obj=>{
         return obj.name===name

@@ -10,9 +10,9 @@ export default class AppConfig {
   public get userConfig():{ components: ComponentModel[], actions: ActionModel[] } {
     return this.convertToComponentModels(this._userConfig)
   }
-  private convertToComponentModels(userconfig:{ components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] })
+  private convertToComponentModels(userConfig:{ components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] })
     :{ components: ComponentModel[], actions: ActionModel[] }{
-
+    //todo
   }
 
   public getActionsForComponent(name: string): ActionModel[] {

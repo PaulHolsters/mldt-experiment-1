@@ -421,24 +421,13 @@ export class StoreService implements OnInit {
       }
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
-          let parent = this.configService.getComponentConfig(componentName)
-          if (!parent) {
-            parent = this.configService.getComponentConfigThroughAttributes(componentName)
-          }
+          let parent = this.configService.getConfigFromRoot(componentName)
           if (parent?.children) {
-            if (parent.children?.length > 0 && typeof parent.children[0] === 'string') {
-              (parent.children as string[]).forEach(childName => {
-                this.getStatePropertySubjects().find(subj => {
-                  return subj.componentName === childName && subj.propName === k
-                })?.propValue.next(v)
-              })
-            } else {
-              (parent.children as ComponentModel[]).forEach(childComp => {
-                this.getStatePropertySubjects().find(subj => {
-                  return subj.componentName === childComp.name && subj.propName === k
-                })?.propValue.next(v)
-              })
-            }
+            (parent.children as ComponentModel[]).forEach(childComp => {
+              this.getStatePropertySubjects().find(subj => {
+                return subj.componentName === childComp.name && subj.propName === k
+              })?.propValue.next(v)
+            })
           }
         }
       }
@@ -461,14 +450,7 @@ export class StoreService implements OnInit {
     })
     if (component.children && component.children.length > 0) {
       component.children.forEach(child => {
-        if (child instanceof ComponentModel || this.configService.isComponentObjectModel(child)) {
-          const compT = this.configService.convertToComponentModel(child)
-          if (compT)
-            this.createProps(compT)
-        } else {
-          // string!
-          throw new Error('string components not implemented yet')
-        }
+            this.createProps(child)
       })
     }
     if (component.attributes) {
@@ -499,14 +481,7 @@ export class StoreService implements OnInit {
 
   public createStore() {
     this.configService.appConfig?.userConfig.components.forEach(comp => {
-      if (comp instanceof ComponentModel) {
-        this.createProps(comp)
-      } else if (this.configService.isComponentObjectModel(comp)) {
-        const model: ComponentModel | undefined = this.configService.convertToComponentModel(comp)
-        if (model) this.createProps(model)
-      } else {
-        throw new Error('De configuratie mag enkel componenten van het type ComponentModel of ObjectComponentModel bevatten')
-      }
+      this.createProps(comp)
     })
   }
 

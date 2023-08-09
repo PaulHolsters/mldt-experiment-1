@@ -20,7 +20,7 @@ export class ComponentModel {
                 public attributes?:ResponsiveAttributesConfigModel,
                 public visibility?:ResponsiveVisibilityConfigModel,
                 public overflow?:ResponsiveOverflowConfigModel,
-                public children?:(ComponentModel|ComponentObjectModel)[],
+                public children?:ComponentModel[],
                 public styling?:ResponsiveStylingConfigModel,
                 public data?:ConceptConfigModel|string[],
                 public contentInjection?:ResponsiveContentInjectionConfigModel) {

@@ -23,6 +23,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {ActionSubType} from "../enums/actionSubTypes.enum";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -86,8 +87,7 @@ export class DataService{
         return x.name || ''
       }).reduce((x, y) => x += '\n' + y, '')
     } else if (!(data instanceof ConceptConfigModel)) {
-      let compConfig = this.configService.getParentComponentConfigWithProperty(compName, 'data')
-      if (!compConfig) compConfig = this.configService.getParentComponentConfigWithPropertyThroughAttributes(compName, 'data')
+      let compConfig = this.configService.getFirstAncestorConfigWithPropertyFromRoot(compName,PropertyName.data)
       if (!compConfig) throw new Error('attributen voor ' + data.toString() + ' en component met naam ' + compName +
         ' werden niet gevonden. Kijk je configuratie na.')
       if (compConfig.data
@@ -279,9 +279,8 @@ export class DataService{
   private setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       // todo refactor
-      let comp = this.configService.getComponentConfig(propSubj.componentName)
-      if (!comp) comp = this.configService.getComponentConfigThroughAttributes(propSubj.componentName)
-      // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn
+      let comp = this.configService.getConfigFromRoot(propSubj.componentName)
+      // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel && comp.name === nameComponent) {
         if(compConcept?.attributes && compConcept?.attributes instanceof Array){
           compConcept.attributes = compConcept.attributes.map(attr=>{
@@ -289,9 +288,10 @@ export class DataService{
           })
         }
         propSubj.propValue.next(compConcept)
-      } else if (propSubj.propName === 'dataLink' && comp && (comp.name === nameComponent||this.configService.getAncestorComponentConfig(nameComponent,comp.name))
+      } else if (propSubj.propName === 'dataLink' && comp
+        && (comp.name === nameComponent||this.configService.getFirstAncestorConfigWithPropertyFromRoot(comp.name,PropertyName.data))
         && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
-        // todo dit lijkt mij fout => formulier kan niet werken want formcontrols hebben andere naam
+        // todo werkt dit nu?
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
@@ -476,19 +476,13 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     return attr
   }
   public async persistNewData(action: ActionModel) {
-    let comp = this.configService.getParentComponentConfigWithProperty(action.sourceName, 'data')
-    if (!comp) {
-      comp = this.configService.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
-    }
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
     await this.mutate(comp?.data, MutationType.Create)?.subscribe(res => {
       console.log(res, 'yeah!')
     })
   }
   public async persistUpdatedData(action: ActionModel) {
-    let comp = this.configService.getParentComponentConfigWithProperty(action.sourceName, 'data')
-    if (!comp) {
-      comp = this.configService.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
-    }
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
       const conceptId = this.objectData.find(d => {
@@ -506,10 +500,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     return this.mutate(undefined, MutationType.Delete, action.data.id,action.data)
   }
   public deleteData(action: ActionModel) {
-    let comp = this.configService.getParentComponentConfigWithProperty(action.sourceName, 'data')
-    if (!comp) {
-      comp = this.configService.getParentComponentConfigWithPropertyThroughAttributes(action.sourceName, 'data')
-    }
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
       let conceptId
@@ -532,10 +523,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
   }
   public getDataBluePrint(action: ActionModel) {
     if (action.targetType === TargetType.Component) {
-      let compModel = this.configService.getComponentConfig(action.targetName)
-      if (!compModel) {
-        compModel = this.configService.getComponentConfigThroughAttributes(action.targetName)
-      }
+      let compModel = this.configService.getConfigFromRoot(action.targetName)
       if (compModel !== undefined) {
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
@@ -554,8 +542,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
   public async getAllData(action: ActionModel) {
     // todo in de table component empty value opvangen
     if (action.targetType === TargetType.Component) {
-      let comp = this.configService.getComponentConfig(action.targetName)
-      if (!comp) comp = this.configService.getComponentConfigThroughAttributes(action.targetName)
+      let comp = this.configService.getConfigFromRoot(action.targetName)
       if (comp !== undefined && comp.data) {
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
@@ -588,8 +575,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
   }
   public async getDataByID(action: ActionModel, id: string) {
     if (action.targetType === TargetType.Component) {
-      let comp = this.configService.getComponentConfig(action.targetName)
-      if (!comp) comp = this.configService.getComponentConfigThroughAttributes(action.targetName)
+      let comp = this.configService.getConfigFromRoot(action.targetName)
       if (comp !== undefined && comp.data) {
         await this.query(QuerySubType.GetDataByID, comp, id).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {

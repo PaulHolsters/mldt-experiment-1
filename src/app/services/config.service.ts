@@ -143,6 +143,18 @@ export class ConfigService {
     }
     return parent !== undefined
   }
+  public getFirstAncestorConfigWithProperty(nameComponent:string,component:ComponentModel,property:PropertyName):ComponentModel|undefined{
+    let parent = this.getParentConfig(nameComponent,component)
+    while(parent && !(parent.hasOwnProperty(property))){
+      parent = this.getParentConfig(nameComponent,parent)
+    }
+    return parent
+  }
+  public getFirstAncestorConfigWithPropertyFromRoot(nameComponent: string,property:PropertyName):ComponentModel|undefined{
+    return this.appConfig.userConfig.components.find(c=>{
+      return this.getFirstAncestorConfigWithProperty(nameComponent,c,property) !== undefined
+    })
+  }
   private getChildren(component: ComponentModel): ComponentModel[] {
     // todo voeg hier de screensize ook aan toe
     const arr = []
@@ -219,7 +231,7 @@ export class ConfigService {
       }
       return undefined
     }*/
-  public getParentComponentConfigWithProperty(compName: string,
+/*  public getParentComponentConfigWithProperty(compName: string,
                                               property: string,
                                               component?: ComponentModel,
                                               previousComponent?: ComponentModel)
@@ -811,7 +823,7 @@ export class ConfigService {
       return this.getAncestorComponentConfig(ancestorName, ancestor.name)
     }
     return ancestor
-  }
+  }*/
 
   getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel): any {
     let lastScreenSize = screenSize

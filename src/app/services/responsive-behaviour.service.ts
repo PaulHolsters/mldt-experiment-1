@@ -160,12 +160,7 @@ export class ResponsiveBehaviourService implements OnInit{
     if (component.children && component.children.length > 0) {
       this.storeService.setRBSState(component.name, component.children as ComponentModel[])
       component.children.forEach(child => {
-        if (typeof child === 'string') {
-          // todo
-          throw new Error('String components not implemented yet')
-        } else {
-          this.setState(child, screenSize)
-        }
+        this.setState(child, screenSize)
       })
     }
     if (component.attributes){
