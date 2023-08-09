@@ -1,4 +1,4 @@
-import AppConfig from "../appConfig";
+import AppConfig from "../../services/appConfig";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";

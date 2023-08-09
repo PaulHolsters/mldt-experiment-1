@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {EventType} from "../enums/eventTypes.enum";
-import AppConfig from "../app-configuration/appConfig";
+import AppConfig from "./appConfig";
 import {NoValueType} from "../enums/no_value_type";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";

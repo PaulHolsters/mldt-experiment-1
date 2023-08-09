@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ActionModel} from "../models/ActionModel";
 import {ComponentModel} from "../models/ComponentModel";
-import AppConfig from "../app-configuration/appConfig";
+import AppConfig from "./appConfig";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
 import {EventType} from "../enums/eventTypes.enum";
 import {TableColumnModel} from "../models/TableColumnModel";
-import { ScreenSize } from '../enums/screenSizes.enum';
-import { PropertyName } from '../enums/PropertyNameTypes.enum';
-import { ResponsiveAttributesConfigModel } from '../models/Attributes/ResponsiveAttributesConfigModel';
+import {ScreenSize} from '../enums/screenSizes.enum';
+import {PropertyName} from '../enums/PropertyNameTypes.enum';
+import {ResponsiveAttributesConfigModel} from '../models/Attributes/ResponsiveAttributesConfigModel';
 
 @Injectable({
   providedIn: 'root'
@@ -16,17 +16,34 @@ export class ConfigService {
 
   constructor() {
   }
-  public saveConfig(config:AppConfig){
+
+  public saveConfig(config: AppConfig) {
     // todo laat dit verlopen via een event!
     this._appConfig.push(Object.create(config))
   }
-  public get appConfig():AppConfig{
-    if(this._appConfig.length>0)
-      return Object.create(this._appConfig[this._appConfig.length-1])
+
+  public get appConfig(): AppConfig {
+    if (this._appConfig.length > 0)
+      return Object.create(this._appConfig[this._appConfig.length - 1])
     throw new Error('appConfig requested when not yet initialised')
   }
-  private _appConfig:AppConfig[]=[]
+
+  private _appConfig: AppConfig[] = []
+
+  public getActionsForComponent(name: string): ActionModel[] {
+    return this.appConfig.userConfig.actions.filter((action: { targetName: string; }) => {
+      return action.targetName === name
+    })
+  }
+
+  public getActionsForEvent(event: EventType) {
+    return this.appConfig.userConfig.actions.filter((action: { on: EventType; }) => {
+      return action.on === event
+    })
+  }
+
   public getComponentObjectModelPropertyValue(comp: any, prop: string): any {
+    // todo deze methode moet eruit!
     if (!this.isComponentObjectModel(comp)) return undefined
     switch (prop) {
       case 'name':
@@ -61,7 +78,7 @@ export class ConfigService {
       const arrFoundKeys = Object.keys(l).filter(k => {
         return ['name', 'dimensions', 'position', 'children', 'childLayout', 'visibility', 'styling', 'overflow', 'attributes', 'type', 'data'].includes(k)
       })
-      return arrFoundKeys.length===Object.keys(l).length
+      return arrFoundKeys.length === Object.keys(l).length
     }
     return false
   }
@@ -85,44 +102,88 @@ export class ConfigService {
     }
     throw new Error('convertToComponentModel method cannot be used  for any other type but ComponentObjectModel | ComponentModel | undefined')
   }
-  public getActionsForComponent(name: string): ActionModel[] {
-    return this.appConfig.userConfig.actions.filter((action: { targetName: string; }) => {
-      return action.targetName === name
-    })
-  }
-  public getActionsForEvent(event: EventType) {
-    return this.appConfig.userConfig.actions.filter((action: { on: EventType; }) => {
-      return action.on === event
-    })
-  }
-  public getComponentConfig(compName: string, component?: ComponentModel): ComponentModel | undefined {
-    if (component) {
-      if (component.name !== compName) {
-        if (component.children) {
-          for (let j = 0; j < component.children.length; j++) {
-            // hier ga je bv de menubar component hebben
-            const childComp = component.children[j]
-            if (typeof childComp !== 'string') {
-              const comp = this.getComponentConfig(compName, this.convertToComponentModel(childComp))
-              if (comp) {
-                return comp
-              }
-            } else {
-              // todo later string [] variant toevoegen
-              throw new Error('string components not implemented')
-            }
-          }
+
+  // standaard convert je bij het begin van een methode onmiddellijk naar een component model
+  public getConfig(nameComponent: string,component:ComponentModel): ComponentModel | undefined {
+      for (let child of this.getChildren(component)) {
+        if (child.name === nameComponent) return child
+        if(this.getChildren(child).length>0){
+          const comp = this.getConfig(nameComponent,child)
+          if(comp) return comp
         }
-      } else return component
-    } else {
-      for (let i = 0; i < this.appConfig?.userConfig.components.length; i++) {
-        if (this.appConfig.userConfig.components[i].name !== compName) {
-          const children = this.appConfig.userConfig.components[i].children
-          if (children) {
-            for (let k = 0; k < children.length; k++) {
-              const elTemp = children[k]
-              if (typeof elTemp !== 'string') {
-                const comp = this.getComponentConfig(compName, this.convertToComponentModel(elTemp))
+      }
+    return undefined
+  }
+  public getConfigFromRoot(nameComponent: string):ComponentModel|undefined{
+    return this.appConfig.userConfig.components.find(c=>{
+      return this.getConfig(nameComponent,c) !== undefined
+    })
+  }
+  public getParentConfig(nameComponent:string,component:ComponentModel):ComponentModel|undefined{
+    if(component.name===nameComponent) return undefined
+    if(this.getChildren(component).length===0) return undefined
+    for (let child of this.getChildren(component)){
+      if(child.name===nameComponent) return component
+      if(this.getChildren(child).length>0){
+        const comp = this.getParentConfig(nameComponent,child)
+        if(comp) return comp
+      }
+    }
+    return undefined
+  }
+  public getParentConfigFromRoot(nameComponent: string):ComponentModel|undefined{
+    return this.appConfig.userConfig.components.find(c=>{
+      return this.getParentConfig(nameComponent,c) !== undefined
+    })
+  }
+  public isAncestor(nameComponent: string,nameAncestor:string):boolean{
+    let parent = this.getParentConfigFromRoot(nameComponent)
+    while(parent && parent.name!==nameAncestor){
+      parent = this.getParentConfigFromRoot(parent.name)
+    }
+    return parent !== undefined
+  }
+  private getChildren(component: ComponentModel): ComponentModel[] {
+    // todo voeg hier de screensize ook aan toe
+    const arr = []
+    if (component.children) {
+      for (let child of component.children) {
+        if (child instanceof ComponentModel) arr.push(child)
+        else if (this.isComponentObjectModel(child)) arr.push(this.convertToComponentModel(child) as ComponentModel)
+        else throw new Error('Invalid Container Configuration')
+      }
+    } else if (component.contentInjection) {
+      for (let child of Object.values(component.contentInjection)) {
+        if (child instanceof Array) {
+          for (let el of child) {
+            if (el instanceof ComponentModel) arr.push(el)
+            else if (this.isComponentObjectModel(el)) arr.push(this.convertToComponentModel(el) as ComponentModel)
+            else if (el.hasOwnProperty('anchor')) {
+              if (el.anchor instanceof ComponentModel) arr.push(el.anchor)
+              else if (this.isComponentObjectModel(el.anchor)) arr.push(this.convertToComponentModel(el.anchor) as ComponentModel)
+            } else throw new Error('Invalid Content Injection')
+          }
+        } else if (child instanceof ComponentModel) arr.push(child)
+        else if (this.isComponentObjectModel(child)) arr.push(this.convertToComponentModel(child) as ComponentModel)
+        else if (child.hasOwnProperty('anchor')) {
+          if (child.anchor instanceof ComponentModel) arr.push(child.anchor)
+          else if (this.isComponentObjectModel(child.anchor)) arr.push(this.convertToComponentModel(child.anchor) as ComponentModel)
+        } else throw new Error('Invalid Content Injection')
+      }
+    }
+    return arr
+  }
+
+  /*  public getConfig(nameComponent: string, component?: ComponentModel): ComponentModel | undefined {
+      // todo werk recursief gebeuren eruit?
+      if (component) {
+        if (component.name !== compName) {
+          if (component.children) {
+            for (let j = 0; j < component.children.length; j++) {
+              // hier ga je bv de menubar component hebben
+              const childComp = component.children[j]
+              if (typeof childComp !== 'string') {
+                const comp = this.getComponentConfig(compName, this.convertToComponentModel(childComp))
                 if (comp) {
                   return comp
                 }
@@ -132,20 +193,39 @@ export class ConfigService {
               }
             }
           }
-        } else {
-          return this.convertToComponentModel(this.appConfig.userConfig.components[i])
+        } else return component
+      } else {
+        for (let i = 0; i < this.appConfig?.userConfig.components.length; i++) {
+          if (this.appConfig.userConfig.components[i].name !== compName) {
+            const children = this.appConfig.userConfig.components[i].children
+            if (children) {
+              for (let k = 0; k < children.length; k++) {
+                const elTemp = children[k]
+                if (typeof elTemp !== 'string') {
+                  const comp = this.getComponentConfig(compName, this.convertToComponentModel(elTemp))
+                  if (comp) {
+                    return comp
+                  }
+                } else {
+                  // todo later string [] variant toevoegen
+                  throw new Error('string components not implemented')
+                }
+              }
+            }
+          } else {
+            return this.convertToComponentModel(this.appConfig.userConfig.components[i])
+          }
         }
       }
-    }
-    return undefined
-  }
+      return undefined
+    }*/
   public getParentComponentConfigWithProperty(compName: string,
                                               property: string,
                                               component?: ComponentModel,
                                               previousComponent?: ComponentModel)
     : ComponentModel | undefined {
     // todo ga na of de referenties mekaar niet beginnen wijzigen en er dus deep copies nodig zijn
-    if(compName==='sort-h1') debugger
+    if (compName === 'sort-h1') debugger
     if (component) {
       if (component.name !== compName) {
         if (component.children) {
@@ -202,9 +282,11 @@ export class ConfigService {
     }
     return undefined
   }
-  public getParentComponentConfig(baseComponent: ComponentModel) : ComponentModel | undefined {
+
+  public getParentComponentConfig(baseComponent: ComponentModel): ComponentModel | undefined {
 
   }
+
   public getComponentConfigThroughAttributes(compName: string, childComp?: ComponentModel): ComponentModel | undefined {
     // todo aanpassen zodat actionBtn's gevonden worden in een niet componentmodel achtige property =>
     //      nedeel is dat je dan overal moet gaan doorploegen = NOK!
@@ -242,9 +324,9 @@ export class ConfigService {
                   }
                   // je moet returnen op het moment dat je de component met de naam in kwestie hebt gevonden
                   // in het geval van actionBtn kunnen dat er meer zijn
-                  if(l[i] instanceof TableColumnModel){
-                    if(l[i].anchor.name===compName) return l[i].anchor
-                    if(l[i].anchor.children !== undefined){
+                  if (l[i] instanceof TableColumnModel) {
+                    if (l[i].anchor.name === compName) return l[i].anchor
+                    if (l[i].anchor.children !== undefined) {
                       for (let j = 0; j < l[i].anchor.children.length; j++) {
                         const actualC = l[i].anchor.children[j]
                         if (typeof actualC !== 'string') {
@@ -297,9 +379,9 @@ export class ConfigService {
                     if ((l[i] instanceof ComponentModel && l[i].name === compName)
                       || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
                       return this.convertToComponentModel(l[i])
-                    } else if(l[i] instanceof TableColumnModel){
-                      if(l[i].anchor.name===compName) return l[i].anchor
-                      if(l[i].anchor.children !== undefined){
+                    } else if (l[i] instanceof TableColumnModel) {
+                      if (l[i].anchor.name === compName) return l[i].anchor
+                      if (l[i].anchor.children !== undefined) {
                         for (let j = 0; j < l[i].anchor.children.length; j++) {
                           const actualC = l[i].anchor.children[j]
                           if (typeof actualC !== 'string') {
@@ -339,6 +421,7 @@ export class ConfigService {
     }
     return undefined
   }
+
   public getParentComponentConfigWithPropertyThroughAttributes(compName: string,
                                                                property: string,
                                                                childComp?: ComponentModel,
@@ -360,8 +443,8 @@ export class ConfigService {
                   if ((l[i] instanceof ComponentModel && l[i].name === compName)
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
                     return previous
-                  } else if(l[i] instanceof TableColumnModel){
-                    if(l[i].anchor.name===compName) return previous
+                  } else if (l[i] instanceof TableColumnModel) {
+                    if (l[i].anchor.name === compName) return previous
                   }
                 }
               }
@@ -380,8 +463,8 @@ export class ConfigService {
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], property) !== undefined)) {
                     previousComponent = l[i]
                     // todo hier lijkt een break te missen
-                  } else if(l[i] instanceof TableColumnModel && l[i].anchor.hasOwnProperty(property)&& l[i].anchor.getPropertyValue
-                    && l[i].anchor.getPropertyValue(property) !== undefined){
+                  } else if (l[i] instanceof TableColumnModel && l[i].anchor.hasOwnProperty(property) && l[i].anchor.getPropertyValue
+                    && l[i].anchor.getPropertyValue(property) !== undefined) {
                     previousComponent = l[i].anchor
                   }
                 }
@@ -406,26 +489,26 @@ export class ConfigService {
                     || (this.isComponentObjectModel(l[i]) && (this.getComponentObjectModelPropertyValue(l[i], 'attributes') ||
                       this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
                     let component
-                    if (previousComponent){
+                    if (previousComponent) {
                       component =
                         this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
                           this.convertToComponentModel(l[i]),
                           this.convertToComponentModel(previousComponent))
-                    } else{
+                    } else {
                       component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
                         this.convertToComponentModel(l[i]), previous)
                     }
                     if (component) {
                       return component
                     }
-                  } else if(l[i] instanceof TableColumnModel && (l[i].anchor.attributes !== undefined || l[i].anchor.children !== undefined)){
+                  } else if (l[i] instanceof TableColumnModel && (l[i].anchor.attributes !== undefined || l[i].anchor.children !== undefined)) {
                     let component
-                    if (previousComponent){
+                    if (previousComponent) {
                       component =
                         this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
                           l[i].anchor,
                           previousComponent)
-                    } else{
+                    } else {
                       component = this.getParentComponentConfigWithPropertyThroughAttributes(compName, property,
                         l[i].anchor,
                         previousComponent)
@@ -531,9 +614,10 @@ export class ConfigService {
     }
     return undefined
   }
+
   public getParentComponentConfigThroughAttributes(compName: string,
-                                                               childComp?: ComponentModel,
-                                                               previous?: ComponentModel): ComponentModel | undefined {
+                                                   childComp?: ComponentModel,
+                                                   previous?: ComponentModel): ComponentModel | undefined {
     if (childComp) {
       if (childComp.name === compName) return previous
       if (childComp.attributes !== undefined) {
@@ -551,8 +635,8 @@ export class ConfigService {
                   if ((l[i] instanceof ComponentModel && l[i].name === compName)
                     || (this.isComponentObjectModel(l[i]) && this.getComponentObjectModelPropertyValue(l[i], 'name') === compName)) {
                     return previous
-                  } else if(l[i] instanceof TableColumnModel){
-                    if(l[i].anchor.name===compName) return previous
+                  } else if (l[i] instanceof TableColumnModel) {
+                    if (l[i].anchor.name === compName) return previous
                   }
                 }
               }
@@ -567,7 +651,7 @@ export class ConfigService {
                     || this.isComponentObjectModel(l[i])) {
                     previousComponent = l[i]
                     // todo hier lijkt een break te missen
-                  } else if(l[i] instanceof TableColumnModel){
+                  } else if (l[i] instanceof TableColumnModel) {
                     previousComponent = l[i].anchor
                   }
                 }
@@ -592,26 +676,26 @@ export class ConfigService {
                     || (this.isComponentObjectModel(l[i]) && (this.getComponentObjectModelPropertyValue(l[i], 'attributes') ||
                       this.getComponentObjectModelPropertyValue(l[i], 'children')))) {
                     let component
-                    if (previousComponent){
+                    if (previousComponent) {
                       component =
                         this.getParentComponentConfigThroughAttributes(compName,
                           this.convertToComponentModel(l[i]),
                           this.convertToComponentModel(previousComponent))
-                    } else{
+                    } else {
                       component = this.getParentComponentConfigThroughAttributes(compName,
                         this.convertToComponentModel(l[i]), previous)
                     }
                     if (component) {
                       return component
                     }
-                  } else if(l[i] instanceof TableColumnModel && (l[i].anchor.attributes !== undefined || l[i].anchor.children !== undefined)){
+                  } else if (l[i] instanceof TableColumnModel && (l[i].anchor.attributes !== undefined || l[i].anchor.children !== undefined)) {
                     let component
-                    if (previousComponent){
+                    if (previousComponent) {
                       component =
                         this.getParentComponentConfigThroughAttributes(compName,
                           l[i].anchor,
                           previousComponent)
-                    } else{
+                    } else {
                       component = this.getParentComponentConfigThroughAttributes(compName,
                         l[i].anchor,
                         previousComponent)
@@ -697,7 +781,7 @@ export class ConfigService {
                   componentNow, previousComponent)
               else component =
                 this.getParentComponentConfigThroughAttributes(compName,
-                   componentNow, previous)
+                  componentNow, previous)
               if (component) {
                 return component
               }
@@ -711,38 +795,41 @@ export class ConfigService {
     }
     return undefined
   }
-  public getAncestorComponentConfig(ancestorName:string,compName:string):ComponentModel|undefined{
-    if(ancestorName===compName) throw new Error('component en ancestor can not be the same')
-    if(compName==='content-container') return undefined
+
+  public getAncestorComponentConfig(ancestorName: string, compName: string): ComponentModel | undefined {
+    if (ancestorName === compName) throw new Error('component en ancestor can not be the same')
+    if (compName === 'content-container') return undefined
     let base = this.getComponentConfig(compName)
-    if(!base) base = this.getComponentConfigThroughAttributes(compName)
-    if(!base) throw new Error('Component '+compName+' not found in configuration')
+    if (!base) base = this.getComponentConfigThroughAttributes(compName)
+    if (!base) throw new Error('Component ' + compName + ' not found in configuration')
     // todo parent component methods don't work you just get back the same component over and over bv table => table
     let ancestor = this.getParentComponentConfig(base.name)
-    if(!ancestor) ancestor = this.getParentComponentConfigThroughAttributes(base.name) // dit moet altijd iets geven tenzij de cc
-    if(!ancestor) throw new Error('Ancestor method is failing')
-    if(ancestor.name !==ancestorName){
+    if (!ancestor) ancestor = this.getParentComponentConfigThroughAttributes(base.name) // dit moet altijd iets geven tenzij de cc
+    if (!ancestor) throw new Error('Ancestor method is failing')
+    if (ancestor.name !== ancestorName) {
       debugger
-      return this.getAncestorComponentConfig(ancestorName,ancestor.name)
-    } return ancestor
+      return this.getAncestorComponentConfig(ancestorName, ancestor.name)
+    }
+    return ancestor
   }
-  getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel):any {
+
+  getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel): any {
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(attributes)
     while (lastScreenSize >= 0) {
       if (stateModelObj[ScreenSize[lastScreenSize]]) {
-        const prop = Object.keys(stateModelObj[ScreenSize[lastScreenSize]]).find(key=>{
+        const prop = Object.keys(stateModelObj[ScreenSize[lastScreenSize]]).find(key => {
           return key === confirmationModel
         })
-        if(prop) return stateModelObj[ScreenSize[lastScreenSize]][prop]
+        if (prop) return stateModelObj[ScreenSize[lastScreenSize]][prop]
       }
       lastScreenSize--
     }
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and' +
-      ' property '+confirmationModel+' and screen ' + ScreenSize[screenSize])
+      ' property ' + confirmationModel + ' and screen ' + ScreenSize[screenSize])
   }
 
-  getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] }|undefined {
+  getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] } | undefined {
     return this.appConfig?.userConfig
   }
 

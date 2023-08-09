@@ -8,6 +8,8 @@ import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigMod
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ConceptConfigModel} from "./Data/ConceptConfigModel";
 import {ComponentObjectModel} from "./ComponentObjectModel";
+import {ContentInjectionConfigPropsModel} from "./ContentInjection/ContentInjectionConfigPropsModel";
+import {ResponsiveContentInjectionConfigModel} from "./ContentInjection/ResponsiveContentInjectionConfigModel";
 export class ComponentModel {
   isComponent?:boolean = true
   constructor(  public name:string,
@@ -18,9 +20,10 @@ export class ComponentModel {
                 public attributes?:ResponsiveAttributesConfigModel,
                 public visibility?:ResponsiveVisibilityConfigModel,
                 public overflow?:ResponsiveOverflowConfigModel,
-                public children?:(ComponentModel|ComponentObjectModel|string)[],
+                public children?:(ComponentModel|ComponentObjectModel)[],
                 public styling?:ResponsiveStylingConfigModel,
-                public data?:ConceptConfigModel|string[]) {
+                public data?:ConceptConfigModel|string[],
+                public contentInjection?:ResponsiveContentInjectionConfigModel) {
     // todo toevoegen constraints zoals dat je geen padding mag gebruiken bij een label
   }
 

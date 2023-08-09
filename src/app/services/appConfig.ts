@@ -2,14 +2,17 @@ import {ComponentModel} from "../models/ComponentModel";
 import {ActionModel} from "../models/ActionModel";
 import {EventType} from "../enums/eventTypes.enum";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
-import {ConfigService} from "./../services/config.service";
 
 export default class AppConfig {
   constructor(private _userConfig: { components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] }) {
   }
 
-  public get userConfig() {
-    return this._userConfig
+  public get userConfig():{ components: ComponentModel[], actions: ActionModel[] } {
+    return this.convertToComponentModels(this._userConfig)
+  }
+  private convertToComponentModels(userconfig:{ components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] })
+    :{ components: ComponentModel[], actions: ActionModel[] }{
+
   }
 
   public getActionsForComponent(name: string): ActionModel[] {

@@ -14,9 +14,6 @@ export class AttributesConfigPropsModel {
     public icon:string|NoValueType.NA = NoValueType.NA,
     public label:string|NoValueType.NA = NoValueType.NA,
     public menuItems: MenuItem[]|NoValueType.NA = NoValueType.NA,
-    public start: ComponentModel|NoValueType.NA = NoValueType.NA,
-    public end: ComponentModel|NoValueType.NA = NoValueType.NA,
-    public content: ComponentModel|NoValueType.NA = NoValueType.NA,
     public header:string|NoValueType.NA = NoValueType.NA,
     public textWhenEmpty:string|NoValueType.NA = NoValueType.NA,
     public paginator:boolean = false,
@@ -24,16 +21,12 @@ export class AttributesConfigPropsModel {
     public rowsPerPage:number[]|NoValueType.NA = [10,25,50],
     // todo zou het niet logischer zijn om dataLink te verplaatsen naar het datamodel?
     public dataLink:string[]|NoValueType.NA = NoValueType.NA,
-    public columnHeaderComponents:ComponentModel[]|ComponentObjectModel[]|NoValueType.NA = NoValueType.NA,
     public currentPageReportTemplate:string|NoValueType.NA = '{first} - {last} of {totalRecords}',
     public showFirstLastIcon:boolean = false,
     public showJumpToPageDropdown:boolean = false,
     public showPageLinks:boolean = false,
     public first:number|NoValueType.NA = 0,
     public totalRecords:number|NoValueType.NA = 0,
-    public footer: ComponentModel|NoValueType.NA = NoValueType.NA,
-    public caption: ComponentModel|NoValueType.NA = NoValueType.NA,
-    public extraColumns: TableColumnModel[]|NoValueType.NA =  NoValueType.NA,
     public confirmationModel:ConfirmationModel|NoValueType.NA =  NoValueType.NA,
   ) {
   }
