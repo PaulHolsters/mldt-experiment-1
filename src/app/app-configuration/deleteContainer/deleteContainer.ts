@@ -28,7 +28,7 @@ export const deleteContainer = new ComponentModel(
     ), DynamicDimensionValueConfigType.NC)
   )),
   new ResponsiveAttributesConfigModel(
-    new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
+    new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
       NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,['product', 'id'])),
   new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   undefined,
@@ -43,7 +43,7 @@ export const deleteContainer = new ComponentModel(
       type: ComponentType.Button,
       attributes: new ResponsiveAttributesConfigModel(
         new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,'Verwijder product',
-          NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA)),
+          NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA)),
       visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
     }
   ],

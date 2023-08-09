@@ -7,12 +7,8 @@ export default class AppConfig {
   constructor(private _userConfig: { components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] }) {
   }
 
-  public get userConfig():{ components: ComponentModel[], actions: ActionModel[] } {
-    return this.convertToComponentModels(this._userConfig)
-  }
-  private convertToComponentModels(userConfig:{ components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] })
-    :{ components: ComponentModel[], actions: ActionModel[] }{
-    //todo
+  public get userConfig():{ components: (ComponentModel|ComponentObjectModel)[], actions: ActionModel[] } {
+    return this._userConfig
   }
 
   public getActionsForComponent(name: string): ActionModel[] {
@@ -20,7 +16,6 @@ export default class AppConfig {
       return action.targetName === name
     })
   }
-
   public getActionsForEvent(event: EventType) {
     return this.userConfig.actions.filter((action: { on: EventType; }) => {
       return action.on === event

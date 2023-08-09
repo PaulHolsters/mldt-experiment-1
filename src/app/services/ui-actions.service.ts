@@ -54,8 +54,7 @@ export class UiActionsService {
   private setConfigValueAndRebuild(action:ActionModel,data?:any){
     const currentAppConfig = this.configService.appConfig
     if(currentAppConfig){
-      let config = this.configService.getComponentConfig(action.targetName)
-      if(!config) config = this.configService.getComponentConfigThroughAttributes(action.targetName)
+      let config = this.configService.getConfigFromRoot(action.targetName)
       if(!config) throw new Error('action was not configured correctly')
       if(config.replace && !(action.value instanceof ActionValueModel)){
         config.replace(action.value?.getInstance(),action.value)
@@ -87,8 +86,7 @@ export class UiActionsService {
   }
   private setConfirmation(action:ActionModel,data?:any,target?:EventTarget){
     if(action.targetName!==NoValueType.NA){
-      let comp = this.configService.getComponentConfig(action.targetName)
-      if(!comp) comp = this.configService.getComponentConfigThroughAttributes(action.targetName)
+      let comp = this.configService.getConfigFromRoot(action.targetName)
       if(comp && comp.attributes && this.RBS.screenSize){
         const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)
         const cm = new ConfirmationModel(attrVal.icon,attrVal.message, target,data)

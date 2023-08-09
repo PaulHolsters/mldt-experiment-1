@@ -17,16 +17,6 @@ import {NoValueType} from "../../enums/no_value_type";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
-import {IconType} from "../../enums/iconType.enum";
-import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
-import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
-import {PositioningConfigPropsModel} from "../../models/Positioning/self/PositioningConfigPropsModel";
-import {DisplayType} from "../../enums/displayType.enum";
-import {ResponsivePositioningConfigModel} from "../../models/Positioning/self/ResponsivePositioningConfigModel";
-import {IconSizeType} from "../../enums/iconSizeType.enum";
-import {IconMeaningType} from "../../enums/iconMeaningType.enum";
-import {TableColumnModel} from "../../models/TableColumnModel";
-import {ComponentModel} from "../../models/ComponentModel";
 
 export const table = {
   name: 'table',
@@ -50,13 +40,37 @@ export const table = {
   ))),
   attributes: new ResponsiveAttributesConfigModel(
     new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-      NoValueType.NA, NoValueType.NA,
-      NoValueType.NA,
       'Geen producten aanwezig.',
       true,
       10,
       [5, 10, 20],
       NoValueType.NA,
+      NoValueType.NA,
+      false,
+      false,
+      false,
+      NoValueType.NA,
+      NoValueType.NA,
+      NoValueType.NA
+    )),
+  //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
+  // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
+  data: conceptModel
+}
+/*
+*       // todo zoekmethodes vinden columnHeaderComponents maar niet extraColumns ... => da's logisch dit is een property in een NIET componentmodel
+      [
+        new TableColumnModel('actions', '', false, false, false,
+          new ComponentModel(
+            'edit-product-btn', ComponentType.Button, undefined, undefined, undefined,
+            new ResponsiveAttributesConfigModel(
+              new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, 'edit')),
+            new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+          )
+        )
+      ]
+*
+* ,
       [
         {
           name: 'c1-header',
@@ -68,8 +82,7 @@ export const table = {
               name: 'sort-h1',
               type: ComponentType.Icon,
               attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-                NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-                NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA
+                NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
               )),
               visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
               styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
@@ -85,8 +98,7 @@ export const table = {
               name: 'filter-h1',
               type: ComponentType.Icon,
               attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-                NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Filter, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-                NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA
+                NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Filter
               )),
               visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
               styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
@@ -104,8 +116,7 @@ export const table = {
           name: 'sort-h2',
           type: ComponentType.Icon,
           attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA
+            NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
           )),
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
           styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
@@ -120,8 +131,7 @@ export const table = {
           name: 'sort-h3',
           type: ComponentType.Icon,
           attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA
+            NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
           )),
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
           styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
@@ -136,8 +146,7 @@ export const table = {
           name: 'sort-h4',
           type: ComponentType.Icon,
           attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-            undefined, undefined, undefined, NoValueType.NA, IconType.Sort, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA
+            undefined, undefined, undefined, NoValueType.NA, IconType.Sort
           )),
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
           styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
@@ -148,28 +157,9 @@ export const table = {
           )),
           position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
         }
-      ],
-      NoValueType.NA,
-      false,
-      false,
-      false,
-      NoValueType.NA,
-      NoValueType.NA,
-      NoValueType.NA,
-      NoValueType.NA,
-      // todo zoekmethodes vinden columnHeaderComponents maar niet extraColumns ... => da's logisch dit is een property in een NIET componentmodel
-      [
-        new TableColumnModel('actions', '', false, false, false,
-          new ComponentModel(
-            'edit-product-btn', ComponentType.Button, undefined, undefined, undefined,
-            new ResponsiveAttributesConfigModel(
-              new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, 'edit')),
-            new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-          )
-        )
       ]
-    )),
-  //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
-  // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
-  data: conceptModel
-}
+*
+*
+*
+*
+* */

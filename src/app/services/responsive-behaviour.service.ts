@@ -187,7 +187,7 @@ export class ResponsiveBehaviourService implements OnInit{
   }
 
   public setComponentStates( screenSize: number) {
-    this.configService.appConfig?.userConfig.components.forEach(comp => {
+    this.configService.convertToComponentModels(this.configService.appConfig?.userConfig).components.forEach(comp => {
       this.setState(comp, screenSize)
     })
   }

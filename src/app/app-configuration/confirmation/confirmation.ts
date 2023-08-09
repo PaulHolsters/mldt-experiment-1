@@ -20,8 +20,8 @@ export const confirmation =
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
-NoValueType.NA,NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,false,false,
-        NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,new ConfirmationModel(IconType.Danger,
+false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,false,false,false,NoValueType.NA,
+        NoValueType.NA,new ConfirmationModel(IconType.Danger,
           'Zedde zeker??')
       )
     ),

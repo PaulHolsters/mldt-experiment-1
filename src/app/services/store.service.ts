@@ -480,7 +480,7 @@ export class StoreService implements OnInit {
   }
 
   public createStore() {
-    this.configService.appConfig?.userConfig.components.forEach(comp => {
+    this.configService.convertToComponentModels(this.configService.appConfig?.userConfig).components.forEach(comp => {
       this.createProps(comp)
     })
   }

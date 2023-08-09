@@ -41,24 +41,7 @@ export const formContainer = new ComponentModel(
       undefined,
       new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
         NoValueType.NA, NoValueType.NA, NoValueType.NA,
-        new ComponentModel(
-          'edit naam product cfc',
-          ComponentType.Container, undefined, undefined, undefined, new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA,
-            ['product', 'name'])),
-          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          undefined, [
-            new ComponentModel(
-              'ti - edit product',
-              ComponentType.TextInput,
-              undefined,
-              undefined,
-              undefined,
-              undefined,
-              new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-            )
-          ]
-        ))),
+        )),
       new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
     ),
     new ComponentModel(
@@ -76,3 +59,23 @@ export const formContainer = new ComponentModel(
   dataModel
 )
 
+/* toevoegen aan contentInjector
+* new ComponentModel(
+          'edit naam product cfc',
+          ComponentType.Container, undefined, undefined, undefined, new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+            NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA,
+            ['product', 'name'])),
+          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          undefined, [
+            new ComponentModel(
+              'ti - edit product',
+              ComponentType.TextInput,
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+              new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            )
+          ]
+        )
+* */

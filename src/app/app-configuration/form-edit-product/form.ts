@@ -20,10 +20,6 @@ import {formContainer} from "./form-container";
 export const formEditProduct = {
   name: 'form to edit a product',
   type: ComponentType.Form,
-  attributes: new ResponsiveAttributesConfigModel(
-    new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-      NoValueType.NA,NoValueType.NA,NoValueType.NA,formContainer)
-  ),
   overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(

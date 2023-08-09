@@ -18,9 +18,6 @@ export const dialogEditProduct =         // todo dit is het attribuut filterComp
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
-        NoValueType.NA,
-        NoValueType.NA,
-        formEditProduct,
         'Aanpassen product'
       )
     ),
