@@ -15,21 +15,28 @@ import {forceAutocomplete} from "@angular/cli/src/utilities/environment-options"
 export class ConfigService {
   constructor() {
   }
+
   public saveConfig(config: AppConfig) {
     // todo laat dit verlopen via een event!
     this._appConfig.push(Object.create(config))
   }
+
   public convertToComponentModels(userConfig: {
     components: (ComponentModel | ComponentObjectModel)[],
-    actions: ActionModel[] }): { components: ComponentModel[], actions: ActionModel[] } {
-    let convertedObj:{components:ComponentModel[],actions:ActionModel[] } = {components: [], actions: [...userConfig.actions]}
+    actions: ActionModel[]
+  }): { components: ComponentModel[], actions: ActionModel[] } {
+    let convertedObj: { components: ComponentModel[], actions: ActionModel[] } = {
+      components: [],
+      actions: [...userConfig.actions]
+    }
     let componentsCopy = [...userConfig.components]
-    componentsCopy.forEach(c=>{
+    componentsCopy.forEach(c => {
       this.convertChildren(c)
     })
     convertedObj.components = componentsCopy
     return convertedObj
   }
+
   private convertChildren(component: ComponentModel | ComponentObjectModel): ComponentModel {
     if (this.isComponentObjectModel(component)) component = this.convertToComponentModel(component)
     if (component.children) {
@@ -55,6 +62,7 @@ export class ConfigService {
     }
     return component as ComponentModel
   }
+
   public getComponentObjectModelPropertyValue(comp: any, prop: string): any {
     // todo deze methode moet eruit!
     if (!this.isComponentObjectModel(comp)) return undefined
@@ -87,6 +95,7 @@ export class ConfigService {
         throw new Error('unknown property ' + prop)
     }
   }
+
   public isComponentObjectModel(l: unknown): boolean {
     if (l && typeof l === 'object' && !(l instanceof ComponentModel)) {
       const arrFoundKeys = Object.keys(l).filter(k => {
@@ -96,6 +105,7 @@ export class ConfigService {
     }
     return false
   }
+
   public convertToComponentModel(comp: ComponentObjectModel | ComponentModel | undefined | unknown): ComponentModel {
     if (this.isComponentObjectModel(comp)) {
       return new ComponentModel(
@@ -116,35 +126,40 @@ export class ConfigService {
     }
     throw new Error('convertToComponentModel method cannot be used  for any other type but ComponentObjectModel | ComponentModel')
   }
+
   public get appConfig(): AppConfig {
     if (this._appConfig.length > 0)
       return Object.create(this._appConfig[this._appConfig.length - 1])
     throw new Error('appConfig requested when not yet initialised')
   }
+
   private _appConfig: AppConfig[] = []
+
   public getActionsForComponent(name: string): ActionModel[] {
     return this.appConfig.userConfig.actions.filter((action: { targetName: string; }) => {
       return action.targetName === name
     })
   }
+
   public getActionsForEvent(event: EventType) {
     return this.appConfig.userConfig.actions.filter((action: { on: EventType; }) => {
       return action.on === event
     })
   }
+
   public getConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
-    if(component.name===nameComponent) return component
-    const arr1:ComponentModel[] = this.getChildren(component)
-    const arr2:ComponentModel[] = []
-    while(arr1.length>0){
-      while(arr1.length>0){
-        const child:ComponentModel = arr1.pop() as ComponentModel
-        if(child.name===nameComponent) return child
+    if (component.name === nameComponent) return component
+    const arr1: ComponentModel[] = this.getChildren(component)
+    const arr2: ComponentModel[] = []
+    while (arr1.length > 0) {
+      while (arr1.length > 0) {
+        const child: ComponentModel = arr1.pop() as ComponentModel
+        if (child.name === nameComponent) return child
         arr2.concat(this.getChildren(child))
       }
-      while(arr2.length>0){
-        const child:ComponentModel = arr2.pop() as ComponentModel
-        if(child.name===nameComponent) return child
+      while (arr2.length > 0) {
+        const child: ComponentModel = arr2.pop() as ComponentModel
+        if (child.name === nameComponent) return child
         arr1.concat(this.getChildren(child))
       }
     }
@@ -152,28 +167,45 @@ export class ConfigService {
   }
 
   public getConfigFromRoot(nameComponent: string): ComponentModel | undefined {
-    const componentsConfig =  this.convertToComponentModels(this.appConfig.userConfig).components
-    if(componentsConfig.length!==1) throw new Error('Only one root component named content-container is allowed')
-    return this.getConfig(nameComponent,componentsConfig[0])
+    const componentsConfig = this.convertToComponentModels(this.appConfig.userConfig).components
+    if (componentsConfig.length !== 1) throw new Error('Only one root component named content-container is allowed')
+    return this.getConfig(nameComponent, componentsConfig[0])
   }
+
   public getParentConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
-    // todo remove recursion!
-    if (component.name === nameComponent) return undefined
-    if (this.getChildren(component).length === 0) return undefined
-    for (let child of this.getChildren(component)) {
-      if (child.name === nameComponent) return component
-      if (this.getChildren(child).length > 0) {
-        const comp = this.getParentConfig(nameComponent, child)
-        if (comp) return comp
+    if (component.name === nameComponent)
+      throw new Error('Invalid input the name of your base component is the same as the name of the component you are looking for')
+    const convertParentWithChildren = (parent: ComponentModel): ComponentModel[][] => {
+      const children = this.getChildren(parent)
+      const arr: ComponentModel[][] = []
+      for (let child of children) {
+        arr.push([parent, child])
+      }
+      return arr
+    }
+    const arr1: ComponentModel[][] = convertParentWithChildren(component)
+    const arr2: ComponentModel[][] = []
+    while (arr1.length > 0) {
+      while (arr1.length > 0) {
+        const parentChild:ComponentModel[] = arr1.pop() as ComponentModel[]
+        if(parentChild[1].name===nameComponent) return parentChild[0]
+        arr2.concat(convertParentWithChildren(parentChild[1]))
+      }
+      while (arr2.length > 0) {
+        const parentChild:ComponentModel[] = arr2.pop() as ComponentModel[]
+        if(parentChild[1].name===nameComponent) return parentChild[0]
+        arr1.concat(convertParentWithChildren(parentChild[1]))
       }
     }
     return undefined
   }
+
   public getParentConfigFromRoot(nameComponent: string): ComponentModel | undefined {
-    const componentsConfig =  this.convertToComponentModels(this.appConfig.userConfig).components
-    if(componentsConfig.length!==1) throw new Error('Only one root component named content-container is allowed')
+    const componentsConfig = this.convertToComponentModels(this.appConfig.userConfig).components
+    if (componentsConfig.length !== 1) throw new Error('Only one root component named content-container is allowed')
     return this.getParentConfig(nameComponent, componentsConfig[0])
   }
+
   public isAncestor(nameComponent: string, nameAncestor: string): boolean {
     let parent = this.getParentConfigFromRoot(nameComponent)
     while (parent && parent.name !== nameAncestor) {
@@ -181,6 +213,7 @@ export class ConfigService {
     }
     return parent !== undefined
   }
+
   public getFirstAncestorConfigWithProperty(nameComponent: string, component: ComponentModel, property: PropertyName): ComponentModel | undefined {
     let parent = this.getParentConfig(nameComponent, component)
     while (parent && !(parent.hasOwnProperty(property))) {
@@ -188,11 +221,13 @@ export class ConfigService {
     }
     return parent
   }
+
   public getFirstAncestorConfigWithPropertyFromRoot(nameComponent: string, property: PropertyName): ComponentModel | undefined {
-    const componentsConfig =  this.convertToComponentModels(this.appConfig.userConfig).components
-    if(componentsConfig.length!==1) throw new Error('Only one root component named content-container is allowed')
+    const componentsConfig = this.convertToComponentModels(this.appConfig.userConfig).components
+    if (componentsConfig.length !== 1) throw new Error('Only one root component named content-container is allowed')
     return this.getFirstAncestorConfigWithProperty(nameComponent, componentsConfig[0], property)
   }
+
   private getChildren(component: ComponentModel): ComponentModel[] {
     // todo voeg hier de screensize ook aan toe
     const arr = []
@@ -217,6 +252,7 @@ export class ConfigService {
     }
     return arr
   }
+
   /*  public getConfig(nameComponent: string, component?: ComponentModel): ComponentModel | undefined {
       // todo werk recursief gebeuren eruit?
       if (component) {
@@ -262,6 +298,7 @@ export class ConfigService {
       }
       return undefined
     }*/
+
   /*  public getParentComponentConfigWithProperty(compName: string,
                                                 property: string,
                                                 component?: ComponentModel,
@@ -870,6 +907,7 @@ export class ConfigService {
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and' +
       ' property ' + confirmationModel + ' and screen ' + ScreenSize[screenSize])
   }
+
   getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] } | undefined {
     return this.convertToComponentModels(this.appConfig?.userConfig)
   }
