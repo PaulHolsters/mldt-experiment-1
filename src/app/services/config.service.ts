@@ -7,6 +7,7 @@ import {EventType} from "../enums/eventTypes.enum";
 import {ScreenSize} from '../enums/screenSizes.enum';
 import {PropertyName} from '../enums/PropertyNameTypes.enum';
 import {ResponsiveAttributesConfigModel} from '../models/Attributes/ResponsiveAttributesConfigModel';
+import {forceAutocomplete} from "@angular/cli/src/utilities/environment-options";
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,8 @@ export class ConfigService {
         return comp.type
       case 'data':
         return comp.data
+      case 'contentInjection':
+        return comp.contentInjection
       default:
         throw new Error('unknown property ' + prop)
     }
@@ -130,21 +133,31 @@ export class ConfigService {
     })
   }
   public getConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
-    for (let child of this.getChildren(component)) {
-      if (child.name === nameComponent) return child
-      if (this.getChildren(child).length > 0) {
-        const comp = this.getConfig(nameComponent, child)
-        if (comp) return comp
+    if(component.name===nameComponent) return component
+    const arr1:ComponentModel[] = this.getChildren(component)
+    const arr2:ComponentModel[] = []
+    while(arr1.length>0){
+      while(arr1.length>0){
+        const child:ComponentModel = arr1.pop() as ComponentModel
+        if(child.name===nameComponent) return child
+        arr2.concat(this.getChildren(child))
+      }
+      while(arr2.length>0){
+        const child:ComponentModel = arr2.pop() as ComponentModel
+        if(child.name===nameComponent) return child
+        arr1.concat(this.getChildren(child))
       }
     }
     return undefined
   }
+
   public getConfigFromRoot(nameComponent: string): ComponentModel | undefined {
-    return this.convertToComponentModels(this.appConfig.userConfig).components.find(c => {
-      return this.getConfig(nameComponent, c) !== undefined
-    })
+    const componentsConfig =  this.convertToComponentModels(this.appConfig.userConfig).components
+    if(componentsConfig.length!==1) throw new Error('Only one root component named content-container is allowed')
+    return this.getConfig(nameComponent,componentsConfig[0])
   }
   public getParentConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
+    // todo remove recursion!
     if (component.name === nameComponent) return undefined
     if (this.getChildren(component).length === 0) return undefined
     for (let child of this.getChildren(component)) {
@@ -157,9 +170,9 @@ export class ConfigService {
     return undefined
   }
   public getParentConfigFromRoot(nameComponent: string): ComponentModel | undefined {
-    return this.convertToComponentModels(this.appConfig.userConfig).components.find(c => {
-      return this.getParentConfig(nameComponent, c) !== undefined
-    })
+    const componentsConfig =  this.convertToComponentModels(this.appConfig.userConfig).components
+    if(componentsConfig.length!==1) throw new Error('Only one root component named content-container is allowed')
+    return this.getParentConfig(nameComponent, componentsConfig[0])
   }
   public isAncestor(nameComponent: string, nameAncestor: string): boolean {
     let parent = this.getParentConfigFromRoot(nameComponent)
@@ -176,9 +189,9 @@ export class ConfigService {
     return parent
   }
   public getFirstAncestorConfigWithPropertyFromRoot(nameComponent: string, property: PropertyName): ComponentModel | undefined {
-    return this.convertToComponentModels(this.appConfig.userConfig).components.find(c => {
-      return this.getFirstAncestorConfigWithProperty(nameComponent, c, property) !== undefined
-    })
+    const componentsConfig =  this.convertToComponentModels(this.appConfig.userConfig).components
+    if(componentsConfig.length!==1) throw new Error('Only one root component named content-container is allowed')
+    return this.getFirstAncestorConfigWithProperty(nameComponent, componentsConfig[0], property)
   }
   private getChildren(component: ComponentModel): ComponentModel[] {
     // todo voeg hier de screensize ook aan toe
@@ -192,12 +205,12 @@ export class ConfigService {
         if (child instanceof Array) {
           for (let el of child) {
             if (el instanceof ComponentModel) arr.push(el)
-            else if (el.hasOwnProperty('anchor')) {
+            else if (el.hasOwnProperty(PropertyName.anchor)) {
               if (el.anchor instanceof ComponentModel) arr.push(el.anchor)
             } else throw new Error('Invalid Content Injection')
           }
         } else if (child instanceof ComponentModel) arr.push(child)
-        else if (child.hasOwnProperty('anchor')) {
+        else if (child.hasOwnProperty(PropertyName.anchor)) {
           if (child.anchor instanceof ComponentModel) arr.push(child.anchor)
         } else throw new Error('Invalid Content Injection')
       }
