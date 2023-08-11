@@ -32,3 +32,4 @@ export const formEditProduct = {
     ), DynamicDimensionValueConfigType.NC)
   ))
 }
+// todo inject form container!

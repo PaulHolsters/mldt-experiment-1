@@ -22,3 +22,4 @@ export const dialogEditProduct =         // todo dit is het attribuut filterComp
       )
     ),
     new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)))
+// todo inject form

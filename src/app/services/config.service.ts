@@ -164,6 +164,7 @@ export class ConfigService {
   }
 
   public getParentConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
+    debugger
     if (component.name === nameComponent)
       throw new Error('Invalid input the name of your base component is the same as the name of the component you are looking for')
     const convertParentWithChildren = (parent: ComponentModel): ComponentModel[][] => {
@@ -189,7 +190,7 @@ export class ConfigService {
     return this.getParentConfig(nameComponent, componentsConfig[0])
   }
 
-  public isAncestor(nameComponent: string, nameAncestor: string): boolean {
+/*  public isAncestor(nameComponent: string, nameAncestor: string): boolean {
     let parent = this.getParentConfigFromRoot(nameComponent)
     while (parent && parent.name !== nameAncestor) {
       parent = this.getParentConfigFromRoot(parent.name)
@@ -198,7 +199,6 @@ export class ConfigService {
   }
 
   public getFirstAncestorConfigWithProperty(nameComponent: string, component: ComponentModel, property: PropertyName): ComponentModel | undefined {
-    // todo nakijken
     let parent = this.getParentConfig(nameComponent, component)
     while (parent && !(parent.hasOwnProperty(property))) {
       parent = this.getParentConfig(nameComponent, parent)
@@ -210,6 +210,15 @@ export class ConfigService {
     const componentsConfig = this.convertToComponentModels(this.appConfig.userConfig).components
     if (componentsConfig.length !== 1) throw new Error('Only one root component named content-container is allowed')
     return this.getFirstAncestorConfigWithProperty(nameComponent, componentsConfig[0], property)
+  }*/
+  isSubComponent(nameSubcomponent: string,nameParentComponent:string):boolean {
+    const component = this.getConfigFromRoot(nameSubcomponent)
+    if(!component) throw new Error('subcomponent does not exist')
+    let parentOfSub = this.getParentConfigFromRoot(component.name)
+    while(parentOfSub && parentOfSub.name!==nameParentComponent){
+      parentOfSub = this.getParentConfigFromRoot(parentOfSub.name)
+    }
+    return parentOfSub!==undefined
   }
 
   private getChildren(component: ComponentModel): ComponentModel[] {
@@ -236,7 +245,6 @@ export class ConfigService {
     }
     return arr
   }
-
   /*  public getConfig(nameComponent: string, component?: ComponentModel): ComponentModel | undefined {
       // todo werk recursief gebeuren eruit?
       if (component) {
@@ -282,7 +290,6 @@ export class ConfigService {
       }
       return undefined
     }*/
-
   /*  public getParentComponentConfigWithProperty(compName: string,
                                                 property: string,
                                                 component?: ComponentModel,
@@ -891,10 +898,10 @@ export class ConfigService {
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and' +
       ' property ' + confirmationModel + ' and screen ' + ScreenSize[screenSize])
   }
-
   getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] } | undefined {
     return this.convertToComponentModels(this.appConfig?.userConfig)
   }
+
 }
 
 /*  private resolve(value: CalculationModel): MixedArrayModel {
