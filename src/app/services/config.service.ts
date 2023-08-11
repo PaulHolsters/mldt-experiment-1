@@ -146,22 +146,13 @@ export class ConfigService {
       return action.on === event
     })
   }
-
   public getConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
     if (component.name === nameComponent) return component
-    const arr1: ComponentModel[] = this.getChildren(component)
-    const arr2: ComponentModel[] = []
-    while (arr1.length > 0) {
-      while (arr1.length > 0) {
-        const child: ComponentModel = arr1.pop() as ComponentModel
-        if (child.name === nameComponent) return child
-        arr2.concat(this.getChildren(child))
-      }
-      while (arr2.length > 0) {
-        const child: ComponentModel = arr2.pop() as ComponentModel
-        if (child.name === nameComponent) return child
-        arr1.concat(this.getChildren(child))
-      }
+    const arr: ComponentModel[] = this.getChildren(component)
+    while (arr.length > 0) {
+      const child: ComponentModel = arr.pop() as ComponentModel
+      if (child.name === nameComponent) return child
+      arr.unshift(...this.getChildren(child))
     }
     return undefined
   }
@@ -183,19 +174,11 @@ export class ConfigService {
       }
       return arr
     }
-    const arr1: ComponentModel[][] = convertParentWithChildren(component)
-    const arr2: ComponentModel[][] = []
-    while (arr1.length > 0) {
-      while (arr1.length > 0) {
-        const parentChild:ComponentModel[] = arr1.pop() as ComponentModel[]
-        if(parentChild[1].name===nameComponent) return parentChild[0]
-        arr2.concat(convertParentWithChildren(parentChild[1]))
-      }
-      while (arr2.length > 0) {
-        const parentChild:ComponentModel[] = arr2.pop() as ComponentModel[]
-        if(parentChild[1].name===nameComponent) return parentChild[0]
-        arr1.concat(convertParentWithChildren(parentChild[1]))
-      }
+    const arr: ComponentModel[][] = convertParentWithChildren(component)
+    while (arr.length > 0) {
+        const parentChild: ComponentModel[] = arr.pop() as ComponentModel[]
+        if (parentChild[1].name === nameComponent) return parentChild[0]
+        arr.unshift(...convertParentWithChildren(parentChild[1]))
     }
     return undefined
   }
@@ -215,6 +198,7 @@ export class ConfigService {
   }
 
   public getFirstAncestorConfigWithProperty(nameComponent: string, component: ComponentModel, property: PropertyName): ComponentModel | undefined {
+    // todo nakijken
     let parent = this.getParentConfig(nameComponent, component)
     while (parent && !(parent.hasOwnProperty(property))) {
       parent = this.getParentConfig(nameComponent, parent)

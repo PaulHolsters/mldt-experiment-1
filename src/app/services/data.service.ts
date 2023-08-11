@@ -524,11 +524,9 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
   }
   public getDataBluePrint(action: ActionModel) {
     if (action.targetType === TargetType.Component) {
-      debugger
       let compModel = this.configService.getConfigFromRoot(action.targetName)
       debugger
       if (compModel !== undefined) {
-        debugger
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
