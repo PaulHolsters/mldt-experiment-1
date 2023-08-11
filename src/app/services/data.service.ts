@@ -277,7 +277,6 @@ export class DataService{
     return attr
   }
   private setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
-    debugger
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       let comp = this.configService.getConfigFromRoot(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
@@ -291,9 +290,7 @@ export class DataService{
       } else if (propSubj.propName === 'dataLink' && comp
         && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
         && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
-        debugger
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
-        debugger
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })
@@ -311,7 +308,6 @@ export class DataService{
                       }
                     }
         `
-          debugger
           return this.apollo
             .watchQuery<any>({
               query: gql`${GET_BLUEPRINT}`
@@ -478,14 +474,12 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     return attr
   }
   public async persistNewData(action: ActionModel) {
-    debugger
     let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
     await this.mutate(comp?.data, MutationType.Create)?.subscribe(res => {
       console.log(res, 'yeah!')
     })
   }
   public async persistUpdatedData(action: ActionModel) {
-    debugger
     let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
@@ -500,11 +494,9 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     } else throw new Error('No valid conceptId could be found')
   }
   public deleteDataById(action:{action:ActionModel,data:any,target:EventTarget|undefined}){
-    debugger
     return this.mutate(undefined, MutationType.Delete, action.data.id,action.data)
   }
   public deleteData(action: ActionModel) {
-    debugger
     let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
@@ -527,10 +519,8 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     } else throw new Error('No valid conceptId could be found')
   }
   public getDataBluePrint(action: ActionModel) {
-    debugger
     if (action.targetType === TargetType.Component) {
       let compModel = this.configService.getConfigFromRoot(action.targetName)
-      debugger
       if (compModel !== undefined) {
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
@@ -547,12 +537,10 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     }
   }
   public async getAllData(action: ActionModel) {
-    debugger
     // todo in de table component empty value opvangen
     if (action.targetType === TargetType.Component) {
       let comp = this.configService.getConfigFromRoot(action.targetName)
-      debugger
-      if (comp !== undefined && comp.data) {
+      if (comp && comp.data) {
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
@@ -573,7 +561,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
                 this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList])
               }
             } else if (compObj && !error) {
-              debugger
               this.objectData.push(compObj)
               this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList], compObj)
             } else throw new Error('Error on the graphQL server')
@@ -584,7 +571,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
   public async getDataByID(action: ActionModel, id: string) {
-    debugger
     if (action.targetType === TargetType.Component) {
       let comp = this.configService.getConfigFromRoot(action.targetName)
       if (comp !== undefined && comp.data) {

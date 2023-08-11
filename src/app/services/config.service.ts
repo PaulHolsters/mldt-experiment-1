@@ -164,9 +164,7 @@ export class ConfigService {
   }
 
   public getParentConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
-    debugger
-    if (component.name === nameComponent)
-      throw new Error('Invalid input the name of your base component is the same as the name of the component you are looking for')
+    if (component.name === nameComponent) return undefined
     const convertParentWithChildren = (parent: ComponentModel): ComponentModel[][] => {
       const children = this.getChildren(parent)
       const arr: ComponentModel[][] = []
@@ -187,10 +185,11 @@ export class ConfigService {
   public getParentConfigFromRoot(nameComponent: string): ComponentModel | undefined {
     const componentsConfig = this.convertToComponentModels(this.appConfig.userConfig).components
     if (componentsConfig.length !== 1) throw new Error('Only one root component named content-container is allowed')
+    if (componentsConfig[0].name===nameComponent) return undefined
     return this.getParentConfig(nameComponent, componentsConfig[0])
   }
 
-/*  public isAncestor(nameComponent: string, nameAncestor: string): boolean {
+  public isAncestor(nameComponent: string, nameAncestor: string): boolean {
     let parent = this.getParentConfigFromRoot(nameComponent)
     while (parent && parent.name !== nameAncestor) {
       parent = this.getParentConfigFromRoot(parent.name)
@@ -210,11 +209,11 @@ export class ConfigService {
     const componentsConfig = this.convertToComponentModels(this.appConfig.userConfig).components
     if (componentsConfig.length !== 1) throw new Error('Only one root component named content-container is allowed')
     return this.getFirstAncestorConfigWithProperty(nameComponent, componentsConfig[0], property)
-  }*/
+  }
   isSubComponent(nameSubcomponent: string,nameParentComponent:string):boolean {
-    const component = this.getConfigFromRoot(nameSubcomponent)
-    if(!component) throw new Error('subcomponent does not exist')
-    let parentOfSub = this.getParentConfigFromRoot(component.name)
+    const subComponent = this.getConfigFromRoot(nameSubcomponent)
+    if(!subComponent) throw new Error('subcomponent does not exist')
+    let parentOfSub = this.getParentConfigFromRoot(subComponent.name)
     while(parentOfSub && parentOfSub.name!==nameParentComponent){
       parentOfSub = this.getParentConfigFromRoot(parentOfSub.name)
     }
