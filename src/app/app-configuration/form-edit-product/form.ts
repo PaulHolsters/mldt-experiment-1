@@ -1,5 +1,4 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
 import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
@@ -13,8 +12,11 @@ import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConf
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
 import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
-import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
+import {
+  ResponsiveContentInjectionConfigModel
+} from "../../models/ContentInjection/ResponsiveContentInjectionConfigModel";
+import {ContentInjectionConfigPropsModel} from "../../models/ContentInjection/ContentInjectionConfigPropsModel";
 import {formContainer} from "./form-container";
 
 export const formEditProduct = {
@@ -30,6 +32,6 @@ export const formEditProduct = {
     new WidthConfigPropsModel(new FixedDimensioningConfigModel(
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
     ), DynamicDimensionValueConfigType.NC)
-  ))
+  )),
+  contentInjection:new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,NoValueType.NA,formContainer))
 }
-// todo inject form container!

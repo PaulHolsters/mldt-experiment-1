@@ -5,9 +5,13 @@ import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConf
 import {NoValueType} from "../../enums/no_value_type";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {
+  ResponsiveContentInjectionConfigModel
+} from "../../models/ContentInjection/ResponsiveContentInjectionConfigModel";
+import {ContentInjectionConfigPropsModel} from "../../models/ContentInjection/ContentInjectionConfigPropsModel";
 import {formEditProduct} from "../form-edit-product/form";
 
-export const dialogEditProduct =         // todo dit is het attribuut filterComponent (je zou evengoed content kunnen nemen en deze prop dus schrappen wegens niet generiek)
+export const dialogEditProduct =
   new ComponentModel('edit-product-dialog',
     ComponentType.Dialog,undefined,undefined,undefined,
     new ResponsiveAttributesConfigModel(
@@ -21,5 +25,10 @@ export const dialogEditProduct =         // todo dit is het attribuut filterComp
         'Aanpassen product'
       )
     ),
-    new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)))
-// todo inject form
+    new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)),
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,NoValueType.NA,formEditProduct))
+  )

@@ -15,6 +15,10 @@ import {dataModel} from "./dataModel";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
+import {
+  ResponsiveContentInjectionConfigModel
+} from "../../models/ContentInjection/ResponsiveContentInjectionConfigModel";
+import {ContentInjectionConfigPropsModel} from "../../models/ContentInjection/ContentInjectionConfigPropsModel";
 
 export const formContainer = new ComponentModel(
   'form container - product edit',
@@ -39,10 +43,33 @@ export const formContainer = new ComponentModel(
       undefined,
       undefined,
       undefined,
-      new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-        NoValueType.NA, NoValueType.NA, NoValueType.NA,
-        )),
+      undefined,
       new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,NoValueType.NA,
+        new ComponentModel(
+          'edit naam product cfc',
+          ComponentType.Container, undefined, undefined, undefined,
+          new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+            NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA, ['product', 'name'])),
+          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          undefined,
+          [
+            new ComponentModel(
+              'ti - edit product',
+              ComponentType.TextInput,
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+              new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            )
+          ]
+        )
+        ))
     ),
     new ComponentModel(
       'submit edited product btn',
@@ -58,24 +85,3 @@ export const formContainer = new ComponentModel(
   undefined,
   dataModel
 )
-
-/* toevoegen aan contentInjector
-* new ComponentModel(
-          'edit naam product cfc',
-          ComponentType.Container, undefined, undefined, undefined, new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA,
-            ['product', 'name'])),
-          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          undefined, [
-            new ComponentModel(
-              'ti - edit product',
-              ComponentType.TextInput,
-              undefined,
-              undefined,
-              undefined,
-              undefined,
-              new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-            )
-          ]
-        )
-* */

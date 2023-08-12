@@ -164,6 +164,7 @@ export class ResponsiveBehaviourService implements OnInit{
       })
     }
     if (component.attributes){
+      // todo mogelijks mag deze methode nu ook versimpeld worden
       Object.values(this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)).filter(val=>{
         return val instanceof ComponentModel || this.configService.isComponentObjectModel(val) || (
           val instanceof Array && val.length > 0 && (val[0] instanceof ComponentModel || this.configService.isComponentObjectModel(val[0])
@@ -181,6 +182,9 @@ export class ResponsiveBehaviourService implements OnInit{
       })
       const props = this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)
       this.storeService.setRBSState(component.name, props)
+    }
+    if (component.contentInjection){
+      this.storeService.setRBSState(component.name, this.storeService.getContentInjectionComponentProps(component.name, component.contentInjection, screenSize))
     }
     if (component.styling)
       this.storeService.setRBSState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))

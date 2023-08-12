@@ -17,6 +17,20 @@ import {NoValueType} from "../../enums/no_value_type";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {
+  ResponsiveContentInjectionConfigModel
+} from "../../models/ContentInjection/ResponsiveContentInjectionConfigModel";
+import {ContentInjectionConfigPropsModel} from "../../models/ContentInjection/ContentInjectionConfigPropsModel";
+import {TableColumnModel} from "../../models/TableColumnModel";
+import {ComponentModel} from "../../models/ComponentModel";
+import {ResponsivePositioningConfigModel} from "../../models/Positioning/self/ResponsivePositioningConfigModel";
+import {PositioningConfigPropsModel} from "../../models/Positioning/self/PositioningConfigPropsModel";
+import {DisplayType} from "../../enums/displayType.enum";
+import {IconMeaningType} from "../../enums/iconMeaningType.enum";
+import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
+import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
+import {IconSizeType} from "../../enums/iconSizeType.enum";
+import {IconType} from "../../enums/iconType.enum";
 
 export const table = {
   name: 'table',
@@ -55,111 +69,108 @@ export const table = {
     )),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
-  data: conceptModel
-}
-/*
-*       // todo zoekmethodes vinden columnHeaderComponents maar niet extraColumns ... => da's logisch dit is een property in een NIET componentmodel
-      [
-        new TableColumnModel('actions', '', false, false, false,
-          new ComponentModel(
-            'edit-product-btn', ComponentType.Button, undefined, undefined, undefined,
-            new ResponsiveAttributesConfigModel(
-              new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, 'edit')),
-            new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
-          )
+  data: conceptModel,
+  contentInjection:new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,
+    NoValueType.NA,
+    NoValueType.NA,
+    [
+      {
+        name: 'c1-header',
+        type: ComponentType.Container,
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline)),
+        children: [
+          {
+            name: 'sort-h1',
+            type: ComponentType.Icon,
+            attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+              NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
+            )),
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+                NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
+                ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
+                IconSizeType.Normal, IconMeaningType.Danger
+              )
+            ),
+            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
+          },
+          {
+            name: 'filter-h1',
+            type: ComponentType.Icon,
+            attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+              NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Filter
+            )),
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+                undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+                NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
+                ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
+                IconSizeType.Normal, IconMeaningType.Danger
+              )
+            ),
+            position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
+          }
+        ]
+      },
+      {
+        name: 'sort-h2',
+        type: ComponentType.Icon,
+        attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+          NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
+        )),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+          undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+          NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
+          ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
+          IconSizeType.Large, IconMeaningType.Danger
+        )),
+        position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
+      },
+      {
+        name: 'sort-h3',
+        type: ComponentType.Icon,
+        attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+          NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
+        )),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+          undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+          NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
+          ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
+          IconSizeType.Small, IconMeaningType.Danger
+        )),
+        position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
+      },
+      {
+        name: 'sort-h4',
+        type: ComponentType.Icon,
+        attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
+          undefined, undefined, undefined, NoValueType.NA, IconType.Sort
+        )),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
+          undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
+          NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
+          ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
+          IconSizeType.Large, IconMeaningType.Danger
+        )),
+        position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
+      }
+    ],
+    NoValueType.NA,
+    NoValueType.NA,
+    [
+      new TableColumnModel('actions', '', false, false, false,
+        new ComponentModel(
+          'edit-product-btn', ComponentType.Button, undefined, undefined, undefined,
+          new ResponsiveAttributesConfigModel(
+            new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, 'edit')),
+          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
         )
-      ]
-*
-* ,
-      [
-        {
-          name: 'c1-header',
-          type: ComponentType.Container,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline)),
-          children: [
-            {
-              name: 'sort-h1',
-              type: ComponentType.Icon,
-              attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-                NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
-              )),
-              visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-              styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                  undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-                  NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
-                  ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
-                  IconSizeType.Normal, IconMeaningType.Danger
-                )
-              ),
-              position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
-            },
-            {
-              name: 'filter-h1',
-              type: ComponentType.Icon,
-              attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-                NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Filter
-              )),
-              visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-              styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-                  undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-                  NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
-                  ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
-                  IconSizeType.Normal, IconMeaningType.Danger
-                )
-              ),
-              position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
-            }
-          ]
-        },
-        {
-          name: 'sort-h2',
-          type: ComponentType.Icon,
-          attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
-          )),
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-            undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
-            ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
-            IconSizeType.Large, IconMeaningType.Danger
-          )),
-          position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
-        },
-        {
-          name: 'sort-h3',
-          type: ComponentType.Icon,
-          attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
-          )),
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-            undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
-            ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
-            IconSizeType.Small, IconMeaningType.Danger
-          )),
-          position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
-        },
-        {
-          name: 'sort-h4',
-          type: ComponentType.Icon,
-          attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
-            undefined, undefined, undefined, NoValueType.NA, IconType.Sort
-          )),
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
-            undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
-            ButtonSizeType.Small, undefined, ButtonAppearanceType.InnerOnly, undefined,
-            IconSizeType.Large, IconMeaningType.Danger
-          )),
-          position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline))
-        }
-      ]
-*
-*
-*
-*
-* */
+      )
+    ]
+    ))
+}

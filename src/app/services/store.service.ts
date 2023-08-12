@@ -49,6 +49,9 @@ import {NoValueType} from "../enums/no_value_type";
 import {StateService} from "./state.service";
 import {PositioningConfigPropsModel} from "../models/Positioning/self/PositioningConfigPropsModel";
 import {TableColumnModel} from "../models/TableColumnModel";
+import {ResponsiveContentInjectionConfigModel} from "../models/ContentInjection/ResponsiveContentInjectionConfigModel";
+import {ContentInjectionComponentPropsModel} from "../models/ContentInjection/ContentInjectionComponentPropsModel";
+import {ContentInjectionConfigPropsModel} from "../models/ContentInjection/ContentInjectionConfigPropsModel";
 
 @Injectable({
   providedIn: 'root'
@@ -295,7 +298,6 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
       const compPropsObj = new AttributesComponentPropsModel(
@@ -341,7 +343,28 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and screen ' + ScreenSize[screenSize])
   }
-
+  public getContentInjectionComponentProps(componentName: string, stateModel: ResponsiveContentInjectionConfigModel, screenSize: number): ContentInjectionComponentPropsModel {
+    const translateToContentInjectionComponentProps = (CIConfig: ContentInjectionConfigPropsModel): ContentInjectionComponentPropsModel => {
+      return new ContentInjectionComponentPropsModel(
+        CIConfig.start,
+        CIConfig.end,
+        CIConfig.content,
+        CIConfig.columnHeaderComponents,
+        CIConfig.footer,
+        CIConfig.caption,
+        CIConfig.extraColumns
+      )
+    }
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToContentInjectionComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
+      }
+      lastScreenSize--
+    }
+    throw new Error('No screensize configuration was found for given ResponsiveContentInjectionConfigModel and screen ' + ScreenSize[screenSize])
+  }
   public getVisibilityComponentProps(componentName: string, stateModel: ResponsiveVisibilityConfigModel, screenSize: number): VisibilityComponentPropsModel {
     const translateToVisibilityComponentProps = (visibilityConfig: VisibilityConfigPropsModel): VisibilityComponentPropsModel => {
       const compPropsObj = new VisibilityComponentPropsModel()
@@ -360,7 +383,6 @@ export class StoreService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveVisibilityConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getChildLayoutComponentProps(componentName: string, stateModel: ResponsiveChildLayoutConfigModel, screenSize: number): ChildLayoutComponentsPropsModel {
     // diegene die deze methode aanroept moet ervoor zorgen dat de properties effectief naar de bedoelde childComponents gaan, indien van toepassing
     const translateToChildLayoutComponentsProps = (childLayoutConfig: ChildLayoutConfigPropsModel): ChildLayoutComponentsPropsModel => {
@@ -393,6 +415,7 @@ export class StoreService implements OnInit {
                        AttributesComponentPropsModel |
                        VisibilityComponentPropsModel) |
                        StylingComponentPropsModel |
+                       ContentInjectionComponentPropsModel |
                        DimensioningComponentPropsModel |
                        OverflowComponentPropsModel |
                        ChildLayoutComponentsPropsModel |
@@ -401,6 +424,7 @@ export class StoreService implements OnInit {
       newState instanceof AttributesComponentPropsModel ||
       newState instanceof VisibilityComponentPropsModel ||
       newState instanceof StylingComponentPropsModel ||
+      newState instanceof ContentInjectionComponentPropsModel ||
       newState instanceof DimensioningComponentPropsModel ||
       newState instanceof OverflowComponentPropsModel
     ) {
@@ -439,6 +463,7 @@ export class StoreService implements OnInit {
   }
 
   private createProps(component: ComponentModel) {
+    // todo deze mtehode ook aanpassen wellicht, het is goed mogelijk dat de props niet worden aangemaakt
     this.stateService.getProperties(component.type)?.forEach((v, k) => {
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
@@ -477,6 +502,8 @@ export class StoreService implements OnInit {
         }
       }
     }
+    // todo: icon componenten ontbreken, dialog ontbreekt met form, edit button ontbreekt
+    debugger
   }
 
   public createStore() {

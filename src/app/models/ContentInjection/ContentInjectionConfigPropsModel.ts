@@ -15,3 +15,9 @@ export class ContentInjectionConfigPropsModel {
   ) {
   }
 }
+// posible values:
+/*
+* ComponentModel|ComponentObjectModel
+* ComponentModel[]|ComponentObjectModel[]
+* TableColumnModel[]
+* */

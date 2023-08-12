@@ -10,7 +10,7 @@ import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 import {deleteContainer} from "../deleteContainer/deleteContainer";
 import {table} from "../table/table";
 import {actions} from "../actions/actions";
-import {dialog} from "../dialog/dialog";
+import {filterDialog} from "../dialog/dialog";
 import {confirmation} from "../confirmation/confirmation";
 import {formEditProduct} from "../form-edit-product/form";
 import {dialogEditProduct} from "../dialog-edit-product/dialog-edit-product";
@@ -27,12 +27,9 @@ export const RootComponent = new AppConfig({
       childLayout: mainChildLayout,
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
       children: [
-        //header,
-        deleteContainer,
-        //form,
         table,
-        dialog,
-        confirmation,
+        filterDialog,
+        //confirmation,
         dialogEditProduct
       ]
     },
