@@ -47,6 +47,7 @@ export class Component{
   protected readonly TextColorType = TextColorType
   protected readonly TextDecorationType = TextDecorationType
   getPropValue(key:string,index?:number){
+    // if(key===PropertyName.extraColumns || key === PropertyName.columnHeaderComponents)debugger
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
   }
   trigger(event: EventType,nativeEvent?:any){

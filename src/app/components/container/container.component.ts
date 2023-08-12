@@ -79,6 +79,7 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
       this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
         this.nameFormControl = (res as string[])?.join('_')
       })
+    console.log('container init '+this.name) // todo de containers worden inderdaad niet gerendered!
   }
   setCalculatedHeight(val: any): boolean {
     if (typeof val === 'string') {

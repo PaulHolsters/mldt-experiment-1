@@ -7,7 +7,7 @@ export const filterDialog =         // todo dit is het attribuut filterComponent
     undefined,
     new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)))
 
-/* toevoegen aan contentInjector
+/* todo toevoegen aan contentInjector
 * {
           name:'filter-form',
           type:ComponentType.Form,

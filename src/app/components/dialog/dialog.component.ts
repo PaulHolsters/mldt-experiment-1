@@ -15,7 +15,9 @@ export class DialogComponent extends AbstractComponent implements OnInit {
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+
         this.setPropValue(k,res)
+        if(k==='content')debugger
       })
     })
     this.storeService.bindToStateProperty(this.name, 'visible')?.subscribe(res => {

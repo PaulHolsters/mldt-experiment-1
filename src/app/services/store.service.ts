@@ -52,6 +52,7 @@ import {TableColumnModel} from "../models/TableColumnModel";
 import {ResponsiveContentInjectionConfigModel} from "../models/ContentInjection/ResponsiveContentInjectionConfigModel";
 import {ContentInjectionComponentPropsModel} from "../models/ContentInjection/ContentInjectionComponentPropsModel";
 import {ContentInjectionConfigPropsModel} from "../models/ContentInjection/ContentInjectionConfigPropsModel";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -431,6 +432,7 @@ export class StoreService implements OnInit {
       for (let [k, v] of Object.entries(newState)) {
         if (v !== ComponentDimensionValueConfigType.Parent) {
           this.getStatePropertySubjects().find(subj => {
+            if(subj.componentName==='form to edit a product'&& componentName==='form to edit a product' && k===subj.propName && k==='visible')debugger
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
         }
@@ -463,7 +465,6 @@ export class StoreService implements OnInit {
   }
 
   private createProps(component: ComponentModel) {
-    // todo deze mtehode ook aanpassen wellicht, het is goed mogelijk dat de props niet worden aangemaakt
     this.stateService.getProperties(component.type)?.forEach((v, k) => {
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
@@ -473,42 +474,10 @@ export class StoreService implements OnInit {
         prop$: propSubj.asObservable()
       })
     })
-    if (component.children && component.children.length > 0) {
-      component.children.forEach(child => {
-            this.createProps(child)
-      })
-    }
-    if (component.attributes) {
-      for (let [k, v] of Object.entries(component.attributes)) {
-        if (v) {
-          for (let [j, l] of Object.entries(v)) {
-            if (l instanceof ComponentModel || this.configService.isComponentObjectModel(l)) {
-              const compT = this.configService.convertToComponentModel(l)
-              if (compT)
-                this.createProps(compT)
-            }
-            if (l instanceof Array) {
-              for (let i = 0; i < l.length; i++) {
-                if (l[i] instanceof ComponentModel || this.configService.isComponentObjectModel(l[i])) {
-                  const compT = this.configService.convertToComponentModel(l[i])
-                  if (compT)
-                    this.createProps(compT)
-                } else if (l[i] instanceof TableColumnModel) {
-                  this.createProps(l[i].anchor)
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    // todo: icon componenten ontbreken, dialog ontbreekt met form, edit button ontbreekt
-    debugger
   }
-
   public createStore() {
-    this.configService.convertToComponentModels(this.configService.appConfig?.userConfig).components.forEach(comp => {
-      this.createProps(comp)
+    this.configService.getAllComponents().forEach(c=>{
+      this.createProps(c)
     })
   }
 

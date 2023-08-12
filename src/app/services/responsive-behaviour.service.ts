@@ -145,7 +145,9 @@ export class ResponsiveBehaviourService implements OnInit{
   }
   private setState(component: ComponentModel, screenSize: number) {
     if (component.visibility){
-      this.storeService.setRBSState(component.name, this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize))
+      const visibility = this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize)
+      if(component.name==='form to edit a product')debugger
+      this.storeService.setRBSState(component.name, visibility)
     }
     if (component.position)
       this.storeService.setRBSState(component.name, this.storeService.getPositionComponentProps(component.name, component.position, screenSize))
@@ -159,13 +161,14 @@ export class ResponsiveBehaviourService implements OnInit{
     }
     if (component.children && component.children.length > 0) {
       this.storeService.setRBSState(component.name, component.children as ComponentModel[])
-      component.children.forEach(child => {
-        this.setState(child, screenSize)
-      })
+      /*      component.children.forEach(child => {
+              this.setState(child, screenSize)
+            })
+          }*/
     }
     if (component.attributes){
       // todo mogelijks mag deze methode nu ook versimpeld worden
-      Object.values(this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)).filter(val=>{
+/*      Object.values(this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)).filter(val=>{
         return val instanceof ComponentModel || this.configService.isComponentObjectModel(val) || (
           val instanceof Array && val.length > 0 && (val[0] instanceof ComponentModel || this.configService.isComponentObjectModel(val[0])
           || val[0] instanceof TableColumnModel)
@@ -179,21 +182,27 @@ export class ResponsiveBehaviourService implements OnInit{
             } else this.setState(v.anchor,screenSize)
           })
         }
-      })
+      })*/
       const props = this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)
       this.storeService.setRBSState(component.name, props)
     }
     if (component.contentInjection){
-      this.storeService.setRBSState(component.name, this.storeService.getContentInjectionComponentProps(component.name, component.contentInjection, screenSize))
+      const contentInjection = this.storeService.getContentInjectionComponentProps(component.name, component.contentInjection, screenSize)
+      this.storeService.setRBSState(component.name, contentInjection)
     }
     if (component.styling)
       this.storeService.setRBSState(component.name, this.storeService.getStylingComponentProps(component.name, component.styling, screenSize))
   }
 
   public setComponentStates( screenSize: number) {
-    this.configService.convertToComponentModels(this.configService.appConfig?.userConfig).components.forEach(comp => {
-      this.setState(comp, screenSize)
+    this.configService.getAllComponents(true).forEach(c=>{
+      this.setState(c, screenSize)
     })
+            //         todo de formulieren zitten nog niet in de dialoogboxen wat verklaart waarom ze niet naar boven komen
+                //          of leeg naar boven komen
+    /*this.configService.convertToComponentModels(this.configService.appConfig?.userConfig).components.forEach(comp => {
+      this.setState(comp, screenSize)
+    })*/
   }
 
 }

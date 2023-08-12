@@ -30,5 +30,6 @@ export const dialogEditProduct =
     undefined,
     undefined,
     undefined,
+    // todo die form wordt niet opgepikt in de frontend
     new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,NoValueType.NA,formEditProduct))
   )

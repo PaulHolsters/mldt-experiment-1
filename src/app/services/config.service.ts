@@ -252,7 +252,27 @@ export class ConfigService {
   getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] } | undefined {
     return this.convertToComponentModels(this.appConfig?.userConfig)
   }
-
+  getAllComponents(rootWithChildren?:boolean):ComponentModel[] {
+    const allComponents:ComponentModel[] = []
+    const components = [...this.appConfig.userConfig.components]
+    if(components.length===1){
+      const root = {...this.convertToComponentModel(components[0])}
+      if(!rootWithChildren){
+        const rootNoChildren = {...this.convertToComponentModel(components[0])}
+        delete rootNoChildren.children
+        allComponents.push(rootNoChildren)
+      } else{
+        allComponents.push(root)
+      }
+      const children:ComponentModel[]=this.convertChildren(root)
+      while(children.length>0){
+        const child:ComponentModel = children.pop() as ComponentModel
+        allComponents.push(child)
+        children.unshift(...this.convertChildren(child))
+      }
+      return allComponents
+    } else throw new Error('Er mag maar 1 root component zijn')
+  }
 }
 
 /*  private resolve(value: CalculationModel): MixedArrayModel {

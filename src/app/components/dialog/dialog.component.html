@@ -1,6 +1,9 @@
 <p-dialog header="{{getPropValue(PropertyName.header)===NoValueType.NA ? '':getPropValue(PropertyName.header)}}" [(visible)]="visible">
+  {{getPropValue(PropertyName.content)?.name}}+some(§thing
   <m-anchor [component]="getPropValue(PropertyName.content)" [data]="getPropValue(PropertyName.data)"></m-anchor>
 </p-dialog>
 <!--
 [style]="{ width: '50vw',
 position:'absolute',top:y+'px',left:x+'px'}"-->
+<!-- todo alles komt aan maar het object toont de waarden niet omdat die genest zijn je krijgt hier nu responsive models ipv values => omzet formule niet goed
+-->
