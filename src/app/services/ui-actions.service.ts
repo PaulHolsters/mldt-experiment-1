@@ -13,6 +13,9 @@ import {ActionValueModel} from "../models/ActionValueModel";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
 import {ConfirmationModel} from "../models/ConfirmationModel";
+import {DataSpecificationType} from "../enums/dataSpecifications.enum";
+import {DataService} from "./data.service";
+import {DataRecordModel} from "../models/DataRecordModel";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +23,13 @@ import {ConfirmationModel} from "../models/ConfirmationModel";
 export class UiActionsService {
   public actionFinished = new Subject()
 
-  constructor(private storeService:StoreService,private stateService:StateService,private configService:ConfigService,private actionsService:ActionsService,private RBS:ResponsiveBehaviourService) {
+  constructor(
+    private storeService:StoreService,
+    private stateService:StateService,
+    private configService:ConfigService,
+    private actionsService:ActionsService,
+    private RBS:ResponsiveBehaviourService,
+    private dataService:DataService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
@@ -36,6 +45,7 @@ export class UiActionsService {
     })
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.InitializeForm)?.subscribe(res=>{
       if(res){
+        // todo res.data is any dus wordt niet gecheckt, maw maak data niet langer any!!!
         const action = this.initializeForm(res.action,res.data,res.target)
         if(action){
           this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
@@ -107,11 +117,24 @@ export class UiActionsService {
     }
     return true
   }
-  private initializeForm(action:ActionModel,data?:any,target?:EventTarget){
+  private initializeForm(action:ActionModel,data?:DataRecordModel,target?:EventTarget){
     debugger
-    // get config of target
-    // get dataModel of config
-    //
+    const config = this.configService.getConfigFromRoot(action.targetName)
+    if(config?.data){
+      const compObj = this.dataService.createExtendedConceptModel(action.targetName, {dataSingle:data,dataMultiple:undefined,blueprint:undefined}, config.data)
+      const error = compObj?.conceptData === undefined
+        || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
+      if (compObj && !error) {
+        // todo wat fout is is dat concept data niet undefnied mag zijn dat is immers de record data
+        this.dataService.saveData(compObj)
+        debugger
+        // todo fix bug: de relevante data wordt niet gestuurd of maar half en de vraag is naar waar
+        //   de data attribuut property is niet correct
+        this.dataService.setDataObjectState(config.name, config.type, [DataSpecificationType.Id], compObj)
+        debugger
+        // todo bij error de desbtreffende component vervangen door een standaard errortext component
+      }
+    } else throw new Error('Configuration of component with name '+action.targetName+' is missing a valid data configuration')
     return true
   }
 }

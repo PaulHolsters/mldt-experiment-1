@@ -49,10 +49,15 @@ export const formContainer = new ComponentModel(
       undefined,
       undefined,
       undefined,
-      new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,NoValueType.NA,
+      new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(
+        NoValueType.NA,
+        NoValueType.NA,
         new ComponentModel(
           'edit naam product cfc',
-          ComponentType.Container, undefined, undefined, undefined,
+          ComponentType.Container,
+          undefined,
+          undefined,
+          undefined,
           new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
             NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA, ['product', 'name'])),
           new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),

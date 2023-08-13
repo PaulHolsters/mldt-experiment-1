@@ -13,6 +13,7 @@ import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Component as AbstractComponent} from "../Component"
 import {TableColumnModel} from "../../models/TableColumnModel";
+import {DataRecordModel} from "../../models/DataRecordModel";
 @Component({
   selector: 'm-table',
   templateUrl: './table.component.html',

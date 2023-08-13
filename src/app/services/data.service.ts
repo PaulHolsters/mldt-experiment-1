@@ -106,7 +106,7 @@ export class DataService{
     }
     throw new Error('Methode getAllAttributes onvolledig of incorrect')
   }
-  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[] | ConceptConfigModel[]): ConceptComponentModel | undefined {
+  createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[] | ConceptConfigModel[]): ConceptComponentModel | undefined {
     if (compConfig instanceof ConceptConfigModel) {
       let newObj: ConceptComponentModel = {
         conceptName: compConfig.conceptName,
@@ -198,19 +198,38 @@ export class DataService{
     }
   }
   public getDataObject(dataLink: string[], componentType: ComponentType, dataSpecs: DataSpecificationType[]): AttributeComponentModel | undefined {
+    debugger
+    // todo hier faalt alles het verkeerde object wordt genomen om door te sturen
+    const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ConceptComponentModel):boolean{
+      let isObj = true
+      while (specs.length>0){
+        const spec:DataSpecificationType = specs.pop() as DataSpecificationType
+        if(!(spec in obj && obj.getValueFor && obj.getValueFor(spec))){
+          isObj = false
+        }
+      }
+      return isObj
+    }
     const dataLinkCopy = [...dataLink]
     const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptName === dataLinkCopy[0] && (dataSpecs.reduce(
+      return dataObj.conceptName === dataLinkCopy[0]
+        // geeft de waarde true terug of false naargelang de dataSpecs
+        && isDataObject(this,dataSpecs,dataObj)
+/*        && (dataSpecs.reduce(
           (specA, specB) => {
-            const copyDataObj = new ConceptComponentModel(dataObj.conceptName, dataObj.attributes, dataObj.errorMessages,
-              dataObj.dataList, dataObj.conceptData,
+            const copyDataObj = new ConceptComponentModel(
+              dataObj.conceptName,
+              dataObj.attributes,
+              dataObj.errorMessages,
+              dataObj.dataList,
+              dataObj.conceptData,
               dataObj.conceptBluePrint)
             return ((specA.toString() in copyDataObj && copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())) && (specB.toString() in copyDataObj
               && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))
           }
-        )
-      )
+        ))*/
     })
+    debugger
     if (obj) {
       dataLinkCopy.splice(0, 1)
       let attributes = [...obj.attributes] // leeg bij blueprint
@@ -276,7 +295,7 @@ export class DataService{
     }
     return attr
   }
-  private setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
+  setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
     this.storeService.getStatePropertySubjects().forEach(propSubj => {
       let comp = this.configService.getConfigFromRoot(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
@@ -291,6 +310,7 @@ export class DataService{
         && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
         && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
+        debugger
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })
@@ -570,6 +590,9 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     }
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
+  public saveData(compObj:ConceptComponentModel){
+    this.objectData.push(compObj)
+  }
   public async getDataByID(action: ActionModel, id: string) {
     if (action.targetType === TargetType.Component) {
       let comp = this.configService.getConfigFromRoot(action.targetName)
@@ -579,11 +602,12 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
             const dataByID = (res as { data: {} })['data']
             const data = Object.values(dataByID)[0] as DataObjectModel
             // todo in deze methode zal voor beide dataobjecten de formcontrols referen naar dezelfde data in het geheugen
+            // todo dit stukje herbruiken in initialize form waarbij eerst wordt gepusht dan geset
             const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
             const error = compObj?.conceptData === undefined
               || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
             if (compObj && !error) {
-              this.objectData.push(compObj)
+              this.saveData(compObj)
               this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.Id, DataSpecificationType.Blueprint], compObj)
               // todo bij error de desbtreffende component vervangen door een standaard errortext component
             } else throw new Error('Error on the graphQL server: voor het id '+id+' bestaat geen record (meer). Mogelijks is het verwijderd geweest door een ' +
