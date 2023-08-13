@@ -198,8 +198,6 @@ export class DataService{
     }
   }
   public getDataObject(dataLink: string[], componentType: ComponentType, dataSpecs: DataSpecificationType[]): AttributeComponentModel | undefined {
-    debugger
-    // todo hier faalt alles het verkeerde object wordt genomen om door te sturen
     const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ConceptComponentModel):boolean{
       let isObj = true
       while (specs.length>0){
@@ -229,7 +227,6 @@ export class DataService{
           }
         ))*/
     })
-    debugger
     if (obj) {
       dataLinkCopy.splice(0, 1)
       let attributes = [...obj.attributes] // leeg bij blueprint
@@ -310,7 +307,6 @@ export class DataService{
         && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
         && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
         const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
-        debugger
         this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })

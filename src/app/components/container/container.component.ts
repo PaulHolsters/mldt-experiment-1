@@ -73,19 +73,11 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
         this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
           // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
             this.setPropValue(k,res)
-          // todo dataAttribute wordt wel degelijk gestuurd maar inderdaad bij opstart van de applicatie
-          //      initializeForm is een methode die maakt dat er effectief een nieuwe waarde wordt gestuurd naar deze component
-          //      op het moment dat de gebruiker de dialoog hiervoor opent
-          //      dit is conform met het feit dat in andere gevallen dataAttribute ook pas na een actie
-          //      wordt aangemaakt en gevuurd, bv een data actie zoals getDataBluePrint of zo
         })
       })
       this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
         this.nameFormControl = (res as string[])?.join('_')
       })
-    this.storeService.bindToStateProperty(this.name, 'dataAttribute')?.subscribe(res => {
-      if(res)debugger
-    })
   }
   setCalculatedHeight(val: any): boolean {
     if (typeof val === 'string') {

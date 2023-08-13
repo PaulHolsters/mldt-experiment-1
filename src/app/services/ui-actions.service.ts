@@ -118,21 +118,15 @@ export class UiActionsService {
     return true
   }
   private initializeForm(action:ActionModel,data?:DataRecordModel,target?:EventTarget){
-    debugger
     const config = this.configService.getConfigFromRoot(action.targetName)
     if(config?.data){
       const compObj = this.dataService.createExtendedConceptModel(action.targetName, {dataSingle:data,dataMultiple:undefined,blueprint:undefined}, config.data)
       const error = compObj?.conceptData === undefined
         || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
       if (compObj && !error) {
-        // todo wat fout is is dat concept data niet undefnied mag zijn dat is immers de record data
         this.dataService.saveData(compObj)
-        debugger
-        // todo fix bug: de relevante data wordt niet gestuurd of maar half en de vraag is naar waar
-        //   de data attribuut property is niet correct
         this.dataService.setDataObjectState(config.name, config.type, [DataSpecificationType.Id], compObj)
-        debugger
-        // todo bij error de desbtreffende component vervangen door een standaard errortext component
+        // todo bij error de desbetreffende component vervangen door een standaard errortext component
       }
     } else throw new Error('Configuration of component with name '+action.targetName+' is missing a valid data configuration')
     return true
