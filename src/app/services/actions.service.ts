@@ -23,7 +23,6 @@ export class ActionsService{
   public createActionSubjects(){
     this.actionSubjects = []
     this.configService.appConfig?.userConfig.actions.forEach(action=>{
-      // todo dit is de reden waarom er direct undefnied wordt uitgespuwd
       const subj = new Subject<{action: ActionModel; data: any; target:EventTarget|undefined}|undefined>()
       const newActionSubject:ActionSubjectModel = {
         actionType:action.actionType,

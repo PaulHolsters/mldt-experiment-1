@@ -4,8 +4,9 @@
       [style.height]="getPropValue(PropertyName.height)"
       [style.width]="getPropValue(PropertyName.width)"
 >
-    <m-anchor *ngIf="data" [component]="getPropValue(PropertyName.content)" [data]="data"
+    <m-anchor  [component]="getPropValue(PropertyName.content)" [data]="data"
     ></m-anchor>
 </form>
 <!--todo visibility komt niet door naar de anchor dus form wordt uiteindelijk niet getoond
 met als gevolg dat de container niet wordt gerenderd -->
+<!--*ngIf="data"-->

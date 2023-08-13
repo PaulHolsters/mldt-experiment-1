@@ -34,6 +34,14 @@ export class UiActionsService {
         }
       }
     })
+    this.actionsService.bindToAction(ActionType.Client,ActionSubType.InitializeForm)?.subscribe(res=>{
+      if(res){
+        const action = this.initializeForm(res.action,res.data,res.target)
+        if(action){
+          this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
+        }
+      }
+    })
     this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetConfirmation)?.subscribe(res=>{
       if(res && res.target && res.target instanceof EventTarget){
         const action = this.setConfirmation(res.action,res.data, res.target)
@@ -100,9 +108,11 @@ export class UiActionsService {
     return true
   }
   private initializeForm(action:ActionModel,data?:any,target?:EventTarget){
+    debugger
     // get config of target
     // get dataModel of config
     //
+    return true
   }
 }
 

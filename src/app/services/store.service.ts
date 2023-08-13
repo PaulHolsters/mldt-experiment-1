@@ -432,7 +432,6 @@ export class StoreService implements OnInit {
       for (let [k, v] of Object.entries(newState)) {
         if (v !== ComponentDimensionValueConfigType.Parent) {
           this.getStatePropertySubjects().find(subj => {
-            if(subj.componentName==='form to edit a product'&& componentName==='form to edit a product' && k===subj.propName && k==='visible')debugger
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
         }

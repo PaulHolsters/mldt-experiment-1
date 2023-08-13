@@ -7,7 +7,6 @@ import {ActionsService} from "./actions.service";
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
-import {TableColumnModel} from "../models/TableColumnModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -146,7 +145,6 @@ export class ResponsiveBehaviourService implements OnInit{
   private setState(component: ComponentModel, screenSize: number) {
     if (component.visibility){
       const visibility = this.storeService.getVisibilityComponentProps(component.name, component.visibility, screenSize)
-      if(component.name==='form to edit a product')debugger
       this.storeService.setRBSState(component.name, visibility)
     }
     if (component.position)
