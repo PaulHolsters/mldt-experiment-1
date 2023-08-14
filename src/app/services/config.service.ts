@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {ActionModel} from "../models/ActionModel";
 import {ComponentModel} from "../models/ComponentModel";
 import AppConfig from "./appConfig";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
-import {EventType} from "../enums/eventTypes.enum";
+import {TriggerType} from "../enums/triggerTypes.enum";
 import {ScreenSize} from '../enums/screenSizes.enum';
 import {PropertyName} from '../enums/PropertyNameTypes.enum';
 import {ResponsiveAttributesConfigModel} from '../models/Attributes/ResponsiveAttributesConfigModel';
 import {forceAutocomplete} from "@angular/cli/src/utilities/environment-options";
 import {TableColumnModel} from "../models/TableColumnModel";
+import {Effect} from "../actionclasses/Effect";
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +22,11 @@ export class ConfigService {
   }
   public convertToComponentModels(userConfig: {
     components: (ComponentModel | ComponentObjectModel)[],
-    actions: ActionModel[]
-  }): { components: ComponentModel[], actions: ActionModel[] } {
-    let convertedObj: { components: ComponentModel[], actions: ActionModel[] } = {
+    effects: Effect[]
+  }): { components: ComponentModel[], effects: Effect[] } {
+    let convertedObj: { components: ComponentModel[], effects: Effect[] } = {
       components: [],
-      actions: [...userConfig.actions]
+      effects: [...userConfig.effects]
     }
     let componentsCopy = [...userConfig.components]
     if(componentsCopy.length!==1) throw new Error('Only one root component is allowed')
@@ -155,14 +155,14 @@ export class ConfigService {
     throw new Error('appConfig requested when not yet initialised')
   }
   private _appConfig: AppConfig[] = []
-  public getActionsForComponent(name: string): ActionModel[] {
-    return this.appConfig.userConfig.actions.filter((action: { targetName: string; }) => {
-      return action.targetName === name
+  public getEffectsForComponent(name: string): Effect[]{
+    return this.appConfig.userConfig.effects.filter((effect: { targetName: string; }) => {
+      return effect.targetName === name
     })
   }
-  public getActionsForEvent(event: EventType) {
-    return this.appConfig.userConfig.actions.filter((action: { on: EventType; }) => {
-      return action.on === event
+  public getEffectsForTrigger(trigger: TriggerType) {
+    return this.appConfig.userConfig.effects.filter((effect: { trigger: TriggerType; }) => {
+      return effect.trigger === trigger
     })
   }
   public getConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
@@ -249,9 +249,9 @@ export class ConfigService {
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and' +
       ' property ' + confirmationModel + ' and screen ' + ScreenSize[screenSize])
   }
-  getAppTemplateData(): { components: ComponentModel[], actions: ActionModel[] } | undefined {
+/*  getAppTemplateData(): { components: ComponentModel[], ef: ActionModel[] } | undefined {
     return this.convertToComponentModels(this.appConfig?.userConfig)
-  }
+  }*/
   getAllComponents(rootWithChildren?:boolean):ComponentModel[] {
     const allComponents:ComponentModel[] = []
     const components = [...this.appConfig.userConfig.components]

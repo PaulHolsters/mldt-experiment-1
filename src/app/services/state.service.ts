@@ -17,7 +17,26 @@ import {ConfirmPopup} from "../componentclasses/ConfirmPopup";
   providedIn: 'root'
 })
 export class StateService {
+  /*
+  * De state service houdt de waarde van elke render property van elke component bij in een map.
+  * Deze service kan je dus gebruiken om op elk moment de waarde van een willekeurige render property van een willekeurige component
+  * op te vragen en dan bijvoorbeeld te gebruiken in een custom function (user defined function).
+  *
+  * Je zou in de verleiding kunnen komen om te denken ah dan kan ik de data van een bepaalde component altijd vinden door de relevante properties
+  * hier op te vragen. Dat is echter een vergissing. Een datamodel bezit inderdaad ook de actuele data horende bij een component
+  * maar die data staat los van rendering omdat deze datamodellen niet gekoppeld zijn aan een specifieke render property. Data uit de datamodellen
+  * zou je echter ook kunnen gebruiken in custom functions. M.a.w. de gebruiker kan hier kiezen wat hij het meest interessant vindt. Voorlopig echter is het zo dat
+  * niet alle data in een component (en dus in de state service map) ook in de datamodellen zit. Als je bv. een tabel zou filteren, dan zal dit de
+  * currentDataList property wijzigen maar deze wijziging wordt niet doorgetrokken naar het client datamodel horende bij deze table component.
+  * De reden hier voor is eenvoudig. De filtering heeft geen consequenties voor queries of mutations. Het client datamodel bestaat juist hierrond: queries en mutations.
+  *
+  * todo je zou natuurlijk kunnen opwerpen dat je in een tabel een filtering zou kunnen doen om dan vervolgens op een delete knop te klikken die
+  *      ervoor zorgt dat de gefilterde records verwijderd worden in de backend (mutation). Als tegenargument zou ik kunnen zeggen:
+  *       Dat is iets dat de component beslist. Als dit een functionaliteit is die de component wil aanbieden dan moeten deze frontend
+  *       wijzigingen in de updateData method komen.
+  * */
   private componentData:{name:string,properties:Map<string,any>}[] = []
+  // todo werk any weg
   constructor(private configService:ConfigService) {
   }
   public getProperties(type:ComponentType){

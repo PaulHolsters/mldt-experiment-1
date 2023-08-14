@@ -42,8 +42,8 @@ import {DynamicDimensionValueConfigType} from "../enums/DynamicDimensionValueCon
 import {GrowValueConfigType} from "../enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "../enums/ShrinkValueConfigTypes.enum";
 import {ActionsService} from "./actions.service";
-import {ActionSubType} from "../enums/actionSubTypes.enum";
-import {ActionType} from "../enums/actionTypes.enum";
+import {ActionSubType} from "../enums/serviceMethodTypes.enum";
+import {ActionType} from "../enums/serviceTypes.enum";
 import {ConfigService} from "./config.service";
 import {NoValueType} from "../enums/no_value_type";
 import {StateService} from "./state.service";

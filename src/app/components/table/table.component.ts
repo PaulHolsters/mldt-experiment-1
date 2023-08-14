@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {EventType} from "../../enums/eventTypes.enum";
+import {EventType} from "../../enums/triggerTypes.enum";
 import {Observable} from "rxjs";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {SortEvent} from "primeng/api";

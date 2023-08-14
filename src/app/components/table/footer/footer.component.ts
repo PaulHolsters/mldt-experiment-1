@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {EventType} from "../../../enums/eventTypes.enum";
+import {EventType} from "../../../enums/triggerTypes.enum";
 import {Component as AbstractComponent} from "../../Component";
 import {TableFooter} from "../../../componentclasses/TableFooter";
 import {ComponentModel} from "../../../models/ComponentModel";

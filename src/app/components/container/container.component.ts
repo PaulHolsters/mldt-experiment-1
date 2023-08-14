@@ -1,6 +1,6 @@
 import {AfterContentChecked, Component, ElementRef,  OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {EventType} from "../../enums/eventTypes.enum";
+import {EventType} from "../../enums/triggerTypes.enum";
 import {RootComponent} from "../../app-configuration/root/rootComponent";
 import {Component as AbstractComponent} from "../Component"
 import {Container} from "../../componentclasses/Container";

@@ -9,3 +9,8 @@ import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVi
 export type ResponsiveConfigModel = ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
   |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
   ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel
+export type ConceptNameType = string
+export type ComponentNameType = string
+export type ActionIdType = string
+
+

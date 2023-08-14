@@ -1,11 +1,12 @@
 import { Observable, Subject} from "rxjs";
+import {ServiceType} from "../enums/serviceTypes.enum";
+import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
-import {ActionSubType} from "../enums/actionSubTypes.enum";
-import {ActionModel} from "./ActionModel";
+import {Effect} from "../effectclasses/Effect";
 
 export interface ActionSubjectModel {
-  actionType:ActionType,
-  actionSubType?:ActionSubType,
-  subj:Subject<{action:ActionModel,data:any,target:EventTarget|undefined}|undefined>
-  action$:Observable<{action:ActionModel,data:any,target:EventTarget|undefined}|undefined>
+  service:ServiceType,
+  method:ServiceMethodType,
+  subj:Subject<{effect:Effect,data:any,target:EventTarget|undefined}|undefined>
+  action$:Observable<{effect:Effect,data:any,target:EventTarget|undefined}|undefined>
 }

@@ -3,7 +3,6 @@ import {StoreService} from "./store.service";
 import {ConceptComponentModel} from "../models/Data/ConceptComponentModel";
 import {ConceptConfigModel} from "../models/Data/ConceptConfigModel";
 import {Apollo, gql} from "apollo-angular";
-import {ActionModel} from "../models/ActionModel";
 import {QuerySubType} from "../enums/querySubType.enum";
 import {TargetType} from "../enums/targetTypes.enum";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
@@ -18,12 +17,14 @@ import {DataRecordModel} from "../models/DataRecordModel";
 import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 import {FunctionType} from "../enums/functionTypes.enum";
 import utilFunctions from "../utils/utilFunctions";
-import {EventType} from "../enums/eventTypes.enum";
-import {ActionType} from "../enums/actionTypes.enum";
-import {ActionSubType} from "../enums/actionSubTypes.enum";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {ActionType} from "../enums/actionTypes.enum";
+import {Action} from "../effectclasses/Action";
+import {TriggerType} from "../enums/triggerTypes.enum";
+import {Effect} from "../effectclasses/Effect";
+import {Trigger} from "../effectclasses/Trigger";
 
 @Injectable({
   providedIn: 'root'
@@ -39,36 +40,40 @@ export class DataService{
     })
   }
   public bindActions(){
-    this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataBluePrint)?.subscribe(res=>{
-      if(res)this.getDataBluePrint(res.action)
+    this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(res=>{
+      if(res)this.getDataBluePrint(res.effect.action)
     })
-    this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetDataByID)?.subscribe(res=>{
-      if(res)this.getDataByID(res.action, res.data).then(r => {
-      })
+    this.actionsService.bindToAction(new Action(ActionType.GetInstance))?.subscribe(res=>{
+      if(res){
+        if(typeof res.data === 'string'){
+          this.getDataByID(res.effect.action,res.data).then(r => {
+          })
+        }
+      }
     })
-    this.actionsService.bindToAction(ActionType.Server,ActionSubType.GetAllData)?.subscribe(res=>{
-      if(res)this.getAllData(res.action).then(r => {
+    this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(res=>{
+      if(res)this.getAllData(res.effect.action).then(r => {
 
       })
     })
-    this.actionsService.bindToAction(ActionType.Server,ActionSubType.DeleteByID)?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action(ActionType.DeleteInstance))?.subscribe(res=>{
       if(res){
         let action
-        if(res.data.id) action = this.deleteDataById(res)
-        else action = this.deleteData(res.action)
-          if(action){
-            action.subscribe((res2: any) => {
-                this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
-            })
-          }
+        if(res.data.id && typeof res.data.id === 'string') action = this.deleteDataById(res.data.id,res.target)
+        else action = this.deleteData(res.data.id)
+        if(action){
+          action.subscribe((res2: any) => {
+              this.actionFinished.next({trigger:TriggerType.ActionFinished,sourceId:res.data.id})
+          })
+        }
         }})
-    this.actionsService.bindToAction(ActionType.Server,ActionSubType.PersistNewData)?.subscribe(res=>{
-      if(res)this.persistNewData(res.action).then(r => {
+    this.actionsService.bindToAction(new Action(ActionType.CreateInstance))?.subscribe(res=>{
+      if(res)this.persistNewData(res.effect.trigger,res.data).then(r => {
 
       })
     })
-    this.actionsService.bindToAction(ActionType.Server,ActionSubType.PersistUpdatedData)?.subscribe(res=>{
-      if(res)this.persistUpdatedData(res.action).then(r => {
+    this.actionsService.bindToAction(new Action(ActionType.UpdateInstance))?.subscribe(res=>{
+      if(res)this.persistUpdatedData(res.effect.trigger).then(r => {
 
       })
     })
@@ -143,11 +148,19 @@ export class DataService{
     return undefined
   }
   public updateData(name: string, value: DataRecordModel[] | number | string | undefined, id?: string) {
+    // todo id moet meegegeven worden of iets gelijkaardigs zodat
+    //      update weet waar het moet zoeken
+    debugger
     const parts = name.split('_')
+    // todo ook hier wordt nu het verkeerde objecdt genomen
+    //      HOOG TIJD OM HIER DUIDELIJKE SELECTIE LOGICA VAN TE MAKEN!
     const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptData?.id === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
+      return dataObj.conceptData && dataObj.conceptData.id === id
+        || (dataObj.conceptName === parts[0] && !dataObj.dataList) // todo dit is te algemeen als voorwaarde
     })
+    debugger
     if (obj && obj.attributes) {
+      debugger
       if (parts.length === 2) {
         const attr = (obj.attributes as AttributeConfigModel[]).find(attr => {
           return attr.name === parts[1]
@@ -169,7 +182,7 @@ export class DataService{
             attr.multiselect.selectedOptions = value
             attr.dataServer = value
           }
-          // todo alle andere datatypes (form controls)
+          // todo alle andere datatypes (form controls) => refactor dit is gebonden aan specifieke componenten wat niet goed is
 
           (obj.attributes as AttributeConfigModel[]).splice((obj.attributes as AttributeConfigModel[]).findIndex(attr => {
             return attr.name === parts[1]
@@ -177,6 +190,7 @@ export class DataService{
           this.objectData.splice(this.objectData.findIndex(dataObj => {
             return dataObj.conceptData?.id === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
           }), 1, obj)
+          debugger
         }
       } else {
         // Het gaat om een concept
@@ -386,6 +400,7 @@ export class DataService{
     }
   }
   private getMutationParams(data: AttributeConfigModel[] | NoValueType.DBI): string {
+    // todo refactor: get rid of conditionals => factory pattern!
     if (data === NoValueType.DBI) return ''
     const strVal = data.map(x => {
         return `\
@@ -402,37 +417,42 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     // todo zorg nog voor een meer ordelijke GQL string hier
     return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal
   }
-  public mutate(data: ConceptConfigModel | string[] | undefined, verb: MutationType,id?:string, dataFromServer?: DataRecordModel): Observable<any> | undefined {
+  private mutate(mutationStr:string): Observable<any> | undefined {
+    return this.apollo
+      .mutate({
+        mutation: gql`${mutationStr}`
+      }) as unknown as Observable<any>
+  }
+  private getMutationObject(){
+
+  }
+  private createMutationStr(data: ConceptConfigModel | string[] | undefined, verb: MutationType,id?:string, dataFromServer?: DataRecordModel): string {
     if (data instanceof ConceptConfigModel) {
       const currentData = this.objectData.find(dataObj => {
         return dataObj.conceptName === data.conceptName
       })
+      // todo ik vermoed dat dit een create is ...
       if (currentData) {
-        // const toEdit = id ? `id:"${id}",` : ''
-        /*${toEdit}*/
-        const MUTATION = `mutation Mutation {
+        return `mutation Mutation {
               ${verb}${utilFunctions.capitalizeFirst(data.conceptName)}(${this.getMutationParams(data.attributes)}) {
                     dataSingle{id}
               }
             }`
-        return this.apollo
-          .mutate({
-            mutation: gql`${MUTATION}`
-          }) as unknown as Observable<any>
       }
-      return undefined
+      // todo en dit een update ...
     } else if(id){
-      // todo we hebben toch alle data nodig!!!
-      const MUTATION = `mutation Mutation {
+      return `mutation Mutation {
               ${verb}${dataFromServer?.__typename.substring(0,dataFromServer?.__typename.length-4)}(id:"${id}") {
                     dataSingle{id}
               }
             }`
-      return this.apollo
-        .mutate({
-          mutation: gql`${MUTATION}`
-        }) as unknown as Observable<any>
-    } else throw new Error('Geen geldige data configuratie.')
+    }
+    throw new Error('Geen geldige data configuratie.')
+    // todo maar naast een create single zou je ook een create multiple kunnen hebben en zelfs een update multiple
+    // todo en een delete zie ik hier precies niet dus als die er is is dt absoluut niet duidelijk en expliciet (genoeg)
+    //      of liever de verb bepaald diet maar daarna is er een hoop onduidelijke mumbojumbo met parameters en methodes
+    //      waarbij het niet duidelijk is wat dit doet en wat de relatie met de VERB parameter is
+    //
   }
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
     const bp = attr.dataBlueprint?.get(attr.name)
@@ -489,14 +509,14 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     }
     return attr
   }
-  public async persistNewData(action: ActionModel) {
-    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
-    await this.mutate(comp?.data, MutationType.Create)?.subscribe(res => {
+  public async persistNewData(trigger: Trigger,data:DataRecordModel) {
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
+    await this.mutate(this.createMutationStr(comp?.data, MutationType.Create,data))?.subscribe(res => {
       console.log(res, 'yeah!')
     })
   }
-  public async persistUpdatedData(action: ActionModel) {
-    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
+  public async persistUpdatedData(trigger: Trigger) {
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
       const conceptId = this.objectData.find(d => {
@@ -509,11 +529,11 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       }
     } else throw new Error('No valid conceptId could be found')
   }
-  public deleteDataById(action:{action:ActionModel,data:any,target:EventTarget|undefined}){
-    return this.mutate(undefined, MutationType.Delete, action.data.id,action.data)
+  public deleteDataById( id: string, target: EventTarget | undefined){
+    return this.mutate(undefined, MutationType.Delete, id)
   }
-  public deleteData(action: ActionModel) {
-    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(action.sourceName, PropertyName.data)
+  public deleteData(trigger: Trigger) {
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
     if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
       let conceptId
@@ -534,15 +554,15 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       } else return undefined
     } else throw new Error('No valid conceptId could be found')
   }
-  public getDataBluePrint(action: ActionModel) {
-    if (action.targetType === TargetType.Component) {
-      let compModel = this.configService.getConfigFromRoot(action.targetName)
+  public getDataBluePrint(action: Action) {
+    if (action.targetType === TargetType.Client) {
+      let compModel = this.configService.getConfigFromRoot(action.target)
       if (compModel !== undefined) {
         this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
             const bluePrintData = (res as { data: {} })['data']
             const value = Object.values(bluePrintData)[0] as DataObjectModel
-            const compObj = this.createExtendedConceptModel(action.targetName, value, compModel.data)
+            const compObj = this.createExtendedConceptModel(action.target, value, compModel.data)
             if (compObj) {
               this.objectData.push(compObj)
               this.setDataObjectState(compModel.name, compModel.type, [DataSpecificationType.Blueprint], compObj)
@@ -552,16 +572,15 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       }
     }
   }
-  public async getAllData(action: ActionModel) {
-    // todo in de table component empty value opvangen
-    if (action.targetType === TargetType.Component) {
-      let comp = this.configService.getConfigFromRoot(action.targetName)
+  public async getAllData(action: Action) {
+    if (action.targetType === TargetType.Client) {
+      let comp = this.configService.getConfigFromRoot(action.target)
       if (comp && comp.data) {
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
             const allData = (res as { data: {} })['data']
             const data = Object.values(allData)[0] as DataObjectModel
-            const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
+            const compObj = this.createExtendedConceptModel(action.target, data, comp.data)
             const error = compObj?.dataList?.includes(null) || compObj?.dataList === null
               || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
             if (comp.data && !(comp.data instanceof ConceptConfigModel) && !error) {
@@ -589,9 +608,9 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
   public saveData(compObj:ConceptComponentModel){
     this.objectData.push(compObj)
   }
-  public async getDataByID(action: ActionModel, id: string) {
-    if (action.targetType === TargetType.Component) {
-      let comp = this.configService.getConfigFromRoot(action.targetName)
+  public async getDataByID(action: Action, id: string) {
+    if (action.targetType === TargetType.Client) {
+      let comp = this.configService.getConfigFromRoot(action.target)
       if (comp !== undefined && comp.data) {
         await this.query(QuerySubType.GetDataByID, comp, id).subscribe((res: unknown) => {
           if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
@@ -599,7 +618,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
             const data = Object.values(dataByID)[0] as DataObjectModel
             // todo in deze methode zal voor beide dataobjecten de formcontrols referen naar dezelfde data in het geheugen
             // todo dit stukje herbruiken in initialize form waarbij eerst wordt gepusht dan geset
-            const compObj = this.createExtendedConceptModel(action.targetName, data, comp.data)
+            const compObj = this.createExtendedConceptModel(action.target, data, comp.data)
             const error = compObj?.conceptData === undefined
               || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
             if (compObj && !error) {

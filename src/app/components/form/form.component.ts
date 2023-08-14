@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {EventType} from "../../enums/eventTypes.enum";
+import {EventType} from "../../enums/triggerTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {Component as AbstractComponent} from "../Component"
 import {Form} from "../../componentclasses/Form";

@@ -67,6 +67,7 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
   }
 
   updateData() {
+    if(this.conceptId)
     this.dataService.updateData(this.updateKey, this.value,this.conceptId)
   }
 }

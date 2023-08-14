@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {EventType} from 'src/app/enums/eventTypes.enum';
+import {EventType} from 'src/app/enums/triggerTypes.enum';
 import {Component as AbstractComponent} from "../Component"
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Button} from "../../componentclasses/Button";

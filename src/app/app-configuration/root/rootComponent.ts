@@ -9,11 +9,11 @@ import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsMo
 import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 import {deleteContainer} from "../deleteContainer/deleteContainer";
 import {table} from "../table/table";
-import {actions} from "../actions/actions";
 import {filterDialog} from "../dialog/dialog";
 import {confirmation} from "../confirmation/confirmation";
 import {formEditProduct} from "../form-edit-product/form";
 import {dialogEditProduct} from "../dialog-edit-product/dialog-edit-product";
+import {effects} from "../effects/effects";
 
 export const RootComponent = new AppConfig({
   components: [
@@ -36,5 +36,6 @@ export const RootComponent = new AppConfig({
   ],
   // hou er rekening mee dat de volgorde van de actions in deze array gevolgen kunnen hebben op
   // de condities zoals gedefinieerd in de overeenkomstige actie
-  actions: actions
+  effects: effects
 })
+// uit de configuratie moet je kunnen halen of iets uniek is of niet

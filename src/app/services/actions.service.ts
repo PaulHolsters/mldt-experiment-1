@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
-import {ActionType} from "../enums/actionTypes.enum";
-import {ActionSubType} from "../enums/actionSubTypes.enum";
+import {ServiceType} from "../enums/serviceTypes.enum";
+import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
 import { Observable, Subject} from "rxjs";
-import {ActionModel} from "../models/ActionModel";
 import {ActionSubjectModel} from "../models/ActionSubject";
 import {ConfigService} from "./config.service";
+import {ActionType} from "../enums/actionTypes.enum";
+import {Effect} from "../effectclasses/Effect";
+import {Action} from "../effectclasses/Action";
 
 @Injectable({
   providedIn: 'root'
@@ -12,21 +14,21 @@ import {ConfigService} from "./config.service";
 export class ActionsService{
   private actionSubjects:ActionSubjectModel[]|undefined
   public bindToActionsEmitter = new Subject()
-  public bindToAction(actionType:ActionType,actionSubtype:ActionSubType):Observable<{
-       action: ActionModel, data: any, target:EventTarget|undefined
+  public bindToAction(action:Action):Observable<{
+       effect: Effect, data: any, target:EventTarget|undefined
 }|undefined>|undefined{
-
     return this.actionSubjects?.find(actionSubject => {
-      return actionSubject.actionType === actionType && actionSubject.actionSubType === actionSubtype
+      return actionSubject.service === action.service && actionSubject.method === action.serviceMethod
     })?.action$
   }
   public createActionSubjects(){
     this.actionSubjects = []
-    this.configService.appConfig?.userConfig.actions.forEach(action=>{
-      const subj = new Subject<{action: ActionModel; data: any; target:EventTarget|undefined}|undefined>()
+
+    this.configService.appConfig?.userConfig.effects.forEach(effect=>{
+      const subj = new Subject<{effect: Effect; data: any; target:EventTarget|undefined}|undefined>()
       const newActionSubject:ActionSubjectModel = {
-        actionType:action.actionType,
-        actionSubType:action.actionSubType,
+        service:effect.service,
+        method:effect.serviceMethod,
         subj:subj,
         action$:subj.asObservable()
       }
@@ -34,11 +36,11 @@ export class ActionsService{
     })
     this.bindToActionsEmitter.next(undefined)
   }
-  public triggerAction(action: ActionModel,data?:any,target?:EventTarget):void{
+  public triggerAction(effect: Effect,data?:any,target?:EventTarget):void{
     this.actionSubjects?.find(subj => {
       // todo wat als er twee acties zijn met hetzelfde type en subtype? => filter ook op id en event indien nodig, of zie dat je ze allemaal uitvoert!
-      return subj.actionType === action.actionType && subj.actionSubType === action.actionSubType
-    })?.subj.next({action:action,data:data,target:target})
+      return subj.service === effect.action.service && subj.method === effect.action.serviceMethod
+    })?.subj.next({effect:effect,data:data,target:target})
   }
   constructor(private configService:ConfigService) {
   }

@@ -1,14 +1,12 @@
-import {ActionType} from "../../enums/actionTypes.enum";
-import {ActionSubType} from "../../enums/actionSubTypes.enum";
-import {TargetType} from "../../enums/targetTypes.enum";
-import {NoValueType} from "../../enums/no_value_type";
-import {EventType} from "../../enums/eventTypes.enum";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
-import {ActionValueModel} from "../../models/ActionValueModel";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {StateService} from "../../services/state.service";
 import {DataRecordModel} from "../../models/DataRecordModel";
+import {ActionType} from "../../enums/actionTypes.enum";
+import {TriggerType} from "../../enums/triggerTypes.enum";
+import {Effect} from "../../effectclasses/Effect";
+import {Trigger} from "../../effectclasses/Trigger";
+import {Action} from "../../effectclasses/Action";
+import {NoValueType} from "../../enums/no_value_type";
 
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
@@ -23,82 +21,44 @@ const customFunction = (stateService: StateService): any[] => {
     return false
   })
 }
+export const effects:Effect[] = [
+  new Effect(
+    new Trigger(TriggerType.RootComponentReady, 'content-container'),
+    new Action(ActionType.SetGlobalResponsiveBehaviour)
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentReady, 'table'),
+    new Action(ActionType.GetAllInstances, 'product','table')
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentReady, 'delete-container'),
+    new Action(ActionType.GetBluePrint,'product','delete-container'),
 
-export const actions = [
-  /*       {
-        actionType: ActionType.Server,
-        actionSubType: ActionSubType.GetDataBluePrint,
-        targetType: TargetType.Component,
-        targetName: 'form-container',
-        sourceName: 'my first form',
-        on: EventType.ComponentReady
-      },*/
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentClicked, 'delete-btn'),
+    new Action(ActionType.DeleteInstance, 'product',NoValueType.NA,   'delete-product'),
+  ),
+  new Effect(
+    new Trigger(TriggerType.ActionFinished,'delete-product'),
+    new Action(ActionType.GetInstance,    'product','delete-container'),
+  ),
+]
+
+/*{
+  on:EventType.ActionFinished,
+    sourceId:'delete-product',
+  actionType:ActionType.Client,
+  actionSubType:ActionSubType.GetDataByID,
+  targetName:'delete-container',
+  sourceName:NoValueType.NA,
+  targetType:TargetType.Component,
+}*/
+
+
+
+
   /*
-  {
-    actionType: ActionType.Server,
-    actionSubType: ActionSubType.GetAllData,
-    targetType: TargetType.Component,
-    targetName: 'fc4-container',
-    sourceName: 'my first form',
-    on: EventType.ComponentReady
-  },*/
-  /*    {
-    actionType: ActionType.Server,
-    actionSubType: ActionSubType.PersistNewData,
-    targetType: TargetType.API,
-    targetName: NoValueType.NA,
-    sourceName: 'submitbtn',
-    on: EventType.ComponentClicked
-  },*/
-  /*    {
-    actionType: ActionType.Server,
-    actionSubType: ActionSubType.GetDataBluePrint,
-    targetType: TargetType.Component,
-    targetName: 'form-container2',
-    sourceName: 'my 2e form',
-    on: EventType.ComponentReady
-  },
-  {
-    actionType: ActionType.Server,
-    actionSubType: ActionSubType.PersistNewData,
-    targetType: TargetType.API,
-    targetName: NoValueType.NA,
-    sourceName: 'submitForm2',
-    on: EventType.ComponentClicked
-  },*/
-  {
-    actionType: ActionType.Client,
-    actionSubType: ActionSubType.SetResponsiveBehaviour,
-    targetType: TargetType.Component,
-    targetName: NoValueType.NA,
-    sourceName: 'content-container',
-    on: EventType.RootComponentReady
-  },
-  {
-    actionType: ActionType.Server,
-    actionSubType: ActionSubType.GetAllData,
-    targetType: TargetType.Component,
-    targetName: 'table',
-    sourceName: 'table',
-    on: EventType.ComponentReady
-  },
-  {
-    actionType: ActionType.Server,
-    actionSubType: ActionSubType.GetDataBluePrint,
-    targetType: TargetType.Component,
-    targetName: 'delete-container',
-    sourceName: 'delete-container',
-    on: EventType.ComponentReady
-  },
-  {
-    actionType: ActionType.Server,
-    actionSubType: ActionSubType.DeleteByID,
-    targetType: TargetType.API,
-    targetName: NoValueType.NA,
-    sourceName: 'delete-btn',
-    on: EventType.ComponentClicked,
-    id: 'delete-product'
-  },
   {
     actionType: ActionType.Client,
     actionSubType: ActionSubType.SetConfigValueAndRebuild,
@@ -107,17 +67,9 @@ export const actions = [
     value: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)),
     sourceName: 'table',
     on: EventType.RowSelected
-  },
-  /*    {
-        on:EventType.ActionFinished,
-        sourceId:'delete-product',
-        actionType:ActionType.Client,
-        actionSubType:ActionSubType.GetDataByID,
-        targetName:'delete-container',
-        sourceName:NoValueType.NA,
-        targetType:TargetType.Component,
-      },*/
-  {
+  },*/
+  /*   ,*/
+/*  {
     on: EventType.ActionFinished,
     sourceId: 'delete-product',
     actionType: ActionType.Client,
@@ -231,7 +183,7 @@ export const actions = [
     targetName: 'table',
     sourceName: NoValueType.NA,
     targetType: TargetType.Component,
-  },
+  },*/
   /*        {
             actionType: ActionType.Server,
             actionSubType: ActionSubType.GetDataBluePrint,
@@ -264,4 +216,45 @@ export const actions = [
         sourceName: 'submitbtn',
         on: EventType.ComponentClicked
       },*/
-]
+
+/*       {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.GetDataBluePrint,
+      targetType: TargetType.Component,
+      targetName: 'form-container',
+      sourceName: 'my first form',
+      on: EventType.ComponentReady
+    },*/
+/*
+{
+  actionType: ActionType.Server,
+  actionSubType: ActionSubType.GetAllData,
+  targetType: TargetType.Component,
+  targetName: 'fc4-container',
+  sourceName: 'my first form',
+  on: EventType.ComponentReady
+},*/
+/*    {
+  actionType: ActionType.Server,
+  actionSubType: ActionSubType.PersistNewData,
+  targetType: TargetType.API,
+  targetName: NoValueType.NA,
+  sourceName: 'submitbtn',
+  on: EventType.ComponentClicked
+},*/
+/*    {
+  actionType: ActionType.Server,
+  actionSubType: ActionSubType.GetDataBluePrint,
+  targetType: TargetType.Component,
+  targetName: 'form-container2',
+  sourceName: 'my 2e form',
+  on: EventType.ComponentReady
+},
+{
+  actionType: ActionType.Server,
+  actionSubType: ActionSubType.PersistNewData,
+  targetType: TargetType.API,
+  targetName: NoValueType.NA,
+  sourceName: 'submitForm2',
+  on: EventType.ComponentClicked
+},*/

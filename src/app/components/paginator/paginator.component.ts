@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../Component"
-import {EventType} from "../../enums/eventTypes.enum";
+import {EventType} from "../../enums/triggerTypes.enum";
 import {Paginator} from "../../componentclasses/Paginator";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {PaddingType} from "../../enums/paddingType.enum";

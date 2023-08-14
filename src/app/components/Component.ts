@@ -5,7 +5,7 @@ import {EventsService} from "../services/events.service";
 import {DataService} from "../services/data.service";
 import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
 import {StylesService} from "../services/styles.service";
-import {EventType} from "../enums/eventTypes.enum";
+import {EventType} from "../enums/triggerTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {InputFontSizeType} from "../enums/inputFontSizeType.enum";

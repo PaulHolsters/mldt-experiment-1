@@ -1,4 +1,4 @@
 export enum TargetType {
-  Component=1,
-  API
+  Client=1,
+  Server
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Component as AbstractComponent} from "../Component"
-import {EventType} from "../../enums/eventTypes.enum";
+import {EventType} from "../../enums/triggerTypes.enum";
 import {ConfirmPopup} from "../../componentclasses/ConfirmPopup";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 

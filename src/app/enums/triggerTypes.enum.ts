@@ -1,4 +1,4 @@
-export enum EventType {
+export enum TriggerType {
   ComponentClicked = 1,
   ComponentReady,
   RootComponentReady,

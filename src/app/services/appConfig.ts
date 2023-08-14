@@ -1,28 +1,33 @@
 import {ComponentModel} from "../models/ComponentModel";
-import {ActionModel} from "../models/ActionModel";
-import {EventType} from "../enums/eventTypes.enum";
+import {TriggerType} from "../enums/triggerTypes.enum";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
+import {Effect} from "../actionclasses/Effect";
+import {ActionType} from "../enums/actionTypes.enum";
+import {NoValueType} from "../enums/no_value_type";
 
 export default class AppConfig {
-  constructor(private _userConfig: { components: (ComponentModel | ComponentObjectModel)[], actions: ActionModel[] }) {
+  constructor(private _userConfig: { components: (ComponentModel|ComponentObjectModel)[]; effects: Effect[] }) {
   }
 
-  public get userConfig():{ components: (ComponentModel|ComponentObjectModel)[], actions: ActionModel[] } {
+  public get userConfig():{ components: (ComponentModel|ComponentObjectModel)[], effects: Effect[] } {
     return this._userConfig
   }
 
-  public getActionsForComponent(name: string): ActionModel[] {
+/*  public getActionsForComponent(name: string): ActionModel[] {
     return this.userConfig.actions.filter((action: { targetName: string; }) => {
       return action.targetName === name
     })
+  }*/
+  public getActionsForEvent(trigger: TriggerType,source:string):ActionType[] {
+    return this.userConfig.effects.filter((effect) => {
+      return effect.trigger === trigger && effect.sourceName===source || (effect.sourceId === source && effect.sourceName === NoValueType.NA)
+    }).map(effect=>effect.action)
   }
-  public getActionsForEvent(event: EventType) {
-    return this.userConfig.actions.filter((action: { on: EventType; }) => {
-      return action.on === event
+  public getEffectsForEvent(trigger: TriggerType,source:string):Effect[] {
+    return this.userConfig.effects.filter((effect) => {
+      return effect.trigger === trigger && effect.sourceName===source || (effect.sourceId === source && effect.sourceName === NoValueType.NA)
     })
   }
-
-
 }
 /*
 *       {

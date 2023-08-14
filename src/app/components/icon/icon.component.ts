@@ -4,7 +4,7 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {MarginType} from "../../enums/marginType.enum";
-import {EventType} from "../../enums/eventTypes.enum";
+import {EventType} from "../../enums/triggerTypes.enum";
 import {Icon} from "../../componentclasses/Icon";
 
 @Component({
