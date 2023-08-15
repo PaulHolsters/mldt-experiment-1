@@ -1,16 +1,15 @@
 import {ComponentModel} from "../models/ComponentModel";
-import {TriggerType} from "../enums/triggerTypes.enum";
 import {ComponentObjectModel} from "../models/ComponentObjectModel";
-import {NoValueType} from "../enums/no_value_type";
 import {Effect} from "../effectclasses/Effect";
+import {SystemEffects} from "../effectclasses/systemEffects";
 
 export default class AppConfig {
   constructor(private _userConfig: { components: (ComponentModel|ComponentObjectModel)[]; effects: Effect[] }) {
+    this._userConfig.effects.concat(SystemEffects.getSystemEffects())
   }
   public get userConfig():{ components: (ComponentModel|ComponentObjectModel)[], effects: Effect[] } {
     return this._userConfig
   }
-
 }
 /*
 *       {

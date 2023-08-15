@@ -23,10 +23,6 @@ const customFunction = (stateService: StateService): any[] => {
 }
 export const effects:Effect[] = [
   new Effect(
-    new Trigger(TriggerType.RootComponentReady, 'content-container'),
-    new Action(ActionType.SetGlobalResponsiveBehaviour)
-  ),
-  new Effect(
     new Trigger(TriggerType.ComponentReady, 'table'),
     new Action(ActionType.GetAllInstances, 'product','table')
   ),

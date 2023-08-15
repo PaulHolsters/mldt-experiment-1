@@ -69,7 +69,7 @@ export class StoreService implements OnInit {
   ngOnInit(): void {
   }
   public bindActions() {
-    this.actionsService.bindToAction(new Action(ActionType.SetGlobalResponsiveBehaviour))?.subscribe(res => {
+    this.actionsService.bindToAction(new Action(ActionType.CreateStore))?.subscribe(res => {
       if(res){
         this.createStore()
         this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})

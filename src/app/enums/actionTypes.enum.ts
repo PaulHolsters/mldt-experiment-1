@@ -10,6 +10,7 @@ export enum ActionType {
   DeleteInstance,
   DeleteInstances,
   SetGlobalResponsiveBehaviour,
+  CreateStore,
   SetRenderProperty,
   SetLocalConfigurationValueAndRebuild,
   ExecuteCustomFunction,
