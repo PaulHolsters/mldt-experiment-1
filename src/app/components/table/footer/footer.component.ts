@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {EventType} from "../../../enums/triggerTypes.enum";
+import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Component as AbstractComponent} from "../../Component";
 import {TableFooter} from "../../../componentclasses/TableFooter";
 import {ComponentModel} from "../../../models/ComponentModel";
@@ -34,7 +34,7 @@ export class FooterComponent extends AbstractComponent implements OnInit,AfterVi
         }
       })
     })
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
   }
 
   ngAfterViewInit(): void {

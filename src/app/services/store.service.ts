@@ -42,40 +42,38 @@ import {DynamicDimensionValueConfigType} from "../enums/DynamicDimensionValueCon
 import {GrowValueConfigType} from "../enums/GrowValueConfigTypes.enum";
 import {ShrinkValueConfigType} from "../enums/ShrinkValueConfigTypes.enum";
 import {ActionsService} from "./actions.service";
-import {ActionSubType} from "../enums/serviceMethodTypes.enum";
-import {ActionType} from "../enums/serviceTypes.enum";
 import {ConfigService} from "./config.service";
 import {NoValueType} from "../enums/no_value_type";
 import {StateService} from "./state.service";
 import {PositioningConfigPropsModel} from "../models/Positioning/self/PositioningConfigPropsModel";
-import {TableColumnModel} from "../models/TableColumnModel";
 import {ResponsiveContentInjectionConfigModel} from "../models/ContentInjection/ResponsiveContentInjectionConfigModel";
 import {ContentInjectionComponentPropsModel} from "../models/ContentInjection/ContentInjectionComponentPropsModel";
 import {ContentInjectionConfigPropsModel} from "../models/ContentInjection/ContentInjectionConfigPropsModel";
-import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Action} from "../effectclasses/Action";
+import {ActionType} from "../enums/actionTypes.enum";
+import {TriggerType} from "../enums/triggerTypes.enum";
+import {ActionIdType} from "../types/type-aliases";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService implements OnInit {
 
-  public actionFinished = new Subject()
+  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
 
   constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
   }
-
   ngOnInit(): void {
-    // vervang behavioursubject indien nodig door iets dat maximaal 1 keer vuurt zodat je kan garanderen dat de store maar 1 keer wordt aangemaakt ,
-    // al denk ik dan dit misschien best in het begin al kan gebeuren zonder action
-
   }
-
   public bindActions() {
-    this.actionsService.bindToAction(ActionType.Client, ActionSubType.SetResponsiveBehaviour)?.subscribe(res => {
-      this.createStore()
+    this.actionsService.bindToAction(new Action(ActionType.SetGlobalResponsiveBehaviour))?.subscribe(res => {
+      if(res){
+        this.createStore()
+        this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
+      }
     })
   }
 

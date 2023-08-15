@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {EventType} from 'src/app/enums/triggerTypes.enum';
+import {TriggerType} from 'src/app/enums/triggerTypes.enum';
 import {Component as AbstractComponent} from "../Component"
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Button} from "../../componentclasses/Button";
@@ -22,7 +22,7 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
         this.setPropValue(k,res)
       })
     })
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

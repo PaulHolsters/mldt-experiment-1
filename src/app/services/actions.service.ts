@@ -1,10 +1,7 @@
 import {Injectable} from '@angular/core';
-import {ServiceType} from "../enums/serviceTypes.enum";
-import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
 import { Observable, Subject} from "rxjs";
 import {ActionSubjectModel} from "../models/ActionSubject";
 import {ConfigService} from "./config.service";
-import {ActionType} from "../enums/actionTypes.enum";
 import {Effect} from "../effectclasses/Effect";
 import {Action} from "../effectclasses/Action";
 
@@ -23,12 +20,11 @@ export class ActionsService{
   }
   public createActionSubjects(){
     this.actionSubjects = []
-
     this.configService.appConfig?.userConfig.effects.forEach(effect=>{
       const subj = new Subject<{effect: Effect; data: any; target:EventTarget|undefined}|undefined>()
       const newActionSubject:ActionSubjectModel = {
-        service:effect.service,
-        method:effect.serviceMethod,
+        service:effect.action.service,
+        method:effect.action.serviceMethod,
         subj:subj,
         action$:subj.asObservable()
       }

@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../Component"
-import {EventType} from "../../enums/triggerTypes.enum";
+import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Paginator} from "../../componentclasses/Paginator";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
@@ -25,11 +25,11 @@ export class PaginatorComponent extends AbstractComponent implements OnInit,Afte
         if(k==='border') debugger
       })
     })
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
   }
   onPageChange(event:any){
     debugger
-    this.trigger(EventType.PageChanged)
+    this.trigger(TriggerType.PageChanged)
   }
   setCalculatedHeight(val:any):boolean{
     if(val && val !== NoValueType.NA){

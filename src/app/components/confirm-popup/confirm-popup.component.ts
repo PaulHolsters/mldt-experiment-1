@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Component as AbstractComponent} from "../Component"
-import {EventType} from "../../enums/triggerTypes.enum";
+import {TriggerType} from "../../enums/triggerTypes.enum";
 import {ConfirmPopup} from "../../componentclasses/ConfirmPopup";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 
@@ -22,7 +22,7 @@ export class ConfirmPopupComponent extends AbstractComponent implements OnInit {
         }
       })
     })
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
   }
 
   onConfirm(){
@@ -32,11 +32,11 @@ export class ConfirmPopupComponent extends AbstractComponent implements OnInit {
       icon: this.getPropValue(PropertyName.confirmationModel).icon,
       accept: () => {
         this.setPropValue(PropertyName.confirmationModel,undefined)
-        this.eventsService.triggerEvent(EventType.ActionAccepted,this.name,this.data)
+        this.eventsService.triggerEvent(TriggerType.ActionAccepted,this.name,this.data)
       },
       reject: () => {
         this.setPropValue(PropertyName.confirmationModel,undefined)
-        this.eventsService.triggerEvent(EventType.ActionRejected,this.name,this.data)
+        this.eventsService.triggerEvent(TriggerType.ActionRejected,this.name,this.data)
       }
     })
   }

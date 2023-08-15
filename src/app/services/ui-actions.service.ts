@@ -1,9 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ActionsService} from "./actions.service";
-import {ActionType} from "../enums/serviceTypes.enum";
-import {ActionSubType} from "../enums/serviceMethodTypes.enum";
-import {EventType} from "../enums/triggerTypes.enum";
-import {ActionModel} from "../models/ActionModel";
 import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
@@ -16,12 +12,16 @@ import {ConfirmationModel} from "../models/ConfirmationModel";
 import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 import {DataService} from "./data.service";
 import {DataRecordModel} from "../models/DataRecordModel";
+import {Action} from "../effectclasses/Action";
+import {ActionType} from "../enums/actionTypes.enum";
+import {TriggerType} from "../enums/triggerTypes.enum";
+import {ActionIdType} from "../types/type-aliases";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UiActionsService {
-  public actionFinished = new Subject()
+  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
 
   constructor(
     private storeService:StoreService,
@@ -35,47 +35,47 @@ export class UiActionsService {
     })
   }
   public bindActions(){
-    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetConfigValueAndRebuild)?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action(ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res=>{
       if(res){
-        const action = this.setConfigValueAndRebuild(res.action,res.data)
+        const action = this.setConfigValueAndRebuild(res.effect.action)
         if(action){
-          this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
+          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
         }
       }
     })
-    this.actionsService.bindToAction(ActionType.Client,ActionSubType.InitializeForm)?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action(ActionType.InitializeForm))?.subscribe(res=>{
       if(res){
         // todo res.data is any dus wordt niet gecheckt, maw maak data niet langer any!!!
-        const action = this.initializeForm(res.action,res.data,res.target)
+        const action = this.initializeForm(res.effect.action,res.data,res.target)
         if(action){
-          this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
+          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
         }
       }
     })
-    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetConfirmation)?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action(ActionType.SetConfirmation))?.subscribe(res=>{
       if(res && res.target && res.target instanceof EventTarget){
-        const action = this.setConfirmation(res.action,res.data, res.target)
+        const action = this.setConfirmation(res.effect.action,res.data, res.target)
         if(action){
-          this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
+          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
         }
       }
     })
-    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetProperty)?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action(ActionType.SetRenderProperty))?.subscribe(res=>{
       if(res){
-        const action = this.setProperty(res.action,res.data)
+        const action = this.setProperty(res.effect.action,res.data)
         if(action){
-          this.actionFinished.next({event:EventType.ActionFinished,sourceId:res.action.id})
+          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
         }
       }
     })
   }
-  private setConfigValueAndRebuild(action:ActionModel,data?:any){
+  private setConfigValueAndRebuild(action:Action){
     const currentAppConfig = this.configService.appConfig
     if(currentAppConfig){
-      let config = this.configService.getConfigFromRoot(action.targetName)
+      let config = this.configService.getConfigFromRoot(action.target)
       if(!config) throw new Error('action was not configured correctly')
-      if(config.replace && !(action.value instanceof ActionValueModel)){
-        config.replace(action.value?.getInstance(),action.value)
+      if(config.replace && (action.value !==NoValueType.NA && !(action.value instanceof ActionValueModel))){
+        config.replace(action.value.getInstance(),action.value)
         this.configService.saveConfig(currentAppConfig)
         this.RBS.rebuildUI()
         return true
@@ -83,7 +83,7 @@ export class UiActionsService {
     }
     return false
   }
-  private setProperty(action:ActionModel,data?:any){
+  private setProperty(action:Action,data?:any){
     let val
     if(typeof (action.value as ActionValueModel).value === 'function'){
       val = (action.value as ActionValueModel).value(this.stateService)
@@ -91,36 +91,36 @@ export class UiActionsService {
     if(!val) val = (action.value as ActionValueModel).value
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
     this.storeService.getStatePropertySubjects().find(prop=>{
-      if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
+      if(prop.componentName === action.target && action.value instanceof ActionValueModel)
         return prop.propName === PropertyName.data
       return false
     })?.propValue.next(data)
       this.storeService.getStatePropertySubjects().find(prop=>{
-        if(prop.componentName === action.targetName && action.value instanceof ActionValueModel)
+        if(prop.componentName === action.target && action.value instanceof ActionValueModel)
           return prop.propName === action.value.name
         return false
       })?.propValue.next(val)
     return true
   }
-  private setConfirmation(action:ActionModel,data?:any,target?:EventTarget){
-    if(action.targetName!==NoValueType.NA){
-      let comp = this.configService.getConfigFromRoot(action.targetName)
+  private setConfirmation(action:Action,data?:any,target?:EventTarget){
+    if(action.target!==NoValueType.NA){
+      let comp = this.configService.getConfigFromRoot(action.target)
       if(comp && comp.attributes && this.RBS.screenSize){
         const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)
         const cm = new ConfirmationModel(attrVal.icon,attrVal.message, target,data)
         this.storeService.getStatePropertySubjects().find(prop=>{
-          if(prop.componentName === action.targetName)
+          if(prop.componentName === action.target)
             return prop.propName === PropertyName.confirmationModel
           return false
         })?.propValue.next(cm)
-      } else throw new Error('Component with name '+action.targetName+ ' could not be found')
+      } else throw new Error('Component with name '+action.target+ ' could not be found')
     }
     return true
   }
-  private initializeForm(action:ActionModel,data?:DataRecordModel,target?:EventTarget){
-    const config = this.configService.getConfigFromRoot(action.targetName)
+  private initializeForm(action:Action,data?:DataRecordModel,target?:EventTarget){
+    const config = this.configService.getConfigFromRoot(action.target)
     if(config?.data){
-      const compObj = this.dataService.createExtendedConceptModel(action.targetName, {dataSingle:data,dataMultiple:undefined,blueprint:undefined}, config.data)
+      const compObj = this.dataService.createExtendedConceptModel(action.target, {dataSingle:data,dataMultiple:undefined,blueprint:undefined}, config.data)
       const error = compObj?.conceptData === undefined
         || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
       if (compObj && !error) {
@@ -128,7 +128,7 @@ export class UiActionsService {
         this.dataService.setDataObjectState(config.name, config.type, [DataSpecificationType.Id], compObj)
         // todo bij error de desbetreffende component vervangen door een standaard errortext component
       }
-    } else throw new Error('Configuration of component with name '+action.targetName+' is missing a valid data configuration')
+    } else throw new Error('Configuration of component with name '+action.target+' is missing a valid data configuration')
     return true
   }
 }

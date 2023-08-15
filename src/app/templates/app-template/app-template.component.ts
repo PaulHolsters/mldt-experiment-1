@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ComponentModel} from "../../models/ComponentModel";
-import {ActionModel} from "../../models/ActionModel";
 import {StoreService} from "../../services/store.service";
+import {Effect} from "../../effectclasses/Effect";
 
 @Component({
   selector: 'm-app-template',
@@ -10,12 +10,12 @@ import {StoreService} from "../../services/store.service";
 })
 export class AppTemplateComponent implements OnInit {
   // voorlopig wordt de statische data via deze component opgeladen naar de verschillende content componenten: obsolete?
-  @Input() data:{components:ComponentModel[],actions:ActionModel[]}|undefined
-  dataButton:{
+  @Input() data:{components:ComponentModel[],actions:Effect[]}|undefined
+/*  dataButton:{
     label?:string,
     icon?:string,
     triggers:ActionModel[]
-  }|undefined
+  }|undefined*/
   marginLeftAuto$  = this.storeService.bindToStateProperty('logo','marginLeftAuto')
   marginRightAuto$  = this.storeService.bindToStateProperty('logo','marginRightAuto')
   alignSelfCenter$  = this.storeService.bindToStateProperty('logo','alignSelfCenter')

@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {EventType} from "../../enums/triggerTypes.enum";
+import {TriggerType} from "../../enums/triggerTypes.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {Component as AbstractComponent} from "../Component"
 import {Form} from "../../componentclasses/Form";
@@ -14,7 +14,7 @@ export class FormComponent extends AbstractComponent implements OnInit{
   @Input() conceptId:string|NoValueType.NA=NoValueType.NA
   @ViewChild('form') form:ElementRef|undefined
   ngOnInit(): void {
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name,this.conceptId)
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.conceptId)
     this.props = Form.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{

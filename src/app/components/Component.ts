@@ -5,7 +5,7 @@ import {EventsService} from "../services/events.service";
 import {DataService} from "../services/data.service";
 import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
 import {StylesService} from "../services/styles.service";
-import {EventType} from "../enums/triggerTypes.enum";
+import {TriggerType} from "../enums/triggerTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {InputFontSizeType} from "../enums/inputFontSizeType.enum";
@@ -34,7 +34,7 @@ export class Component{
 
   }
   protected props:Map<string,any>|undefined
-  protected readonly EventType = EventType
+  protected readonly TriggerType = TriggerType
   protected readonly PropertyName = PropertyName
   protected readonly componentType = ComponentType
   protected readonly NoValueType = NoValueType
@@ -49,9 +49,9 @@ export class Component{
   getPropValue(key:string,index?:number){
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
   }
-  trigger(event: EventType,nativeEvent?:any){
+  trigger(trigger: TriggerType,nativeEvent?:any){
     debugger
-    this.eventsService.triggerEvent(event,this.name,this.data,nativeEvent?.target)
+    this.eventsService.triggerEvent(trigger,this.name,this.data,nativeEvent?.target)
   }
   setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
     if(this.props){

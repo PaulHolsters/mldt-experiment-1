@@ -8,7 +8,7 @@ import {PropertyName} from '../enums/PropertyNameTypes.enum';
 import {ResponsiveAttributesConfigModel} from '../models/Attributes/ResponsiveAttributesConfigModel';
 import {forceAutocomplete} from "@angular/cli/src/utilities/environment-options";
 import {TableColumnModel} from "../models/TableColumnModel";
-import {Effect} from "../actionclasses/Effect";
+import { Effect } from '../effectclasses/Effect';
 
 @Injectable({
   providedIn: 'root'
@@ -156,13 +156,18 @@ export class ConfigService {
   }
   private _appConfig: AppConfig[] = []
   public getEffectsForComponent(name: string): Effect[]{
-    return this.appConfig.userConfig.effects.filter((effect: { targetName: string; }) => {
-      return effect.targetName === name
+    return this.appConfig.userConfig.effects.filter((effect:Effect) => {
+      return effect.action.target === name
     })
   }
   public getEffectsForTrigger(trigger: TriggerType) {
-    return this.appConfig.userConfig.effects.filter((effect: { trigger: TriggerType; }) => {
-      return effect.trigger === trigger
+    return this.appConfig.userConfig.effects.filter((effect: Effect) => {
+      return effect.trigger.name === trigger
+    })
+  }
+  public getEffectsForEvent(trigger: TriggerType,source:string):Effect[] {
+    return this.appConfig.userConfig.effects.filter((effect) => {
+      return effect.trigger.name === trigger && effect.trigger.source===source
     })
   }
   public getConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {

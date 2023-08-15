@@ -3,7 +3,7 @@ import {NoValueType} from "../enums/no_value_type";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
-import {ConceptNameType, ResponsiveConfigModel} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, ResponsiveConfigModel} from "../types/type-aliases";
 import {ActionValueModel} from "../models/ActionValueModel";
 import {ConceptName} from "../types/ConceptName";
 export class Action {
@@ -13,8 +13,8 @@ export class Action {
   public constructor(
     public type:ActionType,
     public conceptName: ConceptNameType|NoValueType.NA=NoValueType.NA,
-    public target:string|NoValueType.NA=NoValueType.NA,
-    public id:string|NoValueType.NA=NoValueType.NA,
+    public target:ComponentNameType|NoValueType.NA=NoValueType.NA,
+    public id:ActionIdType|NoValueType.NA=NoValueType.NA,
     public value:ResponsiveConfigModel|ActionValueModel|NoValueType.NA=NoValueType.NA
   ) {
     ConceptName.check(conceptName)

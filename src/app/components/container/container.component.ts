@@ -1,6 +1,6 @@
 import {AfterContentChecked, Component, ElementRef,  OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {EventType} from "../../enums/triggerTypes.enum";
+import {TriggerType} from "../../enums/triggerTypes.enum";
 import {RootComponent} from "../../app-configuration/root/rootComponent";
 import {Component as AbstractComponent} from "../Component"
 import {Container} from "../../componentclasses/Container";
@@ -64,10 +64,10 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
   }
   ngOnInit(): void {
       if (this.name === 'content-container') {
-        this.eventsService.triggerEvent(EventType.RootComponentReady, this.name,
+        this.eventsService.triggerEvent(TriggerType.RootComponentReady, this.name,
           RootComponent)
       }
-      this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+      this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
       this.props = Container.getProperties()
       this.props.forEach((v,k)=>{
         this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{

@@ -20,23 +20,19 @@ export class EventsService{
               private UIActionsService:UiActionsService) {
 
     this.dataService.actionFinished.subscribe(res =>{
-      const eventData = res as {trigger:TriggerType,sourceId:string}
-      this.triggerEvent(eventData.trigger,eventData.sourceId)
+      this.triggerEvent(res.trigger,res.source)
     })
 
     this.UIActionsService.actionFinished.subscribe(res =>{
-      const eventData = res as {trigger:TriggerType,sourceId:string}
-      this.triggerEvent(eventData.trigger,eventData.sourceId)
+      this.triggerEvent(res.trigger,res.source)
     })
 
     this.RBSService.actionFinished.subscribe(res =>{
-      const eventData = res as {trigger:TriggerType,sourceId:string}
-      this.triggerEvent(eventData.trigger,eventData.sourceId)
+      this.triggerEvent(res.trigger,res.source)
     })
 
     this.storeService.actionFinished.subscribe(res =>{
-      const eventData = res as {trigger:TriggerType,sourceId:string}
-      this.triggerEvent(eventData.trigger,eventData.sourceId)
+      this.triggerEvent(res.trigger,res.source)
     })
   }
   public triggerEvent(trigger:TriggerType,source:string,data?:any,target?:EventTarget){
@@ -44,7 +40,7 @@ export class EventsService{
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
     }
-    this.configService.appConfig?.getEffectsForEvent(trigger,source).forEach(effect=>{
+    this.configService.getEffectsForEvent(trigger,source).forEach(effect=>{
       this.actionsService.triggerAction(effect,data,target)
     })
   }

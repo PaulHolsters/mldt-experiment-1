@@ -4,7 +4,7 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {MarginType} from "../../enums/marginType.enum";
-import {EventType} from "../../enums/triggerTypes.enum";
+import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Icon} from "../../componentclasses/Icon";
 
 @Component({
@@ -21,7 +21,7 @@ export class IconComponent extends AbstractComponent implements OnInit,AfterView
         this.setPropValue(k,res)
       })
     })
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

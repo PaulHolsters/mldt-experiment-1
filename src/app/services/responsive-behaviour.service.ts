@@ -1,18 +1,20 @@
 import {Injectable, OnInit} from '@angular/core';
 import {ComponentModel} from "../models/ComponentModel";
 import {StoreService} from "./store.service";
-import {ActionType} from "../enums/serviceTypes.enum";
-import {ActionSubType} from "../enums/serviceMethodTypes.enum";
 import {ActionsService} from "./actions.service";
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
+import {Action} from "../effectclasses/Action";
+import {ActionType} from "../enums/actionTypes.enum";
+import {TriggerType} from "../enums/triggerTypes.enum";
+import {ActionIdType} from "../types/type-aliases";
 @Injectable({
   providedIn: 'root'
 })
 export class ResponsiveBehaviourService implements OnInit{
   private screensize:ScreenSize|undefined
-  public actionFinished = new Subject()
+  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
   public get screenSize(){
     return this.screensize
   }
@@ -33,12 +35,14 @@ export class ResponsiveBehaviourService implements OnInit{
     })
   }
   public bindActions(){
-    this.actionsService.bindToAction(ActionType.Client,ActionSubType.SetResponsiveBehaviour)?.subscribe(res=>{
-      this.setResponsiveBehaviour()
+    this.actionsService.bindToAction(new Action(ActionType.SetGlobalResponsiveBehaviour))?.subscribe(res=>{
+      if(res){
+        this.setResponsiveBehaviour()
+        this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
+      }
     })
   }
   ngOnInit(): void {
-
   }
   private setResponsiveBehaviour() {
     this.mqSM1.addEventListener("change", (e => {

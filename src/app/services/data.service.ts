@@ -23,14 +23,14 @@ import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {Action} from "../effectclasses/Action";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {Effect} from "../effectclasses/Effect";
 import {Trigger} from "../effectclasses/Trigger";
+import {ActionIdType} from "../types/type-aliases";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService{
-  public actionFinished = new Subject()
+  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
   constructor(private configService:ConfigService,
               private storeService: StoreService,
               private apollo: Apollo,
@@ -63,7 +63,7 @@ export class DataService{
         else action = this.deleteData(res.data.id)
         if(action){
           action.subscribe((res2: any) => {
-              this.actionFinished.next({trigger:TriggerType.ActionFinished,sourceId:res.data.id})
+              this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.data.id})
           })
         }
         }})
@@ -523,14 +523,14 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
         return d.conceptName === cname && d.conceptData?.id && d.conceptData.id !== NoValueType.NA
       })?.conceptData?.id
       if (conceptId) {
-        await this.mutate(comp?.data, MutationType.Update, conceptId)?.subscribe(res => {
+        await this.mutate(this.createMutationStr(comp?.data, MutationType.Update, conceptId))?.subscribe(res => {
           console.log(res, 'yeah!')
         })
       }
     } else throw new Error('No valid conceptId could be found')
   }
   public deleteDataById( id: string, target: EventTarget | undefined){
-    return this.mutate(undefined, MutationType.Delete, id)
+    return this.mutate(this.createMutationStr(undefined, MutationType.Delete, id))
   }
   public deleteData(trigger: Trigger) {
     let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
@@ -550,7 +550,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       })
       if(!conceptId) conceptId = dataObj?.conceptData?.id
       if (conceptId) {
-        return this.mutate(comp?.data, MutationType.Delete, conceptId)
+        return this.mutate(this.createMutationStr(comp?.data, MutationType.Delete, conceptId))
       } else return undefined
     } else throw new Error('No valid conceptId could be found')
   }

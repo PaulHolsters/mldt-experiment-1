@@ -4,10 +4,10 @@ import {ActionIdType, ComponentNameType} from "../types/type-aliases";
 export class Trigger {
   public readonly sourceType:SourceType
   public constructor(
-    public trigger:TriggerType,
+    public name:TriggerType,
     public source:ComponentNameType|ActionIdType
   ) {
-    switch (trigger){
+    switch (name){
       case TriggerType.ComponentClicked:
         this.sourceType = SourceType.Component
         break

@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {EventType} from "../../enums/triggerTypes.enum";
+import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Observable} from "rxjs";
 import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
 import {SortEvent} from "primeng/api";
@@ -59,7 +59,7 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
         }
       })
     })
-    this.eventsService.triggerEvent(EventType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
   }
   filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
     const field = this.getPropValue(PropertyName.attributes)?.find((attr:AttributeComponentModel) => attr.name === column.field)
@@ -67,12 +67,12 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
     this.yP ? this.yP.value = event.clientY : undefined*/
     if(field && field.tableColumn?.filter){
       this.setPropValue(PropertyName.currentColumn,column)
-      this.eventsService.triggerEvent(EventType.ComponentClicked,this.name)
+      this.eventsService.triggerEvent(TriggerType.ComponentClicked,this.name)
     }
   }
   onRowSelect(event:any){
     // je kan altijd je custom event maken en het orginele includen
-    this.eventsService.triggerEvent(EventType.RowSelected,this.name, this.selectedItem)
+    this.eventsService.triggerEvent(TriggerType.RowSelected,this.name, this.selectedItem)
   }
   onRowUnselect(event: any) {
 
