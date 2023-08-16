@@ -53,6 +53,11 @@ import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
+import {ComponentType} from "../enums/componentTypes.enum";
+import {DataSpecificationType} from "../enums/dataSpecifications.enum";
+import {ConceptComponentModel} from "../models/Data/ConceptComponentModel";
+import {ConceptConfigModel} from "../models/Data/ConceptConfigModel";
+import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 
 @Injectable({
   providedIn: 'root'
@@ -76,7 +81,28 @@ export class StoreService implements OnInit {
       }
     })
   }
+  setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
+    this.getStatePropertySubjects().forEach(propSubj => {
+      let comp = this.configService.getConfigFromRoot(propSubj.componentName)
+      // todo refactor: je haalt het desbetrffende object op en stoort door naar de juiste component/property
+      //                 replaceDBIvalues mag hier dus niet aanwezig zijn
 
+      // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
+      if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel && comp.name === nameComponent) {
+        if(compConcept?.attributes && compConcept?.attributes instanceof Array){
+          compConcept.attributes = compConcept.attributes.map(attr=>{
+            return this.replaceDBIValues(compConcept,attr)
+          })
+        }
+        propSubj.propValue.next(compConcept)
+      } else if (propSubj.propName === 'dataLink' && comp
+        && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
+        && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
+        const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
+        this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
+      }
+    })
+  }
   private statePropertySubjects: StatePropertySubjectModel[] = []
 
   private hasScreenSizeProperty(stateModel:

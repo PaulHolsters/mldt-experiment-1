@@ -5,6 +5,10 @@ import {ConceptConfigModel} from "../models/Data/ConceptConfigModel";
 import utilFunctions from "../utils/utilFunctions";
 import {Apollo, gql} from "apollo-angular";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Action} from "../effectclasses/Action";
+import {TargetType} from "../enums/targetTypes.enum";
+import {DataObjectModel} from "../models/DataObjectModel";
+import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -112,5 +116,84 @@ export class QueryService {
         }
         break
     }
+  }
+
+  /***********************************     QUERY ACTIONS         ***************************************************************/
+  public getDataBluePrint(action: Action) {
+    if (action.targetType === TargetType.Client) {
+      let compModel = this.configService.getConfigFromRoot(action.target)
+      if (compModel !== undefined) {
+        this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
+          if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
+            const bluePrintData = (res as { data: {} })['data']
+            const value = Object.values(bluePrintData)[0] as DataObjectModel
+            const compObj = this.createExtendedConceptModel(action.target, value, compModel.data)
+            if (compObj) {
+              this.objectData.push(compObj)
+              this.setDataObjectState(compModel.name, compModel.type, [DataSpecificationType.Blueprint], compObj)
+            }
+          }
+        })
+      }
+    }
+  }
+  public async getAllData(action: Action) {
+    if (action.targetType === TargetType.Client) {
+      let comp = this.configService.getConfigFromRoot(action.target)
+      if (comp && comp.data) {
+        await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
+          if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
+            const allData = (res as { data: {} })['data']
+            const data = Object.values(allData)[0] as DataObjectModel
+            const compObj = this.createExtendedConceptModel(action.target, data, comp.data)
+            const error = compObj?.dataList?.includes(null) || compObj?.dataList === null
+              || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
+            if (comp.data && !(comp.data instanceof ConceptConfigModel) && !error) {
+              const attributeModel = this.getDataObject(comp.data, comp.type, [DataSpecificationType.DataList])
+              // TODO ik denk niet dat een datalist nog nodig is
+              if (attributeModel) {
+                attributeModel.dataList = []
+                data?.dataMultiple?.forEach(record => {
+                  if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
+                    attributeModel?.dataList?.push(record)
+                  }
+                })
+                this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList])
+              }
+            } else if (compObj && !error) {
+              this.objectData.push(compObj)
+              this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList], compObj)
+            } else throw new Error('Error on the graphQL server')
+          }
+        })
+      }
+    }
+    // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
+  }
+
+  public async getDataByID(action: Action, id: string) {
+    if (action.targetType === TargetType.Client) {
+      let comp = this.configService.getConfigFromRoot(action.target)
+      if (comp !== undefined && comp.data) {
+        await this.query(QuerySubType.GetDataByID, comp, id).subscribe((res: unknown) => {
+          if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
+            const dataByID = (res as { data: {} })['data']
+            const data = Object.values(dataByID)[0] as DataObjectModel
+            // todo in deze methode zal voor beide dataobjecten de formcontrols referen naar dezelfde data in het geheugen
+            // todo dit stukje herbruiken in initialize form waarbij eerst wordt gepusht dan geset
+            const compObj = this.createExtendedConceptModel(action.target, data, comp.data)
+            const error = compObj?.conceptData === undefined
+              || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
+            if (compObj && !error) {
+              this.saveData(compObj)
+              this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.Id, DataSpecificationType.Blueprint], compObj)
+              // todo bij error de desbtreffende component vervangen door een standaard errortext component
+            } else throw new Error('Error on the graphQL server: voor het id '+id+' bestaat geen record (meer). Mogelijks is het verwijderd geweest door een ' +
+              'andere gebruiker.')
+          }
+        })
+      }
+    }
+    // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
 }

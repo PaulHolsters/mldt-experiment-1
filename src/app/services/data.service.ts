@@ -79,44 +79,79 @@ export class DataService{
       })
     })
   }
-  private objectData: ConceptComponentModel[] = []
-  createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[] | ConceptConfigModel[]): ConceptComponentModel | undefined {
-    if (compConfig instanceof ConceptConfigModel) {
-      let newObj: ConceptComponentModel = {
-        conceptName: compConfig.conceptName,
-        attributes: [],
-        errorMessages: NoValueType.NI,
-        conceptBluePrint: data.blueprint,
-        conceptData: data.dataSingle ? Object.assign(data.dataSingle,{id:data.dataSingle?.id ?? NoValueType.NA}) : undefined,
-        dataList: data.dataMultiple
+  private clientData: ConceptComponentModel[] = [] // dit is de core/bestaansreden van de data service
+  /***********************************     CLIENT DATA ACTIONS         ***************************************************************/
+  public createClientData(compObj:ConceptComponentModel){
+    this.objectData.push(compObj)
+  }
+  public getClientData(dataLink: string[], componentType: ComponentType, dataSpecs: DataSpecificationType[]): AttributeComponentModel | undefined {
+    const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ConceptComponentModel):boolean{
+      let isObj = true
+      while (specs.length>0){
+        const spec:DataSpecificationType = specs.pop() as DataSpecificationType
+        if(!(spec in obj && obj.getValueFor && obj.getValueFor(spec))){
+          isObj = false
+        }
       }
-      const configCopy = {...compConfig}
-      if (configCopy.attributes && configCopy.attributes instanceof Array) {
-        configCopy.attributes?.forEach(attr => {
-          const entry = Object.entries(data.dataSingle ?? {}).find(([k, v]) => {
-            return k === attr.name
+      return isObj
+    }
+    const dataLinkCopy = [...dataLink]
+    const obj = this.objectData.find(dataObj => {
+      return dataObj.conceptName === dataLinkCopy[0]
+        // geeft de waarde true terug of false naargelang de dataSpecs
+        && isDataObject(this,dataSpecs,dataObj)
+      /*        && (dataSpecs.reduce(
+                (specA, specB) => {
+                  const copyDataObj = new ConceptComponentModel(
+                    dataObj.conceptName,
+                    dataObj.attributes,
+                    dataObj.errorMessages,
+                    dataObj.dataList,
+                    dataObj.conceptData,
+                    dataObj.conceptBluePrint)
+                  return ((specA.toString() in copyDataObj && copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())) && (specB.toString() in copyDataObj
+                    && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))
+                }
+              ))*/
+    })
+    if (obj) {
+      dataLinkCopy.splice(0, 1)
+      let attributes = [...obj.attributes] // leeg bij blueprint
+      let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
+        return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
+      })
+      let spliced = dataLinkCopy.splice(0, 1)
+      while (currentAttr && dataLinkCopy.length > 0) {
+        // todo zoek een use case hiervoor
+        //      dit is in het specifieke geval je echt een attribuut wilt hebben in plaats van een volledig concept al
+        //      dan niet in een lijst
+        if (currentAttr instanceof AttributeComponentModel && currentAttr.concept) {
+          // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
+          attributes = [...currentAttr?.concept?.attributes]
+          currentAttr = attributes.find(attr => {
+            return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
           })
-          const entry2 = Object.entries(data.blueprint ?? {}).find(([k, v]) => {
-            return k === attr.name
-          })
-          const attrExp = {...attr}
-          if (entry && attr.name) {
-            attrExp.dataServer = entry[1];
-          }
-          if (entry2 && attr.name) {
-            attrExp.dataBlueprint = new Map();
-            attrExp.dataBlueprint.set(attr.name, entry2[1]);
-          }
-          (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
-        })
-        return newObj
+        } else {
+          throw new Error('Datalink bevat teveel entries.')
+        }
+        spliced = dataLinkCopy.splice(0, 1)
       }
-    } else {
-      throw new Error('unfinished else condition')
+      if (currentAttr && typeof currentAttr !== 'string') {
+        currentAttr = this.replaceDBIValues(obj, currentAttr)
+        currentAttr = this.replaceNVYValues(obj, currentAttr)
+        currentAttr = this.pipeValue(obj,currentAttr)
+        const [k, v] = Object.entries(obj.conceptBluePrint ?? {}).find(([k, v]) => {
+          return k === spliced[0]
+        }) ?? []
+        if (k) {
+          currentAttr.dataBlueprint = new Map([[k, v]])
+        }
+        return currentAttr
+      }
     }
     return undefined
   }
-  public updateData(name: string, value: DataRecordModel[] | number | string | undefined, id?: string) {
+  public updateClientData(name: string, value: DataRecordModel[] | number | string | undefined, id?: string) {
     // todo id moet meegegeven worden of iets gelijkaardigs zodat
     //      update weet waar het moet zoeken
     debugger
@@ -166,6 +201,44 @@ export class DataService{
       }
     }
   }
+  /***********************************     ... ACTIONS         ***************************************************************/
+
+  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[] | ConceptConfigModel[]): ConceptComponentModel | undefined {
+    if (compConfig instanceof ConceptConfigModel) {
+      let newObj: ConceptComponentModel = {
+        conceptName: compConfig.conceptName,
+        attributes: [],
+        errorMessages: NoValueType.NI,
+        conceptBluePrint: data.blueprint,
+        conceptData: data.dataSingle ? Object.assign(data.dataSingle,{id:data.dataSingle?.id ?? NoValueType.NA}) : undefined,
+        dataList: data.dataMultiple
+      }
+      const configCopy = {...compConfig}
+      if (configCopy.attributes && configCopy.attributes instanceof Array) {
+        configCopy.attributes?.forEach(attr => {
+          const entry = Object.entries(data.dataSingle ?? {}).find(([k, v]) => {
+            return k === attr.name
+          })
+          const entry2 = Object.entries(data.blueprint ?? {}).find(([k, v]) => {
+            return k === attr.name
+          })
+          const attrExp = {...attr}
+          if (entry && attr.name) {
+            attrExp.dataServer = entry[1];
+          }
+          if (entry2 && attr.name) {
+            attrExp.dataBlueprint = new Map();
+            attrExp.dataBlueprint.set(attr.name, entry2[1]);
+          }
+          (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
+        })
+        return newObj
+      }
+    } else {
+      throw new Error('unfinished else condition')
+    }
+    return undefined
+  }
   private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
     switch (componentType) {
       case ComponentType.MultiSelect:
@@ -179,73 +252,6 @@ export class DataService{
       default:
         return true
     }
-  }
-  public getDataObject(dataLink: string[], componentType: ComponentType, dataSpecs: DataSpecificationType[]): AttributeComponentModel | undefined {
-    const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ConceptComponentModel):boolean{
-      let isObj = true
-      while (specs.length>0){
-        const spec:DataSpecificationType = specs.pop() as DataSpecificationType
-        if(!(spec in obj && obj.getValueFor && obj.getValueFor(spec))){
-          isObj = false
-        }
-      }
-      return isObj
-    }
-    const dataLinkCopy = [...dataLink]
-    const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptName === dataLinkCopy[0]
-        // geeft de waarde true terug of false naargelang de dataSpecs
-        && isDataObject(this,dataSpecs,dataObj)
-/*        && (dataSpecs.reduce(
-          (specA, specB) => {
-            const copyDataObj = new ConceptComponentModel(
-              dataObj.conceptName,
-              dataObj.attributes,
-              dataObj.errorMessages,
-              dataObj.dataList,
-              dataObj.conceptData,
-              dataObj.conceptBluePrint)
-            return ((specA.toString() in copyDataObj && copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())) && (specB.toString() in copyDataObj
-              && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))
-          }
-        ))*/
-    })
-    if (obj) {
-      dataLinkCopy.splice(0, 1)
-      let attributes = [...obj.attributes] // leeg bij blueprint
-      let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
-        return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
-      })
-      let spliced = dataLinkCopy.splice(0, 1)
-      while (currentAttr && dataLinkCopy.length > 0) {
-        // todo zoek een use case hiervoor
-        //      dit is in het specifieke geval je echt een attribuut wilt hebben in plaats van een volledig concept al
-        //      dan niet in een lijst
-        if (currentAttr instanceof AttributeComponentModel && currentAttr.concept) {
-          // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
-          attributes = [...currentAttr?.concept?.attributes]
-          currentAttr = attributes.find(attr => {
-            return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
-          })
-        } else {
-          throw new Error('Datalink bevat teveel entries.')
-        }
-        spliced = dataLinkCopy.splice(0, 1)
-      }
-      if (currentAttr && typeof currentAttr !== 'string') {
-        currentAttr = this.replaceDBIValues(obj, currentAttr)
-        currentAttr = this.replaceNVYValues(obj, currentAttr)
-        currentAttr = this.pipeValue(obj,currentAttr)
-        const [k, v] = Object.entries(obj.conceptBluePrint ?? {}).find(([k, v]) => {
-          return k === spliced[0]
-        }) ?? []
-        if (k) {
-          currentAttr.dataBlueprint = new Map([[k, v]])
-        }
-        return currentAttr
-      }
-    }
-    return undefined
   }
   private calculatePipeValue(radioValue:{label:string,value:string},array:FunctionType[]):{label:string,value:string}{
     let valCopy = {...radioValue}
@@ -274,25 +280,6 @@ export class DataService{
       attr.radio.radioValues = attr.radio.radioValues.map(val =>{ return this.calculatePipeValue(val,pipeCopy)})
     }
     return attr
-  }
-  setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
-    this.storeService.getStatePropertySubjects().forEach(propSubj => {
-      let comp = this.configService.getConfigFromRoot(propSubj.componentName)
-      // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
-      if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel && comp.name === nameComponent) {
-        if(compConcept?.attributes && compConcept?.attributes instanceof Array){
-          compConcept.attributes = compConcept.attributes.map(attr=>{
-            return this.replaceDBIValues(compConcept,attr)
-          })
-        }
-        propSubj.propValue.next(compConcept)
-      } else if (propSubj.propName === 'dataLink' && comp
-        && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
-        && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
-        const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
-        this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
-      }
-    })
   }
   private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
     const bp = attr.dataBlueprint?.get(attr.name)
@@ -349,128 +336,5 @@ export class DataService{
     }
     return attr
   }
-  public async persistNewData(trigger: Trigger,data:DataRecordModel) {
-    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
-    await this.mutate(this.createMutationStr(comp?.data, MutationType.Create,data))?.subscribe(res => {
-      console.log(res, 'yeah!')
-    })
-  }
-  public async persistUpdatedData(trigger: Trigger) {
-    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
-    if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
-      const cname = comp.data.conceptName
-      const conceptId = this.objectData.find(d => {
-        return d.conceptName === cname && d.conceptData?.id && d.conceptData.id !== NoValueType.NA
-      })?.conceptData?.id
-      if (conceptId) {
-        await this.mutate(this.createMutationStr(comp?.data, MutationType.Update, conceptId))?.subscribe(res => {
-          console.log(res, 'yeah!')
-        })
-      }
-    } else throw new Error('No valid conceptId could be found')
-  }
-  public deleteDataById( id: string, target: EventTarget | undefined){
-    return this.mutate(this.createMutationStr(undefined, MutationType.Delete, id))
-  }
-  public deleteData(trigger: Trigger) {
-    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
-    if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
-      const cname = comp.data.conceptName
-      let conceptId
-      const dataObj = this.objectData.find(d => {
-        return d.conceptName === cname && (d.conceptData?.id && d.conceptData.id !== NoValueType.NA)||(d.conceptBluePrint&&
-          typeof d.attributes !== 'string' &&
-          d.attributes.find(attr=>{
-            if(attr.name === 'id' && attr?.text?.value && attr.text.value !== NoValueType.NA){
-              conceptId = attr.text.value
-              return true
-            }
-            return false
-          }))
-      })
-      if(!conceptId) conceptId = dataObj?.conceptData?.id
-      if (conceptId) {
-        return this.mutate(this.createMutationStr(comp?.data, MutationType.Delete, conceptId))
-      } else return undefined
-    } else throw new Error('No valid conceptId could be found')
-  }
-  public getDataBluePrint(action: Action) {
-    if (action.targetType === TargetType.Client) {
-      let compModel = this.configService.getConfigFromRoot(action.target)
-      if (compModel !== undefined) {
-        this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
-          if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
-            const bluePrintData = (res as { data: {} })['data']
-            const value = Object.values(bluePrintData)[0] as DataObjectModel
-            const compObj = this.createExtendedConceptModel(action.target, value, compModel.data)
-            if (compObj) {
-              this.objectData.push(compObj)
-              this.setDataObjectState(compModel.name, compModel.type, [DataSpecificationType.Blueprint], compObj)
-            }
-          }
-        })
-      }
-    }
-  }
-  public async getAllData(action: Action) {
-    if (action.targetType === TargetType.Client) {
-      let comp = this.configService.getConfigFromRoot(action.target)
-      if (comp && comp.data) {
-        await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
-          if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
-            const allData = (res as { data: {} })['data']
-            const data = Object.values(allData)[0] as DataObjectModel
-            const compObj = this.createExtendedConceptModel(action.target, data, comp.data)
-            const error = compObj?.dataList?.includes(null) || compObj?.dataList === null
-              || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
-            if (comp.data && !(comp.data instanceof ConceptConfigModel) && !error) {
-              const attributeModel = this.getDataObject(comp.data, comp.type, [DataSpecificationType.DataList])
-              // TODO ik denk niet dat een datalist nog nodig is
-              if (attributeModel) {
-                attributeModel.dataList = []
-                data?.dataMultiple?.forEach(record => {
-                  if (comp && comp.data && !(comp.data instanceof ConceptConfigModel)) {
-                    attributeModel?.dataList?.push(record)
-                  }
-                })
-                this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList])
-              }
-            } else if (compObj && !error) {
-              this.objectData.push(compObj)
-              this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.DataList], compObj)
-            } else throw new Error('Error on the graphQL server')
-          }
-        })
-      }
-    }
-    // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
-  }
-  public saveData(compObj:ConceptComponentModel){
-    this.objectData.push(compObj)
-  }
-  public async getDataByID(action: Action, id: string) {
-    if (action.targetType === TargetType.Client) {
-      let comp = this.configService.getConfigFromRoot(action.target)
-      if (comp !== undefined && comp.data) {
-        await this.query(QuerySubType.GetDataByID, comp, id).subscribe((res: unknown) => {
-          if (res && typeof res === 'object' && res.hasOwnProperty('data') && comp?.data) {
-            const dataByID = (res as { data: {} })['data']
-            const data = Object.values(dataByID)[0] as DataObjectModel
-            // todo in deze methode zal voor beide dataobjecten de formcontrols referen naar dezelfde data in het geheugen
-            // todo dit stukje herbruiken in initialize form waarbij eerst wordt gepusht dan geset
-            const compObj = this.createExtendedConceptModel(action.target, data, comp.data)
-            const error = compObj?.conceptData === undefined
-              || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
-            if (compObj && !error) {
-              this.saveData(compObj)
-              this.setDataObjectState(comp.name, comp.type, [DataSpecificationType.Id, DataSpecificationType.Blueprint], compObj)
-              // todo bij error de desbtreffende component vervangen door een standaard errortext component
-            } else throw new Error('Error on the graphQL server: voor het id '+id+' bestaat geen record (meer). Mogelijks is het verwijderd geweest door een ' +
-              'andere gebruiker.')
-          }
-        })
-      }
-    }
-    // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
-  }
+
 }

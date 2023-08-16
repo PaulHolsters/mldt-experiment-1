@@ -12,5 +12,8 @@ export type ResponsiveConfigModel = ResponsiveAttributesConfigModel|ResponsiveDi
 export type ConceptNameType = string
 export type ComponentNameType = string
 export type ActionIdType = string
+export type TriggerIdType = string
+export type EffectIdType = string
+
 
 

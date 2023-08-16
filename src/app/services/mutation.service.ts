@@ -8,6 +8,7 @@ import utilFunctions from "../utils/utilFunctions";
 import {Observable} from "rxjs";
 import {Apollo, gql} from "apollo-angular";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Trigger} from "../effectclasses/Trigger";
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +69,51 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       .mutate({
         mutation: gql`${mutationStr}`
       }) as unknown as Observable<any>
+  }
+  /***********************************     MUTATION ACTIONS         ***************************************************************/
+  public async persistNewData(trigger: Trigger,data:DataRecordModel) {
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
+    await this.mutate(this.createMutationStr(comp?.data, MutationType.Create,data))?.subscribe(res => {
+      console.log(res, 'yeah!')
+    })
+  }
+  public async persistUpdatedData(trigger: Trigger) {
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
+    if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
+      const cname = comp.data.conceptName
+      const conceptId = this.objectData.find(d => {
+        return d.conceptName === cname && d.conceptData?.id && d.conceptData.id !== NoValueType.NA
+      })?.conceptData?.id
+      if (conceptId) {
+        await this.mutate(this.createMutationStr(comp?.data, MutationType.Update, conceptId))?.subscribe(res => {
+          console.log(res, 'yeah!')
+        })
+      }
+    } else throw new Error('No valid conceptId could be found')
+  }
+  public deleteDataById( id: string, target: EventTarget | undefined){
+    return this.mutate(this.createMutationStr(undefined, MutationType.Delete, id))
+  }
+  public deleteData(trigger: Trigger) {
+    let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
+    if (comp && comp.data && comp.data instanceof ConceptConfigModel && comp.data.conceptName) {
+      const cname = comp.data.conceptName
+      let conceptId
+      const dataObj = this.objectData.find(d => {
+        return d.conceptName === cname && (d.conceptData?.id && d.conceptData.id !== NoValueType.NA)||(d.conceptBluePrint&&
+          typeof d.attributes !== 'string' &&
+          d.attributes.find(attr=>{
+            if(attr.name === 'id' && attr?.text?.value && attr.text.value !== NoValueType.NA){
+              conceptId = attr.text.value
+              return true
+            }
+            return false
+          }))
+      })
+      if(!conceptId) conceptId = dataObj?.conceptData?.id
+      if (conceptId) {
+        return this.mutate(this.createMutationStr(comp?.data, MutationType.Delete, conceptId))
+      } else return undefined
+    } else throw new Error('No valid conceptId could be found')
   }
 }
