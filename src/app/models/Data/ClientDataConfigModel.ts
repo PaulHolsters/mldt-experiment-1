@@ -1,6 +1,6 @@
 import {AttributeConfigModel} from "./AttributeConfigModel";
 import {NoValueType} from "../../enums/no_value_type";
-export class ConceptConfigModel {
+export class ClientDataConfigModel {
 constructor(
   public conceptName:string,
   public attributes:AttributeConfigModel[]|NoValueType.DBI=NoValueType.DBI,

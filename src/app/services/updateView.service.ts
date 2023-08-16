@@ -55,14 +55,14 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {DataSpecificationType} from "../enums/dataSpecifications.enum";
-import {ConceptComponentModel} from "../models/Data/ConceptComponentModel";
-import {ConceptConfigModel} from "../models/Data/ConceptConfigModel";
+import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
+import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 
 @Injectable({
   providedIn: 'root'
 })
-export class StoreService implements OnInit {
+export class UpdateViewService implements OnInit {
 
   public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
 
@@ -81,14 +81,14 @@ export class StoreService implements OnInit {
       }
     })
   }
-  setDataObjectState(nameComponent: string, componentType: ComponentType, dataSpecs: DataSpecificationType[], compConcept?: ConceptComponentModel) {
+  setDataState(nameComponent: string, dataSpecs: DataSpecificationType[], compConcept?: ClientDataRenderModel) {
     this.getStatePropertySubjects().forEach(propSubj => {
       let comp = this.configService.getConfigFromRoot(propSubj.componentName)
       // todo refactor: je haalt het desbetrffende object op en stoort door naar de juiste component/property
       //                 replaceDBIvalues mag hier dus niet aanwezig zijn
 
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
-      if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ConceptConfigModel && comp.name === nameComponent) {
+      if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ClientDataConfigModel && comp.name === nameComponent) {
         if(compConcept?.attributes && compConcept?.attributes instanceof Array){
           compConcept.attributes = compConcept.attributes.map(attr=>{
             return this.replaceDBIValues(compConcept,attr)

@@ -5,6 +5,7 @@ import {ResponsiveStylingConfigModel} from "../models/Styling/ResponsiveStylingC
 import {ResponsivePositioningConfigModel} from "../models/Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "../models/ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVisibilityConfigModel";
+import {DataRecordModel} from "../models/DataRecordModel";
 
 export type ResponsiveConfigModel = ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
   |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
@@ -14,6 +15,7 @@ export type ComponentNameType = string
 export type ActionIdType = string
 export type TriggerIdType = string
 export type EffectIdType = string
+export type Blueprint = Map<string,string|DataRecordModel[]>
 
 
 

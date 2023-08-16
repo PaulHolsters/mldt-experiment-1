@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {StoreService} from "../../services/store.service";
+import {UpdateViewService} from "../../services/updateView.service";
 import {Observable} from "rxjs";
 @Component({
   selector: 'm-logo',
@@ -22,7 +22,7 @@ export class LogoComponent implements OnInit {
   shrink$: Observable<any>|undefined
   isColumn$: Observable<any>|undefined
   isRow$: Observable<any>|undefined
-  constructor(private storeService: StoreService) {
+  constructor(private storeService: UpdateViewService) {
   }
   ngOnInit(): void{
     this.grow$ = this.storeService.bindToStateProperty(this.name,'grow')

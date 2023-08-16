@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import {ComponentModel} from "../models/ComponentModel";
-import {StoreService} from "./store.service";
+import {UpdateViewService} from "./updateView.service";
 import {ActionsService} from "./actions.service";
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {ConfigService} from "./config.service";
@@ -27,7 +27,7 @@ export class ResponsiveBehaviourService implements OnInit{
   private mqL2 = window.matchMedia("(max-width: 1280px)") //desktop
   private mqHR1 = window.matchMedia("(min-width: 1281px)") //HR
 
-  constructor(private storeService:StoreService,
+  constructor(private storeService:UpdateViewService,
               private configService:ConfigService,
               private actionsService:ActionsService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{

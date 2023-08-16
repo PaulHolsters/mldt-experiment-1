@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {DataService} from "../../../services/data.service";
-import {StoreService} from "../../../services/store.service";
+import {UpdateViewService} from "../../../services/updateView.service";
 
 @Component({
   selector: 'm-radio',
@@ -30,7 +30,7 @@ export class RadioButtonComponent implements OnInit {
       this.dataService.updateData(this.dataName, this.selectedValue)
     }
   }
-  constructor(private dataService: DataService, private storeService: StoreService) { }
+  constructor(private dataService: DataService, private storeService: UpdateViewService) { }
 
   ngOnInit(): void {
     if(this.name){

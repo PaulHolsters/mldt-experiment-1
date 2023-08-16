@@ -4,7 +4,7 @@ import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StateService} from "./state.service";
-import {StoreService} from "./store.service";
+import {UpdateViewService} from "./updateView.service";
 import {ActionValueModel} from "../models/ActionValueModel";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
@@ -24,7 +24,7 @@ export class UiActionsService {
   public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
 
   constructor(
-    private storeService:StoreService,
+    private storeService:UpdateViewService,
     private stateService:StateService,
     private configService:ConfigService,
     private actionsService:ActionsService,
@@ -118,14 +118,15 @@ export class UiActionsService {
     return true
   }
   private initializeForm(action:Action,data?:DataRecordModel,target?:EventTarget){
+    // todo dit in de dataservice => createClientDataInstance
     const config = this.configService.getConfigFromRoot(action.target)
     if(config?.data){
       const compObj = this.dataService.createExtendedConceptModel(action.target, {dataSingle:data,dataMultiple:undefined,blueprint:undefined}, config.data)
       const error = compObj?.conceptData === undefined
         || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
       if (compObj && !error) {
-        this.dataService.saveData(compObj)
-        this.dataService.setDataObjectState(config.name, config.type, [DataSpecificationType.Id], compObj)
+        this.dataService.saveData(compObj)//dataservice
+        this.dataService.setDataObjectState(config.name, config.type, [DataSpecificationType.Id], compObj)//updateviewservicve
         // todo bij error de desbetreffende component vervangen door een standaard errortext component
       }
     } else throw new Error('Configuration of component with name '+action.target+' is missing a valid data configuration')

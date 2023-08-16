@@ -3,7 +3,7 @@ import {Component} from "./Component";
 import {ComponentModel} from "../models/ComponentModel";
 import {TableStylingType} from "../enums/tableStylingType.enum";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
-import {ConceptComponentModel} from "../models/Data/ConceptComponentModel";
+import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {TableColumnModel} from "../models/TableColumnModel";
@@ -25,7 +25,7 @@ export abstract class Table extends Component{
   public static tableBreakpoint:number|undefined=undefined
   public static rows:number|undefined=undefined
   public static rowsPerPage:number[]|undefined=undefined
-  public static dataConcept:ConceptComponentModel|undefined=undefined
+  public static dataConcept:ClientDataRenderModel|undefined=undefined
   public static conceptBlueprint:Object|undefined=undefined
   public static attributes:AttributeComponentModel[]|undefined=undefined
   public static conceptName:string|undefined=undefined

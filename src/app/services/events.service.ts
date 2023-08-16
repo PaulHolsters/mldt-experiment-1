@@ -5,7 +5,7 @@ import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
 import {DataService} from "./data.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
-import {StoreService} from "./store.service";
+import {UpdateViewService} from "./updateView.service";
 import {UiActionsService} from "./ui-actions.service";
 
 @Injectable({
@@ -16,7 +16,7 @@ export class EventsService{
               private actionsService:ActionsService,
               private dataService:DataService,
               private RBSService:ResponsiveBehaviourService,
-              private storeService:StoreService,
+              private storeService:UpdateViewService,
               private UIActionsService:UiActionsService) {
 
     this.dataService.actionFinished.subscribe(res =>{

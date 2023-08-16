@@ -1,12 +1,9 @@
 import {Injectable} from '@angular/core';
-import {StoreService} from "./store.service";
-import {ConceptComponentModel} from "../models/Data/ConceptComponentModel";
-import {ConceptConfigModel} from "../models/Data/ConceptConfigModel";
-import {QuerySubType} from "../enums/querySubType.enum";
-import {TargetType} from "../enums/targetTypes.enum";
+import {UpdateViewService} from "./updateView.service";
+import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
+import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {NoValueType} from "../enums/no_value_type";
-import {MutationType} from "../enums/mutationTypes.enum";
 import {AttributeConfigModel} from "../models/Data/AttributeConfigModel";
 import {Subject} from "rxjs";
 import {ComponentType} from "../enums/componentTypes.enum";
@@ -17,13 +14,13 @@ import {FunctionType} from "../enums/functionTypes.enum";
 import utilFunctions from "../utils/utilFunctions";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
-import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {Action} from "../effectclasses/Action";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {Trigger} from "../effectclasses/Trigger";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType} from "../types/type-aliases";
 import {Apollo} from "apollo-angular";
+import {QueryService} from "./queries/query.service";
+import {MutationService} from "./mutations/mutation.service";
 @Injectable({
   providedIn: 'root'
 })
@@ -33,35 +30,39 @@ export class DataService{
   //  todo a way to order data (sort)
   public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
   constructor(private configService:ConfigService,
-              private storeService: StoreService,
+              private storeService: UpdateViewService,
               private apollo: Apollo,
-              private actionsService:ActionsService) {
+              private actionsService:ActionsService,
+              private queryService:QueryService,
+              private mutationService:MutationService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
   }
   public bindActions(){
+    /********************     queries     ****************************/
     this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(res=>{
-      if(res)this.getDataBluePrint(res.effect.action)
+      if(res)this.queryService.getDataBluePrint(res.effect.action)
     })
     this.actionsService.bindToAction(new Action(ActionType.GetInstance))?.subscribe(res=>{
       if(res){
         if(typeof res.data === 'string'){
-          this.getDataByID(res.effect.action,res.data).then(r => {
+          this.queryService.getDataByID(res.effect.action,res.data).then(r => {
           })
         }
       }
     })
     this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(res=>{
-      if(res)this.getAllData(res.effect.action).then(r => {
+      if(res)this.queryService.getAllData(res.effect.action).then(r => {
 
       })
     })
+    /********************     mutations     ****************************/
     this.actionsService.bindToAction(new Action(ActionType.DeleteInstance))?.subscribe(res=>{
       if(res){
         let action
-        if(res.data.id && typeof res.data.id === 'string') action = this.deleteDataById(res.data.id,res.target)
-        else action = this.deleteData(res.data.id)
+        if(res.data.id && typeof res.data.id === 'string') action = this.mutationService.deleteDataById(res.data.id,res.target)
+        else action = this.mutationService.deleteData(res.data.id)
         if(action){
           action.subscribe((res2: any) => {
               this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.data.id})
@@ -69,23 +70,23 @@ export class DataService{
         }
         }})
     this.actionsService.bindToAction(new Action(ActionType.CreateInstance))?.subscribe(res=>{
-      if(res)this.persistNewData(res.effect.trigger,res.data).then(r => {
+      if(res)this.mutationService.persistNewData(res.effect.trigger,res.data).then(r => {
 
       })
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateInstance))?.subscribe(res=>{
-      if(res)this.persistUpdatedData(res.effect.trigger).then(r => {
+      if(res)this.mutationService.persistUpdatedData(res.effect.trigger).then(r => {
 
       })
     })
   }
-  private clientData: ConceptComponentModel[] = [] // dit is de core/bestaansreden van de data service
+  private clientData: ClientDataRenderModel[] = [] // dit is de core/bestaansreden van de data service
   /***********************************     CLIENT DATA ACTIONS         ***************************************************************/
-  public createClientData(compObj:ConceptComponentModel){
-    this.objectData.push(compObj)
+  public createClientData(clientDataInstance:ClientDataRenderModel){
+    this.clientData.push(clientDataInstance)
   }
   public getClientData(dataLink: string[], componentType: ComponentType, dataSpecs: DataSpecificationType[]): AttributeComponentModel | undefined {
-    const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ConceptComponentModel):boolean{
+    const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ClientDataRenderModel):boolean{
       let isObj = true
       while (specs.length>0){
         const spec:DataSpecificationType = specs.pop() as DataSpecificationType
@@ -96,13 +97,13 @@ export class DataService{
       return isObj
     }
     const dataLinkCopy = [...dataLink]
-    const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptName === dataLinkCopy[0]
+    const obj = this.clientData.find(clientDataInstance => {
+      return clientDataInstance.conceptName === dataLinkCopy[0]
         // geeft de waarde true terug of false naargelang de dataSpecs
-        && isDataObject(this,dataSpecs,dataObj)
+        && isDataObject(this,dataSpecs,clientDataInstance)
       /*        && (dataSpecs.reduce(
                 (specA, specB) => {
-                  const copyDataObj = new ConceptComponentModel(
+                  const copyDataObj = new ClientDataRenderModel(
                     dataObj.conceptName,
                     dataObj.attributes,
                     dataObj.errorMessages,
@@ -140,7 +141,7 @@ export class DataService{
         currentAttr = this.replaceDBIValues(obj, currentAttr)
         currentAttr = this.replaceNVYValues(obj, currentAttr)
         currentAttr = this.pipeValue(obj,currentAttr)
-        const [k, v] = Object.entries(obj.conceptBluePrint ?? {}).find(([k, v]) => {
+        const [k, v] = Object.entries(obj.blueprint ?? {}).find(([k, v]) => {
           return k === spliced[0]
         }) ?? []
         if (k) {
@@ -158,9 +159,9 @@ export class DataService{
     const parts = name.split('_')
     // todo ook hier wordt nu het verkeerde objecdt genomen
     //      HOOG TIJD OM HIER DUIDELIJKE SELECTIE LOGICA VAN TE MAKEN!
-    const obj = this.objectData.find(dataObj => {
-      return dataObj.conceptData && dataObj.conceptData.id === id
-        || (dataObj.conceptName === parts[0] && !dataObj.dataList) // todo dit is te algemeen als voorwaarde
+    const obj = this.clientData.find(instance => {
+      return instance.record && instance.record.id === id
+        || (instance.conceptName === parts[0] && !instance.listOfRecords) // todo dit is te algemeen als voorwaarde
     })
     debugger
     if (obj && obj.attributes) {
@@ -191,8 +192,8 @@ export class DataService{
           (obj.attributes as AttributeConfigModel[]).splice((obj.attributes as AttributeConfigModel[]).findIndex(attr => {
             return attr.name === parts[1]
           }), 1, attr)
-          this.objectData.splice(this.objectData.findIndex(dataObj => {
-            return dataObj.conceptData?.id === id || (dataObj.conceptName === parts[0] && !dataObj.dataList)
+          this.clientData.splice(this.clientData.findIndex(instance => {
+            return instance.record?.id === id || (instance.conceptName === parts[0] && !instance.listOfRecords)
           }), 1, obj)
           debugger
         }
@@ -201,17 +202,20 @@ export class DataService{
       }
     }
   }
-  /***********************************     ... ACTIONS         ***************************************************************/
+  public deleteClientData(name:ComponentNameType,concept:ConceptNameType){
+    // wanneer een component gedestroyed wordt
+  }
+  /***********************************     data manipulation ACTIONS         ***************************************************************/
 
-  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ConceptConfigModel | string[] | ConceptConfigModel[]): ConceptComponentModel | undefined {
-    if (compConfig instanceof ConceptConfigModel) {
-      let newObj: ConceptComponentModel = {
+  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {
+    if (compConfig instanceof ClientDataConfigModel) {
+      let newObj: ClientDataRenderModel = {
         conceptName: compConfig.conceptName,
         attributes: [],
         errorMessages: NoValueType.NI,
-        conceptBluePrint: data.blueprint,
-        conceptData: data.dataSingle ? Object.assign(data.dataSingle,{id:data.dataSingle?.id ?? NoValueType.NA}) : undefined,
-        dataList: data.dataMultiple
+        blueprint: data.blueprint,
+        record: data.dataSingle ? Object.assign(data.dataSingle,{id:data.dataSingle?.id ?? NoValueType.NA}) : undefined,
+        listOfRecords: data.dataMultiple
       }
       const configCopy = {...compConfig}
       if (configCopy.attributes && configCopy.attributes instanceof Array) {
@@ -273,7 +277,7 @@ export class DataService{
     })
     return valCopy
   }
-  private pipeValue(concept:ConceptComponentModel,attr:AttributeComponentModel):AttributeComponentModel{
+  private pipeValue(concept:ClientDataRenderModel, attr:AttributeComponentModel):AttributeComponentModel{
     if (attr.radio && attr.radio.pipe instanceof Array) {
       const pipeCopy = attr.radio.pipe
       if(attr.radio.radioValues instanceof Array && pipeCopy)
@@ -281,7 +285,7 @@ export class DataService{
     }
     return attr
   }
-  private replaceDBIValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
+  private replaceDBIValues(concept: ClientDataRenderModel, attr: AttributeComponentModel): AttributeComponentModel {
     const bp = attr.dataBlueprint?.get(attr.name)
     if (attr.radio) {
       if (attr.radio.conceptName === NoValueType.DBI) {
@@ -321,7 +325,7 @@ export class DataService{
     }
     return attr
   }
-  private replaceNVYValues(concept: ConceptComponentModel, attr: AttributeComponentModel): AttributeComponentModel {
+  private replaceNVYValues(concept: ClientDataRenderModel, attr: AttributeComponentModel): AttributeComponentModel {
     if (attr.text && attr.text.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string') {
       attr.text.value = attr.dataServer
     }

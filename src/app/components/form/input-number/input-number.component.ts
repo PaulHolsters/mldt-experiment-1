@@ -3,7 +3,7 @@ import {NoValueType} from "../../../enums/no_value_type";
 import {InputNumber} from "primeng/inputnumber";
 import {DataService} from "../../../services/data.service";
 import {Observable} from "rxjs";
-import {StoreService} from "../../../services/store.service";
+import {UpdateViewService} from "../../../services/updateView.service";
 
 @Component({
   selector: 'm-input-number',
@@ -48,7 +48,7 @@ export class InputNumberComponent implements OnInit {
   height:string|undefined
   Number = Number
   NI = NoValueType.NI
-  constructor(private dataService:DataService,private storeService:StoreService) {
+  constructor(private dataService:DataService,private storeService:UpdateViewService) {
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

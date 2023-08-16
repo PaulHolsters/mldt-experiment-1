@@ -158,7 +158,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
 #### Config service
 Hier bevindt zich zoals reeds gezegd het configuratieobject. Hier wordt ook de engine van Mouldit opgestart in de constructor. Eerst wordt er een nieuwe store aangemaakt. Vervolgens wordt het responsive behaviour van elk der componenten in het configuratieobject geinitialiseerd.
 
-    constructor(private storeService: StoreService, private responsiveBehaviourService: ResponsiveBehaviourService) {
+    constructor(private storeService: UpdateViewService, private responsiveBehaviourService: ResponsiveBehaviourService) {
       this.storeService.createStore(this.contentContainer)
       this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
     }

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ComponentModel} from "../../models/ComponentModel";
-import {StoreService} from "../../services/store.service";
+import {UpdateViewService} from "../../services/updateView.service";
 import {Effect} from "../../effectclasses/Effect";
 
 @Component({
@@ -21,7 +21,7 @@ export class AppTemplateComponent implements OnInit {
   alignSelfCenter$  = this.storeService.bindToStateProperty('logo','alignSelfCenter')
   alignSelfEnd$  = this.storeService.bindToStateProperty('logo','alignSelfEnd')
   src$ = this.storeService.bindToStateProperty('logo','src')
-  constructor(private storeService: StoreService) {
+  constructor(private storeService: UpdateViewService) {
     console.log('template constr')
   }
   // todo fix this so the position is correct...

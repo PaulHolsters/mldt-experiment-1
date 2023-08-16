@@ -1,4 +1,4 @@
-import {ConceptConfigModel} from "./ConceptConfigModel";
+import {ClientDataConfigModel} from "./ClientDataConfigModel";
 import {TextAttributeConfigModel} from "./TextAttributeConfigModel";
 import {NumberAttributeConfigModel} from "./NumberAttributeConfigModel";
 import {NoValueType} from "../../enums/no_value_type";
@@ -18,7 +18,7 @@ constructor(
   public radio:RadioAttributeConfigModel|undefined,
   public multiselect:MultiSelectAttributeConfigModel|undefined,
   public tableColumn:TableColumnAttributeConfigModel|undefined,
-  public concept:ConceptConfigModel|undefined,
+  public concept:ClientDataConfigModel|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA=NoValueType.DBI,// indien concept is dit niet van toepassing
   public advisoryText:string|NoValueType.NI=NoValueType.NI,// indien concept is dit niet van toepassing
   public errorMessages:string[]|NoValueType.NI|NoValueType.NA=NoValueType.NI,// indien concept is dit niet van toepassing

@@ -6,7 +6,7 @@ import {ComponentType} from "../enums/componentTypes.enum";
 import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
-import {ConceptConfigModel} from "./Data/ConceptConfigModel";
+import {ClientDataConfigModel} from "./Data/ClientDataConfigModel";
 import {ComponentObjectModel} from "./ComponentObjectModel";
 import {ContentInjectionConfigPropsModel} from "./ContentInjection/ContentInjectionConfigPropsModel";
 import {ResponsiveContentInjectionConfigModel} from "./ContentInjection/ResponsiveContentInjectionConfigModel";
@@ -22,7 +22,7 @@ export class ComponentModel {
                 public overflow?:ResponsiveOverflowConfigModel,
                 public children?:ComponentModel[],
                 public styling?:ResponsiveStylingConfigModel,
-                public data?:ConceptConfigModel|string[],
+                public data?:ClientDataConfigModel|string[],
                 public contentInjection?:ResponsiveContentInjectionConfigModel) {
     // todo toevoegen constraints zoals dat je geen padding mag gebruiken bij een label
   }

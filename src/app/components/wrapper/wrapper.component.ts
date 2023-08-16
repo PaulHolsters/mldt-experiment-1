@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {StoreService} from "../../services/store.service";
+import {UpdateViewService} from "../../services/updateView.service";
 
 @Component({
   selector: 'm-wrapper',
@@ -48,7 +48,7 @@ export class WrapperComponent implements OnInit {
   alignItemsStretch$: Observable<any> | undefined
   grow$: Observable<any> | undefined
   shrink$: Observable<any> | undefined
-  constructor(private storeService:StoreService) { }
+  constructor(private storeService:UpdateViewService) { }
 
   ngOnInit(): void {
   }

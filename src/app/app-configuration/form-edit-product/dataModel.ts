@@ -1,4 +1,4 @@
-import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
+import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 import {AttributeConfigModel} from "../../models/Data/AttributeConfigModel";
 import {TextAttributeConfigModel} from "../../models/Data/TextAttributeConfigModel";
 import {RestrictionType} from "../../enums/restrictionType.enum";
@@ -6,7 +6,7 @@ import {IconType} from "../../enums/iconType.enum";
 import {IconPositionType} from "../../enums/iconPositionType.enum";
 import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
-export const dataModel = new ConceptConfigModel(
+export const dataModel = new ClientDataConfigModel(
   'product',
   [
     // todo to test: zien of je ook enkel de naam kan wijzigen

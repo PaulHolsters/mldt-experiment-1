@@ -1,4 +1,4 @@
-import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
+import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 import {AttributeConfigModel} from "../../models/Data/AttributeConfigModel";
 import {TextAttributeConfigModel} from "../../models/Data/TextAttributeConfigModel";
 import {RestrictionType} from "../../enums/restrictionType.enum";
@@ -7,7 +7,7 @@ import {IconPositionType} from "../../enums/iconPositionType.enum";
 import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 
-export const dataContainer = new ConceptConfigModel(
+export const dataContainer = new ClientDataConfigModel(
   'product',
   [
     // todo bugfix: je kan nog geen id ophalen

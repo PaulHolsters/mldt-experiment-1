@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {StoreService} from "../../services/store.service";
+import {UpdateViewService} from "../../services/updateView.service";
 @Component({
   selector: 'm-image',
   templateUrl: './image.component.html',
@@ -14,7 +14,7 @@ export class ImageComponent implements OnInit {
   alt$: Observable<any>|undefined
   preview$: Observable<any>|undefined
   width$: Observable<any>|undefined
-  constructor(private storeService: StoreService) { }
+  constructor(private storeService: UpdateViewService) { }
 
   ngOnInit(): void {
     this.src$ = this.storeService.bindToStateProperty(this.name,'src')

@@ -1,4 +1,4 @@
-import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
+import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 import {AttributeConfigModel} from "../../models/Data/AttributeConfigModel";
 import {TextAttributeConfigModel} from "../../models/Data/TextAttributeConfigModel";
 import {RestrictionType} from "../../enums/restrictionType.enum";
@@ -8,7 +8,7 @@ import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 // todo probeer straks ook is met "concept" eigenschap in conceptName 'product'
 //      pas dan heb je een echt genest concept
-export const formData2 = new ConceptConfigModel(
+export const formData2 = new ClientDataConfigModel(
   'specification',
   [
     new AttributeConfigModel(

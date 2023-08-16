@@ -1,4 +1,4 @@
-import {ConceptComponentModel} from "./ConceptComponentModel";
+import {ClientDataRenderModel} from "./ClientDataRenderModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {TextAttributeComponentModel} from "./TextAttributeComponentModel";
 import {NumberAttributeComponentModel} from "./NumberAttributeComponentModel";
@@ -7,11 +7,12 @@ import {MultiSelectAttributeComponentModel} from "./MultiSelectAttributeComponen
 import {DataRecordModel} from "../DataRecordModel";
 import {TableColumnAttributeConfigModel} from "./TableColumnAttributeConfigModel";
 import {TableColumnAttributeComponentModel} from "./TableColumnAttributeComponentModel";
+import {Blueprint} from "../../types/type-aliases";
 export class AttributeComponentModel {
 constructor(
   public name:string,
   public dataServer:string|undefined|DataRecordModel[]|number,
-  public dataBlueprint:Map<string, string|DataRecordModel[]>|undefined,
+  public dataBlueprint:Blueprint|undefined,
   public disabled:boolean,
   public floatLabel:boolean|NoValueType.NA,
   public text:TextAttributeComponentModel|undefined,
@@ -19,7 +20,7 @@ constructor(
   public radio:RadioAttributeComponentModel|undefined,
   public multiselect:MultiSelectAttributeComponentModel|undefined,
   public tableColumn:TableColumnAttributeComponentModel|undefined,
-  public concept:ConceptComponentModel|undefined,
+  public concept:ClientDataRenderModel|undefined,
   public dataList:DataRecordModel[]|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA,
   public advisoryText:string|NoValueType,

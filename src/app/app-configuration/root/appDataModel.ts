@@ -1,4 +1,4 @@
-import {ConceptConfigModel} from "../../models/Data/ConceptConfigModel";
+import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 import {AttributeConfigModel} from "../../models/Data/AttributeConfigModel";
 import {TextAttributeConfigModel} from "../../models/Data/TextAttributeConfigModel";
 import {RestrictionType} from "../../enums/restrictionType.enum";
@@ -18,7 +18,7 @@ import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttr
 import {FunctionType} from "../../enums/functionTypes.enum";
 import {TableColumnAttributeConfigModel} from "../../models/Data/TableColumnAttributeConfigModel";
 
-export const conceptModel = new ConceptConfigModel(
+export const conceptModel = new ClientDataConfigModel(
   'product',
   [
     new AttributeConfigModel(
@@ -112,7 +112,7 @@ export const conceptModel = new ConceptConfigModel(
         false,
         NoValueType.DBI
       ),
-      new ConceptConfigModel('specification', [
+      new ClientDataConfigModel('specification', [
         new AttributeConfigModel(
           'name',
           undefined,

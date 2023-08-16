@@ -7,7 +7,7 @@ import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibility
 import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
 import {ComponentModel} from "./ComponentModel";
-import {ConceptConfigModel} from "./Data/ConceptConfigModel";
+import {ClientDataConfigModel} from "./Data/ClientDataConfigModel";
 import {ResponsiveContentInjectionConfigModel} from "./ContentInjection/ResponsiveContentInjectionConfigModel";
 export interface ComponentObjectModel extends Object {
   name:string
@@ -20,6 +20,6 @@ export interface ComponentObjectModel extends Object {
   overflow?:ResponsiveOverflowConfigModel
   children?:(ComponentModel|ComponentObjectModel)[]
   styling?:ResponsiveStylingConfigModel,
-  data?:ConceptConfigModel|string[],
+  data?:ClientDataConfigModel|string[],
   contentInjection?:ResponsiveContentInjectionConfigModel
 }

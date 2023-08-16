@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../../../services/data.service";
-import {StoreService} from "../../../services/store.service";
+import {UpdateViewService} from "../../../services/updateView.service";
 import {Observable} from "rxjs";
 import {NoValueType} from "../../../enums/no_value_type";
 import {DataObjectModel} from "../../../models/DataObjectModel";
@@ -27,7 +27,7 @@ export class MultiselectComponent implements OnInit {
   width: string | undefined
   height: string | undefined
   NoValueType = NoValueType
-  constructor(private dataService: DataService, private storeService: StoreService) { }
+  constructor(private dataService: DataService, private storeService: UpdateViewService) { }
 
   ngOnInit(): void {
     if(this.name){
