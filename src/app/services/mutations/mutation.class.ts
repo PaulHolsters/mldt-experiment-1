@@ -2,7 +2,6 @@ import {MutationType} from "../../enums/mutationTypes.enum";
 import {ClientDataRenderModel} from "../../models/Data/ClientDataRenderModel";
 import {DataRecordModel} from "../../models/DataRecordModel";
 import utilFunctions from "../../utils/utilFunctions";
-import {NoValueType} from "../../enums/no_value_type";
 export class Mutation {
   public constructor(
     public readonly type:MutationType,
@@ -28,8 +27,14 @@ export class Mutation {
     }
   }
   private getParamsForRecord(data:DataRecordModel|null):string{
-    return Object.entries(data).reduce(())
-  }
+    if(!data) return ''
+    let str = ''
+    Object.entries(data).forEach(([k,v])=>{
+      str+=k+':'
+
+
+    })
+  })
 
   // todo refactor: get rid of conditionals => factory pattern!
 /*  if (data === NoValueType.DBI) return ''

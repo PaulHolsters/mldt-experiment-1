@@ -10,12 +10,5 @@ import {DataRecordModel} from "../models/DataRecordModel";
 export type ResponsiveConfigModel = ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
   |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
   ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel
-export type ConceptNameType = string
-export type ComponentNameType = string
-export type ActionIdType = string
-export type TriggerIdType = string
-export type EffectIdType = string
-export type Blueprint = Map<string,string|DataRecordModel[]>
-
-
+export type RenderPropertyValueType = number|string|DataRecordModel|DataRecordModel[]|Date|boolean
 
