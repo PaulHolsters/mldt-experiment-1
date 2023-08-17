@@ -1,6 +1,6 @@
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {SourceType} from "../enums/sourceTypes.enum";
-import {ActionIdType, ComponentNameType, TriggerIdType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, TriggerIdType} from "../types/union-types";
 import {NoValueType} from "../enums/no_value_type";
 export class Trigger {
   public readonly sourceType:SourceType

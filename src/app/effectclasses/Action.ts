@@ -3,7 +3,7 @@ import {NoValueType} from "../enums/no_value_type";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
-import {ActionIdType, ComponentNameType, ConceptNameType, ResponsiveConfigModel} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, ResponsiveConfigModel} from "../types/union-types";
 import {ActionValueModel} from "../models/ActionValueModel";
 import {ConceptName} from "../types/ConceptName";
 export class Action {

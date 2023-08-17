@@ -8,7 +8,7 @@ import {Subject} from "rxjs";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType} from "../types/union-types";
 @Injectable({
   providedIn: 'root'
 })

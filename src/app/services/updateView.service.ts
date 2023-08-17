@@ -52,7 +52,7 @@ import {ContentInjectionConfigPropsModel} from "../models/ContentInjection/Conte
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType} from "../types/union-types";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";

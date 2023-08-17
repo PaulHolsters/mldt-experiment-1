@@ -1,6 +1,6 @@
 import {Action} from "./Action";
 import {Trigger} from "./Trigger";
-import { EffectIdType} from "../types/type-aliases";
+import { EffectIdType} from "../types/union-types";
 import {NoValueType} from "../enums/no_value_type";
 export class Effect {
   public constructor(

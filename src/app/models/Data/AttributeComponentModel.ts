@@ -7,7 +7,7 @@ import {MultiSelectAttributeComponentModel} from "./MultiSelectAttributeComponen
 import {DataRecordModel} from "../DataRecordModel";
 import {TableColumnAttributeConfigModel} from "./TableColumnAttributeConfigModel";
 import {TableColumnAttributeComponentModel} from "./TableColumnAttributeComponentModel";
-import {Blueprint} from "../../types/type-aliases";
+import {Blueprint} from "../../types/union-types";
 export class AttributeComponentModel {
 constructor(
   public name:string,

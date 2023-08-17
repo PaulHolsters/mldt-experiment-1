@@ -17,7 +17,7 @@ import {ConfigService} from "./config.service";
 import {ActionType} from "../enums/actionTypes.enum";
 import {Action} from "../effectclasses/Action";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType, ComponentNameType, ConceptNameType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType} from "../types/union-types";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";

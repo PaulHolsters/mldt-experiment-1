@@ -1,7 +1,7 @@
 import {AttributeComponentModel} from "./AttributeComponentModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {DataRecordModel} from "../DataRecordModel";
-import {Blueprint} from "../../types/type-aliases";
+import {Blueprint} from "../../types/union-types";
 
 export class ClientDataRenderModel {
 constructor(
