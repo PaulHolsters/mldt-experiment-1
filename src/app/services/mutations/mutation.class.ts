@@ -56,12 +56,32 @@ export class Mutation {
         str+=']'
       } else{
         // todo werk de "as" weg
-        // todo maak een aparte functie die bepaalt of er " " moeten gebruikt worden
-        index+1===entries.length ? str += k + ':' + (v as ConceptPropertyValueType).toString():
-          str += k + ':' + (v as ConceptPropertyValueType).toString()+','
+        if(this.singularPropNeedsQuotes(k)){
+          index+1===entries.length ? str += k + ':' + (v as ConceptPropertyValueType).toString():
+            str += k + ':"' + (v as ConceptPropertyValueType).toString()+'",'
+        } else{
+          index+1===entries.length ? str += k + ':' + (v as ConceptPropertyValueType).toString():
+            str += k + ':' + (v as ConceptPropertyValueType).toString()+','
+        }
       }
     })
     return str
+  }
+  private singularPropNeedsQuotes(k:string):boolean{
+    switch (this.data.blueprint.get(k)){
+      case "string":
+        return true
+      case "number":
+        return false
+      case "date":
+        return true
+      case "enum":
+        return false
+      case "boolean":
+        return false
+      default:
+        throw new Error(k+' is not a singular property or type of '+k+' is not implemented')
+    }
   }
   // todo refactor: get rid of conditionals => factory pattern!
 /*  if (data === NoValueType.DBI) return ''
@@ -79,8 +99,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     .reduce((x, y) => x += `,` + y).trim()
   // todo zorg nog voor een meer ordelijke GQL string hier
   return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal*/
-
-
   private getReturnValues():string{
     return ''
   }

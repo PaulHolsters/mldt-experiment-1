@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
-import {NoValueType} from "../../enums/no_value_type";
-import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 import {MutationType} from "../../enums/mutationTypes.enum";
 import {Observable} from "rxjs";
 import {Apollo, gql} from "apollo-angular";
-import {PropertyName} from "../../enums/PropertyNameTypes.enum";
-import {Trigger} from "../../effectclasses/Trigger";
 import {ConfigService} from "../config.service";
 import {ClientDataRenderModel} from "../../models/Data/ClientDataRenderModel";
 import {Mutation} from "./mutation.class";
@@ -17,16 +13,10 @@ import {ErrorHandlingService} from "../error-handling.service";
 export class MutationService {
   constructor(private apollo:Apollo,private configService:ConfigService,private errorHandlingService:ErrorHandlingService) { }
   private mutate(mutation:Mutation): Observable<any> | undefined {
-    const data = mutation.getData()
-    if(data instanceof Error) {
-      this.errorHandlingService.handle(data)
-    } else{
       return this.apollo
         .mutate({
           mutation: gql`${mutation.getStr()}`
         }) as unknown as Observable<any>
-    }
-    throw new Error('')
   }
   /***********************************     MUTATION ACTIONS         ***************************************************************/
   public async createRecordOrHandleError(clientDataInstance:ClientDataRenderModel) {
