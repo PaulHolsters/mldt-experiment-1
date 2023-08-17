@@ -1,6 +1,7 @@
 import {DataRecordModel} from "../models/DataRecordModel";
 
 export type ConceptNameType = string
+export type AttributeNameType = string
 export type ComponentNameType = string
 export type ActionIdType = string
 export type TriggerIdType = string
