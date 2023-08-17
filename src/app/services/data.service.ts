@@ -17,10 +17,10 @@ import {ConfigService} from "./config.service";
 import {ActionType} from "../enums/actionTypes.enum";
 import {Action} from "../effectclasses/Action";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType, ComponentNameType, ConceptNameType} from "../types/union-types";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
+import {ActionIdType} from "../types/type-aliases";
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +40,9 @@ export class DataService{
     })
   }
   public bindActions(){
+
     /********************     queries     ****************************/
+
     this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(res=>{
       if(res)this.queryService.getDataBluePrint(res.effect.action)
     })
@@ -57,27 +59,28 @@ export class DataService{
 
       })
     })
-    /********************     mutations     ****************************/
-    this.actionsService.bindToAction(new Action(ActionType.DeleteInstance))?.subscribe(res=>{
-      if(res){
-        let action
-        if(res.data.id && typeof res.data.id === 'string') action = this.mutationService.deleteDataById(res.data.id,res.target)
-        else action = this.mutationService.deleteData(res.data.id)
-        if(action){
-          action.subscribe((res2: any) => {
-              this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.data.id})
-          })
-        }
-        }})
-    this.actionsService.bindToAction(new Action(ActionType.CreateInstance))?.subscribe(res=>{
-      if(res)this.mutationService.persistNewData(res.effect.trigger,res.data).then(r => {
 
-      })
+    /********************     mutations     ****************************/
+
+    this.actionsService.bindToAction(new Action(ActionType.DeleteInstance))?.subscribe(res => {
+      // todo werk data als any weg
+      if (res) {
+        let errorOrResult = this.mutationService.deleteRecordOrHandleError(res.data.id)
+        if (errorOrResult) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.data.id})
+        }
+      }
+    })
+    this.actionsService.bindToAction(new Action(ActionType.CreateInstance))?.subscribe(res=>{
+      if(res){
+        let errorOrResult = this.mutationService.createRecordOrHandleError()
+        if (errorOrResult) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.data.id})
+        }
+      }
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateInstance))?.subscribe(res=>{
-      if(res)this.mutationService.persistUpdatedData(res.effect.trigger).then(r => {
-
-      })
+      if(res)this.mutationService.persistUpdatedData(res.effect.trigger)
     })
   }
   private clientData: ClientDataRenderModel[] = [] // dit is de core/bestaansreden van de data service

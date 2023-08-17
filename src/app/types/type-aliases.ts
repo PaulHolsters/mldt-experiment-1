@@ -8,5 +8,6 @@ export type EffectIdType = string
 export type BlueprintType = Map<string,string|DataRecordModel[]>
 export type EnumValueType = string
 export type ObjectIdType = string
+export type ConditionType = string
 
 

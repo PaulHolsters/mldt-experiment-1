@@ -1,7 +1,7 @@
 import {DataRecordModel} from "./DataRecordModel";
-import {Blueprint} from "../types/union-types";
+import {BlueprintType} from "../types/type-aliases";
 export interface DataObjectModel {
   dataMultiple:DataRecordModel[]|undefined,
   dataSingle:DataRecordModel|undefined,
-  blueprint:Blueprint|undefined
+  blueprint:BlueprintType|undefined
 }

@@ -1,51 +1,27 @@
-import { Injectable } from '@angular/core';
-import {QuerySubType} from "../../enums/querySubType.enum";
-import {ComponentModel} from "../../models/ComponentModel";
-import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
-import utilFunctions from "../../utils/utilFunctions";
+import {Injectable} from '@angular/core';
+import {QueryType} from "../../enums/queryTypes";
 import {Apollo, gql} from "apollo-angular";
-import {PropertyName} from "../../enums/PropertyNameTypes.enum";
-import {Action} from "../../effectclasses/Action";
-import {TargetType} from "../../enums/targetTypes.enum";
 import {DataObjectModel} from "../../models/DataObjectModel";
-import {DataSpecificationType} from "../../enums/dataSpecifications.enum";
+import {Observable, Subscription} from "rxjs";
+import {Query} from "./query.class";
+import {ConceptNameType, ObjectIdType} from "../../types/type-aliases";
+import {FilterModel} from "../../models/FilterModel";
 
 @Injectable({
   providedIn: 'root'
 })
 export class QueryService {
   constructor(private apollo:Apollo) { }
-  private getAllAttributes(compName: string, data: ClientDataConfigModel | string[]): string {
-    if (data instanceof ClientDataConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
-      return data.attributes.map(x => {
-        if (x.concept && x.concept.attributes && x.concept.attributes instanceof Array) {
-          // todo zie dat je eindeloos kan gaan indien nodig
-          return x.name + `{\n${x.concept.attributes.map(attr => attr.name).join('\n')}}`
-        }
-        return x.name || ''
-      }).reduce((x, y) => x += '\n' + y, '')
-    } else if (!(data instanceof ClientDataConfigModel)) {
-      let compConfig = this.configService.getFirstAncestorConfigWithPropertyFromRoot(compName,PropertyName.data)
-      if (!compConfig) throw new Error('attributen voor ' + data.toString() + ' en component met naam ' + compName +
-        ' werden niet gevonden. Kijk je configuratie na.')
-      if (compConfig.data
-        && (compConfig.data instanceof ClientDataConfigModel)
-        && typeof compConfig.data.attributes !== 'string'
-        && compConfig.data?.conceptName === data[0]) {
-        const concept = compConfig.data.attributes.find(attr => {
-          return attr.name === data[1]
-        })?.concept
-        if (concept && typeof concept.attributes !== 'string') {
-          return concept.attributes.map(a => a.name).join('\n')
-        }
-      } else {
-        throw new Error('Attributen niet gevonden. Kijk je configuratie na.')
-      }
-    }
-    throw new Error('Methode getAllAttributes onvolledig of incorrect')
+
+  private query(query:Query): Observable<DataObjectModel>{
+    return this.apollo
+      .mutate({
+        mutation: gql`${query.getStr()}`
+        // todo specify return types
+      }) as unknown as Observable<DataObjectModel>
   }
-  public query(querySubType: QuerySubType, compConfig: ComponentModel, id?: string): any {
-    switch (querySubType) {
+  /*
+  *     switch (querySubType) {
       case QuerySubType.GetDataBluePrint:
         if (compConfig.data instanceof ClientDataConfigModel) {
           const GET_BLUEPRINT = `
@@ -116,10 +92,15 @@ export class QueryService {
         }
         break
     }
-  }
+  * */
 
   /***********************************     QUERY ACTIONS         ***************************************************************/
-  public getDataBluePrint(action: Action) {
+
+  public getBlueprint(conceptName:ConceptNameType):Subscription {
+      return this.query(new Query(QueryType.GetConceptBlueprint, conceptName)).subscribe(res=>{
+        return res.blueprint
+      })
+/*    return await this.query(new Query(QueryType.GetConceptBlueprint, ))
     if (action.targetType === TargetType.Client) {
       let compModel = this.configService.getConfigFromRoot(action.target)
       if (compModel !== undefined) {
@@ -135,10 +116,13 @@ export class QueryService {
           }
         })
       }
-    }
+    }*/
   }
-  public async getAllData(action: Action) {
-    if (action.targetType === TargetType.Client) {
+  public getAllRecords(conceptName:ConceptNameType):Subscription {
+    return this.query(new Query(QueryType.GetAllRecords, conceptName)).subscribe(res=>{
+      return res.dataMultiple
+    })
+/*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
       if (comp && comp.data) {
         await this.query(QuerySubType.GetAllData, comp).subscribe((res: unknown) => {
@@ -167,12 +151,14 @@ export class QueryService {
           }
         })
       }
-    }
+    }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-
-  public async getDataByID(action: Action, id: string) {
-    if (action.targetType === TargetType.Client) {
+  public getSingleRecord(conceptName:ConceptNameType, id: ObjectIdType) {
+    return this.query(new Query(QueryType.GetSingleRecord, conceptName,id)).subscribe(res=>{
+      return res.dataMultiple
+    })
+/*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
       if (comp !== undefined && comp.data) {
         await this.query(QuerySubType.GetDataByID, comp, id).subscribe((res: unknown) => {
@@ -193,7 +179,12 @@ export class QueryService {
           }
         })
       }
-    }
+    }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
+  }
+  public getMultipleRecords(conceptName:ConceptNameType,filter:FilterModel){
+    return this.query(new Query(QueryType.GetMultipleRecords, conceptName,filter)).subscribe(res=>{
+      return res.dataMultiple
+    })
   }
 }
