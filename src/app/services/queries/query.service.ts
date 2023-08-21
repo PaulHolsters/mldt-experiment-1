@@ -4,8 +4,9 @@ import {Apollo, gql} from "apollo-angular";
 import {DataObjectModel} from "../../models/DataObjectModel";
 import {Observable, Subscription} from "rxjs";
 import {Query} from "./query.class";
-import {ConceptNameType, ObjectIdType} from "../../types/type-aliases";
+import {BlueprintType, ConceptNameType, ObjectIdType} from "../../types/type-aliases";
 import {FilterModel} from "../../models/FilterModel";
+import {NoValueType} from "../../enums/no_value_type";
 
 @Injectable({
   providedIn: 'root'
@@ -118,8 +119,8 @@ export class QueryService {
       }
     }*/
   }
-  public getAllRecords(conceptName:ConceptNameType):Subscription {
-    return this.query(new Query(QueryType.GetAllRecords, conceptName)).subscribe(res=>{
+  public getAllRecords(conceptName:ConceptNameType,blueprint:BlueprintType):Subscription {
+    return this.query(new Query(QueryType.GetAllRecords, conceptName,blueprint)).subscribe(res=>{
       return res.dataMultiple
     })
 /*    if (action.targetType === TargetType.Client) {
@@ -154,8 +155,8 @@ export class QueryService {
     }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-  public getSingleRecord(conceptName:ConceptNameType, id: ObjectIdType) {
-    return this.query(new Query(QueryType.GetSingleRecord, conceptName,id)).subscribe(res=>{
+  public getSingleRecord(conceptName:ConceptNameType,blueprint:BlueprintType, id: ObjectIdType) {
+    return this.query(new Query(QueryType.GetSingleRecord, conceptName,blueprint,id)).subscribe(res=>{
       return res.dataMultiple
     })
 /*    if (action.targetType === TargetType.Client) {
@@ -182,8 +183,8 @@ export class QueryService {
     }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-  public getMultipleRecords(conceptName:ConceptNameType,filter:FilterModel){
-    return this.query(new Query(QueryType.GetMultipleRecords, conceptName,filter)).subscribe(res=>{
+  public getMultipleRecords(conceptName:ConceptNameType,blueprint:BlueprintType,filter:FilterModel){
+    return this.query(new Query(QueryType.GetMultipleRecords, conceptName,blueprint,NoValueType.NA,filter)).subscribe(res=>{
       return res.dataMultiple
     })
   }

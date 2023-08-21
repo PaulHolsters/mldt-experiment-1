@@ -9,12 +9,15 @@ export class Query {
     public readonly type:QueryType,
     public readonly conceptName:ConceptNameType,
     public readonly blueprint:BlueprintType|NoValueType.NA=NoValueType.NA,
-    public readonly filter:ObjectIdType|FilterModel|NoValueType.NA=NoValueType.NA,
+    public readonly id:ObjectIdType|NoValueType.NA=NoValueType.NA,
+    public readonly filter:FilterModel|NoValueType.NA=NoValueType.NA,
     public readonly include:AttributeNameType[]|NoValueType.NA=NoValueType.NA,
     public readonly exclude:AttributeNameType[]|NoValueType.NA=NoValueType.NA,
   ) {
   }
   private getAllAttributes(): string {
+    if(!this.blueprint) throw new Error('no blueprint client data was given while needed')
+    return Object.keys(this.blueprint).reduce((a,b)=>a+'\n'+b,'')
 /*    if (data instanceof ClientDataConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
         if (x.concept && x.concept.attributes && x.concept.attributes instanceof Array) {
@@ -48,11 +51,11 @@ export class Query {
       case QueryType.GetConceptBlueprint:
         return 'blueprint:true'
       case QueryType.GetSingleRecord:
-        return 'blueprint:true,dataSingle:true'
+        return 'dataSingle:true'
       case QueryType.GetAllRecords:
-        return 'blueprint:true,dataMultiple:true'
+        return 'dataMultiple:true'
       case QueryType.GetMultipleRecords:
-        return 'blueprint:true,dataMultiple:true'
+        return 'dataMultiple:true'
       default:
         return new Error('Querytype '+this.type+ ' does not exist')
     }
@@ -62,27 +65,21 @@ export class Query {
     let str = ''
     switch (this.type){
       case QueryType.GetConceptBlueprint:
-        if(this.blueprint!==NoValueType.NA){
-
-        } else{
-          // todo hoe ken ik de attributes zonder frontend config => wat is de oplossing in de backend?
-          str+='blueprint{' +
-            '}'
-        }
+        str+='blueprint{blueprint}'
         break
       case QueryType.GetSingleRecord:
-
+        str+='dataSingle{'+this.getAllAttributes()+'}'
         break
       case QueryType.GetAllRecords:
-
+        str+='dataMultiple{'+this.getAllAttributes()+'}'
         break
       case QueryType.GetMultipleRecords:
-
+        str+='dataMultiple{'+this.getAllAttributes()+'}'
         break
       default:
         break
     }
-    return
+    return str
   }
   public getStr(): string {
     return `
