@@ -126,7 +126,13 @@ export class DataService{
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateInstance))?.subscribe(res=>{
       if(res){
-        this.mutationService.persistUpdatedData(res.effect.trigger)
+        const clientData = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+        if(!clientData) throw new Error('No valid clientData found')
+        this.mutationService.updateRecordOrHandleError(clientData).subscribe(errorOrResult=>{
+          if (errorOrResult) {
+            this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+          }
+        })
       }
     })
   }
