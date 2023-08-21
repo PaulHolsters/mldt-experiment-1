@@ -20,17 +20,13 @@ export class MutationService {
         }) as unknown as Observable<any>
   }
   /***********************************     MUTATION ACTIONS         ***************************************************************/
-  public createRecordOrHandleError(clientDataInstance:ClientDataRenderModel) {
+  public createRecordOrHandleError(clientDataInstance:ClientDataRenderModel):Observable<any> {
     //this.createMutationStr(comp?.data, MutationType.Create,data)
     // let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
-    return this.mutate(new Mutation(MutationType.Create,clientDataInstance))?.subscribe(res => {
-      // todo errorHandling
-    })
+    return this.mutate(new Mutation(MutationType.Create,clientDataInstance))
   }
-  public updateRecordOrHandleError(clientDataInstance:ClientDataRenderModel) {
-    return this.mutate(new Mutation(MutationType.Update,clientDataInstance))?.subscribe(res => {
-      // todo errorHandling
-    })
+  public updateRecordOrHandleError(clientDataInstance:ClientDataRenderModel):Observable<any> {
+    return this.mutate(new Mutation(MutationType.Update,clientDataInstance))
     // let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
 /*    if (comp && comp.data && comp.data instanceof ClientDataConfigModel && comp.data.conceptName) {
       const cname = comp.data.conceptName
@@ -44,22 +40,16 @@ export class MutationService {
       }
     } else throw new Error('No valid conceptId could be found')*/
   }
-  public deleteRecordOrHandleError( clientDataInstance:ClientDataRenderModel){
-    return this.mutate(new Mutation(MutationType.Delete,clientDataInstance))?.subscribe(res => {
-      // todo errorHandling
-    })
+  public deleteRecordOrHandleError( clientDataInstance:ClientDataRenderModel):Observable<any>{
+    return this.mutate(new Mutation(MutationType.Delete,clientDataInstance))
   }
-  public createMultipleRecordsOrHandleError(clientDataInstance:ClientDataRenderModel) {
+  public createMultipleRecordsOrHandleError(clientDataInstance:ClientDataRenderModel):Observable<any> {
     //this.createMutationStr(comp?.data, MutationType.Create,data)
     // let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
-    return this.mutate(new Mutation(MutationType.CreateMultiple,clientDataInstance))?.subscribe(res => {
-      // todo errorHandling
-    })
+    return this.mutate(new Mutation(MutationType.CreateMultiple,clientDataInstance))
   }
-  public updateMultipleRecordsOrHandleError(clientDataInstance:ClientDataRenderModel) {
-    return this.mutate(new Mutation(MutationType.UpdateMultiple,clientDataInstance))?.subscribe(res => {
-      // todo errorHandling
-    })
+  public updateMultipleRecordsOrHandleError(clientDataInstance:ClientDataRenderModel):Observable<any> {
+    return this.mutate(new Mutation(MutationType.UpdateMultiple,clientDataInstance))
     // let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
     /*    if (comp && comp.data && comp.data instanceof ClientDataConfigModel && comp.data.conceptName) {
           const cname = comp.data.conceptName
@@ -73,10 +63,8 @@ export class MutationService {
           }
         } else throw new Error('No valid conceptId could be found')*/
   }
-  public deleteMultipleRecordsOrHandleError( clientDataInstance:ClientDataRenderModel){
-    return this.mutate(new Mutation(MutationType.DeleteMultiple,clientDataInstance))?.subscribe(res => {
-      // todo errorHandling
-    })
+  public deleteMultipleRecordsOrHandleError( clientDataInstance:ClientDataRenderModel):Observable<any>{
+    return this.mutate(new Mutation(MutationType.DeleteMultiple,clientDataInstance))
   }
 /*  public deleteData(trigger: Trigger) {
     let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)

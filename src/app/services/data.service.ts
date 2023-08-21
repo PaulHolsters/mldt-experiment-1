@@ -4,7 +4,6 @@ import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {NoValueType} from "../enums/no_value_type";
-import {AttributeConfigModel} from "../models/Data/AttributeConfigModel";
 import {Subject} from "rxjs";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {DataObjectModel} from "../models/DataObjectModel";
@@ -56,6 +55,7 @@ export class DataService{
                 this.createClientData(
                   new ClientDataRenderModel(
                     res.effect.action.conceptName,
+                    res.effect.action.target,
                     [],
                     NoValueType.NI,
                     undefined,
@@ -63,8 +63,8 @@ export class DataService{
                     this.createBlueprint(resOrErr.blueprint)
                     )
                 )
-                this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
               }
+              this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
             })
           }
         })
@@ -76,9 +76,12 @@ export class DataService{
           // todo zie dat je hier van een ObjectId type kan uitgaan
           const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
           if (blueprint) {
-            // todo verder uitwerken
-            const errorOrResult = await this.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data)
-            if(errorOrResult)this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+            this.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data).subscribe(errorOrResult=>{
+              if(errorOrResult && errorOrResult.dataSingle){
+                this.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataSingle)
+              }
+              this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+            })
           }
         }
       }
@@ -87,9 +90,12 @@ export class DataService{
       if (res) {
         const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
         if (blueprint) {
-          // todo verder uitwerken
-          const errorOrResult = await this.queryService.getAllRecords(res.effect.action.conceptName, blueprint)
-          if (errorOrResult) this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+          this.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
+            if(errorOrResult && errorOrResult.dataMultiple){
+              this.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataMultiple)
+            }
+            this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+          })
         }
       }
     })
@@ -100,24 +106,28 @@ export class DataService{
       // todo werk data als any weg
       if (res) {
         // todo verder uitwerken
-        let errorOrResult = this.mutationService.deleteRecordOrHandleError(res.data.id)
-        if (errorOrResult) {
-          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
-        }
+        this.mutationService.deleteRecordOrHandleError(res.data.id)?.subscribe(errorOrResult=>{
+          if (errorOrResult) {
+            this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+          }
+        })
       }
     })
     this.actionsService.bindToAction(new Action(ActionType.CreateInstance))?.subscribe(res=>{
       if(res){
-        // todo verder uitwerken
-        let errorOrResult = this.mutationService.createRecordOrHandleError()
-        if (errorOrResult) {
-          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
-        }
+        const clientData = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+        if(!clientData) throw new Error('No valid clientData found')
+        this.mutationService.createRecordOrHandleError(clientData).subscribe(errorOrResult=>{
+          if (errorOrResult) {
+            this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+          }
+        })
       }
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateInstance))?.subscribe(res=>{
-      // todo verder uitwerken
-      if(res)this.mutationService.persistUpdatedData(res.effect.trigger)
+      if(res){
+        this.mutationService.persistUpdatedData(res.effect.trigger)
+      }
     })
   }
   /***********************************     CLIENT DATA ARRAY        ***************************************************************/
@@ -198,8 +208,20 @@ export class DataService{
     }
     return undefined
   }
-  public updateClientData(name: string, value: DataRecordModel[] | number | string | undefined, id?: string) {
-    // todo id moet meegegeven worden of iets gelijkaardigs zodat
+  public updateClientData(concept: ConceptNameType, component: ComponentNameType,data:BlueprintType|DataRecordModel|(DataRecordModel|null)[]) {
+    const instance =  this.clientData.find(cd=>{
+      return cd.componentName === component && cd.conceptName === concept
+    })
+    if(instance){
+      if(data instanceof Array){
+        instance.listOfRecords = data
+      }  else if(data instanceof Map){
+        instance.blueprint = data
+      } else if(data.hasOwnProperty('id') && data.hasOwnProperty('__typename')){
+        instance.record = data
+      } else throw new Error('Data has an invalid format: '+data.toString())
+    } else throw new Error('Client data instance does not exist')
+/*    // todo id moet meegegeven worden of iets gelijkaardigs zodat
     //      update weet waar het moet zoeken
     debugger
     const parts = name.split('_')
@@ -246,7 +268,7 @@ export class DataService{
       } else {
         // Het gaat om een concept
       }
-    }
+    }*/
   }
   public deleteClientData(name:ComponentNameType,concept:ConceptNameType){
     // wanneer een component gedestroyed wordt

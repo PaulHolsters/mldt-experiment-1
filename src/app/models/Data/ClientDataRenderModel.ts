@@ -1,12 +1,13 @@
 import {AttributeComponentModel} from "./AttributeComponentModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {DataRecordModel} from "../DataRecordModel";
-import {BlueprintType} from "../../types/type-aliases";
+import {BlueprintType, ComponentNameType, ConceptNameType} from "../../types/type-aliases";
 
 export class ClientDataRenderModel {
 constructor(
   //zelfde als config
-  public conceptName:string,
+  public conceptName:ConceptNameType,
+  public componentName:ComponentNameType,
   public attributes:AttributeComponentModel[]|NoValueType.NA,
   public errorMessages:string[]|NoValueType.NI, // error boodschap op concept ipv attribuut niveau
   //toegevoegd na aanmaak (createClientDataInstance)

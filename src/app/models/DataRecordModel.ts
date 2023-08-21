@@ -1,5 +1,5 @@
 export interface DataRecordModel extends Object {
-  // todo gebruik generics om aan te geven dat verdere properties van het RenderPropertyValueType zijn
+  // de overige properties haal je uit de "blueprint" Map die je kan vinden in de overeenkomstige client data instance
   id:string,
   __typename:string
 }
