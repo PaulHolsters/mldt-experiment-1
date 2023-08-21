@@ -20,7 +20,8 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType, BlueprintType, ComponentNameType, ConceptNameType} from "../types/type-aliases";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,7 +35,8 @@ export class DataService{
               private apollo: Apollo,
               private actionsService:ActionsService,
               private queryService:QueryService,
-              private mutationService:MutationService) {
+              private mutationService:MutationService
+  ) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
@@ -43,21 +45,53 @@ export class DataService{
 
     /********************     queries     ****************************/
 
-    this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(res=>{
-      if(res)this.queryService.getDataBluePrint(res.effect.action)
+    this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(async res => {
+      if (res) {
+        this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
+          if(typeof resFirst.numberOfNesting === 'number'){
+            this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
+              if(resOrErr.blueprint){
+                // todo voeg code toe die effectief omgaat met errors
+                //      nu ga ik er voor het gemak van uit dat dit nooit errored
+                this.createClientData(
+                  new ClientDataRenderModel(
+                    res.effect.action.conceptName,
+                    [],
+                    NoValueType.NI,
+                    undefined,
+                    undefined,
+                    this.createBlueprint(resOrErr.blueprint)
+                    )
+                )
+                this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+              }
+            })
+          }
+        })
+      }
     })
-    this.actionsService.bindToAction(new Action(ActionType.GetInstance))?.subscribe(res=>{
-      if(res){
-        if(typeof res.data === 'string'){
-          this.queryService.getDataByID(res.effect.action,res.data).then(r => {
-          })
+    this.actionsService.bindToAction(new Action(ActionType.GetInstance))?.subscribe(async res => {
+      if (res) {
+        if (typeof res.data === 'string') {
+          // todo zie dat je hier van een ObjectId type kan uitgaan
+          const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+          if (blueprint) {
+            // todo verder uitwerken
+            const errorOrResult = await this.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data)
+            if(errorOrResult)this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+          }
         }
       }
     })
-    this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(res=>{
-      if(res)this.queryService.getAllData(res.effect.action).then(r => {
-
-      })
+    this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(async res => {
+      if (res) {
+        const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+        if (blueprint) {
+          // todo verder uitwerken
+          const errorOrResult = await this.queryService.getAllRecords(res.effect.action.conceptName, blueprint)
+          if (errorOrResult) this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+        }
+      }
     })
 
     /********************     mutations     ****************************/
@@ -65,30 +99,39 @@ export class DataService{
     this.actionsService.bindToAction(new Action(ActionType.DeleteInstance))?.subscribe(res => {
       // todo werk data als any weg
       if (res) {
+        // todo verder uitwerken
         let errorOrResult = this.mutationService.deleteRecordOrHandleError(res.data.id)
         if (errorOrResult) {
-          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.data.id})
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
       }
     })
     this.actionsService.bindToAction(new Action(ActionType.CreateInstance))?.subscribe(res=>{
       if(res){
+        // todo verder uitwerken
         let errorOrResult = this.mutationService.createRecordOrHandleError()
         if (errorOrResult) {
-          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.data.id})
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
       }
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateInstance))?.subscribe(res=>{
+      // todo verder uitwerken
       if(res)this.mutationService.persistUpdatedData(res.effect.trigger)
     })
   }
-  private clientData: ClientDataRenderModel[] = [] // dit is de core/bestaansreden van de data service
+  /***********************************     CLIENT DATA ARRAY        ***************************************************************/
+  private clientData: ClientDataRenderModel[] = []
   /***********************************     CLIENT DATA ACTIONS         ***************************************************************/
   public createClientData(clientDataInstance:ClientDataRenderModel){
     this.clientData.push(clientDataInstance)
   }
-  public getClientData(dataLink: string[], componentType: ComponentType, dataSpecs: DataSpecificationType[]): AttributeComponentModel | undefined {
+  private createBlueprint(blueprintStr:string):BlueprintType{
+    const bp = new Map<string,string|(DataRecordModel|null)[]>()
+
+    return bp
+  }
+  public getClientData(conceptName:ConceptNameType,component:ComponentNameType,dataLink?: string[]): ClientDataRenderModel | undefined {
     const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ClientDataRenderModel):boolean{
       let isObj = true
       while (specs.length>0){

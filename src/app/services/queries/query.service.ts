@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {QueryType} from "../../enums/queryTypes";
 import {Apollo, gql} from "apollo-angular";
 import {DataObjectModel} from "../../models/DataObjectModel";
-import {Observable, Subscription} from "rxjs";
+import {Observable} from "rxjs";
 import {Query} from "./query.class";
 import {BlueprintType, ConceptNameType, ObjectIdType} from "../../types/type-aliases";
 import {FilterModel} from "../../models/FilterModel";
@@ -96,11 +96,28 @@ export class QueryService {
   * */
 
   /***********************************     QUERY ACTIONS         ***************************************************************/
-
-  public getBlueprint(conceptName:ConceptNameType):Subscription {
-      return this.query(new Query(QueryType.GetConceptBlueprint, conceptName)).subscribe(res=>{
-        return res.blueprint
-      })
+  public getNumberOfNesting(conceptName:ConceptNameType):Observable<DataObjectModel> {
+    return this.query(new Query(QueryType.GetNumberOfNesting, conceptName))
+    /*    return await this.query(new Query(QueryType.GetConceptBlueprint, ))
+        if (action.targetType === TargetType.Client) {
+          let compModel = this.configService.getConfigFromRoot(action.target)
+          if (compModel !== undefined) {
+            this.query(QuerySubType.GetDataBluePrint, compModel).subscribe((res: unknown) => {
+              if (res && typeof res === 'object' && res.hasOwnProperty('data') && compModel?.data) {
+                const bluePrintData = (res as { data: {} })['data']
+                const value = Object.values(bluePrintData)[0] as DataObjectModel
+                const compObj = this.createExtendedConceptModel(action.target, value, compModel.data)
+                if (compObj) {
+                  this.objectData.push(compObj)
+                  this.setDataObjectState(compModel.name, compModel.type, [DataSpecificationType.Blueprint], compObj)
+                }
+              }
+            })
+          }
+        }*/
+  }
+  public getBlueprint(conceptName:ConceptNameType,numberOfNesting:number):Observable<DataObjectModel> {
+      return this.query(new Query(QueryType.GetConceptBlueprint, conceptName,numberOfNesting))
 /*    return await this.query(new Query(QueryType.GetConceptBlueprint, ))
     if (action.targetType === TargetType.Client) {
       let compModel = this.configService.getConfigFromRoot(action.target)
@@ -119,10 +136,8 @@ export class QueryService {
       }
     }*/
   }
-  public getAllRecords(conceptName:ConceptNameType,blueprint:BlueprintType):Subscription {
-    return this.query(new Query(QueryType.GetAllRecords, conceptName,blueprint)).subscribe(res=>{
-      return res.dataMultiple
-    })
+  public getAllRecords(conceptName:ConceptNameType,blueprint:BlueprintType):Observable<DataObjectModel> {
+    return this.query(new Query(QueryType.GetAllRecords, conceptName,NoValueType.NA,blueprint))
 /*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
       if (comp && comp.data) {
@@ -155,10 +170,8 @@ export class QueryService {
     }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-  public getSingleRecord(conceptName:ConceptNameType,blueprint:BlueprintType, id: ObjectIdType) {
-    return this.query(new Query(QueryType.GetSingleRecord, conceptName,blueprint,id)).subscribe(res=>{
-      return res.dataMultiple
-    })
+  public getSingleRecord(conceptName:ConceptNameType,blueprint:BlueprintType, id: ObjectIdType):Observable<DataObjectModel> {
+    return this.query(new Query(QueryType.GetSingleRecord, conceptName,NoValueType.NA,blueprint,id))
 /*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
       if (comp !== undefined && comp.data) {
@@ -183,9 +196,7 @@ export class QueryService {
     }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-  public getMultipleRecords(conceptName:ConceptNameType,blueprint:BlueprintType,filter:FilterModel){
-    return this.query(new Query(QueryType.GetMultipleRecords, conceptName,blueprint,NoValueType.NA,filter)).subscribe(res=>{
-      return res.dataMultiple
-    })
+  public getMultipleRecords(conceptName:ConceptNameType,blueprint:BlueprintType,filter:FilterModel):Observable<DataObjectModel>{
+    return this.query(new Query(QueryType.GetMultipleRecords, conceptName,NoValueType.NA,blueprint,NoValueType.NA,filter))
   }
 }

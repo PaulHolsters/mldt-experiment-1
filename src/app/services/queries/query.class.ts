@@ -8,15 +8,17 @@ export class Query {
   public constructor(
     public readonly type:QueryType,
     public readonly conceptName:ConceptNameType,
+    public readonly numberOfNesting:number|NoValueType.NA=NoValueType.NA,
     public readonly blueprint:BlueprintType|NoValueType.NA=NoValueType.NA,
     public readonly id:ObjectIdType|NoValueType.NA=NoValueType.NA,
     public readonly filter:FilterModel|NoValueType.NA=NoValueType.NA,
     public readonly include:AttributeNameType[]|NoValueType.NA=NoValueType.NA,
     public readonly exclude:AttributeNameType[]|NoValueType.NA=NoValueType.NA,
-  ) {
-  }
+  ) {}
   private getAllAttributes(): string {
     if(!this.blueprint) throw new Error('no blueprint client data was given while needed')
+    // todo hoe ook rekening met geneste concept => kan hier puur op basis van het blueprint object
+
     return Object.keys(this.blueprint).reduce((a,b)=>a+'\n'+b,'')
 /*    if (data instanceof ClientDataConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
@@ -48,6 +50,8 @@ export class Query {
   }
   private getParams():string|Error{
     switch (this.type){
+      case QueryType.GetNumberOfNesting:
+        return 'numberOfNesting:true'
       case QueryType.GetConceptBlueprint:
         return 'blueprint:true'
       case QueryType.GetSingleRecord:
@@ -61,11 +65,24 @@ export class Query {
     }
   }
   private getReturnValues():string{
-    // blueprint/dataSingle/dataMultiple
     let str = ''
     switch (this.type){
+      case QueryType.GetNumberOfNesting:
+        // todo hoe weet je hoe diep dit gaat qua nesting? => eerst query voor de lengte van de blueprint dan voor de blueprint zelf
+        str+='numberOfNesting'
+        break
       case QueryType.GetConceptBlueprint:
-        str+='blueprint{blueprint}'
+        str+='blueprint{blueprint\nprops{name\ntype'
+        if(this.numberOfNesting!==NoValueType.NA){
+          let it:number= this.numberOfNesting
+          let acc=''
+          while(it>0){
+            acc+='}}'
+            it--
+            str+='\nvalue{blueprint\nprops{name\ntype'
+          }
+          str+='}}'+acc
+        } else throw new Error('numberOfNesting can never be Not applicable')
         break
       case QueryType.GetSingleRecord:
         str+='dataSingle{'+this.getAllAttributes()+'}'

@@ -1,7 +1,7 @@
 import {AttributeComponentModel} from "./AttributeComponentModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {DataRecordModel} from "../DataRecordModel";
-import {Blueprint} from "../../types/union-types";
+import {BlueprintType} from "../../types/type-aliases";
 
 export class ClientDataRenderModel {
 constructor(
@@ -12,7 +12,8 @@ constructor(
   //toegevoegd na aanmaak (createClientDataInstance)
   public listOfRecords?:(DataRecordModel|null)[],
   public record?:DataRecordModel,
-  public blueprint?:Blueprint
+  public blueprint?:BlueprintType
+
 ) {
 }
 getValueFor?(prop:string){
