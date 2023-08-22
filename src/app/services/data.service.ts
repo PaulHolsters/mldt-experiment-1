@@ -8,7 +8,6 @@ import {Subject} from "rxjs";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {DataObjectModel} from "../models/DataObjectModel";
 import {DataRecordModel} from "../models/DataRecordModel";
-import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 import {FunctionType} from "../enums/functionTypes.enum";
 import utilFunctions from "../utils/utilFunctions";
 import {ActionsService} from "./actions.service";
@@ -144,11 +143,37 @@ export class DataService{
   }
   private createBlueprint(blueprintStr:string):BlueprintType{
     const bp = new Map<string,string|(DataRecordModel|null)[]>()
-
+    // todo
     return bp
   }
-  public getClientData(conceptName:ConceptNameType,component:ComponentNameType,dataLink?: string[]): ClientDataRenderModel | undefined {
-    const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ClientDataRenderModel):boolean{
+  public getAttribute(component:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
+    // todo herwerk zodat je een willekeurige nesting kan hebben
+    if(dataLink.length<2) throw new Error('Provided datalink array has not all data needed')
+    const clientData = this.getClientData(dataLink[0],component)
+    if(!clientData || !clientData.attributes || clientData.attributes.length===0 || clientData.attributes === NoValueType.NA) return undefined
+    const attr = clientData.attributes.find(attr=>{
+      return attr.name===dataLink[1]
+    })
+    if(!attr) return undefined
+    let currentAttr = {...attr}
+      currentAttr = this.replaceDBIValues(clientData, currentAttr)
+      currentAttr = this.replaceNVYValues(clientData, currentAttr)
+      currentAttr = this.pipeValue(clientData, currentAttr)
+      const [k, v] = Object.entries(clientData.blueprint ?? {}).find(([k, v]) => {
+        return k === dataLink[1]
+      }) ?? []
+      if (k) {
+        currentAttr.dataBlueprint = new Map([[k, v]])
+      }
+      return currentAttr
+  }
+  public getClientData(conceptName:ConceptNameType,component:ComponentNameType): ClientDataRenderModel | undefined {
+    return this.clientData.find(cd=>{
+      return cd.conceptName===conceptName&&cd.componentName===component
+    })
+    // dit haalt de clientdata op en vervangt ongedefinieerde te berekenen waarden, daarnaast pakt het een specifiek attribuut
+    // in deze clientdata
+/*    const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ClientDataRenderModel):boolean{
       let isObj = true
       while (specs.length>0){
         const spec:DataSpecificationType = specs.pop() as DataSpecificationType
@@ -163,7 +188,7 @@ export class DataService{
       return clientDataInstance.conceptName === dataLinkCopy[0]
         // geeft de waarde true terug of false naargelang de dataSpecs
         && isDataObject(this,dataSpecs,clientDataInstance)
-      /*        && (dataSpecs.reduce(
+      /!*        && (dataSpecs.reduce(
                 (specA, specB) => {
                   const copyDataObj = new ClientDataRenderModel(
                     dataObj.conceptName,
@@ -175,7 +200,7 @@ export class DataService{
                   return ((specA.toString() in copyDataObj && copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())) && (specB.toString() in copyDataObj
                     && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))
                 }
-              ))*/
+              ))*!/
     })
     if (obj) {
       dataLinkCopy.splice(0, 1)
@@ -212,7 +237,7 @@ export class DataService{
         return currentAttr
       }
     }
-    return undefined
+    return undefined*/
   }
   public updateClientData(concept: ConceptNameType, component: ComponentNameType,data:BlueprintType|DataRecordModel|(DataRecordModel|null)[]) {
     const instance =  this.clientData.find(cd=>{
@@ -279,9 +304,9 @@ export class DataService{
   public deleteClientData(name:ComponentNameType,concept:ConceptNameType){
     // wanneer een component gedestroyed wordt
   }
-  /***********************************     data manipulation ACTIONS         ***************************************************************/
 
-  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {
+  /***********************************     data manipulation ACTIONS         ***************************************************************/
+/*  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {
     if (compConfig instanceof ClientDataConfigModel) {
       let newObj: ClientDataRenderModel = {
         conceptName: compConfig.conceptName,
@@ -316,7 +341,7 @@ export class DataService{
       throw new Error('unfinished else condition')
     }
     return undefined
-  }
+  }*/
   private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
     switch (componentType) {
       case ComponentType.MultiSelect:

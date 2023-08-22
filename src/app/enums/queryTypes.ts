@@ -1,7 +1,8 @@
 export enum QueryType {
-  GetNumberOfNesting = 1,
-  GetConceptBlueprint,
+  GetConceptBlueprint = 1,
   GetSingleRecord,
   GetMultipleRecords,
-  GetAllRecords
+  GetAllRecords,
+  GetNumberOfNesting
+} GetAllRecords
 }
