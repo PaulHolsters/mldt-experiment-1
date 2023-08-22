@@ -141,10 +141,47 @@ export class DataService{
   public createClientData(clientDataInstance:ClientDataRenderModel){
     this.clientData.push(clientDataInstance)
   }
-  private createBlueprint(blueprintStr:string):BlueprintType{
+  private createBlueprint(bluePrintObj:string):BlueprintType{
     const bp = new Map<string,string|(DataRecordModel)[]|string[]>()
-    // todo
+    const props = this.getPropsFromObj(bluePrintObj)
+    while(props.length>0){
+      const propsObj = this.getNextObjFromProps(props)
+      if(!this.hasValueProp(propsObj)){
+        bp.set(this.getNameFromPropsObj(propsObj),this.getTypeFromPropsObj(propsObj))
+      } else if(this.valueIsEnum(propsObj)){
+
+      } else if(this.valueIsBlueprint(propsObj)){
+
+      }
+    }
     return bp
+  }
+  private getNameFromPropsObj(propsObj:string):string{
+    return ''
+  }
+  private getTypeFromPropsObj(propsObj:string):string{
+    return ''
+  }
+  private getNextObjFromProps(props:string):string{
+    return ''
+  }
+  private hasValueProp(propsObj:string):boolean{
+    return false
+  }
+  private valueIsEnum(propsObj:string):boolean{
+    return  false
+  }
+  private valueIsBlueprint(propsObj:string):boolean{
+    return  false
+  }
+  private getEnumValues(propsObj:string):string[]{
+    return []
+  }
+  private getBlueprintObj(propsObj:string):string{
+    return ''
+  }
+  private getPropsFromObj(blueprintObj:string):string{
+    return ''
   }
   public getAttribute(component:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
