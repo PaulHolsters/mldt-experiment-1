@@ -409,7 +409,15 @@ export class DataService{
       }
       if (attr.multiselect.options === NoValueType.DBI) {
         if (bp instanceof Array) {
-          attr.multiselect.options = [...bp]
+          if(bp.length===0){
+            attr.multiselect.options = []
+          } else {
+            attr.multiselect.options = bp.map(option=>{
+              if(typeof option === 'object' && option.hasOwnProperty('id') && option.hasOwnProperty('__typename')){
+                return option
+              }else throw new Error('Invalid multiselect options configuration => '+option)
+            })
+          }
         }
       }
       if (attr.multiselect.optionLabel === NoValueType.DBI) {
