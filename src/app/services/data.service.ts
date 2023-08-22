@@ -142,19 +142,43 @@ export class DataService{
     this.clientData.push(clientDataInstance)
   }
   private createBlueprint(bluePrintObj:string):BlueprintType{
-    const bp = new Map<string,string|(DataRecordModel)[]|string[]>()
+    const bp = new Map<string,[string,[BlueprintType,DataRecordModel[]|DataRecordModel]|string[]]|string>()
     const props = this.getPropsFromObj(bluePrintObj)
     while(props.length>0){
       const propsObj = this.getNextObjFromProps(props)
+      // todo zorg ervoor dat blueprint type beter wordt afgedwongen
       if(!this.hasValueProp(propsObj)){
         bp.set(this.getNameFromPropsObj(propsObj),this.getTypeFromPropsObj(propsObj))
       } else if(this.valueIsEnum(propsObj)){
-
+        bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),this.getEnumValues(propsObj)])
       } else if(this.valueIsBlueprint(propsObj)){
-
+        const propsObjOfBlueprintValue = this.getBlueprintObj(propsObj)
+        const concept:ConceptNameType = this.getConceptFromBlueprintObj(propsObjOfBlueprintValue)
+        // todo werk recursie weg
+        const blueprint = this.createBlueprint(propsObjOfBlueprintValue)
+        if(this.getTypeFromPropsObj(propsObj) === 'list'){
+          this.queryService.getAllRecords(concept,blueprint).subscribe(resOrErr=>{
+            if(resOrErr.dataMultiple){
+              bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,resOrErr.dataMultiple]])
+            } else throw new Error('BlueprintObjectValue could not be completed')
+          })
+        } else if(this.getTypeFromPropsObj(propsObj).indexOf('object:')!==-1){
+          this.queryService.getSingleRecord(
+            concept,
+            blueprint,
+            this.getTypeFromPropsObj(propsObj).substring(this.getTypeFromPropsObj(propsObj).indexOf('object:')+7)
+          ).subscribe(resOrErr=>{
+            if(resOrErr.dataSingle){
+              bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,resOrErr.dataSingle]])
+            } else throw new Error('BlueprintObjectValue could not be completed')
+          })
+        }
       }
     }
     return bp
+  }
+  private getConceptFromBlueprintObj(obj:string):ConceptNameType{
+    return ''
   }
   private getNameFromPropsObj(propsObj:string):string{
     return ''
