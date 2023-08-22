@@ -476,11 +476,11 @@ export class DataService{
         attr.radio.conceptName = concept.conceptName
       }
       if (attr.radio.radioValues === NoValueType.DBI) {
-        if (bp && bp instanceof Array){
-          if(bp.length===0){
+        if (bp && bp instanceof Array && bp.length==2 && bp[0]==='enum'){
+          if(bp[1].length===0){
             attr.radio.radioValues = []
           } else {
-            attr.radio.radioValues = bp.map(enumVal=>{
+            attr.radio.radioValues = bp[1].map(enumVal=>{
               if(typeof enumVal === 'string'){
                 return {label:utilFunctions.createSpaces(utilFunctions.capitalizeFirst(enumVal)),value:enumVal}
               } else throw new Error('Invalid radio button configuration => enum values are not of type string '+enumVal)
@@ -493,18 +493,16 @@ export class DataService{
         attr.multiselect.conceptName = concept.conceptName
       }
       if (attr.multiselect.options === NoValueType.DBI) {
-        if (bp instanceof Array) {
-          if(bp.length===0){
+        if (bp instanceof Array && bp.length==2 && bp[0]==='list' && bp[1] instanceof Array && bp[1].length===2 && bp[1][0] instanceof Map
+          && bp[1][1] instanceof Array) {
+          if(bp[1][1].length===0){
             attr.multiselect.options = []
           } else {
-            attr.multiselect.options = bp.map(option=>{
-              if(typeof option === 'object' && option.hasOwnProperty('id') && option.hasOwnProperty('__typename')){
-                return option
-              }else throw new Error('Invalid multiselect options configuration => '+option)
-            })
+            attr.multiselect.options = [...bp[1][1]]
+            }
           }
         }
-      }
+
       if (attr.multiselect.optionLabel === NoValueType.DBI) {
         // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
       }
