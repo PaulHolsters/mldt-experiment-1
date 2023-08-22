@@ -143,9 +143,10 @@ export class DataService{
   }
   private createBlueprint(bluePrintObj:string):BlueprintType{
     const bp = new Map<string,[string,[BlueprintType,DataRecordModel[]|DataRecordModel]|string[]]|string>()
-    const props = this.getPropsFromObj(bluePrintObj)
-    while(props.length>0){
+    let props = this.getPropsFromObj(bluePrintObj)
+    while(props.length>2){
       const propsObj = this.getNextObjFromProps(props)
+      props = '['+props.substring(this.getCutOff(props)+1,props.lastIndexOf(']')).trim()+']'
       // todo zorg ervoor dat blueprint type beter wordt afgedwongen
       if(!this.hasValueProp(propsObj)){
         bp.set(this.getNameFromPropsObj(propsObj),this.getTypeFromPropsObj(propsObj))
@@ -177,35 +178,58 @@ export class DataService{
     }
     return bp
   }
-  private getConceptFromBlueprintObj(obj:string):ConceptNameType{
-    return ''
+  private getConceptFromBlueprintObj(blueprintObj:string):ConceptNameType{
+    if(blueprintObj.indexOf('blueprint:')===-1) throw new Error('Blueprint string does not contain a concept name')
+    return blueprintObj.substring(blueprintObj.indexOf('blueprint:')+10,blueprintObj.indexOf(';'))
   }
   private getNameFromPropsObj(propsObj:string):string{
-    return ''
+    if(propsObj.indexOf('name:')===-1) throw new Error('props object string does not contain a name property')
+    return propsObj.substring(propsObj.indexOf('name:')+5,propsObj.indexOf(';'))
   }
   private getTypeFromPropsObj(propsObj:string):string{
-    return ''
+    if(propsObj.indexOf('type:')===-1) throw new Error('props object string does not contain a type property')
+    return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf(';'))
   }
+  private getCutOff(props:string){
+    if(props.indexOf(',')===-1) {
+      throw new Error('props string does not contain more than one object')
+    }
+    let startIndex = props.indexOf('{')
+    while(props.indexOf('{',startIndex+1)<props.indexOf('}',startIndex)){
+      startIndex++
+    }
+    return props.indexOf(',',startIndex)
+  }
+
   private getNextObjFromProps(props:string):string{
-    return ''
+    if(props.indexOf(',')===-1) {
+      return props.substring(props.indexOf('{'),props.lastIndexOf('}')+1)
+    }
+    const cutoff = this.getCutOff(props)
+    return props.substring(props.indexOf('{'),cutoff).trim()
   }
   private hasValueProp(propsObj:string):boolean{
-    return false
+    return propsObj.indexOf('value:')!==-1
   }
   private valueIsEnum(propsObj:string):boolean{
-    return  false
+    return this.getTypeFromPropsObj(propsObj)==='enum'
   }
   private valueIsBlueprint(propsObj:string):boolean{
-    return  false
+    return propsObj.indexOf('blueprint:')!==-1
   }
   private getEnumValues(propsObj:string):string[]{
-    return []
+    // todo maak van een propsObj meer dan een string bv een string die begint en eindigt met een accolade
+    if(!this.valueIsEnum(propsObj)) throw new Error('Cannot get enum values because string has no enum values')
+    return propsObj.substring(propsObj.indexOf('value:')+6,propsObj.lastIndexOf('}')).trim().split(',').map(el=>el.trim())
   }
   private getBlueprintObj(propsObj:string):string{
-    return ''
+    if(!this.valueIsBlueprint(propsObj)) throw new Error('string has no blueprint value')
+    propsObj = propsObj.substring(0,propsObj.lastIndexOf('}')).trim()
+    return propsObj.substring(propsObj.indexOf('value:')+6,propsObj.lastIndexOf('}')+1).trim()
   }
   private getPropsFromObj(blueprintObj:string):string{
-    return ''
+    if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
+    return blueprintObj.substring(blueprintObj.indexOf('props:')+5,blueprintObj.lastIndexOf(']')+1).trim()
   }
   public getAttribute(component:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
