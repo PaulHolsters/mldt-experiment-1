@@ -33,7 +33,7 @@ export const effects:Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'delete-btn'),
-    new Action(ActionType.DeleteInstance, 'product',NoValueType.NA,   'delete-product'),
+    new Action(ActionType.DeleteInstance, 'product', NoValueType.NA,   'delete-product'),
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished,'delete-product'),

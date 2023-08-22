@@ -95,6 +95,8 @@ export class DataService{
             }
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           })
+        } else{
+          // in principe kan dit niet: een blueprint moet altijd als eerste opgehaald worden
         }
       }
     })

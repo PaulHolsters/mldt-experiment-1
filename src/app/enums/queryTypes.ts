@@ -4,5 +4,5 @@ export enum QueryType {
   GetMultipleRecords,
   GetAllRecords,
   GetNumberOfNesting
-} GetAllRecords
+
 }
