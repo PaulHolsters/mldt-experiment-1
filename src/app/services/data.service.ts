@@ -142,7 +142,7 @@ export class DataService{
     this.clientData.push(clientDataInstance)
   }
   private createBlueprint(blueprintStr:string):BlueprintType{
-    const bp = new Map<string,string|(DataRecordModel|null)[]>()
+    const bp = new Map<string,string|(DataRecordModel)[]|string[]>()
     // todo
     return bp
   }
@@ -342,7 +342,7 @@ export class DataService{
     }
     return undefined
   }*/
-  private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
+/*  private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
     switch (componentType) {
       case ComponentType.MultiSelect:
         return attr.multiselect !== undefined
@@ -355,7 +355,7 @@ export class DataService{
       default:
         return true
     }
-  }
+  }*/
   private calculatePipeValue(radioValue:{label:string,value:string},array:FunctionType[]):{label:string,value:string}{
     let valCopy = {...radioValue}
     array.forEach(func=>{
@@ -391,15 +391,16 @@ export class DataService{
         attr.radio.conceptName = concept.conceptName
       }
       if (attr.radio.radioValues === NoValueType.DBI) {
-        if (bp && typeof bp === 'string' && bp.indexOf('enumVal') !== -1) {
-          const arr1Temp = bp.split('},{enumVal:')
-          if (arr1Temp.length > 0 && typeof arr1Temp[0] === 'string')
-            arr1Temp[0] = arr1Temp[0].substring(9)
-          arr1Temp[arr1Temp.length - 1] = arr1Temp[arr1Temp.length - 1].substring(0, arr1Temp[arr1Temp.length - 1].length - 1)
-          const arr2Temp = arr1Temp.map(el => el.trim()).map(el=>{
-            return {label:el,value:el}
-          })
-          attr.radio.radioValues = [...arr2Temp]
+        if (bp && bp instanceof Array){
+          if(bp.length===0){
+            attr.radio.radioValues = []
+          } else {
+            attr.radio.radioValues = bp.map(enumVal=>{
+              if(typeof enumVal === 'string'){
+                return {label:utilFunctions.createSpaces(utilFunctions.capitalizeFirst(enumVal)),value:enumVal}
+              } else throw new Error('Invalid radio button configuration => enum values are not of type string '+enumVal)
+            })
+          }
         }
       }
     } else if (attr.multiselect) {
