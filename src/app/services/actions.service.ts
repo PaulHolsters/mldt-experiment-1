@@ -34,6 +34,7 @@ export class ActionsService{
     this.bindToActionsEmitter.next(undefined)
   }
   public triggerAction(effect: Effect,data?:any,target?:EventTarget):void{
+    debugger
     this.actionSubjects?.find(subj => {
       // todo wat als er twee acties zijn met hetzelfde type en subtype? => filter ook op id en event indien nodig, of zie dat je ze allemaal uitvoert!
       return subj.service === effect.action.service && subj.method === effect.action.serviceMethod

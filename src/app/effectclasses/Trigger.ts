@@ -20,8 +20,14 @@ export class Trigger {
       case TriggerType.ActionFinished:
         this.sourceType = SourceType.Action
         break
+      case TriggerType.ClientDataUpdated:
+        this.sourceType = SourceType.System
+        break
+      case TriggerType.ComponentReady:
+        this.sourceType = SourceType.Component
+        break
       default:
-        throw new Error('The trigger is not implemented yet')
+        throw new Error('The trigger is not implemented yet: '+name)
     }
   }
 }

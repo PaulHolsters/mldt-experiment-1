@@ -83,12 +83,12 @@ export class UpdateViewService implements OnInit {
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateView))?.subscribe(res => {
       if(res){
-        this.setDataState(res.data.componentName,[],res.data)
+        this.setData(res.data.componentName,[],res.data)
         this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
       }
     })
   }
-  private setDataState(nameComponent: string, dataSpecs: DataSpecificationType[], compConcept?: ClientDataRenderModel) {
+  private setData(nameComponent: string, dataSpecs: DataSpecificationType[], compConcept?: ClientDataRenderModel) {
     this.getStatePropertySubjects().forEach(propSubj => {
       let comp = this.configService.getConfigFromRoot(propSubj.componentName)
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method

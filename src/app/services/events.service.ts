@@ -44,7 +44,9 @@ export class EventsService{
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
     }
+    // todo voeg systeem acties toe
     this.configService.getEffectsForEvent(trigger,source).forEach(effect=>{
+      debugger
       this.actionsService.triggerAction(effect,data,target)
     })
   }

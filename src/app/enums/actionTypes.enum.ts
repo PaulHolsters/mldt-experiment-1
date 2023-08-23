@@ -13,9 +13,7 @@ export enum ActionType {
   CreateStore,
   SetRenderProperty,
   SetLocalConfigurationValueAndRebuild,
-  ExecuteCustomFunction,
   SetConfirmation,// todo hier zouden geen component namen mogen komen
-  InitializeForm,// todo hier zouden geen component namen mogen komen
   UpdateView,
   CreateClientData,
   GetClientData,

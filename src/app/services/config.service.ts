@@ -6,7 +6,6 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import {ScreenSize} from '../enums/screenSizes.enum';
 import {PropertyName} from '../enums/PropertyNameTypes.enum';
 import {ResponsiveAttributesConfigModel} from '../models/Attributes/ResponsiveAttributesConfigModel';
-import {forceAutocomplete} from "@angular/cli/src/utilities/environment-options";
 import {TableColumnModel} from "../models/TableColumnModel";
 import { Effect } from '../effectclasses/Effect';
 import {ServiceType} from "../enums/serviceTypes.enum";
@@ -167,7 +166,9 @@ export class ConfigService {
     })
   }
   public getEffectsForEvent(trigger: TriggerType,source:string|ServiceType):Effect[] {
+    debugger
     return this.appConfig.userConfig.effects.filter((effect) => {
+      debugger
       return effect.trigger.name === trigger && effect.trigger.source===source
     })
   }

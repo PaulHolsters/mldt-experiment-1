@@ -22,7 +22,7 @@ export class Action {
     switch (type){
       case ActionType.CreateInstance:
         this.service = ServiceType.DataService
-        this.serviceMethod = ServiceMethodType.PersistNewInstance
+        this.serviceMethod = ServiceMethodType.CreateInstance
         this.targetType = TargetType.Server
         break
       case ActionType.SetGlobalResponsiveBehaviour:
@@ -30,8 +30,88 @@ export class Action {
         this.serviceMethod = ServiceMethodType.SetResponsiveBehaviour
         this.targetType = TargetType.Client
         break
+      case ActionType.CreateStore:
+        this.service = ServiceType.UpdateViewService
+        this.serviceMethod = ServiceMethodType.CreateStore
+        this.targetType = TargetType.Client
+        break
+      case ActionType.SetRenderProperty:
+        this.service = ServiceType.UIService
+        this.serviceMethod = ServiceMethodType.SetProperty
+        this.targetType = TargetType.Client
+        break
+      case ActionType.CreateClientData:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.CreateClientData
+        this.targetType = TargetType.Client
+        break
+      case ActionType.UpdateView:
+        this.service = ServiceType.UpdateViewService
+        this.serviceMethod = ServiceMethodType.SetData
+        this.targetType = TargetType.Client
+        break
+      case ActionType.GetInstance:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.GetInstance
+        this.targetType = TargetType.Server
+        break
+      case ActionType.GetAllInstances:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.GetAllInstances
+        this.targetType = TargetType.Server
+        break
+      case ActionType.GetBluePrint:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.GetBluePrint
+        this.targetType = TargetType.Server
+        break
+      case ActionType.GetClientData:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.GetClientData
+        this.targetType = TargetType.Client
+        break
+      case ActionType.CreateInstances:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.CreateInstances
+        this.targetType = TargetType.Server
+        break
+      case ActionType.DeleteClientData:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.DeleteClientData
+        this.targetType = TargetType.Client
+        break
+      case ActionType.DeleteInstances:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.DeleteInstances
+        this.targetType = TargetType.Server
+        break
+      case ActionType.DeleteInstance:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.DeleteInstance
+        this.targetType = TargetType.Server
+        break
+      case ActionType.SetConfirmation:
+        this.service = ServiceType.UIService
+        this.serviceMethod = ServiceMethodType.SetConfirmation
+        this.targetType = TargetType.Client
+        break
+      case ActionType.UpdateInstance:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.UpdateInstance
+        this.targetType = TargetType.Server
+        break
+      case ActionType.UpdateInstances:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.UpdateInstances
+        this.targetType = TargetType.Server
+        break
+      case ActionType.SetLocalConfigurationValueAndRebuild:
+        this.service = ServiceType.UIService
+        this.serviceMethod = ServiceMethodType.SetConfigValueAndRebuild
+        this.targetType = TargetType.Client
+        break
       default:
-        throw new Error('The action is not implemented yet')
+        throw new Error('The action is not implemented yet '+this.type)
     }
   }
 }

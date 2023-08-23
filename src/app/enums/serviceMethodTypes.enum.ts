@@ -1,11 +1,10 @@
 export enum ServiceMethodType {
-  GetDataBluePrint = 1,
-  PersistNewInstance,
-  PersistUpdatedInstance,
-  PersistDeletedInstance,
-  PersistNewInstances,
-  PersistUpdatedInstances,
-  PersistDeletedInstances,
+  GetBluePrint = 1,
+  UpdateInstance,
+  DeleteInstance,
+  CreateInstances,
+  UpdateInstances,
+  DeleteInstances,
   GetAllInstances,
   GetInstance,
   SetResponsiveBehaviour,
@@ -13,5 +12,10 @@ export enum ServiceMethodType {
   SetConfigValueAndRebuild,
   ExecuteCustomFunction,
   SetConfirmation,
-  InitializeForm
+  CreateClientData,
+  SetData,
+  GetClientData,
+  CreateInstance,
+  DeleteClientData,
+  CreateStore
 }
