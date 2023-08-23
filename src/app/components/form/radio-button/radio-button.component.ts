@@ -27,7 +27,7 @@ export class RadioButtonComponent implements OnInit {
   updateData() {
     // todo zorg ervoor dat je hier de dataLink naam hebt van de parent container
     if (this.dataName){
-      this.dataService.updateData(this.dataName, this.selectedValue)
+      this.dataService.updateData(this.name, this.selectedValue)
     }
   }
   constructor(private dataService: DataService, private storeService: UpdateViewService) { }

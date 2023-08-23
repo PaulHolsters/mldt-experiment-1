@@ -417,19 +417,18 @@ export class DataService{
         instance.record = data
       } else throw new Error('Data has an invalid format: '+data.toString())
     } else throw new Error('Client data instance does not exist')
-/*    // todo id moet meegegeven worden of iets gelijkaardigs zodat
-    //      update weet waar het moet zoeken
-    debugger
+
+  }
+
+  updateData(name: string, value: string|number | DataRecordModel[] | NoValueType.DBI | undefined){
+    // todo
+    /*
     const parts = name.split('_')
-    // todo ook hier wordt nu het verkeerde objecdt genomen
-    //      HOOG TIJD OM HIER DUIDELIJKE SELECTIE LOGICA VAN TE MAKEN!
     const obj = this.clientData.find(instance => {
       return instance.record && instance.record.id === id
-        || (instance.conceptName === parts[0] && !instance.listOfRecords) // todo dit is te algemeen als voorwaarde
+        || (instance.conceptName === parts[0] && !instance.listOfRecords)
     })
-    debugger
     if (obj && obj.attributes) {
-      debugger
       if (parts.length === 2) {
         const attr = (obj.attributes as AttributeConfigModel[]).find(attr => {
           return attr.name === parts[1]
@@ -459,7 +458,6 @@ export class DataService{
           this.clientData.splice(this.clientData.findIndex(instance => {
             return instance.record?.id === id || (instance.conceptName === parts[0] && !instance.listOfRecords)
           }), 1, obj)
-          debugger
         }
       } else {
         // Het gaat om een concept
