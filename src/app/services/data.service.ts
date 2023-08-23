@@ -184,8 +184,27 @@ export class DataService{
     this.actionsService.bindToAction(new Action(ActionType.CreateClientData))?.subscribe(res=>{
       if(res){
         const clientData = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
-        // todo
-        if(!clientData) this.createClientData()
+        if(!clientData){
+          if(res.data instanceof Array){
+            if(res.data.length===0){
+              this.createClientData(res.effect.action.conceptName,res.effect.action.target,
+                [],[],undefined,undefined)
+            } else{
+              if(res.data[0] instanceof AttributeComponentModel){
+                this.createClientData(res.effect.action.conceptName,res.effect.action.target,
+                  [...res.data],[],undefined,undefined)
+              } else if(typeof res.data[0] === 'string'){
+                this.createClientData(res.effect.action.conceptName,res.effect.action.target,
+                  [],[...res.data],undefined,undefined)
+              }
+            }
+          } else if(res.data.hasOwnProperty('id') && res.data.hasOwnProperty('__typename')){
+            this.createClientData(res.effect.action.conceptName,res.effect.action.target,[],[],undefined,res.data)
+          } else if(res.data instanceof Map){
+            this.createClientData(res.effect.action.conceptName,res.effect.action.target,
+              [],[],undefined,undefined,res.data)
+          }
+        }
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
     })
@@ -194,7 +213,7 @@ export class DataService{
   private clientData: ClientDataRenderModel[] = []
   /***********************************     CLIENT DATA METHODS         ***************************************************************/
 
-  public createClientData(concept:ConceptNameType,
+  private createClientData(concept:ConceptNameType,
   component:ComponentNameType,
   attributes:AttributeComponentModel[],
   errorMessages:string[]|NoValueType.NI,
@@ -302,18 +321,18 @@ export class DataService{
     })
     if(!attr) return undefined
     let currentAttr = {...attr}
-      currentAttr = this.replaceDBIValues(clientData, currentAttr)
-      currentAttr = this.replaceNVYValues(clientData, currentAttr)
-      currentAttr = this.pipeValue(clientData, currentAttr)
-      const [k, v] = Object.entries(clientData.blueprint ?? {}).find(([k, v]) => {
-        return k === dataLink[1]
-      }) ?? []
-      if (k) {
-        currentAttr.dataBlueprint = new Map([[k, v]])
-      }
-      return currentAttr
+    currentAttr = this.replaceDBIValues(clientData, currentAttr)
+    currentAttr = this.replaceNVYValues(clientData, currentAttr)
+    currentAttr = this.pipeValue(clientData, currentAttr)
+    const [k, v] = Object.entries(clientData.blueprint ?? {}).find(([k, v]) => {
+      return k === dataLink[1]
+    }) ?? []
+    if (k) {
+      currentAttr.dataBlueprint = new Map([[k, v]])
+    }
+    return currentAttr
   }
-  public getClientData(conceptName:ConceptNameType,component:ComponentNameType): ClientDataRenderModel | undefined {
+  private getClientData(conceptName:ConceptNameType,component:ComponentNameType): ClientDataRenderModel | undefined {
     return this.clientData.find(cd=>{
       return cd.conceptName===conceptName&&cd.componentName===component
     })
@@ -385,7 +404,7 @@ export class DataService{
     }
     return undefined*/
   }
-  public updateClientData(concept: ConceptNameType, component: ComponentNameType,data:BlueprintType|DataRecordModel|(DataRecordModel|null)[]) {
+  private updateClientData(concept: ConceptNameType, component: ComponentNameType,data:BlueprintType|DataRecordModel|(DataRecordModel|null)[]) {
     const instance =  this.clientData.find(cd=>{
       return cd.componentName === component && cd.conceptName === concept
     })
@@ -447,7 +466,7 @@ export class DataService{
       }
     }*/
   }
-  public deleteClientData(name:ComponentNameType,concept:ConceptNameType){
+  private deleteClientData(name:ComponentNameType,concept:ConceptNameType){
     // wanneer een component gedestroyed wordt
   }
 

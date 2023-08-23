@@ -9,9 +9,7 @@ import {ActionValueModel} from "../models/ActionValueModel";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
 import {ConfirmationModel} from "../models/ConfirmationModel";
-import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 import {DataService} from "./data.service";
-import {DataRecordModel} from "../models/DataRecordModel";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
@@ -38,15 +36,6 @@ export class UiActionsService {
     this.actionsService.bindToAction(new Action(ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res=>{
       if(res){
         const action = this.setConfigValueAndRebuild(res.effect.action)
-        if(action){
-          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
-        }
-      }
-    })
-    this.actionsService.bindToAction(new Action(ActionType.InitializeForm))?.subscribe(res=>{
-      if(res){
-        // todo res.data is any dus wordt niet gecheckt, maw maak data niet langer any!!!
-        const action = this.initializeForm(res.effect.action,res.data,res.target)
         if(action){
           this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
         }
@@ -115,21 +104,6 @@ export class UiActionsService {
         })?.propValue.next(cm)
       } else throw new Error('Component with name '+action.target+ ' could not be found')
     }
-    return true
-  }
-  private initializeForm(action:Action,data?:DataRecordModel,target?:EventTarget){
-    // todo dit in de dataservice => createClientDataInstance
-    const config = this.configService.getConfigFromRoot(action.target)
-    if(config?.data){
-      const compObj = this.dataService.createExtendedConceptModel(action.target, {dataSingle:data,dataMultiple:undefined,blueprint:undefined}, config.data)
-      const error = compObj?.conceptData === undefined
-        || compObj?.conceptBluePrint === null || (compObj?.conceptBluePrint &&  Object.values(compObj?.conceptBluePrint).includes(null))
-      if (compObj && !error) {
-        this.dataService.saveData(compObj)//dataservice
-        this.dataService.setDataObjectState(config.name, config.type, [DataSpecificationType.Id], compObj)//updateviewservicve
-        // todo bij error de desbetreffende component vervangen door een standaard errortext component
-      }
-    } else throw new Error('Configuration of component with name '+action.target+' is missing a valid data configuration')
     return true
   }
 }

@@ -56,7 +56,7 @@ import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType} from "../types/type-aliases";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {DataService} from "./data.service";
 
@@ -107,6 +107,7 @@ export class UpdateViewService implements OnInit {
       }
     })
   }
+
 
   private statePropertySubjects: StatePropertySubjectModel[] = []
 

@@ -7,6 +7,7 @@ import {Effect} from "../../effectclasses/Effect";
 import {Trigger} from "../../effectclasses/Trigger";
 import {Action} from "../../effectclasses/Action";
 import {NoValueType} from "../../enums/no_value_type";
+import {ActionValueModel} from "../../models/ActionValueModel";
 
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
@@ -23,21 +24,29 @@ const customFunction = (stateService: StateService): any[] => {
 }
 export const effects:Effect[] = [
   new Effect(
-    new Trigger(TriggerType.ComponentReady, 'table'),
-    new Action(ActionType.GetAllInstances, 'product','table')
-  ),
-  new Effect(
     new Trigger(TriggerType.ComponentReady, 'delete-container'),
     new Action(ActionType.GetBluePrint,'product','delete-container'),
-
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'delete-btn'),
     new Action(ActionType.DeleteInstance, 'product', NoValueType.NA,   'delete-product'),
   ),
+  // todo zie dat input wordt gecleared ipv alles onzichtbaar gemaakt
   new Effect(
     new Trigger(TriggerType.ActionFinished,'delete-product'),
-    new Action(ActionType.GetInstance,    'product','delete-container'),
+    new Action(ActionType.SetRenderProperty,    'product','delete-container',NoValueType.NA,new ActionValueModel(PropertyName.visible, false)),
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentReady, 'table'),
+    new Action(ActionType.GetAllInstances, 'product','table')
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
+    new Action(ActionType.CreateClientData, 'product','form container - product edit','cd form')
+  ),
+  new Effect(
+    new Trigger(TriggerType.ActionFinished, 'cd form'),
+    new Action(ActionType.SetRenderProperty, NoValueType.NA,'edit-product-dialog',NoValueType.NA,new ActionValueModel(PropertyName.visible, true))
   ),
 ]
 
