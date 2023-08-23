@@ -16,5 +16,8 @@ export enum ActionType {
   ExecuteCustomFunction,
   SetConfirmation,// todo hier zouden geen component namen mogen komen
   InitializeForm,// todo hier zouden geen component namen mogen komen
-UpdateView
+  UpdateView,
+  CreateClientData,
+  GetClientData,
+  DeleteClientData
 }

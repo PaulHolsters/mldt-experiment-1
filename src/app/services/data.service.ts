@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {UpdateViewService} from "./updateView.service";
 import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {NoValueType} from "../enums/no_value_type";
@@ -28,7 +27,6 @@ export class DataService{
   public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
   public clientDataUpdated = new Subject<ClientDataRenderModel>()
   constructor(private configService:ConfigService,
-              private storeService: UpdateViewService,
               private apollo: Apollo,
               private actionsService:ActionsService,
               private queryService:QueryService,
@@ -41,30 +39,37 @@ export class DataService{
   public bindActions(){
 
     /********************     queries     ****************************/
+    function createClientData(self:DataService,blueprintStr:string|undefined,concept:ConceptNameType,
+                              component:ComponentNameType,
+                              attributes:AttributeComponentModel[],
+                              errorMessages:string[]|NoValueType.NI,
+                              listOfRecords?:(DataRecordModel|null)[],
+                              record?:DataRecordModel){
+      if(blueprintStr){
+        // todo voeg code toe die effectief omgaat met errors
+        //      nu ga ik er voor het gemak van uit dat dit nooit errored
+        self.createClientData(
+          concept,
+          component,
+          attributes,
+          errorMessages,
+          listOfRecords,
+          record,
+          self.createBlueprint(blueprintStr)
+        )
+        const cd = self.getClientData(concept,component)
+        if(cd)
+          self.clientDataUpdated.next(cd)
+      }
+    }
 
     this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(async res => {
       if (res) {
         this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
           if(typeof resFirst.numberOfNesting === 'number'){
             this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
-              if(resOrErr.blueprint){
-                // todo voeg code toe die effectief omgaat met errors
-                //      nu ga ik er voor het gemak van uit dat dit nooit errored
-                this.createClientData(
-                  new ClientDataRenderModel(
-                    res.effect.action.conceptName,
-                    res.effect.action.target,
-                    [],
-                    NoValueType.NI,
-                    undefined,
-                    undefined,
-                    this.createBlueprint(resOrErr.blueprint)
-                    )
-                )
-                const cd = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
-                if(cd)
-                this.clientDataUpdated.next(cd)
-              }
+              createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
+                undefined)
               this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
             })
           }
@@ -93,22 +98,8 @@ export class DataService{
             this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
               if(typeof resFirst.numberOfNesting === 'number'){
                 this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
-                  if(resOrErr.blueprint){
-                    this.createClientData(
-                      new ClientDataRenderModel(
-                        res.effect.action.conceptName,
-                        res.effect.action.target,
-                        [],
-                        NoValueType.NI,
-                        undefined,
-                        undefined,
-                        this.createBlueprint(resOrErr.blueprint)
-                      )
-                    )
-                    const cd = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
-                    if(cd)
-                      this.clientDataUpdated.next(cd)
-                  }
+                  createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
+                    undefined)
                   const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
                   if (blueprint) {
                     getRecord(this,blueprint,res)
@@ -140,22 +131,8 @@ export class DataService{
           this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
             if(typeof resFirst.numberOfNesting === 'number'){
               this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
-                if(resOrErr.blueprint){
-                  this.createClientData(
-                    new ClientDataRenderModel(
-                      res.effect.action.conceptName,
-                      res.effect.action.target,
-                      [],
-                      NoValueType.NI,
-                      undefined,
-                      undefined,
-                      this.createBlueprint(resOrErr.blueprint)
-                    )
-                  )
-                  const cd = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
-                  if(cd)
-                    this.clientDataUpdated.next(cd)
-                }
+                createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
+                  undefined)
                 const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
                 if (blueprint) {
                   getAllRecords(this,blueprint,res)
@@ -202,12 +179,29 @@ export class DataService{
         })
       }
     })
+
+    /********************     Client Data Actions     ****************************/
+    this.actionsService.bindToAction(new Action(ActionType.CreateClientData))?.subscribe(res=>{
+      if(res){
+        const clientData = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+        // todo
+        if(!clientData) this.createClientData()
+        this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+      }
+    })
   }
   /***********************************     CLIENT DATA ARRAY        ***************************************************************/
   private clientData: ClientDataRenderModel[] = []
-  /***********************************     CLIENT DATA ACTIONS         ***************************************************************/
-  public createClientData(clientDataInstance:ClientDataRenderModel){
-    this.clientData.push(clientDataInstance)
+  /***********************************     CLIENT DATA METHODS         ***************************************************************/
+
+  public createClientData(concept:ConceptNameType,
+  component:ComponentNameType,
+  attributes:AttributeComponentModel[],
+  errorMessages:string[]|NoValueType.NI,
+  listOfRecords?:(DataRecordModel|null)[],
+  record?:DataRecordModel,
+  blueprint?:BlueprintType){
+    this.clientData.push(new ClientDataRenderModel(concept,component,attributes,errorMessages,listOfRecords,record,blueprint))
   }
   private createBlueprint(bluePrintObj:string):BlueprintType{
     const bp = new Map<string,[string,[BlueprintType,DataRecordModel[]|DataRecordModel]|string[]]|string>()
@@ -268,7 +262,6 @@ export class DataService{
     }
     return props.indexOf(',',startIndex)
   }
-
   private getNextObjFromProps(props:string):string{
     if(props.indexOf(',')===-1) {
       return props.substring(props.indexOf('{'),props.lastIndexOf('}')+1)

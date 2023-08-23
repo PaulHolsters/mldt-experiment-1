@@ -57,15 +57,17 @@ import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {ActionIdType} from "../types/type-aliases";
+import {ServiceType} from "../enums/serviceTypes.enum";
+import {DataService} from "./data.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateViewService implements OnInit {
 
-  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
+  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType|ServiceType}>()
 
-  constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService) {
+  constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService,private dataService:DataService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
@@ -76,39 +78,36 @@ export class UpdateViewService implements OnInit {
     this.actionsService.bindToAction(new Action(ActionType.CreateStore))?.subscribe(res => {
       if(res){
         this.createStore()
-        if(typeof res.effect.trigger.source === 'string')
         this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
       }
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateView))?.subscribe(res => {
       if(res){
-        // todo updateView using data
-
+        this.setDataState(res.data.componentName,[],res.data)
+        this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
       }
     })
   }
-  setDataState(nameComponent: string, dataSpecs: DataSpecificationType[], compConcept?: ClientDataRenderModel) {
+  private setDataState(nameComponent: string, dataSpecs: DataSpecificationType[], compConcept?: ClientDataRenderModel) {
     this.getStatePropertySubjects().forEach(propSubj => {
       let comp = this.configService.getConfigFromRoot(propSubj.componentName)
-      // todo refactor: je haalt het desbetrffende object op en stoort door naar de juiste component/property
-      //                 replaceDBIvalues mag hier dus niet aanwezig zijn
-
       // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
       if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ClientDataConfigModel && comp.name === nameComponent) {
-        if(compConcept?.attributes && compConcept?.attributes instanceof Array){
+/*        if(compConcept?.attributes && compConcept?.attributes instanceof Array){
           compConcept.attributes = compConcept.attributes.map(attr=>{
             return this.replaceDBIValues(compConcept,attr)
           })
-        }
+        }*/
         propSubj.propValue.next(compConcept)
       } else if (propSubj.propName === 'dataLink' && comp
         && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
         && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
-        const data: AttributeComponentModel | undefined = this.getDataObject(comp.attributes?.smartphone?.dataLink, componentType, dataSpecs)
-        this.storeService.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
+        const data: AttributeComponentModel | undefined = this.dataService.getAttribute(nameComponent,comp.attributes?.smartphone?.dataLink)
+        this.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
       }
     })
   }
+
   private statePropertySubjects: StatePropertySubjectModel[] = []
 
   private hasScreenSizeProperty(stateModel:
