@@ -7,6 +7,7 @@ import {DataService} from "./data.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {UpdateViewService} from "./updateView.service";
 import {UiActionsService} from "./ui-actions.service";
+import {ServiceType} from "../enums/serviceTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,9 @@ export class EventsService{
     this.dataService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
     })
+    this.dataService.clientDataUpdated.subscribe(res =>{
+      this.triggerEvent(TriggerType.ClientDataUpdated, ServiceType.DataService,res)
+    })
 
     this.UIActionsService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
@@ -35,7 +39,7 @@ export class EventsService{
       this.triggerEvent(res.trigger,res.source)
     })
   }
-  public triggerEvent(trigger:TriggerType,source:string,data?:any,target?:EventTarget){
+  public triggerEvent(trigger:TriggerType,source:string|ServiceType,data?:any,target?:EventTarget){
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()

@@ -9,6 +9,7 @@ import {ResponsiveAttributesConfigModel} from '../models/Attributes/ResponsiveAt
 import {forceAutocomplete} from "@angular/cli/src/utilities/environment-options";
 import {TableColumnModel} from "../models/TableColumnModel";
 import { Effect } from '../effectclasses/Effect';
+import {ServiceType} from "../enums/serviceTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -165,7 +166,7 @@ export class ConfigService {
       return effect.trigger.name === trigger
     })
   }
-  public getEffectsForEvent(trigger: TriggerType,source:string):Effect[] {
+  public getEffectsForEvent(trigger: TriggerType,source:string|ServiceType):Effect[] {
     return this.appConfig.userConfig.effects.filter((effect) => {
       return effect.trigger.name === trigger && effect.trigger.source===source
     })

@@ -1,7 +1,6 @@
 import { Observable, Subject} from "rxjs";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
-import {ActionType} from "../enums/actionTypes.enum";
 import {Effect} from "../effectclasses/Effect";
 
 export interface ActionSubjectModel {

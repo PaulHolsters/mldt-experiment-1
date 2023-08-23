@@ -52,12 +52,11 @@ import {ContentInjectionConfigPropsModel} from "../models/ContentInjection/Conte
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType} from "../types/union-types";
-import {ComponentType} from "../enums/componentTypes.enum";
 import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
+import {ActionIdType} from "../types/type-aliases";
 
 @Injectable({
   providedIn: 'root'
@@ -77,7 +76,14 @@ export class UpdateViewService implements OnInit {
     this.actionsService.bindToAction(new Action(ActionType.CreateStore))?.subscribe(res => {
       if(res){
         this.createStore()
+        if(typeof res.effect.trigger.source === 'string')
         this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
+      }
+    })
+    this.actionsService.bindToAction(new Action(ActionType.UpdateView))?.subscribe(res => {
+      if(res){
+        // todo updateView using data
+
       }
     })
   }

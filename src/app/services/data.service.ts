@@ -1,12 +1,9 @@
 import {Injectable} from '@angular/core';
 import {UpdateViewService} from "./updateView.service";
 import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
-import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {NoValueType} from "../enums/no_value_type";
 import {Subject} from "rxjs";
-import {ComponentType} from "../enums/componentTypes.enum";
-import {DataObjectModel} from "../models/DataObjectModel";
 import {DataRecordModel} from "../models/DataRecordModel";
 import {FunctionType} from "../enums/functionTypes.enum";
 import utilFunctions from "../utils/utilFunctions";
@@ -19,6 +16,7 @@ import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
 import {ActionIdType, BlueprintType, ComponentNameType, ConceptNameType} from "../types/type-aliases";
+import {Effect} from "../effectclasses/Effect";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +26,7 @@ export class DataService{
   //  todo a way to filter data
   //  todo a way to order data (sort)
   public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
+  public clientDataUpdated = new Subject<ClientDataRenderModel>()
   constructor(private configService:ConfigService,
               private storeService: UpdateViewService,
               private apollo: Apollo,
@@ -62,6 +61,9 @@ export class DataService{
                     this.createBlueprint(resOrErr.blueprint)
                     )
                 )
+                const cd = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+                if(cd)
+                this.clientDataUpdated.next(cd)
               }
               this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
             })
@@ -73,13 +75,46 @@ export class DataService{
       if (res) {
         if (typeof res.data === 'string') {
           // todo zie dat je hier van een ObjectId type kan uitgaan
+          function getRecord(self:DataService,blueprint:BlueprintType,res:{effect: Effect, data: any, target: EventTarget | undefined}){
+            self.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data).subscribe(errorOrResult=>{
+              if(errorOrResult && errorOrResult.dataSingle){
+                self.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataSingle)
+                const cd = self.getClientData(res.effect.action.conceptName,res.effect.action.target)
+                if(cd)
+                  self.clientDataUpdated.next(cd)
+              }
+              self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+            })
+          }
           const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
           if (blueprint) {
-            this.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data).subscribe(errorOrResult=>{
-              if(errorOrResult && errorOrResult.dataSingle){
-                this.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataSingle)
+            getRecord(this,blueprint,res)
+          } else{
+            this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
+              if(typeof resFirst.numberOfNesting === 'number'){
+                this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
+                  if(resOrErr.blueprint){
+                    this.createClientData(
+                      new ClientDataRenderModel(
+                        res.effect.action.conceptName,
+                        res.effect.action.target,
+                        [],
+                        NoValueType.NI,
+                        undefined,
+                        undefined,
+                        this.createBlueprint(resOrErr.blueprint)
+                      )
+                    )
+                    const cd = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+                    if(cd)
+                      this.clientDataUpdated.next(cd)
+                  }
+                  const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+                  if (blueprint) {
+                    getRecord(this,blueprint,res)
+                  }
+                })
               }
-              this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
             })
           }
         }
@@ -87,16 +122,47 @@ export class DataService{
     })
     this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(async res => {
       if (res) {
+        function getAllRecords(self:DataService,blueprint:BlueprintType,res:{effect: Effect, data: any, target: EventTarget | undefined}){
+          self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
+            if(errorOrResult && errorOrResult.dataMultiple){
+              self.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataMultiple)
+              const cd = self.getClientData(res.effect.action.conceptName,res.effect.action.target)
+              if(cd)
+                self.clientDataUpdated.next(cd)
+            }
+            self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+          })
+        }
         const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
         if (blueprint) {
-          this.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
-            if(errorOrResult && errorOrResult.dataMultiple){
-              this.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataMultiple)
-            }
-            this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
-          })
+          getAllRecords(this,blueprint,res)
         } else{
-          // in principe kan dit niet: een blueprint moet altijd als eerste opgehaald worden
+          this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
+            if(typeof resFirst.numberOfNesting === 'number'){
+              this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
+                if(resOrErr.blueprint){
+                  this.createClientData(
+                    new ClientDataRenderModel(
+                      res.effect.action.conceptName,
+                      res.effect.action.target,
+                      [],
+                      NoValueType.NI,
+                      undefined,
+                      undefined,
+                      this.createBlueprint(resOrErr.blueprint)
+                    )
+                  )
+                  const cd = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+                  if(cd)
+                    this.clientDataUpdated.next(cd)
+                }
+                const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+                if (blueprint) {
+                  getAllRecords(this,blueprint,res)
+                }
+              })
+            }
+          })
         }
       }
     })

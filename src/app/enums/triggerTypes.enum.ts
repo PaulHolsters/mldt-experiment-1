@@ -6,5 +6,6 @@ export enum TriggerType {
   RowSelected,
   PageChanged,
   ActionAccepted,
-  ActionRejected
+  ActionRejected,
+  ClientDataUpdated
 }

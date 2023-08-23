@@ -15,5 +15,6 @@ export enum ActionType {
   SetLocalConfigurationValueAndRebuild,
   ExecuteCustomFunction,
   SetConfirmation,// todo hier zouden geen component namen mogen komen
-  InitializeForm// todo hier zouden geen component namen mogen komen
+  InitializeForm,// todo hier zouden geen component namen mogen komen
+UpdateView
 }
