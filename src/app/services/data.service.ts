@@ -37,6 +37,7 @@ export class DataService{
     })
   }
   public bindActions(){
+    // todo pas return types van queries aan naar het juiste formaat
 
     /********************     queries     ****************************/
 
@@ -114,20 +115,23 @@ export class DataService{
         } else{
           debugger
           this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
-            debugger
-            if(typeof resFirst.numberOfNesting === 'number'){
-              debugger
-              this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
-                debugger
-                createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
-                  undefined)
-                const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
-                debugger
-                if (blueprint) {
-                  getAllRecords(this,blueprint,res)
-                }
-              })
+            const dataArr = Object.values(res.data)
+            if(dataArr.length>0){
+              if(typeof dataArr[0]==='object'&& dataArr[0]?.hasOwnProperty('numberOfNesting') && typeof (dataArr[0] as {numberOfNesting:any}).numberOfNesting === 'number'){
+                const numberOfNesting = (dataArr[0] as {numberOfNesting:any}).numberOfNesting as number
+                this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr=>{
+                  debugger
+                  createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
+                    undefined)
+                  const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+                  debugger
+                  if (blueprint) {
+                    getAllRecords(this,blueprint,res)
+                  }
+                })
+              }
             }
+
           })
         }
       }

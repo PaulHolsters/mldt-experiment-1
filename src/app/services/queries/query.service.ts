@@ -14,12 +14,12 @@ import {NoValueType} from "../../enums/no_value_type";
 export class QueryService {
   constructor(private apollo:Apollo) { }
 
-  private query(query:Query): Observable<DataObjectModel>{
+  private query(query:Query): Observable<{data:Object}>{
     return this.apollo
       .mutate({
         mutation: gql`${query.getStr()}`
         // todo specify return types
-      }) as unknown as Observable<DataObjectModel>
+      }) as unknown as Observable<{data:Object}>
   }
   /*
   *     switch (querySubType) {
@@ -96,7 +96,7 @@ export class QueryService {
   * */
 
   /***********************************     QUERY ACTIONS         ***************************************************************/
-  public getNumberOfNesting(conceptName:ConceptNameType):Observable<DataObjectModel> {
+  public getNumberOfNesting(conceptName:ConceptNameType):Observable<{data:Object}> {
     return this.query(new Query(QueryType.GetNumberOfNesting, conceptName))
     /*    return await this.query(new Query(QueryType.GetConceptBlueprint, ))
         if (action.targetType === TargetType.Client) {
@@ -116,7 +116,7 @@ export class QueryService {
           }
         }*/
   }
-  public getBlueprint(conceptName:ConceptNameType,numberOfNesting:number):Observable<DataObjectModel> {
+  public getBlueprint(conceptName:ConceptNameType,numberOfNesting:number):Observable<{data:Object}> {
       return this.query(new Query(QueryType.GetConceptBlueprint, conceptName,numberOfNesting))
 /*    return await this.query(new Query(QueryType.GetConceptBlueprint, ))
     if (action.targetType === TargetType.Client) {
@@ -136,7 +136,7 @@ export class QueryService {
       }
     }*/
   }
-  public getAllRecords(conceptName:ConceptNameType,blueprint:BlueprintType):Observable<DataObjectModel> {
+  public getAllRecords(conceptName:ConceptNameType,blueprint:BlueprintType):Observable<{data:Object}> {
     return this.query(new Query(QueryType.GetAllRecords, conceptName,NoValueType.NA,blueprint))
 /*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
@@ -170,7 +170,7 @@ export class QueryService {
     }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-  public getSingleRecord(conceptName:ConceptNameType,blueprint:BlueprintType, id: ObjectIdType):Observable<DataObjectModel> {
+  public getSingleRecord(conceptName:ConceptNameType,blueprint:BlueprintType, id: ObjectIdType):Observable<{data:Object}> {
     return this.query(new Query(QueryType.GetSingleRecord, conceptName,NoValueType.NA,blueprint,id))
 /*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
@@ -196,7 +196,7 @@ export class QueryService {
     }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-  public getMultipleRecords(conceptName:ConceptNameType,blueprint:BlueprintType,filter:FilterModel):Observable<DataObjectModel>{
+  public getMultipleRecords(conceptName:ConceptNameType,blueprint:BlueprintType,filter:FilterModel):Observable<{data:Object}>{
     return this.query(new Query(QueryType.GetMultipleRecords, conceptName,NoValueType.NA,blueprint,NoValueType.NA,filter))
   }
 }
