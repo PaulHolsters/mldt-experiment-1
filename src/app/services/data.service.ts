@@ -116,6 +116,7 @@ export class DataService{
         function getAllRecords(self:DataService,blueprint:BlueprintType,res:{effect: Effect, data: any, target: EventTarget | undefined}){
           debugger
           self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
+            debugger
             const data = self.getData(errorOrResult)
             if(data.dataMultiple){
               debugger
@@ -136,17 +137,13 @@ export class DataService{
         if (blueprint) {
           getAllRecords(this,blueprint,res)
         } else{
-          debugger
           this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
             const data = this.getData(resFirst)
-            debugger
             if(this.dataIsNumber(data,'numberOfNesting')){
-              debugger
               const numberOfNesting = this.getDataValue(data,'numberOfNesting')
-              debugger
               this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr => {
-                debugger
                 const data = this.getData(resOrErr)
+                debugger
                 if(data){
                   createClientData(this, data.blueprint, res.effect.action.conceptName, res.effect.action.target, [], NoValueType.NI, undefined,
                     undefined)
@@ -270,22 +267,33 @@ export class DataService{
     this.clientData.push(new ClientDataRenderModel(concept,component,attributes,errorMessages,listOfRecords,record,blueprint))
   }
   private createBlueprint(bluePrintObj:string):BlueprintType{
+    debugger
     const bp = new Map<string,[string,[BlueprintType,DataRecordModel[]|DataRecordModel]|string[]]|string>()
-    let props = this.getPropsFromObj(bluePrintObj)
+    let props = this.getPropsFromObj(bluePrintObj).trim()
+    debugger
     while(props.length>2){
       const propsObj = this.getNextObjFromProps(props)
+      debugger
       props = '['+props.substring(this.getCutOff(props)+1,props.lastIndexOf(']')).trim()+']'
+      debugger
       // todo zorg ervoor dat blueprint type beter wordt afgedwongen
       if(!this.hasValueProp(propsObj)){
+        // todo fix this: nu wordt id=>"; type:" gedaan terwijl er moet komen id=>objectId
         bp.set(this.getNameFromPropsObj(propsObj),this.getTypeFromPropsObj(propsObj))
+        debugger
       } else if(this.valueIsEnum(propsObj)){
         bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),this.getEnumValues(propsObj)])
+        debugger
       } else if(this.valueIsBlueprint(propsObj)){
         const propsObjOfBlueprintValue = this.getBlueprintObj(propsObj)
+        debugger
         const concept:ConceptNameType = this.getConceptFromBlueprintObj(propsObjOfBlueprintValue)
+        debugger
         // todo werk recursie weg
         const blueprint = this.createBlueprint(propsObjOfBlueprintValue)
+        debugger
         if(this.getTypeFromPropsObj(propsObj) === 'list'){
+          debugger
           this.queryService.getAllRecords(concept,blueprint).subscribe(resOrErr=>{
             const data = this.getData(resOrErr)
             if(data.dataMultiple){
@@ -309,6 +317,7 @@ export class DataService{
     return bp
   }
   private getConceptFromBlueprintObj(blueprintObj:string):ConceptNameType{
+    debugger
     if(blueprintObj.indexOf('blueprint:')===-1) throw new Error('Blueprint string does not contain a concept name')
     return blueprintObj.substring(blueprintObj.indexOf('blueprint:')+10,blueprintObj.indexOf(';'))
   }
@@ -317,10 +326,18 @@ export class DataService{
     return propsObj.substring(propsObj.indexOf('name:')+5,propsObj.indexOf(';'))
   }
   private getTypeFromPropsObj(propsObj:string):string{
+    debugger
     if(propsObj.indexOf('type:')===-1) throw new Error('props object string does not contain a type property')
-    return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf(';'))
+    if(propsObj.indexOf(';',propsObj.indexOf('type:'))!==-1){
+      debugger
+      return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf(';')).trim()
+    } else{
+      debugger
+      return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf('}')).trim()
+    }
   }
   private getCutOff(props:string){
+    // todo enums hebben ook komma's
     if(props.indexOf(',')===-1) {
       throw new Error('props string does not contain more than one object')
     }
@@ -328,9 +345,12 @@ export class DataService{
     while(props.indexOf('{',startIndex+1)<props.indexOf('}',startIndex)){
       startIndex++
     }
+    // todo start index begin net na de { maar moet beginnen net na de laatste komma voor }
     return props.indexOf(',',startIndex)
   }
   private getNextObjFromProps(props:string):string{
+    debugger
+    // todo bij een value prop met ENUM waarden loopt het mis
     if(props.indexOf(',')===-1) {
       return props.substring(props.indexOf('{'),props.lastIndexOf('}')+1)
     }
@@ -358,7 +378,7 @@ export class DataService{
   }
   private getPropsFromObj(blueprintObj:string):string{
     if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
-    return blueprintObj.substring(blueprintObj.indexOf('props:')+5,blueprintObj.lastIndexOf(']')+1).trim()
+    return blueprintObj.substring(blueprintObj.indexOf('props:')+6,blueprintObj.lastIndexOf(']')+1).trim()
   }
   public getAttribute(component:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
