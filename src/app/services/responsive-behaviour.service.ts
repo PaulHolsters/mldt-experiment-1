@@ -196,7 +196,6 @@ export class ResponsiveBehaviourService implements OnInit{
     this.configService.getAllComponents(true).forEach(c=>{
       this.setState(c, screenSize)
     })
-    debugger
             //         todo de formulieren zitten nog niet in de dialoogboxen wat verklaart waarom ze niet naar boven komen
                 //          of leeg naar boven komen
     /*this.configService.convertToComponentModels(this.configService.appConfig?.userConfig).components.forEach(comp => {

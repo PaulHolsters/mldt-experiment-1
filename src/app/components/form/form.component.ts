@@ -22,7 +22,6 @@ export class FormComponent extends AbstractComponent implements OnInit{
         this.setPropValue(k,res)
       })
     })
-    console.log('form init '+this.name)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

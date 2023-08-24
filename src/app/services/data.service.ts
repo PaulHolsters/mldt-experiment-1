@@ -44,12 +44,20 @@ export class DataService{
     this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(async res => {
       if (res) {
         this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
-          if(typeof resFirst.numberOfNesting === 'number'){
-            this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
-              createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
-                undefined)
-              this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
-            })
+          const data = this.getData(resFirst)
+          if(data){
+            if(this.dataIsNumber(data,'numberOfNesting')){
+              this.queryService.getBlueprint(res.effect.action.conceptName,this.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
+                const data = this.getData(resOrErr)
+                if(data){
+                  createClientData(this,data.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
+                    undefined)
+                  this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+                } else{
+                  // todo handle error
+                }
+              })
+            }
           }
         })
       }
@@ -60,13 +68,18 @@ export class DataService{
           // todo zie dat je hier van een ObjectId type kan uitgaan
           function getRecord(self:DataService,blueprint:BlueprintType,res:{effect: Effect, data: any, target: EventTarget | undefined}){
             self.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data).subscribe(errorOrResult=>{
-              if(errorOrResult && errorOrResult.dataSingle){
-                self.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataSingle)
-                const cd = self.getClientData(res.effect.action.conceptName,res.effect.action.target)
-                if(cd)
-                  self.clientDataUpdated.next(cd)
+              const data = self.getData(errorOrResult)
+              if(data){
+                if(data.dataSingle){
+                  self.updateClientData(res.effect.action.conceptName,res.effect.action.target,data.dataSingle)
+                  const cd = self.getClientData(res.effect.action.conceptName,res.effect.action.target)
+                  if(cd)
+                    self.clientDataUpdated.next(cd)
+                }
+                self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+              } else{
+                // todo handle error
               }
-              self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
             })
           }
           const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
@@ -74,15 +87,24 @@ export class DataService{
             getRecord(this,blueprint,res)
           } else{
             this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
-              if(typeof resFirst.numberOfNesting === 'number'){
-                this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
-                  createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
-                    undefined)
-                  const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
-                  if (blueprint) {
-                    getRecord(this,blueprint,res)
+              const data = this.getData(resFirst)
+              if(data){
+              if(this.dataIsNumber(data,'numberOfNesting')){
+                this.queryService.getBlueprint(res.effect.action.conceptName,data.numberOfNesting).subscribe(resOrErr=>{
+                  const data = this.getData(resOrErr)
+                  if(data){
+                    createClientData(this,data.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
+                      undefined)
+                    const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+                    if (blueprint) {
+                      getRecord(this,blueprint,res)
+                    }
+                  } else{
+                    // todo handle error
                   }
                 })
+              }} else{
+                // todo handle error
               }
             })
           }
@@ -91,19 +113,20 @@ export class DataService{
     })
     this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(async res => {
       if (res) {
-        debugger
         function getAllRecords(self:DataService,blueprint:BlueprintType,res:{effect: Effect, data: any, target: EventTarget | undefined}){
           debugger
           self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
-            debugger
-            if(errorOrResult && errorOrResult.dataMultiple){
+            const data = self.getData(errorOrResult)
+            if(data.dataMultiple){
               debugger
-              self.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataMultiple)
+              self.updateClientData(res.effect.action.conceptName,res.effect.action.target,data.dataMultiple)
               debugger
               const cd = self.getClientData(res.effect.action.conceptName,res.effect.action.target)
               debugger
               if(cd)
                 self.clientDataUpdated.next(cd)
+            } else{
+              // todo handle error
             }
             debugger
             self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -115,23 +138,28 @@ export class DataService{
         } else{
           debugger
           this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
-            const dataArr = Object.values(res.data)
-            if(dataArr.length>0){
-              if(typeof dataArr[0]==='object'&& dataArr[0]?.hasOwnProperty('numberOfNesting') && typeof (dataArr[0] as {numberOfNesting:any}).numberOfNesting === 'number'){
-                const numberOfNesting = (dataArr[0] as {numberOfNesting:any}).numberOfNesting as number
-                this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr=>{
-                  debugger
-                  createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
+            const data = this.getData(resFirst)
+            debugger
+            if(this.dataIsNumber(data,'numberOfNesting')){
+              debugger
+              const numberOfNesting = this.getDataValue(data,'numberOfNesting')
+              debugger
+              this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr => {
+                debugger
+                const data = this.getData(resOrErr)
+                if(data){
+                  createClientData(this, data.blueprint, res.effect.action.conceptName, res.effect.action.target, [], NoValueType.NI, undefined,
                     undefined)
                   const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
                   debugger
                   if (blueprint) {
-                    getAllRecords(this,blueprint,res)
+                    getAllRecords(this, blueprint, res)
                   }
-                })
-              }
+                } else{
+                  // todo handle error
+                }
+              })
             }
-
           })
         }
       }
@@ -227,11 +255,11 @@ export class DataService{
           self.clientDataUpdated.next(cd)
       }
     }
+
   }
   /***********************************     CLIENT DATA ARRAY        ***************************************************************/
   private clientData: ClientDataRenderModel[] = []
   /***********************************     CLIENT DATA METHODS         ***************************************************************/
-
   private createClientData(concept:ConceptNameType,
   component:ComponentNameType,
   attributes:AttributeComponentModel[],
@@ -259,8 +287,9 @@ export class DataService{
         const blueprint = this.createBlueprint(propsObjOfBlueprintValue)
         if(this.getTypeFromPropsObj(propsObj) === 'list'){
           this.queryService.getAllRecords(concept,blueprint).subscribe(resOrErr=>{
-            if(resOrErr.dataMultiple){
-              bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,resOrErr.dataMultiple]])
+            const data = this.getData(resOrErr)
+            if(data.dataMultiple){
+              bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,data.dataMultiple]])
             } else throw new Error('BlueprintObjectValue could not be completed')
           })
         } else if(this.getTypeFromPropsObj(propsObj).indexOf('object:')!==-1){
@@ -269,8 +298,9 @@ export class DataService{
             blueprint,
             this.getTypeFromPropsObj(propsObj).substring(this.getTypeFromPropsObj(propsObj).indexOf('object:')+7)
           ).subscribe(resOrErr=>{
-            if(resOrErr.dataSingle){
-              bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,resOrErr.dataSingle]])
+            const data = this.getData(resOrErr)
+            if(data.dataSingle){
+              bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,data.dataSingle]])
             } else throw new Error('BlueprintObjectValue could not be completed')
           })
         }
@@ -627,6 +657,26 @@ export class DataService{
       attr.multiselect.selectedOptions = attr.dataServer
     }
     return attr
+  }
+
+
+  /*******************************   HELPERS ********************************************************/
+
+  private getData(data:Object):any|undefined{
+    // todo herwerkt zodat dit duidelijker is
+    return Object.values(Object.values(data).length > 0 ? Object.values(data)[0] : {}).length>0 ? Object.values(Object.values(data)[0])[0] : undefined
+  }
+  private getDataValue(data:Object,prop:string){
+    const ar = Object.entries(data).find(([k,v])=>{
+      return (k===prop)
+    })
+    if(ar) return ar[1]
+    throw new Error('No value find in data form server for '+prop)
+  }
+  private dataIsNumber(data:Object,prop:string):boolean{
+    return Object.entries(data).find(([k,v])=>{
+      return (typeof v === 'number') && k===prop
+    }) !== undefined
   }
 
 }

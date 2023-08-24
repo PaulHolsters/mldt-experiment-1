@@ -15,6 +15,8 @@ export class QueryService {
   constructor(private apollo:Apollo) { }
 
   private query(query:Query): Observable<{data:Object}>{
+    console.log(query.getStr())
+    debugger
     return this.apollo
       .mutate({
         mutation: gql`${query.getStr()}`
