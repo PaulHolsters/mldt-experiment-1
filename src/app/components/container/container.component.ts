@@ -64,8 +64,10 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
   }
   ngOnInit(): void {
       if (this.name === 'content-container') {
+        debugger
         this.eventsService.triggerEvent(TriggerType.RootComponentReady, this.name,
           RootComponent)
+        debugger
       }
       this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
       this.props = Container.getProperties()

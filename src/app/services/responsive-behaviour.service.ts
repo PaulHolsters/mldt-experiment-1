@@ -14,7 +14,7 @@ import {ActionIdType} from "../types/type-aliases";
 })
 export class ResponsiveBehaviourService implements OnInit{
   private screensize:ScreenSize|undefined
-  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
+  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
   public get screenSize(){
     return this.screensize
   }
@@ -38,8 +38,7 @@ export class ResponsiveBehaviourService implements OnInit{
     this.actionsService.bindToAction(new Action(ActionType.SetGlobalResponsiveBehaviour))?.subscribe(res=>{
       if(res){
         this.setResponsiveBehaviour()
-        if(typeof res.effect.trigger.source === 'string')
-        this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
+        this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
       }
     })
   }
@@ -164,10 +163,6 @@ export class ResponsiveBehaviourService implements OnInit{
     }
     if (component.children && component.children.length > 0) {
       this.storeService.setRBSState(component.name, component.children as ComponentModel[])
-      /*      component.children.forEach(child => {
-              this.setState(child, screenSize)
-            })
-          }*/
     }
     if (component.attributes){
       // todo mogelijks mag deze methode nu ook versimpeld worden
@@ -201,6 +196,7 @@ export class ResponsiveBehaviourService implements OnInit{
     this.configService.getAllComponents(true).forEach(c=>{
       this.setState(c, screenSize)
     })
+    debugger
             //         todo de formulieren zitten nog niet in de dialoogboxen wat verklaart waarom ze niet naar boven komen
                 //          of leeg naar boven komen
     /*this.configService.convertToComponentModels(this.configService.appConfig?.userConfig).components.forEach(comp => {

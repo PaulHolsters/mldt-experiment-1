@@ -19,7 +19,7 @@ import {ActionIdType} from "../types/type-aliases";
   providedIn: 'root'
 })
 export class UiActionsService {
-  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
+  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
 
   constructor(
     private storeService:UpdateViewService,

@@ -65,7 +65,7 @@ import {DataService} from "./data.service";
 })
 export class UpdateViewService implements OnInit {
 
-  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType|ServiceType}>()
+  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
 
   constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService,private dataService:DataService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
@@ -76,15 +76,17 @@ export class UpdateViewService implements OnInit {
   }
   public bindActions() {
     this.actionsService.bindToAction(new Action(ActionType.CreateStore))?.subscribe(res => {
+      debugger
       if(res){
         this.createStore()
-        this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
+        debugger
+        this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
       }
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateView))?.subscribe(res => {
       if(res){
         this.setData(res.data.componentName,[],res.data)
-        this.actionFinished.next({trigger:res.effect.trigger.name,source:res.effect.trigger.source})
+        this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
       }
     })
   }
@@ -508,6 +510,8 @@ export class UpdateViewService implements OnInit {
     this.configService.getAllComponents().forEach(c=>{
       this.createProps(c)
     })
+    // todo fix bug: er blijven hiervoor triggers binnenkomen!!!
+    debugger
   }
 
   public bindToStateProperty(componentName: string, propName: string):

@@ -9,6 +9,7 @@ import {ResponsiveAttributesConfigModel} from '../models/Attributes/ResponsiveAt
 import {TableColumnModel} from "../models/TableColumnModel";
 import { Effect } from '../effectclasses/Effect';
 import {ServiceType} from "../enums/serviceTypes.enum";
+import {SystemEffects} from "../effectclasses/systemEffects";
 
 @Injectable({
   providedIn: 'root'
@@ -158,19 +159,26 @@ export class ConfigService {
   public getEffectsForComponent(name: string): Effect[]{
     return this.appConfig.userConfig.effects.filter((effect:Effect) => {
       return effect.action.target === name
-    })
+    }).concat(...SystemEffects.getSystemEffects().filter((effect:Effect) => {
+      return effect.action.target === name
+    }))
+  }
+  public get effects(){
+    return this.appConfig.userConfig.effects.concat(...SystemEffects.getSystemEffects())
   }
   public getEffectsForTrigger(trigger: TriggerType) {
     return this.appConfig.userConfig.effects.filter((effect: Effect) => {
       return effect.trigger.name === trigger
-    })
+    }).concat(...SystemEffects.getSystemEffects().filter((effect:Effect) => {
+      return effect.trigger.name === trigger
+    }))
   }
   public getEffectsForEvent(trigger: TriggerType,source:string|ServiceType):Effect[] {
-    debugger
     return this.appConfig.userConfig.effects.filter((effect) => {
-      debugger
       return effect.trigger.name === trigger && effect.trigger.source===source
-    })
+    }).concat(...SystemEffects.getSystemEffects().filter((effect:Effect) => {
+      return effect.trigger.name === trigger && effect.trigger.source===source
+    }))
   }
   public getConfig(nameComponent: string, component: ComponentModel): ComponentModel | undefined {
     if (component.name === nameComponent) return component

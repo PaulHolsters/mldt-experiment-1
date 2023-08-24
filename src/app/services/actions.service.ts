@@ -19,9 +19,8 @@ export class ActionsService{
     })?.action$
   }
   public createActionSubjects(){
-    // todo uitbreiden met systeemacties
     this.actionSubjects = []
-    this.configService.appConfig?.userConfig.effects.forEach(effect=>{
+    this.configService.effects.forEach(effect=>{
       const subj = new Subject<{effect: Effect; data: any; target:EventTarget|undefined}|undefined>()
       const newActionSubject:ActionSubjectModel = {
         service:effect.action.service,

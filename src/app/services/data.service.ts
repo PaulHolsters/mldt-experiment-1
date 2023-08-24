@@ -24,7 +24,7 @@ export class DataService{
   //  todo een taal bedenken voor extra calculated fields based on related data and concepts
   //  todo a way to filter data
   //  todo a way to order data (sort)
-  public actionFinished = new Subject<{trigger:TriggerType,source:ActionIdType}>()
+  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
   public clientDataUpdated = new Subject<ClientDataRenderModel>()
   constructor(private configService:ConfigService,
               private apollo: Apollo,
