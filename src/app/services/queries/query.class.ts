@@ -68,21 +68,11 @@ export class Query {
     let str = ''
     switch (this.type){
       case QueryType.GetNumberOfNesting:
-        // todo hoe weet je hoe diep dit gaat qua nesting? => eerst query voor de lengte van de blueprint dan voor de blueprint zelf
         str+='numberOfNesting'
         break
       case QueryType.GetConceptBlueprint:
-        str+='blueprint{blueprint\nprops{name\ntype'
-        if(this.numberOfNesting!==NoValueType.NA){
-          let it:number= this.numberOfNesting
-          let acc=''
-          while(it>0){
-            acc+='}}'
-            it--
-            str+='\nvalue{blueprint\nprops{name\ntype'
-          }
-          str+='}}'+acc
-        } else throw new Error('numberOfNesting can never be Not applicable')
+        // todo fix this:
+        str+='blueprint'
         break
       case QueryType.GetSingleRecord:
         str+='dataSingle{'+this.getAllAttributes()+'}'
