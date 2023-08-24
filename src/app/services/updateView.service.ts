@@ -76,10 +76,8 @@ export class UpdateViewService implements OnInit {
   }
   public bindActions() {
     this.actionsService.bindToAction(new Action(ActionType.CreateStore))?.subscribe(res => {
-      debugger
       if(res){
         this.createStore()
-        debugger
         this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
       }
     })
@@ -235,7 +233,6 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
     const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
@@ -442,7 +439,6 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
-
   public setRBSState(componentName: string,
                      newState: (PositioningComponentPropsModel |
                        AttributesComponentPropsModel |
@@ -510,10 +506,7 @@ export class UpdateViewService implements OnInit {
     this.configService.getAllComponents().forEach(c=>{
       this.createProps(c)
     })
-    // todo fix bug: er blijven hiervoor triggers binnenkomen!!!
-    debugger
   }
-
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |
@@ -534,22 +527,18 @@ export class UpdateViewService implements OnInit {
       return state.componentName === componentName && state.propName === propName
     })?.prop$
   }
-
   public hasStateProperty(compName: string, propName: string): boolean {
     return this.statePropertySubjects.find(propSubj => {
       return propSubj.propName === propName && propSubj.componentName === compName
     }) !== undefined
   }
-
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
   }
-
   public getStatePropertySubject(compName: string, propName: string): StatePropertySubjectModel | undefined {
     return this.statePropertySubjects.find(ps => {
       return ps.componentName === compName && ps.propName === propName
     })
   }
-
 }
 
