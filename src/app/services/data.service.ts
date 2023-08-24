@@ -39,29 +39,6 @@ export class DataService{
   public bindActions(){
 
     /********************     queries     ****************************/
-    function createClientData(self:DataService,blueprintStr:string|undefined,concept:ConceptNameType,
-                              component:ComponentNameType,
-                              attributes:AttributeComponentModel[],
-                              errorMessages:string[]|NoValueType.NI,
-                              listOfRecords?:(DataRecordModel|null)[],
-                              record?:DataRecordModel){
-      if(blueprintStr){
-        // todo voeg code toe die effectief omgaat met errors
-        //      nu ga ik er voor het gemak van uit dat dit nooit errored
-        self.createClientData(
-          concept,
-          component,
-          attributes,
-          errorMessages,
-          listOfRecords,
-          record,
-          self.createBlueprint(blueprintStr)
-        )
-        const cd = self.getClientData(concept,component)
-        if(cd)
-          self.clientDataUpdated.next(cd)
-      }
-    }
 
     this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(async res => {
       if (res) {
@@ -113,14 +90,21 @@ export class DataService{
     })
     this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(async res => {
       if (res) {
+        debugger
         function getAllRecords(self:DataService,blueprint:BlueprintType,res:{effect: Effect, data: any, target: EventTarget | undefined}){
+          debugger
           self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
+            debugger
             if(errorOrResult && errorOrResult.dataMultiple){
+              debugger
               self.updateClientData(res.effect.action.conceptName,res.effect.action.target,errorOrResult.dataMultiple)
+              debugger
               const cd = self.getClientData(res.effect.action.conceptName,res.effect.action.target)
+              debugger
               if(cd)
                 self.clientDataUpdated.next(cd)
             }
+            debugger
             self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           })
         }
@@ -128,12 +112,17 @@ export class DataService{
         if (blueprint) {
           getAllRecords(this,blueprint,res)
         } else{
+          debugger
           this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
+            debugger
             if(typeof resFirst.numberOfNesting === 'number'){
+              debugger
               this.queryService.getBlueprint(res.effect.action.conceptName,resFirst.numberOfNesting).subscribe(resOrErr=>{
+                debugger
                 createClientData(this,resOrErr.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
                   undefined)
                 const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+                debugger
                 if (blueprint) {
                   getAllRecords(this,blueprint,res)
                 }
@@ -181,6 +170,7 @@ export class DataService{
     })
 
     /********************     Client Data Actions     ****************************/
+
     this.actionsService.bindToAction(new Action(ActionType.CreateClientData))?.subscribe(res=>{
       if(res){
         const clientData = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
@@ -208,6 +198,31 @@ export class DataService{
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
     })
+
+    /********************     Helpers     ****************************/
+    function createClientData(self:DataService,blueprintStr:string|undefined,concept:ConceptNameType,
+                              component:ComponentNameType,
+                              attributes:AttributeComponentModel[],
+                              errorMessages:string[]|NoValueType.NI,
+                              listOfRecords?:(DataRecordModel|null)[],
+                              record?:DataRecordModel){
+      if(blueprintStr){
+        // todo voeg code toe die effectief omgaat met errors
+        //      nu ga ik er voor het gemak van uit dat dit nooit errored
+        self.createClientData(
+          concept,
+          component,
+          attributes,
+          errorMessages,
+          listOfRecords,
+          record,
+          self.createBlueprint(blueprintStr)
+        )
+        const cd = self.getClientData(concept,component)
+        if(cd)
+          self.clientDataUpdated.next(cd)
+      }
+    }
   }
   /***********************************     CLIENT DATA ARRAY        ***************************************************************/
   private clientData: ClientDataRenderModel[] = []
