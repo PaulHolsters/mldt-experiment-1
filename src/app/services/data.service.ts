@@ -321,18 +321,35 @@ export class DataService{
       return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf('}')).trim()
     }
   }
+  private nextObjType(props:string):string{
+    if(props.indexOf('type:')===-1) throw new Error('props string does not contain a type property')
+    const index = props.indexOf('type:')+5
+    if(props.indexOf(';',index)<props.indexOf('}',index)){
+      // er is een value prop
+      return props.substring(index,props.indexOf(';',index)).trim()
+    } else{
+      // er is geen value prop
+      return props.substring(index,props.indexOf('}',index)).trim()
+    }
+  }
   private getCutOff(props:string):number{
-    debugger
     let cutOff = 0
-      // todo de while blijven doorlopen worden op het moment dat de specification string erdoor gaat de rest is ok
-    while(props.indexOf('{',cutOff)<props.indexOf('}',cutOff)){
-      cutOff = props.indexOf('{')+1
+    switch(this.nextObjType(props)){
+      case 'list':
+
+        break
+      case 'object':
+        throw new Error('string object type not implemented for cutoff')
+      default:
+        while(props.indexOf('{',cutOff)<props.indexOf('}',cutOff)){
+          cutOff = props.indexOf('{')+1
+        }
+        while(props.indexOf('}',cutOff)<props.indexOf('{',cutOff)){
+          cutOff =  props.indexOf('}')+1
+        }
+        return cutOff
     }
-    while(props.indexOf('}',cutOff)<props.indexOf('{',cutOff)){
-      cutOff =  props.indexOf('}')+1
-    }
-    debugger
-    return cutOff
+
   }
   private getNextObjFromProps(props:string):string{
     debugger
