@@ -267,33 +267,22 @@ export class DataService{
     this.clientData.push(new ClientDataRenderModel(concept,component,attributes,errorMessages,listOfRecords,record,blueprint))
   }
   private createBlueprint(bluePrintObj:string):BlueprintType{
-    debugger
     const bp = new Map<string,[string,[BlueprintType,DataRecordModel[]|DataRecordModel]|string[]]|string>()
     let props = this.getPropsFromObj(bluePrintObj).trim()
-    debugger
     while(props.length>2){
       const propsObj = this.getNextObjFromProps(props)
-      debugger
       props = '['+props.substring(this.getCutOff(props)+1,props.lastIndexOf(']')).trim()+']'
-      debugger
       // todo zorg ervoor dat blueprint type beter wordt afgedwongen
       if(!this.hasValueProp(propsObj)){
-        // todo fix this: nu wordt id=>"; type:" gedaan terwijl er moet komen id=>objectId
         bp.set(this.getNameFromPropsObj(propsObj),this.getTypeFromPropsObj(propsObj))
-        debugger
       } else if(this.valueIsEnum(propsObj)){
         bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),this.getEnumValues(propsObj)])
-        debugger
       } else if(this.valueIsBlueprint(propsObj)){
         const propsObjOfBlueprintValue = this.getBlueprintObj(propsObj)
-        debugger
         const concept:ConceptNameType = this.getConceptFromBlueprintObj(propsObjOfBlueprintValue)
-        debugger
         // todo werk recursie weg
         const blueprint = this.createBlueprint(propsObjOfBlueprintValue)
-        debugger
         if(this.getTypeFromPropsObj(propsObj) === 'list'){
-          debugger
           this.queryService.getAllRecords(concept,blueprint).subscribe(resOrErr=>{
             const data = this.getData(resOrErr)
             if(data.dataMultiple){
@@ -317,7 +306,6 @@ export class DataService{
     return bp
   }
   private getConceptFromBlueprintObj(blueprintObj:string):ConceptNameType{
-    debugger
     if(blueprintObj.indexOf('blueprint:')===-1) throw new Error('Blueprint string does not contain a concept name')
     return blueprintObj.substring(blueprintObj.indexOf('blueprint:')+10,blueprintObj.indexOf(';'))
   }
@@ -326,27 +314,25 @@ export class DataService{
     return propsObj.substring(propsObj.indexOf('name:')+5,propsObj.indexOf(';'))
   }
   private getTypeFromPropsObj(propsObj:string):string{
-    debugger
     if(propsObj.indexOf('type:')===-1) throw new Error('props object string does not contain a type property')
     if(propsObj.indexOf(';',propsObj.indexOf('type:'))!==-1){
-      debugger
       return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf(';')).trim()
     } else{
-      debugger
       return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf('}')).trim()
     }
   }
-  private getCutOff(props:string){
-    // todo enums hebben ook komma's
-    if(props.indexOf(',')===-1) {
-      throw new Error('props string does not contain more than one object')
+  private getCutOff(props:string):number{
+    debugger
+    let cutOff = 0
+      // todo de while blijven doorlopen worden op het moment dat de specification string erdoor gaat de rest is ok
+    while(props.indexOf('{',cutOff)<props.indexOf('}',cutOff)){
+      cutOff = props.indexOf('{')+1
     }
-    let startIndex = props.indexOf('{')
-    while(props.indexOf('{',startIndex+1)<props.indexOf('}',startIndex)){
-      startIndex++
+    while(props.indexOf('}',cutOff)<props.indexOf('{',cutOff)){
+      cutOff =  props.indexOf('}')+1
     }
-    // todo start index begin net na de { maar moet beginnen net na de laatste komma voor }
-    return props.indexOf(',',startIndex)
+    debugger
+    return cutOff
   }
   private getNextObjFromProps(props:string):string{
     debugger
