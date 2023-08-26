@@ -267,22 +267,35 @@ export class DataService{
     this.clientData.push(new ClientDataRenderModel(concept,component,attributes,errorMessages,listOfRecords,record,blueprint))
   }
   private createBlueprint(bluePrintObj:string):BlueprintType{
+    // todo maak hier een aparte classe Blueprint van met de nodige methods om de blueprint te bevragen of te wijzigen
+    debugger
+    // todo zorg ervoor dat blueprint type beter wordt afgedwongen
     const bp = new Map<string,[string,[BlueprintType,DataRecordModel[]|DataRecordModel]|string[]]|string>()
     let props = this.getPropsFromObj(bluePrintObj).trim()
     while(props.length>2){
       const propsObj = this.getNextObjFromProps(props)
+      debugger
+      // todo nadat de laatste prop is gepakt dan loopt het hier mis !!!
       props = '['+props.substring(this.getCutOff(props)+1,props.lastIndexOf(']')).trim()+']'
-      // todo zorg ervoor dat blueprint type beter wordt afgedwongen
+      debugger
       if(!this.hasValueProp(propsObj)){
+        debugger
         bp.set(this.getNameFromPropsObj(propsObj),this.getTypeFromPropsObj(propsObj))
       } else if(this.valueIsEnum(propsObj)){
+        debugger
         bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),this.getEnumValues(propsObj)])
       } else if(this.valueIsBlueprint(propsObj)){
-        const propsObjOfBlueprintValue = this.getBlueprintObj(propsObj)
-        const concept:ConceptNameType = this.getConceptFromBlueprintObj(propsObjOfBlueprintValue)
+        // controleer hoe het met props zit qua lengte
+        debugger
+        const blueprintObj = this.getBlueprintObj(propsObj)
+        debugger
+        const concept:ConceptNameType = this.getConceptFromBlueprintObj(blueprintObj)
+        debugger
         // todo werk recursie weg
-        const blueprint = this.createBlueprint(propsObjOfBlueprintValue)
+        const blueprint = this.createBlueprint(blueprintObj)
+        debugger
         if(this.getTypeFromPropsObj(propsObj) === 'list'){
+          debugger
           this.queryService.getAllRecords(concept,blueprint).subscribe(resOrErr=>{
             const data = this.getData(resOrErr)
             if(data.dataMultiple){
@@ -336,26 +349,28 @@ export class DataService{
     let cutOff = 0
     switch(this.nextObjType(props)){
       case 'list':
-
+        // todo hier zal het mislopen als het de laatste prop in de array is
+        cutOff = props.indexOf(',',props.indexOf(']')+1) // todo dit is technisch niet genoeg want er kan een diepere nesting zijn!
         break
       case 'object':
         throw new Error('string object type not implemented for cutoff')
       default:
+        debugger
+        // todo hier loopt het mis als het de laatste prop is in de array
         while(props.indexOf('{',cutOff)<props.indexOf('}',cutOff)){
           cutOff = props.indexOf('{')+1
         }
         while(props.indexOf('}',cutOff)<props.indexOf('{',cutOff)){
           cutOff =  props.indexOf('}')+1
         }
-        return cutOff
     }
-
+    return cutOff
   }
   private getNextObjFromProps(props:string):string{
     debugger
-    // todo bij een value prop met ENUM waarden loopt het mis
     if(props.indexOf(',')===-1) {
-      return props.substring(props.indexOf('{'),props.lastIndexOf('}')+1)
+      debugger
+      return props.substring(props.indexOf('[')+1,props.lastIndexOf(']')).trim()
     }
     const cutoff = this.getCutOff(props)
     return props.substring(props.indexOf('{'),cutoff).trim()
@@ -370,7 +385,6 @@ export class DataService{
     return propsObj.indexOf('blueprint:')!==-1
   }
   private getEnumValues(propsObj:string):string[]{
-    // todo maak van een propsObj meer dan een string bv een string die begint en eindigt met een accolade
     if(!this.valueIsEnum(propsObj)) throw new Error('Cannot get enum values because string has no enum values')
     return propsObj.substring(propsObj.indexOf('value:')+6,propsObj.lastIndexOf('}')).trim().split(',').map(el=>el.trim())
   }
