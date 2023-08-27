@@ -14,7 +14,7 @@ import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "../queries/query.service";
 import {MutationService} from "../mutations/mutation.service";
-import {ActionIdType, BlueprintType, ComponentNameType, ConceptNameType} from "../../types/type-aliases";
+import {ActionIdType,  ComponentNameType, ConceptNameType} from "../../types/type-aliases";
 import {Effect} from "../../effectclasses/Effect";
 import {Blueprint} from "./Blueprint";
 
@@ -375,7 +375,6 @@ export class DataService{
     } else throw new Error('Client data instance does not exist')
 
   }
-
   updateData(name: string, value: string|number | DataRecordModel[] | NoValueType.DBI | undefined){
     // todo
     /*
