@@ -57,7 +57,7 @@ import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {ActionIdType} from "../types/type-aliases";
-import {DataService} from "./data.service";
+import {DataService} from "./data/data.service";
 
 @Injectable({
   providedIn: 'root'

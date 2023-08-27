@@ -9,7 +9,7 @@ import {ActionValueModel} from "../models/ActionValueModel";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
 import {ConfirmationModel} from "../models/ConfirmationModel";
-import {DataService} from "./data.service";
+import {DataService} from "./data/data.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";

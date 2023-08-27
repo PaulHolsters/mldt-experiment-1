@@ -7,6 +7,7 @@ import {Query} from "./query.class";
 import {BlueprintType, ConceptNameType, ObjectIdType} from "../../types/type-aliases";
 import {FilterModel} from "../../models/FilterModel";
 import {NoValueType} from "../../enums/no_value_type";
+import {Blueprint} from "../data/Blueprint";
 
 @Injectable({
   providedIn: 'root'
@@ -136,7 +137,7 @@ export class QueryService {
       }
     }*/
   }
-  public getAllRecords(conceptName:ConceptNameType,blueprint:BlueprintType):Observable<{data:Object}> {
+  public getAllRecords(conceptName:ConceptNameType,blueprint:Blueprint):Observable<{data:Object}> {
     return this.query(new Query(QueryType.GetAllRecords, conceptName,NoValueType.NA,blueprint))
 /*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
@@ -170,7 +171,7 @@ export class QueryService {
     }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-  public getSingleRecord(conceptName:ConceptNameType,blueprint:BlueprintType, id: ObjectIdType):Observable<{data:Object}> {
+  public getSingleRecord(conceptName:ConceptNameType,blueprint:Blueprint, id: ObjectIdType):Observable<{data:Object}> {
     return this.query(new Query(QueryType.GetSingleRecord, conceptName,NoValueType.NA,blueprint,id))
 /*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
@@ -196,7 +197,7 @@ export class QueryService {
     }*/
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
-  public getMultipleRecords(conceptName:ConceptNameType,blueprint:BlueprintType,filter:FilterModel):Observable<{data:Object}>{
+  public getMultipleRecords(conceptName:ConceptNameType,blueprint:Blueprint,filter:FilterModel):Observable<{data:Object}>{
     return this.query(new Query(QueryType.GetMultipleRecords, conceptName,NoValueType.NA,blueprint,NoValueType.NA,filter))
   }
 }

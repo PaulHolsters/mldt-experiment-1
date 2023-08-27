@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {DataService} from "../../../services/data.service";
+import {DataService} from "../../../services/data/data.service";
 import {UpdateViewService} from "../../../services/updateView.service";
 
 @Component({

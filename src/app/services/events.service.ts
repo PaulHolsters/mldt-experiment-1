@@ -3,7 +3,7 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import AppConfig from "./appConfig";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
-import {DataService} from "./data.service";
+import {DataService} from "./data/data.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {UpdateViewService} from "./updateView.service";
 import {UiActionsService} from "./ui-actions.service";

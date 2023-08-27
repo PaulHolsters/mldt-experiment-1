@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {DataService} from "../../../services/data.service";
+import {DataService} from "../../../services/data/data.service";
 import {UpdateViewService} from "../../../services/updateView.service";
 import {Observable} from "rxjs";
 import {NoValueType} from "../../../enums/no_value_type";

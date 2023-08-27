@@ -3,13 +3,14 @@ import {QueryType} from "../../enums/queryTypes";
 import {AttributeNameType, BlueprintType, ConceptNameType, ObjectIdType} from "../../types/type-aliases";
 import {FilterModel} from "../../models/FilterModel";
 import {NoValueType} from "../../enums/no_value_type";
+import {Blueprint} from "../data/Blueprint";
 
 export class Query {
   public constructor(
     public readonly type:QueryType,
     public readonly conceptName:ConceptNameType,
     public readonly numberOfNesting:number|NoValueType.NA=NoValueType.NA,
-    public readonly blueprint:BlueprintType|NoValueType.NA=NoValueType.NA,
+    public readonly blueprint:Blueprint|NoValueType.NA=NoValueType.NA,
     public readonly id:ObjectIdType|NoValueType.NA=NoValueType.NA,
     public readonly filter:FilterModel|NoValueType.NA=NoValueType.NA,
     public readonly include:AttributeNameType[]|NoValueType.NA=NoValueType.NA,

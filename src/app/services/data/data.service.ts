@@ -1,21 +1,22 @@
 import {Injectable} from '@angular/core';
-import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
-import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
-import {NoValueType} from "../enums/no_value_type";
+import {ClientDataRenderModel} from "../../models/Data/ClientDataRenderModel";
+import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
+import {NoValueType} from "../../enums/no_value_type";
 import {Subject} from "rxjs";
-import {DataRecordModel} from "../models/DataRecordModel";
-import {FunctionType} from "../enums/functionTypes.enum";
-import utilFunctions from "../utils/utilFunctions";
-import {ActionsService} from "./actions.service";
-import {ConfigService} from "./config.service";
-import {ActionType} from "../enums/actionTypes.enum";
-import {Action} from "../effectclasses/Action";
-import {TriggerType} from "../enums/triggerTypes.enum";
+import {DataRecordModel} from "../../models/DataRecordModel";
+import {FunctionType} from "../../enums/functionTypes.enum";
+import utilFunctions from "../../utils/utilFunctions";
+import {ActionsService} from "../actions.service";
+import {ConfigService} from "../config.service";
+import {ActionType} from "../../enums/actionTypes.enum";
+import {Action} from "../../effectclasses/Action";
+import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
-import {QueryService} from "./queries/query.service";
-import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType, BlueprintType, ComponentNameType, ConceptNameType} from "../types/type-aliases";
-import {Effect} from "../effectclasses/Effect";
+import {QueryService} from "../queries/query.service";
+import {MutationService} from "../mutations/mutation.service";
+import {ActionIdType, BlueprintType, ComponentNameType, ConceptNameType} from "../../types/type-aliases";
+import {Effect} from "../../effectclasses/Effect";
+import {Blueprint} from "./Blueprint";
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +67,7 @@ export class DataService{
       if (res) {
         if (typeof res.data === 'string') {
           // todo zie dat je hier van een ObjectId type kan uitgaan
-          function getRecord(self:DataService,blueprint:BlueprintType,res:{effect: Effect, data: any, target: EventTarget | undefined}){
+          function getRecord(self:DataService,blueprint:Blueprint,res:{effect: Effect, data: any, target: EventTarget | undefined}){
             self.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data).subscribe(errorOrResult=>{
               const data = self.getData(errorOrResult)
               if(data){
@@ -113,7 +114,7 @@ export class DataService{
     })
     this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(async res => {
       if (res) {
-        function getAllRecords(self:DataService,blueprint:BlueprintType,res:{effect: Effect, data: any, target: EventTarget | undefined}){
+        function getAllRecords(self:DataService,blueprint:Blueprint,res:{effect: Effect, data: any, target: EventTarget | undefined}){
           debugger
           self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
             debugger
@@ -219,7 +220,7 @@ export class DataService{
             }
           } else if(res.data.hasOwnProperty('id') && res.data.hasOwnProperty('__typename')){
             this.createClientData(res.effect.action.conceptName,res.effect.action.target,[],[],undefined,res.data)
-          } else if(res.data instanceof Map){
+          } else if(res.data instanceof Blueprint){
             this.createClientData(res.effect.action.conceptName,res.effect.action.target,
               [],[],undefined,undefined,res.data)
           }
@@ -245,7 +246,7 @@ export class DataService{
           errorMessages,
           listOfRecords,
           record,
-          self.createBlueprint(blueprintStr)
+          new Blueprint(blueprintStr)
         )
         const cd = self.getClientData(concept,component)
         if(cd)
@@ -263,139 +264,8 @@ export class DataService{
   errorMessages:string[]|NoValueType.NI,
   listOfRecords?:(DataRecordModel|null)[],
   record?:DataRecordModel,
-  blueprint?:BlueprintType){
+  blueprint?:Blueprint){
     this.clientData.push(new ClientDataRenderModel(concept,component,attributes,errorMessages,listOfRecords,record,blueprint))
-  }
-  private createBlueprint(bluePrintObj:string):BlueprintType{
-    // todo maak hier een aparte classe Blueprint van met de nodige methods om de blueprint te bevragen of te wijzigen
-    debugger
-    // todo zorg ervoor dat blueprint type beter wordt afgedwongen
-    const bp = new Map<string,[string,[BlueprintType,DataRecordModel[]|DataRecordModel]|string[]]|string>()
-    let props = this.getPropsFromObj(bluePrintObj).trim()
-    while(props.length>2){
-      const propsObj = this.getNextObjFromProps(props)
-      debugger
-      // todo nadat de laatste prop is gepakt dan loopt het hier mis !!!
-      props = '['+props.substring(this.getCutOff(props)+1,props.lastIndexOf(']')).trim()+']'
-      debugger
-      if(!this.hasValueProp(propsObj)){
-        debugger
-        bp.set(this.getNameFromPropsObj(propsObj),this.getTypeFromPropsObj(propsObj))
-      } else if(this.valueIsEnum(propsObj)){
-        debugger
-        bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),this.getEnumValues(propsObj)])
-      } else if(this.valueIsBlueprint(propsObj)){
-        // controleer hoe het met props zit qua lengte
-        debugger
-        const blueprintObj = this.getBlueprintObj(propsObj)
-        debugger
-        const concept:ConceptNameType = this.getConceptFromBlueprintObj(blueprintObj)
-        debugger
-        // todo werk recursie weg
-        const blueprint = this.createBlueprint(blueprintObj)
-        debugger
-        if(this.getTypeFromPropsObj(propsObj) === 'list'){
-          debugger
-          this.queryService.getAllRecords(concept,blueprint).subscribe(resOrErr=>{
-            const data = this.getData(resOrErr)
-            if(data.dataMultiple){
-              bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,data.dataMultiple]])
-            } else throw new Error('BlueprintObjectValue could not be completed')
-          })
-        } else if(this.getTypeFromPropsObj(propsObj).indexOf('object:')!==-1){
-          this.queryService.getSingleRecord(
-            concept,
-            blueprint,
-            this.getTypeFromPropsObj(propsObj).substring(this.getTypeFromPropsObj(propsObj).indexOf('object:')+7)
-          ).subscribe(resOrErr=>{
-            const data = this.getData(resOrErr)
-            if(data.dataSingle){
-              bp.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,data.dataSingle]])
-            } else throw new Error('BlueprintObjectValue could not be completed')
-          })
-        }
-      }
-    }
-    return bp
-  }
-  private getConceptFromBlueprintObj(blueprintObj:string):ConceptNameType{
-    if(blueprintObj.indexOf('blueprint:')===-1) throw new Error('Blueprint string does not contain a concept name')
-    return blueprintObj.substring(blueprintObj.indexOf('blueprint:')+10,blueprintObj.indexOf(';'))
-  }
-  private getNameFromPropsObj(propsObj:string):string{
-    if(propsObj.indexOf('name:')===-1) throw new Error('props object string does not contain a name property')
-    return propsObj.substring(propsObj.indexOf('name:')+5,propsObj.indexOf(';'))
-  }
-  private getTypeFromPropsObj(propsObj:string):string{
-    if(propsObj.indexOf('type:')===-1) throw new Error('props object string does not contain a type property')
-    if(propsObj.indexOf(';',propsObj.indexOf('type:'))!==-1){
-      return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf(';')).trim()
-    } else{
-      return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf('}')).trim()
-    }
-  }
-  private nextObjType(props:string):string{
-    if(props.indexOf('type:')===-1) throw new Error('props string does not contain a type property')
-    const index = props.indexOf('type:')+5
-    if(props.indexOf(';',index)<props.indexOf('}',index)){
-      // er is een value prop
-      return props.substring(index,props.indexOf(';',index)).trim()
-    } else{
-      // er is geen value prop
-      return props.substring(index,props.indexOf('}',index)).trim()
-    }
-  }
-  private getCutOff(props:string):number{
-    let cutOff = 0
-    switch(this.nextObjType(props)){
-      case 'list':
-        // todo hier zal het mislopen als het de laatste prop in de array is
-        cutOff = props.indexOf(',',props.indexOf(']')+1) // todo dit is technisch niet genoeg want er kan een diepere nesting zijn!
-        break
-      case 'object':
-        throw new Error('string object type not implemented for cutoff')
-      default:
-        debugger
-        // todo hier loopt het mis als het de laatste prop is in de array
-        while(props.indexOf('{',cutOff)<props.indexOf('}',cutOff)){
-          cutOff = props.indexOf('{')+1
-        }
-        while(props.indexOf('}',cutOff)<props.indexOf('{',cutOff)){
-          cutOff =  props.indexOf('}')+1
-        }
-    }
-    return cutOff
-  }
-  private getNextObjFromProps(props:string):string{
-    debugger
-    if(props.indexOf(',')===-1) {
-      debugger
-      return props.substring(props.indexOf('[')+1,props.lastIndexOf(']')).trim()
-    }
-    const cutoff = this.getCutOff(props)
-    return props.substring(props.indexOf('{'),cutoff).trim()
-  }
-  private hasValueProp(propsObj:string):boolean{
-    return propsObj.indexOf('value:')!==-1
-  }
-  private valueIsEnum(propsObj:string):boolean{
-    return this.getTypeFromPropsObj(propsObj)==='enum'
-  }
-  private valueIsBlueprint(propsObj:string):boolean{
-    return propsObj.indexOf('blueprint:')!==-1
-  }
-  private getEnumValues(propsObj:string):string[]{
-    if(!this.valueIsEnum(propsObj)) throw new Error('Cannot get enum values because string has no enum values')
-    return propsObj.substring(propsObj.indexOf('value:')+6,propsObj.lastIndexOf('}')).trim().split(',').map(el=>el.trim())
-  }
-  private getBlueprintObj(propsObj:string):string{
-    if(!this.valueIsBlueprint(propsObj)) throw new Error('string has no blueprint value')
-    propsObj = propsObj.substring(0,propsObj.lastIndexOf('}')).trim()
-    return propsObj.substring(propsObj.indexOf('value:')+6,propsObj.lastIndexOf('}')+1).trim()
-  }
-  private getPropsFromObj(blueprintObj:string):string{
-    if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
-    return blueprintObj.substring(blueprintObj.indexOf('props:')+6,blueprintObj.lastIndexOf(']')+1).trim()
   }
   public getAttribute(component:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
@@ -490,14 +360,14 @@ export class DataService{
     }
     return undefined*/
   }
-  private updateClientData(concept: ConceptNameType, component: ComponentNameType,data:BlueprintType|DataRecordModel|(DataRecordModel|null)[]) {
+  private updateClientData(concept: ConceptNameType, component: ComponentNameType,data:Blueprint|DataRecordModel|(DataRecordModel|null)[]) {
     const instance =  this.clientData.find(cd=>{
       return cd.componentName === component && cd.conceptName === concept
     })
     if(instance){
       if(data instanceof Array){
         instance.listOfRecords = data
-      }  else if(data instanceof Map){
+      }  else if(data instanceof Blueprint){
         instance.blueprint = data
       } else if(data.hasOwnProperty('id') && data.hasOwnProperty('__typename')){
         instance.record = data

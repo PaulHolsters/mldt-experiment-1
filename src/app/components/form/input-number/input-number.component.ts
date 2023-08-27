@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {NoValueType} from "../../../enums/no_value_type";
 import {InputNumber} from "primeng/inputnumber";
-import {DataService} from "../../../services/data.service";
+import {DataService} from "../../../services/data/data.service";
 import {Observable} from "rxjs";
 import {UpdateViewService} from "../../../services/updateView.service";
 

@@ -2,7 +2,7 @@ import utilFunctions from "../utils/utilFunctions";
 import {StateService} from "../services/state.service";
 import {UpdateViewService} from "../services/updateView.service";
 import {EventsService} from "../services/events.service";
-import {DataService} from "../services/data.service";
+import {DataService} from "../services/data/data.service";
 import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
 import {StylesService} from "../services/styles.service";
 import {TriggerType} from "../enums/triggerTypes.enum";
