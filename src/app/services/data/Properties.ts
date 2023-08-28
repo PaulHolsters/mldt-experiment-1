@@ -15,16 +15,11 @@ export class Properties {
     }
   }
   private createProperties(props:string){
-    debugger
     while(props.length>2){
-      debugger
       const propsObj = this.getNextObjFromProps(props)
-      debugger
       if(this.isLastProp(props)){
-        debugger
         props='[]'
       } else{
-        debugger
         props = '['+props.substring(this.getCutOff(props)+1,props.lastIndexOf(']')).trim()+']'
       }
       if(!this.hasValueProp(propsObj)){
@@ -32,14 +27,10 @@ export class Properties {
       } else if(this.valueIsEnum(propsObj)){
         this.properties.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),this.getEnumValues(propsObj)])
       } else if(this.valueIsBlueprint(propsObj)){
-        debugger
         const blueprintObj = this.getBlueprintObj(propsObj)
-        debugger
         // marshaller
         const blueprint = new Blueprint(blueprintObj)
-        debugger
         if(this.getTypeFromPropsObj(propsObj) === 'list'||this.getTypeFromPropsObj(propsObj).indexOf('object:')!==-1){
-          debugger
           this.properties.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,NoValueType.NVY]])
         }
       }
@@ -63,7 +54,6 @@ export class Properties {
   private getTypeFromPropsObj(propsObj:string):string{
     if(propsObj.indexOf('type:')===-1) throw new Error('props object string does not contain a type property')
     if(propsObj.indexOf(';',propsObj.indexOf('type:'))!==-1){
-      // todo if obj = list => lastIndex geeft je niet het type
       return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.indexOf(';',propsObj.indexOf('type:'))).trim()
     } else{
       return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf('}')).trim()
@@ -84,14 +74,11 @@ export class Properties {
     let cutOff = 0
     switch(this.nextObjType(props)){
       case 'list':
-        // todo hier zal het mislopen als het de laatste prop in de array is
         cutOff = props.indexOf(',',props.indexOf(']')+1) // todo dit is technisch niet genoeg want er kan een diepere nesting zijn!
         break
       case 'object':
         throw new Error('string object type not implemented for cutoff')
       default:
-        debugger
-        // todo hier loopt het mis als het de laatste prop is in de array
         while(props.indexOf('{',cutOff)<props.indexOf('}',cutOff)){
           cutOff = props.indexOf('{')+1
         }
@@ -103,18 +90,40 @@ export class Properties {
   }
   private isLast(props:string):boolean{
     let propSan = props.replace(/ /g,'')
-    debugger
-    const firstType = propSan.indexOf('type:')
-    const lastNextOrNestedOrSameType = propSan.lastIndexOf('type:')
-    if(firstType===lastNextOrNestedOrSameType) return true
-
+    propSan = propSan.replace(/\n/g,'')
+    const firstChar = propSan.indexOf('{')
+    propSan = propSan.substring(firstChar+1)
+    const arr:string[] = []
+    while(propSan.length>0){
+      const openTag = propSan.indexOf('{')
+      const closeTag = propSan.indexOf('}')
+      if(openTag===-1&&closeTag===openTag){
+        propSan = ''
+      } else if((openTag<closeTag && openTag!==-1 && closeTag!==-1)||(openTag!==-1 && closeTag===-1)){
+        arr.push('{')
+        propSan = propSan.substring(openTag+1)
+      } else if((closeTag<openTag && closeTag!==-1 && openTag!==-1)||(openTag===-1 && closeTag!==-1)){
+        arr.push('}')
+        propSan = propSan.substring(closeTag+1)
+      }
+    }
+    let found = 1
+    for (let i=0;i<arr.length;i++){
+      if(found === 1){
+        if(arr[i]==='}' && (i+1)!==arr.length){
+          return false
+        } else if(arr[i]==='{'){
+          found++
+        } else return true
+      } else{
+        if(arr[i]==='}') found--
+        if(arr[i]==='{') found ++
+      }
+    }
+    throw new Error('Bad build of blueprint string')
   }
   private getNextObjFromProps(props:string):string{
-    // todo fix: bij laatste prop gelijk aan option krijg je '[' terug! ipv het laatste object
-    //      dit komt omdat onderstaande check onvoldoende is om te bepalen of het inderdaad om het laatste object gaat
-    debugger
     if(props.indexOf(',')===-1||this.isLast(props)){
-      debugger
       return props.substring(props.indexOf('[')+1,props.lastIndexOf(']')).trim()
     }
     const cutoff = this.getCutOff(props)

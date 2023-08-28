@@ -150,6 +150,7 @@ export class DataService{
                   const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
                   debugger
                   if (blueprint) {
+                    // tot hier alles ok
                     getAllRecords(this, blueprint, res)
                   }
                 } else{

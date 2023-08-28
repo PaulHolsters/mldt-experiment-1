@@ -7,7 +7,6 @@ export class Blueprint {
   public constructor( public bluePrintObj:string ) {
     // todo zorg ervoor dat blueprint type beter wordt afgedwongen
     this.properties = new Properties(this.getPropsFromObj(bluePrintObj).trim())
-    debugger
     this.conceptName = this.getConceptFromBlueprintObj(bluePrintObj)
   }
   public setValuesBlueprintProperties(property:string,values:DataRecordModel[]|DataRecordModel){
@@ -18,7 +17,6 @@ export class Blueprint {
     return blueprintObj.substring(blueprintObj.indexOf('blueprint:')+10,blueprintObj.indexOf(';'))
   }
   private getPropsFromObj(blueprintObj:string):string{
-    debugger
     if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
     return blueprintObj.substring(blueprintObj.indexOf('props:')+6,blueprintObj.lastIndexOf(']')+1).trim()
   }
