@@ -14,13 +14,17 @@ export class Properties {
       this.properties.set(property,[val[0],[val[1][0],values]])
     }
   }
-  private createProperties(bluePrintObj:string){
-    let props = this.getPropsFromObj(bluePrintObj).trim()
+  private createProperties(props:string){
+    debugger
     while(props.length>2){
+      debugger
       const propsObj = this.getNextObjFromProps(props)
+      debugger
       if(this.isLastProp(props)){
+        debugger
         props='[]'
       } else{
+        debugger
         props = '['+props.substring(this.getCutOff(props)+1,props.lastIndexOf(']')).trim()+']'
       }
       if(!this.hasValueProp(propsObj)){
@@ -28,10 +32,14 @@ export class Properties {
       } else if(this.valueIsEnum(propsObj)){
         this.properties.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),this.getEnumValues(propsObj)])
       } else if(this.valueIsBlueprint(propsObj)){
+        debugger
         const blueprintObj = this.getBlueprintObj(propsObj)
+        debugger
         // marshaller
         const blueprint = new Blueprint(blueprintObj)
+        debugger
         if(this.getTypeFromPropsObj(propsObj) === 'list'||this.getTypeFromPropsObj(propsObj).indexOf('object:')!==-1){
+          debugger
           this.properties.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,NoValueType.NVY]])
         }
       }
@@ -61,8 +69,8 @@ export class Properties {
       return propsObj.substring(propsObj.indexOf('type:')+5,propsObj.lastIndexOf('}')).trim()
     }
   }
-  private nextObjType(props:string):string{
-    if(props.indexOf('type:')===-1) throw new Error('props string does not contain a type property')
+  private nextObjType(props:string):string|false{
+    if(props.indexOf('type:')===-1) return false
     const index = props.indexOf('type:')+5
     if(props.indexOf(';',index)<props.indexOf('}',index)){
       // er is een value prop
@@ -93,9 +101,26 @@ export class Properties {
     }
     return cutOff
   }
+  private isLast(props:string):boolean{
+    // todo options prop wordt njog steeds niet als laatste prop aanzien!!!!
+    let rest = props
+    while(rest.indexOf('{')!==-1){
+      const start = rest.indexOf('{')
+      const end = rest.lastIndexOf('}')
+      debugger
+      // todo werkt niet
+      if(start===rest.lastIndexOf('{')&&start>end) return false
+      debugger
+      rest = rest.substring(start+1,end)
+      debugger
+    }
+    return true
+  }
   private getNextObjFromProps(props:string):string{
+    // todo fix: bij laatste prop gelijk aan option krijg je '[' terug! ipv het laatste object
+    //      dit komt omdat onderstaande check onvoldoende is om te bepalen of het inderdaad om het laatste object gaat
     debugger
-    if(props.indexOf(',')===-1) {
+    if(props.indexOf(',')===-1||this.isLast(props)){
       debugger
       return props.substring(props.indexOf('[')+1,props.lastIndexOf(']')).trim()
     }
@@ -119,9 +144,5 @@ export class Properties {
     if(!this.valueIsBlueprint(propsObj)) throw new Error('string has no blueprint value')
     propsObj = propsObj.substring(0,propsObj.lastIndexOf('}')).trim()
     return propsObj.substring(propsObj.indexOf('value:')+6,propsObj.lastIndexOf('}')+1).trim()
-  }
-  private getPropsFromObj(blueprintObj:string):string{
-    if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
-    return blueprintObj.substring(blueprintObj.indexOf('props:')+6,blueprintObj.lastIndexOf(']')+1).trim()
   }
 }

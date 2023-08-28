@@ -265,8 +265,26 @@ export class DataService{
   listOfRecords?:(DataRecordModel|null)[],
   record?:DataRecordModel,
   blueprint?:Blueprint){
-    // todo zoek de echte waarden op in de database van alle blueprint props
-
+    if(blueprint)
+    for(let [k,v] of blueprint.properties.properties){
+      if(v instanceof Array && v.length===2 && typeof v[0]==='string' && v[1] instanceof Array && v[1].length===2 && v[1][0] instanceof Blueprint){
+        switch (v[0]){
+          case 'list':
+            this.queryService.getAllRecords(v[1][0].conceptName,blueprint).subscribe(res=>{
+              const data = this.getData(res.data)
+              if(data){
+                // todo controleer dubbel genest sub concept
+                blueprint.properties.setValuesProperties(k,data)
+              }
+            })
+            break
+          case 'object':
+            throw new Error('object property blueprint not implemented yet')
+          default:
+            throw new Error('type of blueprint property unknown '+v[0])
+        }
+      }
+    }
     this.clientData.push(new ClientDataRenderModel(concept,component,attributes,errorMessages,listOfRecords,record,blueprint))
   }
   public getAttribute(component:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
