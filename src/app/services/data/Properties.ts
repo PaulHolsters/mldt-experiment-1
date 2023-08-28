@@ -102,8 +102,11 @@ export class Properties {
     return cutOff
   }
   private isLast(props:string):boolean{
-    const firstType = props.indexOf('type:')
-    const nextOrNestedType = props.lastIndexOf('type:')
+    let propSan = props.replace(/ /g,'')
+    debugger
+    const firstType = propSan.indexOf('type:')
+    const lastNextOrNestedOrSameType = propSan.lastIndexOf('type:')
+    if(firstType===lastNextOrNestedOrSameType) return true
 
   }
   private getNextObjFromProps(props:string):string{
