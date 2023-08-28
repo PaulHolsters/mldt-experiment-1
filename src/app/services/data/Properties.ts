@@ -8,8 +8,11 @@ export class Properties {
     this.properties = new Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueType.NVY]|string[]]|string>()
     this.createProperties(propertiesStr)
   }
-  public setValuesProperties(values:DataRecordModel[]|DataRecordModel){
-
+  public setValuesProperties(property:string,values:DataRecordModel[]|DataRecordModel){
+    const val = this.properties?.get(property)
+    if(val instanceof Array && val.length===2 && typeof val[0]==='string' && val[1] instanceof Array && val[1].length===2 && val[1][0] instanceof Blueprint){
+      this.properties.set(property,[val[0],[val[1][0],values]])
+    }
   }
   private createProperties(bluePrintObj:string){
     let props = this.getPropsFromObj(bluePrintObj).trim()
@@ -26,6 +29,7 @@ export class Properties {
         this.properties.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),this.getEnumValues(propsObj)])
       } else if(this.valueIsBlueprint(propsObj)){
         const blueprintObj = this.getBlueprintObj(propsObj)
+        // marshaller
         const blueprint = new Blueprint(blueprintObj)
         if(this.getTypeFromPropsObj(propsObj) === 'list'||this.getTypeFromPropsObj(propsObj).indexOf('object:')!==-1){
           this.properties.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,NoValueType.NVY]])

@@ -38,7 +38,6 @@ export class DataService{
     })
   }
   public bindActions(){
-    // todo pas return types van queries aan naar het juiste formaat
 
     /********************     queries     ****************************/
 
@@ -253,10 +252,11 @@ export class DataService{
           self.clientDataUpdated.next(cd)
       }
     }
-
   }
+
   /***********************************     CLIENT DATA ARRAY        ***************************************************************/
   private clientData: ClientDataRenderModel[] = []
+
   /***********************************     CLIENT DATA METHODS         ***************************************************************/
   private createClientData(concept:ConceptNameType,
   component:ComponentNameType,
@@ -265,6 +265,8 @@ export class DataService{
   listOfRecords?:(DataRecordModel|null)[],
   record?:DataRecordModel,
   blueprint?:Blueprint){
+    // todo zoek de echte waarden op in de database van alle blueprint props
+
     this.clientData.push(new ClientDataRenderModel(concept,component,attributes,errorMessages,listOfRecords,record,blueprint))
   }
   public getAttribute(component:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
@@ -361,6 +363,7 @@ export class DataService{
     return undefined*/
   }
   private updateClientData(concept: ConceptNameType, component: ComponentNameType,data:Blueprint|DataRecordModel|(DataRecordModel|null)[]) {
+    // todo moeten hier blueprint props gewijzigd worden?
     const instance =  this.clientData.find(cd=>{
       return cd.componentName === component && cd.conceptName === concept
     })
@@ -420,6 +423,7 @@ export class DataService{
     }*/
   }
   private deleteClientData(name:ComponentNameType,concept:ConceptNameType){
+    // todo
     // wanneer een component gedestroyed wordt
   }
 
@@ -567,7 +571,6 @@ export class DataService{
 
 
   /*******************************   HELPERS ********************************************************/
-
   private getData(data:Object):any|undefined{
     // todo herwerkt zodat dit duidelijker is
     return Object.values(Object.values(data).length > 0 ? Object.values(data)[0] : {}).length>0 ? Object.values(Object.values(data)[0])[0] : undefined

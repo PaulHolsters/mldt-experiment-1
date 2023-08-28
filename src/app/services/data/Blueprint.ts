@@ -9,8 +9,8 @@ export class Blueprint {
     this.properties = new Properties(this.getPropsFromObj(bluePrintObj).trim())
     this.conceptName = this.getConceptFromBlueprintObj(bluePrintObj)
   }
-  public setValuesBlueprintProperties(values:DataRecordModel[]|DataRecordModel){
-
+  public setValuesBlueprintProperties(property:string,values:DataRecordModel[]|DataRecordModel){
+    this.properties.setValuesProperties(property,values)
   }
   private getConceptFromBlueprintObj(blueprintObj:string):ConceptNameType{
     if(blueprintObj.indexOf('blueprint:')===-1) throw new Error('Blueprint string does not contain a concept name')

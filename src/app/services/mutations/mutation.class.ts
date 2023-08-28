@@ -68,7 +68,7 @@ export class Mutation {
     return str
   }
   private singularPropNeedsQuotes(k:string):boolean{
-    switch (this.data.blueprint?.get(k)){
+    switch (this.data.blueprint?.properties.properties.get(k)){
       case "string":
         return true
       case "number":
