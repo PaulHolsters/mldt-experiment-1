@@ -90,6 +90,7 @@ export class Query {
     return str
   }
   public getStr(): string {
+    // todo deze methode is niet langer voorzien op het nieuwe Blueprint object
     return `
     query Query{
       get${utilFunctions.capitalizeFirst(this.conceptName)}(${this.getParams()}){

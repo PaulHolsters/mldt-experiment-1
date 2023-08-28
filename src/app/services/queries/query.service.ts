@@ -16,6 +16,18 @@ export class QueryService {
   constructor(private apollo:Apollo) { }
 
   private query(query:Query): Observable<{data:Object}>{
+    console.log(query.getStr())
+    debugger
+    /*
+    *     query Query{
+      getProduct(dataMultiple:true){
+        dataMultiple{
+bluePrintObj
+properties
+conceptName}
+      }
+    }
+    * */
     return this.apollo
       .mutate({
         mutation: gql`${query.getStr()}`
