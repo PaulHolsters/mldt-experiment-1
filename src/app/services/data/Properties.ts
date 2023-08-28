@@ -102,19 +102,9 @@ export class Properties {
     return cutOff
   }
   private isLast(props:string):boolean{
-    // todo options prop wordt njog steeds niet als laatste prop aanzien!!!!
-    let rest = props
-    while(rest.indexOf('{')!==-1){
-      const start = rest.indexOf('{')
-      const end = rest.lastIndexOf('}')
-      debugger
-      // todo werkt niet
-      if(start===rest.lastIndexOf('{')&&start>end) return false
-      debugger
-      rest = rest.substring(start+1,end)
-      debugger
-    }
-    return true
+    const firstType = props.indexOf('type:')
+    const nextOrNestedType = props.lastIndexOf('type:')
+
   }
   private getNextObjFromProps(props:string):string{
     // todo fix: bij laatste prop gelijk aan option krijg je '[' terug! ipv het laatste object
