@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {QueryType} from "../../enums/queryTypes";
 import {Apollo, gql} from "apollo-angular";
-import {DataObjectModel} from "../../models/DataObjectModel";
 import {Observable} from "rxjs";
 import {Query} from "./query.class";
-import {BlueprintType, ConceptNameType, ObjectIdType} from "../../types/type-aliases";
+import {ConceptNameType, ObjectIdType} from "../../types/type-aliases";
 import {FilterModel} from "../../models/FilterModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {Blueprint} from "../data/Blueprint";
@@ -16,8 +15,6 @@ export class QueryService {
   constructor(private apollo:Apollo) { }
 
   private query(query:Query): Observable<{data:Object}>{
-    console.log(query.getStr())
-    debugger
     /*
     *     query Query{
       getProduct(dataMultiple:true){
@@ -31,7 +28,6 @@ conceptName}
     return this.apollo
       .mutate({
         mutation: gql`${query.getStr()}`
-        // todo specify return types
       }) as unknown as Observable<{data:Object}>
   }
   /*

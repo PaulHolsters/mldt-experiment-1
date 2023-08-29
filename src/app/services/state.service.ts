@@ -39,6 +39,36 @@ export class StateService {
   // todo werk any weg
   constructor(private configService:ConfigService) {
   }
+  public getDataType(type:ComponentType){
+    switch (type) {
+      case ComponentType.Table:
+        return Table.getDataType()
+      case ComponentType.Container:
+        return Container.getDataType()
+      case ComponentType.Form:
+        return Form.getDataType()
+      case ComponentType.Dialog:
+        return Dialog.getDataType()
+      case ComponentType.Button:
+        return Button.getDataType()
+      case ComponentType.Label:
+        return Label.getDataType()
+      case ComponentType.TextInput:
+        return TextInput.getDataType()
+      case ComponentType.FormControl:
+        return FormControl.getDataType()
+      case ComponentType.Icon:
+        return Icon.getDataType()
+      case ComponentType.Paginator:
+        return Paginator.getDataType()
+      case ComponentType.TableFooter:
+        return TableFooter.getDataType()
+      case ComponentType.ConfirmPopup:
+        return ConfirmPopup.getDataType()
+      default:
+        throw new Error('Er bestaat geen component van het type '+type)
+    }
+  }
   public getProperties(type:ComponentType){
     switch (type) {
       case ComponentType.Table:

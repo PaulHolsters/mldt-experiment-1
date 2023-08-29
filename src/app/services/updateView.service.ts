@@ -58,6 +58,7 @@ import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {ActionIdType} from "../types/type-aliases";
 import {DataService} from "./data/data.service";
+import {ComponentDataType} from "../enums/componentDataTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -81,30 +82,40 @@ export class UpdateViewService implements OnInit {
       }
     })
     this.actionsService.bindToAction(new Action(ActionType.UpdateView))?.subscribe(res => {
+      debugger
       if(res){
+        debugger
         this.setData(res.data.componentName,[],res.data)
+        debugger
         this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
       }
     })
   }
   private setData(nameComponent: string, dataSpecs: DataSpecificationType[], compConcept?: ClientDataRenderModel) {
-    this.getStatePropertySubjects().forEach(propSubj => {
-      let comp = this.configService.getConfigFromRoot(propSubj.componentName)
-      // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
-      if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ClientDataConfigModel && comp.name === nameComponent) {
-/*        if(compConcept?.attributes && compConcept?.attributes instanceof Array){
-          compConcept.attributes = compConcept.attributes.map(attr=>{
-            return this.replaceDBIValues(compConcept,attr)
-          })
-        }*/
-        propSubj.propValue.next(compConcept)
-      } else if (propSubj.propName === 'dataLink' && comp
-        && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
-        && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
-        const data: AttributeComponentModel | undefined = this.dataService.getAttribute(nameComponent,comp.attributes?.smartphone?.dataLink)
-        this.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
+    const ct = this.configService.getConfigFromRoot(nameComponent)?.type
+    if(ct){
+      const dataType:ComponentDataType|undefined=this.stateService.getDataType(ct)
+      if(dataType){
+
+        this.getStatePropertySubjects().forEach(propSubj => {
+          let comp = this.configService.getConfigFromRoot(propSubj.componentName)
+          // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
+          if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ClientDataConfigModel && comp.name === nameComponent) {
+            /*        if(compConcept?.attributes && compConcept?.attributes instanceof Array){
+                      compConcept.attributes = compConcept.attributes.map(attr=>{
+                        return this.replaceDBIValues(compConcept,attr)
+                      })
+                    }*/
+            propSubj.propValue.next(compConcept)
+          } else if (propSubj.propName === 'dataLink' && comp
+            && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
+            && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
+            const data: AttributeComponentModel | undefined = this.dataService.getAttribute(nameComponent,comp.attributes?.smartphone?.dataLink)
+            this.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
+          }
+        })
       }
-    })
+    }
   }
 
 

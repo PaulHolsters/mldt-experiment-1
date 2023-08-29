@@ -5,6 +5,7 @@ import {IconPositionType} from "../enums/iconPositionType.enum";
 import {RestrictionType} from "../enums/restrictionType.enum";
 import {NoValueType} from "../enums/no_value_type";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
+import {ComponentDataType} from "../enums/componentDataTypes.enum";
 export abstract class TextInput extends Component{
   public static width:string|undefined = undefined
   public static height:string|undefined = undefined
@@ -29,4 +30,6 @@ export abstract class TextInput extends Component{
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
   public static data: any|undefined = undefined
+
+  public static dataType:ComponentDataType = ComponentDataType.String
 }

@@ -7,6 +7,7 @@ import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {TableColumnModel} from "../models/TableColumnModel";
+import {ComponentDataType} from "../enums/componentDataTypes.enum";
 
 export abstract class Table extends Component{
   // todo deze properties kunnen gewijzigd worden door middel van een setValue functie nadat de applicatie klaar is met opstarten
@@ -35,5 +36,7 @@ export abstract class Table extends Component{
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
   public static extraColumns:TableColumnModel[]|undefined = undefined
+
+  public static dataType:ComponentDataType = ComponentDataType.List
 
 }

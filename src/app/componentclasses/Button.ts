@@ -1,5 +1,6 @@
 import {Component} from "./Component";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
+import {ComponentDataType} from "../enums/componentDataTypes.enum";
 
 export abstract class Button extends Component{
   public static icon:string|undefined = undefined
@@ -20,4 +21,5 @@ export abstract class Button extends Component{
   public static padding: string|undefined = undefined
   public static margin: string|undefined = undefined
   public static data: any|undefined = undefined
+
 }

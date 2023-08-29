@@ -3,6 +3,7 @@ import {ComponentModel} from "../models/ComponentModel";
 import {BackgroundColorType} from "../enums/backgroundColorType.enum";
 import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
+import {ComponentDataType} from "../enums/componentDataTypes.enum";
 
 export abstract class Container extends Component{
   public static children:ComponentModel[]|undefined=undefined
@@ -48,5 +49,7 @@ export abstract class Container extends Component{
   public static dataLink: string[] | undefined = undefined
   public static display: string|undefined = undefined
   public static data: any|undefined = undefined
+
+  public static dataType:ComponentDataType = ComponentDataType.Object
 
 }
