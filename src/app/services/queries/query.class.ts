@@ -1,9 +1,10 @@
 import utilFunctions from "../../utils/utilFunctions";
 import {QueryType} from "../../enums/queryTypes";
-import {AttributeNameType, BlueprintType, ConceptNameType, ObjectIdType} from "../../types/type-aliases";
+import {AttributeNameType, ConceptNameType, ObjectIdType} from "../../types/type-aliases";
 import {FilterModel} from "../../models/FilterModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {Blueprint} from "../data/Blueprint";
+import {Properties} from "../data/Properties";
 
 export class Query {
   public constructor(
@@ -17,10 +18,18 @@ export class Query {
     public readonly exclude:AttributeNameType[]|NoValueType.NA=NoValueType.NA,
   ) {}
   private getAllAttributes(): string {
-    if(!this.blueprint) throw new Error('no blueprint client data was given while needed')
-    // todo hoe ook rekening met geneste concept => kan hier puur op basis van het blueprint object
-
-    return Object.keys(this.blueprint).reduce((a,b)=>a+'\n'+b,'')
+    function getProperties(properties:Properties):string{
+      return [...properties.properties.keys()].map((a,b,c)=>{
+        let returnA = a
+        if((properties.properties.get(returnA) as [string,any])[0]==='list'||
+          (properties.properties.get(returnA) as [string,any])[0]==='object'){
+          returnA += '{\n'+getProperties((properties.properties.get(returnA) as [string,[Blueprint,any]])[1][0].properties)+'}'
+        }
+        return returnA+'\n'}
+      ).join('')
+    }
+    if(!this.blueprint ||this.blueprint===NoValueType.NA) throw new Error('no blueprint client data was given while needed')
+    return getProperties(this.blueprint.properties as Properties)
 /*    if (data instanceof ClientDataConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
         if (x.concept && x.concept.attributes && x.concept.attributes instanceof Array) {
@@ -56,11 +65,11 @@ export class Query {
       case QueryType.GetConceptBlueprint:
         return 'blueprint:true'
       case QueryType.GetSingleRecord:
-        return 'dataSingle:true'
+        return 'id:"'+this.id+'"'
       case QueryType.GetAllRecords:
-        return 'dataMultiple:true'
+        return 'multiple:true'
       case QueryType.GetMultipleRecords:
-        return 'dataMultiple:true'
+        return 'multiple:true'
       default:
         return new Error('Querytype '+this.type+ ' does not exist')
     }
@@ -72,13 +81,13 @@ export class Query {
         str+='numberOfNesting'
         break
       case QueryType.GetConceptBlueprint:
-        // todo fix this:
         str+='blueprint'
         break
       case QueryType.GetSingleRecord:
         str+='dataSingle{'+this.getAllAttributes()+'}'
         break
       case QueryType.GetAllRecords:
+        debugger
         str+='dataMultiple{'+this.getAllAttributes()+'}'
         break
       case QueryType.GetMultipleRecords:
@@ -90,7 +99,6 @@ export class Query {
     return str
   }
   public getStr(): string {
-    // todo deze methode is niet langer voorzien op het nieuwe Blueprint object
     return `
     query Query{
       get${utilFunctions.capitalizeFirst(this.conceptName)}(${this.getParams()}){
