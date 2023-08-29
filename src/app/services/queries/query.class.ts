@@ -87,6 +87,7 @@ export class Query {
         str+='dataSingle{'+this.getAllAttributes()+'}'
         break
       case QueryType.GetAllRecords:
+        // todo fix bug: als hij een genest concept ophaalt dan worden de attributes van de parent opgehaald wat natuurlijk fout is
         debugger
         str+='dataMultiple{'+this.getAllAttributes()+'}'
         break
