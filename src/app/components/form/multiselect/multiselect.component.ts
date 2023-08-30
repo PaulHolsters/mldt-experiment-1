@@ -1,55 +1,49 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {DataService} from "../../../services/data/data.service";
-import {UpdateViewService} from "../../../services/updateView.service";
-import {Observable} from "rxjs";
-import {NoValueType} from "../../../enums/no_value_type";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component as AbstractComponent} from "../../Component";
+import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {DataRecordModel} from "../../../models/DataRecordModel";
+import {NoValueType} from "../../../enums/no_value_type";
+import {MultiSelect} from "../../../componentclasses/MultiSelect";
 
 @Component({
   selector: 'm-multiselect',
   templateUrl: './multiselect.component.html',
   styleUrls: ['./multiselect.component.css']
 })
-export class MultiselectComponent implements OnInit {
-  @Input() name:string|undefined
-  @Input() data:any|undefined
-  @Input() options:DataRecordModel[]|undefined|NoValueType.DBI
-  @Input() selectedOptions:DataRecordModel[]|undefined|NoValueType.DBI
-  @Input() optionLabel:string|undefined|NoValueType.DBI
-  @Input() dirty: boolean | undefined
-  @Input() invalid: boolean | undefined
-  @Input() disabled: boolean | undefined
-  @Input() updateKey!: string
+export class MultiselectComponent extends AbstractComponent implements OnInit {
   @ViewChild('multiselect') multiselect: ElementRef | undefined
-  calcHeight$: Observable<any> | undefined
-  calcWidth$: Observable<any> | undefined
-  width: string | undefined
-  height: string | undefined
-  NoValueType = NoValueType
-  constructor(private dataService: DataService, private storeService: UpdateViewService) { }
+  selectedOptions:DataRecordModel[]|NoValueType.DBI|undefined
 
   ngOnInit(): void {
-    if(this.name){
-      this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
-      this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
-    }
+    this.props = MultiSelect.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        this.setPropValue(k,res)
+      })
+    })
+    this.storeService.bindToStateProperty(this.name,PropertyName.selectedOptions)?.subscribe(res=>{
+      this.setPropValue(PropertyName.selectedOptions,res)
+      this.selectedOptions = this.getPropValue(PropertyName.selectedOptions)
+    })
   }
-  setCalculatedHeight(val: any): boolean {
-    if (typeof val === 'string') {
-      this.multiselect?.nativeElement.style?.setProperty('--heightVal', 'calc(' + val + ')')
-      this.height = undefined
+
+  setCalculatedHeight(val:any):boolean{
+    if(typeof val === 'string'){
+      this.multiselect?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
+      this.setPropValue(PropertyName.height,undefined)
       return true
     }
-    this.height = '100%'
+    this.setPropValue(PropertyName.height,'100%')
     return false
   }
-  setCalculatedWidth(val: any): boolean {
-    if (typeof val === 'string') {
-      this.multiselect?.nativeElement.style?.setProperty('--widthVal', 'calc(' + val + ')')
-      this.width = undefined
+  setCalculatedWidth(val:any):boolean{
+    if(typeof val === 'string'){
+      this.multiselect?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
+      this.setPropValue(PropertyName.width,undefined)
       return true
     }
-    this.width = '100%'
+    this.setPropValue(PropertyName.width,'100%')
     return false
   }
 
@@ -59,5 +53,4 @@ export class MultiselectComponent implements OnInit {
     }
 
   }
-
 }

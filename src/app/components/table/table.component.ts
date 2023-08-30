@@ -13,7 +13,6 @@ import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Component as AbstractComponent} from "../Component"
 import {TableColumnModel} from "../../models/TableColumnModel";
-import {DataRecordModel} from "../../models/DataRecordModel";
 @Component({
   selector: 'm-table',
   templateUrl: './table.component.html',
@@ -42,14 +41,14 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
       this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
-        if(k===PropertyName.dataConcept){
+        if(k===PropertyName.conceptData){
           this.setPropValue(
             k,
             res,
             [
               PropertyName.dataList,
               PropertyName.conceptName,
-              PropertyName.conceptBluePrint,
+              PropertyName.conceptBlueprint,
               PropertyName.attributes
             ],
             [{prop:PropertyName.currentDataList,use:PropertyName.dataList}]
@@ -128,9 +127,6 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
   //      de mogelijkheid van datapresentatie
   ngAfterViewInit(): void {
     this.cd.detectChanges()
-  }
-  recal(event:any){
-
   }
 
   // todo in de config voorzien dat je een extra kolom kan aanmaken in de tabel en deze vullen met eigen Melementen bv buttons

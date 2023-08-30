@@ -1,12 +1,13 @@
-
-  <div *ngIf="options"
-       [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-       [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-       [style.height]="height"
-       [style.width]="width"
-       #multiselect>
-    <p-multiSelect appendTo="body" [options]="options===NoValueType.DBI? [] : options" (onPanelHide)="updateData()" [(ngModel)]="selectedOptions" optionLabel="{{optionLabel}}"></p-multiSelect>
-  </div>
+<div *ngIf="getPropValue(PropertyName.options)"
+     [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+     [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+     [style.height]="getPropValue(PropertyName.height)"
+     [style.width]="getPropValue(PropertyName.width)"
+     #multiselect>
+  <p-multiSelect appendTo="body" [options]="getPropValue(PropertyName.options)===NoValueType.DBI? [] : getPropValue(PropertyName.options)"
+                 (onPanelHide)="updateData()"
+                 [(ngModel)]="selectedOptions" optionLabel="{{getPropValue(PropertyName.optionLabel)}}"></p-multiSelect>
+</div>
 <!--
        [style.position]="'absolute'"
   <div [style.min-height]="'46px'"

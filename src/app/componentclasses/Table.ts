@@ -3,11 +3,9 @@ import {Component} from "./Component";
 import {ComponentModel} from "../models/ComponentModel";
 import {TableStylingType} from "../enums/tableStylingType.enum";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
-import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {TableColumnModel} from "../models/TableColumnModel";
-import {ComponentDataType} from "../enums/componentDataTypes.enum";
 import {Blueprint} from "../services/data/Blueprint";
 
 export abstract class Table extends Component{

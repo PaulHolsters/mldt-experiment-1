@@ -97,6 +97,10 @@ export enum PropertyName {
   advisoryText='advisoryText',
   values = 'values',
   selectedValue='selectedValue',
+  options='options',
+  selectedOptions = 'selectedOptions',
+  optionLabel = 'optionLabel',
+
 
 
 }
