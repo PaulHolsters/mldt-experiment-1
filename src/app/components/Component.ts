@@ -50,7 +50,6 @@ export class Component{
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
   }
   trigger(trigger: TriggerType,nativeEvent?:any){
-    debugger
     this.eventsService.triggerEvent(trigger,this.name,this.data,nativeEvent?.target)
   }
   setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){

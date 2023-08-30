@@ -12,10 +12,10 @@ export class Action {
   public readonly serviceMethod:ServiceMethodType
   public readonly targetType:TargetType
   public constructor(
+    public id:ActionIdType,
     public type:ActionType,
     public conceptName: ConceptNameType|NoValueType.NA=NoValueType.NA,
     public target:ComponentNameType|NoValueType.NA=NoValueType.NA,
-    public id:ActionIdType|NoValueType.NA=NoValueType.NA,
     public value:ResponsiveConfigModel|ActionValueModel|NoValueType.NA=NoValueType.NA
   ) {
     ConceptName.check(conceptName)

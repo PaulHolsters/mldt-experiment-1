@@ -1,10 +1,13 @@
-import {AttributeConfigModel} from "./AttributeConfigModel";
+import {ActionIdType} from "../../types/type-aliases";
 import {NoValueType} from "../../enums/no_value_type";
+import {AttributeComponentModel} from "./AttributeComponentModel";
+
 export class ClientDataConfigModel {
 constructor(
-  public conceptName:string,
-  public attributes:AttributeConfigModel[]|NoValueType.DBI=NoValueType.DBI,
-  public errorMessages:string[]|NoValueType.NI=NoValueType.NI // error boodschap op concept ipv attribuut niveau
+  public actionId:ActionIdType,
+  public dataLink:string[]|NoValueType.NA=NoValueType.NA,
+  public attributes:AttributeComponentModel[]|NoValueType.NA,
+  public errorMessages:string[]|NoValueType.NI
   ) {
 }
 }

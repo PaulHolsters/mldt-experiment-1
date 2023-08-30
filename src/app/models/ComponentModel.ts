@@ -22,7 +22,7 @@ export class ComponentModel {
                 public overflow?:ResponsiveOverflowConfigModel,
                 public children?:ComponentModel[],
                 public styling?:ResponsiveStylingConfigModel,
-                public data?:ClientDataConfigModel|string[],
+                public data?:ClientDataConfigModel,
                 public contentInjection?:ResponsiveContentInjectionConfigModel) {
     // todo toevoegen constraints zoals dat je geen padding mag gebruiken bij een label
   }
