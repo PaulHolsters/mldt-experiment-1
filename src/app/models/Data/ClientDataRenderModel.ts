@@ -9,6 +9,7 @@ constructor(
   public actionId:ActionIdType,
   public blueprint:Blueprint,
   public data:(DataRecordModel|null)[]|DataRecordModel|NoValueType.NVY=NoValueType.NVY,
+  public hardcodedData:any|NoValueType.NA,
   public attributes:AttributeComponentModel[]|NoValueType.NA,
   public errorMessages:string[]|NoValueType.NI
 ) {

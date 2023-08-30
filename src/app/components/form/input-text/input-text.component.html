@@ -1,29 +1,30 @@
 <ng-template #input>
-  <input type="text" pInputText (input)="updateData()" [(ngModel)]="value"
-         [class.p-inputtext-sm]="small"
-         [class.p-inputtext-l]="large"
-         [class.ng-invalid]="invalid"
-         [class.ng-dirty]="dirty"
-         pKeyFilter="{{keyFilter}}"
-         [disabled]="disabled === true"
+  <input type="text" pInputText (input)="updateData()" value="{{getPropValue(PropertyName.conceptData)}}"
+         [class.p-inputtext-sm]="getPropValue(PropertyName.small)"
+         [class.p-inputtext-l]="getPropValue(PropertyName.large)"
+         [class.ng-invalid]="getPropValue(PropertyName.invalid)"
+         [class.ng-dirty]="getPropValue(PropertyName.dirty)"
+         pKeyFilter="{{getPropValue(PropertyName.keyFilter)}}"
+         [disabled]="getPropValue(PropertyName.disabled)"
          [style.width]="'100%'"
+         #inputElement
   />
 </ng-template>
 <!-- non-floating label inputs with an icon inside -->
-<div *ngIf="icon && !floatLabel"
+<div *ngIf="getPropValue(PropertyName.icon) && !getPropValue(PropertyName.floatLabel)"
       [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
       [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
       [style.height]="getPropValue(PropertyName.height)"
       [style.width]="getPropValue(PropertyName.width)"
-      [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
-      [class.p-input-icon-right]="iconPosition===iconPositionType.Right"
+      [class.p-input-icon-left]="getPropValue(PropertyName.iconPosition)===iconPositionType.Left"
+      [class.p-input-icon-right]="getPropValue(PropertyName.iconPosition)===iconPositionType.Right"
      #inputWrapper>
-    <i class="pi pi-{{icon}}"></i>
+    <i class="pi pi-{{getPropValue(PropertyName.icon)}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
-    <small *ngIf="advisoryText!==NoValueType.NI">{{advisoryText}}</small>
+    <small *ngIf="getPropValue(PropertyName.advisoryText)!==NoValueType.NI">{{getPropValue(PropertyName.advisoryText)}}</small>
 </div>
 <!-- non-floating label inputs without an icon inside -->
-<div *ngIf="!icon && !floatLabel"
+<div *ngIf="!getPropValue(PropertyName.icon) && !getPropValue(PropertyName.floatLabel)"
       [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
       [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
       [style.height]="getPropValue(PropertyName.height)"
@@ -31,10 +32,10 @@
      #inputWrapper
 >
   <ng-template [ngTemplateOutlet]="input"></ng-template>
-  <small *ngIf="advisoryText!==NoValueType.NI">{{advisoryText}}</small>
+  <small *ngIf="getPropValue(PropertyName.advisoryText)!==NoValueType.NI">{{getPropValue(PropertyName.advisoryText)}}</small>
 </div>
 <!-- floating label inputs without icons -->
-<div *ngIf="floatLabel && !icon" class="p-float-label"
+<div *ngIf="getPropValue(PropertyName.floatLabel) && !getPropValue(PropertyName.icon)" class="p-float-label"
       [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
       [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
       [style.height]="getPropValue(PropertyName.height)"
@@ -42,20 +43,20 @@
      #inputWrapper
 >
     <ng-template [ngTemplateOutlet]="input"></ng-template>
-    <label>{{label}}</label>
-    <small *ngIf="advisoryText!==NoValueType.NI">{{advisoryText}}</small>
+    <label>{{getPropValue(PropertyName.label)}}</label>
+  <small *ngIf="getPropValue(PropertyName.advisoryText)!==NoValueType.NI">{{getPropValue(PropertyName.advisoryText)}}</small>
 </div>
 <!-- floating label inputs with icons -->
-<div *ngIf="icon && floatLabel"
+<div *ngIf="getPropValue(PropertyName.icon) && getPropValue(PropertyName.floatLabel)"
       [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
       [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
       [style.height]="getPropValue(PropertyName.height)"
       [style.width]="getPropValue(PropertyName.width)"
-      [class.p-input-icon-left]="iconPosition===iconPositionType.Left"
-      [class.p-input-icon-right]="iconPosition===iconPositionType.Right" class="p-float-label"
+      [class.p-input-icon-left]="getPropValue(PropertyName.iconPosition)===iconPositionType.Left"
+      [class.p-input-icon-right]="getPropValue(PropertyName.iconPosition)===iconPositionType.Right" class="p-float-label"
      #inputWrapper>
-    <i class="pi pi-{{icon}}"></i>
+    <i class="pi pi-{{getPropValue(PropertyName.icon)}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
-    <label>{{label}}</label>
-    <small *ngIf="advisoryText!==NoValueType.NI">{{advisoryText}}</small>
+    <label>{{getPropValue(PropertyName.label)}}</label>
+  <small *ngIf="getPropValue(PropertyName.advisoryText)!==NoValueType.NI">{{getPropValue(PropertyName.advisoryText)}}</small>
 </div>

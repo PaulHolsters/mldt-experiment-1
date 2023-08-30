@@ -1,59 +1,52 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {Observable} from "rxjs";
-import {DataService} from "../../../services/data/data.service";
-import {UpdateViewService} from "../../../services/updateView.service";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component as AbstractComponent} from "../../Component";
+import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
+import {RadioButton} from "../../../componentclasses/RadioButton";
 
 @Component({
   selector: 'm-radio',
   templateUrl: './radio-button.component.html',
   styleUrls: ['./radio-button.component.css']
 })
-export class RadioButtonComponent implements OnInit {
-  @Input() name!:string
-  @Input() data:any|undefined
-  @Input() selectedValue: string | undefined
-  @Input() values: {label:string,value:string}[] | undefined
-  @Input() conceptName: string | undefined
-  @Input() dataName: string | undefined
-  @Input() dirty: boolean | undefined
-  @Input() invalid: boolean | undefined
-  @Input() disabled: boolean | undefined
+export class RadioButtonComponent extends AbstractComponent implements OnInit {
+  selectedValue: string | undefined
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
-  calcHeight$: Observable<any> | undefined
-  calcWidth$: Observable<any> | undefined
-  width: string | undefined
-  height: string | undefined
 
   updateData() {
-    // todo zorg ervoor dat je hier de dataLink naam hebt van de parent container
-    if (this.dataName){
+    if(this.selectedValue){
       this.dataService.updateData(this.name, this.selectedValue)
     }
   }
-  constructor(private dataService: DataService, private storeService: UpdateViewService) { }
 
   ngOnInit(): void {
-    if(this.name){
-      this.calcWidth$ = this.storeService.bindToStateProperty(this.name, 'calcWidth')
-      this.calcHeight$ = this.storeService.bindToStateProperty(this.name, 'calcHeight')
-    }
+    this.props = RadioButton.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        this.setPropValue(k,res)
+      })
+    })
+    this.storeService.bindToStateProperty(this.name,PropertyName.selectedValue)?.subscribe(res=>{
+      this.setPropValue(PropertyName.selectedValue,res)
+      this.selectedValue = this.getPropValue(PropertyName.selectedValue)
+    })
   }
-  setCalculatedHeight(val: any): boolean {
-    if (typeof val === 'string') {
-      this.inputWrapper?.nativeElement.style?.setProperty('--heightVal', 'calc(' + val + ')')
-      this.height = undefined
+  setCalculatedHeight(val:any):boolean{
+    if(typeof val === 'string'){
+      this.inputWrapper?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
+      this.setPropValue(PropertyName.height,undefined)
       return true
     }
-    this.height = '100%'
+    this.setPropValue(PropertyName.height,'100%')
     return false
   }
-  setCalculatedWidth(val: any): boolean {
-    if (typeof val === 'string') {
-      this.inputWrapper?.nativeElement.style?.setProperty('--widthVal', 'calc(' + val + ')')
-      this.width = undefined
+  setCalculatedWidth(val:any):boolean{
+    if(typeof val === 'string'){
+      this.inputWrapper?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
+      this.setPropValue(PropertyName.width,undefined)
       return true
     }
-    this.width = '100%'
+    this.setPropValue(PropertyName.width,'100%')
     return false
   }
 }

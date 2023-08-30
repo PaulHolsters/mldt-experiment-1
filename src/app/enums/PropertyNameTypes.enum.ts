@@ -84,6 +84,19 @@ export enum PropertyName {
   border = 'border',
   extraColumns = 'extraColumns',
   confirmationModel = 'confirmationModel',
-  anchor='anchor'
+  anchor='anchor',
+  hardCodedData = 'hardCodedData',
+  disabled = 'disabled',
+  keyFilter = 'keyFilter',
+  small = 'small',
+  large='large',
+  invalid='invalid',
+  dirty='dirty',
+  floatLabel='floatLabel',
+  iconPosition='iconPosition',
+  advisoryText='advisoryText',
+  values = 'values',
+  selectedValue='selectedValue',
+
 
 }

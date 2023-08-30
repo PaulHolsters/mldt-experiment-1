@@ -22,5 +22,6 @@ export abstract class Button extends Component{
   public static margin: string|undefined = undefined
 
   public static data: any|undefined = undefined
+  public static hardCodedData: any|undefined = undefined
 
 }

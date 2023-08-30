@@ -7,6 +7,7 @@ import {Component as AbstractComponent} from "../../Component"
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../../../enums/no_value_type";
 import {Label} from "../../../componentclasses/Label";
+import {Blueprint} from "../../../services/data/Blueprint";
 
 @Component({
   selector: 'm-label',
@@ -20,6 +21,7 @@ export class LabelComponent extends AbstractComponent implements OnInit {
   @Input() padding: PaddingType|NoValueType.NA=NoValueType.NA
   @Input() margin: MarginType|NoValueType.NA=NoValueType.NA
   @Input() border: BorderModel|NoValueType.NA=NoValueType.NA
+  @Input() text: any|undefined
   @ViewChild('label') label:ElementRef|undefined
   ngOnInit(): void {
     this.props = Label.getProperties()
@@ -57,7 +59,10 @@ export class LabelComponent extends AbstractComponent implements OnInit {
   }
 
   getText(){
-    const blueprint = this.getPropValue(PropertyName.conceptBlueprint)
+    const blueprint = this.getPropValue(PropertyName.conceptBlueprint) as Blueprint|undefined
     const dataLink = this.getPropValue(PropertyName.dataLink)
+    const hardCodedData = this.getPropValue(PropertyName.hardCodedData)
+    if(hardCodedData) return hardCodedData
+    return dataLink[dataLink.length-1]
   }
 }

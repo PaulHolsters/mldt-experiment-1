@@ -13,6 +13,7 @@ export class DateComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

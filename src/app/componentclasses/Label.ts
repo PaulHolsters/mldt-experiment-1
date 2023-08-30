@@ -23,6 +23,7 @@ export abstract class Label extends Component{
   public static holdSpace: boolean|undefined = undefined
 
   public static data: any|undefined = undefined
+  public static hardCodedData: any|undefined = undefined
 
   public static conceptBlueprint:Blueprint|undefined = undefined
   public static dataLink:string[]|undefined = undefined

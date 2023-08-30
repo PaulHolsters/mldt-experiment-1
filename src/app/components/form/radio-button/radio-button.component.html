@@ -1,10 +1,10 @@
 <m-container [name]="name">
-  <ng-container *ngFor="let val of values">
+  <ng-container *ngFor="let val of getPropValue(PropertyName.values)">
     <div
-      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-      [style.height]="height"
-      [style.width]="width"
+      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+      [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+      [style.height]="getPropValue(PropertyName.height)"
+      [style.width]="getPropValue(PropertyName.width)"
     #inputWrapper>
       <p-radioButton (onClick)="updateData()" name="{{name}}" [(ngModel)]="selectedValue" value="{{val.value}}"></p-radioButton>
       <!-- todo: geef styling aan op basis van config input-->

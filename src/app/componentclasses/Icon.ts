@@ -17,5 +17,6 @@ export abstract class Icon extends Component{
   public static display: string|undefined = undefined
 
   public static data: any|undefined = undefined
+  public static hardCodedData: any|undefined = undefined
 
 }

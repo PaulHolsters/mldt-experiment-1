@@ -7,7 +7,8 @@ constructor(
   public actionId:ActionIdType,
   public dataLink:string[]|NoValueType.NA=NoValueType.NA,
   public attributes:AttributeComponentModel[]|NoValueType.NA,
-  public errorMessages:string[]|NoValueType.NI
+  public errorMessages:string[]|NoValueType.NI,
+  public hardcodedData:any|NoValueType.NA=NoValueType.NA,
   ) {
 }
 }

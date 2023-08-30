@@ -19,21 +19,9 @@ import {TextInput} from "../../../componentclasses/TextInput";
   styleUrls: ['./input-text.component.css']
 })
 export class InputTextComponent extends AbstractComponent implements OnInit {
-  @Input() conceptId:string|undefined
-  @Input() icon: IconType | undefined
-  @Input() iconPosition: IconPositionType |NoValueType.NI| undefined
-  @Input() advisoryText: string | undefined
-  @Input() label: string | undefined
-  @Input() floatLabel: boolean | undefined | NoValueType.NA
-  @Input() dirty: boolean | undefined
-  @Input() invalid: boolean | undefined
-  @Input() small: boolean | undefined
-  @Input() large: boolean | undefined
-  @Input() disabled: boolean | undefined
-  @Input() value: string | undefined
-  @Input() updateKey!: string
-  @Input() keyFilter: string | RegExp | undefined | RestrictionType.NA | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"
+
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
+  @ViewChild('inputElement') inputElement: ElementRef | undefined
   iconType = IconType
   iconPositionType = IconPositionType
 
@@ -46,7 +34,6 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
       })
     })
   }
-
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
       this.inputWrapper?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
@@ -67,7 +54,6 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
   }
 
   updateData() {
-    if(this.conceptId)
-    this.dataService.updateData(this.name, this.value)
+    this.dataService.updateData(this.name, this.inputElement?.nativeElement.value)
   }
 }

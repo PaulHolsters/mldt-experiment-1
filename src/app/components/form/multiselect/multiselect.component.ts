@@ -3,7 +3,6 @@ import {DataService} from "../../../services/data/data.service";
 import {UpdateViewService} from "../../../services/updateView.service";
 import {Observable} from "rxjs";
 import {NoValueType} from "../../../enums/no_value_type";
-import {DataObjectModel} from "../../../models/DataObjectModel";
 import {DataRecordModel} from "../../../models/DataRecordModel";
 
 @Component({

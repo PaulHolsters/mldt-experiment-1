@@ -67,9 +67,6 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
             this.setPropValue(k,res)
         })
       })
-      this.storeService.bindToStateProperty(this.name, 'dataLink')?.subscribe(res => {
-        this.nameFormControl = (res as string[])?.join('_')
-      })
   }
   setCalculatedHeight(val: any): boolean {
     if (typeof val === 'string') {
