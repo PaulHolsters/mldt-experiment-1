@@ -18,7 +18,7 @@ import {MultiSelectAttributeConfigModel} from "../../models/Data/MultiSelectAttr
 import {FunctionType} from "../../enums/functionTypes.enum";
 import {TableColumnAttributeConfigModel} from "../../models/Data/TableColumnAttributeConfigModel";
 
-export const conceptModel = new ClientDataConfigModel(
+/*export const conceptModel = new ClientDataConfigModel(
   'product',
   [
     new AttributeConfigModel(
@@ -127,4 +127,4 @@ export const conceptModel = new ClientDataConfigModel(
       'Product specificaties',
       'Selecteer alle eigenschappen van toepassing op het product'
     )
-  ])
+  ])*/

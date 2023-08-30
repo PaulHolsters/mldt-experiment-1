@@ -25,28 +25,31 @@ const customFunction = (stateService: StateService): any[] => {
 export const effects:Effect[] = [
   new Effect(
     new Trigger(TriggerType.ComponentReady, 'delete-container'),
-    new Action(ActionType.GetBluePrint,'product','delete-container'),
+    new Action('getBP_product',ActionType.GetBluePrint,'product','delete-container'),
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'delete-btn'),
-    new Action(ActionType.DeleteInstance, 'product', NoValueType.NA,   'delete-product'),
+    new Action('delete_product',ActionType.DeleteInstance, 'product',  'delete-product'),
   ),
   // todo zie dat input wordt gecleared ipv alles onzichtbaar gemaakt
   new Effect(
-    new Trigger(TriggerType.ActionFinished,'delete-product'),
-    new Action(ActionType.SetRenderProperty,    'product','delete-container',NoValueType.NA,new ActionValueModel(PropertyName.visible, false)),
+    new Trigger(TriggerType.ActionFinished,'delete_product'),
+    new Action('set_delete-container_invisible',
+      ActionType.SetRenderProperty, NoValueType.NA,'delete-container',
+      new ActionValueModel(PropertyName.visible, false)),
   ),
   new Effect(
     new Trigger(TriggerType.ComponentReady, 'table'),
-    new Action(ActionType.GetAllInstances, 'product','table')
+    new Action('populate_table',ActionType.GetAllInstances, 'product','table')
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
-    new Action(ActionType.CreateClientData, 'product','form container - product edit','cd form')
+    new Action('create_client_data',ActionType.CreateClientData, 'product','form container - product edit')
   ),
   new Effect(
-    new Trigger(TriggerType.ActionFinished, 'cd form'),
-    new Action(ActionType.SetRenderProperty, NoValueType.NA,'edit-product-dialog',NoValueType.NA,new ActionValueModel(PropertyName.visible, true))
+    new Trigger(TriggerType.ActionFinished, 'create_client_data'),
+    new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, NoValueType.NA,'edit-product-dialog',
+      new ActionValueModel(PropertyName.visible, true))
   ),
 ]
 
