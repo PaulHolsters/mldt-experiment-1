@@ -3,7 +3,6 @@ import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValu
 import {BorderModel} from "../models/BorderModel";
 
 export abstract class Paginator extends Component {
-  public static data: any | undefined = undefined
   public static rowsPerPageOptions: number[] | undefined = undefined
   public static first: number | undefined = undefined
   public static rows: number | undefined = undefined
@@ -25,5 +24,5 @@ export abstract class Paginator extends Component {
   public static margin: string|undefined = undefined
   public static border: BorderModel|undefined = undefined
 
-
+  public static data: any | undefined = undefined
 }

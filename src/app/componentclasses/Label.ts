@@ -5,7 +5,7 @@ import {MarginType} from "../enums/marginType.enum";
 import {BorderModel} from "../models/BorderModel";
 import {LabelType} from "../enums/labelType.enum";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
-import {ComponentDataType} from "../enums/componentDataTypes.enum";
+import {Blueprint} from "../services/data/Blueprint";
 export abstract class Label extends Component{
   public static width:string|undefined = undefined
   public static height:string|undefined = undefined
@@ -21,7 +21,9 @@ export abstract class Label extends Component{
   public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
+
   public static data: any|undefined = undefined
 
-  public static dataType:ComponentDataType = ComponentDataType.String
+  public static conceptBlueprint:Blueprint|undefined = undefined
+  public static dataLink:string[]|undefined = undefined
 }

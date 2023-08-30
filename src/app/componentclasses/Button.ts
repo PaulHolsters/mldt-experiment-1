@@ -20,6 +20,7 @@ export abstract class Button extends Component{
   public static display: string|undefined = undefined
   public static padding: string|undefined = undefined
   public static margin: string|undefined = undefined
+
   public static data: any|undefined = undefined
 
 }

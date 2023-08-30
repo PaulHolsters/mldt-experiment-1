@@ -10,7 +10,7 @@
   backgroundColor
   )"
 #label>
-  <m-text [name]="name" [text]="text"
+  <m-text [name]="name" [text]="getText()"
          [fontWeight]="FontWeightType.Semi_bold"
          [fontSize]="FontSizeType.XL_2"
          [textColor]="TextColorType.Text_7"
@@ -18,3 +18,6 @@
           [fontStyle]="FontStyleType.Normal"
   ></m-text>
 </label>
+public static data: any|undefined = undefined
+public static conceptBlueprint:Blueprint|undefined = undefined
+public static dataLink:string[]|undefined = undefined

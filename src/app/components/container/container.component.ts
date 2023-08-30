@@ -4,8 +4,6 @@ import {TriggerType} from "../../enums/triggerTypes.enum";
 import {RootComponent} from "../../app-configuration/root/rootComponent";
 import {Component as AbstractComponent} from "../Component"
 import {Container} from "../../componentclasses/Container";
-import {PropertyName} from "../../enums/PropertyNameTypes.enum";
-import {IconType} from "../../enums/iconType.enum";
 
 @Component({
   selector: 'm-container',
@@ -19,8 +17,7 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
   ngAfterContentChecked(): void {
     this.cd.detectChanges()
   }
-
-  getIconType(text:string):IconType|undefined{
+/*  getIconType(text:string):IconType|undefined{
     switch (text){
       case IconType.Min:
         return IconType.Min
@@ -39,29 +36,24 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
       default:
         return undefined
     }
-  }
-
-  replaceWithBooleanOrUndefined(val:any):boolean|undefined{
+  }*/
+/*  replaceWithBooleanOrUndefined(val:any):boolean|undefined{
     return typeof val === 'boolean' || val === undefined ? val : undefined
   }
-
   replaceWithStringOrUndefined(val:any):string|undefined{
     return typeof val === 'string' || val === undefined ? val : undefined
   }
-
   replaceWithNumberOrUndefined(val:any):number|undefined{
     return typeof val === 'number' || val === undefined ? val : undefined
   }
-
   replaceUndefinedWithString(val:string|undefined):string{
     return val === undefined ? '': val
   }
-
   getValues(): {label:string,value:string}[] {
     if (this.getPropValue(PropertyName.dataAttribute)?.radio?.radioValues && typeof this.getPropValue(PropertyName.dataAttribute)?.radio?.radioValues !== 'string') {
       return this.getPropValue(PropertyName.dataAttribute)?.radio?.radioValues
     } else return []
-  }
+  }*/
   ngOnInit(): void {
       if (this.name === 'content-container') {
         this.eventsService.triggerEvent(TriggerType.RootComponentReady, this.name,

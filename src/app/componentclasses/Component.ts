@@ -1,5 +1,3 @@
-import {ComponentDataType} from "../enums/componentDataTypes.enum";
-
 export abstract class Component{
   public static getProperties(){
     const keys = Reflect.ownKeys(this)
@@ -10,15 +8,6 @@ export abstract class Component{
 
     })
     return properties
-  }
-
-  public static getDataType():ComponentDataType|undefined{
-    const hasDataType = Reflect.ownKeys(this).find(k=>{
-      return k === 'dataType';
-
-    }) !== undefined
-    if(hasDataType) return Reflect.get(this,'dataType')
-    return undefined
   }
 
 }

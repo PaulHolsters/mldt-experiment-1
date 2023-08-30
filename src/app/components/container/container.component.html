@@ -44,10 +44,10 @@
       TODO
           Bij form in config moet overflow nog opgezet worden
       -->
+<!--      *ngIf="(getPropValue(PropertyName.dataAttribute) && !getPropValue(PropertyName.dataAttribute)['floatLabel'])
+      ||child.type !== componentType.Label
+      ||(child.type === componentType.Label && !getPropValue(PropertyName.dataAttribute))"-->
       <div
-        *ngIf="(getPropValue(PropertyName.dataAttribute) && !getPropValue(PropertyName.dataAttribute)['floatLabel'])
-        ||child.type !== componentType.Label
-        ||(child.type === componentType.Label && !getPropValue(PropertyName.dataAttribute))"
         [class.visibilityHidden]="
       (child.type !== componentType.Container) &&
       !(bindToStateProperty(child.name,'visible') | async)
@@ -93,11 +93,12 @@
                              [name]="child.name"></m-formcontrol>
         <ng-container *ngSwitchCase="componentType.Label">
           <!-- todo nagaan of automatische hoogte en breedte van 100% wel wenselijk is-->
-          <m-label *ngIf="!getPropValue(PropertyName.dataAttribute)['floatLabel'] && getPropValue(PropertyName.dataAttribute)['floatLabel'] !== NoValueType.NA"
-                   [text]="(getPropValue(PropertyName.dataAttribute)?.label !== NoValueType.DBI)
-        && (getPropValue(PropertyName.dataAttribute)?.label !== NoValueType.NA)
-        ? getPropValue(PropertyName.dataAttribute)?.label
-        : getPropValue(PropertyName.dataAttribute)?.name"
+<!--          *ngIf="!getPropValue(PropertyName.dataAttribute)['floatLabel'] && getPropValue(PropertyName.dataAttribute)['floatLabel'] !== NoValueType.NA"-->
+<!--          [text]="(getPropValue(PropertyName.dataAttribute)?.label !== NoValueType.DBI)
+          && (getPropValue(PropertyName.dataAttribute)?.label !== NoValueType.NA)
+          ? getPropValue(PropertyName.dataAttribute)?.label
+          : getPropValue(PropertyName.dataAttribute)?.name"-->
+          <m-label
                    [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -105,99 +106,102 @@
                    [style.width]="'100%'"
           ></m-label>
         </ng-container>
+<!--        *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)?.text"-->
+<!--        [updateKey]="nameFormControl"-->
+<!--        [value]="
+        getPropValue(PropertyName.dataAttribute)?.text?.value === NoValueType.NVY
+        || getPropValue(PropertyName.dataAttribute)?.text?.value === NoValueType.NA  ?
+        undefined :
+        getPropValue(PropertyName.dataAttribute)?.text?.value"
+        [icon]="getIconType(getPropValue(PropertyName.dataAttribute)?.text?.icon)"
+        [iconPosition]="getPropValue(PropertyName.dataAttribute)?.text['iconPosition']"
+        [advisoryText]="getPropValue(PropertyName.dataAttribute)['advisoryText']"
+        [keyFilter]="
+        getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Alphanumeric ? 'alphanum' :
+        getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Hex ? 'hex' :
+        getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Alphabetic ? 'alpha' :
+        getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Integer ? 'int' :
+        getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Money ? 'money' :
+        getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Number ? 'number' :
+        getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Custom
+        ? (getPropValue(PropertyName.dataAttribute)?.text['customRestriction'] !== RestrictionType.NA ?
+        getPropValue(PropertyName.dataAttribute)?.text['customRestriction'] : undefined) : undefined"
+        [label]="replaceUndefinedWithString(getPropValue(PropertyName.dataAttribute)?.label)"
+        [floatLabel]="getPropValue(PropertyName.dataAttribute)['floatLabel'] === NoValueType.NA
+        ? false : getPropValue(PropertyName.dataAttribute)['floatLabel']"
+        [dirty]="false"
+        [invalid]="false"
+        [small]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSizeType.Small"
+        [large]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSizeType.Large"
+        [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"-->
         <ng-container *ngSwitchCase="componentType.TextInput">
-          <m-input-text *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)?.text"
+          <m-input-text
                         [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                         [style.height]="'100%'"
                         [style.width]="'100%'"
-                        [updateKey]="nameFormControl"
                         [name]="child.name"
-                        [value]="
-                        getPropValue(PropertyName.dataAttribute)?.text?.value === NoValueType.NVY
-                       || getPropValue(PropertyName.dataAttribute)?.text?.value === NoValueType.NA  ?
-                         undefined :
-                           getPropValue(PropertyName.dataAttribute)?.text?.value"
-                        [icon]="getIconType(getPropValue(PropertyName.dataAttribute)?.text?.icon)"
-                        [iconPosition]="getPropValue(PropertyName.dataAttribute)?.text['iconPosition']"
-                        [advisoryText]="getPropValue(PropertyName.dataAttribute)['advisoryText']"
-                        [keyFilter]="
-                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Alphanumeric ? 'alphanum' :
-                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Hex ? 'hex' :
-                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Alphabetic ? 'alpha' :
-                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Integer ? 'int' :
-                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Money ? 'money' :
-                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Number ? 'number' :
-                      getPropValue(PropertyName.dataAttribute)?.text?.only === RestrictionType.Custom
-                      ? (getPropValue(PropertyName.dataAttribute)?.text['customRestriction'] !== RestrictionType.NA ?
-                      getPropValue(PropertyName.dataAttribute)?.text['customRestriction'] : undefined) : undefined"
-                        [label]="replaceUndefinedWithString(getPropValue(PropertyName.dataAttribute)?.label)"
-                        [floatLabel]="getPropValue(PropertyName.dataAttribute)['floatLabel'] === NoValueType.NA
-                        ? false : getPropValue(PropertyName.dataAttribute)['floatLabel']"
-                        [dirty]="false"
-                        [invalid]="false"
-                        [small]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSizeType.Small"
-                        [large]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSizeType.Large"
-                        [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
           ></m-input-text>
         </ng-container>
+<!--        *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)?.number"-->
+<!--        [updateKey]="nameFormControl"
+        [value]="getPropValue(PropertyName.dataAttribute)?.number?.value === NoValueType.NVY
+        || getPropValue(PropertyName.dataAttribute)?.number?.value === NoValueType.NA ? undefined : getPropValue(PropertyName.dataAttribute)?.number?.value"
+        [advisoryText]="getPropValue(PropertyName.dataAttribute)['advisoryText']"
+        [label]="replaceWithStringOrUndefined(getPropValue(PropertyName.dataAttribute)?.label)"
+        [floatLabel]="getPropValue(PropertyName.dataAttribute)['floatLabel'] === NoValueType.NA ? false : getPropValue(PropertyName.dataAttribute)['floatLabel']"
+        [dirty]="false"
+        [invalid]="false"
+        [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
+        [useGrouping]="getPropValue(PropertyName.dataAttribute)?.number?.useGrouping"
+        [mode]="getPropValue(PropertyName.dataAttribute)?.number?.mode"
+        [suffix]="getPropValue(PropertyName.dataAttribute)?.number?.suffix"
+        [prefix]="replaceWithStringOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.prefix)"
+        [locale]="getPropValue(PropertyName.dataAttribute)?.number?.locale"
+        [currency]="getPropValue(PropertyName.dataAttribute)?.number?.currency"
+        [currencyDisplay]="getPropValue(PropertyName.dataAttribute)?.number?.currencyDisplay"
+        [minFractionDigits]="getPropValue(PropertyName.dataAttribute)?.number['minFractionDigits']"
+        [maxFractionDigits]="getPropValue(PropertyName.dataAttribute)?.number['maxFractionDigits']"
+        [min]="replaceWithNumberOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.min)"
+        [max]="getPropValue(PropertyName.dataAttribute)?.number?.max"
+        [showButtons]="getPropValue(PropertyName.dataAttribute)?.number['showButtons']"
+        [step]="replaceWithNumberOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.step)"
+        [incrementButtonIcon]="getPropValue(PropertyName.dataAttribute)?.number['incrementButtonIcon']"
+        [decrementButtonIcon]="getPropValue(PropertyName.dataAttribute)?.number['decrementButtonIcon']"
+        [decrementButtonClass]="getPropValue(PropertyName.dataAttribute)?.number['decrementButtonClass']"
+        [incrementButtonClass]="getPropValue(PropertyName.dataAttribute)?.number['incrementButtonClass']"
+        [buttonLayout]="getPropValue(PropertyName.dataAttribute)?.number['buttonLayout']"-->
         <ng-container *ngSwitchCase="componentType.NumberInput">
           <m-input-number
-            *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)?.number"
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
             [style.height]="'100%'"
             [style.width]="'100%'"
             [name]="child.name"
-            [updateKey]="nameFormControl"
-            [value]="getPropValue(PropertyName.dataAttribute)?.number?.value === NoValueType.NVY
-            || getPropValue(PropertyName.dataAttribute)?.number?.value === NoValueType.NA ? undefined : getPropValue(PropertyName.dataAttribute)?.number?.value"
-            [advisoryText]="getPropValue(PropertyName.dataAttribute)['advisoryText']"
-            [label]="replaceWithStringOrUndefined(getPropValue(PropertyName.dataAttribute)?.label)"
-            [floatLabel]="getPropValue(PropertyName.dataAttribute)['floatLabel'] === NoValueType.NA ? false : getPropValue(PropertyName.dataAttribute)['floatLabel']"
-            [dirty]="false"
-            [invalid]="false"
-            [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
-            [useGrouping]="getPropValue(PropertyName.dataAttribute)?.number?.useGrouping"
-            [mode]="getPropValue(PropertyName.dataAttribute)?.number?.mode"
-            [suffix]="getPropValue(PropertyName.dataAttribute)?.number?.suffix"
-            [prefix]="replaceWithStringOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.prefix)"
-            [locale]="getPropValue(PropertyName.dataAttribute)?.number?.locale"
-            [currency]="getPropValue(PropertyName.dataAttribute)?.number?.currency"
-            [currencyDisplay]="getPropValue(PropertyName.dataAttribute)?.number?.currencyDisplay"
-            [minFractionDigits]="getPropValue(PropertyName.dataAttribute)?.number['minFractionDigits']"
-            [maxFractionDigits]="getPropValue(PropertyName.dataAttribute)?.number['maxFractionDigits']"
-            [min]="replaceWithNumberOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.min)"
-            [max]="getPropValue(PropertyName.dataAttribute)?.number?.max"
-            [showButtons]="getPropValue(PropertyName.dataAttribute)?.number['showButtons']"
-            [step]="replaceWithNumberOrUndefined(getPropValue(PropertyName.dataAttribute)?.number?.step)"
-            [incrementButtonIcon]="getPropValue(PropertyName.dataAttribute)?.number['incrementButtonIcon']"
-            [decrementButtonIcon]="getPropValue(PropertyName.dataAttribute)?.number['decrementButtonIcon']"
-            [decrementButtonClass]="getPropValue(PropertyName.dataAttribute)?.number['decrementButtonClass']"
-            [incrementButtonClass]="getPropValue(PropertyName.dataAttribute)?.number['incrementButtonClass']"
-            [buttonLayout]="getPropValue(PropertyName.dataAttribute)?.number['buttonLayout']"
           ></m-input-number>
         </ng-container>
+<!--        *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)['multiselect']"-->
+<!--        [updateKey]="nameFormControl"
+        [options]="getPropValue(PropertyName.dataAttribute)['multiselect']?.options"
+        [selectedOptions]="getPropValue(PropertyName.dataAttribute)['multiselect']['selectedOptions']"
+        [optionLabel]="getPropValue(PropertyName.dataAttribute)['multiselect']['optionLabel']"
+        [dirty]="false"
+        [invalid]="false"
+        [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"-->
         <ng-container *ngSwitchCase="componentType.MultiSelect">
           <m-multiselect
-            *ngIf="nameFormControl && getPropValue(PropertyName.dataAttribute)['multiselect']"
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
             [name]="child.name"
-            [updateKey]="nameFormControl"
-            [options]="getPropValue(PropertyName.dataAttribute)['multiselect']?.options"
-            [selectedOptions]="getPropValue(PropertyName.dataAttribute)['multiselect']['selectedOptions']"
-            [optionLabel]="getPropValue(PropertyName.dataAttribute)['multiselect']['optionLabel']"
-            [dirty]="false"
-            [invalid]="false"
-            [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
           ></m-multiselect>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.DateInput">
-          <m-date *ngIf="getPropValue(PropertyName.dataLink)"  [name]="getPropValue(PropertyName.dataLink).join('_')"
+<!--          *ngIf="getPropValue(PropertyName.dataLink)"-->
+<!--          [name]="getPropValue(PropertyName.dataLink).join('_')"-->
+          <m-date
                   [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -206,14 +210,14 @@
           ></m-date>
         </ng-container>
         <ng-container *ngSwitchCase="componentType.RadioButton">
+<!--          [values]="getValues()"
+          [selectedValue]="getPropValue(PropertyName.dataAttribute)['radio']?.value"
+          [conceptName]="getPropValue(PropertyName.dataAttribute)['radio']['conceptName']"
+          [dataName]="nameFormControl"
+          [dirty]="false"
+          [invalid]="false"
+          [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"-->
           <m-radio [name]="child.name"
-                   [values]="getValues()"
-                   [selectedValue]="getPropValue(PropertyName.dataAttribute)['radio']?.value"
-                   [conceptName]="getPropValue(PropertyName.dataAttribute)['radio']['conceptName']"
-                   [dataName]="nameFormControl"
-                   [dirty]="false"
-                   [invalid]="false"
-                   [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"
                    [class]="['flex',
            'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
            'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -266,12 +270,12 @@
                          [style.width]="'100%'"
                          *ngSwitchCase="componentType.Logo"
                          [name]="child.name"></m-logo>
+<!--        [conceptId]="'64aea3efb786c36de52c7cfd'"-->
         <m-form          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                          *ngSwitchCase="componentType.Form"
                          [name]="child.name"
-                         [conceptId]="'64aea3efb786c36de52c7cfd'"
                          [style.height]="'100%'"
                          [style.width]="'100%'"
        ></m-form>

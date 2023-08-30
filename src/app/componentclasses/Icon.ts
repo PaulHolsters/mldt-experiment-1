@@ -15,6 +15,7 @@ export abstract class Icon extends Component{
   public static holdSpace: boolean|undefined = undefined
   public static margin: string|undefined = undefined
   public static display: string|undefined = undefined
+
   public static data: any|undefined = undefined
 
 }

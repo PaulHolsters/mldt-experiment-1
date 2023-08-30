@@ -6,6 +6,8 @@ import {RestrictionType} from "../enums/restrictionType.enum";
 import {NoValueType} from "../enums/no_value_type";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {ComponentDataType} from "../enums/componentDataTypes.enum";
+import {DataRecordModel} from "../models/DataRecordModel";
+import {Blueprint} from "../services/data/Blueprint";
 export abstract class TextInput extends Component{
   public static width:string|undefined = undefined
   public static height:string|undefined = undefined
@@ -23,13 +25,18 @@ export abstract class TextInput extends Component{
   public static small: boolean | undefined= undefined
   public static large: boolean | undefined= undefined
   public static disabled: boolean | undefined= undefined
-  public static value: string | undefined= undefined
+
   public static keyFilter: string | RegExp | undefined | RestrictionType.NA | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"= undefined
   public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
+
   public static data: any|undefined = undefined
 
-  public static dataType:ComponentDataType = ComponentDataType.String
+  public static conceptData:string|undefined = undefined
+  public static conceptBlueprint:Blueprint|undefined = undefined
+  public static dataLink: string[] | undefined = undefined
+
+  public static value: string | undefined= undefined
 }

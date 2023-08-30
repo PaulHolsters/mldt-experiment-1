@@ -8,13 +8,9 @@ import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {TableColumnModel} from "../models/TableColumnModel";
 import {ComponentDataType} from "../enums/componentDataTypes.enum";
+import {Blueprint} from "../services/data/Blueprint";
 
 export abstract class Table extends Component{
-  // todo deze properties kunnen gewijzigd worden door middel van een setValue functie nadat de applicatie klaar is met opstarten
-  // todo de createStore method gebruikt deze klasse voor het aanmaken van de store properties van elk table component die
-  //      er in de configuratie staat
-  public static dataList:DataRecordModel[]|undefined=undefined
-  public static currentDataList:DataRecordModel[]|undefined=undefined
   public static currentColumn:{field:string,header:string,sort:boolean,filter:boolean}|undefined=undefined
   public static textWhenEmpty:string|undefined=undefined
   public static caption:ComponentModel|undefined=undefined
@@ -26,17 +22,21 @@ export abstract class Table extends Component{
   public static tableBreakpoint:number|undefined=undefined
   public static rows:number|undefined=undefined
   public static rowsPerPage:number[]|undefined=undefined
-  public static dataConcept:ClientDataRenderModel|undefined=undefined
-  public static conceptBlueprint:Object|undefined=undefined
-  public static attributes:AttributeComponentModel[]|undefined=undefined
-  public static conceptName:string|undefined=undefined
-  public static data: any|undefined = undefined
+
   public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
   public static extraColumns:TableColumnModel[]|undefined = undefined
 
-  public static dataType:ComponentDataType = ComponentDataType.List
+  public static conceptData:DataRecordModel[]|undefined = undefined
+  public static conceptBlueprint:Blueprint|undefined=undefined
+
+  public static attributes:AttributeComponentModel[]|undefined=undefined
+  public static conceptName:string|undefined=undefined
+  public static data: any|undefined = undefined
+
+  public static dataList:DataRecordModel[]|undefined=undefined
+  public static currentDataList:DataRecordModel[]|undefined=undefined
 
 }

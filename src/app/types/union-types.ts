@@ -5,15 +5,10 @@ import {ResponsiveStylingConfigModel} from "../models/Styling/ResponsiveStylingC
 import {ResponsivePositioningConfigModel} from "../models/Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "../models/ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVisibilityConfigModel";
-import {DataRecordModel} from "../models/DataRecordModel";
-import {EnumValueType, ObjectIdType} from "./type-aliases";
 
 export type ResponsiveConfigModel = ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
   |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
   ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel
-// todo secuur bijhouden!
-export type RenderPropertyValueType = string|DataRecordModel|DataRecordModel[]|Date|boolean|number
-export type ConceptPropertyValueType = string|boolean|EnumValueType|number|ObjectIdType|ObjectIdType[]
 
 /*
 * (

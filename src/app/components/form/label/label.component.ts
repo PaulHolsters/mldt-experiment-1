@@ -3,10 +3,10 @@ import {MarginType} from "../../../enums/marginType.enum";
 import {PaddingType} from "../../../enums/paddingType.enum";
 import {BorderModel} from "../../../models/BorderModel";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
-import {LabelType} from "../../../enums/labelType.enum";
 import {Component as AbstractComponent} from "../../Component"
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../../../enums/no_value_type";
+import {Label} from "../../../componentclasses/Label";
 
 @Component({
   selector: 'm-label',
@@ -14,16 +14,21 @@ import {NoValueType} from "../../../enums/no_value_type";
   styleUrls: ['./label.component.css']
 })
 export class LabelComponent extends AbstractComponent implements OnInit {
-  @Input() text:string|undefined
   @Input() backgroundColor: BackgroundColorType|NoValueType.NA=NoValueType.NA
   @Input() calcHeight: string|undefined
   @Input() calcWidth: string|undefined
   @Input() padding: PaddingType|NoValueType.NA=NoValueType.NA
   @Input() margin: MarginType|NoValueType.NA=NoValueType.NA
   @Input() border: BorderModel|NoValueType.NA=NoValueType.NA
-  @Input() labelType: LabelType|undefined
   @ViewChild('label') label:ElementRef|undefined
   ngOnInit(): void {
+    this.props = Label.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        this.setPropValue(k,res)
+      })
+    })
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -49,5 +54,10 @@ export class LabelComponent extends AbstractComponent implements OnInit {
     return Object.assign({},this.stylesService.getPadding(padding),this.stylesService.getMargin(margin),
       this.stylesService.getBorder(border),this.stylesService.getBackgroundColor(backgroundColor))
     return undefined
+  }
+
+  getText(){
+    const blueprint = this.getPropValue(PropertyName.conceptBlueprint)
+    const dataLink = this.getPropValue(PropertyName.dataLink)
   }
 }

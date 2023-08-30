@@ -11,5 +11,6 @@ export abstract class Dialog extends Component{
   public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static holdSpace: boolean|undefined = undefined
+
   public static data: any|undefined = undefined
 }
