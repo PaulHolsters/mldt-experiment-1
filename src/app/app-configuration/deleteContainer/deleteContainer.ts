@@ -10,7 +10,6 @@ import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigP
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
-import {dataContainer} from "./dataContainer";
 import {containerLayout} from "./containerLayout";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
@@ -48,5 +47,5 @@ export const deleteContainer = new ComponentModel(
     }
   ],
   undefined,
-  dataContainer
+ undefined
 )

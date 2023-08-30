@@ -7,7 +7,7 @@ import {IconPositionType} from "../../enums/iconPositionType.enum";
 import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 
-export const dataContainer = new ClientDataConfigModel(
+/*export const dataContainer = new ClientDataConfigModel(
   'product',
   [
     // todo bugfix: je kan nog geen id ophalen
@@ -22,4 +22,4 @@ export const dataContainer = new ClientDataConfigModel(
       undefined, undefined,undefined,undefined,undefined,
       'Id product', 'Geef het id van het product in dat u wenst te verwijderen'
     )
-  ])
+  ])*/

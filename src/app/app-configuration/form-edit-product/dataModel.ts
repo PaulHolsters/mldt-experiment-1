@@ -6,7 +6,10 @@ import {IconType} from "../../enums/iconType.enum";
 import {IconPositionType} from "../../enums/iconPositionType.enum";
 import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
 import {NoValueType} from "../../enums/no_value_type";
-export const dataModel = new ClientDataConfigModel(
+
+// todo nieuw datamodel
+export const dataModel = new ClientDataConfigModel('')
+/*export const dataModel = new ClientDataConfigModel(
   'product',
   [
     // todo to test: zien of je ook enkel de naam kan wijzigen
@@ -32,7 +35,7 @@ export const dataModel = new ClientDataConfigModel(
       'Product',
       'Voer de naam in van je product'
     )
-  ])
+  ])*/
 // todo
 //  verbind dit met de actie omdat de advisory text bv. verschillend
 //  kan zijn naargelang het gaat om een create dan wel een update
