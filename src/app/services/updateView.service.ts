@@ -52,72 +52,62 @@ import {ContentInjectionConfigPropsModel} from "../models/ContentInjection/Conte
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {DataSpecificationType} from "../enums/dataSpecifications.enum";
 import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
-import {ClientDataConfigModel} from "../models/Data/ClientDataConfigModel";
-import {AttributeComponentModel} from "../models/Data/AttributeComponentModel";
 import {ActionIdType} from "../types/type-aliases";
 import {DataService} from "./data/data.service";
-import {ComponentDataType} from "../enums/componentDataTypes.enum";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UpdateViewService implements OnInit {
 
-  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
+  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: ActionIdType }>()
 
-  constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService,private dataService:DataService) {
+  constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService, private dataService: DataService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
   }
+
   ngOnInit(): void {
   }
+
   public bindActions() {
-    this.actionsService.bindToAction(new Action('',ActionType.CreateStore))?.subscribe(res => {
-      if(res){
+    this.actionsService.bindToAction(new Action('', ActionType.CreateStore))?.subscribe(res => {
+      if (res) {
         this.createStore()
-        this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+        this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
     })
-    this.actionsService.bindToAction(new Action('',ActionType.UpdateView))?.subscribe(res => {
+    this.actionsService.bindToAction(new Action('', ActionType.UpdateView))?.subscribe(res => {
       debugger
-      if(res){
+      if (res) {
         debugger
-        this.setData(res.data.componentName,[],res.data)
+        this.setData(res.data)
         debugger
-        this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+        this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
     })
-  }
-  private setData(nameComponent: string, dataSpecs: DataSpecificationType[], compConcept?: ClientDataRenderModel) {
-    // todo finish up!
-    const ct = this.configService.getConfigFromRoot(nameComponent)?.type
-    if(ct){
-      const dataType:ComponentDataType|undefined=this.stateService.getDataType(ct)
-      if(dataType){
-        this.getStatePropertySubjects().forEach(propSubj => {
-          let comp = this.configService.getConfigFromRoot(propSubj.componentName)
-          // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
-          if (propSubj.propName === 'dataConcept' && comp && comp.data instanceof ClientDataConfigModel && comp.name === nameComponent) {
-            /*        if(compConcept?.attributes && compConcept?.attributes instanceof Array){
-                      compConcept.attributes = compConcept.attributes.map(attr=>{
-                        return this.replaceDBIValues(compConcept,attr)
-                      })
-                    }*/
-            propSubj.propValue.next(compConcept)
-          } else if (propSubj.propName === 'dataLink' && comp
-            && (comp.name === nameComponent||this.configService.isSubComponent(comp.name,nameComponent))
-            && comp.attributes?.smartphone?.dataLink && comp.attributes?.smartphone?.dataLink !== NoValueType.NA) {
-            const data: AttributeComponentModel | undefined = this.dataService.getAttribute(nameComponent,comp.attributes?.smartphone?.dataLink)
-            this.getStatePropertySubject(comp.name, 'dataAttribute')?.propValue.next(data)
-          }
-        })
-      }
-    }
   }
 
+  private setData(clientData: ClientDataRenderModel) {
+    this.getStatePropertySubjects().forEach(propSubj => {
+      if(propSubj.componentName===clientData.componentName){
+        switch (propSubj.propName){
+          case PropertyName.conceptData:
+            propSubj.propValue.next(clientData.data)
+            break
+          case PropertyName.conceptBlueprint:
+            propSubj.propValue.next(clientData.blueprint)
+            break
+          case PropertyName.dataLink:
+            // todo volgens mij hoef je niets te doen
+            break
+        }
+      }
+    })
+  }
 
   private statePropertySubjects: StatePropertySubjectModel[] = []
 
@@ -243,6 +233,7 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getDimensionsComponentProps(componentName: string, stateModel: ResponsiveDimensioningConfigModel, screenSize: number): DimensioningComponentPropsModel {
     const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigPropsModel): DimensioningComponentPropsModel => {
       const compPropsObj = new DimensioningComponentPropsModel()
@@ -338,6 +329,7 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveDimensioningConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getAttributesComponentProps(componentName: string, stateModel: ResponsiveAttributesConfigModel, screenSize: number): AttributesComponentPropsModel {
     const translateToAttributesComponentProps = (attributesConfig: AttributesConfigPropsModel): AttributesComponentPropsModel => {
       const compPropsObj = new AttributesComponentPropsModel(
@@ -383,6 +375,7 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getContentInjectionComponentProps(componentName: string, stateModel: ResponsiveContentInjectionConfigModel, screenSize: number): ContentInjectionComponentPropsModel {
     const translateToContentInjectionComponentProps = (CIConfig: ContentInjectionConfigPropsModel): ContentInjectionComponentPropsModel => {
       return new ContentInjectionComponentPropsModel(
@@ -405,6 +398,7 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveContentInjectionConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getVisibilityComponentProps(componentName: string, stateModel: ResponsiveVisibilityConfigModel, screenSize: number): VisibilityComponentPropsModel {
     const translateToVisibilityComponentProps = (visibilityConfig: VisibilityConfigPropsModel): VisibilityComponentPropsModel => {
       const compPropsObj = new VisibilityComponentPropsModel()
@@ -423,6 +417,7 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveVisibilityConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public getChildLayoutComponentProps(componentName: string, stateModel: ResponsiveChildLayoutConfigModel, screenSize: number): ChildLayoutComponentsPropsModel {
     // diegene die deze methode aanroept moet ervoor zorgen dat de properties effectief naar de bedoelde childComponents gaan, indien van toepassing
     const translateToChildLayoutComponentsProps = (childLayoutConfig: ChildLayoutConfigPropsModel): ChildLayoutComponentsPropsModel => {
@@ -449,6 +444,7 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
+
   public setRBSState(componentName: string,
                      newState: (PositioningComponentPropsModel |
                        AttributesComponentPropsModel |
@@ -512,11 +508,13 @@ export class UpdateViewService implements OnInit {
       })
     })
   }
+
   public createStore() {
-    this.configService.getAllComponents().forEach(c=>{
+    this.configService.getAllComponents().forEach(c => {
       this.createProps(c)
     })
   }
+
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       PositioningComponentPropsModel |
@@ -537,14 +535,17 @@ export class UpdateViewService implements OnInit {
       return state.componentName === componentName && state.propName === propName
     })?.prop$
   }
+
   public hasStateProperty(compName: string, propName: string): boolean {
     return this.statePropertySubjects.find(propSubj => {
       return propSubj.propName === propName && propSubj.componentName === compName
     }) !== undefined
   }
+
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
   }
+
   public getStatePropertySubject(compName: string, propName: string): StatePropertySubjectModel | undefined {
     return this.statePropertySubjects.find(ps => {
       return ps.componentName === compName && ps.propName === propName
