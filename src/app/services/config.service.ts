@@ -31,8 +31,8 @@ export class ConfigService {
     }
     let componentsCopy = [...userConfig.components]
     if(componentsCopy.length!==1) throw new Error('Only one root component is allowed')
-    this.getTreeOfComponentModels(componentsCopy[0])
-    convertedObj.components = componentsCopy
+
+    convertedObj.components = [this.getTreeOfComponentModels(this.convertToComponentModel(componentsCopy[0]))]
     return convertedObj
   }
   private getTreeOfComponentModels(component: ComponentModel): ComponentModel {

@@ -33,7 +33,7 @@ export class UiActionsService {
     })
   }
   public bindActions(){
-    this.actionsService.bindToAction(new Action(ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action('',ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res=>{
       if(res){
         const action = this.setConfigValueAndRebuild(res.effect.action)
         if(action){
@@ -41,7 +41,7 @@ export class UiActionsService {
         }
       }
     })
-    this.actionsService.bindToAction(new Action(ActionType.SetConfirmation))?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action('',ActionType.SetConfirmation))?.subscribe(res=>{
       if(res && res.target && res.target instanceof EventTarget){
         const action = this.setConfirmation(res.effect.action,res.data, res.target)
         if(action){
@@ -49,7 +49,7 @@ export class UiActionsService {
         }
       }
     })
-    this.actionsService.bindToAction(new Action(ActionType.SetRenderProperty))?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action('',ActionType.SetRenderProperty))?.subscribe(res=>{
       if(res){
         const action = this.setProperty(res.effect.action,res.data)
         if(action){

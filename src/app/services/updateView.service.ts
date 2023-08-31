@@ -75,13 +75,13 @@ export class UpdateViewService implements OnInit {
   ngOnInit(): void {
   }
   public bindActions() {
-    this.actionsService.bindToAction(new Action(ActionType.CreateStore))?.subscribe(res => {
+    this.actionsService.bindToAction(new Action('',ActionType.CreateStore))?.subscribe(res => {
       if(res){
         this.createStore()
         this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
       }
     })
-    this.actionsService.bindToAction(new Action(ActionType.UpdateView))?.subscribe(res => {
+    this.actionsService.bindToAction(new Action('',ActionType.UpdateView))?.subscribe(res => {
       debugger
       if(res){
         debugger
@@ -96,7 +96,6 @@ export class UpdateViewService implements OnInit {
     if(ct){
       const dataType:ComponentDataType|undefined=this.stateService.getDataType(ct)
       if(dataType){
-
         this.getStatePropertySubjects().forEach(propSubj => {
           let comp = this.configService.getConfigFromRoot(propSubj.componentName)
           // todo voorlopig is alle data verondersteld voor elke screensize hetzelfde te zijn => nog aan te passen in de getChildren method
