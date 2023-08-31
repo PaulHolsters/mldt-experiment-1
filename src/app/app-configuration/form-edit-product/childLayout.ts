@@ -16,7 +16,7 @@ import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVertica
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 
-export const layout = new ResponsiveChildLayoutConfigModel(
+export const childLayout = new ResponsiveChildLayoutConfigModel(
   new ChildLayoutConfigPropsModel(
     new HorizontalLayoutConfigPropsModel(
       AxisConfigType.Cross,

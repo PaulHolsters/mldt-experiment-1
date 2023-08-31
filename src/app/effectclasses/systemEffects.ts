@@ -11,15 +11,15 @@ export abstract class SystemEffects {
     return [
       new Effect(
         new Trigger(TriggerType.RootComponentReady, 'content-container'),
-        new Action(ActionType.CreateStore,NoValueType.NA,NoValueType.NA,'createStore')
+        new Action('create_store',ActionType.CreateStore,NoValueType.NA,NoValueType.NA)
       ),
       new Effect(
-      new Trigger(TriggerType.ActionFinished, 'createStore'),
-      new Action(ActionType.SetGlobalResponsiveBehaviour,NoValueType.NA,NoValueType.NA,'setRBS')
+      new Trigger(TriggerType.ActionFinished, 'create_store'),
+      new Action('set_RBS',ActionType.SetGlobalResponsiveBehaviour,NoValueType.NA,NoValueType.NA)
       ),
       new Effect(
         new Trigger(TriggerType.ClientDataUpdated,ServiceType.DataService),
-        new Action(ActionType.UpdateView)
+        new Action('update_view',ActionType.UpdateView)
       ),
     ]
   }

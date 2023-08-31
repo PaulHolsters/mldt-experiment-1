@@ -1,6 +1,6 @@
 import {ComponentModel} from "../../models/ComponentModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {layout} from "./layout";
+import {childLayout} from "./childLayout";
 import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
@@ -11,19 +11,15 @@ import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValue
 import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
-import {dataModel} from "./dataModel";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
-import {
-  ResponsiveContentInjectionConfigModel
-} from "../../models/ContentInjection/ResponsiveContentInjectionConfigModel";
-import {ContentInjectionConfigPropsModel} from "../../models/ContentInjection/ContentInjectionConfigPropsModel";
+import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 
-export const formContainer = new ComponentModel(
-  'form container - product edit',
+export const dialogContainer = new ComponentModel(
+  'edit-product-container',
   ComponentType.Container,
-  layout,
+  childLayout,
   undefined,
   new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
     new HeightConfigPropsModel(
@@ -37,47 +33,21 @@ export const formContainer = new ComponentModel(
   new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   undefined,
   [
-    new ComponentModel(
-      'edit naam product - formcontrol',
-      ComponentType.FormControl,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(
-        NoValueType.NA,
-        NoValueType.NA,
-        new ComponentModel(
-          'edit naam product cfc',
-          ComponentType.Container,
-          undefined,
-          undefined,
-          undefined,
-          new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
-            NoValueType.NA, NoValueType.NA, NoValueType.NA, false, NoValueType.NA, NoValueType.NA, ['product', 'name'])),
-          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-          undefined,
-          [
             new ComponentModel(
-              'ti - edit product',
+              'edit-product-text-input',
               ComponentType.TextInput,
               undefined,
               undefined,
               undefined,
               undefined,
               new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-            )
-          ]
-        )
-        ))
-    ),
+              undefined,
+              undefined,
+              undefined,
+              new ClientDataConfigModel('create_client_data',['product','name'])
+            ),
     new ComponentModel(
-      'submit edited product btn',
+      'edit-product-submit-btn',
       ComponentType.Button,
       undefined,
       undefined,
@@ -86,7 +56,5 @@ export const formContainer = new ComponentModel(
         'Product aanpassen')),
       new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
     )
-  ],
-  undefined,
-  dataModel
+  ]
 )

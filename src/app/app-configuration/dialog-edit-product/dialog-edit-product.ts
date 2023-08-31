@@ -9,7 +9,7 @@ import {
   ResponsiveContentInjectionConfigModel
 } from "../../models/ContentInjection/ResponsiveContentInjectionConfigModel";
 import {ContentInjectionConfigPropsModel} from "../../models/ContentInjection/ContentInjectionConfigPropsModel";
-import {formEditProduct} from "../form-edit-product/form";
+import {dialogContainer} from "../form-edit-product/dialog-container";
 
 export const dialogEditProduct =
   new ComponentModel('edit-product-dialog',
@@ -30,6 +30,5 @@ export const dialogEditProduct =
     undefined,
     undefined,
     undefined,
-    // todo die form wordt niet opgepikt in de frontend
-    new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,NoValueType.NA,formEditProduct))
+    new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,NoValueType.NA,dialogContainer))
   )

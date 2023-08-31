@@ -11,14 +11,13 @@ import {deleteContainer} from "../deleteContainer/deleteContainer";
 import {table} from "../table/table";
 import {filterDialog} from "../dialog/dialog";
 import {confirmation} from "../confirmation/confirmation";
-import {formEditProduct} from "../form-edit-product/form";
 import {dialogEditProduct} from "../dialog-edit-product/dialog-edit-product";
 import {effects} from "../effects/effects";
 
 export const RootComponent = new AppConfig({
   components: [
     {
-      // todo start adding constraints
+      // todo  start adding constraints
       // todo add a minimum/maximum dimension
       name: 'content-container',
       type: ComponentType.Container,

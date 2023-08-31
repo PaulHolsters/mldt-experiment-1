@@ -3,7 +3,6 @@ import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
-import {conceptModel} from "../root/appDataModel";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
@@ -31,6 +30,7 @@ import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
 import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
 import {IconSizeType} from "../../enums/iconSizeType.enum";
 import {IconType} from "../../enums/iconType.enum";
+import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 
 export const table = {
   name: 'table',
@@ -69,7 +69,7 @@ export const table = {
     )),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
-  data: conceptModel,
+  data: new ClientDataConfigModel('populate_table'),
   contentInjection:new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,
     NoValueType.NA,
     NoValueType.NA,
