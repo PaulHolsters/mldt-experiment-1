@@ -96,9 +96,11 @@ export class UpdateViewService implements OnInit {
       if(propSubj.componentName===clientData.componentName){
         switch (propSubj.propName){
           case PropertyName.conceptData:
+            debugger
             propSubj.propValue.next(clientData.data)
             break
           case PropertyName.conceptBlueprint:
+            debugger
             propSubj.propValue.next(clientData.blueprint)
             break
           case PropertyName.dataLink:
