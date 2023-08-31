@@ -14,9 +14,10 @@ import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "../queries/query.service";
 import {MutationService} from "../mutations/mutation.service";
-import {ActionIdType,  ComponentNameType, ConceptNameType} from "../../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType} from "../../types/type-aliases";
 import {Effect} from "../../effectclasses/Effect";
 import {Blueprint} from "./Blueprint";
+
 // todo fix
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,7 @@ export class DataService{
 
     //********************     queries     ****************************/
 
-    this.actionsService.bindToAction(new Action(ActionType.GetBluePrint))?.subscribe(async res => {
+    this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res) {
         this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
           const data = this.getData(resFirst)
@@ -50,8 +51,8 @@ export class DataService{
               this.queryService.getBlueprint(res.effect.action.conceptName,this.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
                 const data = this.getData(resOrErr)
                 if(data){
-                  createClientData(this,data.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
-                    undefined)
+                  // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is
+                  createClientData(this,data.blueprint,res.effect.action.id,[],NoValueType.NI, data)
                   this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
                 } else{
                   // todo handle error
@@ -63,7 +64,7 @@ export class DataService{
       }
     })
 
-    this.actionsService.bindToAction(new Action(ActionType.GetInstance))?.subscribe(async res => {
+    this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
       if (res) {
         if (typeof res.data === 'string') {
           // todo zie dat je hier van een ObjectId type kan uitgaan
@@ -72,8 +73,8 @@ export class DataService{
               const data = self.getData(errorOrResult)
               if(data){
                 if(data.dataSingle){
-                  self.updateClientData(res.effect.action.conceptName,res.effect.action.target,data.dataSingle)
-                  const cd = self.getClientData(res.effect.action.conceptName,res.effect.action.target)
+                  self.updateClientData(res.effect.action.id,data.dataSingle)
+                  const cd = self.getClientData(res.effect.action.id,res.effect.action.target)
                   if(cd)
                     self.clientDataUpdated.next(cd)
                 }
@@ -83,7 +84,7 @@ export class DataService{
               }
             })
           }
-          const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+          const blueprint = this.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
           if (blueprint) {
             getRecord(this,blueprint,res)
           } else{
@@ -94,9 +95,8 @@ export class DataService{
                 this.queryService.getBlueprint(res.effect.action.conceptName,data.numberOfNesting).subscribe(resOrErr=>{
                   const data = this.getData(resOrErr)
                   if(data){
-                    createClientData(this,data.blueprint,res.effect.action.conceptName,res.effect.action.target,[],NoValueType.NI,undefined,
-                      undefined)
-                    const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+                    createClientData(this,data.blueprint,res.effect.action.id,[],NoValueType.NI,data)
+                    const blueprint = this.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
                     if (blueprint) {
                       getRecord(this,blueprint,res)
                     }
@@ -113,21 +113,16 @@ export class DataService{
       }
     })
 
-    this.actionsService.bindToAction(new Action(ActionType.GetAllInstances))?.subscribe(async res => {
+    this.actionsService.bindToAction(new Action('',ActionType.GetAllInstances))?.subscribe(async res => {
       if (res) {
         function getAllRecords(self:DataService,blueprint:Blueprint,res:{effect: Effect, data: any, target: EventTarget | undefined}){
-          debugger
           self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
             const data = self.getData(errorOrResult)
             if(data.dataMultiple){
-              self.updateClientData(res.effect.action.conceptName,res.effect.action.target,data.dataMultiple)
-              debugger
-              const cd = self.getClientData(res.effect.action.conceptName,res.effect.action.target)
-              debugger
+              self.updateClientData(res.effect.action.id,data.dataMultiple)
+              const cd = self.getClientData(res.effect.action.id,res.effect.action.target)
               if(cd){
-                debugger
                 self.clientDataUpdated.next(cd)
-                debugger
               }
             } else{
               // todo handle error
@@ -135,9 +130,7 @@ export class DataService{
             self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           })
         }
-
-        const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
-
+        const blueprint = this.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
         if (blueprint) {
           getAllRecords(this,blueprint,res)
         } else{
@@ -148,12 +141,9 @@ export class DataService{
               this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr => {
                 const data = this.getData(resOrErr)
                 if(data){
-                  debugger
-                  createClientData(this, data.blueprint, res.effect.action.conceptName, res.effect.action.target, [], NoValueType.NI, undefined,
-                    undefined)
-                  const blueprint = this.getClientData(res.effect.action.conceptName, res.effect.action.target)?.blueprint
+                  createClientData(this, data.blueprint, res.effect.action.id,[], NoValueType.NI, data)
+                  const blueprint = this.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
                   if (blueprint) {
-                    // tot hier alles ok
                     getAllRecords(this, blueprint, res)
                   }
                 } else{
@@ -168,7 +158,7 @@ export class DataService{
 
     //********************     mutations     ****************************/
 
-    this.actionsService.bindToAction(new Action(ActionType.DeleteInstance))?.subscribe(res => {
+    this.actionsService.bindToAction(new Action('',ActionType.DeleteInstance))?.subscribe(res => {
       // todo werk data als any weg
       if (res) {
         // todo verder uitwerken
@@ -179,9 +169,9 @@ export class DataService{
         })
       }
     })
-    this.actionsService.bindToAction(new Action(ActionType.CreateInstance))?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action('',ActionType.CreateInstance))?.subscribe(res=>{
       if(res){
-        const clientData = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+        const clientData = this.getClientData(res.effect.action.id,res.effect.action.target)
         if(!clientData) throw new Error('No valid clientData found')
         this.mutationService.createRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
@@ -190,9 +180,9 @@ export class DataService{
         })
       }
     })
-    this.actionsService.bindToAction(new Action(ActionType.UpdateInstance))?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action('',ActionType.UpdateInstance))?.subscribe(res=>{
       if(res){
-        const clientData = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+        const clientData = this.getClientData(res.effect.action.id,res.effect.action.target)
         if(!clientData) throw new Error('No valid clientData found')
         this.mutationService.updateRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
@@ -204,34 +194,28 @@ export class DataService{
 
     //********************     Client Data Actions     ****************************/
 
-    this.actionsService.bindToAction(new Action(ActionType.CreateClientData))?.subscribe(res=>{
-      debugger
+    this.actionsService.bindToAction(new Action('',ActionType.CreateClientData))?.subscribe(res=>{
       if(res){
-        const clientData = this.getClientData(res.effect.action.conceptName,res.effect.action.target)
+        // in dit geval zit er zeker data in om de clientdata mee aan te maken!
+        const clientData = this.getClientData(res.effect.action.id,res.effect.action.target)
         if(!clientData){
           if(res.data instanceof Array){
+            // datarecordmodel arr
+            // type =
             if(res.data.length===0){
-              debugger
-              this.createClientData(res.effect.action.conceptName,res.effect.action.target,
-                [],[],undefined,undefined)
+              this.createClientData(res.effect.action.id,)
             } else{
               if(res.data[0] instanceof AttributeComponentModel){
-                debugger
-                this.createClientData(res.effect.action.conceptName,res.effect.action.target,
-                  [...res.data],[],undefined,undefined)
+                this.createClientData(res.effect.action.id)
               } else if(typeof res.data[0] === 'string'){
-                debugger
-                this.createClientData(res.effect.action.conceptName,res.effect.action.target,
-                  [],[...res.data],undefined,undefined)
+                this.createClientData(res.effect.action.id)
               }
             }
           } else if(res.data.hasOwnProperty('id') && res.data.hasOwnProperty('__typename')){
-            debugger
-            this.createClientData(res.effect.action.conceptName,res.effect.action.target,[],[],undefined,res.data)
+            // todo create a blueprint or should there be a blueprint already => yes: het is dezelfde als de blueprint bv van de parent table
+            this.createClientData(res.effect.action.id,)
           } else if(res.data instanceof Blueprint){
-            debugger
-            this.createClientData(res.effect.action.conceptName,res.effect.action.target,
-              [],[],undefined,undefined,res.data)
+            this.createClientData(res.effect.action.id,res.data,NoValueType.NVY, NoValueType.NA,[],NoValueType.NI)
           }
         }
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -241,28 +225,21 @@ export class DataService{
     //********************     Helpers     ****************************/
     function createClientData(self:DataService,
                               blueprintStr:string|undefined,
-                              concept:ConceptNameType,
-                              component:ComponentNameType,
+                              actionId:ActionIdType,
                               attributes:AttributeComponentModel[],
                               errorMessages:string[]|NoValueType.NI,
-                              listOfRecords?:(DataRecordModel|null)[],
-                              record?:DataRecordModel){
+                              data:(DataRecordModel|null)[]|DataRecordModel|NoValueType.NVY){
       if(blueprintStr){
-        // todo voeg code toe die effectief omgaat met errors
-        //      nu ga ik er voor het gemak van uit dat dit nooit errored
         self.createClientData(
-          concept,
-          component,
+          actionId,
+          new Blueprint(blueprintStr),
+          data,
+          NoValueType.NA,
           attributes,
-          errorMessages,
-          listOfRecords,
-          record,
-          new Blueprint(blueprintStr)
+          errorMessages
         )
-        const cd = self.getClientData(concept,component)
-        debugger
+        const cd = self.getClientData(actionId)
         if(cd){
-          debugger
           self.clientDataUpdated.next(cd)
         }
 
@@ -274,20 +251,35 @@ export class DataService{
   private clientData: ClientDataRenderModel[] = []
 
   //***********************************     CLIENT DATA METHODS         ***************************************************************/
-  private createClientData(concept:ConceptNameType,
-  component:ComponentNameType,
-  attributes:AttributeComponentModel[],
-  errorMessages:string[]|NoValueType.NI,
-  listOfRecords?:(DataRecordModel|null)[],
-  record?:DataRecordModel,
-  blueprint?:Blueprint){
-    debugger
+
+  private updateClientData(id:ActionIdType,data:Blueprint|DataRecordModel|(DataRecordModel|null)[]) {
+    const instance =  this.clientData.find(cd=>{
+      return cd.actionId === id
+    })
+    if(instance){
+      if(data instanceof Array){
+        instance.data = data
+      }  else if(data instanceof Blueprint){
+        instance.blueprint = data
+      } else if(data.hasOwnProperty('id') && data.hasOwnProperty('__typename')){
+        instance.data = data
+      } else throw new Error('Data has an invalid format: '+data.toString())
+    } else throw new Error('Client data instance does not exist')
+  }
+  private createClientData(
+    actionId:ActionIdType,
+    componentName:ComponentNameType,
+    blueprint:Blueprint,
+    data:(DataRecordModel|null)[]|DataRecordModel|NoValueType.NVY,
+    hardcodedData:any|NoValueType.NA,
+    attributes:AttributeComponentModel[],
+    errorMessages:string[]|NoValueType.NI,
+  ){
     if(blueprint)
     for(let [k,v] of blueprint.properties.properties){
       if(v instanceof Array && v.length===2 && typeof v[0]==='string' && v[1] instanceof Array && v[1].length===2 && v[1][0] instanceof Blueprint){
         switch (v[0]){
           case 'list':
-            // todo fix bug: je moet de blueprint van het subconcept meegeven!
             this.queryService.getAllRecords(v[1][0].conceptName,v[1][0]).subscribe(res=>{
               const data = this.getData(res.data)
               if(data){
@@ -302,12 +294,12 @@ export class DataService{
         }
       }
     }
-    this.clientData.push(new ClientDataRenderModel(concept,component,attributes,errorMessages,listOfRecords,record,blueprint))
+    this.clientData.push(new ClientDataRenderModel(actionId,componentName,blueprint,data,NoValueType.NA,attributes,errorMessages))
   }
-  public getAttribute(component:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
+  public getAttribute(id:ActionIdType,name:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
     if(dataLink.length<2) throw new Error('Provided datalink array has not all data needed')
-    const clientData = this.getClientData(dataLink[0],component)
+    const clientData = this.getClientData(id,name)
     if(!clientData || !clientData.attributes || clientData.attributes.length===0 || clientData.attributes === NoValueType.NA) return undefined
     const attr = clientData.attributes.find(attr=>{
       return attr.name===dataLink[1]
@@ -325,9 +317,9 @@ export class DataService{
     }
     return currentAttr
   }
-  private getClientData(conceptName:ConceptNameType,component:ComponentNameType): ClientDataRenderModel | undefined {
+  private getClientData(id:ActionIdType,name:ComponentNameType): ClientDataRenderModel | undefined {
     return this.clientData.find(cd=>{
-      return cd.conceptName===conceptName&&cd.componentName===component
+      return cd.actionId === id && cd.componentName === name
     })
     // dit haalt de clientdata op en vervangt ongedefinieerde te berekenen waarden, daarnaast pakt het een specifiek attribuut
     // in deze clientdata
@@ -396,22 +388,6 @@ export class DataService{
       }
     }
     return undefined*/
-  }
-  private updateClientData(concept: ConceptNameType, component: ComponentNameType,data:Blueprint|DataRecordModel|(DataRecordModel|null)[]) {
-    // todo moeten hier blueprint props gewijzigd worden?
-    const instance =  this.clientData.find(cd=>{
-      return cd.componentName === component && cd.conceptName === concept
-    })
-    if(instance){
-      if(data instanceof Array){
-        instance.listOfRecords = data
-      }  else if(data instanceof Blueprint){
-        instance.blueprint = data
-      } else if(data.hasOwnProperty('id') && data.hasOwnProperty('__typename')){
-        instance.record = data
-      } else throw new Error('Data has an invalid format: '+data.toString())
-    } else throw new Error('Client data instance does not exist')
-
   }
   updateData(name: string, value: string|number | DataRecordModel[] | NoValueType.DBI | undefined){
     // todo
@@ -545,7 +521,12 @@ export class DataService{
     const bp = attr.dataBlueprint?.get(attr.name)
     if (attr.radio) {
       if (attr.radio.conceptName === NoValueType.DBI) {
-        attr.radio.conceptName = concept.conceptName
+        const cn = this.configService.getEffectsForComponent(concept.componentName).find(e=>{
+          return e.action.id===concept.actionId
+        })?.action?.conceptName
+        if(cn)
+        attr.radio.conceptName = cn
+        else throw new Error('no conceptname found for concept '+concept)
       }
       if (attr.radio.radioValues === NoValueType.DBI) {
         if (bp && bp instanceof Array && bp.length==2 && bp[0]==='enum'){
@@ -562,7 +543,12 @@ export class DataService{
       }
     } else if (attr.multiselect) {
       if (attr.multiselect.conceptName === NoValueType.DBI) {
-        attr.multiselect.conceptName = concept.conceptName
+        const cn = this.configService.getEffectsForComponent(concept.componentName).find(e=>{
+          return e.action.id===concept.actionId
+        })?.action?.conceptName
+        if(cn)
+        attr.multiselect.conceptName = cn
+        else throw new Error('no conceptname found for concept '+concept)
       }
       if (attr.multiselect.options === NoValueType.DBI) {
         if (bp instanceof Array && bp.length==2 && bp[0]==='list' && bp[1] instanceof Array && bp[1].length===2 && bp[1][0] instanceof Map
@@ -583,8 +569,6 @@ export class DataService{
       if(attr.tableColumn.label === NoValueType.DBI){
         attr.tableColumn.label = utilFunctions.capitalizeFirst(attr.name)
       }
-      // todo voor het gebruik van een functie zou je een function value type kunnen aanmaken?
-      //    vervang novaluetype maar gewoon gelijk door valuetype
     }
     return attr
   }
