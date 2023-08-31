@@ -35,7 +35,7 @@ export class ResponsiveBehaviourService implements OnInit{
     })
   }
   public bindActions(){
-    this.actionsService.bindToAction(new Action(ActionType.SetGlobalResponsiveBehaviour))?.subscribe(res=>{
+    this.actionsService.bindToAction(new Action('',ActionType.SetGlobalResponsiveBehaviour))?.subscribe(res=>{
       if(res){
         this.setResponsiveBehaviour()
         this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})

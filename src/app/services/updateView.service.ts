@@ -92,6 +92,7 @@ export class UpdateViewService implements OnInit {
     })
   }
   private setData(nameComponent: string, dataSpecs: DataSpecificationType[], compConcept?: ClientDataRenderModel) {
+    // todo finish up!
     const ct = this.configService.getConfigFromRoot(nameComponent)?.type
     if(ct){
       const dataType:ComponentDataType|undefined=this.stateService.getDataType(ct)

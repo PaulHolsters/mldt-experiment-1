@@ -52,7 +52,7 @@ export class DataService{
                 const data = this.getData(resOrErr)
                 if(data){
                   // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is
-                  createClientData(this,data.blueprint,res.effect.action.id,[],NoValueType.NI, data)
+                  createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],NoValueType.NI, data)
                   this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
                 } else{
                   // todo handle error
@@ -95,7 +95,7 @@ export class DataService{
                 this.queryService.getBlueprint(res.effect.action.conceptName,data.numberOfNesting).subscribe(resOrErr=>{
                   const data = this.getData(resOrErr)
                   if(data){
-                    createClientData(this,data.blueprint,res.effect.action.id,[],NoValueType.NI,data)
+                    createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],NoValueType.NI,data)
                     const blueprint = this.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
                     if (blueprint) {
                       getRecord(this,blueprint,res)
@@ -141,7 +141,7 @@ export class DataService{
               this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr => {
                 const data = this.getData(resOrErr)
                 if(data){
-                  createClientData(this, data.blueprint, res.effect.action.id,[], NoValueType.NI, data)
+                  createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], NoValueType.NI, data)
                   const blueprint = this.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
                   if (blueprint) {
                     getAllRecords(this, blueprint, res)
@@ -196,53 +196,50 @@ export class DataService{
 
     this.actionsService.bindToAction(new Action('',ActionType.CreateClientData))?.subscribe(res=>{
       if(res){
-        // in dit geval zit er zeker data in om de clientdata mee aan te maken!
         const clientData = this.getClientData(res.effect.action.id,res.effect.action.target)
         if(!clientData){
-          if(res.data instanceof Array){
-            // datarecordmodel arr
-            // type =
-            if(res.data.length===0){
-              this.createClientData(res.effect.action.id,)
-            } else{
-              if(res.data[0] instanceof AttributeComponentModel){
-                this.createClientData(res.effect.action.id)
-              } else if(typeof res.data[0] === 'string'){
-                this.createClientData(res.effect.action.id)
-              }
-            }
-          } else if(res.data.hasOwnProperty('id') && res.data.hasOwnProperty('__typename')){
-            // todo create a blueprint or should there be a blueprint already => yes: het is dezelfde als de blueprint bv van de parent table
-            this.createClientData(res.effect.action.id,)
-          } else if(res.data instanceof Blueprint){
-            this.createClientData(res.effect.action.id,res.data,NoValueType.NVY, NoValueType.NA,[],NoValueType.NI)
+          if(res.data instanceof Array && res.data.length===2){
+            const blueprint = this.getClientData(res.effect.action.id,res.data[0])?.blueprint
+            if(!blueprint) throw new Error('No parent blueprint found for component with name '+res.data[0])
+            if(res.data[1] instanceof Array){
+              this.createClientData(res.effect.action.id,res.effect.action.target,blueprint,res.data[1],NoValueType.NA,[],[])
+            }  else if(res.data[1] instanceof AttributeComponentModel){
+                this.createClientData(res.effect.action.id,res.effect.action.target,blueprint,NoValueType.NVY, NoValueType.NA,[res.data[1]],[])
+              } else if(typeof res.data[1] === 'string'){
+                this.createClientData(res.effect.action.id,res.effect.action.target,blueprint,NoValueType.NVY, NoValueType.NA,[],[res.data[1]])
+              }else if(res.data[1].hasOwnProperty('id') && res.data[1].hasOwnProperty('__typename')){
+                this.createClientData(res.effect.action.id,res.effect.action.target,blueprint,res.data[1],NoValueType.NA,[],[])
+              } else throw new Error('data has not a correct format '+res.data[1])
+            } else if(res.data instanceof Blueprint){
+            this.createClientData(res.effect.action.id,res.effect.action.target,res.data,NoValueType.NVY, NoValueType.NA,[],[])
+          } else throw new Error('data has not a correct format '+res.data)
           }
-        }
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
-      }
-    })
+        }
+      })
 
     //********************     Helpers     ****************************/
     function createClientData(self:DataService,
                               blueprintStr:string|undefined,
                               actionId:ActionIdType,
+                              name:ComponentNameType,
                               attributes:AttributeComponentModel[],
                               errorMessages:string[]|NoValueType.NI,
                               data:(DataRecordModel|null)[]|DataRecordModel|NoValueType.NVY){
       if(blueprintStr){
         self.createClientData(
           actionId,
+          name,
           new Blueprint(blueprintStr),
           data,
           NoValueType.NA,
           attributes,
           errorMessages
         )
-        const cd = self.getClientData(actionId)
+        const cd = self.getClientData(actionId,name)
         if(cd){
           self.clientDataUpdated.next(cd)
         }
-
       }
     }
   }

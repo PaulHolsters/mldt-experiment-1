@@ -56,7 +56,7 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
       <td *ngFor="let column of columns">
-        {{ rowData[column['field']] }} <m-anchor *ngIf="column['anchor']" [data]="rowData" [component]="column['anchor']"></m-anchor>
+        {{ rowData[column['field']] }} <m-anchor *ngIf="column['anchor']" [data]="[name,rowData]" [component]="column['anchor']"></m-anchor>
       </td>
     </tr>
   </ng-template>

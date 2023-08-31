@@ -2,31 +2,19 @@ import {MutationType} from "../../enums/mutationTypes.enum";
 import {ClientDataRenderModel} from "../../models/Data/ClientDataRenderModel";
 import {DataRecordModel} from "../../models/DataRecordModel";
 import utilFunctions from "../../utils/utilFunctions";
-import {ConceptPropertyValueType} from "../../types/union-types";
 import {ObjectIdType} from "../../types/type-aliases";
+import {NoValueType} from "../../enums/no_value_type";
+import {ConfigService} from "../config.service";
+
 export class Mutation {
   public constructor(
     public readonly type:MutationType,
-    public readonly data:ClientDataRenderModel
+    public readonly data:ClientDataRenderModel,
+    private configService:ConfigService
   ) {
   }
   private getData():DataRecordModel|(DataRecordModel|null)[]|Error{
-    switch (this.type){
-      case MutationType.Create:
-        return this.data.record ?? new Error('data is undefined')
-      case MutationType.CreateMultiple:
-        return this.data.listOfRecords ?? new Error('data is undefined')
-      case MutationType.Update:
-        return this.data.record ?? new Error('data is undefined')
-      case MutationType.UpdateMultiple:
-        return this.data.listOfRecords ?? new Error('data is undefined')
-      case MutationType.Delete:
-        return this.data.record ?? new Error('data is undefined')
-      case MutationType.DeleteMultiple:
-        return this.data.listOfRecords ?? new Error('data is undefined')
-      default:
-        return new Error('Mutationtype '+this.type+ ' does not exist')
-    }
+    return this.data.data !== NoValueType.NVY ? this.data.data : new Error('data is not defined')
   }
   private getParams(): string {
     const data = this.getData()
@@ -55,13 +43,12 @@ export class Mutation {
         })
         str+=']'
       } else{
-        // todo werk de "as" weg
         if(this.singularPropNeedsQuotes(k)){
-          index+1===entries.length ? str += k + ':' + (v as ConceptPropertyValueType).toString():
-            str += k + ':"' + (v as ConceptPropertyValueType).toString()+'",'
+          index+1===entries.length ? str += k + ':' + (v).toString():
+            str += k + ':"' + (v).toString()+'",'
         } else{
-          index+1===entries.length ? str += k + ':' + (v as ConceptPropertyValueType).toString():
-            str += k + ':' + (v as ConceptPropertyValueType).toString()+','
+          index+1===entries.length ? str += k + ':' + (v).toString():
+            str += k + ':' + (v).toString()+','
         }
       }
     })
@@ -113,13 +100,19 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     * PARAMS = DATARECORDMODEL
     * return values = errorhandling + errormessages = clientDataRenderModel.errorMessages
     * */
-    return `
+    const cn = this.configService.appConfig.userConfig.effects.find(e=>{
+      return e.action.target === this.data.componentName
+    })?.action.conceptName
+    if(cn){
+      return `
     mutation Mutation{
-      ${this.type}${utilFunctions.capitalizeFirst(this.data.conceptName)}(${this.getParams()}){
+      ${this.type}${utilFunctions.capitalizeFirst(cn)}(${this.getParams()}){
         ${this.getReturnValues()}
       }
     }
     `
+    } else throw new Error('No concept found so mutation could not be done '+this.type)
+
 /*
     if (data instanceof ClientDataConfigModel) {
       const currentData = this.objectData.find(dataObj => {
