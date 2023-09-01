@@ -40,10 +40,10 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
     this.props = Table.getProperties()
       this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
-        debugger
+        // todo als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+
+        //todo zie dat de binnenkomende data correct verwerkt wordt
         if(k===PropertyName.conceptData){
-          debugger
           this.setPropValue(
             k,
             res,
@@ -56,7 +56,6 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
             [{prop:PropertyName.currentDataList,use:PropertyName.dataList}]
           )
         } else{
-          debugger
           this.setPropValue(k,res)
         }
       })
