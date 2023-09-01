@@ -49,9 +49,7 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
             res,
             [
               PropertyName.dataList,
-              PropertyName.conceptName,
-              PropertyName.conceptBlueprint,
-              PropertyName.attributes
+              PropertyName.conceptBlueprint // todo gebruik blueprint en hardcoded data om andere props te zetten
             ],
             [{prop:PropertyName.currentDataList,use:PropertyName.dataList}]
           )
@@ -107,6 +105,7 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
     }*/
   }
   getColumns():TableColumnModel[]{
+    //todo gebruik blueprint ipv attributes om de kolommen te bepalen (en hardcoded values)
     let columns = this.getPropValue(PropertyName.attributes)?.map((attr:AttributeComponentModel)=>{
       if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
         this.cstmSort = true

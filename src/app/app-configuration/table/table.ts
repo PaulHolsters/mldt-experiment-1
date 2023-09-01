@@ -69,6 +69,11 @@ export const table = {
     )),
   //overflow: new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.NA, OverflowValueConfigType.Auto)),
   // todo deep copy methode toevoegen wegens reference issues die voorlopig geen gevolgen hebben maar goed
+
+
+
+  // todo vroeger zat hier alles ivm attributes dus ook de tableColumn waaruit je de kolommen haalt die nu dus iet worden afgebeeld want
+  //      het data systeem bekijkt dit niet langer
   data: new ClientDataConfigModel('populate_table'),
   contentInjection:new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,
     NoValueType.NA,
