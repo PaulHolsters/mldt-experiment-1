@@ -1,5 +1,5 @@
-import {DataRecordModel} from "../../models/DataRecordModel";
-import {NoValueType} from "../../enums/no_value_type";
+import {DataRecordModel} from "../../../models/DataRecordModel";
+import {NoValueType} from "../../../enums/no_value_type";
 import {Blueprint} from "./Blueprint";
 export class Properties {
   public readonly properties:Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueType.NVY]|string[]]|string>

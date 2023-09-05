@@ -9,7 +9,7 @@ import {ActionValueModel} from "../models/ActionValueModel";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
 import {ConfirmationModel} from "../models/ConfirmationModel";
-import {DataService} from "./data/data.service";
+import {ServerDataService} from "./data/server/server-data.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
@@ -27,7 +27,7 @@ export class UiActionsService {
     private configService:ConfigService,
     private actionsService:ActionsService,
     private RBS:ResponsiveBehaviourService,
-    private dataService:DataService) {
+    private dataService:ServerDataService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })

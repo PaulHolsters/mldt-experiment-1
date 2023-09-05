@@ -51,6 +51,7 @@ export const effects:Effect[] = [
     new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, NoValueType.NA,'edit-product-dialog',
       new ActionValueModel(PropertyName.visible, true))
   ),
+
 ]
 
 /*{

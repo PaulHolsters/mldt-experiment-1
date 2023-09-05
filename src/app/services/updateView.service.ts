@@ -52,10 +52,10 @@ import {ContentInjectionConfigPropsModel} from "../models/ContentInjection/Conte
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ClientDataRenderModel} from "../models/Data/ClientDataRenderModel";
 import {ActionIdType} from "../types/type-aliases";
-import {DataService} from "./data/data.service";
+import {ServerDataService} from "./data/server/server-data.service";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {ClientData} from "./data/client/ClientData";
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +64,7 @@ export class UpdateViewService implements OnInit {
 
   public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: ActionIdType }>()
 
-  constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService, private dataService: DataService) {
+  constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService, private dataService: ServerDataService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
@@ -91,9 +91,9 @@ export class UpdateViewService implements OnInit {
     })
   }
 
-  private setData(clientData: ClientDataRenderModel) {
+  private setData(clientData: ClientData) {
     this.getStatePropertySubjects().forEach(propSubj => {
-      if(propSubj.componentName===clientData.componentName){
+      if(propSubj.componentName===clientData.name){
         switch (propSubj.propName){
           case PropertyName.conceptData:
             debugger

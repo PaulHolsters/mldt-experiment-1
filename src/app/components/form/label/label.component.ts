@@ -7,7 +7,7 @@ import {Component as AbstractComponent} from "../../Component"
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../../../enums/no_value_type";
 import {Label} from "../../../componentclasses/Label";
-import {Blueprint} from "../../../services/data/Blueprint";
+import {Blueprint} from "../../../services/data/client/Blueprint";
 
 @Component({
   selector: 'm-label',

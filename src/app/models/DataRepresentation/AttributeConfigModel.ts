@@ -1,4 +1,4 @@
-import {ClientDataConfigModel} from "./ClientDataConfigModel";
+import {ClientDataConfigModel} from "../Data/ClientDataConfigModel";
 import {TextAttributeConfigModel} from "./TextAttributeConfigModel";
 import {NumberAttributeConfigModel} from "./NumberAttributeConfigModel";
 import {NoValueType} from "../../enums/no_value_type";

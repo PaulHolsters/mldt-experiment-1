@@ -1,6 +1,4 @@
-import {ClientDataRenderModel} from "./ClientDataRenderModel";
 import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
-import {ClientDataConfigModel} from "./ClientDataConfigModel";
 import {IconType} from "../../enums/iconType.enum";
 import {IconPositionType} from "../../enums/iconPositionType.enum";
 import {RestrictionType} from "../../enums/restrictionType.enum";

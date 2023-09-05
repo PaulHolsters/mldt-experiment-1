@@ -73,7 +73,7 @@ export const table = {
 
 
   // todo vroeger zat hier alles ivm attributes dus ook de tableColumn waaruit je de kolommen haalt die nu dus iet worden afgebeeld want
-  //      het data systeem bekijkt dit niet langer
+  //      het data systeem bekijkt dit niet langer => een oplossing kan zijn om dit bij content - injection te steken?
   data: new ClientDataConfigModel('populate_table'),
   contentInjection:new ResponsiveContentInjectionConfigModel(new ContentInjectionConfigPropsModel(NoValueType.NA,
     NoValueType.NA,

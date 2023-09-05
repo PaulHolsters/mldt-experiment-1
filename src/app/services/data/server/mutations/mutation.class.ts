@@ -1,15 +1,15 @@
-import {MutationType} from "../../enums/mutationTypes.enum";
-import {ClientDataRenderModel} from "../../models/Data/ClientDataRenderModel";
-import {DataRecordModel} from "../../models/DataRecordModel";
-import utilFunctions from "../../utils/utilFunctions";
-import {ObjectIdType} from "../../types/type-aliases";
-import {NoValueType} from "../../enums/no_value_type";
-import {ConfigService} from "../config.service";
+import {MutationType} from "../../../../enums/mutationTypes.enum";
+import {DataRecordModel} from "../../../../models/DataRecordModel";
+import utilFunctions from "../../../../utils/utilFunctions";
+import {ObjectIdType} from "../../../../types/type-aliases";
+import {NoValueType} from "../../../../enums/no_value_type";
+import {ConfigService} from "../../../config.service";
+import {ClientData} from "../../client/ClientData";
 
 export class Mutation {
   public constructor(
     public readonly type:MutationType,
-    public readonly data:ClientDataRenderModel,
+    public readonly data:ClientData,
     private configService:ConfigService
   ) {
   }
@@ -101,7 +101,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     * return values = errorhandling + errormessages = clientDataRenderModel.errorMessages
     * */
     const cn = this.configService.appConfig.userConfig.effects.find(e=>{
-      return e.action.target === this.data.componentName
+      return e.action.target === this.data.name
     })?.action.conceptName
     if(cn){
       return `

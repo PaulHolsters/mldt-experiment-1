@@ -1,6 +1,6 @@
 import {ActionIdType} from "../../types/type-aliases";
 import {NoValueType} from "../../enums/no_value_type";
-import {AttributeComponentModel} from "./AttributeComponentModel";
+import {AttributeComponentModel} from "../DataRepresentation/AttributeComponentModel";
 
 export class ClientDataConfigModel {
 constructor(

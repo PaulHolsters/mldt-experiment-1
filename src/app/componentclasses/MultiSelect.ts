@@ -1,7 +1,7 @@
 import {Component} from "./Component";
 import {DataRecordModel} from "../models/DataRecordModel";
 import {NoValueType} from "../enums/no_value_type";
-import {Blueprint} from "../services/data/Blueprint";
+import {Blueprint} from "../services/data/client/Blueprint";
 
 export abstract class MultiSelect extends Component{
 

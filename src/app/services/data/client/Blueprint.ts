@@ -1,5 +1,5 @@
-import { ConceptNameType} from "../../types/type-aliases";
-import {DataRecordModel} from "../../models/DataRecordModel";
+import { ConceptNameType} from "../../../types/type-aliases";
+import {DataRecordModel} from "../../../models/DataRecordModel";
 import {Properties} from "./Properties";
 export class Blueprint {
   public readonly properties:Properties

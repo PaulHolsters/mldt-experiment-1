@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Observable} from "rxjs";
-import {AttributeComponentModel} from "../../models/Data/AttributeComponentModel";
+import {AttributeComponentModel} from "../../models/DataRepresentation/AttributeComponentModel";
 import {SortEvent} from "primeng/api";
 import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
@@ -48,8 +48,7 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
             k,
             res,
             [
-              PropertyName.dataList,
-              PropertyName.conceptBlueprint // todo gebruik blueprint en hardcoded data om andere props te zetten
+              PropertyName.dataList
             ],
             [{prop:PropertyName.currentDataList,use:PropertyName.dataList}]
           )
@@ -105,7 +104,7 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
     }*/
   }
   getColumns():TableColumnModel[]{
-    //todo gebruik blueprint ipv attributes om de kolommen te bepalen (en hardcoded values)
+    //todo gebruik blueprint !!! ipv attributes om de kolommen te bepalen (en hardcoded values)
     let columns = this.getPropValue(PropertyName.attributes)?.map((attr:AttributeComponentModel)=>{
       if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
         this.cstmSort = true

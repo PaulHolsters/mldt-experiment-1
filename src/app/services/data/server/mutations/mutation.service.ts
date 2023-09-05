@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {MutationType} from "../../enums/mutationTypes.enum";
+import {MutationType} from "../../../../enums/mutationTypes.enum";
 import {Observable} from "rxjs";
 import {Apollo, gql} from "apollo-angular";
-import {ConfigService} from "../config.service";
-import {ClientDataRenderModel} from "../../models/Data/ClientDataRenderModel";
+import {ConfigService} from "../../../config.service";
 import {Mutation} from "./mutation.class";
-import {ErrorHandlingService} from "../error-handling.service";
+import {ErrorHandlingService} from "../../../error-handling.service";
+import {ClientData} from "../../client/ClientData";
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +20,12 @@ export class MutationService {
         }) as unknown as Observable<any>
   }
   /***********************************     MUTATION ACTIONS         ***************************************************************/
-  public createRecordOrHandleError(clientDataInstance:ClientDataRenderModel):Observable<any> {
+  public createRecordOrHandleError(clientDataInstance:ClientData):Observable<any> {
     //this.createMutationStr(comp?.data, MutationType.Create,data)
     // let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
     return this.mutate(new Mutation(MutationType.Create,clientDataInstance,this.configService))
   }
-  public updateRecordOrHandleError(clientDataInstance:ClientDataRenderModel):Observable<any> {
+  public updateRecordOrHandleError(clientDataInstance:ClientData):Observable<any> {
     return this.mutate(new Mutation(MutationType.Update,clientDataInstance,this.configService))
     // let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
 /*    if (comp && comp.data && comp.data instanceof ClientDataConfigModel && comp.data.conceptName) {
@@ -40,15 +40,15 @@ export class MutationService {
       }
     } else throw new Error('No valid conceptId could be found')*/
   }
-  public deleteRecordOrHandleError( clientDataInstance:ClientDataRenderModel):Observable<any>{
+  public deleteRecordOrHandleError( clientDataInstance:ClientData):Observable<any>{
     return this.mutate(new Mutation(MutationType.Delete,clientDataInstance,this.configService))
   }
-  public createMultipleRecordsOrHandleError(clientDataInstance:ClientDataRenderModel):Observable<any> {
+  public createMultipleRecordsOrHandleError(clientDataInstance:ClientData):Observable<any> {
     //this.createMutationStr(comp?.data, MutationType.Create,data)
     // let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
     return this.mutate(new Mutation(MutationType.CreateMultiple,clientDataInstance,this.configService))
   }
-  public updateMultipleRecordsOrHandleError(clientDataInstance:ClientDataRenderModel):Observable<any> {
+  public updateMultipleRecordsOrHandleError(clientDataInstance:ClientData):Observable<any> {
     return this.mutate(new Mutation(MutationType.UpdateMultiple,clientDataInstance,this.configService))
     // let comp = this.configService.getFirstAncestorConfigWithPropertyFromRoot(trigger.source, PropertyName.data)
     /*    if (comp && comp.data && comp.data instanceof ClientDataConfigModel && comp.data.conceptName) {
@@ -63,7 +63,7 @@ export class MutationService {
           }
         } else throw new Error('No valid conceptId could be found')*/
   }
-  public deleteMultipleRecordsOrHandleError( clientDataInstance:ClientDataRenderModel):Observable<any>{
+  public deleteMultipleRecordsOrHandleError( clientDataInstance:ClientData):Observable<any>{
     return this.mutate(new Mutation(MutationType.DeleteMultiple,clientDataInstance,this.configService))
   }
 /*  public deleteData(trigger: Trigger) {

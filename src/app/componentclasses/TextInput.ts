@@ -7,7 +7,7 @@ import {NoValueType} from "../enums/no_value_type";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {ComponentDataType} from "../enums/componentDataTypes.enum";
 import {DataRecordModel} from "../models/DataRecordModel";
-import {Blueprint} from "../services/data/Blueprint";
+import {Blueprint} from "../services/data/client/Blueprint";
 export abstract class TextInput extends Component{
   public static width:string|undefined = undefined
   public static height:string|undefined = undefined

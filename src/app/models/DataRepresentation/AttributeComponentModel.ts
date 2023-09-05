@@ -1,4 +1,3 @@
-import {ClientDataRenderModel} from "./ClientDataRenderModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {TextAttributeComponentModel} from "./TextAttributeComponentModel";
 import {NumberAttributeComponentModel} from "./NumberAttributeComponentModel";
@@ -19,7 +18,6 @@ constructor(
   public radio:RadioAttributeComponentModel|undefined,
   public multiselect:MultiSelectAttributeComponentModel|undefined,
   public tableColumn:TableColumnAttributeComponentModel|undefined,
-  public concept:ClientDataRenderModel|undefined,
   public dataList:DataRecordModel[]|undefined,
   public label:string|NoValueType.DBI|NoValueType.NA,
   public advisoryText:string|NoValueType,

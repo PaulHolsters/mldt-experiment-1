@@ -2,7 +2,7 @@ import utilFunctions from "../utils/utilFunctions";
 import {StateService} from "../services/state.service";
 import {UpdateViewService} from "../services/updateView.service";
 import {EventsService} from "../services/events.service";
-import {DataService} from "../services/data/data.service";
+import {ServerDataService} from "../services/data/server/server-data.service";
 import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
 import {StylesService} from "../services/styles.service";
 import {TriggerType} from "../enums/triggerTypes.enum";
@@ -17,6 +17,7 @@ import {FontStyleType} from "../enums/fontStyleType.enum";
 import {TextColorType} from "../enums/textColorType.enum";
 import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ConfirmationService, MessageService} from "primeng/api";
+import {ClientDataService} from "../services/data/client/client-data.service";
 @Directive()
 export class Component{
   @Input() public name!:string
@@ -27,7 +28,7 @@ export class Component{
     protected stateService:StateService,
     protected storeService:UpdateViewService,
     protected eventsService:EventsService,
-    protected dataService:DataService,
+    protected clientDataService:ClientDataService,
     protected stylesService:StylesService,
     protected confirmationService: ConfirmationService,
     protected messageService: MessageService) {

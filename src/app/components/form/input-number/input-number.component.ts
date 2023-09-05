@@ -1,9 +1,10 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {NoValueType} from "../../../enums/no_value_type";
 import {InputNumber} from "primeng/inputnumber";
-import {DataService} from "../../../services/data/data.service";
+import {ServerDataService} from "../../../services/data/server/server-data.service";
 import {Observable} from "rxjs";
 import {UpdateViewService} from "../../../services/updateView.service";
+import {ClientDataService} from "../../../services/data/client/client-data.service";
 
 @Component({
   selector: 'm-input-number',
@@ -48,7 +49,7 @@ export class InputNumberComponent implements OnInit {
   height:string|undefined
   Number = Number
   NI = NoValueType.NI
-  constructor(private dataService:DataService,private storeService:UpdateViewService) {
+  constructor( private storeService:UpdateViewService,private clientDataService:ClientDataService) {
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -79,7 +80,7 @@ export class InputNumberComponent implements OnInit {
     const text2 = text.substring(text.indexOf('<input ')+7)
     const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
     this.value = Number(text3.substring(0,text3.indexOf('">')))
-    this.dataService.updateData(this.name, this.value)
+    this.clientDataService.updateData(this.name, this.value)
   }
 
 }

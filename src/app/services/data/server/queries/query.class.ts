@@ -1,10 +1,10 @@
-import utilFunctions from "../../utils/utilFunctions";
-import {QueryType} from "../../enums/queryTypes";
-import {AttributeNameType, ConceptNameType, ObjectIdType} from "../../types/type-aliases";
-import {FilterModel} from "../../models/FilterModel";
-import {NoValueType} from "../../enums/no_value_type";
-import {Blueprint} from "../data/Blueprint";
-import {Properties} from "../data/Properties";
+import utilFunctions from "../../../../utils/utilFunctions";
+import {QueryType} from "../../../../enums/queryTypes";
+import {AttributeNameType, ConceptNameType, ObjectIdType} from "../../../../types/type-aliases";
+import {FilterModel} from "../../../../models/FilterModel";
+import {NoValueType} from "../../../../enums/no_value_type";
+import {Blueprint} from "../../client/Blueprint";
+import {Properties} from "../../client/Properties";
 
 export class Query {
   public constructor(

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {QueryType} from "../../enums/queryTypes";
+import {QueryType} from "../../../../enums/queryTypes";
 import {Apollo, gql} from "apollo-angular";
 import {Observable} from "rxjs";
 import {Query} from "./query.class";
-import {ConceptNameType, ObjectIdType} from "../../types/type-aliases";
-import {FilterModel} from "../../models/FilterModel";
-import {NoValueType} from "../../enums/no_value_type";
-import {Blueprint} from "../data/Blueprint";
+import {ConceptNameType, ObjectIdType} from "../../../../types/type-aliases";
+import {FilterModel} from "../../../../models/FilterModel";
+import {NoValueType} from "../../../../enums/no_value_type";
+import {Blueprint} from "../../client/Blueprint";
 
 @Injectable({
   providedIn: 'root'

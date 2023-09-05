@@ -49,7 +49,7 @@ export class MultiselectComponent extends AbstractComponent implements OnInit {
 
   updateData() {
     if(this.name){
-      this.dataService.updateData(this.name, this.selectedOptions)
+      this.clientDataService.updateData(this.name, this.selectedOptions)
     }
 
   }

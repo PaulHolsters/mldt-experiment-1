@@ -14,7 +14,7 @@ export class RadioButtonComponent extends AbstractComponent implements OnInit {
 
   updateData() {
     if(this.selectedValue){
-      this.dataService.updateData(this.name, this.selectedValue)
+      this.clientDataService.updateData(this.name, this.selectedValue)
     }
   }
 

@@ -1,7 +1,7 @@
 import {Component} from "./Component";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {ComponentDataType} from "../enums/componentDataTypes.enum";
-import {Blueprint} from "../services/data/Blueprint";
+import {Blueprint} from "../services/data/client/Blueprint";
 
 export abstract class RadioButton extends Component{
 

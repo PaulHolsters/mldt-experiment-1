@@ -5,7 +5,7 @@ import {TableStylingType} from "../enums/tableStylingType.enum";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {TableColumnModel} from "../models/TableColumnModel";
-import {Blueprint} from "../services/data/Blueprint";
+import {Blueprint} from "../services/data/client/Blueprint";
 
 export abstract class Table extends Component{
   public static currentColumn:{field:string,header:string,sort:boolean,filter:boolean}|undefined=undefined
