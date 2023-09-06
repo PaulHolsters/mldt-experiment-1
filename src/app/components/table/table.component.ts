@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Observable} from "rxjs";
 import {AttributeComponentModel} from "../../models/DataRepresentation/AttributeComponentModel";
@@ -13,6 +7,8 @@ import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Component as AbstractComponent} from "../Component"
 import {TableColumnModel} from "../../models/TableColumnModel";
+import {NoValueType} from "../../enums/no_value_type";
+
 @Component({
   selector: 'm-table',
   templateUrl: './table.component.html',
@@ -44,6 +40,7 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
 
         //todo zie dat de binnenkomende data correct verwerkt wordt
         if(k===PropertyName.conceptData){
+          debugger
           this.setPropValue(
             k,
             res,
@@ -102,26 +99,32 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
     }*/
   }
   getColumns():TableColumnModel[]{
-    //todo gebruik blueprint !!! ipv attributes om de kolommen te bepalen (en hardcoded values)
-    if(this.getPropValue(PropertyName.conceptBlueprint)){
-      debugger
+    let columns
+    let extraColumns
+    if(this.getPropValue(PropertyName.extraColumns)){
+      extraColumns = this.getPropValue(PropertyName.extraColumns)?.map((tcm:TableColumnModel)=>{
+        if(!this.cstmSort && tcm.sort && tcm.customSort){
+          this.cstmSort = true
+        }
+        return tcm
+      })
     }
-    let columns = this.getPropValue(PropertyName.attributes)?.map((attr:AttributeComponentModel)=>{
-      if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
-        this.cstmSort = true
-      }
-      return {field:attr.name,header:attr.tableColumn?.label ?? '',sort:attr.tableColumn?.sort ?? false,filter:attr.tableColumn?.filter ?? false}
-    }) ?? []
-    const extraColumns = this.getPropValue(PropertyName.extraColumns)?.map((tcm:TableColumnModel)=>{
-      if(!this.cstmSort && tcm.sort && tcm.customSort){
-        this.cstmSort = true
-      }
-      return tcm
-    })
-    if(extraColumns && extraColumns.length>0){
-      return columns.concat(extraColumns)
+    if(this.getPropValue(PropertyName.columns) && this.getPropValue(PropertyName.columns)!==NoValueType.NA){
+      columns = this.getPropValue(PropertyName.columns)
+    }else if(this.getPropValue(PropertyName.conceptBlueprint)
+      && this.getPropValue(PropertyName.conceptBlueprint).properties?.properties){
+      columns =
+        Array.from((this.getPropValue(PropertyName.conceptBlueprint).properties.properties as Map<string,any>).keys()).map(k=>{
+        return {field:k,header:k,sort:false,filter:false,customSort:false,anchor:NoValueType.NA}
+      })
     }
-    return columns
+    if(columns){
+      if(extraColumns && extraColumns.length>0){
+        return  columns.concat(extraColumns)
+      }
+      return columns
+    }
+    return []
   }
 // todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
   // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer

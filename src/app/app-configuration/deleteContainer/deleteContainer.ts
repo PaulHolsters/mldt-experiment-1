@@ -28,7 +28,7 @@ export const deleteContainer = new ComponentModel(
   )),
   new ResponsiveAttributesConfigModel(
     new AttributesConfigPropsModel(NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,
-      NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,['product', 'id'])),
+      NoValueType.NA,NoValueType.NA,false,NoValueType.NA,NoValueType.NA,NoValueType.NA,['product', 'id'])),
   new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
   undefined,
   [

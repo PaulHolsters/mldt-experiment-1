@@ -25,6 +25,7 @@ export enum PropertyName {
   dataAttribute = 'dataAttribute',
   row = 'row',
   column = 'column',
+  columns = 'columns',
   wrap = 'wrap',
   justifyContentStart = 'justifyContentStart',
   justifyContentCenter = 'justifyContentCenter',

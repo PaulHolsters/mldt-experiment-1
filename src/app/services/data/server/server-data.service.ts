@@ -3,8 +3,6 @@ import {AttributeComponentModel} from "../../../models/DataRepresentation/Attrib
 import {NoValueType} from "../../../enums/no_value_type";
 import {Subject} from "rxjs";
 import {DataRecordModel} from "../../../models/DataRecordModel";
-import {FunctionType} from "../../../enums/functionTypes.enum";
-import utilFunctions from "../../../utils/utilFunctions";
 import {ActionsService} from "../../actions.service";
 import {ConfigService} from "../../config.service";
 import {ActionType} from "../../../enums/actionTypes.enum";
@@ -13,10 +11,9 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType, ComponentNameType, ConceptNameType} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType} from "../../../types/type-aliases";
 import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
-import {ClientData} from "../client/ClientData";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
 
@@ -144,7 +141,7 @@ export class ServerDataService {
               this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr => {
                 const data = ServerData.getData(resOrErr)
                 if(data){
-                  createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], NoValueType.NI, data)
+                  createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], NoValueType.NI, NoValueType.NVY)
                   const blueprint = this.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
                   if (blueprint) {
                     getAllRecords(this, blueprint, res)
@@ -196,14 +193,7 @@ export class ServerDataService {
         })
       }
     })
-
-    //********************     Client Data Actions     ****************************/
-    // todo clientdata actions moeten misschien in een aparte service?
-
-
-
     //********************     Helpers     ****************************/
-    // todo helpers zijn verwarrend => extra klasse nodig!
     function createClientData(self:ServerDataService,
                               blueprintStr:string|undefined,
                               actionId:ActionIdType,
@@ -228,11 +218,4 @@ export class ServerDataService {
       }
     }
   }
-
-
-
-  //*******************************   HELPERS ********************************************************/
-  // todo maak hier een klasse rond die ook door de clientdataservice gebruikt kan worden (pure functions?)
-
-
 }

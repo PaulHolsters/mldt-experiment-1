@@ -24,6 +24,7 @@ export abstract class Table extends Component{
   public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
+  public static columns:TableColumnModel[]|undefined = undefined
   public static extraColumns:TableColumnModel[]|undefined = undefined
 
   public static conceptData:DataRecordModel[]|undefined = undefined

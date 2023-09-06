@@ -56,6 +56,7 @@ export const table = {
     new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
       'Geen producten aanwezig.',
       true,
+      NoValueType.NA,
       10,
       [5, 10, 20],
       NoValueType.NA,
@@ -168,14 +169,15 @@ export const table = {
     NoValueType.NA,
     NoValueType.NA,
     [
-      new TableColumnModel('actions', '', false, false, false,
-        new ComponentModel(
+      {
+        field: 'actions', header: '', sort: false, filter: false, customSort: false,
+        anchor: new ComponentModel(
           'edit-product-btn', ComponentType.Button, undefined, undefined, undefined,
           new ResponsiveAttributesConfigModel(
             new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, 'edit')),
           new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
         )
-      )
+      }
     ]
     ))
 }

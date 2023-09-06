@@ -61,7 +61,7 @@ export class ConfigService {
             } else if(v instanceof Array){
               if(v.length>0){
                 for (let vChild of v){
-                  if(vChild instanceof TableColumnModel){
+                  if(typeof vChild === 'object' && vChild.hasOwnProperty('field')  && vChild.hasOwnProperty('header')){
                     vChild = this.convertToComponentModel(vChild.anchor)
                     arr.push(vChild)
                   } else{

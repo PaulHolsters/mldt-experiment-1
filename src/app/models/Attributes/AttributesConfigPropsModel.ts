@@ -1,9 +1,7 @@
 import {MenuItem} from "primeng/api";
-import {ComponentModel} from "../ComponentModel";
 import {NoValueType} from "../../enums/no_value_type";
-import {ComponentObjectModel} from "../ComponentObjectModel";
-import {TableColumnModel} from "../TableColumnModel";
 import {ConfirmationModel} from "../ConfirmationModel";
+import {TableColumnModel} from "../TableColumnModel";
 
 export class AttributesConfigPropsModel {
   constructor(
@@ -17,6 +15,7 @@ export class AttributesConfigPropsModel {
     public header:string|NoValueType.NA = NoValueType.NA,
     public textWhenEmpty:string|NoValueType.NA = NoValueType.NA,
     public paginator:boolean = false,
+    public columns:TableColumnModel[]|NoValueType.NA=NoValueType.NA,
     public rows:number|NoValueType.NA = 10,
     public rowsPerPage:number[]|NoValueType.NA = [10,25,50],
     // todo zou het niet logischer zijn om dataLink te verplaatsen naar het datamodel?

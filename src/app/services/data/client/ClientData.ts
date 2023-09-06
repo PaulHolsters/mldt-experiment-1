@@ -6,6 +6,7 @@ import {AttributeComponentModel} from "../../../models/DataRepresentation/Attrib
 
 export class ClientData {
   public constructor(public readonly id:ActionIdType,public readonly name:ComponentNameType, private _blueprint:Blueprint,
+                     // todo fix bug: data is soms undefined en soms Object met bp als string + __ typename
                      private _data:(DataRecordModel|null)[]|DataRecordModel|NoValueType.NVY=NoValueType.NVY,
                      public _hardcodedData:any|NoValueType.NA=NoValueType.NA,
                      public _attributes:AttributeComponentModel[]|NoValueType.NA=NoValueType.NA,

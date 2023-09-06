@@ -93,6 +93,8 @@ export class UpdateViewService implements OnInit {
       if(propSubj.componentName===clientData.name){
         switch (propSubj.propName){
           case PropertyName.conceptData:
+            if(clientData.data instanceof Array || typeof clientData.data === 'object'
+              && clientData.data.hasOwnProperty('__typename') && clientData.data.hasOwnProperty('id'))
             propSubj.propValue.next(clientData.data)
             break
           case PropertyName.conceptBlueprint:
@@ -102,7 +104,6 @@ export class UpdateViewService implements OnInit {
             // todo volgens mij hoef je niets te doen
             break
           case PropertyName.hardCodedData:
-            debugger
             propSubj.propValue.next(clientData.hardcodedData)
             break
         }
@@ -343,6 +344,7 @@ export class UpdateViewService implements OnInit {
         NoValueType.NA,
         NoValueType.NA,
         false,
+        NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
         NoValueType.NA,
