@@ -101,6 +101,10 @@ export class UpdateViewService implements OnInit {
           case PropertyName.dataLink:
             // todo volgens mij hoef je niets te doen
             break
+          case PropertyName.hardCodedData:
+            debugger
+            propSubj.propValue.next(clientData.hardcodedData)
+            break
         }
       }
     })

@@ -103,6 +103,9 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
   }
   getColumns():TableColumnModel[]{
     //todo gebruik blueprint !!! ipv attributes om de kolommen te bepalen (en hardcoded values)
+    if(this.getPropValue(PropertyName.conceptBlueprint)){
+      debugger
+    }
     let columns = this.getPropValue(PropertyName.attributes)?.map((attr:AttributeComponentModel)=>{
       if(!this.cstmSort && attr.tableColumn?.sort && attr.tableColumn?.customSort instanceof Function){
         this.cstmSort = true

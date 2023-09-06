@@ -33,6 +33,7 @@ export class ClientDataService {
       if (res) {
         const clientData = this.getClientData(res.effect.action.id, res.effect.action.target)
         if (!clientData) {
+          // todo vul hardcoded data aan!
           if (res.data instanceof Array && res.data.length === 2) {
             const blueprint = this.getClientData(res.effect.action.id, res.data[0])?.blueprint
             if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
@@ -90,7 +91,7 @@ export class ClientDataService {
           }
         }
       }
-    this.clientData.push(new ClientData(actionId,componentName,blueprint,data,NoValueType.NA,attributes,errorMessages))
+    this.clientData.push(new ClientData(actionId,componentName,blueprint,data,hardcodedData,attributes,errorMessages))
   }
   public getAttribute(id:ActionIdType,name:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
