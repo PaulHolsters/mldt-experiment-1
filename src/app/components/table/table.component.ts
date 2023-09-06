@@ -47,10 +47,8 @@ export class TableComponent extends AbstractComponent implements OnInit,AfterVie
           this.setPropValue(
             k,
             res,
-            [
-              PropertyName.dataList
-            ],
-            [{prop:PropertyName.currentDataList,use:PropertyName.dataList}]
+            undefined,
+            [{prop:PropertyName.currentDataList,use:PropertyName.conceptData}]
           )
         } else{
           this.setPropValue(k,res)

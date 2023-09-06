@@ -81,11 +81,8 @@ export class UpdateViewService implements OnInit {
       }
     })
     this.actionsService.bindToAction(new Action('', ActionType.UpdateView))?.subscribe(res => {
-      debugger
       if (res) {
-        debugger
         this.setData(res.data)
-        debugger
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
     })
@@ -96,11 +93,9 @@ export class UpdateViewService implements OnInit {
       if(propSubj.componentName===clientData.name){
         switch (propSubj.propName){
           case PropertyName.conceptData:
-            debugger
             propSubj.propValue.next(clientData.data)
             break
           case PropertyName.conceptBlueprint:
-            debugger
             propSubj.propValue.next(clientData.blueprint)
             break
           case PropertyName.dataLink:

@@ -12,7 +12,6 @@ import {Container} from "../../componentclasses/Container";
 })
 export class ContainerComponent extends AbstractComponent implements OnInit, AfterContentChecked {
   @ViewChild('container') container: ElementRef | undefined
-  nameFormControl: string | undefined
 
   ngAfterContentChecked(): void {
     this.cd.detectChanges()

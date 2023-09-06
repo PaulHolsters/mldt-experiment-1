@@ -29,8 +29,6 @@ export abstract class Table extends Component{
   public static conceptData:DataRecordModel[]|undefined = undefined
   public static conceptBlueprint:Blueprint|undefined=undefined
   public static data: any|undefined = undefined
-
-  public static dataList:DataRecordModel[]|undefined=undefined
   public static currentDataList:DataRecordModel[]|undefined=undefined
 
 }
