@@ -56,7 +56,19 @@ export const table = {
     new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
       'Geen producten aanwezig.',
       true,
-      NoValueType.NA,
+      [{field:'price',header:'Prijs',sort:false,
+        filter:false, // filtering is altijd custom
+        customSort:false,
+        anchor:NoValueType.NA},{field:'name',header:'Naam',sort:false,
+        filter:false, // filtering is altijd custom
+        customSort:false,
+        anchor:NoValueType.NA},{field:'specifications',header:'Product Specificaties',sort:false,
+        filter:false, // filtering is altijd custom
+        customSort:false,
+        anchor:NoValueType.NA},{field:'options',header:'Opties',sort:false,
+        filter:false, // filtering is altijd custom
+        customSort:false,
+        anchor:NoValueType.NA}],
       10,
       [5, 10, 20],
       NoValueType.NA,
