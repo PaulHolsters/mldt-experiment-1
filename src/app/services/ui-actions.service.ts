@@ -73,12 +73,14 @@ export class UiActionsService {
     return false
   }
   private setProperty(action:Action,data?:any){
+    debugger
     let val
     if(typeof (action.value as ActionValueModel).value === 'function'){
       val = (action.value as ActionValueModel).value(this.stateService)
     }
     if(!val) val = (action.value as ActionValueModel).value
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
+    debugger
     this.storeService.getStatePropertySubjects().find(prop=>{
       if(prop.componentName === action.target && action.value instanceof ActionValueModel)
         return prop.propName === PropertyName.data

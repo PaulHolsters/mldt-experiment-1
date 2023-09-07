@@ -74,7 +74,7 @@ export class ServerDataService {
               if(data){
                 if(data.dataSingle){
                   self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
-                  const cd = self.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)
+                  const cd = self.clientDataService.getClientData(res.effect.action.target)
                   if(cd)
                     self.clientDataService.clientDataUpdated.next(cd)
                 }
@@ -84,7 +84,7 @@ export class ServerDataService {
               }
             })
           }
-          const blueprint = this.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
+          const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
           if (blueprint) {
             getRecord(this,blueprint,res)
           } else{
@@ -96,7 +96,7 @@ export class ServerDataService {
                   const data = ServerData.getData(resOrErr)
                   if(data){
                     createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],NoValueType.NI,data)
-                    const blueprint = this.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
+                    const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                     if (blueprint) {
                       getRecord(this,blueprint,res)
                     }
@@ -120,7 +120,7 @@ export class ServerDataService {
             const data = ServerData.getData(errorOrResult)
             if(data.dataMultiple){
               self.clientDataService.updateClientData(res.effect.action.id,data.dataMultiple)
-              const cd = self.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)
+              const cd = self.clientDataService.getClientData(res.effect.action.target)
               if(cd){
                 self.clientDataService.clientDataUpdated.next(cd)
               }
@@ -130,7 +130,7 @@ export class ServerDataService {
             self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           })
         }
-        const blueprint = this.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
+        const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
         if (blueprint) {
           getAllRecords(this,blueprint,res)
         } else{
@@ -142,7 +142,7 @@ export class ServerDataService {
                 const data = ServerData.getData(resOrErr)
                 if(data){
                   createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], NoValueType.NI, NoValueType.NVY)
-                  const blueprint = this.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)?.blueprint
+                  const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                   if (blueprint) {
                     getAllRecords(this, blueprint, res)
                   }
@@ -171,7 +171,7 @@ export class ServerDataService {
     })
     this.actionsService.bindToAction(new Action('',ActionType.CreateInstance))?.subscribe(res=>{
       if(res){
-        const clientData = this.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)
+        const clientData = this.clientDataService.getClientData(res.effect.action.target)
         if(!clientData) throw new Error('No valid clientData found')
         this.mutationService.createRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
@@ -183,7 +183,7 @@ export class ServerDataService {
     })
     this.actionsService.bindToAction(new Action('',ActionType.UpdateInstance))?.subscribe(res=>{
       if(res){
-        const clientData = this.clientDataService.getClientData(res.effect.action.id,res.effect.action.target)
+        const clientData = this.clientDataService.getClientData(res.effect.action.target)
         if(!clientData) throw new Error('No valid clientData found')
         this.mutationService.updateRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
@@ -211,7 +211,7 @@ export class ServerDataService {
           attributes,
           errorMessages
         )
-        const cd = self.clientDataService.getClientData(actionId,name)
+        const cd = self.clientDataService.getClientData(name)
         if(cd){
           self.clientDataService.clientDataUpdated.next(cd)
         }

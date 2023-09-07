@@ -28,15 +28,15 @@ export class EventsService{
     this.clientDataService.clientDataUpdated.subscribe(res =>{
       this.triggerEvent(TriggerType.ClientDataUpdated, ServiceType.DataService,res)
     })
-
+    this.clientDataService.actionFinished.subscribe(res =>{
+      this.triggerEvent(res.trigger,res.source)
+    })
     this.UIActionsService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
     })
-
     this.RBSService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
     })
-
     this.storeService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
     })
@@ -50,5 +50,4 @@ export class EventsService{
       this.actionsService.triggerAction(effect,data,target)
     })
   }
-
 }

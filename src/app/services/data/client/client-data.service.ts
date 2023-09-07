@@ -31,11 +31,10 @@ export class ClientDataService {
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.CreateClientData))?.subscribe(res => {
       if (res) {
-        const clientData = this.getClientData(res.effect.action.id, res.effect.action.target)
+        const clientData = this.getClientData(res.effect.action.target)
         if (!clientData) {
-          // todo vul hardcoded data aan!
           if (res.data instanceof Array && res.data.length === 2) {
-            const blueprint = this.getClientData(res.effect.action.id, res.data[0])?.blueprint
+            const blueprint = this.getClientData( res.data[0])?.blueprint
             if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
             if (res.data[1] instanceof Array) {
               this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], NoValueType.NA, [], [])
@@ -92,11 +91,13 @@ export class ClientDataService {
         }
       }
     this.clientData.push(new ClientData(actionId,componentName,blueprint,data,hardcodedData,attributes,errorMessages))
+    const cd = this.getClientData(componentName)
+    if(cd) this.clientDataUpdated.next(cd)
   }
   public getAttribute(id:ActionIdType,name:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
     if(dataLink.length<2) throw new Error('Provided datalink array has not all data needed')
-    const clientData = this.getClientData(id,name)
+    const clientData = this.getClientData(name)
     if(!clientData || !clientData.attributes || clientData.attributes.length===0 || clientData.attributes === NoValueType.NA) return undefined
     const attr = clientData.attributes.find(attr=>{
       return attr.name===dataLink[1]
@@ -114,9 +115,9 @@ export class ClientDataService {
     }
     return currentAttr
   }
-  public getClientData(id:ActionIdType,name:ComponentNameType): ClientData | undefined {
+  public getClientData(name:ComponentNameType): ClientData | undefined {
     return this.clientData.find(cd=>{
-      return cd.id === id && cd.name === name
+      return cd.name === name
     })
     // dit haalt de clientdata op en vervangt ongedefinieerde te berekenen waarden, daarnaast pakt het een specifiek attribuut
     // in deze clientdata

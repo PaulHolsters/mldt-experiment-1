@@ -44,7 +44,7 @@ export const effects:Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
-    new Action('create_client_data',ActionType.CreateClientData, 'product','form container - product edit')
+    new Action('create_client_data',ActionType.CreateClientData, 'product','edit-product-text-input')
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'create_client_data'),
