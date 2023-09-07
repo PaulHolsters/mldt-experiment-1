@@ -15,6 +15,8 @@ import utilFunctions from "../../../utils/utilFunctions";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
+import {StateService} from "../../state.service";
+import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,7 @@ export class ClientDataService {
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
   private clientData: ClientData[] = []
-  constructor(private actionsService:ActionsService,private configService:ConfigService,private queryService:QueryService) {
+  constructor(private actionsService:ActionsService,private configService:ConfigService,private queryService:QueryService,private stateService:StateService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
@@ -187,8 +189,23 @@ export class ClientDataService {
         }
         return undefined*/
   }
-  updateData(name: string, value: string|number | DataRecordModel[] | NoValueType.DBI | undefined){
-    // todo
+  public updateData(name: string, value: string|number|Date|NoValueType.DBI | DataRecordModel[] | undefined){
+    const cd = this.getClientData(name)
+    if(cd){
+      if(typeof value === 'string'
+        && typeof cd.data === 'object' && cd.data.hasOwnProperty('id') && cd.data.hasOwnProperty('__typename')){
+        const dataLink = [...this.stateService.getValue(name,PropertyName.dataLink)]
+        dataLink.shift()
+        let key = dataLink.shift()
+        if(typeof Reflect.get(cd.data,key) === 'object' && !(Reflect.get(cd.data,key) instanceof Array)){
+          debugger
+          // speciale geval dat we te maken hebben met een genest concept dat geen lijst is
+          // todo (while nodig!)
+        } else if(dataLink.length===0){
+          Reflect.set(cd.data,key,value)
+        }
+      }
+    }
     /*
     const parts = name.split('_')
     const obj = this.clientData.find(instance => {

@@ -1,11 +1,11 @@
 <ng-template #input>
-  <input type="text" pInputText (input)="updateData()" value="{{getPropValue(PropertyName.conceptData)}}"
+  <input type="text" pInputText (input)="updateData()" value="{{getValue()}}"
          [class.p-inputtext-sm]="getPropValue(PropertyName.small)"
          [class.p-inputtext-l]="getPropValue(PropertyName.large)"
          [class.ng-invalid]="getPropValue(PropertyName.invalid)"
          [class.ng-dirty]="getPropValue(PropertyName.dirty)"
          pKeyFilter="{{getPropValue(PropertyName.keyFilter)}}"
-         [disabled]="getPropValue(PropertyName.disabled)"
+         [disabled]="false"
          [style.width]="'100%'"
          #inputElement
   />

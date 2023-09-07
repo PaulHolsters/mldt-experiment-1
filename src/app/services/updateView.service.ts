@@ -101,7 +101,10 @@ export class UpdateViewService implements OnInit {
             propSubj.propValue.next(clientData.blueprint)
             break
           case PropertyName.dataLink:
-            // todo volgens mij hoef je niets te doen
+            const datalink = this.configService.getConfigFromRoot(clientData.name)?.data?.dataLink
+            if(datalink !== NoValueType.NA){
+              propSubj.propValue.next(datalink)
+            }
             break
           case PropertyName.hardCodedData:
             propSubj.propValue.next(clientData.hardcodedData)

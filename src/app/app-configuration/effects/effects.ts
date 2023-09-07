@@ -51,7 +51,11 @@ export const effects:Effect[] = [
     new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, NoValueType.NA,'edit-product-dialog',
       new ActionValueModel(PropertyName.visible, true))
   ),
-
+  new Effect(
+    new Trigger(TriggerType.ComponentClicked, 'edit-product-submit-btn'),
+    // todo het lijkt er op dat je ook een component naam gaat nodig hebben
+    new Action('save_updated_product',ActionType.UpdateInstance,'product')
+  ),
 ]
 
 /*{
