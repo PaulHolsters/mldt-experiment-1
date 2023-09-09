@@ -56,6 +56,11 @@ import {ActionIdType} from "../types/type-aliases";
 import {ServerDataService} from "./data/server/server-data.service";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {ClientData} from "./data/client/ClientData";
+import {
+  ResponsiveDataRepresentationConfigModel
+} from "../models/DataRepresentation/ResponsiveDataRepresentationConfigModel";
+import {DataRepresentationRenderModel} from "../models/DataRepresentation/DataRepresentationRenderModel";
+import {DataRepresentationConfigModel} from "../models/DataRepresentation/DataRepresentationConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -423,7 +428,23 @@ export class UpdateViewService implements OnInit {
     }
     throw new Error('No screensize configuration was found for given ResponsiveVisibilityConfigModel and screen ' + ScreenSize[screenSize])
   }
-
+  public getDataRepresentationRenderProps(componentName: string, stateModel: ResponsiveDataRepresentationConfigModel, screenSize: number):DataRepresentationRenderModel{
+    const translateToDataRepresentationRenderProps = (dataRep: DataRepresentationConfigModel): DataRepresentationRenderModel => {
+      // todo
+      return new DataRepresentationRenderModel()
+    }
+    // todo zet om in een aparte functie
+    let lastScreenSize = screenSize
+    const stateModelObj = Object.create(stateModel)
+    while (lastScreenSize >= 0) {
+      if (stateModelObj[ScreenSize[lastScreenSize]]) {
+        return translateToDataRepresentationRenderProps(stateModelObj[ScreenSize[lastScreenSize]])
+      }
+      lastScreenSize--
+    }
+    // todo zet om in een log functie of werk exceptions weg
+    throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
+  }
   public getChildLayoutComponentProps(componentName: string, stateModel: ResponsiveChildLayoutConfigModel, screenSize: number): ChildLayoutComponentsPropsModel {
     // diegene die deze methode aanroept moet ervoor zorgen dat de properties effectief naar de bedoelde childComponents gaan, indien van toepassing
     const translateToChildLayoutComponentsProps = (childLayoutConfig: ChildLayoutConfigPropsModel): ChildLayoutComponentsPropsModel => {
@@ -460,14 +481,17 @@ export class UpdateViewService implements OnInit {
                        DimensioningComponentPropsModel |
                        OverflowComponentPropsModel |
                        ChildLayoutComponentsPropsModel |
+                       DataRepresentationRenderModel|
                        (ComponentModel[])): void {
+    // todo voeg datarepresentation toe
     if (newState instanceof PositioningComponentPropsModel ||
       newState instanceof AttributesComponentPropsModel ||
       newState instanceof VisibilityComponentPropsModel ||
       newState instanceof StylingComponentPropsModel ||
       newState instanceof ContentInjectionComponentPropsModel ||
       newState instanceof DimensioningComponentPropsModel ||
-      newState instanceof OverflowComponentPropsModel
+      newState instanceof OverflowComponentPropsModel ||
+      newState instanceof DataRepresentationRenderModel
     ) {
       for (let [k, v] of Object.entries(newState)) {
         if (v !== ComponentDimensionValueConfigType.Parent) {
@@ -502,7 +526,6 @@ export class UpdateViewService implements OnInit {
       })?.propValue.next(newState)
     }
   }
-
   private createProps(component: ComponentModel) {
     this.stateService.getProperties(component.type)?.forEach((v, k) => {
       const propSubj = new BehaviorSubject<any | undefined>(v)

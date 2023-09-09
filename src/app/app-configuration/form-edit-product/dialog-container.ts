@@ -45,6 +45,7 @@ export const dialogContainer = new ComponentModel(
               undefined,
               undefined,
               new ClientDataConfigModel('create_client_data',['product','name'])
+              // todo datarepresentatie zoals input filtering is nog niet geïmplementeerd
             ),
     new ComponentModel(
       'edit-product-submit-btn',
