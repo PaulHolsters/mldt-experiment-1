@@ -1,25 +1,18 @@
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {MainAxisHorizontalPositioningConfigType} from "../../enums/mainAxisHorizontalPositioningConfigTypes.enum";
+import {MainAxisHorizontalPositioningConfigType} from "../../enums/mainAxisHorizontalLayoutConfigTypes.enum";
 import {FixedDimensioningConfigModel} from "../Dimensioning/self/FixedDimensioningConfigModel";
 import {DynamicDimensioningConfigModel} from "../Dimensioning/self/DynamicDimensioningConfigModel";
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalPositioningConfigTypes.enum";
+import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalLayoutConfigTypes.enum";
 import {VerticalLayoutConfigPropsModel} from "./VerticalLayoutConfigPropsModel";
-import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalPositioningConfigTypes.enum";
-import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisVerticalPositioningConfigTypes.enum";
+import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
+import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisVerticalLayoutConfigTypes.enum";
 import {WidthConfigPropsModel} from "../Dimensioning/self/WidthConfigPropsModel";
-import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {HeightConfigPropsModel} from "../Dimensioning/self/HeightConfigPropsModel";
-import {
-  CrossAxisHorizontalLanesPositioningConfigType
-} from "../../enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
-import {
-  CrossAxisVerticalLanesPositioningConfigType
-} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
 import {WidthValueConfigType} from "../../enums/WidthValueConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
-import {GrowValueConfigType} from "../../enums/GrowValueConfigTypes.enum";
-import {ShrinkValueConfigType} from "../../enums/ShrinkValueConfigTypes.enum";
 import {ComponentDimensionValueConfigType} from "../../enums/componentDimensionValueConfigTypes.enum";
+import {RowPositioningConfigType} from "../../enums/rowPositioningConfigTypes.enum";
+import {ColumnPositioningConfigType} from "../../enums/columnPositioningConfigTypes.enum";
 
 export class HorizontalLayoutConfigPropsModel {
   constructor(
@@ -28,7 +21,7 @@ export class HorizontalLayoutConfigPropsModel {
     public scroll: boolean,
     public position: MainAxisHorizontalPositioningConfigType | CrossAxisHorizontalPositioningConfigType,
     public width: WidthConfigPropsModel|WidthValueConfigType.NA|WidthValueConfigType.NC,
-    public lanes: CrossAxisHorizontalLanesPositioningConfigType) {
+    public lanes: RowPositioningConfigType) {
     // todo add constraints
   }
   public getComponentProperties(propName: string, verticalLayout: VerticalLayoutConfigPropsModel): {parent?:any[][],children?:any[][]} {
@@ -113,7 +106,7 @@ export class HorizontalLayoutConfigPropsModel {
         return layout
       case 'lanes':
         return {parent:[
-          ['alignContentStart', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Left || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Top],
+          ['alignContentStart', this.lanes === ColumnPositioningConfigType.Left || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Top],
           ['alignContentCenter', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Center || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Center],
           ['alignContentEnd', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Right || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Bottom],
           ['alignContentBetween', this.lanes === CrossAxisHorizontalLanesPositioningConfigType.Between || verticalLayout.lanes === CrossAxisVerticalLanesPositioningConfigType.Between],

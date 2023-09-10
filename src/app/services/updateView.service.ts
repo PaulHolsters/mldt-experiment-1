@@ -26,11 +26,11 @@ import {DimensioningConfigPropsModel} from "../models/Dimensioning/self/Dimensio
 import {FixedDimensioningConfigModel} from "../models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../enums/dimensionUnitConfigTypes.enum";
-import {CrossAxisVerticalPositioningConfigType} from "../enums/crossAxisVerticalPositioningConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../enums/crossAxisHorizontalPositioningConfigTypes.enum";
-import {ChildLayoutComponentsPropsModel} from "../models/ChildLayout/ChildLayoutComponentsPropsModel";
+import {CrossAxisVerticalPositioningConfigType} from "../enums/crossAxisVerticalLayoutConfigTypes.enum";
+import {CrossAxisHorizontalPositioningConfigType} from "../enums/crossAxisHorizontalLayoutConfigTypes.enum";
+import {ChildLayoutRenderModel} from "../models/ChildLayout/ChildLayoutRenderModel";
 import {ResponsiveChildLayoutConfigModel} from "../models/ChildLayout/ResponsiveChildLayoutConfigModel";
-import {ChildLayoutConfigPropsModel} from "../models/ChildLayout/ChildLayoutConfigPropsModel";
+import {ChildLayoutConfigModel} from "../models/ChildLayout/ChildLayoutConfigModel";
 import {ParentComponentPropsModel} from "../models/ChildLayout/ParentComponentsPropsModel";
 import {ChildComponentsPropsModel} from "../models/ChildLayout/ChildComponentsPropsModel";
 import {DynamicDimensioningConfigModel} from "../models/Dimensioning/self/DynamicDimensioningConfigModel";
@@ -445,9 +445,9 @@ export class UpdateViewService implements OnInit {
     // todo zet om in een log functie of werk exceptions weg
     throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
-  public getChildLayoutComponentProps(componentName: string, stateModel: ResponsiveChildLayoutConfigModel, screenSize: number): ChildLayoutComponentsPropsModel {
+  public getChildLayoutComponentProps(componentName: string, stateModel: ResponsiveChildLayoutConfigModel, screenSize: number): ChildLayoutRenderModel {
     // diegene die deze methode aanroept moet ervoor zorgen dat de properties effectief naar de bedoelde childComponents gaan, indien van toepassing
-    const translateToChildLayoutComponentsProps = (childLayoutConfig: ChildLayoutConfigPropsModel): ChildLayoutComponentsPropsModel => {
+    const translateToChildLayoutComponentsProps = (childLayoutConfig: ChildLayoutConfigModel): ChildLayoutRenderModel => {
       const parentPropsObj = new ParentComponentPropsModel()
       const childPropsObj = new ChildComponentsPropsModel()
       Object.entries(childLayoutConfig.horizontalLayout).forEach(([k]) => {
@@ -459,7 +459,7 @@ export class UpdateViewService implements OnInit {
           childPropsObj.setProperties(layout.children)
         }
       })
-      return new ChildLayoutComponentsPropsModel(parentPropsObj, childPropsObj)
+      return new ChildLayoutRenderModel(parentPropsObj, childPropsObj)
     }
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(stateModel)
@@ -480,7 +480,7 @@ export class UpdateViewService implements OnInit {
                        ContentInjectionComponentPropsModel |
                        DimensioningComponentPropsModel |
                        OverflowComponentPropsModel |
-                       ChildLayoutComponentsPropsModel |
+                       ChildLayoutRenderModel |
                        DataRepresentationRenderModel|
                        (ComponentModel[])): void {
     // todo voeg datarepresentation toe
@@ -500,7 +500,7 @@ export class UpdateViewService implements OnInit {
           })?.propValue.next(v)
         }
       }
-    } else if (newState instanceof ChildLayoutComponentsPropsModel) {
+    } else if (newState instanceof ChildLayoutRenderModel) {
       if (newState.parentProps) {
         for (let [k, v] of Object.entries(newState.parentProps)) {
           this.getStatePropertySubjects().find(subj => {

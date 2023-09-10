@@ -2,10 +2,10 @@ import {ComponentType} from "../../enums/componentTypes.enum";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {ComponentModel} from "../../models/ComponentModel";
 import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/ResponsiveChildLayoutConfigModel";
-import {ChildLayoutConfigPropsModel} from "../../models/ChildLayout/ChildLayoutConfigPropsModel";
+import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalPositioningConfigTypes.enum";
+import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalLayoutConfigTypes.enum";
 import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
 import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
@@ -13,11 +13,11 @@ import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {
   CrossAxisHorizontalLanesPositioningConfigType
-} from "../../enums/crossAxisHorizontalLanesPositioningConfigTypes.enum";
+} from "../../enums/columnPositioningConfigTypes.enum";
 import {VerticalLayoutConfigPropsModel} from "../../models/ChildLayout/VerticalLayoutConfigPropsModel";
-import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalPositioningConfigTypes.enum";
+import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
-import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
+import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/rowPositioningConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
 import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
@@ -37,7 +37,7 @@ export const formControl3 = {
         'fc3-container',
         ComponentType.Container,
         new ResponsiveChildLayoutConfigModel(
-          new ChildLayoutConfigPropsModel(
+          new ChildLayoutConfigModel(
             // todo zorg voor default layout bij een container voor simpele gevallen
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
@@ -89,7 +89,7 @@ export const formControl3 = {
           new ComponentModel(
             'radio-button-container',
             ComponentType.Container,
-            new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigPropsModel(
+            new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigModel(
               new HorizontalLayoutConfigPropsModel(
                 AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
                 new WidthConfigPropsModel(new FixedDimensioningConfigModel(
@@ -133,7 +133,7 @@ export const formControl3 = {
               {
                 name: 'fc3-radio-button-group', type: ComponentType.RadioButton,
                 visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-                childLayout: new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigPropsModel(
+                childLayout: new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigModel(
                   new HorizontalLayoutConfigPropsModel(
                     AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
                     new WidthConfigPropsModel(new FixedDimensioningConfigModel(

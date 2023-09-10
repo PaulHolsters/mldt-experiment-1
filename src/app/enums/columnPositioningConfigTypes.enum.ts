@@ -1,9 +1,8 @@
-export enum CrossAxisHorizontalLanesPositioningConfigType{
+export enum ColumnPositioningConfigType{
   Left='CrossHorizontalLeft',
   Center='CrossHorizontalCenter',
   Right='CrossHorizontalRight',
   Between='CrossHorizontalBetween',
   Around='CrossHorizontalAround',
-  Evenly='CrossHorizontalEvenly',
-  NA='CrossHorizontalNA'
+  Evenly='CrossHorizontalEvenly'
 }

@@ -1,10 +1,10 @@
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalPositioningConfigTypes.enum";
-import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisVerticalPositioningConfigTypes.enum";
+import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
+import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisVerticalLayoutConfigTypes.enum";
 import {HeightConfigPropsModel} from "../Dimensioning/self/HeightConfigPropsModel";
 import {
   CrossAxisVerticalLanesPositioningConfigType
-} from "../../enums/crossAxisVerticalLanesPositioningConfigTypes.enum";
+} from "../../enums/rowPositioningConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 export class VerticalLayoutConfigPropsModel {
   constructor(    public axis:AxisConfigType,

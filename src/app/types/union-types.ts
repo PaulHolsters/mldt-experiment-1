@@ -5,10 +5,14 @@ import {ResponsiveStylingConfigModel} from "../models/Styling/ResponsiveStylingC
 import {ResponsivePositioningConfigModel} from "../models/Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "../models/ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVisibilityConfigModel";
+import {
+  ResponsiveDataRepresentationConfigModel
+} from "../models/DataRepresentation/ResponsiveDataRepresentationConfigModel";
+import {ResponsiveDataInputConfigModel} from "../models/DataInput/ResponsiveDataInputConfigModel";
 
 export type ResponsiveConfigModel = ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
   |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
-  ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel
+  ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel|ResponsiveDataRepresentationConfigModel|ResponsiveDataInputConfigModel
 
 /*
 * (

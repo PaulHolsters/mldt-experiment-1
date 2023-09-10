@@ -1,7 +1,7 @@
 import {ParentComponentPropsModel} from "./ParentComponentsPropsModel";
 import {ChildComponentsPropsModel} from "./ChildComponentsPropsModel";
 
-export class ChildLayoutComponentsPropsModel {
+export class ChildLayoutRenderModel {
   constructor(
     public parentProps:ParentComponentPropsModel,
     public childProps:ChildComponentsPropsModel|undefined
