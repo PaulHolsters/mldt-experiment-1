@@ -4,12 +4,12 @@ import {ResponsiveAttributesConfigModel} from "../../models/Attributes/Responsiv
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -26,7 +26,7 @@ export const paginator =
     ComponentType.Paginator,
     undefined,
     undefined,
-    new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.NC, new WidthConfigPropsModel(
+    new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(HeightValueConfigType.NC, new WidthConfigModel(
       new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC
     ))),
     new ResponsiveAttributesConfigModel(
@@ -55,7 +55,7 @@ export const paginator =
         100
       )
     ),
-    new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true,false)),
+    new ResponsiveVisibilityConfigModel(new VisibilityConfigModel(true,false)),
     undefined,
     undefined,
     new ResponsiveStylingConfigModel(new StylingConfigPropsModel(undefined,PaddingType.All_0,MarginType.All_0,NoValueType.NA,

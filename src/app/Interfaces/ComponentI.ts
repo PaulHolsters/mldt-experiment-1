@@ -10,7 +10,7 @@ import {ResponsivePositioningConfigModel} from "../models/Positioning/self/Respo
 import {ResponsiveVisibilityConfigModel} from "../models/Visibility/ResponsiveVisibilityConfigModel";
 import {ClientDataConfigModel} from "../models/ClientData/ClientDataConfigModel";
 import {ResponsiveOverflowConfigModel} from "../models/Overflow/self/ResponsiveOverflowConfigModel";
-import {ResponsiveDimensioningConfigModel} from "../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
+import {ResponsiveDimensioningConfigModel} from "../models/Dimensioning/ResponsiveDimensioningConfigModel";
 import {ComponentModel} from "../models/ComponentModel";
 import {ClientData} from "../services/data/client/ClientData";
 

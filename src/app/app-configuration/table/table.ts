@@ -1,12 +1,12 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -35,7 +35,7 @@ import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 export const table = {
   name: 'table',
   type: ComponentType.Table,
-  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
   styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
     NoValueType.NA,
     NoValueType.NA,
@@ -49,7 +49,7 @@ export const table = {
     TableStylingType.Gridlines,
     ResponsiveTableLayoutType.Stacked,
     400)),
-  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(HeightValueConfigType.NC, new WidthConfigPropsModel(
+  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(HeightValueConfigType.NC, new WidthConfigModel(
     new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
   ))),
   attributes: new ResponsiveAttributesConfigModel(
@@ -95,7 +95,7 @@ export const table = {
       {
         name: 'c1-header',
         type: ComponentType.Container,
-        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         position: new ResponsivePositioningConfigModel(new PositioningConfigPropsModel(DisplayType.Inline)),
         children: [
           {
@@ -104,7 +104,7 @@ export const table = {
             attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
             )),
-            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
                 undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
                 NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
@@ -120,7 +120,7 @@ export const table = {
             attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
               NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Filter
             )),
-            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
             styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
                 undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
                 NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
@@ -138,7 +138,7 @@ export const table = {
         attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
           NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
         )),
-        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
           undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
           NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
@@ -153,7 +153,7 @@ export const table = {
         attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
           NoValueType.NA, NoValueType.NA, NoValueType.NA, IconType.Sort
         )),
-        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
           undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
           NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
@@ -168,7 +168,7 @@ export const table = {
         attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(
           undefined, undefined, undefined, NoValueType.NA, IconType.Sort
         )),
-        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(
           undefined, undefined, undefined, NoValueType.NA, NoValueType.NA, NoValueType.NA,
           NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, undefined,
@@ -187,7 +187,7 @@ export const table = {
           'edit-product-btn', ComponentType.Button, undefined, undefined, undefined,
           new ResponsiveAttributesConfigModel(
             new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA, 'edit')),
-          new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+          new ResponsiveVisibilityConfigModel(new VisibilityConfigModel())
         )
       }
     ]

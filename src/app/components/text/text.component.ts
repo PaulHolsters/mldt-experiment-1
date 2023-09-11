@@ -4,7 +4,7 @@ import {FontStyleType} from "../../enums/fontStyleType.enum";
 import {FontSizeType} from "../../enums/fontSizeType.enum";
 import {TextColorType} from "../../enums/textColorType.enum";
 import {TextDecorationType} from "../../enums/textDecorationType.enum";
-import {UpdateViewService} from "../../services/updateView.service";
+import {RenderPropertiesService} from "../../services/renderProperties.service";
 import {StylesService} from "../../services/styles.service";
 @Component({
   selector: 'm-text',
@@ -20,7 +20,7 @@ export class TextComponent implements OnInit {
   @Input() fontSize: FontSizeType|undefined
   @Input() textColor: TextColorType|undefined
   @Input() textDecoration: TextDecorationType|undefined
-  constructor(private storeService:UpdateViewService, private stylesService:StylesService) { }
+  constructor(private storeService:RenderPropertiesService, private stylesService:StylesService) { }
   ngOnInit(): void {
   }
   getStyleClasses(fontWeight:FontWeightType|undefined,

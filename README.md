@@ -26,10 +26,10 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
           name: 'content-container',
           type: ComponentType.Container,
           position: new ResponsivePositioningConfigModel(
-            new PositioningConfigPropsModel()),
+            new PositioningConfigModel()),
           visibility: new ResponsiveVisibilityConfigModel(),
           dimensions: new ResponsiveDimensioningConfigModel(
-            new DimensioningConfigPropsModel(
+            new DimensioningConfigModel(
               new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Calculated, '(100vh - 16px)')
             )),
@@ -77,32 +77,32 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
               )
             )
           ),
-          styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(ColorType.white)),
+          styling: new ResponsiveStylingConfigModel(new StylingConfigModel(ColorType.white)),
           children: [
             {
               name: 'block-1',
               type: ComponentType.Block,
-              styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+              styling: new ResponsiveStylingConfigModel(new StylingConfigModel()),
               visibility: new ResponsiveVisibilityConfigModel()
             }, {
               name: 'block-2',
               type: ComponentType.Block,
-              styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+              styling: new ResponsiveStylingConfigModel(new StylingConfigModel()),
               visibility: new ResponsiveVisibilityConfigModel()
             },
             {
               name: 'logo',
               type: ComponentType.Logo,
               attributes: new ResponsiveAttributesConfigModel(
-                new AttributesConfigPropsModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
-              dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(undefined,
+                new AttributesConfigModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
+              dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(undefined,
                 new DynamicDimensioningConfigModel(undefined, 1, undefined))),
               visibility: new ResponsiveVisibilityConfigModel(),
             },
             {
               name: 'block-4',
               type: ComponentType.Block,
-              styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel()),
+              styling: new ResponsiveStylingConfigModel(new StylingConfigModel()),
               visibility: new ResponsiveVisibilityConfigModel()
             }
           ]
@@ -158,7 +158,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
 #### Config service
 Hier bevindt zich zoals reeds gezegd het configuratieobject. Hier wordt ook de engine van Mouldit opgestart in de constructor. Eerst wordt er een nieuwe store aangemaakt. Vervolgens wordt het responsive behaviour van elk der componenten in het configuratieobject geinitialiseerd.
 
-    constructor(private storeService: UpdateViewService, private responsiveBehaviourService: ResponsiveBehaviourService) {
+    constructor(private storeService: RenderPropertiesService, private responsiveBehaviourService: ResponsiveBehaviourService) {
       this.storeService.createStore(this.contentContainer)
       this.responsiveBehaviourService.setResponsiveBehaviour(this.contentContainer)
     }
@@ -238,7 +238,7 @@ In het ComponentModel vind je de verschillende properties die je nodig hebt voor
 Een voorbeeld:
 
               dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigPropsModel(
+              new DimensioningConfigModel(
                 new FixedDimensioningConfigModel(
                   DimensionValueConfigType.Hardcoded,
                   8,
@@ -248,7 +248,7 @@ Een voorbeeld:
                   8,
                   DimensionUnitConfigType.REM))),
 
-Het *ResponsiveDimensioningConfigModel* verwacht maximaal 5 parameters, één voor elke schermgrootte, te beginnen bij het kleinste, de smartphone. Geen enkele parameter is verplicht. Voor elk zulk model is er voor de smartphone telkens een default waarde. Van zodra er voor een bepaalde schermgrootte een waarde is meegegeven geldt deze voor elk groter scherm, tenzij daar wel een parameter voor bestaat. De parameter in kwestie is telkens een *...ConfigPropsModel* instantie. Voor het dimenisoneren van een component is dat bijvoorbeeld het *DimensioningConfigPropsModel*. Typescript laat ook toe om elke property van zulk een model expliciet te benoemen bij aanmaak. Dat maakt het configuratieobject bevattelijker, bijvoorbeeld voor maintenance achteraf. Zo zie je in het voorbeeld van het configuratieobject zoals hierboven afgebeeld dat je properties als *name*, *type*, *position*, *visibility* hebt bij aanmaak van een specieke component. Dit is dan in plaats van het *new* keyword. **M.a.w. als je kan steeds kiezen of je de syntax van een TypeScript interface gebruikt dan wel een JavaScript class.**   
+Het *ResponsiveDimensioningConfigModel* verwacht maximaal 5 parameters, één voor elke schermgrootte, te beginnen bij het kleinste, de smartphone. Geen enkele parameter is verplicht. Voor elk zulk model is er voor de smartphone telkens een default waarde. Van zodra er voor een bepaalde schermgrootte een waarde is meegegeven geldt deze voor elk groter scherm, tenzij daar wel een parameter voor bestaat. De parameter in kwestie is telkens een *...ConfigPropsModel* instantie. Voor het dimenisoneren van een component is dat bijvoorbeeld het *DimensioningConfigModel*. Typescript laat ook toe om elke property van zulk een model expliciet te benoemen bij aanmaak. Dat maakt het configuratieobject bevattelijker, bijvoorbeeld voor maintenance achteraf. Zo zie je in het voorbeeld van het configuratieobject zoals hierboven afgebeeld dat je properties als *name*, *type*, *position*, *visibility* hebt bij aanmaak van een specieke component. Dit is dan in plaats van het *new* keyword. **M.a.w. als je kan steeds kiezen of je de syntax van een TypeScript interface gebruikt dan wel een JavaScript class.**   
 We behandelen nu voor elk der properties de configuratiemogelijkheden in detail.
 #### Attributes
 Dit is eenvoudig. Bij aanmaak van een instantie geef je gewoon de waarden in van elk HTML attribuut bv. een waarde voor het src attribuut, het alt attribuut enz. 

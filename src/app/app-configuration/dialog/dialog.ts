@@ -1,11 +1,11 @@
 import {ComponentModel} from "../../models/ComponentModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 export const filterDialog =         // todo dit is het attribuut filterComponent (je zou evengoed content kunnen nemen en deze prop dus schrappen wegens niet generiek)
   new ComponentModel('filter-dialog',ComponentType.Dialog,undefined,undefined,undefined,
     undefined,
-    new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)))
+    new ResponsiveVisibilityConfigModel(new VisibilityConfigModel(false,false)))
 
 /* todo toevoegen aan contentInjector
 * {

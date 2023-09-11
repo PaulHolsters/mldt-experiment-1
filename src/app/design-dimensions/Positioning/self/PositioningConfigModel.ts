@@ -1,0 +1,13 @@
+import {
+  CrossAxisHorizontalPositioningConfigType
+} from "../../../enums/crossAxisColumnLayoutConfigTypes.enum";
+import {CrossAxisVerticalPositioningConfigType} from "../../../enums/crossAxisRowLayoutConfigTypes.enum";
+import {DisplayType} from "../../../enums/displayType.enum";
+export class PositioningConfigModel {
+  constructor(
+    public display?:DisplayType,
+    public selfAlign?:CrossAxisVerticalPositioningConfigType|CrossAxisHorizontalPositioningConfigType) {
+    // todo add relative position
+    // todo why TS accept some random interface here???
+  }
+}

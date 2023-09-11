@@ -17,6 +17,7 @@ import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
+import {RenderPropertiesService} from "../../renderProperties.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,35 @@ export class ClientDataService {
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
   private clientData: ClientData[] = []
-  constructor(private actionsService:ActionsService,private configService:ConfigService,private queryService:QueryService,private stateService:StateService) {
+  constructor(private actionsService:ActionsService,private configService:ConfigService,private queryService:QueryService,private stateService:StateService,
+              private renderPropertiesService:RenderPropertiesService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
+    })
+  }
+  private setData(clientData: ClientData) {
+    this.renderPropertiesService.getStatePropertySubjects().forEach(propSubj => {
+      if(propSubj.componentName===clientData.name){
+        switch (propSubj.propName){
+          case PropertyName.conceptData:
+            if(clientData.data instanceof Array || typeof clientData.data === 'object'
+              && clientData.data.hasOwnProperty('__typename') && clientData.data.hasOwnProperty('id'))
+              propSubj.propValue.next(clientData.data)
+            break
+          case PropertyName.conceptBlueprint:
+            propSubj.propValue.next(clientData.blueprint)
+            break
+          case PropertyName.dataLink:
+            const datalink = this.configService.getConfigFromRoot(clientData.name)?.data?.dataLink
+            if(datalink !== NoValueType.NA){
+              propSubj.propValue.next(datalink)
+            }
+            break
+          case PropertyName.hardCodedData:
+            propSubj.propValue.next(clientData.hardcodedData)
+            break
+        }
+      }
     })
   }
   public bindActions() {

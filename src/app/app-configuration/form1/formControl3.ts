@@ -5,9 +5,9 @@ import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/Respons
 import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalLayoutConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisColumnLayoutConfigTypes.enum";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -18,11 +18,11 @@ import {VerticalLayoutConfigPropsModel} from "../../models/ChildLayout/VerticalL
 import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/rowPositioningConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
+import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 
@@ -41,7 +41,7 @@ export const formControl3 = {
             // todo zorg voor default layout bij een container voor simpele gevallen
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
-              new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+              new WidthConfigModel(new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
               ), DynamicDimensionValueConfigType.NC),
               CrossAxisHorizontalLanesPositioningConfigType.Center),
@@ -52,9 +52,9 @@ export const formControl3 = {
           )
         ),
         undefined,
-        new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+        new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
           HeightValueConfigType.NC,
-          new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+          new WidthConfigModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )),
@@ -76,7 +76,7 @@ export const formControl3 = {
           NoValueType.NA,
           NoValueType.NA, ['product', 'category'])),
         new ResponsiveVisibilityConfigModel(
-          new VisibilityConfigPropsModel()),
+          new VisibilityConfigModel()),
         undefined,
         [
           {
@@ -84,7 +84,7 @@ export const formControl3 = {
             // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
             name: 'fc3-label',
             type: ComponentType.Label,
-            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
           },
           new ComponentModel(
             'radio-button-container',
@@ -92,7 +92,7 @@ export const formControl3 = {
             new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigModel(
               new HorizontalLayoutConfigPropsModel(
                 AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
-                new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                new WidthConfigModel(new FixedDimensioningConfigModel(
                   DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
                 ), DynamicDimensionValueConfigType.NC),
                 CrossAxisHorizontalLanesPositioningConfigType.Left),
@@ -102,11 +102,11 @@ export const formControl3 = {
                 CrossAxisVerticalLanesPositioningConfigType.NA)
             )),
             undefined,
-            new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-              new HeightConfigPropsModel(
+            new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
+              new HeightConfigModel(
                 new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
               ),
-              new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+              new WidthConfigModel(new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
               ), DynamicDimensionValueConfigType.NC)
             )),
@@ -132,11 +132,11 @@ export const formControl3 = {
             [
               {
                 name: 'fc3-radio-button-group', type: ComponentType.RadioButton,
-                visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
                 childLayout: new ResponsiveChildLayoutConfigModel(new ChildLayoutConfigModel(
                   new HorizontalLayoutConfigPropsModel(
                     AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Left,
-                    new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+                    new WidthConfigModel(new FixedDimensioningConfigModel(
                       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
                     ), DynamicDimensionValueConfigType.NC),
                     CrossAxisHorizontalLanesPositioningConfigType.Left),
@@ -154,10 +154,10 @@ export const formControl3 = {
         undefined,
         undefined))
   ),
-  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
+  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
     HeightValueConfigType.NC,
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100
+    new WidthConfigModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100
       , DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC)
   ))
 }

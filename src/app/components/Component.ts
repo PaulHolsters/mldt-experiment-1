@@ -1,6 +1,6 @@
 import utilFunctions from "../utils/utilFunctions";
 import {StateService} from "../services/state.service";
-import {UpdateViewService} from "../services/updateView.service";
+import {RenderPropertiesService} from "../services/renderProperties.service";
 import {EventsService} from "../services/events.service";
 import {ServerDataService} from "../services/data/server/server-data.service";
 import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
@@ -26,7 +26,7 @@ export class Component{
     protected element:ElementRef,
     protected cd: ChangeDetectorRef,
     protected stateService:StateService,
-    protected storeService:UpdateViewService,
+    protected storeService:RenderPropertiesService,
     protected eventsService:EventsService,
     protected clientDataService:ClientDataService,
     protected stylesService:StylesService,

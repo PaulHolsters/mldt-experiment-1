@@ -4,7 +4,7 @@ import {ConfigService} from "./config.service";
 import {Subject} from "rxjs";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StateService} from "./state.service";
-import {UpdateViewService} from "./updateView.service";
+import {RenderPropertiesService} from "./renderProperties.service";
 import {ActionValueModel} from "../models/ActionValueModel";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
@@ -22,7 +22,7 @@ export class UiActionsService {
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
 
   constructor(
-    private storeService:UpdateViewService,
+    private storeService:RenderPropertiesService,
     private stateService:StateService,
     private configService:ConfigService,
     private actionsService:ActionsService,

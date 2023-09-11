@@ -5,7 +5,7 @@ import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
 import {ServerDataService} from "./data/server/server-data.service";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
-import {UpdateViewService} from "./updateView.service";
+import {RenderPropertiesService} from "./renderProperties.service";
 import {UiActionsService} from "./ui-actions.service";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ClientDataService} from "./data/client/client-data.service";
@@ -19,7 +19,7 @@ export class EventsService{
               private serverDataService:ServerDataService,
               private clientDataService:ClientDataService,
               private RBSService:ResponsiveBehaviourService,
-              private storeService:UpdateViewService,
+              private storeService:RenderPropertiesService,
               private UIActionsService:UiActionsService) {
 
     this.serverDataService.actionFinished.subscribe(res =>{

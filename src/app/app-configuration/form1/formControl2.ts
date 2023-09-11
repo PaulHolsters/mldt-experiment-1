@@ -5,9 +5,9 @@ import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/Respons
 import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalLayoutConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisColumnLayoutConfigTypes.enum";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -18,10 +18,10 @@ import {VerticalLayoutConfigPropsModel} from "../../models/ChildLayout/VerticalL
 import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/rowPositioningConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 
@@ -38,7 +38,7 @@ export const formControl2 = {
           new ChildLayoutConfigModel(
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
-              new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+              new WidthConfigModel(new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
               ),DynamicDimensionValueConfigType.NC),
               CrossAxisHorizontalLanesPositioningConfigType.Center),
@@ -49,9 +49,9 @@ export const formControl2 = {
           )
         ),
         undefined,
-        new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+        new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
           HeightValueConfigType.NC,
-          new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+          new WidthConfigModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )),
@@ -74,22 +74,22 @@ export const formControl2 = {
           NoValueType.NA,
           ['product', 'price']
         )),
-        new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()), undefined,
+        new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()), undefined,
         [{
           // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
           // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
           name: 'fc2-label',
           type: ComponentType.Label,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         }, {
           name: 'fc2-input', type: ComponentType.InputNumber,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel())
         }], undefined, undefined))
   ),
-  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
+  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
     HeightValueConfigType.NC,
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100
+    new WidthConfigModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100
       ,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC)
   ))
 }

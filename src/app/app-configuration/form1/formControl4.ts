@@ -5,9 +5,9 @@ import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/Respons
 import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalLayoutConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisColumnLayoutConfigTypes.enum";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -20,11 +20,11 @@ import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {
   CrossAxisVerticalLanesPositioningConfigType
 } from "../../enums/rowPositioningConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
+import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
 import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
@@ -45,7 +45,7 @@ export const formControl4 = {
             // todo zorg voor default layout bij een container voor simpele gevallen
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
-              new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+              new WidthConfigModel(new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
               ), DynamicDimensionValueConfigType.NC),
               CrossAxisHorizontalLanesPositioningConfigType.Center),
@@ -56,9 +56,9 @@ export const formControl4 = {
           )
         ),
         undefined,
-        new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+        new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
           HeightValueConfigType.NC,
-          new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+          new WidthConfigModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )),
@@ -79,26 +79,26 @@ export const formControl4 = {
           false,
           NoValueType.NA,
           NoValueType.NA, ['product', 'specifications'])),
-        new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         undefined,
         [
           {
           name: 'fc4-label',
           type: ComponentType.Label,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         },
           {
             name: 'fc4-multiselect', type: ComponentType.MultiSelect,
-            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+            visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel())
           }],
         undefined,
         ['product', 'specifications']
       ))
   ),
-  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
-  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
+  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
     HeightValueConfigType.NC,
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100
+    new WidthConfigModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100
       , DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC)
   ))
 }

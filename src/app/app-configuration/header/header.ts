@@ -6,9 +6,9 @@ import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/Respons
 import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalLayoutConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisColumnLayoutConfigTypes.enum";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -16,16 +16,16 @@ import {
   CrossAxisHorizontalLanesPositioningConfigType
 } from "../../enums/columnPositioningConfigTypes.enum";
 import {VerticalLayoutConfigPropsModel} from "../../models/ChildLayout/VerticalLayoutConfigPropsModel";
-import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisVerticalLayoutConfigTypes.enum";
+import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisRowLayoutConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {
   CrossAxisVerticalLanesPositioningConfigType
 } from "../../enums/rowPositioningConfigTypes.enum";
 import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
+import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
 import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
@@ -192,7 +192,7 @@ export const header = {
               // dit zal de componenten binnen een lane positioneren
               CrossAxisHorizontalPositioningConfigType.NA,
               // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET (op de children van deze container he)!!
-              new WidthConfigPropsModel(
+              new WidthConfigModel(
                 new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 450, DimensionUnitConfigType.PX),
                 DynamicDimensionValueConfigType.NC
               ),
@@ -217,7 +217,7 @@ export const header = {
               true,
               // dit zal de componenten binnen een lane positioneren
               CrossAxisHorizontalPositioningConfigType.Left,
-              new WidthConfigPropsModel(
+              new WidthConfigModel(
                 // todo fix bug: breedte wordt niet gedetecteerd NOG STEEDS NIET (op de children van deze container he)!!
                 new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 800, DimensionUnitConfigType.PX),
                 DynamicDimensionValueConfigType.NC
@@ -239,12 +239,12 @@ export const header = {
         ),
         undefined,
         new ResponsiveDimensioningConfigModel(
-          new DimensioningConfigPropsModel(
-            new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 150, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
-            new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 650, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC)
+          new DimensioningConfigModel(
+            new HeightConfigModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 150, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC),
+            new WidthConfigModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 650, DimensionUnitConfigType.PX), DynamicDimensionValueConfigType.NC)
           )),
         undefined,
-        new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+        new ResponsiveVisibilityConfigModel(new VisibilityConfigModel())
         ,
         new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto, OverflowValueConfigType.NC))
         , [
@@ -271,10 +271,10 @@ export const header = {
         ]),
     }
   ),
-  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
   // todo hier moet een soort auto height of fit content height komen => de header doet maar raar
   dimensions: new ResponsiveDimensioningConfigModel(
-    new DimensioningConfigPropsModel(
+    new DimensioningConfigModel(
                HeightValueConfigType.NC,
       WidthValueConfigType.Parent
     ))

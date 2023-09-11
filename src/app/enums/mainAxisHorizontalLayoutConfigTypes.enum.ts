@@ -4,5 +4,5 @@ export enum MainAxisHorizontalLayoutConfigType{
   Right='MainHorizontalRight',
   Between='MainHorizontalBetween',
   Around='MainHorizontalAround',
-  Evenly='MainHorizontalEvenly'
+  Evenly='MainHorizontalEvenly',
 }

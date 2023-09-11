@@ -4,7 +4,7 @@ import {ResponsiveAttributesConfigModel} from "../../models/Attributes/Responsiv
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {ConfirmationModel} from "../../models/ConfirmationModel";
 import {IconType} from "../../enums/iconType.enum";
 
@@ -25,4 +25,4 @@ false,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA,NoValueType.NA
           'Zedde zeker??')
       )
     ),
-    new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false,false)))
+    new ResponsiveVisibilityConfigModel(new VisibilityConfigModel(false,false)))

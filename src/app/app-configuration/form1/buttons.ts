@@ -5,9 +5,9 @@ import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/Respons
 import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalLayoutConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisColumnLayoutConfigTypes.enum";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -20,10 +20,10 @@ import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {
   CrossAxisVerticalLanesPositioningConfigType
 } from "../../enums/rowPositioningConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 
@@ -34,7 +34,7 @@ export const buttons= new ComponentModel(
     new ChildLayoutConfigModel(
       new HorizontalLayoutConfigPropsModel(
         AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
-        new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+        new WidthConfigModel(new FixedDimensioningConfigModel(
           DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
         ),DynamicDimensionValueConfigType.NC),
         CrossAxisHorizontalLanesPositioningConfigType.Center),
@@ -45,21 +45,21 @@ export const buttons= new ComponentModel(
     )
   ),
   undefined,
-  new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+  new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
     HeightValueConfigType.NC,
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+    new WidthConfigModel(new FixedDimensioningConfigModel(
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
     ), DynamicDimensionValueConfigType.NC)
   )),
   undefined,
-  new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+  new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
   undefined,
   [    {
     name:'filter-btn',
     type:ComponentType.Button,
     attributes: new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA,  NoValueType.NA, NoValueType.NA, NoValueType.NA,
       'Filter op kolom')),
-    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+    visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel())
   }],
   undefined,
   undefined)

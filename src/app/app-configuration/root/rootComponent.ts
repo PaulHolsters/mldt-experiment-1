@@ -1,7 +1,7 @@
 import AppConfig from "../../services/appConfig";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {mainDimensions} from "./mainDimensions";
 import {mainChildLayout} from "./mainChildLayout";
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
@@ -21,7 +21,7 @@ export const RootComponent = new AppConfig({
       // todo add a minimum/maximum dimension
       name: 'content-container',
       type: ComponentType.Container,
-      visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+      visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
       dimensions: mainDimensions,
       childLayout: mainChildLayout,
       styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),

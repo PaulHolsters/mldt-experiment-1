@@ -1,16 +1,16 @@
 import {ComponentModel} from "../../models/ComponentModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {childLayout} from "./childLayout";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
+import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
@@ -21,16 +21,16 @@ export const dialogContainer = new ComponentModel(
   ComponentType.Container,
   childLayout,
   undefined,
-  new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    new HeightConfigPropsModel(
+  new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
+    new HeightConfigModel(
       new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
     ),
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+    new WidthConfigModel(new FixedDimensioningConfigModel(
       DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
     ), DynamicDimensionValueConfigType.NC)
   )),
   undefined,
-  new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+  new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
   undefined,
   [
             new ComponentModel(
@@ -40,7 +40,7 @@ export const dialogContainer = new ComponentModel(
               undefined,
               undefined,
               undefined,
-              new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+              new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
               undefined,
               undefined,
               undefined,
@@ -55,7 +55,7 @@ export const dialogContainer = new ComponentModel(
       undefined,
       new ResponsiveAttributesConfigModel(new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA, NoValueType.NA, NoValueType.NA,
         'Product aanpassen')),
-      new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+      new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
     )
   ]
 )

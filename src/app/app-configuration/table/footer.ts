@@ -4,7 +4,7 @@ import {ResponsiveAttributesConfigModel} from "../../models/Attributes/Responsiv
 import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {PaddingType} from "../../enums/paddingType.enum";
@@ -42,7 +42,7 @@ export const footer =
         NoValueType.NA
       )
     ),
-    new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true,false)),
+    new ResponsiveVisibilityConfigModel(new VisibilityConfigModel(true,false)),
     undefined,
     undefined,
     new ResponsiveStylingConfigModel(new StylingConfigPropsModel(undefined,PaddingType.All_3,NoValueType.NA)

@@ -5,9 +5,9 @@ import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/Respons
 import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
 import {HorizontalLayoutConfigPropsModel} from "../../models/ChildLayout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisHorizontalLayoutConfigTypes.enum";
-import {WidthConfigPropsModel} from "../../models/Dimensioning/self/WidthConfigPropsModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/self/FixedDimensioningConfigModel";
+import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisColumnLayoutConfigTypes.enum";
+import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -18,11 +18,11 @@ import {VerticalLayoutConfigPropsModel} from "../../models/ChildLayout/VerticalL
 import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/rowPositioningConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/self/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigPropsModel} from "../../models/Dimensioning/self/DimensioningConfigPropsModel";
-import {HeightConfigPropsModel} from "../../models/Dimensioning/self/HeightConfigPropsModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
+import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigPropsModel} from "../../models/Visibility/VisibilityConfigPropsModel";
+import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 
 export const multiSelect = {
   name: 'multi-select',
@@ -37,7 +37,7 @@ export const multiSelect = {
             // todo zorg voor default layout bij een container voor simpele gevallen
             new HorizontalLayoutConfigPropsModel(
               AxisConfigType.Cross, true, false, CrossAxisHorizontalPositioningConfigType.Center,
-              new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+              new WidthConfigModel(new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage
               ),DynamicDimensionValueConfigType.NC),
               CrossAxisHorizontalLanesPositioningConfigType.Center),
@@ -48,28 +48,28 @@ export const multiSelect = {
           )
         ),
         undefined,
-        new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-          new HeightConfigPropsModel(
+        new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
+          new HeightConfigModel(
             new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage), DynamicDimensionValueConfigType.NC
           ),
-          new WidthConfigPropsModel(new FixedDimensioningConfigModel(
+          new WidthConfigModel(new FixedDimensioningConfigModel(
             DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
           ), DynamicDimensionValueConfigType.NC)
         )),
         new ResponsiveAttributesConfigModel({
           dataLink: ['product', 'name']
         }),
-        new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+        new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         undefined,
         [{
           // dit is niet nodig als je kiest voor een float label natuurlijk dan moet hier enkel een input komen en
           // in dat geval heb je ook geen extra container nodig => jawel daar zit de data in
           name: 'fc1-label',
           type: ComponentType.Label,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
         }, {
           name: 'fc1-input', type: ComponentType.InputText,
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel())
           // todo voeg de functionaliteit toe om te bepalen of iets disabled moet zijn en dergelijke
         }],
         undefined,
@@ -77,13 +77,13 @@ export const multiSelect = {
 
     }
   ),
-  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel())
+  visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel())
   ,
   // todo zorg dat er constraints komen die errors geven bv als je height en width in je config omwisselt!
-  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
-    new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,220
+  dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(
+    new HeightConfigModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,220
       ,DimensionUnitConfigType.PX),DynamicDimensionValueConfigType.NC),
-    new WidthConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100
+    new WidthConfigModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100
       ,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC)
   ))
 }
