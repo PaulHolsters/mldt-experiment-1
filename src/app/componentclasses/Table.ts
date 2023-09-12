@@ -1,11 +1,11 @@
-import {DataRecordModel} from "../models/DataRecordModel";
 import {Component} from "./Component";
-import {ComponentModel} from "../models/ComponentModel";
 import {TableStylingType} from "../enums/tableStylingType.enum";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
-import {TableColumnModel} from "../models/TableColumnModel";
 import {Blueprint} from "../services/data/client/Blueprint";
+import {ComponentModel} from "../design-dimensions/ComponentModel";
+import {TableColumnModel} from "../design-dimensions/component-specific-config/table/TableColumnModel";
+import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 
 export abstract class Table extends Component{
   public static currentColumn:{field:string,header:string,sort:boolean,filter:boolean}|undefined=undefined

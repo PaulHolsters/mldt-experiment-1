@@ -1,5 +1,5 @@
-import {ComponentModel} from "./ComponentModel";
-import {NoValueType} from "../enums/no_value_type";
+import {ComponentModel} from "../../ComponentModel";
+import {NoValueType} from "../../../enums/no_value_type";
 
 export interface TableColumnModel {
     field:string,

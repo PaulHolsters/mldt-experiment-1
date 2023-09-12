@@ -1,5 +1,5 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
 import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";

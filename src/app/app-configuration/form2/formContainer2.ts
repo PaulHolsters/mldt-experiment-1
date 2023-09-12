@@ -11,7 +11,7 @@ import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValue
 import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {multiSelect} from "./multiSelect";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {formData2} from "./formDataModel2";
 import {productSpec} from "./product-spec";

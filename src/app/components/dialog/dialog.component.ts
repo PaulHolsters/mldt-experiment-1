@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Component as AbstractComponent} from "../Component"
 import {Dialog} from "../../componentclasses/Dialog";
-import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 
 @Component({
   selector: 'm-dialog',

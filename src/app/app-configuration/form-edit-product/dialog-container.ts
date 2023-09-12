@@ -11,8 +11,8 @@ import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValue
 import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
-import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
+import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 

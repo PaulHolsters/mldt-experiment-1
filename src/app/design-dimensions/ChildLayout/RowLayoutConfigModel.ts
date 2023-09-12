@@ -1,4 +1,4 @@
-import {ChildPropertiesConfigModel} from "./ChildPropertiesConfigModel";
+import {ChildPropertiesConfigModel} from "../junkmodels/ChildPropertiesConfigModel";
 import {RowPositioningConfigType} from "../../enums/rowPositioningConfigTypes.enum";
 import {MainAxisHorizontalLayoutConfigType} from "../../enums/mainAxisHorizontalLayoutConfigTypes.enum";
 import {CrossAxisVerticalLayoutConfigType} from "../../enums/crossAxisRowLayoutConfigTypes.enum";

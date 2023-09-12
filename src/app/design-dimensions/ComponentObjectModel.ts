@@ -2,7 +2,7 @@ import {ComponentType} from "../enums/componentTypes.enum";
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveDimensioningConfigModel} from "./Dimensioning/ResponsiveDimensioningConfigModel";
-import {ResponsiveAttributesConfigModel} from "./Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveTableConfigModel} from "./component-specific-config/table/ResponsiveTableConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
@@ -15,7 +15,7 @@ export interface ComponentObjectModel extends Object {
   childLayout?:ResponsiveChildLayoutConfigModel
   position?:ResponsivePositioningConfigModel
   dimensions?:ResponsiveDimensioningConfigModel
-  attributes?:ResponsiveAttributesConfigModel
+  attributes?:ResponsiveTableConfigModel
   visibility?:ResponsiveVisibilityConfigModel
   overflow?:ResponsiveOverflowConfigModel
   children?:(ComponentModel|ComponentObjectModel)[]

@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import {Action} from "../../../effectclasses/Action";
 import {ActionType} from "../../../enums/actionTypes.enum";
 import {NoValueType} from "../../../enums/no_value_type";
-import {AttributeComponentModel} from "../../../models/DataRepresentation/AttributeComponentModel";
 import {Blueprint} from "./Blueprint";
 import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
 import {ClientData} from "./ClientData";
 import {ActionIdType, ComponentNameType, ConceptNameType} from "../../../types/type-aliases";
-import {DataRecordModel} from "../../../models/DataRecordModel";
 import {FunctionType} from "../../../enums/functionTypes.enum";
 import utilFunctions from "../../../utils/utilFunctions";
 import {ConfigService} from "../../config.service";
@@ -18,6 +16,8 @@ import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {RenderPropertiesService} from "../../renderProperties.service";
+import {AttributeComponentModel} from "../../../design-dimensions/DataRepresentation/AttributeComponentModel";
+import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 
 @Injectable({
   providedIn: 'root'

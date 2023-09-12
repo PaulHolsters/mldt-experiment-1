@@ -8,5 +8,4 @@ export interface ResponsiveConfigModelI<T extends ResponsiveConfigModelType> {
   tablet:ResponsiveConfigType<T>|ZeroValueType.DeterminedByEngine
   laptop:ResponsiveConfigType<T>|ZeroValueType.DeterminedByEngine
   highResolution:ResponsiveConfigType<T>|ZeroValueType.DeterminedByEngine
-
 }

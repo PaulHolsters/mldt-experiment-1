@@ -2,7 +2,7 @@ import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
 import {ComponentObjectModel} from "../ComponentObjectModel";
 import {NoValueType} from "../../enums/no_value_type";
-import {TableColumnModel} from "../TableColumnModel";
+import {TableColumnModel} from "../component-specific-config/table/TableColumnModel";
 export class ContentInjectionRenderModel {
   constructor(
     public start: ComponentModel|ComponentObjectModel|NoValueType,

@@ -1,4 +1,4 @@
-export class ParentComponentPropsModel {
+export class ParentRenderPropertiesModel {
   constructor(
     public row: boolean=true,
     public column: boolean=false,

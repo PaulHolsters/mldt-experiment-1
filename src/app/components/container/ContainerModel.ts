@@ -2,18 +2,20 @@ import {ComponentI} from "../../Interfaces/ComponentI";
 import {
   ResponsivePositioningConfigModel
 } from "../../design-dimensions/Positioning/self/ResponsivePositioningConfigModel";
-import {ResponsiveAttributesConfigModel} from "../../design-dimensions/Attributes/ResponsiveAttributesConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ResponsiveStylingConfigModel} from "../../design-dimensions/Styling/ResponsiveStylingConfigModel";
 import {ComponentModel} from "../../design-dimensions/ComponentModel";
-import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/self/ResponsiveOverflowConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "../../design-dimensions/ChildLayout/ResponsiveChildLayoutConfigModel";
 import {
   ResponsiveDimensioningConfigModel
 } from "../../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
 export class ContainerModel extends ComponentModel implements ComponentI{
   public name:string
-  public attributes: ResponsiveAttributesConfigModel | undefined = undefined
+  public componentSpecificConfig: undefined = undefined
+  public setComponentSpecificConfig:undefined=undefined
+  public labelConfig: undefined = undefined
+  public setLabelConfig:undefined=undefined
+  public iconConfig: undefined = undefined
+  public setIconConfig:undefined=undefined
   public childLayout: ResponsiveChildLayoutConfigModel = new ResponsiveChildLayoutConfigModel()
   public children: ComponentModel[]=[]
   public clientData: undefined = undefined
@@ -21,9 +23,9 @@ export class ContainerModel extends ComponentModel implements ComponentI{
   public dataInput: undefined = undefined
   public dataRepresentation: undefined = undefined
   public dimensions: ResponsiveDimensioningConfigModel = new ResponsiveDimensioningConfigModel()
-  public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
+  //public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
   public position: ResponsivePositioningConfigModel = new ResponsivePositioningConfigModel()
-  public styling: ResponsiveStylingConfigModel = new ResponsiveStylingConfigModel()
+  //public styling: ResponsiveStylingConfigModel = new ResponsiveStylingConfigModel()
   public visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
   public setClientData:undefined = undefined
   public setDataRepresentation:undefined = undefined
@@ -32,10 +34,6 @@ export class ContainerModel extends ComponentModel implements ComponentI{
   constructor(name:string) {
     super()
     this.name = name
-  }
-  setAttributes(attributes:ResponsiveAttributesConfigModel){
-    this.attributes = attributes
-    return this
   }
   setChildLayout(childLayout:ResponsiveChildLayoutConfigModel){
     this.childLayout = childLayout
@@ -49,18 +47,18 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     this.dimensions = dim
     return this
   }
-  setOverflow(overflow:ResponsiveOverflowConfigModel){
+/*  setOverflow(overflow:ResponsiveOverflowConfigModel){
     this.overflow = overflow
     return this
-  }
+  }*/
   setPosition(pos:ResponsivePositioningConfigModel){
     this.position = pos
     return this
   }
-  setStyling(styling:ResponsiveStylingConfigModel){
+/*  setStyling(styling:ResponsiveStylingConfigModel){
     this.styling = styling
     return this
-  }
+  }*/
   setVisibility(visibility:ResponsiveVisibilityConfigModel){
     this.visibility = visibility
     return this

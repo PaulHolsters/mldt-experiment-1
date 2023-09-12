@@ -5,7 +5,7 @@ import {ComponentObjectModel} from "../models/ComponentObjectModel";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ScreenSize} from '../enums/screenSizes.enum';
 import {PropertyName} from '../enums/PropertyNameTypes.enum';
-import {ResponsiveAttributesConfigModel} from '../models/Attributes/ResponsiveAttributesConfigModel';
+import {ResponsiveAttributesConfigModel} from '../models/component-specific-config/ResponsiveTableConfigModel';
 import {TableColumnModel} from "../models/TableColumnModel";
 import { Effect } from '../effectclasses/Effect';
 import {ServiceType} from "../enums/serviceTypes.enum";
@@ -261,7 +261,7 @@ export class ConfigService {
       }
       lastScreenSize--
     }
-    throw new Error('No screensize configuration was found for given ResponsiveAttributesConfigModel and' +
+    throw new Error('No screensize configuration was found for given ResponsiveTableConfigModel and' +
       ' property ' + confirmationModel + ' and screen ' + ScreenSize[screenSize])
   }
 /*  getAppTemplateData(): { components: ComponentModel[], ef: ActionModel[] } | undefined {

@@ -1,5 +1,5 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {formContainer} from "./formContainer";
@@ -14,7 +14,7 @@ import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.en
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
-import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 
 export const form = {

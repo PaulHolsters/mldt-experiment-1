@@ -11,8 +11,8 @@ import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/Responsiv
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
 import {containerLayout} from "./containerLayout";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
-import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
+import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 
 export const deleteContainer = new ComponentModel(

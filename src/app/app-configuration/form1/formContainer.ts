@@ -11,7 +11,7 @@ import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {formControl1} from "./formControl1";
 import {formControl2} from "./formControl2";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {conceptModel} from "../root/appDataModel";
 import {formControl3} from "./formControl3";

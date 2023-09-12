@@ -1,13 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {StatePropertySubjectModel} from "../models/StatePropertySubject";
-import {CalculationModel} from "../models/CalculationModel";
-import {ComponentModel} from "../models/ComponentModel";
-import {PositioningComponentPropsModel} from "../models/Positioning/self/PositioningComponentPropsModel";
-import {AttributesComponentPropsModel} from "../models/Attributes/AttributesComponentPropsModel";
-import {VisibilityRenderModel} from "../models/Visibility/VisibilityRenderModel";
-import {OverflowComponentPropsModel} from "../models/Overflow/self/OverflowComponentPropsModel";
-import {StylingComponentPropsModel} from "../models/Styling/StylingComponentPropsModel";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
 import {StateService} from "./state.service";
@@ -15,6 +7,14 @@ import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
+import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubject";
+import {ComponentModel} from "../design-dimensions/ComponentModel";
+import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
+import {PositioningRenderModel} from "../design-dimensions/Positioning/self/PositioningRenderModel";
+import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
+import {OverflowRenderModel} from "../design-dimensions/Overflow/self/OverflowRenderModel";
+import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
+import {CalculationModel} from "../design-dimensions/CalculationModel";
 
 @Injectable({
   providedIn: 'root'
@@ -68,11 +68,11 @@ export class RenderPropertiesService implements OnInit {
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
-      PositioningComponentPropsModel |
-      AttributesComponentPropsModel |
+      PositioningRenderModel |
+      ComponentSpecificRenderModel |
       VisibilityRenderModel |
-      OverflowComponentPropsModel |
-      StylingComponentPropsModel |
+      OverflowRenderModel |
+      StylingRenderModel |
       string |
       number |
       boolean |

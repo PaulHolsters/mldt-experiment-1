@@ -1,5 +1,5 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {ComponentModel} from "../../models/ComponentModel";
 import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
@@ -28,7 +28,7 @@ import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigMod
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
 import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
-import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 
 export const formControl4 = {

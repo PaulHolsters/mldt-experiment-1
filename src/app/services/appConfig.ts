@@ -158,7 +158,7 @@ state: [
 /*      {
       name: 'logo',
       type: ComponentType.Logo,
-      attributes: new ResponsiveAttributesConfigModel(),
+      attributes: new ResponsiveTableConfigModel(),
       position: new ResponsivePositioningConfigModel(
         this.logoSmartphoneLayout,
         this.logoPortraitTabletLayout,
@@ -187,5 +187,5 @@ state: [
       }, {
         childLayout: {}
       }),
-      attributes: new ResponsiveAttributesConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
+      attributes: new ResponsiveTableConfigModel({icon: 'pi-bars'}, undefined, undefined, undefined, undefined)
     }*/

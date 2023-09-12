@@ -1,13 +1,13 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Observable} from "rxjs";
-import {AttributeComponentModel} from "../../models/DataRepresentation/AttributeComponentModel";
 import {SortEvent} from "primeng/api";
 import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Component as AbstractComponent} from "../Component"
-import {TableColumnModel} from "../../models/TableColumnModel";
 import {NoValueType} from "../../enums/no_value_type";
+import {AttributeComponentModel} from "../../design-dimensions/DataRepresentation/AttributeComponentModel";
+import {TableColumnModel} from "../../design-dimensions/component-specific-config/table/TableColumnModel";
 
 @Component({
   selector: 'm-table',
@@ -17,20 +17,19 @@ import {NoValueType} from "../../enums/no_value_type";
 export class TableComponent extends AbstractComponent implements OnInit,AfterViewInit{
   // todo zie dat de default waarden werken => zet die ook in de component
   @ViewChild('dt') dt:ElementRef|undefined
-  rows = 5
-  rowsPerPage:number[] = [10,25,50]
-  breakpoint = '960px'
-  cstmSort = false
+  rows = 5 // todo zet dit als default in de configuratie (builder pattern!)
+  rowsPerPage:number[] = [10,25,50] // todo zet dit als default in de configuratie (builder pattern!)
+  breakpoint = '960px' // todo zet dit als default in de configuratie (builder pattern!)
+  cstmSort = false // todo zet dit als default in de configuratie (builder pattern!)
   selectedItem:{}|undefined
-/*  x:{key:string,value:number}
+/*
+todo
+x:{key:string,value:number}
   xP:{key:string,value:number}
   y:{key:string,value:number}
   yP:{key:string,value:number}*/
+
   singleRowSelect$:Observable<any>|undefined
-  // paginator:
-  // pageChangedEvent=> fetch data for next/prev page, laat ondertussen een spinner zien,
-  // ondertussen weet je wel het totaal aantal records, op basis van first, rows en het totale aantal zou
-  // je de paginator correct moeten kunnen zetten
   ngOnInit(): void {
     // todo onderzoek lazy loading in de docx
     this.props = Table.getProperties()

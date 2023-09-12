@@ -1,7 +1,7 @@
 import {ComponentModel} from "../ComponentModel";
 import {NoValueType} from "../../enums/no_value_type";
 import {ComponentObjectModel} from "../ComponentObjectModel";
-import {TableColumnModel} from "../TableColumnModel";
+import {TableColumnModel} from "../component-specific-config/table/TableColumnModel";
 
 export class ContentInjectionConfigModel {
   constructor(

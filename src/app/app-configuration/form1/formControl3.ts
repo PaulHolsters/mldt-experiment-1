@@ -1,5 +1,5 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {ComponentModel} from "../../models/ComponentModel";
 import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
@@ -23,7 +23,7 @@ import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningCon
 import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
-import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 
 export const formControl3 = {

@@ -3,7 +3,7 @@ import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/Respo
 import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
-import {ResponsiveAttributesConfigModel} from "../../models/Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
 import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
@@ -15,7 +15,7 @@ import {TableStylingType} from "../../enums/tableStylingType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
-import {AttributesConfigPropsModel} from "../../models/Attributes/AttributesConfigPropsModel";
+import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";
 import {
   ResponsiveContentInjectionConfigModel
 } from "../../models/ContentInjection/ResponsiveContentInjectionConfigModel";

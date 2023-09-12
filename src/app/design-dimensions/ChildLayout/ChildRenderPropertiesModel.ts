@@ -1,6 +1,4 @@
-import {RenderModel} from "../RenderModel";
-
-export class ChildComponentsPropsModel {
+export class ChildRenderPropertiesModel {
   constructor(
     public grow:number|undefined=undefined,
     public shrink:number|undefined=undefined,
@@ -19,7 +17,7 @@ export class ChildComponentsPropsModel {
     arr.forEach(prop=>{
       if (Reflect.has(this, prop[0]))
         Reflect.set(this, prop[0], prop[1])
-      else throw new Error('cannot set property ' + prop[0] + ' because it does not exist on the object of type ChildComponentsPropsModel')
+      else throw new Error('cannot set property ' + prop[0] + ' because it does not exist on the object of type ChildRenderPropertiesModel')
     })
   }
 }

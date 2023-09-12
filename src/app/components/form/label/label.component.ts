@@ -1,13 +1,13 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {MarginType} from "../../../enums/marginType.enum";
 import {PaddingType} from "../../../enums/paddingType.enum";
-import {BorderModel} from "../../../models/BorderModel";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
 import {Component as AbstractComponent} from "../../Component"
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../../../enums/no_value_type";
 import {Label} from "../../../componentclasses/Label";
 import {Blueprint} from "../../../services/data/client/Blueprint";
+import {BorderModel} from "../../../design-dimensions/BorderModel";
 
 @Component({
   selector: 'm-label',

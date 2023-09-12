@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
-import {AttributeComponentModel} from "../../../models/DataRepresentation/AttributeComponentModel";
 import {NoValueType} from "../../../enums/no_value_type";
 import {Subject} from "rxjs";
-import {DataRecordModel} from "../../../models/DataRecordModel";
 import {ActionsService} from "../../actions.service";
 import {ConfigService} from "../../config.service";
 import {ActionType} from "../../../enums/actionTypes.enum";
@@ -16,6 +14,8 @@ import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
+import {AttributeComponentModel} from "../../../design-dimensions/DataRepresentation/AttributeComponentModel";
+import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 
 // todo fix
 @Injectable({

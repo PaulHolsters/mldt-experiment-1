@@ -11,7 +11,7 @@ export const filterDialog =         // todo dit is het attribuut filterComponent
 * {
           name:'filter-form',
           type:ComponentType.Form,
-          attributes: new ResponsiveAttributesConfigModel(
+          attributes: new ResponsiveTableConfigModel(
             new AttributesConfigPropsModel(NoValueType.NA, NoValueType.NA,NoValueType.NA, NoValueType.NA, NoValueType.NA,
               NoValueType.NA, NoValueType.NA, NoValueType.NA,
               new ComponentModel(

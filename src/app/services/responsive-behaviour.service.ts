@@ -1,5 +1,4 @@
 import {Injectable, OnInit} from '@angular/core';
-import {ComponentModel} from "../models/ComponentModel";
 import {RenderPropertiesService} from "./renderProperties.service";
 import {ActionsService} from "./actions.service";
 import {ScreenSize} from "../enums/screenSizes.enum";
@@ -9,19 +8,18 @@ import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
-import {ComponentI} from "../Interfaces/ComponentI";
-import {PositioningComponentPropsModel} from "../models/Positioning/self/PositioningComponentPropsModel";
-import {AttributesComponentPropsModel} from "../models/Attributes/AttributesComponentPropsModel";
-import {VisibilityRenderModel} from "../models/Visibility/VisibilityRenderModel";
-import {StylingComponentPropsModel} from "../models/Styling/StylingComponentPropsModel";
-import {ContentInjectionComponentPropsModel} from "../models/ContentInjection/ContentInjectionComponentPropsModel";
-import {DimensioningRenderModel} from "../models/Dimensioning/DimensioningRenderModel";
-import {OverflowComponentPropsModel} from "../models/Overflow/self/OverflowComponentPropsModel";
-import {ChildLayoutRenderModel} from "../models/ChildLayout/ChildLayoutRenderModel";
-import {DataRepresentationRenderModel} from "../models/DataRepresentation/DataRepresentationRenderModel";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
-import {ResponsiveChildLayoutConfigModel} from "../design-dimensions/ChildLayout/ResponsiveChildLayoutConfigModel";
 import {ComponentModelType} from "../types/union-types";
+import {DimensioningRenderModel} from "../design-dimensions/Dimensioning/DimensioningRenderModel";
+import {ChildLayoutRenderModel} from "../design-dimensions/ChildLayout/ChildLayoutRenderModel";
+import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
+import {PositioningRenderModel} from "../design-dimensions/Positioning/self/PositioningRenderModel";
+import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
+import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
+import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
+import {OverflowRenderModel} from "../design-dimensions/Overflow/self/OverflowRenderModel";
+import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
+import {ComponentModel} from "../design-dimensions/ComponentModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -57,24 +55,24 @@ export class ResponsiveBehaviourService implements OnInit{
     })
   }
   public setRBSState(componentName: string,
-                     newState: (PositioningComponentPropsModel |
-                       AttributesComponentPropsModel |
+                     newState: (PositioningRenderModel |
+                       ComponentSpecificRenderModel |
                        VisibilityRenderModel) |
-                       StylingComponentPropsModel |
-                       ContentInjectionComponentPropsModel |
+                       StylingRenderModel |
+                       ContentInjectionRenderModel |
                        DimensioningRenderModel |
-                       OverflowComponentPropsModel |
+                       OverflowRenderModel |
                        ChildLayoutRenderModel |
                        DataRepresentationRenderModel|
                        (ComponentModel[])): void {
     // todo voeg datarepresentation toe
-    if (newState instanceof PositioningComponentPropsModel ||
-      newState instanceof AttributesComponentPropsModel ||
+    if (newState instanceof PositioningRenderModel ||
+      newState instanceof ComponentSpecificRenderModel ||
       newState instanceof VisibilityRenderModel ||
-      newState instanceof StylingComponentPropsModel ||
-      newState instanceof ContentInjectionComponentPropsModel ||
+      newState instanceof StylingRenderModel ||
+      newState instanceof ContentInjectionRenderModel ||
       newState instanceof DimensioningRenderModel ||
-      newState instanceof OverflowComponentPropsModel ||
+      newState instanceof OverflowRenderModel ||
       newState instanceof DataRepresentationRenderModel
     ) {
       for (let [k, v] of Object.entries(newState)) {
@@ -218,7 +216,7 @@ export class ResponsiveBehaviourService implements OnInit{
     this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize))
     this.setRBSState(component.name, component.position.getPositionRenderProperties(screenSize))
     this.setRBSState(component.name, component.dimensions.getDimensionsRenderProperties(screenSize))
-    this.setRBSState(component.name, component.overflow.getOverflowRenderProperties(screenSize))
+    //this.setRBSState(component.name, component.overflow.getOverflowRenderProperties(screenSize))
     if (component.childLayout){
       //  todo undefined aanvaarden?
       this.setRBSState(component.name, component.childLayout.getChildLayoutRenderProperties(screenSize))
@@ -235,10 +233,10 @@ export class ResponsiveBehaviourService implements OnInit{
       //  todo undefined aanvaarden?
 
     }
-    if (component.overflow){
+/*    if (component.overflow){
       //  todo undefined aanvaarden?
 
-    }
+    }*/
 
     if (component.children && component.children.length > 0) {
       this.setRBSState(component.name, component.children)
@@ -267,8 +265,8 @@ export class ResponsiveBehaviourService implements OnInit{
       const contentInjection = component.contentInjection.getContentInjectionRenderProperties(screenSize)
       this.setRBSState(component.name, contentInjection)
     }
-    if (component.styling)
-      this.setRBSState(component.name, component.styling.getStylingRenderProperties( screenSize))
+/*    if (component.styling)
+      this.setRBSState(component.name, component.styling.getStylingRenderProperties(screenSize))*/
   }
 
   public setComponentStates( screenSize: number) {

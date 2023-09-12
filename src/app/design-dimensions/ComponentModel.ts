@@ -1,4 +1,4 @@
-import {ResponsiveAttributesConfigModel} from "./Attributes/ResponsiveAttributesConfigModel";
+import {ResponsiveTableConfigModel} from "./component-specific-config/table/ResponsiveTableConfigModel";
 import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveDimensioningConfigModel} from "./Dimensioning/ResponsiveDimensioningConfigModel";
@@ -11,7 +11,7 @@ export class ComponentModel{
     if(Reflect.has(this, property)) return Reflect.get(this,property)
     throw new Error('U vraagt naar een property die niet bestaat bij een ComponentModel')
   }
-  replace?(key:string|undefined,value:ResponsiveAttributesConfigModel|ResponsiveDimensioningConfigModel
+  replace?(key:string|undefined,value:ResponsiveTableConfigModel|ResponsiveDimensioningConfigModel
     |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
     ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel|ResponsiveDataRepresentationConfigModel|undefined){
     if(key){

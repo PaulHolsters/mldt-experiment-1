@@ -1,8 +1,8 @@
 import {ChildLayoutConfigModel} from "./ChildLayoutConfigModel";
 import {ScreenSize} from "../../enums/screenSizes.enum";
 import {ChildLayoutRenderModel} from "./ChildLayoutRenderModel";
-import {ParentComponentPropsModel} from "./ParentComponentsPropsModel";
-import {ChildComponentsPropsModel} from "./ChildComponentsPropsModel";
+import {ParentComponentPropsModel} from "./ParentRenderPropertiesModel";
+import {ChildRenderPropertiesModel} from "./ChildRenderPropertiesModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveChildLayoutConfigModel>{
   public smartphone:ChildLayoutConfigModel = new ChildLayoutConfigModel()
@@ -21,9 +21,9 @@ export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<Resp
   }
   getChildLayoutRenderProperties(screenSize: number): ChildLayoutRenderModel {
     // diegene die deze methode aanroept moet ervoor zorgen dat de properties effectief naar de bedoelde childComponents gaan, indien van toepassing
-    const translateToChildLayoutComponentsProps = (childLayoutConfig: ChildLayoutConfigModel): ChildLayoutRenderModel => {
+    const mapToChildLayoutRenderProperties = (childLayoutConfig: ChildLayoutConfigModel): ChildLayoutRenderModel => {
       const parentPropsObj = new ParentComponentPropsModel()
-      const childPropsObj = new ChildComponentsPropsModel()
+      const childPropsObj = new ChildRenderPropertiesModel()
       Object.entries(childLayoutConfig.horizontalLayout).forEach(([k]) => {
         const layout = childLayoutConfig.horizontalLayout.getComponentProperties(k, childLayoutConfig.verticalLayout)
         if (layout.parent) {
@@ -35,6 +35,6 @@ export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<Resp
       })
       return new ChildLayoutRenderModel(parentPropsObj, childPropsObj)
     }
-    return this.getRenderProperties(screenSize,translateToChildLayoutComponentsProps)
+    return this.getRenderProperties(screenSize,mapToChildLayoutRenderProperties)
   }
 }
