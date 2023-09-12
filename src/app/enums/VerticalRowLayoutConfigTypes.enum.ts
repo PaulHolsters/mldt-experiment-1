@@ -1,4 +1,4 @@
-export enum CrossAxisRowLayoutConfigType{
+export enum VerticalRowLayoutConfigType{
   Top = 'CrossVerticalTop',
   Center= 'CrossVerticalCenter',
   Bottom= 'CrossVerticalBottom',

@@ -1,4 +1,4 @@
-export enum MainAxisHorizontalLayoutConfigType{
+export enum HorizontalRowLayoutConfigType{
   Left='MainHorizontalLeft',
   Center='MainHorizontalCenter',
   Right='MainHorizontalRight',

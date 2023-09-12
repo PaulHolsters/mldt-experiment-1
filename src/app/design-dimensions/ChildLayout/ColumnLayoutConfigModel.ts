@@ -1,31 +1,22 @@
-import {CrossAxisHorizontalPositioningConfigType} from "../../enums/crossAxisColumnLayoutConfigTypes.enum";
-import {
-  ColumnPositioningConfigType
-} from "../../enums/columnPositioningConfigTypes.enum";
-import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
-import {ChildPropertiesConfigModel} from "../junkmodels/ChildPropertiesConfigModel";
+import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
+import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
+import {ColumnPositioningConfigType} from "../../enums/columnPositioningConfigTypes.enum";
+
 export class ColumnLayoutConfigModel {
-  mainAxisPositioning: MainAxisVerticalLayoutConfigType = MainAxisVerticalLayoutConfigType.Top  // todo steek hier ook Width , Dynamic Width bij
-  crossAxisPositioning: CrossAxisHorizontalLayoutConfigType = CrossAxisHorizontalLayoutConfigType.Left // todo stretch hier toevoegen + Height
-  columPositioning: ColumnPositioningConfigType = ColumnPositioningConfigType.Left
-  columnWrap: boolean = true
-  childProperties:ChildPropertiesConfigModel|undefined=undefined
-  setMainAxisPositioning(positioning:MainAxisVerticalPositioningConfigType){
+  public horizontalLayoutOfChildren: HorizontalColumnLayoutConfigType=HorizontalColumnLayoutConfigType.Left
+  public verticalLayoutOfChildren: VerticalColumnLayoutConfigType=VerticalColumnLayoutConfigType.Top
+  public positionOfColumns:ColumnPositioningConfigType=ColumnPositioningConfigType.Left
+  public wrap: boolean = true
+  setHorizontalLayoutOfChildren(layout:HorizontalColumnLayoutConfigType){
 
   }
-  setCrossAxisPositioning(positioning:CrossAxisHorizontalPositioningConfigType){
+  setVerticalLayoutOfChildren(layout:VerticalColumnLayoutConfigType){
 
   }
-  setColumnPositioning(columnPositioning:ColumnPositioningConfigType){
+  setPositionOfColumns(positionOfColumns:ColumnPositioningConfigType){
 
   }
-  setColumnWrap(columnWrap:boolean){
+  setWrap(rowWrap:boolean){
 
-  }
-  setChildProperties(childProperties:ChildPropertiesConfigModel){
-    /*
-    * public scroll: boolean,
-    * public width: WidthConfigPropsModel|WidthValueConfigType.NA|WidthValueConfigType.NC,height
-    * */
   }
 }

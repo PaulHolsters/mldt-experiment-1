@@ -5,8 +5,6 @@ import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning
 import {ResponsiveDimensioningConfigModel} from "../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
 import {ResponsiveTableConfigModel} from "../design-dimensions/component-specific-config/table/ResponsiveTableConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/self/ResponsiveOverflowConfigModel";
-import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
 import {ClientDataConfigModel} from "../design-dimensions/ClientData/ClientDataConfigModel";
 import {
   ResponsiveDataRepresentationConfigModel
@@ -29,6 +27,7 @@ import {ResponsiveLabelConfigModel} from "../design-dimensions/label-config/Resp
 import {ResponsiveIconConfigModel} from "../design-dimensions/icon-config/ResponsiveIconConfigModel";
 
 export interface ComponentI {
+  // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk vabn de interface gebruik kunnen maken
   name: string
   labelConfig:ResponsiveLabelConfigModel | undefined
   setLabelConfig:((labelConfig: ResponsiveLabelConfigModel) => ComponentModel)|undefined
@@ -52,6 +51,8 @@ export interface ComponentI {
   dataRepresentation: ResponsiveDataRepresentationConfigModel | undefined
   dataInput: ResponsiveDataInputConfigModel | undefined
   contentInjection: ResponsiveContentInjectionConfigModel | undefined
+
+  // todo voeg conditie toe dat als je dimension hebt je ook setDimension moet hebben = partial interface eerst voor maken
   setDimensions: (dimensions: ResponsiveDimensioningConfigModel) => ComponentModel
   //setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
   setPosition: (pos: ResponsivePositioningConfigModel) => ComponentModel

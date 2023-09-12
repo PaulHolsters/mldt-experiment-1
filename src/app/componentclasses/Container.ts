@@ -1,6 +1,6 @@
 import {Component} from "./Component";
-import {ComponentModel} from "../models/ComponentModel";
 import {BackgroundColorType} from "../enums/backgroundColorType.enum";
+import {ComponentModel} from "../design-dimensions/ComponentModel";
 
 export abstract class Container extends Component{
   public static children:ComponentModel[]|undefined=undefined

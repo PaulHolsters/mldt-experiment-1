@@ -1,6 +1,6 @@
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
-import {MainAxisVerticalPositioningConfigType} from "../../enums/mainAxisVerticalLayoutConfigTypes.enum";
-import {CrossAxisVerticalPositioningConfigType} from "../../enums/crossAxisRowLayoutConfigTypes.enum";
+import {MainAxisVerticalPositioningConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
+import {CrossAxisVerticalPositioningConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
 import {HeightConfigModel} from "../Dimensioning/HeightConfigModel";
 import {
   CrossAxisVerticalLanesPositioningConfigType

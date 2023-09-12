@@ -1,4 +1,4 @@
-export enum CrossAxisColumnLayoutConfigType{
+export enum HorizontalColumnLayoutConfigType{
   Left= 'CrossHorizontalLeft',
   Center= 'CrossHorizontalCenter',
   Right= 'CrossHorizontalRight',

@@ -12,19 +12,20 @@ import {ShrinkValueConfigType} from "../../enums/ShrinkValueConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {WidthConfigModel} from "./WidthConfigModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
-import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
-export class ResponsiveDimensioningConfigModel extends ResponsiveConfigModel<ResponsiveDimensioningConfigModel> implements ResponsiveConfigModelI<ResponsiveDimensioningConfigModel>{
-  highResolution: ResponsiveDimensioningConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
-  laptop: ResponsiveDimensioningConfigModel | ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
-  portraitTablet: ResponsiveDimensioningConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
-  smartphone: ResponsiveDimensioningConfigModel = new ResponsiveDimensioningConfigModel()
-  tablet: ResponsiveDimensioningConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
+export class ResponsiveDimensioningConfigModel extends ResponsiveConfigModel<ResponsiveDimensioningConfigModel>{
+  highResolution: DimensioningConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
+  laptop: DimensioningConfigModel | ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
+  portraitTablet: DimensioningConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
+  tablet: DimensioningConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   setDimensions(screensize:ScreenSize,model:DimensioningConfigModel){
     // todo
   }
+  constructor(public smartphone:DimensioningConfigModel){
+    super()
+  }
   public getDimensionsRenderProperties(screenSize: number): DimensioningRenderModel {
-    const translateToDimensioningComponentProps = (dimensionsConfig: DimensioningConfigModel): DimensioningRenderModel => {
+    const mapToDimensioningRenderProperties = (dimensionsConfig: DimensioningConfigModel): DimensioningRenderModel => {
       const compPropsObj = new DimensioningRenderModel()
       if (dimensionsConfig.height && dimensionsConfig.height instanceof HeightConfigModel) {
         if (dimensionsConfig.height.fixed && dimensionsConfig.height.fixed instanceof FixedDimensioningConfigModel) {
@@ -108,11 +109,9 @@ export class ResponsiveDimensioningConfigModel extends ResponsiveConfigModel<Res
       }
       return compPropsObj
     }
-    return this.getRenderProperties(screenSize,translateToDimensioningComponentProps)
+    return this.getRenderProperties(screenSize,mapToDimensioningRenderProperties)
   }
   getInstance(){
     return 'dimensions'
   }
-
-
 }

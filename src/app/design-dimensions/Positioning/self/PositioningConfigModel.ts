@@ -1,7 +1,7 @@
 import {
   CrossAxisHorizontalPositioningConfigType
-} from "../../../enums/crossAxisColumnLayoutConfigTypes.enum";
-import {CrossAxisVerticalPositioningConfigType} from "../../../enums/crossAxisRowLayoutConfigTypes.enum";
+} from "../../../enums/HorizontalColumnLayoutConfigTypes.enum";
+import {CrossAxisVerticalPositioningConfigType} from "../../../enums/VerticalRowLayoutConfigTypes.enum";
 import {DisplayType} from "../../../enums/displayType.enum";
 export class PositioningConfigModel {
   constructor(

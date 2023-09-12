@@ -1,10 +1,10 @@
 import {ParentRenderPropertiesModel} from "./ParentRenderPropertiesModel";
-import {ChildRenderPropertiesModel} from "./ChildRenderPropertiesModel";
+import {ChildPropertiesRenderModel} from "./ChildPropertiesRenderModel";
 
 export class ChildLayoutRenderModel {
   constructor(
     public parentProps:ParentRenderPropertiesModel,
-    public childProps:ChildRenderPropertiesModel|undefined
+    public childProps:ChildPropertiesRenderModel|undefined
   ) {
   }
 

@@ -60,6 +60,7 @@ import {
 import {
   ComponentSpecificRenderModel
 } from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
+import {ZeroValueType} from "../enums/zeroValueTypes.enum";
 
 export type ResponsiveConfigType<T> =
   T extends ResponsiveChildLayoutConfigModel ? ResponsiveChildLayoutConfigModel :
