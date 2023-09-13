@@ -8,15 +8,19 @@ export class ColumnLayoutConfigModel {
   public positionOfColumns:ColumnPositioningConfigType=ColumnPositioningConfigType.Left
   public wrap: boolean = true
   setHorizontalLayoutOfChildren(layout:HorizontalColumnLayoutConfigType){
-
+    this.horizontalLayoutOfChildren = layout
+    return this
   }
   setVerticalLayoutOfChildren(layout:VerticalColumnLayoutConfigType){
-
+    this.verticalLayoutOfChildren = layout
+    return this
   }
   setPositionOfColumns(positionOfColumns:ColumnPositioningConfigType){
-
+    this.positionOfColumns = positionOfColumns
+    return this
   }
-  setWrap(rowWrap:boolean){
-
+  setWrap(columnWrap:boolean){
+    this.wrap = columnWrap
+    return this
   }
 }

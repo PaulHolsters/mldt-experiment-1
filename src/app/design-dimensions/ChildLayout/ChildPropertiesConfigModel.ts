@@ -9,9 +9,11 @@ export class ChildPropertiesConfigModel {
   }
   setDimensions(dimensions:ResponsiveDimensioningConfigModel){
     this.dimensions = dimensions
+    return this
   }
   setVisibility(visibility:ResponsiveVisibilityConfigModel){
     this.visibility = visibility
+    return this
   }
 
 }
