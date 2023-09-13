@@ -1,11 +1,11 @@
 import {Component} from "./Component";
 import {TableStylingType} from "../enums/tableStylingType.enum";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
-import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {TableColumnModel} from "../design-dimensions/component-specific-config/table/TableColumnModel";
 import {DataRecordModel} from "../design-dimensions/DataRecordModel";
+import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 
 export abstract class Table extends Component{
   public static currentColumn:{field:string,header:string,sort:boolean,filter:boolean}|undefined=undefined
@@ -20,8 +20,8 @@ export abstract class Table extends Component{
   public static rows:number|undefined=undefined
   public static rowsPerPage:number[]|undefined=undefined
 
-  public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
-  public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
+  public static grow: number|undefined| ParentConfigType.grow= undefined
+  public static shrink: number|undefined| ParentConfigType.shrink= undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
   public static columns:TableColumnModel[]|undefined = undefined

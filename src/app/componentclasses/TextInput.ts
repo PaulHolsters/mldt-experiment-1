@@ -1,13 +1,10 @@
 import {Component} from "./Component";
-import {Input} from "@angular/core";
 import {IconType} from "../enums/iconType.enum";
 import {IconPositionType} from "../enums/iconPositionType.enum";
 import {RestrictionType} from "../enums/restrictionType.enum";
 import {NoValueType} from "../enums/no_value_type";
-import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
-import {ComponentDataType} from "../enums/componentDataTypes.enum";
-import {DataRecordModel} from "../models/DataRecordModel";
 import {Blueprint} from "../services/data/client/Blueprint";
+import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 export abstract class TextInput extends Component{
   public static width:string|undefined = undefined
   public static height:string|undefined = undefined
@@ -27,8 +24,8 @@ export abstract class TextInput extends Component{
   public static disabled: boolean | undefined= undefined
 
   public static keyFilter: string | RegExp | undefined | RestrictionType.NA | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"= undefined
-  public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
-  public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
+  public static grow: number|undefined| ParentConfigType.grow = undefined
+  public static shrink: number|undefined| ParentConfigType.shrink = undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
 

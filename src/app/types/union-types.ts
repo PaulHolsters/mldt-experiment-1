@@ -26,6 +26,15 @@ import {ResponsiveLabelConfigModel} from "../design-dimensions/label-config/Resp
 import {
   ResponsiveComponentSpecificConfigModel
 } from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
+import {
+  ResponsiveMenubarContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/menubar/ResponsiveMenubarContentInjectionConfigModel";
+import {
+  ResponsiveTableContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/table/ResponsiveTableContentInjectionConfigModel";
+import {
+  ResponsiveDialogContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/dialog/ResponsiveDialogContentInjectionConfigModel";
 
 export type ResponsiveConfigModelType =
   ResponsiveDimensioningConfigModel |
@@ -39,6 +48,9 @@ export type ResponsiveConfigModelType =
   ResponsiveIconConfigModel |
   ResponsiveLabelConfigModel |
   ResponsiveComponentSpecificConfigModel|
+  ResponsiveMenubarContentInjectionConfigModel |
+  ResponsiveTableContentInjectionConfigModel |
+  ResponsiveDialogContentInjectionConfigModel|
 
   ResponsiveOverflowConfigModel |
   ResponsivePositioningConfigModel |

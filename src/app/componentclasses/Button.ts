@@ -1,6 +1,5 @@
 import {Component} from "./Component";
-import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
-import {ComponentDataType} from "../enums/componentDataTypes.enum";
+import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 
 export abstract class Button extends Component{
   public static icon:string|undefined = undefined
@@ -13,8 +12,8 @@ export abstract class Button extends Component{
   public static calcWidth: string|undefined = undefined
   public static width:string|undefined = undefined
   public static height:string|undefined = undefined
-  public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
-  public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
+  public static grow: number|undefined| ParentConfigType.grow= undefined
+  public static shrink: number|undefined| ParentConfigType.shrink= undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
   public static display: string|undefined = undefined

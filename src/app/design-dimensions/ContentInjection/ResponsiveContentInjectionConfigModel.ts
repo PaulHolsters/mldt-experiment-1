@@ -1,32 +1,27 @@
 import {ContentInjectionConfigModel} from "./ContentInjectionConfigModel";
-import {ContentInjectionRenderModel} from "./ContentInjectionRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
+import {ContentInjectionRenderModel} from "./ContentInjectionRenderModel";
 
 export class ResponsiveContentInjectionConfigModel extends ResponsiveConfigModel<ResponsiveContentInjectionConfigModel> {
-  public smartphone:ContentInjectionConfigModel = new ContentInjectionConfigModel()
   public portraitTablet: ContentInjectionConfigModel|undefined = undefined
   public tablet:ContentInjectionConfigModel|undefined = undefined
   public laptop: ContentInjectionConfigModel|undefined = undefined
   public highResolution: ContentInjectionConfigModel|undefined = undefined
-  constructor() {
+  constructor(public smartphone:ContentInjectionConfigModel) {
     super()
   }
   getInstance(){
     return 'content-injection'
   }
   public getContentInjectionRenderProperties(screenSize: number): ContentInjectionRenderModel {
-    const translateToContentInjectionComponentProps = (CIConfig: ContentInjectionConfigModel): ContentInjectionRenderModel => {
-      return new ContentInjectionRenderModel(
-        CIConfig.start,
-        CIConfig.end,
-        CIConfig.content,
-        CIConfig.columnHeaderComponents,
-        CIConfig.footer,
-        CIConfig.caption,
-        CIConfig.extraColumns
-      )
+    const mapToToContentInjectionRenderProperties = (config: ContentInjectionConfigModel): ContentInjectionRenderModel => {
+      const renderInstance = new ContentInjectionRenderModel()
+      Object.entries(config).forEach(([k,v])=>{
+        if(v) renderInstance.setProperty(k,v)
+      })
+      return renderInstance
     }
-    return this.getRenderProperties(screenSize,translateToContentInjectionComponentProps)
+    return this.getRenderProperties(screenSize,mapToToContentInjectionRenderProperties)
   }
 
 }

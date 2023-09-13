@@ -61,6 +61,33 @@ import {
   ComponentSpecificRenderModel
 } from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
 import {ZeroValueType} from "../enums/zeroValueTypes.enum";
+import {
+  ResponsiveMenubarContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/menubar/ResponsiveMenubarContentInjectionConfigModel";
+import {
+  MenubarContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionConfigModel";
+import {
+  MenubarContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
+import {
+  ResponsiveTableContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/table/ResponsiveTableContentInjectionConfigModel";
+import {
+  TableContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
+import {
+  TableContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/table/TableContentInjectionRenderModel";
+import {
+  ResponsiveDialogContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/dialog/ResponsiveDialogContentInjectionConfigModel";
+import {
+  DialogContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionRenderModel";
+import {
+  DialogContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionConfigModel";
 
 export type ResponsiveConfigType<T> =
   T extends ResponsiveChildLayoutConfigModel ? ResponsiveChildLayoutConfigModel :
@@ -73,6 +100,9 @@ export type ResponsiveConfigType<T> =
                 T extends ResponsiveIconConfigModel ? ResponsiveIconConfigModel :
                   T extends ResponsiveLabelConfigModel ? ResponsiveLabelConfigModel :
                     T extends ResponsiveComponentSpecificConfigModel ? ResponsiveComponentSpecificConfigModel :
+                      T extends ResponsiveMenubarContentInjectionConfigModel ? ResponsiveMenubarContentInjectionConfigModel :
+                        T extends ResponsiveTableContentInjectionConfigModel ? ResponsiveTableContentInjectionConfigModel :
+                          T extends ResponsiveDialogContentInjectionConfigModel ? ResponsiveDialogContentInjectionConfigModel :
 
         T extends ResponsiveContentInjectionConfigModel ? ResponsiveContentInjectionConfigModel :
           T extends ResponsiveDataInputConfigModel ? ResponsiveDataInputConfigModel :
@@ -92,6 +122,9 @@ export type ConfigType<T> =
                 T extends ResponsiveIconConfigModel ? IconConfigModel :
                   T extends ResponsiveLabelConfigModel ? LabelConfigModel :
                     T extends ResponsiveComponentSpecificConfigModel ? ComponentSpecificConfigModel :
+                      T extends ResponsiveMenubarContentInjectionConfigModel ? MenubarContentInjectionConfigModel :
+                        T extends ResponsiveTableContentInjectionConfigModel ? TableContentInjectionConfigModel :
+                          T extends ResponsiveDialogContentInjectionConfigModel ? DialogContentInjectionConfigModel :
 
         T extends ResponsiveContentInjectionConfigModel ? ContentInjectionConfigModel :
           T extends ResponsiveDataInputConfigModel ? DataInputConfigModel :
@@ -111,6 +144,9 @@ export type RenderType<T> =
                 T extends ResponsiveIconConfigModel ? IconRenderModel :
                   T extends ResponsiveLabelConfigModel ? LabelRenderModel :
                     T extends ResponsiveComponentSpecificConfigModel ? ComponentSpecificRenderModel :
+                      T extends ResponsiveMenubarContentInjectionConfigModel ? MenubarContentInjectionRenderModel :
+                        T extends ResponsiveTableContentInjectionConfigModel ? TableContentInjectionRenderModel :
+                          T extends ResponsiveDialogContentInjectionConfigModel ? DialogContentInjectionRenderModel :
 
         T extends ResponsiveContentInjectionConfigModel ? ContentInjectionRenderModel :
           T extends ResponsiveDataInputConfigModel ? DataInputRenderModel :

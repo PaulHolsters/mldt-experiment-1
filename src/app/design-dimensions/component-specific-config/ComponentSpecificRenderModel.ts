@@ -1,17 +1,17 @@
 import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
-import {TableConfigModel} from "./table/TableConfigModel";
-import {ImageConfigModel} from "./image/ImageConfigModel";
-import {MenubarConfigModel} from "./menubar/MenubarConfigModel";
-import {ConfirmPopupConfigModel} from "./confirm-popup/ConfirmPopupConfigModel";
-import {DialogConfigModel} from "./dialog/DialogConfigModel";
+import {TableRenderModel} from "./table/TableRenderModel";
+import {ImageRenderModel} from "./image/ImageRenderModel";
+import {MenubarRenderModel} from "./menubar/MenubarRenderModel";
+import {ConfirmPopupRenderModel} from "./confirm-popup/ConfirmPopupRenderModel";
+import {DialogRenderModel} from "./dialog/DialogRenderModel";
 export class ComponentSpecificRenderModel {
-  public componentSpecificConfig:
-    TableConfigModel|
-    ImageConfigModel|
-    MenubarConfigModel|
-    ConfirmPopupConfigModel|
-    DialogConfigModel|undefined=undefined
+  public componentSpecificRenderModel:
+    TableRenderModel|
+    ImageRenderModel|
+    MenubarRenderModel|
+    ConfirmPopupRenderModel|
+    DialogRenderModel|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string|number|MenuItem[]|ComponentModel| undefined): void {

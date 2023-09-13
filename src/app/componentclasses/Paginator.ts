@@ -1,6 +1,6 @@
 import {Component} from "./Component";
-import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
-import {BorderModel} from "../models/BorderModel";
+import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
+import {BorderModel} from "../design-dimensions/BorderModel";
 
 export abstract class Paginator extends Component {
   public static rowsPerPageOptions: number[] | undefined = undefined
@@ -12,8 +12,8 @@ export abstract class Paginator extends Component {
   public static showJumpToPageDropdown:boolean | undefined = undefined
   public static showFirstLastIcon:boolean | undefined = undefined
   public static currentPageReportTemplate:string | undefined = undefined
-  public static grow: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
-  public static shrink: number|undefined| ComponentDimensionValueConfigType.Parent = undefined
+  public static grow: number|undefined| ParentConfigType.grow = undefined
+  public static shrink: number|undefined| ParentConfigType.shrink= undefined
   public static visible: boolean|undefined = undefined
   public static holdSpace: boolean|undefined = undefined
   public static calcHeight: string|undefined = undefined

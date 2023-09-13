@@ -1,18 +1,14 @@
 import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../ComponentModel";
-import {ComponentObjectModel} from "../ComponentObjectModel";
-import {NoValueType} from "../../enums/no_value_type";
-import {TableColumnModel} from "../component-specific-config/table/TableColumnModel";
+import {MenubarContentInjectionRenderModel} from "./menubar/MenubarContentInjectionRenderModel";
+import {DialogContentInjectionRenderModel} from "./dialog/DialogContentInjectionRenderModel";
+import {TableContentInjectionRenderModel} from "./table/TableContentInjectionRenderModel";
 export class ContentInjectionRenderModel {
-  constructor(
-    public start: ComponentModel|ComponentObjectModel|NoValueType,
-    public end: ComponentModel|ComponentObjectModel|NoValueType,
-    public content: ComponentModel|ComponentObjectModel|NoValueType,
-    public columnHeaderComponents: ComponentModel[]|ComponentObjectModel[]|NoValueType,
-    public footer: ComponentModel|ComponentObjectModel|NoValueType,
-    public caption: ComponentModel|ComponentObjectModel|NoValueType,
-    public extraColumns:TableColumnModel[]|NoValueType,
-  ) {
+  public componentContentInjectionRenderModel:
+    MenubarContentInjectionRenderModel|
+    DialogContentInjectionRenderModel|
+    TableContentInjectionRenderModel|undefined=undefined
+  constructor() {
   }
   public setProperty(propName: string, value: string|number|MenuItem[]|ComponentModel| undefined): void {
     if (Reflect.has(this, propName)) Reflect.set(this, propName, value)
