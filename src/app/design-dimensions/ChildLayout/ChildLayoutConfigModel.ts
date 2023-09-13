@@ -3,8 +3,8 @@ import {RowLayoutConfigModel} from "./RowLayoutConfigModel";
 import {ChildPropertiesConfigModel} from "./ChildPropertiesConfigModel";
 
 export class ChildLayoutConfigModel{
-  layout:RowLayoutConfigModel|ColumnLayoutConfigModel = new RowLayoutConfigModel()//parent
-  childConfig:ChildPropertiesConfigModel|undefined=undefined//child
+  layout:RowLayoutConfigModel|ColumnLayoutConfigModel = new RowLayoutConfigModel()
+  childConfig:ChildPropertiesConfigModel|undefined=undefined
   constructor() {
   }
   setLayout(layout:RowLayoutConfigModel|ColumnLayoutConfigModel):ChildLayoutConfigModel{

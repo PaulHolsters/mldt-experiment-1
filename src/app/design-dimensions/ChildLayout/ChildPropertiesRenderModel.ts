@@ -2,13 +2,13 @@ import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 
 export class ChildPropertiesRenderModel {
   //dynamic height or width (main axis)
-  public grow:number|undefined=undefined
-  public shrink:number|undefined=undefined
+  public grow:number|ParentConfigType.static|undefined=undefined
+  public shrink:number|ParentConfigType.static|undefined=undefined
   // static dimensions
-  public height:string|undefined=undefined
-  public calcHeight:string|undefined=undefined
-  public width:string|undefined=undefined
-  public calcWidth:string|undefined=undefined
+  public height:string|ParentConfigType.static|undefined=undefined
+  public calcHeight:string|ParentConfigType.static|undefined=undefined
+  public width:string|ParentConfigType.static|undefined=undefined
+  public calcWidth:string|ParentConfigType.static|undefined=undefined
   // visibility
   public visible: boolean|undefined = undefined
   public holdSpace: boolean|undefined = undefined

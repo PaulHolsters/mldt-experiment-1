@@ -37,14 +37,24 @@ export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<Resp
         childPropsObj.grow = childLayoutConfig.layout.dimensionsOfChildren.dynamic.grow
         childPropsObj.shrink = childLayoutConfig.layout.dimensionsOfChildren.dynamic.shrink
       }
+      if(childLayoutConfig.layout.dimensionsOfChildren.width) {
+        if(childLayoutConfig.layout.dimensionsOfChildren.width instanceof CalculatedDimensioningConfigModel){
+          childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width.value
+        } else if(childLayoutConfig.layout.dimensionsOfChildren.width instanceof NonCalculatedDimensioningConfigModel){
+          childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width.value+childLayoutConfig.layout.dimensionsOfChildren.width.unit
+        } else if(childLayoutConfig.layout.dimensionsOfChildren.width===ParentConfigType.static){
+          childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width
+          childPropsObj.calcWidth = childLayoutConfig.layout.dimensionsOfChildren.width
+        } else throw new Error('unimplemented option')
+      }
       if(childLayoutConfig.layout.dimensionsOfChildren.height) {
         if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof CalculatedDimensioningConfigModel){
           childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height.value
         } else if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof NonCalculatedDimensioningConfigModel){
-          // todo zet default pixels
           childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height.value+childLayoutConfig.layout.dimensionsOfChildren.height.unit
         } else if(childLayoutConfig.layout.dimensionsOfChildren.height===ParentConfigType.static){
-
+          childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height
+          childPropsObj.calcHeight = childLayoutConfig.layout.dimensionsOfChildren.height
         } else throw new Error('unimplemented option')
       }
       if(childLayoutConfig.layout instanceof RowLayoutConfigModel){
@@ -77,16 +87,6 @@ export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<Resp
         parentPropsObj.alignItemsStretch = childLayoutConfig.layout.horizontalLayoutOfChildren === HorizontalColumnLayoutConfigType.Stretch
       }
       if(childLayoutConfig.childConfig){
-        // todo fix opsplitsing in deze mapping
-        if(childLayoutConfig.childConfig.dimensions){
-
-          childPropsObj.calcHeight = dimensioningRenderModel.calcHeight
-          childPropsObj.height = dimensioningRenderModel.height
-          childPropsObj.calcWidth = dimensioningRenderModel.calcWidth
-          childPropsObj.width = dimensioningRenderModel.width
-          childPropsObj.grow = dimensioningRenderModel.grow
-          childPropsObj.shrink = dimensioningRenderModel.shrink
-        }
         if(childLayoutConfig.childConfig.visibility){
           const visibilityRenderModel = childLayoutConfig.childConfig.visibility.getVisibilityRenderProperties(screenSize)
           childPropsObj.holdSpace = visibilityRenderModel.holdSpace
