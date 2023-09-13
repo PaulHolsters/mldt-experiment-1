@@ -1,10 +1,15 @@
-import {MenuItem} from "primeng/api";
-import {ComponentModel} from "../../ComponentModel";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {LocaleType} from "../../../enums/localeType.enum";
+import {CurrencyType} from "../../../enums/currencyType.enum";
+import {CurrencyDisplayType} from "../../../enums/currencyDisplayType.enum";
 
 export class NumberInputDataRepresentationRenderModel {
-  public start: ComponentModel|ZeroValueType.NotConfigured|undefined=undefined
-  public end: ComponentModel|ZeroValueType.NotConfigured|undefined=undefined
+  public useGrouping: boolean|undefined=undefined
+  public locale: LocaleType|undefined=undefined
+  public currency: CurrencyType | ZeroValueType.NotConfigured|undefined=undefined
+  public currencyDisplay: CurrencyDisplayType | ZeroValueType.NotConfigured|undefined=undefined
+  public minFractionDigits: number|undefined=undefined
+  public maxFractionDigits: number |undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {
