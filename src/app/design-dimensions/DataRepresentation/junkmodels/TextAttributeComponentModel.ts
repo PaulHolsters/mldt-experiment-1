@@ -1,8 +1,8 @@
-import {InputFontSizeType} from "../../enums/inputFontSizeType.enum";
-import {IconType} from "../../enums/iconType.enum";
-import {IconPositionType} from "../../enums/iconPositionType.enum";
-import {RestrictionType} from "../../enums/restrictionType.enum";
-import {NoValueType} from "../../enums/no_value_type";
+import {InputFontSizeType} from "../../../enums/inputFontSizeType.enum";
+import {IconType} from "../../../enums/iconType.enum";
+import {IconPositionType} from "../../../enums/iconPositionType.enum";
+import {RestrictionType} from "../../../enums/restrictionType.enum";
+import {NoValueType} from "../../../enums/no_value_type";
 export class TextAttributeComponentModel {
 constructor(
   public only:RestrictionType|NoValueType.NI,

@@ -1,5 +1,5 @@
-import {NoValueType} from "../../enums/no_value_type";
-import {FunctionType} from "../../enums/functionTypes.enum";
+import {NoValueType} from "../../../enums/no_value_type";
+import {FunctionType} from "../../../enums/functionTypes.enum";
 
 export class RadioAttributeConfigModel {
 constructor(

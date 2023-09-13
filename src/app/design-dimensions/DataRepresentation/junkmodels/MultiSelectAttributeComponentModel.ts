@@ -1,6 +1,6 @@
-import {NoValueType} from "../../enums/no_value_type";
-import {DataObjectModel} from "../DataObjectModel";
-import {DataRecordModel} from "../DataRecordModel";
+import {NoValueType} from "../../../enums/no_value_type";
+import {DataObjectModel} from "../../DataObjectModel";
+import {DataRecordModel} from "../../DataRecordModel";
 
 export class MultiSelectAttributeComponentModel {
   constructor(

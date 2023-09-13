@@ -1,11 +1,11 @@
-import {NoValueType} from "../../enums/no_value_type";
+import {NoValueType} from "../../../enums/no_value_type";
 import {TextAttributeComponentModel} from "./TextAttributeComponentModel";
 import {NumberAttributeComponentModel} from "./NumberAttributeComponentModel";
 import {RadioAttributeComponentModel} from "./RadioAttributeComponentModel";
 import {MultiSelectAttributeComponentModel} from "./MultiSelectAttributeComponentModel";
-import {DataRecordModel} from "../DataRecordModel";
+import {DataRecordModel} from "../../DataRecordModel";
 import {TableColumnAttributeComponentModel} from "./TableColumnAttributeComponentModel";
-import {BlueprintType} from "../../types/type-aliases";
+import {BlueprintType} from "../../../types/type-aliases";
 export class AttributeComponentModel {
 constructor(
   public name:string,

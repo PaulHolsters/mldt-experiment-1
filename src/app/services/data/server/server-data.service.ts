@@ -14,7 +14,7 @@ import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
-import {AttributeComponentModel} from "../../../design-dimensions/DataRepresentation/AttributeComponentModel";
+import {AttributeComponentModel} from "../../../design-dimensions/DataRepresentation/junkmodels/AttributeComponentModel";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 
 // todo fix

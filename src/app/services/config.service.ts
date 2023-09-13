@@ -383,7 +383,7 @@ export class ConfigService {
       if (component.name !== compName) {
         if (component.children) {
           for (let j = 0; j < component.children.length; j++) {
-            // hier ga je bv de menubar component hebben
+            // hier ga je bv de NumberInput component hebben
             const childComp = component.children[j]
             if (typeof childComp !== 'string') {
               const comp = this.getComponentConfig(compName, this.convertToComponentModel(childComp))

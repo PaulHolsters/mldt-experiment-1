@@ -1,34 +1,25 @@
 import {DataRepresentationConfigModel} from "./DataRepresentationConfigModel";
 import {DataRepresentationRenderModel} from "./DataRepresentationRenderModel";
-import {ScreenSize} from "../../enums/screenSizes.enum";
-export class ResponsiveDataRepresentationConfigModel {
-  constructor(public smartphone:DataRepresentationConfigModel = new DataRepresentationConfigModel(),
-              public portraitTablet?: DataRepresentationConfigModel,
-              public tablet?:DataRepresentationConfigModel,
-              public laptop?: DataRepresentationConfigModel,
-              public highResolution?: DataRepresentationConfigModel) {
+import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
+export class ResponsiveDataRepresentationConfigModel extends ResponsiveConfigModel<ResponsiveDataRepresentationConfigModel> {
+  public portraitTablet: DataRepresentationConfigModel|undefined = undefined
+  public tablet:DataRepresentationConfigModel|undefined = undefined
+  public laptop: DataRepresentationConfigModel|undefined = undefined
+  public highResolution: DataRepresentationConfigModel|undefined = undefined
+  constructor(public smartphone:DataRepresentationConfigModel) {
+    super()
   }
-
   getInstance(){
     return 'data-representation'
   }
   public getDataRepresentationRenderProperties(componentName: string, stateModel: ResponsiveDataRepresentationConfigModel, screenSize: number):DataRepresentationRenderModel{
-    const translateToDataRepresentationRenderProps = (dataRep: DataRepresentationConfigModel): DataRepresentationRenderModel => {
-      // todo
-      return new DataRepresentationRenderModel()
+    const mapToToDataRepresentationRenderProps = (config: DataRepresentationConfigModel): DataRepresentationRenderModel => {
+      const renderInstance = new DataRepresentationRenderModel()
+      Object.entries(config).forEach(([k,v])=>{
+        if(v) renderInstance.setProperty(k,v)
+      })
+      return renderInstance
     }
-    // todo zet om in een aparte functie
-    let lastScreenSize = screenSize
-    const stateModelObj = Object.create(stateModel)
-    while (lastScreenSize >= 0) {
-      if (stateModelObj[ScreenSize[lastScreenSize]]) {
-        return translateToDataRepresentationRenderProps(stateModelObj[ScreenSize[lastScreenSize]])
-      }
-      lastScreenSize--
-    }
-    // todo zet om in een log functie of werk exceptions weg
-    throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
+    return this.getRenderProperties(screenSize,mapToToDataRepresentationRenderProps)
   }
-
-
 }

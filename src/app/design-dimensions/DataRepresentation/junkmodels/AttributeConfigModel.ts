@@ -1,10 +1,10 @@
 import {ClientDataConfigModel} from "../Data/ClientDataConfigModel";
 import {TextAttributeConfigModel} from "./TextAttributeConfigModel";
 import {NumberAttributeConfigModel} from "./NumberAttributeConfigModel";
-import {NoValueType} from "../../enums/no_value_type";
+import {NoValueType} from "../../../enums/no_value_type";
 import {RadioAttributeConfigModel} from "./RadioAttributeConfigModel";
 import {MultiSelectAttributeConfigModel} from "./MultiSelectAttributeConfigModel";
-import {DataRecordModel} from "../DataRecordModel";
+import {DataRecordModel} from "../../DataRecordModel";
 import {TableColumnAttributeConfigModel} from "./TableColumnAttributeConfigModel";
 export class AttributeConfigModel {
 constructor(

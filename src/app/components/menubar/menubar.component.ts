@@ -2,14 +2,14 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, 
 import {Observable} from "rxjs";
 import {RenderPropertiesService} from "../../services/renderProperties.service";
 @Component({
-  selector: 'm-menubar',
+  selector: 'm-NumberInput',
   templateUrl: './menubar.component.html',
   styleUrls: ['./menubar.component.css']
 })
 export class MenubarComponent implements OnInit,AfterViewInit {
   @Input() name = ''
   @Input() data:any|undefined
-  @ViewChild('menubar') menubar:ElementRef|undefined
+  @ViewChild('NumberInput') menubar:ElementRef|undefined
   menuItems$:Observable<any>|undefined
   start$:Observable<any>|undefined
   end$:Observable<any>|undefined

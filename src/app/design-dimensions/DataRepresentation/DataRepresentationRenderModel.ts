@@ -1,10 +1,12 @@
-import {RestrictionType} from "../../enums/restrictionType.enum";
+import {NumberInputDataRepresentationRenderModel} from "./NumberInput/NumberInputDataRepresentationRenderModel";
 
 export class DataRepresentationRenderModel {
-constructor(
-  // todo al deze props geven andere render props zoals keyFilter bij een textInput
-  public only:RestrictionType[]|RestrictionType.NI=RestrictionType.NI,
-  public customRestriction:RegExp|RestrictionType.NA=RestrictionType.NA,
-  ) {
-}
+  public componentRenderModel: NumberInputDataRepresentationRenderModel | undefined = undefined
+  constructor() {
+  }
+
+  public setProperty(propName: string, value: string): void {
+    if (Reflect.has(this, propName)) Reflect.set(this, propName, value)
+    else throw new Error('cannot set property ' + propName + ' because it does not exist on the object of type TableRenderModel')
+  }
 }
