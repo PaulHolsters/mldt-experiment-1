@@ -9,6 +9,9 @@ import {HorizontalRowLayoutConfigType} from "../../enums/HorizontalRowLayoutConf
 import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
 import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
 import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
+import {CalculatedDimensioningConfigModel} from "../Dimensioning/CalculatedDimensioningConfigModel";
+import {NonCalculatedDimensioningConfigModel} from "../Dimensioning/NonCalculatedDimensioningConfigModel";
+import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 
 export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveChildLayoutConfigModel>{
   public smartphone:ChildLayoutConfigModel = new ChildLayoutConfigModel()
@@ -30,6 +33,20 @@ export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<Resp
       const parentPropsObj = new ParentRenderPropertiesModel()
       const childPropsObj = new ChildPropertiesRenderModel()
       parentPropsObj.wrap = childLayoutConfig.layout.wrap
+      if(childLayoutConfig.layout.dimensionsOfChildren.dynamic){
+        childPropsObj.grow = childLayoutConfig.layout.dimensionsOfChildren.dynamic.grow
+        childPropsObj.shrink = childLayoutConfig.layout.dimensionsOfChildren.dynamic.shrink
+      }
+      if(childLayoutConfig.layout.dimensionsOfChildren.height) {
+        if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof CalculatedDimensioningConfigModel){
+          childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height.value
+        } else if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof NonCalculatedDimensioningConfigModel){
+          // todo zet default pixels
+          childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height.value+childLayoutConfig.layout.dimensionsOfChildren.height.unit
+        } else if(childLayoutConfig.layout.dimensionsOfChildren.height===ParentConfigType.static){
+
+        } else throw new Error('unimplemented option')
+      }
       if(childLayoutConfig.layout instanceof RowLayoutConfigModel){
         parentPropsObj.row = true
         parentPropsObj.column = false
@@ -62,7 +79,7 @@ export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<Resp
       if(childLayoutConfig.childConfig){
         // todo fix opsplitsing in deze mapping
         if(childLayoutConfig.childConfig.dimensions){
-          const dimensioningRenderModel = childLayoutConfig.childConfig.dimensions.getDimensionsRenderProperties(screenSize)
+
           childPropsObj.calcHeight = dimensioningRenderModel.calcHeight
           childPropsObj.height = dimensioningRenderModel.height
           childPropsObj.calcWidth = dimensioningRenderModel.calcWidth
