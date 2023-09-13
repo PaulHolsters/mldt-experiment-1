@@ -1,16 +1,11 @@
 import {DimensioningConfigModel} from "./DimensioningConfigModel";
 import {ScreenSize} from "../../enums/screenSizes.enum";
 import {DimensioningRenderModel} from "./DimensioningRenderModel";
-import {HeightConfigModel} from "./HeightConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {FixedDimensionValueConfigType} from "../../enums/FixedDimensionValueConfigTypes.enum";
-import {ComponentDimensionValueConfigType} from "../../enums/componentDimensionValueConfigTypes.enum";
 import {DynamicDimensioningConfigModel} from "./DynamicDimensioningConfigModel";
-import {GrowValueConfigType} from "../../enums/GrowValueConfigTypes.enum";
-import {ShrinkValueConfigType} from "../../enums/ShrinkValueConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
-import {WidthConfigModel} from "./WidthConfigModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 export class ResponsiveDimensioningConfigModel extends ResponsiveConfigModel<ResponsiveDimensioningConfigModel>{
@@ -27,6 +22,18 @@ export class ResponsiveDimensioningConfigModel extends ResponsiveConfigModel<Res
   public getDimensionsRenderProperties(screenSize: number): DimensioningRenderModel {
     const mapToDimensioningRenderProperties = (dimensionsConfig: DimensioningConfigModel): DimensioningRenderModel => {
       const compPropsObj = new DimensioningRenderModel()
+      if(dimensionsConfig.width){
+
+      }
+      if(dimensionsConfig.height){
+
+      }
+
+
+
+
+
+
       if (dimensionsConfig.height && dimensionsConfig.height instanceof HeightConfigModel) {
         if (dimensionsConfig.height.fixed && dimensionsConfig.height.fixed instanceof FixedDimensioningConfigModel) {
           switch (dimensionsConfig.height.fixed.type) {

@@ -1,10 +1,10 @@
-import {GrowValueConfigType} from "../../enums/GrowValueConfigTypes.enum";
-import {ShrinkValueConfigType} from "../../enums/ShrinkValueConfigTypes.enum";
+import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 
 export class DynamicDimensioningConfigModel {
+  public grow: number|ParentConfigType.grow=0
+  public shrink: number|ParentConfigType.shrink=0
   constructor(
-    public grow: number|GrowValueConfigType,
-    public shrink: number|ShrinkValueConfigType
   ) {
   }
+  // todo setters
 }

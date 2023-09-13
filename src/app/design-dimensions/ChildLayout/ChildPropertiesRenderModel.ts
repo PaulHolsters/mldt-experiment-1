@@ -1,9 +1,8 @@
-import {ComponentDimensionValueConfigType} from "../../enums/componentDimensionValueConfigTypes.enum";
 
 export class ChildPropertiesRenderModel {
   //dynamic height or width (main axis)
-  public grow:number|ComponentDimensionValueConfigType|undefined=undefined
-  public shrink:number|ComponentDimensionValueConfigType|undefined=undefined
+  public grow:number|undefined=undefined
+  public shrink:number|undefined=undefined
   // static dimensions
   public height:string|undefined=undefined
   public calcHeight:string|undefined=undefined

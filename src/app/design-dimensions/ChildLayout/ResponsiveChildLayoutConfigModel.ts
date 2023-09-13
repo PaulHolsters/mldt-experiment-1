@@ -60,6 +60,7 @@ export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<Resp
         parentPropsObj.alignItemsStretch = childLayoutConfig.layout.horizontalLayoutOfChildren === HorizontalColumnLayoutConfigType.Stretch
       }
       if(childLayoutConfig.childConfig){
+        // todo fix opsplitsing in deze mapping
         if(childLayoutConfig.childConfig.dimensions){
           const dimensioningRenderModel = childLayoutConfig.childConfig.dimensions.getDimensionsRenderProperties(screenSize)
           childPropsObj.calcHeight = dimensioningRenderModel.calcHeight
