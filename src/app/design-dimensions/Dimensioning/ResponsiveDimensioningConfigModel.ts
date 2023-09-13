@@ -8,6 +8,10 @@ import {DynamicDimensioningConfigModel} from "./DynamicDimensioningConfigModel";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+import {CalculatedDimensioningConfigModel} from "./CalculatedDimensioningConfigModel";
+import {NonCalculatedDimensioningConfigModel} from "./NonCalculatedDimensioningConfigModel";
+import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
+
 export class ResponsiveDimensioningConfigModel extends ResponsiveConfigModel<ResponsiveDimensioningConfigModel>{
   highResolution: DimensioningConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   laptop: DimensioningConfigModel | ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
@@ -23,96 +27,28 @@ export class ResponsiveDimensioningConfigModel extends ResponsiveConfigModel<Res
     const mapToDimensioningRenderProperties = (dimensionsConfig: DimensioningConfigModel): DimensioningRenderModel => {
       const compPropsObj = new DimensioningRenderModel()
       if(dimensionsConfig.width){
-
+        if(dimensionsConfig.width instanceof CalculatedDimensioningConfigModel){
+          compPropsObj.width = dimensionsConfig.width.value
+        } else if(dimensionsConfig.width instanceof NonCalculatedDimensioningConfigModel){
+          compPropsObj.width = dimensionsConfig.width.value+dimensionsConfig.width.unit
+        } else if(dimensionsConfig.width === ParentConfigType.static){
+          compPropsObj.width = ParentConfigType.static
+          compPropsObj.calcWidth = ParentConfigType.static
+        } else throw new Error('Er is een optie bijgekomen die nog niet werd geïmplementeerd')
       }
       if(dimensionsConfig.height){
-
+        if(dimensionsConfig.height instanceof CalculatedDimensioningConfigModel){
+          compPropsObj.height = dimensionsConfig.height.value
+        } else if(dimensionsConfig.height instanceof NonCalculatedDimensioningConfigModel){
+          compPropsObj.height = dimensionsConfig.height.value+dimensionsConfig.height.unit
+        } else if(dimensionsConfig.height === ParentConfigType.static){
+          compPropsObj.height = ParentConfigType.static
+          compPropsObj.calcHeight = ParentConfigType.static
+        } else throw new Error('Er is een optie bijgekomen die nog niet werd geïmplementeerd')
       }
-
-
-
-
-
-
-      if (dimensionsConfig.height && dimensionsConfig.height instanceof HeightConfigModel) {
-        if (dimensionsConfig.height.fixed && dimensionsConfig.height.fixed instanceof FixedDimensioningConfigModel) {
-          switch (dimensionsConfig.height.fixed.type) {
-            case DimensionValueConfigType.Hardcoded:
-              switch (dimensionsConfig.height.fixed.unit) {
-                case DimensionUnitConfigType.REM:
-                  compPropsObj.height = dimensionsConfig.height.fixed.value + 'rem'
-                  break
-                case DimensionUnitConfigType.PX:
-                  compPropsObj.height = dimensionsConfig.height.fixed.value + 'px'
-                  break
-                case DimensionUnitConfigType.Percentage:
-                  compPropsObj.height = dimensionsConfig.height.fixed.value + '%'
-                  break
-              }
-              break
-            case DimensionValueConfigType.Calculated:
-              if (typeof dimensionsConfig.height.fixed.value === 'string')
-                compPropsObj.calcHeight = dimensionsConfig.height.fixed.value
-              break
-          }
-        } else if (dimensionsConfig.height.fixed && dimensionsConfig.height.fixed === FixedDimensionValueConfigType.Parent) {
-          compPropsObj.height = ComponentDimensionValueConfigType.Parent
-        }
-        if (dimensionsConfig.height.dynamic && dimensionsConfig.height.dynamic instanceof DynamicDimensioningConfigModel) {
-          if (dimensionsConfig.height.dynamic.grow && dimensionsConfig.height.dynamic.grow === GrowValueConfigType.Parent) {
-            compPropsObj.grow = ComponentDimensionValueConfigType.Parent
-          } else if (dimensionsConfig.height.dynamic.grow && !isNaN(dimensionsConfig.height.dynamic.grow)) {
-            compPropsObj.grow = dimensionsConfig.height.dynamic.grow
-          }
-          if (dimensionsConfig.height.dynamic.shrink && dimensionsConfig.height.dynamic.shrink === ShrinkValueConfigType.Parent) {
-            compPropsObj.shrink = ComponentDimensionValueConfigType.Parent
-          } else if (dimensionsConfig.height.dynamic.shrink && !isNaN(dimensionsConfig.height.dynamic.shrink)) {
-            compPropsObj.shrink = dimensionsConfig.height.dynamic.shrink
-          }
-        } else if (dimensionsConfig.height.dynamic === DynamicDimensionValueConfigType.Parent) {
-          compPropsObj.grow = ComponentDimensionValueConfigType.Parent
-          compPropsObj.shrink = ComponentDimensionValueConfigType.Parent
-        }
-      }
-      if (dimensionsConfig.width && dimensionsConfig.width instanceof WidthConfigModel) {
-        if (dimensionsConfig.width.fixed && dimensionsConfig.width.fixed instanceof FixedDimensioningConfigModel) {
-          switch (dimensionsConfig.width.fixed.type) {
-            case DimensionValueConfigType.Hardcoded:
-              switch (dimensionsConfig.width.fixed.unit) {
-                case DimensionUnitConfigType.REM:
-                  compPropsObj.width = dimensionsConfig.width.fixed.value + 'rem'
-                  break
-                case DimensionUnitConfigType.PX:
-                  compPropsObj.width = dimensionsConfig.width.fixed.value + 'px'
-                  break
-                case DimensionUnitConfigType.Percentage:
-                  compPropsObj.width = dimensionsConfig.width.fixed.value + '%'
-                  break
-              }
-              break
-            case DimensionValueConfigType.Calculated:
-              if (typeof dimensionsConfig.width.fixed.value === 'string')
-                compPropsObj.calcWidth = dimensionsConfig.width.fixed.value
-              break
-          }
-        } else if (dimensionsConfig.width.fixed && dimensionsConfig.width.fixed === FixedDimensionValueConfigType.Parent) {
-          compPropsObj.width = ComponentDimensionValueConfigType.Parent
-        }
-        if (dimensionsConfig.width.dynamic && dimensionsConfig.width.dynamic instanceof DynamicDimensioningConfigModel) {
-          if (dimensionsConfig.width.dynamic.grow && dimensionsConfig.width.dynamic.grow === GrowValueConfigType.Parent) {
-            compPropsObj.grow = ComponentDimensionValueConfigType.Parent
-          } else if (dimensionsConfig.width.dynamic.grow && !isNaN(dimensionsConfig.width.dynamic.grow)) {
-            compPropsObj.grow = dimensionsConfig.width.dynamic.grow
-          }
-          if (dimensionsConfig.width.dynamic.shrink && dimensionsConfig.width.dynamic.shrink === ShrinkValueConfigType.Parent) {
-            compPropsObj.shrink = ComponentDimensionValueConfigType.Parent
-          } else if (dimensionsConfig.width.dynamic.shrink && !isNaN(dimensionsConfig.width.dynamic.shrink)) {
-            compPropsObj.shrink = dimensionsConfig.width.dynamic.shrink
-          }
-        } else if (dimensionsConfig.width.dynamic === DynamicDimensionValueConfigType.Parent) {
-          compPropsObj.grow = ComponentDimensionValueConfigType.Parent
-          compPropsObj.shrink = ComponentDimensionValueConfigType.Parent
-        }
+      if(dimensionsConfig.dynamic){
+        compPropsObj.grow = dimensionsConfig.dynamic.grow
+        compPropsObj.shrink = dimensionsConfig.dynamic.shrink
       }
       return compPropsObj
     }

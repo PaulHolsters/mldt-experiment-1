@@ -6,5 +6,12 @@ export class DynamicDimensioningConfigModel {
   constructor(
   ) {
   }
-  // todo setters
+  public setGrow(grow:number|ParentConfigType.grow){
+    this.grow = grow
+    return this
+  }
+  public setShrink(shrink:number|ParentConfigType.shrink){
+    this.shrink = shrink
+    return this
+  }
 }
