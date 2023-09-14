@@ -1,5 +1,5 @@
 import {ResponsiveTableConfigModel} from "./component-specific-config/table/ResponsiveTableConfigModel";
-import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
+import {ResponsivePositioningConfigModel} from "./Positioning/ResponsivePositioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveDimensioningConfigModel} from "./Dimensioning/ResponsiveDimensioningConfigModel";
 import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";

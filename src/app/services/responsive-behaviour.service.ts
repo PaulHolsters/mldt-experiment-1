@@ -13,7 +13,7 @@ import {ComponentModelType} from "../types/union-types";
 import {DimensioningRenderModel} from "../design-dimensions/Dimensioning/DimensioningRenderModel";
 import {ChildLayoutRenderModel} from "../design-dimensions/ChildLayout/ChildLayoutRenderModel";
 import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
-import {PositioningRenderModel} from "../design-dimensions/Positioning/self/PositioningRenderModel";
+import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
 import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";

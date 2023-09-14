@@ -1,6 +1,6 @@
 import {ComponentType} from "../enums/componentTypes.enum";
 import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
-import {ResponsivePositioningConfigModel} from "./Positioning/self/ResponsivePositioningConfigModel";
+import {ResponsivePositioningConfigModel} from "./Positioning/ResponsivePositioningConfigModel";
 import {ResponsiveDimensioningConfigModel} from "./Dimensioning/ResponsiveDimensioningConfigModel";
 import {ResponsiveTableConfigModel} from "./component-specific-config/table/ResponsiveTableConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";

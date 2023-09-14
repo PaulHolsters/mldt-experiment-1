@@ -16,16 +16,16 @@ import {
   ResponsiveDataRepresentationConfigModel
 } from "../design-dimensions/DataRepresentation/ResponsiveDataRepresentationConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/self/ResponsiveOverflowConfigModel";
-import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/self/ResponsivePositioningConfigModel";
+import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/ResponsivePositioningConfigModel";
 import {DataRepresentationConfigModel} from "../design-dimensions/DataRepresentation/DataRepresentationConfigModel";
 import {DataInputConfigModel} from "../design-dimensions/DataInput/DataInputConfigModel";
 import {ContentInjectionConfigModel} from "../design-dimensions/ContentInjection/ContentInjectionConfigModel";
 import {OverflowConfigModel} from "../design-dimensions/Overflow/self/OverflowConfigModel";
-import {PositioningConfigModel} from "../design-dimensions/Positioning/self/PositioningConfigModel";
+import {PositioningConfigModel} from "../design-dimensions/Positioning/PositioningConfigModel";
 import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/self/OverflowRenderModel";
 import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
-import {PositioningRenderModel} from "../design-dimensions/Positioning/self/PositioningRenderModel";
+import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
 import {DataInputRenderModel} from "../design-dimensions/DataInput/DataInputRenderModel";
 import {TableConfigModel} from "../design-dimensions/component-specific-config/table/TableConfigModel";
 import {TableRenderModel} from "../design-dimensions/component-specific-config/table/TableRenderModel";

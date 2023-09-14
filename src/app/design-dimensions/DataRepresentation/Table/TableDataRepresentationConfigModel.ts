@@ -4,6 +4,7 @@ import {CurrencyDisplayType} from "../../../enums/currencyDisplayType.enum";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {NoValueType} from "../../../enums/no_value_type";
 export class TableDataRepresentationConfigModel {
+  // todo
   public sort:boolean = false
   public label:string|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public customSort:Function|NoValueType.NA= NoValueType.NA

@@ -10,7 +10,7 @@ import {ActionIdType} from "../types/type-aliases";
 import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubject";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
-import {PositioningRenderModel} from "../design-dimensions/Positioning/self/PositioningRenderModel";
+import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
 import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/self/OverflowRenderModel";
 import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";

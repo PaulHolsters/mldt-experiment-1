@@ -4,7 +4,7 @@ import {ResponsiveChildLayoutConfigModel} from "../design-dimensions/ChildLayout
 import {ContainerModel} from "../components/container/ContainerModel";
 import {ResponsiveTableConfigModel} from "../design-dimensions/component-specific-config/table/ResponsiveTableConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/self/ResponsiveOverflowConfigModel";
-import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/self/ResponsivePositioningConfigModel";
+import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/ResponsivePositioningConfigModel";
 import {
   ResponsiveContentInjectionConfigModel
 } from "../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";

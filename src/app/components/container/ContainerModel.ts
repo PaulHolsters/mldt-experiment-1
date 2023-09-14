@@ -1,13 +1,16 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {
   ResponsivePositioningConfigModel
-} from "../../design-dimensions/Positioning/self/ResponsivePositioningConfigModel";
+} from "../../design-dimensions/Positioning/ResponsivePositioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveChildLayoutConfigModel} from "../../design-dimensions/ChildLayout/ResponsiveChildLayoutConfigModel";
 import {
   ResponsiveDimensioningConfigModel
 } from "../../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../design-dimensions/Dimensioning/DimensioningConfigModel";
+import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+
 export class ContainerModel extends ComponentModel implements ComponentI{
   public name:string
   public componentSpecificConfig: undefined = undefined
@@ -22,7 +25,8 @@ export class ContainerModel extends ComponentModel implements ComponentI{
   public contentInjection: undefined = undefined
   public dataInput: undefined = undefined
   public dataRepresentation: undefined = undefined
-  public dimensions: ResponsiveDimensioningConfigModel = new ResponsiveDimensioningConfigModel()
+  public dimensions: ResponsiveDimensioningConfigModel
+    = new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(ZeroValueType.NotConfigured, ZeroValueType.NotConfigured))
   //public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
   public position: ResponsivePositioningConfigModel = new ResponsivePositioningConfigModel()
   //public styling: ResponsiveStylingConfigModel = new ResponsiveStylingConfigModel()

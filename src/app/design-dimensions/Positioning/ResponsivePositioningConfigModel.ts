@@ -1,6 +1,6 @@
 import {PositioningConfigModel} from "./PositioningConfigModel";
 import {PositioningRenderModel} from "./PositioningRenderModel";
-import {ScreenSize} from "../../../enums/screenSizes.enum";
+import {ScreenSize} from "../../enums/screenSizes.enum";
 export class ResponsivePositioningConfigModel {
   constructor(public smartphone:PositioningConfigModel=new PositioningConfigModel(),
               public portraitTablet?: PositioningConfigModel,
