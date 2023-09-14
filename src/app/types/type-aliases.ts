@@ -12,4 +12,3 @@ export type ConditionType = string
 
 export type NotConfigured = undefined
 
-

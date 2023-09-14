@@ -1,15 +1,9 @@
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-import {LocaleType} from "../../../enums/localeType.enum";
-import {CurrencyType} from "../../../enums/currencyType.enum";
-import {CurrencyDisplayType} from "../../../enums/currencyDisplayType.enum";
 
 export class TableDataRepresentationRenderModel {
-  public useGrouping: boolean|undefined=undefined
-  public locale: LocaleType|undefined=undefined
-  public currency: CurrencyType | ZeroValueType.NotConfigured|undefined=undefined
-  public currencyDisplay: CurrencyDisplayType | ZeroValueType.NotConfigured|undefined=undefined
-  public minFractionDigits: number|undefined=undefined
-  public maxFractionDigits: number |undefined=undefined
+  public label:string|ZeroValueType.DeterminedByEngine|undefined=undefined
+  public sort:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function|undefined=undefined
+  public filter:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

@@ -2,7 +2,6 @@ import {ChildLayoutRenderModel} from "../design-dimensions/ChildLayout/ChildLayo
 import {DimensioningRenderModel} from "../design-dimensions/Dimensioning/DimensioningRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ResponsiveTableConfigModel} from "../design-dimensions/component-specific-config/table/ResponsiveTableConfigModel";
 import {VisibilityConfigModel} from "../design-dimensions/Visibility/VisibilityConfigModel";
 import {ChildLayoutConfigModel} from "../design-dimensions/ChildLayout/ChildLayoutConfigModel";
 import {ResponsiveChildLayoutConfigModel} from "../design-dimensions/ChildLayout/ResponsiveChildLayoutConfigModel";
@@ -27,16 +26,6 @@ import {OverflowRenderModel} from "../design-dimensions/Overflow/self/OverflowRe
 import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
 import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
 import {DataInputRenderModel} from "../design-dimensions/DataInput/DataInputRenderModel";
-import {TableConfigModel} from "../design-dimensions/component-specific-config/table/TableConfigModel";
-import {TableRenderModel} from "../design-dimensions/component-specific-config/table/TableRenderModel";
-import {ImageConfigModel} from "../design-dimensions/component-specific-config/image/ImageConfigModel";
-import {ImageRenderModel} from "../design-dimensions/component-specific-config/image/ImageRenderModel";
-import {MenubarRenderModel} from "../design-dimensions/component-specific-config/menubar/MenubarRenderModel";
-import {MenubarConfigModel} from "../design-dimensions/component-specific-config/menubar/MenubarConfigModel";
-import {ConfirmPopupRenderModel} from "../design-dimensions/component-specific-config/confirm-popup/ConfirmPopupRenderModel";
-import {ConfirmPopupConfigModel} from "../design-dimensions/component-specific-config/confirm-popup/ConfirmPopupConfigModel";
-import {DialogConfigModel} from "../design-dimensions/component-specific-config/dialog/DialogConfigModel";
-import {DialogRenderModel} from "../design-dimensions/component-specific-config/dialog/DialogRenderModel";
 import {ResponsiveIconConfigModel} from "../design-dimensions/icon-config/ResponsiveIconConfigModel";
 import {IconConfigModel} from "../design-dimensions/icon-config/IconConfigModel";
 import {IconRenderModel} from "../design-dimensions/icon-config/IconRenderModel";
@@ -47,38 +36,8 @@ import {
   ResponsiveComponentSpecificConfigModel
 } from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
 import {
-  ComponentSpecificConfigModel
-} from "../design-dimensions/component-specific-config/ComponentSpecificConfigModel";
-import {
   ComponentSpecificRenderModel
 } from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
-import {
-  MenubarContentInjectionConfigModel
-} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionConfigModel";
-import {
-  MenubarContentInjectionRenderModel
-} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
-import {
-  TableContentInjectionConfigModel
-} from "../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
-import {
-  TableContentInjectionRenderModel
-} from "../design-dimensions/ContentInjection/table/TableContentInjectionRenderModel";
-import {
-  DialogContentInjectionRenderModel
-} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionRenderModel";
-import {
-  DialogContentInjectionConfigModel
-} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionConfigModel";
-import {
-  ResponsiveNumberInputDataRepresentationConfigModel
-} from "../design-dimensions/DataRepresentation/NumberInput/ResponsiveNumberInputDataRepresentationConfigModel";
-import {
-  NumberInputDataRepresentationRenderModel
-} from "../design-dimensions/DataRepresentation/NumberInput/NumberInputDataRepresentationRenderModel";
-import {
-  NumberInputDataRepresentationConfigModel
-} from "../design-dimensions/DataRepresentation/NumberInput/NumberInputDataRepresentationConfigModel";
 
 export type ResponsiveConfigType<T> =
   T extends ResponsiveChildLayoutConfigModel ? ResponsiveChildLayoutConfigModel :
