@@ -10,6 +10,9 @@ export class NumberInputDataRepresentationRenderModel {
   public currencyDisplay: CurrencyDisplayType | ZeroValueType.NotConfigured|undefined=undefined
   public minFractionDigits: number|undefined=undefined
   public maxFractionDigits: number |undefined=undefined
+  public floatLabel:boolean|ZeroValueType.NotConfigured|undefined=undefined
+  public suffix:string|ZeroValueType.NotConfigured|undefined=undefined
+  public prefix:string|ZeroValueType.NotConfigured|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

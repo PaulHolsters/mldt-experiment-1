@@ -6,6 +6,8 @@ export class TextInputDataRepresentationConfigModel {
   public icon:IconType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public iconPosition:IconPositionType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public inputFontSize:InputFontSizeType=InputFontSizeType.Base
+  public floatLabel:boolean|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
+  public advisoryText:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   constructor() {
   }
   setIcon(icon:IconType|ZeroValueType.NotConfigured) {
@@ -18,6 +20,14 @@ export class TextInputDataRepresentationConfigModel {
   }
   setInputFontSize(inputFontSize:InputFontSizeType) {
     this.inputFontSize = inputFontSize
+    return this
+  }
+  setFloatLabel(floatLabel:boolean|ZeroValueType.NotConfigured) {
+    this.floatLabel = floatLabel
+    return this
+  }
+  setAdvisoryText(advisoryText:string|ZeroValueType.NotConfigured) {
+    this.advisoryText = advisoryText
     return this
   }
 }

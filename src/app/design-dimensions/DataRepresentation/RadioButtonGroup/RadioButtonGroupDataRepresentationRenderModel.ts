@@ -1,9 +1,7 @@
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-
-export class TableDataRepresentationRenderModel {
-  public columnName:string|ZeroValueType.DeterminedByEngine|undefined=undefined
-  public sort:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function|undefined=undefined
-  public filter:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function|undefined=undefined
+import {FunctionType} from "../../../enums/functionTypes.enum";
+export class RadioButtonGroupDataRepresentationRenderModel {
+  public pipe:FunctionType[]|ZeroValueType.NotConfigured|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {
