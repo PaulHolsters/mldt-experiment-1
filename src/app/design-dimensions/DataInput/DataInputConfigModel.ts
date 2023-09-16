@@ -1,9 +1,20 @@
-import {RestrictionType} from "../../enums/restrictionType.enum";
+import {NumberInputDataInputConfigModel} from "./NumberInput/NumberInputDataInputConfigModel";
+import {TextInputDataInputConfigModel} from "./TextInput/TextInputDataInputConfigModel";
+import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+import {RadioButtonGroupDataInputConfigModel} from "./RadioButtonGroup/RadioButtonGroupDataInputConfigModel";
 
 export class DataInputConfigModel {
-constructor(
-  public only:RestrictionType[]|RestrictionType.NI=RestrictionType.NI,
-  public customRestriction:RegExp|RestrictionType.NA=RestrictionType.NA,
+  public disabled: boolean | ZeroValueType.NotAllowed = false
+
+  constructor(
+    public componentConfigModel:
+      NumberInputDataInputConfigModel |
+      TextInputDataInputConfigModel |
+      RadioButtonGroupDataInputConfigModel
   ) {
-}
+  }
+
+  setDisabled(disabled: boolean | ZeroValueType.NotAllowed) {
+    this.disabled = disabled
+  }
 }

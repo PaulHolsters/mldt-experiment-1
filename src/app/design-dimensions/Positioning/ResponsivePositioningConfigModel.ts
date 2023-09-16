@@ -2,6 +2,7 @@ import {PositioningConfigModel} from "./PositioningConfigModel";
 import {PositioningRenderModel} from "./PositioningRenderModel";
 import {ScreenSize} from "../../enums/screenSizes.enum";
 export class ResponsivePositioningConfigModel {
+  // todo voeg padding en margin hier ook toe
   constructor(public smartphone:PositioningConfigModel=new PositioningConfigModel(),
               public portraitTablet?: PositioningConfigModel,
               public tablet?:PositioningConfigModel,

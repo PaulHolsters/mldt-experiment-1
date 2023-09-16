@@ -1,7 +1,7 @@
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-
-export class NumberInputDataRepresentationRenderModel {
-  public advisoryText:string|ZeroValueType.NotConfigured|undefined=undefined
+import {RestrictionType} from "../../../enums/restrictionType.enum";
+export class TextInputDataInputRenderModel {
+  public restrictions:RestrictionType[]|RegExp|ZeroValueType.NotConfigured|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

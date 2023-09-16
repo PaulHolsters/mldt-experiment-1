@@ -1,5 +1,6 @@
 import {TableColumnModel} from "./TableColumnModel";
 export class TableConfigModel{
+  // todo builder pattern + defaults
   public textWhenEmpty:string|undefined=undefined
   public paginator:boolean|undefined=undefined
   public columns:TableColumnModel[]|undefined=undefined
