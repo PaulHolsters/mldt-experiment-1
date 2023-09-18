@@ -18,8 +18,6 @@ export class ResponsiveStylingConfigModel {
         return new StylingRenderModel(
           stylingConfig.backgroundColor,
           stylingConfig.border,
-          stylingConfig.padding,
-          stylingConfig.margin,
           stylingConfig.fontWeight,
           stylingConfig.textColor,
           stylingConfig.textDecoration,
