@@ -1,15 +1,18 @@
+import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
+import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
+import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+import {MarginType} from "../../enums/marginType.enum";
+import {PaddingType} from "../../enums/paddingType.enum";
+
 export class PositioningRenderModel {
-  constructor(public selfAlignStart: boolean | undefined = undefined,
-  public selfAlignCenter: boolean | undefined = undefined,
-  public selfAlignEnd: boolean | undefined = undefined,
-  public selfAlignBaseline: boolean | undefined = undefined,
-  public selfAlignStretch: boolean | undefined = undefined) {
+  public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|ZeroValueType.NotConfigured|undefined=undefined
+  public margin:MarginType|undefined=undefined
+  public padding:PaddingType|undefined=undefined
+  constructor() {
   }
-  public setProperty(propName: string, value: boolean | undefined): void {
+  public setProperty(propName: string, value: VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType | MarginType|PaddingType|undefined): void {
     if (Reflect.has(this, propName))
       Reflect.set(this, propName, value)
     else throw new Error('cannot set property ' + propName + ' because it does not exist on the object of type PositioningComponentPropsModel')
   }
 }
-
-// todo add z-index en relative position ...

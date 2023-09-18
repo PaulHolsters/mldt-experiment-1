@@ -1,37 +1,31 @@
 import {PositioningConfigModel} from "./PositioningConfigModel";
 import {PositioningRenderModel} from "./PositioningRenderModel";
-import {ScreenSize} from "../../enums/screenSizes.enum";
-export class ResponsivePositioningConfigModel {
+import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
+import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
+import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
+import {DataRepresentationRenderModel} from "../DataRepresentation/DataRepresentationRenderModel";
+export class ResponsivePositioningConfigModel  extends ResponsiveConfigModel<ResponsivePositioningConfigModel>{
   // todo voeg padding en margin hier ook toe
-  constructor(public smartphone:PositioningConfigModel=new PositioningConfigModel(),
-              public portraitTablet?: PositioningConfigModel,
-              public tablet?:PositioningConfigModel,
-              public laptop?: PositioningConfigModel,
-              public highResolution?: PositioningConfigModel) {
+  public smartphone:PositioningConfigModel=new PositioningConfigModel()
+  public portraitTablet: PositioningConfigModel|undefined=undefined
+  public tablet:PositioningConfigModel|undefined=undefined
+  public laptop: PositioningConfigModel|undefined=undefined
+  public highResolution: PositioningConfigModel|undefined=undefined
+  constructor() {
+    super()
   }
   getInstance(){
     return 'position'
   }
   public getPositionRenderProperties(screenSize: number): PositioningRenderModel {
-    const translateToPositioningComponentProps =
-      (positionConfig: PositioningConfigModel): PositioningRenderModel => {
-        return new PositioningRenderModel(
-          positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Top || positionConfig === CrossAxisHorizontalPositioningConfigType.Left,
-          positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Center || positionConfig === CrossAxisHorizontalPositioningConfigType.Center,
-          positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Bottom || positionConfig === CrossAxisHorizontalPositioningConfigType.Right,
-          positionConfig.selfAlign === CrossAxisVerticalPositioningConfigType.Baseline || positionConfig === CrossAxisHorizontalPositioningConfigType.Baseline,
-          positionConfig.display)
+    const mapToPositioningRenderProperties =
+      (config: PositioningConfigModel): PositioningRenderModel => {
+        const renderInstance = new PositioningRenderModel()
+        Object.entries(config).forEach(([k,v])=>{
+          if(v) renderInstance.setProperty(k,v)
+        })
+        return renderInstance
       }
-    if (this.hasScreenSizeProperty(stateModel, 'selfAlign') || this.hasScreenSizeProperty(stateModel, 'display')) {
-      let lastScreenSize = screenSize
-      const stateModelObj = Object.create(stateModel)
-      while (lastScreenSize >= 0) {
-        if (stateModelObj[ScreenSize[lastScreenSize]]) {
-          return translateToPositioningComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
-        }
-        lastScreenSize--
-      }
-      throw new Error('No screensize configuration was found for given ResponsivePositioningConfigModel and screen ' + ScreenSize[screenSize])
-    } else return new PositioningRenderModel()
+     return this.getRenderProperties(screenSize,mapToPositioningRenderProperties)
   }
 }
