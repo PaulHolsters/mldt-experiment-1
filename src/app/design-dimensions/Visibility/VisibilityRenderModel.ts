@@ -1,6 +1,7 @@
 export class VisibilityRenderModel {
-  constructor(  public visible?: boolean|undefined,
-                public holdSpace?: boolean|undefined) {
+  public visible: boolean|undefined=undefined
+  public holdSpace: boolean|undefined=undefined
+  constructor(  ) {
   }
   public setProperty(propName: string, value: boolean | undefined): void {
     if (Reflect.has(this, propName))

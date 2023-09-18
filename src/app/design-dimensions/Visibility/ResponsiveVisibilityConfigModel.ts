@@ -6,13 +6,13 @@ export class ResponsiveVisibilityConfigModel extends ResponsiveConfigModel<Respo
     return 'visibility'
   }
   public getVisibilityRenderProperties(screenSize: number): VisibilityRenderModel {
-    const translateToVisibilityComponentProps = (visibilityConfig: VisibilityConfigModel): VisibilityRenderModel => {
+    const mapToVisibilityComponentProps = (visibilityConfig: VisibilityConfigModel): VisibilityRenderModel => {
       const compPropsObj = new VisibilityRenderModel()
       Object.entries(visibilityConfig).forEach(([k, v]) => {
         compPropsObj.setProperty(k, v)
       })
       return compPropsObj
     }
-    return this.getRenderProperties(screenSize,translateToVisibilityComponentProps)
+    return this.getRenderProperties(screenSize,mapToVisibilityComponentProps)
   }
 }
