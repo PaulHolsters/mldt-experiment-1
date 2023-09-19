@@ -3,6 +3,7 @@ import {ButtonClassType} from "../../../enums/buttonClassType.enum";
 import {IconType} from "../../../enums/iconType.enum";
 import {ButtonLayoutType} from "../../../enums/buttonLayoutType.enum";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+
 export class NumberInputDataInputConfigModel {
   public advisoryText:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public showButtons:boolean=true
@@ -10,11 +11,11 @@ export class NumberInputDataInputConfigModel {
   public mode:NumberInputModeType=NumberInputModeType.Decimal
   public min:number=Number.MIN_SAFE_INTEGER
   public max:number=Number.MAX_SAFE_INTEGER
-  public decrementButtonClass:ButtonClassType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
-  public incrementButtonClass:ButtonClassType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
+  public decrementButtonClass:ButtonClassType=ButtonClassType.Primary
+  public incrementButtonClass:ButtonClassType=ButtonClassType.Primary
   public incrementButtonIcon:IconType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public decrementButtonIcon:IconType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
-  public buttonLayout:ButtonLayoutType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
+  public buttonLayout:ButtonLayoutType=ButtonLayoutType.Stacked
   constructor() {
   }
   setAdvisoryText(advisoryText:string|ZeroValueType.NotConfigured) {
@@ -41,11 +42,11 @@ export class NumberInputDataInputConfigModel {
     this.max = max
     return this
   }
-  setDecrementButtonClass(decrementButtonClass:ButtonClassType|ZeroValueType.NotConfigured) {
+  setDecrementButtonClass(decrementButtonClass:ButtonClassType) {
     this.decrementButtonClass = decrementButtonClass
     return this
   }
-  setIncrementButtonClass(incrementButtonClass:ButtonClassType|ZeroValueType.NotConfigured) {
+  setIncrementButtonClass(incrementButtonClass:ButtonClassType) {
     this.incrementButtonClass = incrementButtonClass
     return this
   }
@@ -57,7 +58,7 @@ export class NumberInputDataInputConfigModel {
     this.decrementButtonIcon = decrementButtonIcon
     return this
   }
-  setButtonLayout(buttonLayout:ButtonLayoutType|ZeroValueType.NotConfigured) {
+  setButtonLayout(buttonLayout:ButtonLayoutType) {
     this.buttonLayout = buttonLayout
     return this
   }

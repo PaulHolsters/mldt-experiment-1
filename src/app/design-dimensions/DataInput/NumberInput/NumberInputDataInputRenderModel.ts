@@ -10,11 +10,11 @@ export class NumberInputDataInputRenderModel {
   public mode:NumberInputModeType|undefined=undefined
   public min:number|undefined=undefined
   public max:number|undefined=undefined
-  public decrementButtonClass:ButtonClassType|ZeroValueType.NotConfigured|undefined=undefined
-  public incrementButtonClass:ButtonClassType|ZeroValueType.NotConfigured|undefined=undefined
+  public decrementButtonClass:ButtonClassType|undefined=undefined
+  public incrementButtonClass:ButtonClassType|undefined=undefined
   public incrementButtonIcon:IconType|ZeroValueType.NotConfigured|undefined=undefined
   public decrementButtonIcon:IconType|ZeroValueType.NotConfigured|undefined=undefined
-  public buttonLayout:ButtonLayoutType|ZeroValueType.NotConfigured|undefined=undefined
+  public buttonLayout:ButtonLayoutType|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {
