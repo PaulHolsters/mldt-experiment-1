@@ -2,13 +2,12 @@ import {LocaleType} from "../../../enums/localeType.enum";
 import {CurrencyType} from "../../../enums/currencyType.enum";
 import {CurrencyDisplayType} from "../../../enums/currencyDisplayType.enum";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-import {NoValueType} from "../../../enums/no_value_type";
+import {CurrencyModel} from "./CurrencyModel";
 
 export class NumberInputDataRepresentationConfigModel {
-  public useGrouping: boolean = false
+  public useGrouping: boolean = true
   public locale: LocaleType = LocaleType.en_US
-  public currency: CurrencyType | ZeroValueType.NotConfigured = ZeroValueType.NotConfigured
-  public currencyDisplay: CurrencyDisplayType | ZeroValueType.NotConfigured = ZeroValueType.NotConfigured
+  public currency:CurrencyModel|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public minFractionDigits: number = 0
   public maxFractionDigits: number = 20
   public floatLabel:boolean|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
@@ -25,12 +24,8 @@ export class NumberInputDataRepresentationConfigModel {
     this.locale = locale
     return this
   }
-  setCurrency(currency: CurrencyType) {
+  setCurrency(currency: CurrencyModel) {
     this.currency = currency
-    return this
-  }
-  setCurrencyDisplay(currencyDisplay: CurrencyDisplayType) {
-    this.currencyDisplay = currencyDisplay
     return this
   }
   setMinFractionDigits(MFD: number) {
