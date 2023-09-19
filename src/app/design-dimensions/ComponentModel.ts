@@ -2,9 +2,9 @@ import {ResponsiveTableConfigModel} from "./component-specific-config/table/Resp
 import {ResponsivePositioningConfigModel} from "./Positioning/ResponsivePositioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveDimensioningConfigModel} from "./Dimensioning/ResponsiveDimensioningConfigModel";
-import {ResponsiveOverflowConfigModel} from "./Overflow/self/ResponsiveOverflowConfigModel";
+import {ResponsiveOverflowConfigModel} from "./Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "./Styling/ResponsiveStylingConfigModel";
-import {ResponsiveChildLayoutConfigModel} from "./ChildLayout/ResponsiveChildLayoutConfigModel";
+import {ResponsiveContainerChildLayoutConfigModel} from "./Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ResponsiveDataRepresentationConfigModel} from "./DataRepresentation/ResponsiveDataRepresentationConfigModel";
 export class ComponentModel{
   getPropertyValue?(property:string){
@@ -13,7 +13,7 @@ export class ComponentModel{
   }
   replace?(key:string|undefined,value:ResponsiveTableConfigModel|ResponsiveDimensioningConfigModel
     |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
-    ResponsivePositioningConfigModel|ResponsiveChildLayoutConfigModel|ResponsiveVisibilityConfigModel|ResponsiveDataRepresentationConfigModel|undefined){
+    ResponsivePositioningConfigModel|ResponsiveContainerChildLayoutConfigModel|ResponsiveVisibilityConfigModel|ResponsiveDataRepresentationConfigModel|undefined){
     if(key){
       Reflect.set(this,key,value)
     }

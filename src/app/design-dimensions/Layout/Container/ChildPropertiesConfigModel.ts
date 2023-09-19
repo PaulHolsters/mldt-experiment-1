@@ -1,5 +1,5 @@
-import {ResponsiveVisibilityConfigModel} from "../Visibility/ResponsiveVisibilityConfigModel";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+import {ResponsiveVisibilityConfigModel} from "../../Visibility/ResponsiveVisibilityConfigModel";
+import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 
 export class ChildPropertiesConfigModel {
   public visibility: ResponsiveVisibilityConfigModel|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured

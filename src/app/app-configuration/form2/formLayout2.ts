@@ -1,6 +1,6 @@
-import {ResponsiveChildLayoutConfigModel} from "../../models/ChildLayout/ResponsiveChildLayoutConfigModel";
-import {ChildLayoutConfigModel} from "../../models/ChildLayout/ChildLayoutConfigModel";
-import {HorizontalLayoutConfigPropsModel} from "../../models/ChildLayout/HorizontalLayoutConfigPropsModel";
+import {ResponsiveChildLayoutConfigModel} from "../../models/Layout/ResponsiveContainerChildLayoutConfigModel";
+import {ChildLayoutConfigModel} from "../../models/Layout/TableLayoutConfigModel";
+import {HorizontalLayoutConfigPropsModel} from "../../models/Layout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
 import {CrossAxisHorizontalPositioningConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
@@ -11,7 +11,7 @@ import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValue
 import {
   CrossAxisHorizontalLanesPositioningConfigType
 } from "../../enums/columnPositioningConfigTypes.enum";
-import {VerticalLayoutConfigPropsModel} from "../../models/ChildLayout/VerticalLayoutConfigPropsModel";
+import {VerticalLayoutConfigPropsModel} from "../../models/Layout/VerticalLayoutConfigPropsModel";
 import {MainAxisVerticalPositioningConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/rowPositioningConfigTypes.enum";

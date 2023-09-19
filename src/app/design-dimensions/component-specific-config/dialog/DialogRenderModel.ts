@@ -1,5 +1,5 @@
 export class DialogRenderModel {
-  public header:string|undefined
+  public header:string|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

@@ -12,7 +12,7 @@ import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
 import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
-import {OverflowRenderModel} from "../design-dimensions/Overflow/self/OverflowRenderModel";
+import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
 import {CalculationModel} from "../design-dimensions/CalculationModel";
 

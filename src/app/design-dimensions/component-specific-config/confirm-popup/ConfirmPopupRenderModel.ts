@@ -1,7 +1,7 @@
-import {ConfirmationModel} from "../../ConfirmationModel";
+import {ConfirmationModel} from "./ConfirmationModel";
 
 export class ConfirmPopupRenderModel {
-  public confirmationModel:ConfirmationModel|undefined
+  public confirmationModel:ConfirmationModel|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

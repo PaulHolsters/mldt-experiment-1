@@ -10,5 +10,5 @@ export type BlueprintType = Map<string,[string,[BlueprintType,DataRecordModel[]|
 export type ObjectIdType = string
 export type ConditionType = string
 
-export type NotConfigured = undefined
+export type NotConfigured =  undefined
 

@@ -28,9 +28,7 @@ export class StylingConfigModel {
     public fontSize: FontSizeType|NoValueType.NA = FontSizeType.BASE,
     public border:BorderModel|NoValueType.NA = new BorderModel(),
     public fontStyle: FontStyleType|NoValueType.NA = NoValueType.NA,
-    public tableStyle: TableStylingType|NoValueType.NA = NoValueType.NA,
-    public responsiveTableLayout: ResponsiveTableLayoutType|NoValueType.NA = NoValueType.NA,
-    public tableBreakpoint: number = 960,
+
     public buttonSize:ButtonSizeType|NoValueType.NA = NoValueType.NA,
     public buttonMeaning:ButtonMeaningType|NoValueType.NA = NoValueType.NA,
     public buttonAppearance:ButtonAppearanceType|NoValueType.NA = NoValueType.NA,

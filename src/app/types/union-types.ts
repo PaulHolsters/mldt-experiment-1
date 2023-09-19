@@ -1,8 +1,8 @@
 import {ResponsiveDimensioningConfigModel} from "../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ResponsiveChildLayoutConfigModel} from "../design-dimensions/ChildLayout/ResponsiveChildLayoutConfigModel";
+import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ContainerModel} from "../components/container/ContainerModel";
-import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/self/ResponsiveOverflowConfigModel";
+import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/ResponsivePositioningConfigModel";
 import {
   ResponsiveContentInjectionConfigModel
@@ -21,7 +21,7 @@ import {
 export type ResponsiveConfigModelType =
   ResponsiveDimensioningConfigModel |
   ResponsiveVisibilityConfigModel |
-  ResponsiveChildLayoutConfigModel |
+  ResponsiveContainerChildLayoutConfigModel |
   ResponsiveIconConfigModel |
   ResponsiveLabelConfigModel |
   ResponsiveComponentSpecificConfigModel|

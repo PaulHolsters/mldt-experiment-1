@@ -12,4 +12,5 @@ export class TableConfigModel{
   public showPageLinks:boolean|undefined=undefined
   public first:number|undefined=undefined
   public totalRecords:number|undefined=undefined
+
 }

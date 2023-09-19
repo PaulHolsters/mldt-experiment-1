@@ -1,4 +1,4 @@
-import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
+import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
 
 export class ChildPropertiesRenderModel {
   //dynamic height or width (main axis)

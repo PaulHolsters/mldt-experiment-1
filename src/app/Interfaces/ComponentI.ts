@@ -1,9 +1,8 @@
 import {ClientData} from "../services/data/client/ClientData";
-import {ResponsiveChildLayoutConfigModel} from "../design-dimensions/ChildLayout/ResponsiveChildLayoutConfigModel";
+import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/ResponsivePositioningConfigModel";
 import {ResponsiveDimensioningConfigModel} from "../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
-import {ResponsiveTableConfigModel} from "../design-dimensions/component-specific-config/table/ResponsiveTableConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ClientDataConfigModel} from "../design-dimensions/ClientData/ClientDataConfigModel";
 import {
@@ -13,40 +12,24 @@ import {ResponsiveDataInputConfigModel} from "../design-dimensions/DataInput/Res
 import {
   ResponsiveContentInjectionConfigModel
 } from "../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
+import {ResponsiveTableLayoutConfigModel} from "../design-dimensions/Layout/Table/ResponsiveTableLayoutConfigModel";
 import {
-  ResponsiveMenubarConfigModel
-} from "../design-dimensions/component-specific-config/menubar/ResponsiveMenubarConfigModel";
-import {
-  ResponsiveImageConfigModel
-} from "../design-dimensions/component-specific-config/image/ResponsiveImageConfigModel";
-import {ResponsiveConfirmPopupConfigModel} from "../design-dimensions/component-specific-config/confirm-popup/ResponsiveConfirmPopupConfigModel";
-import {
-  ResponsiveDialogConfigModel
-} from "../design-dimensions/component-specific-config/dialog/ResponsiveDialogConfigModel";
-import {ResponsiveLabelConfigModel} from "../design-dimensions/label-config/ResponsiveLabelConfigModel";
-import {ResponsiveIconConfigModel} from "../design-dimensions/icon-config/ResponsiveIconConfigModel";
+  ResponsiveComponentSpecificConfigModel
+} from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
+import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
+import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
 
 export interface ComponentI {
   // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk vabn de interface gebruik kunnen maken
   name: string
-  labelConfig:ResponsiveLabelConfigModel | undefined
-  setLabelConfig:((labelConfig: ResponsiveLabelConfigModel) => ComponentModel)|undefined
-  iconConfig:ResponsiveIconConfigModel | undefined
-  setIconConfig:((iconConfig: ResponsiveIconConfigModel) => ComponentModel)|undefined
-  childLayout: ResponsiveChildLayoutConfigModel | undefined
+  layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
   children: ComponentModel[] | undefined
   position: ResponsivePositioningConfigModel
   dimensions: ResponsiveDimensioningConfigModel
-  componentSpecificConfig:
-    ResponsiveTableConfigModel |
-    ResponsiveMenubarConfigModel|
-    ResponsiveImageConfigModel|
-    ResponsiveConfirmPopupConfigModel|
-    ResponsiveDialogConfigModel |
-    undefined
+  componentSpecificConfig:ResponsiveComponentSpecificConfigModel|undefined
   visibility: ResponsiveVisibilityConfigModel
-  //overflow: ResponsiveOverflowConfigModel
-  //styling: ResponsiveStylingConfigModel
+  overflow: ResponsiveOverflowConfigModel
+  styling: ResponsiveStylingConfigModel
   clientData: ClientDataConfigModel | undefined
   dataRepresentation: ResponsiveDataRepresentationConfigModel | undefined
   dataInput: ResponsiveDataInputConfigModel | undefined
@@ -58,11 +41,11 @@ export interface ComponentI {
   setPosition: (pos: ResponsivePositioningConfigModel) => ComponentModel
   //setStyling: (styling: ResponsiveStylingConfigModel) => ComponentModel
   setVisibility: (visibility: ResponsiveVisibilityConfigModel) => ComponentModel
-  setChildLayout: ((childLayout: ResponsiveChildLayoutConfigModel) => ComponentModel)|undefined
+  setLayout: ((layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel) => ComponentModel)|undefined
   setChildren: ((children: ComponentModel[]) => ComponentModel)|undefined
   setClientData: ((clientData: ClientData) => ComponentModel)|undefined
   setDataRepresentation: ((dataRepresentation: ResponsiveDataRepresentationConfigModel) => ComponentModel)|undefined
   setDataInput: ((dataInput: ResponsiveDataInputConfigModel) => ComponentModel)|undefined
   setContentInjection: ((contentInjection: ResponsiveContentInjectionConfigModel) => ComponentModel)|undefined
-  setComponentSpecificConfig: ((attributes: ResponsiveTableConfigModel) => ComponentModel)|undefined
+  setComponentSpecificConfig: ((specifics: ResponsiveComponentSpecificConfigModel) => ComponentModel)|undefined
 }

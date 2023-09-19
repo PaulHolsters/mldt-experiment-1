@@ -1,4 +1,5 @@
 export class DialogConfigModel {
-  constructor(public header:string) {
+  // todo default toevoegen
+  constructor(public header:string='Your dialog needs a header') {
   }
 }

@@ -2,6 +2,8 @@ export enum OverflowValueConfigType {
   Auto=1,
   Scroll,
   Hidden,
-  NC,
-  NA
+  Visible,
+  HorizontalAuto,
+  HorizontalVisible,
+  HorizontalHidden
 }

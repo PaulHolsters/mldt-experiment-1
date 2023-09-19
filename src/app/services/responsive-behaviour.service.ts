@@ -11,13 +11,13 @@ import {ActionIdType} from "../types/type-aliases";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {ComponentModelType} from "../types/union-types";
 import {DimensioningRenderModel} from "../design-dimensions/Dimensioning/DimensioningRenderModel";
-import {ChildLayoutRenderModel} from "../design-dimensions/ChildLayout/ChildLayoutRenderModel";
+import {ChildLayoutRenderModel} from "../design-dimensions/Layout/Container/ChildLayoutRenderModel";
 import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
 import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
 import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
-import {OverflowRenderModel} from "../design-dimensions/Overflow/self/OverflowRenderModel";
+import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 @Injectable({

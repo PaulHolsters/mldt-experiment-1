@@ -4,7 +4,7 @@ import {
 } from "../../design-dimensions/Positioning/ResponsivePositioningConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ComponentModel} from "../../design-dimensions/ComponentModel";
-import {ResponsiveChildLayoutConfigModel} from "../../design-dimensions/ChildLayout/ResponsiveChildLayoutConfigModel";
+import {ResponsiveContainerChildLayoutConfigModel} from "../../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {
   ResponsiveDimensioningConfigModel
 } from "../../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
@@ -19,7 +19,7 @@ export class ContainerModel extends ComponentModel implements ComponentI{
   public setLabelConfig:undefined=undefined
   public iconConfig: undefined = undefined
   public setIconConfig:undefined=undefined
-  public childLayout: ResponsiveChildLayoutConfigModel = new ResponsiveChildLayoutConfigModel()
+  public layout: ResponsiveContainerChildLayoutConfigModel = new ResponsiveContainerChildLayoutConfigModel()
   public children: ComponentModel[]=[]
   public clientData: undefined = undefined
   public contentInjection: undefined = undefined
@@ -39,7 +39,7 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     super()
     this.name = name
   }
-  setChildLayout(childLayout:ResponsiveChildLayoutConfigModel){
+  setChildLayout(childLayout:ResponsiveContainerChildLayoutConfigModel){
     this.childLayout = childLayout
     return this
   }

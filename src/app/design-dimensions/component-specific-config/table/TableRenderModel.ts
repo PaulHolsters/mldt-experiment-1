@@ -2,7 +2,7 @@ import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../../ComponentModel";
 import {NoValueType} from "../../../enums/no_value_type";
 import {TableColumnModel} from "./TableColumnModel";
-import {ConfirmationModel} from "../../ConfirmationModel";
+import {ConfirmationModel} from "../confirm-popup/ConfirmationModel";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 export class TableRenderModel {
   public textWhenEmpty:string='No records available'

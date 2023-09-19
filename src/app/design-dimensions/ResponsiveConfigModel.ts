@@ -11,7 +11,7 @@ export class ResponsiveConfigModel<T extends ResponsiveConfigModelType>{
       }
       lastScreenSize--
     }
-    throw new Error('No screensize configuration was found for given ResponsiveChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
+    throw new Error('No screensize configuration was found for given ResponsiveContainerChildLayoutConfigModel and screen ' + ScreenSize[screenSize])
   }
   protected hasScreenSizeProperty(property: string): boolean {
     let lastScreenSize = ScreenSize.highResolution

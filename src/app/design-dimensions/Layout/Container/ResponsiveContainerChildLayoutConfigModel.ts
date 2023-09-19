@@ -1,19 +1,19 @@
 import {ChildLayoutConfigModel} from "./ChildLayoutConfigModel";
-import {ScreenSize} from "../../enums/screenSizes.enum";
+import {ScreenSize} from "../../../enums/screenSizes.enum";
 import {ChildLayoutRenderModel} from "./ChildLayoutRenderModel";
 import {ChildPropertiesRenderModel} from "./ChildPropertiesRenderModel";
-import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
+import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ParentRenderPropertiesModel} from "./ParentRenderPropertiesModel";
 import {RowLayoutConfigModel} from "./RowLayoutConfigModel";
-import {HorizontalRowLayoutConfigType} from "../../enums/HorizontalRowLayoutConfigTypes.enum";
-import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
-import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
-import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
-import {CalculatedDimensioningConfigModel} from "../Dimensioning/CalculatedDimensioningConfigModel";
-import {NonCalculatedDimensioningConfigModel} from "../Dimensioning/NonCalculatedDimensioningConfigModel";
-import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
+import {HorizontalRowLayoutConfigType} from "../../../enums/HorizontalRowLayoutConfigTypes.enum";
+import {VerticalRowLayoutConfigType} from "../../../enums/VerticalRowLayoutConfigTypes.enum";
+import {VerticalColumnLayoutConfigType} from "../../../enums/VerticalColumnLayoutConfigTypes.enum";
+import {HorizontalColumnLayoutConfigType} from "../../../enums/HorizontalColumnLayoutConfigTypes.enum";
+import {CalculatedDimensioningConfigModel} from "../../Dimensioning/CalculatedDimensioningConfigModel";
+import {NonCalculatedDimensioningConfigModel} from "../../Dimensioning/NonCalculatedDimensioningConfigModel";
+import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
 
-export class ResponsiveChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveChildLayoutConfigModel>{
+export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveContainerChildLayoutConfigModel>{
   public smartphone:ChildLayoutConfigModel = new ChildLayoutConfigModel()
   public portraitTablet: ChildLayoutConfigModel|undefined = undefined
   public tablet:ChildLayoutConfigModel|undefined= undefined

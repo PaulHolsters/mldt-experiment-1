@@ -1,9 +1,9 @@
-import {RowPositioningConfigType} from "../../enums/rowPositioningConfigTypes.enum";
-import {HorizontalRowLayoutConfigType} from "../../enums/HorizontalRowLayoutConfigTypes.enum";
-import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
-import {DimensioningConfigModel} from "../Dimensioning/DimensioningConfigModel";
-import {DynamicDimensioningConfigModel} from "../Dimensioning/DynamicDimensioningConfigModel";
+import {RowPositioningConfigType} from "../../../enums/rowPositioningConfigTypes.enum";
+import {HorizontalRowLayoutConfigType} from "../../../enums/HorizontalRowLayoutConfigTypes.enum";
+import {VerticalRowLayoutConfigType} from "../../../enums/VerticalRowLayoutConfigTypes.enum";
+import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {DimensioningConfigModel} from "../../Dimensioning/DimensioningConfigModel";
+import {DynamicDimensioningConfigModel} from "../../Dimensioning/DynamicDimensioningConfigModel";
 
 export class RowLayoutConfigModel {
   public horizontalLayoutOfChildren: HorizontalRowLayoutConfigType=HorizontalRowLayoutConfigType.Left

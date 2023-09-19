@@ -33,8 +33,8 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
               new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Calculated, '(100vh - 16px)')
             )),
-          childLayout: new ResponsiveChildLayoutConfigModel(
-            new ChildLayoutConfigModel(
+          childLayout: new ResponsiveContainerChildLayoutConfigModel(
+            new TableLayoutConfigModel(
               new HorizontalLayoutConfigPropsModel(
                 AxisConfigType.Main,
                 true,
@@ -55,7 +55,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                   true
                 ), MainAxisVerticalPositioningConfigType.No_value_types
               )
-            ), undefined, undefined, new ChildLayoutConfigModel(
+            ), undefined, undefined, new TableLayoutConfigModel(
               new HorizontalLayoutConfigPropsModel(
                 AxisConfigType.Cross,
                 undefined,
@@ -193,7 +193,7 @@ Het maken van een frontend voor een Mouldit app gebeurt volledig via een configu
 ### Principe
 Alles vertrekt natuurlijk van de config service. Op basis van het configuratieobject wordt de store aangemaakt met de nodige observables. Elke observable in de store stelt een property voor zoals deze geconsumeerd zal worden in de view of component. De aanmaak van deze observables is gebaseerd op de manier hoe de verschillende modellen horende bij een bepaald onderdeel van de frontend (zie *Models*) werken. Je hebt een config model en daar mee gelieerd een component model. **In de store service heb je per onderdeel een methode die de omzetting doet van properties in een config model naar de properties van het respectievelijke component model.** Het zijn de properties van het componentmodel die in de store komen en waar de views op subscriben. Een voorbeeld:  
   
-De *getChildLayoutComponentProps* methode zal een childLayout configuratie gaan omzetten naar de juiste component properties waarop de respectievelijke componenten kunnen subscriben. In de configuratie ga je dan een *ChildLayoutConfigModel* gebruiken. Dat model zal dan door deze methode omgezet worden in een *ChildLayoutComponentPropsModel* dat vervolgens gebruikt wordt om de nodige observables in de store te zetten en de juiste waarden te streamen om geconsumeerd te worden door de views (componenten).  
+De *getChildLayoutComponentProps* methode zal een childLayout configuratie gaan omzetten naar de juiste component properties waarop de respectievelijke componenten kunnen subscriben. In de configuratie ga je dan een *TableLayoutConfigModel* gebruiken. Dat model zal dan door deze methode omgezet worden in een *ChildLayoutComponentPropsModel* dat vervolgens gebruikt wordt om de nodige observables in de store te zetten en de juiste waarden te streamen om geconsumeerd te worden door de views (componenten).  
 De views of componenten zelf subscriben op deze stream aan waarden door middel van de *bindToStateProperty* methode. Doordat deze methode een naam verwacht, namelijk de naam van de component (elke component moet dus een unieke naam hebben), kan de engine ervoor zorgen dat elke component de juiste waarde krijgt (en niet bijvoorbeeld deze bedoeld voor een andere component).  
 Het gebruik van deze waarden in de respectievelijke component verschilt van component tot component. Dat wil zeggen de render logica zelf is dus puur component gebonden. Dit neemt echter niet weg dat elke component grotendeels eenzelfde stramien volgt hierin:
 

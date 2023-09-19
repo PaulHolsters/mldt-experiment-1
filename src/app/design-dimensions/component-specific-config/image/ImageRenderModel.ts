@@ -1,6 +1,6 @@
 export class ImageRenderModel {
-  public src: string|undefined
-  public alt: string|undefined
+  public src: string|undefined=undefined
+  public alt: string|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

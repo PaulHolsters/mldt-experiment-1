@@ -1,9 +1,9 @@
-import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
-import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
-import {ColumnPositioningConfigType} from "../../enums/columnPositioningConfigTypes.enum";
-import {DynamicDimensioningConfigModel} from "../Dimensioning/DynamicDimensioningConfigModel";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
-import {DimensioningConfigModel} from "../Dimensioning/DimensioningConfigModel";
+import {HorizontalColumnLayoutConfigType} from "../../../enums/HorizontalColumnLayoutConfigTypes.enum";
+import {VerticalColumnLayoutConfigType} from "../../../enums/VerticalColumnLayoutConfigTypes.enum";
+import {ColumnPositioningConfigType} from "../../../enums/columnPositioningConfigTypes.enum";
+import {DynamicDimensioningConfigModel} from "../../Dimensioning/DynamicDimensioningConfigModel";
+import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {DimensioningConfigModel} from "../../Dimensioning/DimensioningConfigModel";
 
 export class ColumnLayoutConfigModel {
   public horizontalLayoutOfChildren: HorizontalColumnLayoutConfigType=HorizontalColumnLayoutConfigType.Left
