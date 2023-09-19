@@ -41,7 +41,8 @@ export interface ComponentI {
   setPosition: (pos: ResponsivePositioningConfigModel) => ComponentModel
   //setStyling: (styling: ResponsiveStylingConfigModel) => ComponentModel
   setVisibility: (visibility: ResponsiveVisibilityConfigModel) => ComponentModel
-  setLayout: ((layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel) => ComponentModel)|undefined
+  setLayout: ((layout: ResponsiveContainerChildLayoutConfigModel) => ComponentModel)|
+    ((layout: ResponsiveTableLayoutConfigModel) => ComponentModel)|undefined
   setChildren: ((children: ComponentModel[]) => ComponentModel)|undefined
   setClientData: ((clientData: ClientData) => ComponentModel)|undefined
   setDataRepresentation: ((dataRepresentation: ResponsiveDataRepresentationConfigModel) => ComponentModel)|undefined

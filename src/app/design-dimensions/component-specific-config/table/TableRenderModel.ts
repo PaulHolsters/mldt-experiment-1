@@ -1,21 +1,17 @@
-import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../../ComponentModel";
-import {NoValueType} from "../../../enums/no_value_type";
 import {TableColumnModel} from "./TableColumnModel";
-import {ConfirmationModel} from "../confirm-popup/ConfirmationModel";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 export class TableRenderModel {
-  public textWhenEmpty:string='No records available'
-  public paginator:boolean = false
-  public columns:TableColumnModel[]|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
-  public rows:number= 10
-  public rowsPerPage:number[] = [10,25,50]
-  public currentPageReportTemplate:string = '{first} - {last} of {totalRecords}'
-  public showFirstLastIcon:boolean = false
-  public showJumpToPageDropdown:boolean = false
-  public showPageLinks:boolean = false
-  public first:number = 0
-  public totalRecords:number|ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public textWhenEmpty:string|undefined=undefined
+  public paginator:boolean|undefined=undefined
+  public columns:TableColumnModel[]|undefined=undefined
+  public rows:number|undefined=undefined
+  public rowsPerPage:number[]|undefined=undefined
+  public currentPageReportTemplate:string|undefined=undefined
+  public showFirstLastIcon:boolean|undefined=undefined
+  public showJumpToPageDropdown:boolean|undefined=undefined
+  public showPageLinks:boolean|undefined=undefined
+  public first:number|undefined=undefined
+  public totalRecords:number|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string|number|ComponentModel| undefined): void {

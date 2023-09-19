@@ -10,6 +10,8 @@ import {
 } from "../../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
 import {DimensioningConfigModel} from "../../design-dimensions/Dimensioning/DimensioningConfigModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
+import {ResponsiveStylingConfigModel} from "../../design-dimensions/Styling/ResponsiveStylingConfigModel";
 
 export class ContainerModel extends ComponentModel implements ComponentI{
   public name:string
@@ -27,7 +29,7 @@ export class ContainerModel extends ComponentModel implements ComponentI{
   public dataRepresentation: undefined = undefined
   public dimensions: ResponsiveDimensioningConfigModel
     = new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(ZeroValueType.NotConfigured, ZeroValueType.NotConfigured))
-  //public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
+  public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
   public position: ResponsivePositioningConfigModel = new ResponsivePositioningConfigModel()
   //public styling: ResponsiveStylingConfigModel = new ResponsiveStylingConfigModel()
   public visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
@@ -39,8 +41,8 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     super()
     this.name = name
   }
-  setChildLayout(childLayout:ResponsiveContainerChildLayoutConfigModel){
-    this.childLayout = childLayout
+  setLayout(childLayout:ResponsiveContainerChildLayoutConfigModel){
+    this.layout = childLayout
     return this
   }
   setChildren(children:ComponentModel[]){
