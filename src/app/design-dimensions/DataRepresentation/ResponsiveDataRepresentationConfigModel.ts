@@ -14,6 +14,7 @@ export class ResponsiveDataRepresentationConfigModel extends ResponsiveConfigMod
   }
   public getDataRepresentationRenderProperties(componentName: string, stateModel: ResponsiveDataRepresentationConfigModel, screenSize: number):DataRepresentationRenderModel{
     const mapToToDataRepresentationRenderProps = (config: DataRepresentationConfigModel): DataRepresentationRenderModel => {
+      // todo dit is enkel correct bij een 1 op 1 mapping => dat is dan ook de reden waarom soms het resposnive model in het componentmodel moet zitten
       const renderInstance = new DataRepresentationRenderModel()
       Object.entries(config).forEach(([k,v])=>{
         if(v) renderInstance.setProperty(k,v)

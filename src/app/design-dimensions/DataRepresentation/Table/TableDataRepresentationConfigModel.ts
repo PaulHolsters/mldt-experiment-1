@@ -2,7 +2,7 @@ import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 
 export class TableDataRepresentationConfigModel {
   public columnName:string|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public sort:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function = ZeroValueType.NotConfigured
+  public sort:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function = ZeroValueType.DeterminedByEngine
   public filter:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function = ZeroValueType.NotConfigured
   constructor() {
   }

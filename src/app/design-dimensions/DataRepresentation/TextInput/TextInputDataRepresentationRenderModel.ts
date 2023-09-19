@@ -6,7 +6,7 @@ export class TextInputDataRepresentationRenderModel {
   public icon:IconType|ZeroValueType.NotConfigured|undefined=undefined
   public iconPosition:IconPositionType|ZeroValueType.NotConfigured|undefined=undefined
   public inputFontSize:InputFontSizeType|undefined=undefined
-  public floatLabel:boolean|ZeroValueType.NotConfigured|undefined=undefined
+  public floatLabel:boolean|undefined=undefined
   public advisoryText:string|ZeroValueType.NotConfigured|undefined=undefined
   constructor() {
   }
