@@ -26,12 +26,6 @@ import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderM
 import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
 import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
 import {DataInputRenderModel} from "../design-dimensions/DataInput/DataInputRenderModel";
-import {ResponsiveIconConfigModel} from "../design-dimensions/icon-config/ResponsiveIconConfigModel";
-import {IconConfigModel} from "../design-dimensions/icon-config/IconConfigModel";
-import {IconRenderModel} from "../design-dimensions/icon-config/IconRenderModel";
-import {ResponsiveLabelConfigModel} from "../design-dimensions/label-config/ResponsiveLabelConfigModel";
-import {LabelConfigModel} from "../design-dimensions/label-config/LabelConfigModel";
-import {LabelRenderModel} from "../design-dimensions/label-config/LabelRenderModel";
 import {
   ResponsiveComponentSpecificConfigModel
 } from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
@@ -42,8 +36,6 @@ import {
 export type ResponsiveConfigType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ResponsiveContainerChildLayoutConfigModel :
     T extends ResponsiveVisibilityConfigModel ? ResponsiveVisibilityConfigModel :
-                T extends ResponsiveIconConfigModel ? ResponsiveIconConfigModel :
-                  T extends ResponsiveLabelConfigModel ? ResponsiveLabelConfigModel :
                     T extends ResponsiveComponentSpecificConfigModel ? ResponsiveComponentSpecificConfigModel :
 
         T extends ResponsiveContentInjectionConfigModel ? ResponsiveContentInjectionConfigModel :
@@ -56,8 +48,6 @@ export type ResponsiveConfigType<T> =
 export type ConfigType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutConfigModel :
     T extends ResponsiveVisibilityConfigModel ? VisibilityConfigModel :
-                T extends ResponsiveIconConfigModel ? IconConfigModel :
-                  T extends ResponsiveLabelConfigModel ? LabelConfigModel :
 
         T extends ResponsiveContentInjectionConfigModel ? ContentInjectionConfigModel :
           T extends ResponsiveDataInputConfigModel ? DataInputConfigModel :
@@ -69,8 +59,6 @@ export type ConfigType<T> =
 export type RenderType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutRenderModel :
     T extends ResponsiveVisibilityConfigModel ? VisibilityRenderModel :
-                T extends ResponsiveIconConfigModel ? IconRenderModel :
-                  T extends ResponsiveLabelConfigModel ? LabelRenderModel :
                     T extends ResponsiveComponentSpecificConfigModel ? ComponentSpecificRenderModel :
 
         T extends ResponsiveContentInjectionConfigModel ? ContentInjectionRenderModel :

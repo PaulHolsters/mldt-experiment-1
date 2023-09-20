@@ -1,4 +1,3 @@
-import {ResponsiveTableConfigModel} from "./component-specific-config/table/ResponsiveTableConfigModel";
 import {ResponsiveLayoutOverrideConfigModel} from "./LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveSizeConfigModel} from "./Size/ResponsiveSizeConfigModel";
@@ -11,7 +10,7 @@ export class ComponentModel{
     if(Reflect.has(this, property)) return Reflect.get(this,property)
     throw new Error('U vraagt naar een property die niet bestaat bij een ComponentModel')
   }
-  replace?(key:string|undefined,value:ResponsiveTableConfigModel|ResponsiveSizeConfigModel
+  replace?(key:string|undefined,value:ResponsiveSizeConfigModel
     |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
     ResponsiveLayoutOverrideConfigModel|ResponsiveContainerChildLayoutConfigModel|ResponsiveVisibilityConfigModel|ResponsiveDataRepresentationConfigModel|undefined){
     if(key){

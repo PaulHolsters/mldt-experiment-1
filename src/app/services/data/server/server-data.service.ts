@@ -14,7 +14,6 @@ import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
-import {AttributeComponentModel} from "../../../design-dimensions/DataRepresentation/junkmodels/AttributeComponentModel";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 
 // todo fix
@@ -198,7 +197,6 @@ export class ServerDataService {
                               blueprintStr:string|undefined,
                               actionId:ActionIdType,
                               name:ComponentNameType,
-                              attributes:AttributeComponentModel[],
                               errorMessages:string[]|NoValueType.NI,
                               data:(DataRecordModel|null)[]|DataRecordModel|NoValueType.NVY){
       if(blueprintStr){
@@ -208,7 +206,6 @@ export class ServerDataService {
           new Blueprint(blueprintStr),
           data,
           NoValueType.NA,
-          attributes,
           errorMessages
         )
         const cd = self.clientDataService.getClientData(name)

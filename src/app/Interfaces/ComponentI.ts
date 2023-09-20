@@ -20,7 +20,7 @@ import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/Respo
 import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
 
 export interface ComponentI {
-  // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk vabn de interface gebruik kunnen maken
+  // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk van de interface gebruik kunnen maken
   name: string
   layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
   children: ComponentModel[] | undefined
@@ -29,17 +29,16 @@ export interface ComponentI {
   componentSpecificConfig:ResponsiveComponentSpecificConfigModel|undefined
   visibility: ResponsiveVisibilityConfigModel
   overflow: ResponsiveOverflowConfigModel
-  styling: ResponsiveStylingConfigModel
+  styling: ResponsiveStylingConfigModel | undefined
   clientData: ClientDataConfigModel | undefined
   dataRepresentation: ResponsiveDataRepresentationConfigModel | undefined
   dataInput: ResponsiveDataInputConfigModel | undefined
   contentInjection: ResponsiveContentInjectionConfigModel | undefined
-
   // todo voeg conditie toe dat als je dimension hebt je ook setDimension moet hebben = partial interface eerst voor maken
   setSize: (dimensions: ResponsiveSizeConfigModel) => ComponentModel
-  //setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
+  setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
   setPosition: (pos: ResponsiveLayoutOverrideConfigModel) => ComponentModel
-  //setStyling: (styling: ResponsiveStylingConfigModel) => ComponentModel
+  setStyling: ((styling: ResponsiveStylingConfigModel) => ComponentModel)|undefined
   setVisibility: (visibility: ResponsiveVisibilityConfigModel) => ComponentModel
   setLayout: ((layout: ResponsiveContainerChildLayoutConfigModel) => ComponentModel)|
     ((layout: ResponsiveTableLayoutConfigModel) => ComponentModel)|undefined

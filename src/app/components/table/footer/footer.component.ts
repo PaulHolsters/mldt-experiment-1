@@ -1,9 +1,8 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Component as AbstractComponent} from "../../Component";
-import {TableFooter} from "../../../componentclasses/TableFooter";
-import {ComponentModel} from "../../../models/ComponentModel";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
+import {ComponentModel} from "../../../design-dimensions/ComponentModel";
 
 @Component({
   selector: 'm-table-footer',

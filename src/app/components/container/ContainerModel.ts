@@ -27,7 +27,8 @@ export class ContainerModel extends ComponentModel implements ComponentI{
   public size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
   public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
   public position: ResponsiveLayoutOverrideConfigModel = new ResponsiveLayoutOverrideConfigModel()
-  //public styling: ResponsiveStylingConfigModel = new ResponsiveStylingConfigModel()
+  public styling = undefined
+  public setStyling=undefined
   public visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
   public setClientData:undefined = undefined
   public setDataRepresentation:undefined = undefined
@@ -57,10 +58,6 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     this.position = pos
     return this
   }
-/*  setStyling(styling:ResponsiveStylingConfigModel){
-    this.styling = styling
-    return this
-  }*/
   setVisibility(visibility:ResponsiveVisibilityConfigModel){
     this.visibility = visibility
     return this

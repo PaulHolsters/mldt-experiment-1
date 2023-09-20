@@ -16,7 +16,6 @@ import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {RenderPropertiesService} from "../../renderProperties.service";
-import {AttributeComponentModel} from "../../../design-dimensions/DataRepresentation/junkmodels/AttributeComponentModel";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 
 @Injectable({

@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
-import {DataRecordModel} from "../../../models/DataRecordModel";
 import {NoValueType} from "../../../enums/no_value_type";
 import {MultiSelect} from "../../../componentclasses/MultiSelect";
+import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 
 @Component({
   selector: 'm-multiselect',

@@ -1,7 +1,7 @@
 import {AfterContentChecked,  Component, Input, OnInit} from '@angular/core';
-import {ComponentModel} from "../../models/ComponentModel";
 import {Observable} from "rxjs";
 import {Component as AbstractComponent} from "../Component"
+import {ComponentModel} from "../../design-dimensions/ComponentModel";
 @Component({
   selector: 'm-anchor',
   templateUrl: './anchor.component.html',
