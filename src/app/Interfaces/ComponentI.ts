@@ -1,7 +1,7 @@
 import {ClientData} from "../services/data/client/ClientData";
 import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
-import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/ResponsivePositioningConfigModel";
+import {ResponsiveLayoutOverrideConfigModel} from "../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ClientDataConfigModel} from "../design-dimensions/ClientData/ClientDataConfigModel";
@@ -24,8 +24,8 @@ export interface ComponentI {
   name: string
   layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
   children: ComponentModel[] | undefined
-  position: ResponsivePositioningConfigModel
-  dimensions: ResponsiveSizeConfigModel
+  position: ResponsiveLayoutOverrideConfigModel
+  size: ResponsiveSizeConfigModel
   componentSpecificConfig:ResponsiveComponentSpecificConfigModel|undefined
   visibility: ResponsiveVisibilityConfigModel
   overflow: ResponsiveOverflowConfigModel
@@ -36,9 +36,9 @@ export interface ComponentI {
   contentInjection: ResponsiveContentInjectionConfigModel | undefined
 
   // todo voeg conditie toe dat als je dimension hebt je ook setDimension moet hebben = partial interface eerst voor maken
-  setDimensions: (dimensions: ResponsiveSizeConfigModel) => ComponentModel
+  setSize: (dimensions: ResponsiveSizeConfigModel) => ComponentModel
   //setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
-  setPosition: (pos: ResponsivePositioningConfigModel) => ComponentModel
+  setPosition: (pos: ResponsiveLayoutOverrideConfigModel) => ComponentModel
   //setStyling: (styling: ResponsiveStylingConfigModel) => ComponentModel
   setVisibility: (visibility: ResponsiveVisibilityConfigModel) => ComponentModel
   setLayout: ((layout: ResponsiveContainerChildLayoutConfigModel) => ComponentModel)|

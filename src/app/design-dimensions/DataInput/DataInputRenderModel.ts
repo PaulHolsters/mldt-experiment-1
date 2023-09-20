@@ -5,9 +5,10 @@ import {RadioButtonGroupDataInputRenderModel} from "./RadioButtonGroup/RadioButt
 
 export class DataInputRenderModel {
   public disabled: boolean | ZeroValueType.NotAllowed|undefined=undefined
-constructor(
   public componentRenderModel:
-    NumberInputDataInputRenderModel|TextInputDataInputRenderModel|RadioButtonGroupDataInputRenderModel | undefined = undefined) {
+    NumberInputDataInputRenderModel|TextInputDataInputRenderModel|RadioButtonGroupDataInputRenderModel | undefined = undefined
+constructor(
+  ) {
 }
   public setProperty(propName: string, value: string): void {
     if (Reflect.has(this, propName)) Reflect.set(this, propName, value)

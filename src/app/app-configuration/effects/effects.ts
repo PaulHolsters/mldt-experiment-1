@@ -77,7 +77,7 @@ export const effects:Effect[] = [
     actionSubType: ActionSubType.SetConfigValueAndRebuild,
     targetType: TargetType.Component,
     targetName: 'delete-container',
-    value: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)),
+    value: new ResponsiveSpacingConfigModel(new VisibilityConfigPropsModel(false, false)),
     sourceName: 'table',
     on: EventType.RowSelected
   },*/
@@ -87,7 +87,7 @@ export const effects:Effect[] = [
     sourceId: 'delete-product',
     actionType: ActionType.Client,
     actionSubType: ActionSubType.SetConfigValueAndRebuild,
-    value: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)),
+    value: new ResponsiveSpacingConfigModel(new VisibilityConfigPropsModel(false, false)),
     targetName: 'delete-container',
     sourceName: NoValueType.NA,
     targetType: TargetType.Component,

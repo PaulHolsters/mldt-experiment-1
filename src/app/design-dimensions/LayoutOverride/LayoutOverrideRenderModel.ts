@@ -4,10 +4,8 @@ import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {MarginType} from "../../enums/marginType.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
 
-export class PositioningRenderModel {
+export class LayoutOverrideRenderModel {
   public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|ZeroValueType.NotConfigured|undefined=undefined
-  public margin:MarginType|undefined=undefined
-  public padding:PaddingType|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType | MarginType|PaddingType|undefined): void {

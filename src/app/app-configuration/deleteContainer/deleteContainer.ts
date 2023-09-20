@@ -7,8 +7,8 @@ import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.en
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
 import {containerLayout} from "./containerLayout";
 import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";

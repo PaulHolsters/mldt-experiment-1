@@ -13,7 +13,7 @@ import {ComponentModelType} from "../types/union-types";
 import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
 import {ChildLayoutRenderModel} from "../design-dimensions/Layout/Container/ChildLayoutRenderModel";
 import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
-import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
+import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
 import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
@@ -55,7 +55,7 @@ export class ResponsiveBehaviourService implements OnInit{
     })
   }
   public setRBSState(componentName: string,
-                     newState: (PositioningRenderModel |
+                     newState: (LayoutOverrideRenderModel |
                        ComponentSpecificRenderModel |
                        VisibilityRenderModel) |
                        StylingRenderModel |
@@ -66,7 +66,7 @@ export class ResponsiveBehaviourService implements OnInit{
                        DataRepresentationRenderModel|
                        (ComponentModel[])): void {
     // todo voeg datarepresentation toe
-    if (newState instanceof PositioningRenderModel ||
+    if (newState instanceof LayoutOverrideRenderModel ||
       newState instanceof ComponentSpecificRenderModel ||
       newState instanceof VisibilityRenderModel ||
       newState instanceof StylingRenderModel ||

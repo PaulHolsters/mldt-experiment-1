@@ -1,6 +1,6 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
 import {ComponentModel} from "../../models/ComponentModel";
 import {ResponsiveChildLayoutConfigModel} from "../../models/Layout/ResponsiveContainerChildLayoutConfigModel";
 import {ChildLayoutConfigModel} from "../../models/Layout/TableLayoutConfigModel";
@@ -25,7 +25,7 @@ import {MainAxisVerticalPositioningConfigType} from "../../enums/VerticalColumnL
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
 import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
 import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
-import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
 import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";

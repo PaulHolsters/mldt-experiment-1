@@ -1,7 +1,7 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {
-  ResponsivePositioningConfigModel
-} from "../../design-dimensions/Positioning/ResponsivePositioningConfigModel";
+  ResponsiveLayoutOverrideConfigModel
+} from "../../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveContainerChildLayoutConfigModel} from "../../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
@@ -26,7 +26,7 @@ export class ContainerModel extends ComponentModel implements ComponentI{
   public dataRepresentation: undefined = undefined
   public size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
   public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
-  public position: ResponsivePositioningConfigModel = new ResponsivePositioningConfigModel()
+  public position: ResponsiveLayoutOverrideConfigModel = new ResponsiveLayoutOverrideConfigModel()
   //public styling: ResponsiveStylingConfigModel = new ResponsiveStylingConfigModel()
   public visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
   public setClientData:undefined = undefined
@@ -49,11 +49,11 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     this.size = size
     return this
   }
-/*  setOverflow(overflow:ResponsiveOverflowConfigModel){
+  setOverflow(overflow:ResponsiveOverflowConfigModel){
     this.overflow = overflow
     return this
-  }*/
-  setPosition(pos:ResponsivePositioningConfigModel){
+  }
+  setPosition(pos:ResponsiveLayoutOverrideConfigModel){
     this.position = pos
     return this
   }

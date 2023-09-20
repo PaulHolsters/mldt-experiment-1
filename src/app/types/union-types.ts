@@ -3,7 +3,7 @@ import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/R
 import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ContainerModel} from "../components/container/ContainerModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/ResponsivePositioningConfigModel";
+import {ResponsiveLayoutOverrideConfigModel} from "../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {
   ResponsiveContentInjectionConfigModel
 } from "../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
@@ -27,7 +27,7 @@ export type ResponsiveConfigModelType =
   ResponsiveComponentSpecificConfigModel|
 
   ResponsiveOverflowConfigModel |
-  ResponsivePositioningConfigModel |
+  ResponsiveLayoutOverrideConfigModel |
   ResponsiveContentInjectionConfigModel |
   ResponsiveStylingConfigModel |
   ResponsiveDataRepresentationConfigModel |

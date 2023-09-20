@@ -15,16 +15,16 @@ import {
   ResponsiveDataRepresentationConfigModel
 } from "../design-dimensions/DataRepresentation/ResponsiveDataRepresentationConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/ResponsivePositioningConfigModel";
+import {ResponsiveLayoutOverrideConfigModel} from "../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {DataRepresentationConfigModel} from "../design-dimensions/DataRepresentation/DataRepresentationConfigModel";
 import {DataInputConfigModel} from "../design-dimensions/DataInput/DataInputConfigModel";
 import {ContentInjectionConfigModel} from "../design-dimensions/ContentInjection/ContentInjectionConfigModel";
 import {OverflowConfigModel} from "../design-dimensions/Overflow/OverflowConfigModel";
-import {PositioningConfigModel} from "../design-dimensions/Positioning/PositioningConfigModel";
+import {LayoutOverrideConfigModel} from "../design-dimensions/LayoutOverride/LayoutOverrideConfigModel";
 import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
-import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
+import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
 import {DataInputRenderModel} from "../design-dimensions/DataInput/DataInputRenderModel";
 import {ResponsiveIconConfigModel} from "../design-dimensions/icon-config/ResponsiveIconConfigModel";
 import {IconConfigModel} from "../design-dimensions/icon-config/IconConfigModel";
@@ -50,7 +50,7 @@ export type ResponsiveConfigType<T> =
           T extends ResponsiveDataInputConfigModel ? ResponsiveDataInputConfigModel :
             T extends ResponsiveDataRepresentationConfigModel ? ResponsiveDataRepresentationConfigModel :
               T extends ResponsiveOverflowConfigModel ? ResponsiveOverflowConfigModel :
-                T extends ResponsivePositioningConfigModel ? ResponsivePositioningConfigModel :
+                T extends ResponsiveLayoutOverrideConfigModel ? ResponsiveLayoutOverrideConfigModel :
                   T extends ResponsiveSizeConfigModel ? ResponsiveSizeConfigModel : never
 
 export type ConfigType<T> =
@@ -63,7 +63,7 @@ export type ConfigType<T> =
           T extends ResponsiveDataInputConfigModel ? DataInputConfigModel :
             T extends ResponsiveDataRepresentationConfigModel ? DataRepresentationConfigModel :
               T extends ResponsiveOverflowConfigModel ? OverflowConfigModel :
-                T extends ResponsivePositioningConfigModel ? PositioningConfigModel :
+                T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideConfigModel :
                   T extends ResponsiveSizeConfigModel ? SizeConfigModel : never;
 
 export type RenderType<T> =
@@ -77,5 +77,5 @@ export type RenderType<T> =
           T extends ResponsiveDataInputConfigModel ? DataInputRenderModel :
             T extends ResponsiveDataRepresentationConfigModel ? DataRepresentationRenderModel :
               T extends ResponsiveOverflowConfigModel ? OverflowRenderModel :
-                T extends ResponsivePositioningConfigModel ? PositioningRenderModel :
+                T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideRenderModel :
                   T extends ResponsiveSizeConfigModel ? SizeRenderModel : never

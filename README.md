@@ -25,9 +25,9 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
         {
           name: 'content-container',
           type: ComponentType.Container,
-          position: new ResponsivePositioningConfigModel(
-            new PositioningConfigModel()),
-          visibility: new ResponsiveVisibilityConfigModel(),
+          position: new ResponsiveLayoutOverrideConfigModel(
+            new LayoutOverrideConfigModel()),
+          visibility: new ResponsiveSpacingConfigModel(),
           dimensions: new ResponsiveSizeConfigModel(
             new ButtonSizeConfigModel(
               new FixedDimensioningConfigModel(
@@ -83,12 +83,12 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
               name: 'block-1',
               type: ComponentType.Block,
               styling: new ResponsiveStylingConfigModel(new StylingConfigModel()),
-              visibility: new ResponsiveVisibilityConfigModel()
+              visibility: new ResponsiveSpacingConfigModel()
             }, {
               name: 'block-2',
               type: ComponentType.Block,
               styling: new ResponsiveStylingConfigModel(new StylingConfigModel()),
-              visibility: new ResponsiveVisibilityConfigModel()
+              visibility: new ResponsiveSpacingConfigModel()
             },
             {
               name: 'logo',
@@ -97,13 +97,13 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 new IconConfigModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
               dimensions: new ResponsiveSizeConfigModel(new ButtonSizeConfigModel(undefined,
                 new DynamicSizeConfigModel(undefined, 1, undefined))),
-              visibility: new ResponsiveVisibilityConfigModel(),
+              visibility: new ResponsiveSpacingConfigModel(),
             },
             {
               name: 'block-4',
               type: ComponentType.Block,
               styling: new ResponsiveStylingConfigModel(new StylingConfigModel()),
-              visibility: new ResponsiveVisibilityConfigModel()
+              visibility: new ResponsiveSpacingConfigModel()
             }
           ]
         },

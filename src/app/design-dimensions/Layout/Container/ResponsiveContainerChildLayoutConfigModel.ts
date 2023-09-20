@@ -12,13 +12,14 @@ import {HorizontalColumnLayoutConfigType} from "../../../enums/HorizontalColumnL
 import {CalculatedSizeConfigModel} from "../../Size/CalculatedSizeConfigModel";
 import {NonCalculatedSizeConfigModel} from "../../Size/NonCalculatedSizeConfigModel";
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
+import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 
 export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveContainerChildLayoutConfigModel>{
   public smartphone:ChildLayoutConfigModel = new ChildLayoutConfigModel()
-  public portraitTablet: ChildLayoutConfigModel|undefined = undefined
-  public tablet:ChildLayoutConfigModel|undefined= undefined
-  public laptop: ChildLayoutConfigModel|undefined= undefined
-  public highResolution: ChildLayoutConfigModel|undefined= undefined
+  public portraitTablet: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public tablet:ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public laptop: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public highResolution: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   constructor() {
     super()
   }

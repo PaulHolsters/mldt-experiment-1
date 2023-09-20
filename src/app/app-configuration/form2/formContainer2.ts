@@ -9,10 +9,10 @@ import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.en
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
 import {multiSelect} from "./multiSelect";
 import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
-import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 import {formData2} from "./formDataModel2";
 import {productSpec} from "./product-spec";
 

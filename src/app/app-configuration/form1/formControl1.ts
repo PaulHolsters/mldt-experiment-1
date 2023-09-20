@@ -22,8 +22,8 @@ import {
 } from "../../enums/rowPositioningConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
 import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";
 import {NoValueType} from "../../enums/no_value_type";
 

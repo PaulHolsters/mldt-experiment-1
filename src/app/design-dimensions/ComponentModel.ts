@@ -1,5 +1,5 @@
 import {ResponsiveTableConfigModel} from "./component-specific-config/table/ResponsiveTableConfigModel";
-import {ResponsivePositioningConfigModel} from "./Positioning/ResponsivePositioningConfigModel";
+import {ResponsiveLayoutOverrideConfigModel} from "./LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {ResponsiveVisibilityConfigModel} from "./Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveSizeConfigModel} from "./Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "./Overflow/ResponsiveOverflowConfigModel";
@@ -13,7 +13,7 @@ export class ComponentModel{
   }
   replace?(key:string|undefined,value:ResponsiveTableConfigModel|ResponsiveSizeConfigModel
     |ResponsiveOverflowConfigModel|ResponsiveStylingConfigModel|
-    ResponsivePositioningConfigModel|ResponsiveContainerChildLayoutConfigModel|ResponsiveVisibilityConfigModel|ResponsiveDataRepresentationConfigModel|undefined){
+    ResponsiveLayoutOverrideConfigModel|ResponsiveContainerChildLayoutConfigModel|ResponsiveVisibilityConfigModel|ResponsiveDataRepresentationConfigModel|undefined){
     if(key){
       Reflect.set(this,key,value)
     }

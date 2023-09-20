@@ -1,7 +1,7 @@
 import {ComponentModel} from "../../models/ComponentModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 export const filterDialog =         // todo dit is het attribuut filterComponent (je zou evengoed content kunnen nemen en deze prop dus schrappen wegens niet generiek)
   new ComponentModel('filter-dialog',ComponentType.Dialog,undefined,undefined,undefined,
     undefined,
@@ -26,13 +26,13 @@ export const filterDialog =         // todo dit is het attribuut filterComponent
                   ), DynamicDimensionValueConfigType.NC)
                 )),
                 undefined,
-                new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+                new ResponsiveSpacingConfigModel(new VisibilityConfigPropsModel()),
                 undefined,
                 [
                   buttons
                 ]))
           ),
-          visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
+          visibility: new ResponsiveSpacingConfigModel(new VisibilityConfigPropsModel()),
           // todo verhinderen dat gebruikers een kleine hoogte kunnen meegeven terwijl auto niet opstaat omdat de multiselect dan niet werkt
           overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
           dimensions: new ResponsiveSizeConfigModel(

@@ -2,13 +2,14 @@ import {ScreenSize} from "../../../enums/screenSizes.enum";
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {TableLayoutRenderModel} from "./TableLayoutRenderModel";
 import {TableLayoutConfigModel} from "./TableLayoutConfigModel";
+import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 
 export class ResponsiveTableLayoutConfigModel extends ResponsiveConfigModel<ResponsiveTableLayoutConfigModel>{
   public smartphone:TableLayoutConfigModel = new TableLayoutConfigModel()
-  public portraitTablet: TableLayoutConfigModel|undefined = undefined
-  public tablet:TableLayoutConfigModel|undefined= undefined
-  public laptop: TableLayoutConfigModel|undefined= undefined
-  public highResolution: TableLayoutConfigModel|undefined= undefined
+  public portraitTablet: TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public tablet:TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public laptop: TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public highResolution: TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   constructor() {
     super()
   }

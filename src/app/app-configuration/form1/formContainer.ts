@@ -8,11 +8,11 @@ import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.en
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
 import {formControl1} from "./formControl1";
 import {formControl2} from "./formControl2";
 import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
-import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 import {conceptModel} from "../root/appDataModel";
 import {formControl3} from "./formControl3";
 import {formControl4} from "./formControl4";

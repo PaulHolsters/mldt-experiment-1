@@ -20,9 +20,8 @@ export class ResponsiveSizeConfigModel extends ResponsiveConfigModel<ResponsiveS
   constructor(){
     super()
   }
-  public getDimensionsRenderProperties(screenSize: number): SizeRenderModel {
-    // todo add size based on components mapping
-    const mapToDimensioningRenderProperties = (dimensionsConfig: SizeConfigModel): SizeRenderModel => {
+  public getSizeRenderProperties(screenSize: number): SizeRenderModel {
+    const mapToSizeRenderProperties = (dimensionsConfig: SizeConfigModel): SizeRenderModel => {
       const compPropsObj = new SizeRenderModel()
       if(dimensionsConfig.width){
         if(dimensionsConfig.width instanceof CalculatedSizeConfigModel){
@@ -58,7 +57,7 @@ export class ResponsiveSizeConfigModel extends ResponsiveConfigModel<ResponsiveS
       }
       return compPropsObj
     }
-    return this.getRenderProperties(screenSize,mapToDimensioningRenderProperties)
+    return this.getRenderProperties(screenSize,mapToSizeRenderProperties)
   }
   getInstance(){
     return 'dimensions'

@@ -159,24 +159,24 @@ state: [
       name: 'logo',
       type: ComponentType.Logo,
       attributes: new ResponsiveTableConfigModel(),
-      position: new ResponsivePositioningConfigModel(
+      position: new ResponsiveLayoutOverrideConfigModel(
         this.logoSmartphoneLayout,
         this.logoPortraitTabletLayout,
         this.logoTabletLayout,
         this.logoLaptopLayout,
         this.logoHighResolutionLayout
       ),
-      visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(false, false)
+      visibility: new ResponsiveSpacingConfigModel(new VisibilityConfigPropsModel(false, false)
         , undefined
         , undefined
-        , new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel(true, false)),
+        , new ResponsiveSpacingConfigModel(new VisibilityConfigPropsModel(true, false)),
         undefined
       )
     },
     {
       name: 'test-click-action',
       type: ComponentType.Button,
-      position: new ResponsivePositioningConfigModel({
+      position: new ResponsiveLayoutOverrideConfigModel({
         childLayout: {}
       }, {
         childLayout: {}

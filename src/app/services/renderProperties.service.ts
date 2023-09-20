@@ -10,7 +10,7 @@ import {ActionIdType} from "../types/type-aliases";
 import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubject";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
-import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
+import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
 import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
@@ -68,7 +68,7 @@ export class RenderPropertiesService implements OnInit {
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
-      PositioningRenderModel |
+      LayoutOverrideRenderModel |
       ComponentSpecificRenderModel |
       VisibilityRenderModel |
       OverflowRenderModel |

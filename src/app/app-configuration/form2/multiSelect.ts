@@ -21,8 +21,8 @@ import {CrossAxisVerticalLanesPositioningConfigType} from "../../enums/rowPositi
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
 import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
 import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
-import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
+import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 
 export const multiSelect = {
   name: 'multi-select',

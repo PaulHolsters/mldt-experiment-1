@@ -14,7 +14,8 @@ export class DataInputConfigModel {
   ) {
   }
 
-  setDisabled(disabled: boolean | ZeroValueType.NotAllowed) {
+  setDisabled(disabled: boolean | ZeroValueType.NotAllowed):DataInputConfigModel {
     this.disabled = disabled
+    return this
   }
 }

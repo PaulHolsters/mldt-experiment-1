@@ -2,13 +2,14 @@ import {OverflowConfigModel} from "./OverflowConfigModel";
 import {OverflowRenderModel} from "./OverflowRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
+import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 
 export class ResponsiveOverflowConfigModel extends ResponsiveConfigModel<ResponsiveOverflowConfigModel>{
   public smartphone:OverflowConfigModel=new OverflowConfigModel()
-  public portraitTablet: OverflowConfigModel|undefined=undefined
-  public tablet:OverflowConfigModel|undefined=undefined
-  public laptop: OverflowConfigModel|undefined=undefined
-  public highResolution: OverflowConfigModel|undefined=undefined
+  public portraitTablet: OverflowConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public tablet:OverflowConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public laptop: OverflowConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public highResolution: OverflowConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   constructor() {
     super()
   }
