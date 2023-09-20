@@ -6,6 +6,8 @@ import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {CalculatedSizeConfigModel} from "./CalculatedSizeConfigModel";
 import {NonCalculatedSizeConfigModel} from "./NonCalculatedSizeConfigModel";
 import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
+import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
+import {ButtonSizeRenderModel} from "./button/ButtonSizeRenderModel";
 export class ResponsiveSizeConfigModel extends ResponsiveConfigModel<ResponsiveSizeConfigModel>{
   public highResolution: SizeConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   public laptop: SizeConfigModel | ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
@@ -19,6 +21,7 @@ export class ResponsiveSizeConfigModel extends ResponsiveConfigModel<ResponsiveS
     super()
   }
   public getDimensionsRenderProperties(screenSize: number): SizeRenderModel {
+    // todo add size based on components mapping
     const mapToDimensioningRenderProperties = (dimensionsConfig: SizeConfigModel): SizeRenderModel => {
       const compPropsObj = new SizeRenderModel()
       if(dimensionsConfig.width){
@@ -44,6 +47,14 @@ export class ResponsiveSizeConfigModel extends ResponsiveConfigModel<ResponsiveS
       if(dimensionsConfig.dynamic){
         compPropsObj.grow = dimensionsConfig.dynamic.grow
         compPropsObj.shrink = dimensionsConfig.dynamic.shrink
+      }
+      if(dimensionsConfig.componentSpecificSize){
+        // todo zorg ervoor via conditional typing dat je hier altijd de juiste moet gebruiken (naming!)
+        if(dimensionsConfig.componentSpecificSize instanceof ButtonSizeConfigModel){
+          const rm = new ButtonSizeRenderModel()
+          rm.size = dimensionsConfig.componentSpecificSize.size
+          compPropsObj.componentSpecificSize = rm
+        }
       }
       return compPropsObj
     }

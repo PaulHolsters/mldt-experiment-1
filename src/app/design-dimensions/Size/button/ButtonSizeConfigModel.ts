@@ -1,5 +1,7 @@
+import {ButtonSizeType} from "../../../enums/buttonSizeType.enum";
+
 export class ButtonSizeConfigModel {
-  constructor(){
+  constructor(public size:ButtonSizeType){
   }
 
 }

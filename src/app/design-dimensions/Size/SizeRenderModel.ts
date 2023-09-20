@@ -3,6 +3,7 @@ import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTy
 import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
 import {MarginType} from "../../enums/marginType.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
+import {ButtonSizeRenderModel} from "./button/ButtonSizeRenderModel";
 
 export class SizeRenderModel {
   public height: string |ParentConfigType.static| undefined = undefined
@@ -11,6 +12,7 @@ export class SizeRenderModel {
   public calcWidth: string |ParentConfigType.static| undefined = undefined
   public grow: number |ParentConfigType.static| undefined = undefined
   public shrink: number | ParentConfigType.static|undefined = undefined
+  public componentSpecificSize:ButtonSizeRenderModel|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType | MarginType|PaddingType|undefined): void {
