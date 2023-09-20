@@ -23,7 +23,7 @@ import {
 } from "../../enums/rowPositioningConfigTypes.enum";
 import {MainAxisVerticalPositioningConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
-import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/IconStylingConfigModel";
 import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";

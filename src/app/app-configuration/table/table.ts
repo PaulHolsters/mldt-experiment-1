@@ -1,6 +1,6 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
-import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/IconStylingConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
 import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";

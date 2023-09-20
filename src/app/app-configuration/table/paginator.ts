@@ -5,7 +5,7 @@ import {AttributesConfigPropsModel} from "../../models/component-specific-config
 import {NoValueType} from "../../enums/no_value_type";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
-import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/IconStylingConfigModel";
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Size/WidthConfigModel";

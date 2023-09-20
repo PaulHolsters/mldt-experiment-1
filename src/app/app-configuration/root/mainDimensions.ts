@@ -1,5 +1,5 @@
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
-import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/IconStylingConfigModel";
 import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
 import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";

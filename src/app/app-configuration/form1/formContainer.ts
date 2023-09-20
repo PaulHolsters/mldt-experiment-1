@@ -2,7 +2,7 @@ import {ComponentModel} from "../../models/ComponentModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {formLayout} from "./formLayout";
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
-import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/IconStylingConfigModel";
 import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";

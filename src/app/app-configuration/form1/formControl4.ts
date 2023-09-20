@@ -21,7 +21,7 @@ import {
   CrossAxisVerticalLanesPositioningConfigType
 } from "../../enums/rowPositioningConfigTypes.enum";
 import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
-import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/IconStylingConfigModel";
 import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";

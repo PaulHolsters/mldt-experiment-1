@@ -1,47 +1,39 @@
 import {StylingConfigModel} from "./StylingConfigModel";
-import {NoValueType} from "../../enums/no_value_type";
 import {StylingRenderModel} from "./StylingRenderModel";
-import {ScreenSize} from "../../enums/screenSizes.enum";
-export class ResponsiveStylingConfigModel {
-  constructor(public smartphone:StylingConfigModel,
-              public portraitTablet?: StylingConfigModel,
-              public tablet?:StylingConfigModel,
-              public laptop?: StylingConfigModel,
-              public highResolution?: StylingConfigModel) {
+import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
+import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+import {ButtonStylingConfigModel} from "./button/ButtonStylingConfigModel";
+import {IconStylingConfigModel} from "./icon/IconStylingConfigModel";
+import {ButtonStylingRenderModel} from "./button/ButtonStylingRenderModel";
+import {IconStylingRenderModel} from "./icon/IconStylingRenderModel";
+
+export class ResponsiveStylingConfigModel extends ResponsiveConfigModel<ResponsiveStylingConfigModel>{
+  public portraitTablet: StylingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public tablet:StylingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public laptop: StylingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public highResolution: StylingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  constructor(public smartphone:StylingConfigModel) {
+    // todo voor background, spacing, border etc. moet je aprte modellen maken omdat deze sowieso voor alle componenten hetzelfde zijn en
+    //      altijd opgaan
+    super()
   }
   public getInstance(){
     return 'styling'
   }
-  public getStylingRenderProperties(componentName: string, stateModel: ResponsiveStylingConfigModel, screenSize: number): StylingRenderModel {
-    const translateToStylingComponentProps =
+  public getStylingRenderProperties(screenSize: number): StylingRenderModel {
+    const mapToStylingRenderProperties =
       (stylingConfig: StylingConfigModel): StylingRenderModel => {
-        return new StylingRenderModel(
-          stylingConfig.backgroundColor,
-          stylingConfig.border,
-          stylingConfig.fontWeight,
-          stylingConfig.textColor,
-          stylingConfig.textDecoration,
-          stylingConfig.fontSize,
-          stylingConfig.fontStyle,
-          stylingConfig.tableStyle,
-          stylingConfig.responsiveTableLayout,
-          stylingConfig.tableBreakpoint,
-          stylingConfig.buttonSize,
-          stylingConfig.buttonMeaning,
-          stylingConfig.buttonAppearance,
-          stylingConfig.buttonForm,
-          stylingConfig.iconSize,
-          stylingConfig.iconMeaning
-        )
+        const rm = new StylingRenderModel()
+        if(stylingConfig.componentConfigModel instanceof ButtonStylingConfigModel){
+          rm.componentRenderModel=new ButtonStylingRenderModel()
+        } else if(stylingConfig.componentConfigModel instanceof IconStylingConfigModel){
+          rm.componentRenderModel=new IconStylingRenderModel()
+        }
+        Object.entries(stylingConfig.componentConfigModel).forEach(([k,v])=>{
+          if(v) rm.componentRenderModel?.setProperty(k,v)
+        })
+        return rm
       }
-    let lastScreenSize = screenSize
-    const stateModelObj = Object.create(stateModel)
-    while (lastScreenSize >= 0) {
-      if (stateModelObj[ScreenSize[lastScreenSize]]) {
-        return translateToStylingComponentProps(stateModelObj[ScreenSize[lastScreenSize]])
-      }
-      lastScreenSize--
-    }
-    throw new Error('No screensize configuration was found for given ResponsiveStylingConfigModel and screen ' + ScreenSize[screenSize])
+      return this.getRenderProperties(screenSize,mapToStylingRenderProperties)
   }
 }
