@@ -33,28 +33,28 @@ export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigM
       const parentPropsObj = new ParentRenderPropertiesModel()
       const childPropsObj = new ChildPropertiesRenderModel()
       parentPropsObj.wrap = childLayoutConfig.layout.wrap
-      if(childLayoutConfig.layout.dimensionsOfChildren.dynamic){
-        childPropsObj.grow = childLayoutConfig.layout.dimensionsOfChildren.dynamic.grow
-        childPropsObj.shrink = childLayoutConfig.layout.dimensionsOfChildren.dynamic.shrink
+      if(childLayoutConfig.layout.sizeOfChildren.dynamic){
+        childPropsObj.grow = childLayoutConfig.layout.sizeOfChildren.dynamic.grow
+        childPropsObj.shrink = childLayoutConfig.layout.sizeOfChildren.dynamic.shrink
       }
-      if(childLayoutConfig.layout.dimensionsOfChildren.width) {
-        if(childLayoutConfig.layout.dimensionsOfChildren.width instanceof CalculatedSizeConfigModel){
-          childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width.value
-        } else if(childLayoutConfig.layout.dimensionsOfChildren.width instanceof NonCalculatedSizeConfigModel){
-          childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width.value+childLayoutConfig.layout.dimensionsOfChildren.width.unit
-        } else if(childLayoutConfig.layout.dimensionsOfChildren.width===ParentConfigType.static){
-          childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width
-          childPropsObj.calcWidth = childLayoutConfig.layout.dimensionsOfChildren.width
+      if(childLayoutConfig.layout.sizeOfChildren.width) {
+        if(childLayoutConfig.layout.sizeOfChildren.width instanceof CalculatedSizeConfigModel){
+          childPropsObj.width = childLayoutConfig.layout.sizeOfChildren.width.value
+        } else if(childLayoutConfig.layout.sizeOfChildren.width instanceof NonCalculatedSizeConfigModel){
+          childPropsObj.width = childLayoutConfig.layout.sizeOfChildren.width.value+childLayoutConfig.layout.sizeOfChildren.width.unit
+        } else if(childLayoutConfig.layout.sizeOfChildren.width===ParentConfigType.static){
+          childPropsObj.width = childLayoutConfig.layout.sizeOfChildren.width
+          childPropsObj.calcWidth = childLayoutConfig.layout.sizeOfChildren.width
         } else throw new Error('unimplemented option')
       }
-      if(childLayoutConfig.layout.dimensionsOfChildren.height) {
-        if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof CalculatedSizeConfigModel){
-          childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height.value
-        } else if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof NonCalculatedSizeConfigModel){
-          childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height.value+childLayoutConfig.layout.dimensionsOfChildren.height.unit
-        } else if(childLayoutConfig.layout.dimensionsOfChildren.height===ParentConfigType.static){
-          childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height
-          childPropsObj.calcHeight = childLayoutConfig.layout.dimensionsOfChildren.height
+      if(childLayoutConfig.layout.sizeOfChildren.height) {
+        if(childLayoutConfig.layout.sizeOfChildren.height instanceof CalculatedSizeConfigModel){
+          childPropsObj.height = childLayoutConfig.layout.sizeOfChildren.height.value
+        } else if(childLayoutConfig.layout.sizeOfChildren.height instanceof NonCalculatedSizeConfigModel){
+          childPropsObj.height = childLayoutConfig.layout.sizeOfChildren.height.value+childLayoutConfig.layout.sizeOfChildren.height.unit
+        } else if(childLayoutConfig.layout.sizeOfChildren.height===ParentConfigType.static){
+          childPropsObj.height = childLayoutConfig.layout.sizeOfChildren.height
+          childPropsObj.calcHeight = childLayoutConfig.layout.sizeOfChildren.height
         } else throw new Error('unimplemented option')
       }
       if(childLayoutConfig.layout instanceof RowLayoutConfigModel){

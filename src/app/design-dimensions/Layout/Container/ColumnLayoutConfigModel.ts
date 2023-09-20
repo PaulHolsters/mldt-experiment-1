@@ -4,6 +4,8 @@ import {ColumnPositioningConfigType} from "../../../enums/columnPositioningConfi
 import {SizeConfigModel} from "../../Size/SizeConfigModel";
 
 export class ColumnLayoutConfigModel {
+  // todo add conditions that force the set methods to be implemented based on the properties
+  //        outside the constructor ?
   public horizontalLayoutOfChildren: HorizontalColumnLayoutConfigType=HorizontalColumnLayoutConfigType.Left
   public verticalLayoutOfChildren: VerticalColumnLayoutConfigType=VerticalColumnLayoutConfigType.Top
   public sizeOfChildren:SizeConfigModel= new SizeConfigModel()

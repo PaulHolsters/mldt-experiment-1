@@ -1,18 +1,13 @@
 import {RowPositioningConfigType} from "../../../enums/rowPositioningConfigTypes.enum";
 import {HorizontalRowLayoutConfigType} from "../../../enums/HorizontalRowLayoutConfigTypes.enum";
 import {VerticalRowLayoutConfigType} from "../../../enums/VerticalRowLayoutConfigTypes.enum";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {SizeConfigModel} from "../../Size/SizeConfigModel";
-import {DynamicSizeConfigModel} from "../../Size/DynamicSizeConfigModel";
-
 export class RowLayoutConfigModel {
   public horizontalLayoutOfChildren: HorizontalRowLayoutConfigType=HorizontalRowLayoutConfigType.Left
   public verticalLayoutOfChildren: VerticalRowLayoutConfigType=VerticalRowLayoutConfigType.Top
-  public dimensionsOfChildren:SizeConfigModel
-    = new SizeConfigModel(ZeroValueType.NotConfigured,ZeroValueType.NotConfigured,new DynamicSizeConfigModel())
+  public sizeOfChildren:SizeConfigModel = new SizeConfigModel()
   public positionOfRows:RowPositioningConfigType=RowPositioningConfigType.Top
   public wrap: boolean = true
-  // todo add setter for dimensions
   setHorizontalLayoutOfChildren(layout:HorizontalRowLayoutConfigType){
     this.horizontalLayoutOfChildren = layout
     return this
@@ -22,7 +17,7 @@ export class RowLayoutConfigModel {
     return this
   }
   setDimensionsOfChildren(dimensions:SizeConfigModel){
-    this.dimensionsOfChildren = dimensions
+    this.sizeOfChildren = dimensions
     return this
   }
   setPositionOfRows(positionOfRows:RowPositioningConfigType){
