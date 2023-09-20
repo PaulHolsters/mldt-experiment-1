@@ -1,6 +1,6 @@
 import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 
-export class DynamicDimensioningConfigModel {
+export class DynamicSizeConfigModel {
   public grow: number|ParentConfigType.grow=0
   public shrink: number|ParentConfigType.shrink=0
   constructor(

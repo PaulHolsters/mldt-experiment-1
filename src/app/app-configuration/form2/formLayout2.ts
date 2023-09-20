@@ -3,8 +3,8 @@ import {ChildLayoutConfigModel} from "../../models/Layout/TableLayoutConfigModel
 import {HorizontalLayoutConfigPropsModel} from "../../models/Layout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
 import {CrossAxisHorizontalPositioningConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
-import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
+import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";

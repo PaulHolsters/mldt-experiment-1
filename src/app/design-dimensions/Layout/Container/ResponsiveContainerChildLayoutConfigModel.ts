@@ -9,8 +9,8 @@ import {HorizontalRowLayoutConfigType} from "../../../enums/HorizontalRowLayoutC
 import {VerticalRowLayoutConfigType} from "../../../enums/VerticalRowLayoutConfigTypes.enum";
 import {VerticalColumnLayoutConfigType} from "../../../enums/VerticalColumnLayoutConfigTypes.enum";
 import {HorizontalColumnLayoutConfigType} from "../../../enums/HorizontalColumnLayoutConfigTypes.enum";
-import {CalculatedDimensioningConfigModel} from "../../Dimensioning/CalculatedDimensioningConfigModel";
-import {NonCalculatedDimensioningConfigModel} from "../../Dimensioning/NonCalculatedDimensioningConfigModel";
+import {CalculatedSizeConfigModel} from "../../Size/CalculatedSizeConfigModel";
+import {NonCalculatedSizeConfigModel} from "../../Size/NonCalculatedSizeConfigModel";
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
 
 export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveContainerChildLayoutConfigModel>{
@@ -38,9 +38,9 @@ export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigM
         childPropsObj.shrink = childLayoutConfig.layout.dimensionsOfChildren.dynamic.shrink
       }
       if(childLayoutConfig.layout.dimensionsOfChildren.width) {
-        if(childLayoutConfig.layout.dimensionsOfChildren.width instanceof CalculatedDimensioningConfigModel){
+        if(childLayoutConfig.layout.dimensionsOfChildren.width instanceof CalculatedSizeConfigModel){
           childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width.value
-        } else if(childLayoutConfig.layout.dimensionsOfChildren.width instanceof NonCalculatedDimensioningConfigModel){
+        } else if(childLayoutConfig.layout.dimensionsOfChildren.width instanceof NonCalculatedSizeConfigModel){
           childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width.value+childLayoutConfig.layout.dimensionsOfChildren.width.unit
         } else if(childLayoutConfig.layout.dimensionsOfChildren.width===ParentConfigType.static){
           childPropsObj.width = childLayoutConfig.layout.dimensionsOfChildren.width
@@ -48,9 +48,9 @@ export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigM
         } else throw new Error('unimplemented option')
       }
       if(childLayoutConfig.layout.dimensionsOfChildren.height) {
-        if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof CalculatedDimensioningConfigModel){
+        if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof CalculatedSizeConfigModel){
           childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height.value
-        } else if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof NonCalculatedDimensioningConfigModel){
+        } else if(childLayoutConfig.layout.dimensionsOfChildren.height instanceof NonCalculatedSizeConfigModel){
           childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height.value+childLayoutConfig.layout.dimensionsOfChildren.height.unit
         } else if(childLayoutConfig.layout.dimensionsOfChildren.height===ParentConfigType.static){
           childPropsObj.height = childLayoutConfig.layout.dimensionsOfChildren.height

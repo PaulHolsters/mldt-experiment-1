@@ -1,4 +1,4 @@
-import {ResponsiveDimensioningConfigModel} from "../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
+import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ContainerModel} from "../components/container/ContainerModel";
@@ -19,7 +19,7 @@ import {
 } from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
 
 export type ResponsiveConfigModelType =
-  ResponsiveDimensioningConfigModel |
+  ResponsiveSizeConfigModel |
   ResponsiveVisibilityConfigModel |
   ResponsiveContainerChildLayoutConfigModel |
   ResponsiveIconConfigModel |

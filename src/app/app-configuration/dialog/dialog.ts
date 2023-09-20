@@ -19,7 +19,7 @@ export const filterDialog =         // todo dit is het attribuut filterComponent
                 ComponentType.Container,
                 formLayout,
                 undefined,
-                new ResponsiveDimensioningConfigModel(new DimensioningConfigPropsModel(
+                new ResponsiveSizeConfigModel(new DimensioningConfigPropsModel(
                   new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,100,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
                   new WidthConfigPropsModel(new FixedDimensioningConfigModel(
                     DimensionValueConfigType.Hardcoded, 100, DimensionUnitConfigType.Percentage
@@ -35,7 +35,7 @@ export const filterDialog =         // todo dit is het attribuut filterComponent
           visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigPropsModel()),
           // todo verhinderen dat gebruikers een kleine hoogte kunnen meegeven terwijl auto niet opstaat omdat de multiselect dan niet werkt
           overflow:new ResponsiveOverflowConfigModel(new OverflowConfigPropsModel(OverflowValueConfigType.Auto,OverflowValueConfigType.NC)),
-          dimensions: new ResponsiveDimensioningConfigModel(
+          dimensions: new ResponsiveSizeConfigModel(
             new DimensioningConfigPropsModel(
               new HeightConfigPropsModel(new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded,20,DimensionUnitConfigType.Percentage),DynamicDimensionValueConfigType.NC),
               new WidthConfigPropsModel(new FixedDimensioningConfigModel(

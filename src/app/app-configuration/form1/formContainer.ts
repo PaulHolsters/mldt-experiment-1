@@ -1,13 +1,13 @@
 import {ComponentModel} from "../../models/ComponentModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {formLayout} from "./formLayout";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
-import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
+import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {formControl1} from "./formControl1";
 import {formControl2} from "./formControl2";
@@ -21,7 +21,7 @@ import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfi
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {buttons} from "./buttons";
-import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
+import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
 
 export const formContainer = new ComponentModel(
   'form-container',

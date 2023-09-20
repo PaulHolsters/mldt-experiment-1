@@ -10,7 +10,7 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
 import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {ComponentModelType} from "../types/union-types";
-import {DimensioningRenderModel} from "../design-dimensions/Dimensioning/DimensioningRenderModel";
+import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
 import {ChildLayoutRenderModel} from "../design-dimensions/Layout/Container/ChildLayoutRenderModel";
 import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
 import {PositioningRenderModel} from "../design-dimensions/Positioning/PositioningRenderModel";
@@ -60,7 +60,7 @@ export class ResponsiveBehaviourService implements OnInit{
                        VisibilityRenderModel) |
                        StylingRenderModel |
                        ContentInjectionRenderModel |
-                       DimensioningRenderModel |
+                       SizeRenderModel |
                        OverflowRenderModel |
                        ChildLayoutRenderModel |
                        DataRepresentationRenderModel|
@@ -71,7 +71,7 @@ export class ResponsiveBehaviourService implements OnInit{
       newState instanceof VisibilityRenderModel ||
       newState instanceof StylingRenderModel ||
       newState instanceof ContentInjectionRenderModel ||
-      newState instanceof DimensioningRenderModel ||
+      newState instanceof SizeRenderModel ||
       newState instanceof OverflowRenderModel ||
       newState instanceof DataRepresentationRenderModel
     ) {

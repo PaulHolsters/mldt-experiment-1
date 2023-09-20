@@ -5,11 +5,11 @@ import {AttributesConfigPropsModel} from "../../models/component-specific-config
 import {NoValueType} from "../../enums/no_value_type";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
-import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
-import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
+import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";

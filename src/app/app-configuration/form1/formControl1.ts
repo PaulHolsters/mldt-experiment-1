@@ -6,8 +6,8 @@ import {ChildLayoutConfigModel} from "../../models/Layout/TableLayoutConfigModel
 import {HorizontalLayoutConfigPropsModel} from "../../models/Layout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
 import {CrossAxisHorizontalPositioningConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
-import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
+import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -20,8 +20,8 @@ import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {
   CrossAxisVerticalLanesPositioningConfigType
 } from "../../enums/rowPositioningConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";

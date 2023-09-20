@@ -6,12 +6,9 @@ import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibilit
 import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveContainerChildLayoutConfigModel} from "../../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {
-  ResponsiveDimensioningConfigModel
-} from "../../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigModel} from "../../design-dimensions/Dimensioning/DimensioningConfigModel";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+  ResponsiveSizeConfigModel
+} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {ResponsiveStylingConfigModel} from "../../design-dimensions/Styling/ResponsiveStylingConfigModel";
 
 export class ContainerModel extends ComponentModel implements ComponentI{
   public name:string
@@ -27,8 +24,7 @@ export class ContainerModel extends ComponentModel implements ComponentI{
   public contentInjection: undefined = undefined
   public dataInput: undefined = undefined
   public dataRepresentation: undefined = undefined
-  public dimensions: ResponsiveDimensioningConfigModel
-    = new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(ZeroValueType.NotConfigured, ZeroValueType.NotConfigured))
+  public size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
   public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
   public position: ResponsivePositioningConfigModel = new ResponsivePositioningConfigModel()
   //public styling: ResponsiveStylingConfigModel = new ResponsiveStylingConfigModel()
@@ -49,8 +45,8 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     this.children = children
     return this
   }
-  setDimensions(dim:ResponsiveDimensioningConfigModel){
-    this.dimensions = dim
+  setSize(size:ResponsiveSizeConfigModel){
+    this.size = size
     return this
   }
 /*  setOverflow(overflow:ResponsiveOverflowConfigModel){

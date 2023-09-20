@@ -1,12 +1,12 @@
 import {ChildLayoutRenderModel} from "../design-dimensions/Layout/Container/ChildLayoutRenderModel";
-import {DimensioningRenderModel} from "../design-dimensions/Dimensioning/DimensioningRenderModel";
+import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigModel} from "../design-dimensions/Visibility/VisibilityConfigModel";
 import {ChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ChildLayoutConfigModel";
 import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
-import {ResponsiveDimensioningConfigModel} from "../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigModel} from "../design-dimensions/Dimensioning/DimensioningConfigModel";
+import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
+import {SizeConfigModel} from "../design-dimensions/Size/SizeConfigModel";
 import {
   ResponsiveContentInjectionConfigModel
 } from "../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
@@ -51,7 +51,7 @@ export type ResponsiveConfigType<T> =
             T extends ResponsiveDataRepresentationConfigModel ? ResponsiveDataRepresentationConfigModel :
               T extends ResponsiveOverflowConfigModel ? ResponsiveOverflowConfigModel :
                 T extends ResponsivePositioningConfigModel ? ResponsivePositioningConfigModel :
-                  T extends ResponsiveDimensioningConfigModel ? ResponsiveDimensioningConfigModel : never
+                  T extends ResponsiveSizeConfigModel ? ResponsiveSizeConfigModel : never
 
 export type ConfigType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutConfigModel :
@@ -64,7 +64,7 @@ export type ConfigType<T> =
             T extends ResponsiveDataRepresentationConfigModel ? DataRepresentationConfigModel :
               T extends ResponsiveOverflowConfigModel ? OverflowConfigModel :
                 T extends ResponsivePositioningConfigModel ? PositioningConfigModel :
-                  T extends ResponsiveDimensioningConfigModel ? DimensioningConfigModel : never;
+                  T extends ResponsiveSizeConfigModel ? SizeConfigModel : never;
 
 export type RenderType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutRenderModel :
@@ -78,4 +78,4 @@ export type RenderType<T> =
             T extends ResponsiveDataRepresentationConfigModel ? DataRepresentationRenderModel :
               T extends ResponsiveOverflowConfigModel ? OverflowRenderModel :
                 T extends ResponsivePositioningConfigModel ? PositioningRenderModel :
-                  T extends ResponsiveDimensioningConfigModel ? DimensioningRenderModel : never
+                  T extends ResponsiveSizeConfigModel ? SizeRenderModel : never

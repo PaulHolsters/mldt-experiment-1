@@ -10,7 +10,7 @@ export class NumberInputDataRepresentationConfigModel {
   public currency:CurrencyModel|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public minFractionDigits: number = 0
   public maxFractionDigits: number = 20
-  public floatLabel:boolean|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
+  public floatLabel:boolean=true
   public suffix:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public prefix:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
 
@@ -36,7 +36,7 @@ export class NumberInputDataRepresentationConfigModel {
     this.maxFractionDigits = MFD
     return this
   }
-  setFloatLabel(floatLabel:boolean|ZeroValueType.NotConfigured) {
+  setFloatLabel(floatLabel:boolean) {
     this.floatLabel = floatLabel
     return this
   }

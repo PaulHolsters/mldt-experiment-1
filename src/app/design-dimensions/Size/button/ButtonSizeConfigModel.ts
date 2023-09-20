@@ -1,0 +1,5 @@
+export class ButtonSizeConfigModel {
+  constructor(){
+  }
+
+}

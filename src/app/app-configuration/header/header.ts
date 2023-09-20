@@ -7,8 +7,8 @@ import {ChildLayoutConfigModel} from "../../models/Layout/TableLayoutConfigModel
 import {HorizontalLayoutConfigPropsModel} from "../../models/Layout/HorizontalLayoutConfigPropsModel";
 import {AxisConfigType} from "../../enums/axisConfigTypes.enum";
 import {CrossAxisHorizontalPositioningConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
-import {WidthConfigModel} from "../../models/Dimensioning/WidthConfigModel";
-import {FixedDimensioningConfigModel} from "../../models/Dimensioning/NonCalculatedDimensioningConfigModel";
+import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
+import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
 import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
@@ -22,9 +22,9 @@ import {
   CrossAxisVerticalLanesPositioningConfigType
 } from "../../enums/rowPositioningConfigTypes.enum";
 import {MainAxisVerticalPositioningConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
-import {ResponsiveDimensioningConfigModel} from "../../models/Dimensioning/ResponsiveDimensioningConfigModel";
-import {DimensioningConfigModel} from "../../models/Dimensioning/DimensioningConfigModel";
-import {HeightConfigModel} from "../../models/Dimensioning/HeightConfigModel";
+import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSizeConfigModel";
+import {DimensioningConfigModel} from "../../models/Size/ButtonSizeConfigModel";
+import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/VisibilityConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";
 import {OverflowConfigPropsModel} from "../../models/Overflow/self/OverflowConfigPropsModel";

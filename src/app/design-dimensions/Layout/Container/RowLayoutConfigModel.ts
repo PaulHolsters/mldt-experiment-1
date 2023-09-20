@@ -2,14 +2,14 @@ import {RowPositioningConfigType} from "../../../enums/rowPositioningConfigTypes
 import {HorizontalRowLayoutConfigType} from "../../../enums/HorizontalRowLayoutConfigTypes.enum";
 import {VerticalRowLayoutConfigType} from "../../../enums/VerticalRowLayoutConfigTypes.enum";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-import {DimensioningConfigModel} from "../../Dimensioning/DimensioningConfigModel";
-import {DynamicDimensioningConfigModel} from "../../Dimensioning/DynamicDimensioningConfigModel";
+import {SizeConfigModel} from "../../Size/SizeConfigModel";
+import {DynamicSizeConfigModel} from "../../Size/DynamicSizeConfigModel";
 
 export class RowLayoutConfigModel {
   public horizontalLayoutOfChildren: HorizontalRowLayoutConfigType=HorizontalRowLayoutConfigType.Left
   public verticalLayoutOfChildren: VerticalRowLayoutConfigType=VerticalRowLayoutConfigType.Top
-  public dimensionsOfChildren:DimensioningConfigModel
-    = new DimensioningConfigModel(ZeroValueType.NotConfigured,ZeroValueType.NotConfigured,new DynamicDimensioningConfigModel())
+  public dimensionsOfChildren:SizeConfigModel
+    = new SizeConfigModel(ZeroValueType.NotConfigured,ZeroValueType.NotConfigured,new DynamicSizeConfigModel())
   public positionOfRows:RowPositioningConfigType=RowPositioningConfigType.Top
   public wrap: boolean = true
   // todo add setter for dimensions
@@ -21,7 +21,7 @@ export class RowLayoutConfigModel {
     this.verticalLayoutOfChildren = layout
     return this
   }
-  setDimensionsOfChildren(dimensions:DimensioningConfigModel){
+  setDimensionsOfChildren(dimensions:SizeConfigModel){
     this.dimensionsOfChildren = dimensions
     return this
   }

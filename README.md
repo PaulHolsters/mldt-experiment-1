@@ -28,8 +28,8 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
           position: new ResponsivePositioningConfigModel(
             new PositioningConfigModel()),
           visibility: new ResponsiveVisibilityConfigModel(),
-          dimensions: new ResponsiveDimensioningConfigModel(
-            new DimensioningConfigModel(
+          dimensions: new ResponsiveSizeConfigModel(
+            new ButtonSizeConfigModel(
               new FixedDimensioningConfigModel(
                 DimensionValueConfigType.Calculated, '(100vh - 16px)')
             )),
@@ -40,7 +40,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 true,
                 true,
                 MainAxisHorizontalPositioningConfigType.Left,
-                new DynamicDimensioningConfigModel(1, 1, undefined),
+                new DynamicSizeConfigModel(1, 1, undefined),
                 //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
                 MainAxisHorizontalPositioningConfigType.No_value_types
               ),
@@ -49,7 +49,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 undefined,
                 true,
                 undefined,
-                new DynamicDimensioningConfigModel(
+                new DynamicSizeConfigModel(
                   undefined,
                   undefined,
                   true
@@ -61,7 +61,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 undefined,
                 true,
                 undefined,
-                new DynamicDimensioningConfigModel(
+                new DynamicSizeConfigModel(
                   undefined,
                   undefined,
                   true
@@ -71,7 +71,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
                 true,
                 true,
                 MainAxisVerticalPositioningConfigType.Top,
-                new DynamicDimensioningConfigModel(1, 1, undefined),
+                new DynamicSizeConfigModel(1, 1, undefined),
                 //new FixedDimensioningConfigModel(DimensionValueConfigType.Hardcoded, 240, DimensionUnitConfigType.PX),
                 MainAxisVerticalPositioningConfigType.No_value_types
               )
@@ -95,8 +95,8 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
               type: ComponentType.Logo,
               attributes: new ResponsiveTableConfigModel(
                 new IconConfigModel('kisspng-the-library-project-organization-public-library-ed-5ae3a97f396580.1255839715248695032351.png')),
-              dimensions: new ResponsiveDimensioningConfigModel(new DimensioningConfigModel(undefined,
-                new DynamicDimensioningConfigModel(undefined, 1, undefined))),
+              dimensions: new ResponsiveSizeConfigModel(new ButtonSizeConfigModel(undefined,
+                new DynamicSizeConfigModel(undefined, 1, undefined))),
               visibility: new ResponsiveVisibilityConfigModel(),
             },
             {
@@ -237,8 +237,8 @@ In het ComponentModel vind je de verschillende properties die je nodig hebt voor
 
 Een voorbeeld:
 
-              dimensions: new ResponsiveDimensioningConfigModel(
-              new DimensioningConfigModel(
+              dimensions: new ResponsiveSizeConfigModel(
+              new ButtonSizeConfigModel(
                 new FixedDimensioningConfigModel(
                   DimensionValueConfigType.Hardcoded,
                   8,
@@ -248,7 +248,7 @@ Een voorbeeld:
                   8,
                   DimensionUnitConfigType.REM))),
 
-Het *ResponsiveDimensioningConfigModel* verwacht maximaal 5 parameters, één voor elke schermgrootte, te beginnen bij het kleinste, de smartphone. Geen enkele parameter is verplicht. Voor elk zulk model is er voor de smartphone telkens een default waarde. Van zodra er voor een bepaalde schermgrootte een waarde is meegegeven geldt deze voor elk groter scherm, tenzij daar wel een parameter voor bestaat. De parameter in kwestie is telkens een *...ConfigPropsModel* instantie. Voor het dimenisoneren van een component is dat bijvoorbeeld het *DimensioningConfigModel*. Typescript laat ook toe om elke property van zulk een model expliciet te benoemen bij aanmaak. Dat maakt het configuratieobject bevattelijker, bijvoorbeeld voor maintenance achteraf. Zo zie je in het voorbeeld van het configuratieobject zoals hierboven afgebeeld dat je properties als *name*, *type*, *position*, *visibility* hebt bij aanmaak van een specieke component. Dit is dan in plaats van het *new* keyword. **M.a.w. als je kan steeds kiezen of je de syntax van een TypeScript interface gebruikt dan wel een JavaScript class.**   
+Het *ResponsiveSizeConfigModel* verwacht maximaal 5 parameters, één voor elke schermgrootte, te beginnen bij het kleinste, de smartphone. Geen enkele parameter is verplicht. Voor elk zulk model is er voor de smartphone telkens een default waarde. Van zodra er voor een bepaalde schermgrootte een waarde is meegegeven geldt deze voor elk groter scherm, tenzij daar wel een parameter voor bestaat. De parameter in kwestie is telkens een *...ConfigPropsModel* instantie. Voor het dimenisoneren van een component is dat bijvoorbeeld het *ButtonSizeConfigModel*. Typescript laat ook toe om elke property van zulk een model expliciet te benoemen bij aanmaak. Dat maakt het configuratieobject bevattelijker, bijvoorbeeld voor maintenance achteraf. Zo zie je in het voorbeeld van het configuratieobject zoals hierboven afgebeeld dat je properties als *name*, *type*, *position*, *visibility* hebt bij aanmaak van een specieke component. Dit is dan in plaats van het *new* keyword. **M.a.w. als je kan steeds kiezen of je de syntax van een TypeScript interface gebruikt dan wel een JavaScript class.**   
 We behandelen nu voor elk der properties de configuratiemogelijkheden in detail.
 #### Attributes
 Dit is eenvoudig. Bij aanmaak van een instantie geef je gewoon de waarden in van elk HTML attribuut bv. een waarde voor het src attribuut, het alt attribuut enz. 
@@ -272,7 +272,7 @@ Deze eigenschap dient voor beide childLayout types een boolean waarde te hebben.
 ##### position
 De mogelijke waarden worden gegeven door de twee enum soorten *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType* of *CrossAxisHorizontalPositioningConfigType*/*CrossAxisVerticalPositioningConfigType* afhankelijk of een bepaalde richting de hoofd-as is of niet. In bepaalde gevallen is het nodig om hier voor de "Cross"-as de enum waarde *No_value_types* mee te geven, namelijk wanneer onder width/height gekozen is voor stretch. Mouldit heeft gekozen om stretch niet te laten vallen onder dezelfde css properties waar ook de positionering properties onder vallen (start, end, center en baseline). De verantwoording voor deze keuze is dat *stretch* de dimensionering van een component wijzigt en de overige css properties puur de positionering van de children bepalen. Ze uiteentrekken is beter voor het begrip van de niet-technisch onderlegde gebruiker.
 ##### height/width
-Voor de horizontale childLayout geef je een configuratie mee voor de *width* of breedte van de children. Deze waarde wordt dan automatisch toegekend aan alle directe children van de parent. Wat betreft configuratie kan je kiezen tussen een vaste waarde (*FixedDimensioningConfigModel*) voor deze breedte of een dynamische (*DynamicDimensioningConfigModel.ts*). De opties wat betreft vaste waarden worden besproken in het onderdeel *Dimensioning* hieronder. Wat betreft een dynamische waarde hangen de mogelijkheden of de horizontale richting de hoofrichting is of niet. Indien het de hoofdrichting is dan kan je kiezen om de breedte te laten groeien of slinken afhankelijk of er ruimte over is dan wel te kort (*grow*/*shrink*). Indien de horizontale richting niet de hoofdrichting is dan moet je kiezen voor stretch als enige overblijvende optie. Dit doet wat je als css developer zou verwachten dat het doet.  
+Voor de horizontale childLayout geef je een configuratie mee voor de *width* of breedte van de children. Deze waarde wordt dan automatisch toegekend aan alle directe children van de parent. Wat betreft configuratie kan je kiezen tussen een vaste waarde (*FixedDimensioningConfigModel*) voor deze breedte of een dynamische (*DynamicSizeConfigModel.ts*). De opties wat betreft vaste waarden worden besproken in het onderdeel *Dimensioning* hieronder. Wat betreft een dynamische waarde hangen de mogelijkheden of de horizontale richting de hoofrichting is of niet. Indien het de hoofdrichting is dan kan je kiezen om de breedte te laten groeien of slinken afhankelijk of er ruimte over is dan wel te kort (*grow*/*shrink*). Indien de horizontale richting niet de hoofdrichting is dan moet je kiezen voor stretch als enige overblijvende optie. Dit doet wat je als css developer zou verwachten dat het doet.  
 Voor de verticale childLayout geldt hetzelfde principe. Daar gaat het dan om de hoogte of *height* natuurlijk.
 ##### lanes
 De configuratie voor *lanes* is enkel nodig indien de desbetreffende childLayout de hoofdrichting is. Dit gaat de postie van de lijnen bepalen waarvan sprake in *Wrap*. De mogelijkheden zijn bepaald door het enum *MainAxisHorizontalPositioningConfigType*/*MainAxisVerticalPositioningConfigType*. In het andere geval geef je het de *No_value_types* enum waarde.

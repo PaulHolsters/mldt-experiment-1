@@ -1,15 +1,12 @@
 import {HorizontalColumnLayoutConfigType} from "../../../enums/HorizontalColumnLayoutConfigTypes.enum";
 import {VerticalColumnLayoutConfigType} from "../../../enums/VerticalColumnLayoutConfigTypes.enum";
 import {ColumnPositioningConfigType} from "../../../enums/columnPositioningConfigTypes.enum";
-import {DynamicDimensioningConfigModel} from "../../Dimensioning/DynamicDimensioningConfigModel";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-import {DimensioningConfigModel} from "../../Dimensioning/DimensioningConfigModel";
+import {SizeConfigModel} from "../../Size/SizeConfigModel";
 
 export class ColumnLayoutConfigModel {
   public horizontalLayoutOfChildren: HorizontalColumnLayoutConfigType=HorizontalColumnLayoutConfigType.Left
   public verticalLayoutOfChildren: VerticalColumnLayoutConfigType=VerticalColumnLayoutConfigType.Top
-  public dimensionsOfChildren:DimensioningConfigModel
-    = new DimensioningConfigModel(ZeroValueType.NotConfigured,ZeroValueType.NotConfigured,new DynamicDimensioningConfigModel())
+  public sizeOfChildren:SizeConfigModel= new SizeConfigModel()
   public positionOfColumns:ColumnPositioningConfigType=ColumnPositioningConfigType.Left
   public wrap: boolean = true
   setHorizontalLayoutOfChildren(layout:HorizontalColumnLayoutConfigType){
@@ -24,8 +21,8 @@ export class ColumnLayoutConfigModel {
     this.positionOfColumns = positionOfColumns
     return this
   }
-  setDimensionsOfChildren(dimensions:DimensioningConfigModel){
-    this.dimensionsOfChildren = dimensions
+  setSizeOfChildren(size:SizeConfigModel){
+    this.sizeOfChildren = size
     return this
   }
   setWrap(columnWrap:boolean){

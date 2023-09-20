@@ -2,7 +2,7 @@ import {ClientData} from "../services/data/client/ClientData";
 import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {ResponsivePositioningConfigModel} from "../design-dimensions/Positioning/ResponsivePositioningConfigModel";
-import {ResponsiveDimensioningConfigModel} from "../design-dimensions/Dimensioning/ResponsiveDimensioningConfigModel";
+import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ClientDataConfigModel} from "../design-dimensions/ClientData/ClientDataConfigModel";
 import {
@@ -25,7 +25,7 @@ export interface ComponentI {
   layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
   children: ComponentModel[] | undefined
   position: ResponsivePositioningConfigModel
-  dimensions: ResponsiveDimensioningConfigModel
+  dimensions: ResponsiveSizeConfigModel
   componentSpecificConfig:ResponsiveComponentSpecificConfigModel|undefined
   visibility: ResponsiveVisibilityConfigModel
   overflow: ResponsiveOverflowConfigModel
@@ -36,7 +36,7 @@ export interface ComponentI {
   contentInjection: ResponsiveContentInjectionConfigModel | undefined
 
   // todo voeg conditie toe dat als je dimension hebt je ook setDimension moet hebben = partial interface eerst voor maken
-  setDimensions: (dimensions: ResponsiveDimensioningConfigModel) => ComponentModel
+  setDimensions: (dimensions: ResponsiveSizeConfigModel) => ComponentModel
   //setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
   setPosition: (pos: ResponsivePositioningConfigModel) => ComponentModel
   //setStyling: (styling: ResponsiveStylingConfigModel) => ComponentModel
