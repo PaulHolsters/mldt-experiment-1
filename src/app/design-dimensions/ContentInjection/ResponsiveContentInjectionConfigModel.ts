@@ -2,28 +2,40 @@ import {ContentInjectionConfigModel} from "./ContentInjectionConfigModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {ContentInjectionRenderModel} from "./ContentInjectionRenderModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
-import {ConfirmPopupConfigModel} from "../component-specific-config/confirm-popup/ConfirmPopupConfigModel";
-import {ConfirmPopupRenderModel} from "../component-specific-config/confirm-popup/ConfirmPopupRenderModel";
-import {DialogConfigModel} from "../component-specific-config/dialog/DialogConfigModel";
-import {DialogRenderModel} from "../component-specific-config/dialog/DialogRenderModel";
-import {ImageConfigModel} from "../component-specific-config/image/ImageConfigModel";
-import {ImageRenderModel} from "../component-specific-config/image/ImageRenderModel";
-import {MenubarConfigModel} from "../component-specific-config/menubar/MenubarConfigModel";
-import {MenubarRenderModel} from "../component-specific-config/menubar/MenubarRenderModel";
-import {TableConfigModel} from "../component-specific-config/table/TableConfigModel";
-import {TableRenderModel} from "../component-specific-config/table/TableRenderModel";
 import {DialogContentInjectionConfigModel} from "./dialog/DialogContentInjectionConfigModel";
 import {MenubarContentInjectionConfigModel} from "./menubar/MenubarContentInjectionConfigModel";
 import {TableContentInjectionConfigModel} from "./table/TableContentInjectionConfigModel";
 import {MenubarContentInjectionRenderModel} from "./menubar/MenubarContentInjectionRenderModel";
 import {DialogContentInjectionRenderModel} from "./dialog/DialogContentInjectionRenderModel";
 import {TableContentInjectionRenderModel} from "./table/TableContentInjectionRenderModel";
+import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
 
-export class ResponsiveContentInjectionConfigModel extends ResponsiveConfigModel<ResponsiveContentInjectionConfigModel> {
+export class ResponsiveContentInjectionConfigModel extends ResponsiveConfigModel<ResponsiveContentInjectionConfigModel>
+  implements ResponsiveConfigModelI<ResponsiveContentInjectionConfigModel>{
   public portraitTablet: ContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:ContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: ContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public highResolution: ContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  setSmartphone(smartphone:ContentInjectionConfigModel){
+    this.smartphone = smartphone
+    return this
+  }
+  setPortraitTablet(portraitTablet: ContentInjectionConfigModel| ZeroValueType.DeterminedByEngine){
+    this.portraitTablet = portraitTablet
+    return this
+  }
+  setTablet(tablet: ContentInjectionConfigModel| ZeroValueType.DeterminedByEngine){
+    this.tablet = tablet
+    return this
+  }
+  setLaptop(laptop: ContentInjectionConfigModel | ZeroValueType.DeterminedByEngine){
+    this.laptop = laptop
+    return this
+  }
+  setHighResolution(highResolution: ContentInjectionConfigModel| ZeroValueType.DeterminedByEngine){
+    this.highResolution = highResolution
+    return this
+  }
   constructor(public smartphone:ContentInjectionConfigModel) {
     super()
   }

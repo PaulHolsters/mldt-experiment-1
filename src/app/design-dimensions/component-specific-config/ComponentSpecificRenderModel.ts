@@ -3,13 +3,15 @@ import {ImageRenderModel} from "./image/ImageRenderModel";
 import {MenubarRenderModel} from "./menubar/MenubarRenderModel";
 import {ConfirmPopupRenderModel} from "./confirm-popup/ConfirmPopupRenderModel";
 import {DialogRenderModel} from "./dialog/DialogRenderModel";
+import {ButtonRenderModel} from "./button/ButtonRenderModel";
 export class ComponentSpecificRenderModel {
   public componentSpecificRenderModel:
     TableRenderModel|
     ImageRenderModel|
     MenubarRenderModel|
     ConfirmPopupRenderModel|
-    DialogRenderModel|undefined=undefined
+    DialogRenderModel|
+    ButtonRenderModel|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: any): void {

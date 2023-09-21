@@ -1,37 +1,26 @@
 import AppConfig from "../../services/appConfig";
-import {ComponentType} from "../../enums/componentTypes.enum";
-import {ResponsiveVisibilityConfigModel} from "../../models/Visibility/ResponsiveSpacingConfigModel";
-import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
-import {mainDimensions} from "./mainDimensions";
-import {mainChildLayout} from "./mainChildLayout";
-import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
-import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
-import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
-import {deleteContainer} from "../deleteContainer/deleteContainer";
-import {table} from "../table/table";
-import {filterDialog} from "../dialog/dialog";
-import {confirmation} from "../confirmation/confirmation";
-import {dialogEditProduct} from "../dialog-edit-product/dialog-edit-product";
 import {effects} from "../effects/effects";
+import {ContainerModel} from "../../components/container/ContainerModel";
 
 export const RootComponent = new AppConfig({
   components: [
-    {
+    new ContainerModel('content-container').setSize()
+/*    {
       // todo  start adding constraints
       // todo add a minimum/maximum dimension
-      name: 'content-container',
+      name: ,
       type: ComponentType.Container,
-      visibility: new ResponsiveVisibilityConfigModel(new VisibilityConfigModel()),
+      visibility: new ResponsiveVisibilityConfigModel(),
       dimensions: mainDimensions,
       childLayout: mainChildLayout,
-      styling: new ResponsiveStylingConfigModel(new StylingConfigPropsModel(BackgroundColorType.Background_Color_White)),
+      styling: new ResponsiveStylingConfigModel(new StylingConfigModel()),
       children: [
         table,
         filterDialog,
         //confirmation,
         dialogEditProduct
       ]
-    },
+    },*/
   ],
   // hou er rekening mee dat de volgorde van de actions in deze array gevolgen kunnen hebben op
   // de condities zoals gedefinieerd in de overeenkomstige actie

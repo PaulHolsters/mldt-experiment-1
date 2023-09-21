@@ -1,5 +1,4 @@
 import {SizeConfigModel} from "./SizeConfigModel";
-import {ScreenSize} from "../../enums/screenSizes.enum";
 import {SizeRenderModel} from "./SizeRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
@@ -8,14 +7,34 @@ import {NonCalculatedSizeConfigModel} from "./NonCalculatedSizeConfigModel";
 import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
 import {ButtonSizeRenderModel} from "./button/ButtonSizeRenderModel";
-export class ResponsiveSizeConfigModel extends ResponsiveConfigModel<ResponsiveSizeConfigModel>{
+import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
+export class ResponsiveSizeConfigModel
+  extends ResponsiveConfigModel<ResponsiveSizeConfigModel>
+  implements ResponsiveConfigModelI<ResponsiveSizeConfigModel>{
   public highResolution: SizeConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   public laptop: SizeConfigModel | ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   public portraitTablet: SizeConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   public tablet: SizeConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   public smartphone:SizeConfigModel = new SizeConfigModel()
-  setDimensions(screensize:ScreenSize,model:SizeConfigModel){
-    // todo
+  setSmartphone(smartphone:SizeConfigModel){
+    this.smartphone = smartphone
+    return this
+  }
+  setPortraitTablet(portraitTablet: SizeConfigModel| ZeroValueType.DeterminedByEngine){
+    this.portraitTablet = portraitTablet
+    return this
+  }
+  setTablet(tablet: SizeConfigModel| ZeroValueType.DeterminedByEngine){
+    this.tablet = tablet
+    return this
+  }
+  setLaptop(laptop: SizeConfigModel | ZeroValueType.DeterminedByEngine){
+    this.laptop = laptop
+    return this
+  }
+  setHighResolution(highResolution: SizeConfigModel| ZeroValueType.DeterminedByEngine){
+    this.highResolution = highResolution
+    return this
   }
   constructor(){
     super()

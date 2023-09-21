@@ -9,57 +9,60 @@ import {
   ResponsiveSizeConfigModel
 } from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
+import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 
 export class ContainerModel extends ComponentModel implements ComponentI{
+  // todo add conditional typing : prop required => set required too
   public name:string
-  public componentSpecificConfig: undefined = undefined
-  public setComponentSpecificConfig:undefined=undefined
-  public labelConfig: undefined = undefined
-  public setLabelConfig:undefined=undefined
-  public iconConfig: undefined = undefined
-  public setIconConfig:undefined=undefined
-  public layout: ResponsiveContainerChildLayoutConfigModel = new ResponsiveContainerChildLayoutConfigModel()
-  public children: ComponentModel[]=[]
-  public clientData: undefined = undefined
-  public contentInjection: undefined = undefined
-  public dataInput: undefined = undefined
-  public dataRepresentation: undefined = undefined
-  public size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
-  public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
-  public position: ResponsiveLayoutOverrideConfigModel = new ResponsiveLayoutOverrideConfigModel()
-  public styling = undefined
-  public setStyling=undefined
-  public visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
-  public setClientData:undefined = undefined
-  public setDataRepresentation:undefined = undefined
-  public setDataInput:undefined = undefined
-  public setContentInjection:undefined = undefined
-  constructor(name:string) {
-    super()
-    this.name = name
+  public spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
+  public setSpacing(spacing:ResponsiveSpacingConfigModel){
+    this.spacing = spacing
+    return this
   }
+  public visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
+  public setVisibility(visibility:ResponsiveVisibilityConfigModel){
+    this.visibility = visibility
+    return this
+  }
+  public layout: ResponsiveContainerChildLayoutConfigModel = new ResponsiveContainerChildLayoutConfigModel()
   setLayout(childLayout:ResponsiveContainerChildLayoutConfigModel){
     this.layout = childLayout
     return this
   }
+  public children: ComponentModel[]=[]
   setChildren(children:ComponentModel[]){
     this.children = children
     return this
   }
+  public size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
   setSize(size:ResponsiveSizeConfigModel){
     this.size = size
     return this
   }
+  public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
   setOverflow(overflow:ResponsiveOverflowConfigModel){
     this.overflow = overflow
     return this
   }
-  setPosition(pos:ResponsiveLayoutOverrideConfigModel){
-    this.position = pos
+  public layoutOverride: ResponsiveLayoutOverrideConfigModel = new ResponsiveLayoutOverrideConfigModel()
+  public setLayoutOverride(lo:ResponsiveLayoutOverrideConfigModel){
+    this.layoutOverride=lo
     return this
   }
-  setVisibility(visibility:ResponsiveVisibilityConfigModel){
-    this.visibility = visibility
-    return this
+  public styling = undefined
+  public setStyling=undefined
+  public clientData: undefined = undefined
+  public setClientData:undefined = undefined
+  public dataRepresentation: undefined = undefined
+  public setDataRepresentation:undefined = undefined
+  public dataInput: undefined = undefined
+  public setDataInput:undefined = undefined
+  public contentInjection: undefined = undefined
+  public setContentInjection:undefined = undefined
+  public componentSpecificConfig: undefined = undefined
+  public setComponentSpecificConfig:undefined=undefined
+  constructor(name:string) {
+    super()
+    this.name = name
   }
 }

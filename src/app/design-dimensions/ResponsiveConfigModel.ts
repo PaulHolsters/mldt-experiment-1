@@ -3,6 +3,7 @@ import {ConfigType, RenderType} from "../types/conditional-types";
 import {ResponsiveConfigModelType} from "../types/union-types";
 
 export class ResponsiveConfigModel<T extends ResponsiveConfigModelType>{
+
   protected getRenderProperties(screenSize:ScreenSize,mapping:(configModel:ConfigType<T>)=>RenderType<T>):RenderType<T>{
     let lastScreenSize:ScreenSize = screenSize
     while (lastScreenSize >= 0) {

@@ -22,11 +22,34 @@ import {TableDataRepresentationConfigModel} from "./Table/TableDataRepresentatio
 import {TableDataRepresentationRenderModel} from "./Table/TableDataRepresentationRenderModel";
 import {TextInputDataRepresentationConfigModel} from "./TextInput/TextInputDataRepresentationConfigModel";
 import {TextInputDataRepresentationRenderModel} from "./TextInput/TextInputDataRepresentationRenderModel";
-export class ResponsiveDataRepresentationConfigModel extends ResponsiveConfigModel<ResponsiveDataRepresentationConfigModel> {
+import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
+import {DataInputConfigModel} from "../DataInput/DataInputConfigModel";
+export class ResponsiveDataRepresentationConfigModel extends ResponsiveConfigModel<ResponsiveDataRepresentationConfigModel>
+  implements ResponsiveConfigModelI<ResponsiveDataRepresentationConfigModel>{
   public portraitTablet: DataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:DataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: DataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public highResolution: DataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  setSmartphone(smartphone:DataRepresentationConfigModel){
+    this.smartphone = smartphone
+    return this
+  }
+  setPortraitTablet(portraitTablet: DataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+    this.portraitTablet = portraitTablet
+    return this
+  }
+  setTablet(tablet: DataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+    this.tablet = tablet
+    return this
+  }
+  setLaptop(laptop: DataRepresentationConfigModel | ZeroValueType.DeterminedByEngine){
+    this.laptop = laptop
+    return this
+  }
+  setHighResolution(highResolution: DataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+    this.highResolution = highResolution
+    return this
+  }
   constructor(public smartphone:DataRepresentationConfigModel) {
     super()
   }

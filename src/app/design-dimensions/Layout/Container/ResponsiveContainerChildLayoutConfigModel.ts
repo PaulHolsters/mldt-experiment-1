@@ -13,13 +13,36 @@ import {CalculatedSizeConfigModel} from "../../Size/CalculatedSizeConfigModel";
 import {NonCalculatedSizeConfigModel} from "../../Size/NonCalculatedSizeConfigModel";
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
+import {DataRepresentationConfigModel} from "../../DataRepresentation/DataRepresentationConfigModel";
 
-export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveContainerChildLayoutConfigModel>{
+export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveContainerChildLayoutConfigModel>
+implements ResponsiveConfigModelI<ResponsiveContainerChildLayoutConfigModel>{
   public smartphone:ChildLayoutConfigModel = new ChildLayoutConfigModel()
   public portraitTablet: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public highResolution: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  setSmartphone(smartphone:ChildLayoutConfigModel){
+    this.smartphone = smartphone
+    return this
+  }
+  setPortraitTablet(portraitTablet: ChildLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+    this.portraitTablet = portraitTablet
+    return this
+  }
+  setTablet(tablet: ChildLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+    this.tablet = tablet
+    return this
+  }
+  setLaptop(laptop: ChildLayoutConfigModel | ZeroValueType.DeterminedByEngine){
+    this.laptop = laptop
+    return this
+  }
+  setHighResolution(highResolution: ChildLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+    this.highResolution = highResolution
+    return this
+  }
   constructor() {
     super()
   }

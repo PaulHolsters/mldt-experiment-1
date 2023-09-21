@@ -12,21 +12,20 @@ import {
   ResponsiveDataRepresentationConfigModel
 } from "../design-dimensions/DataRepresentation/ResponsiveDataRepresentationConfigModel";
 import {ResponsiveDataInputConfigModel} from "../design-dimensions/DataInput/ResponsiveDataInputConfigModel";
-import {ResponsiveIconConfigModel} from "../design-dimensions/icon-config/ResponsiveIconConfigModel";
-import {ResponsiveLabelConfigModel} from "../design-dimensions/label-config/ResponsiveLabelConfigModel";
 import {
   ResponsiveComponentSpecificConfigModel
 } from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
+import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
+import {ResponsiveTableLayoutConfigModel} from "../design-dimensions/Layout/Table/ResponsiveTableLayoutConfigModel";
 
 export type ResponsiveConfigModelType =
   ResponsiveSizeConfigModel |
   ResponsiveVisibilityConfigModel |
-  ResponsiveContainerChildLayoutConfigModel |
-  ResponsiveIconConfigModel |
-  ResponsiveLabelConfigModel |
   ResponsiveComponentSpecificConfigModel|
-
+  ResponsiveSpacingConfigModel|
   ResponsiveOverflowConfigModel |
+  ResponsiveTableLayoutConfigModel|
+  ResponsiveContainerChildLayoutConfigModel|
   ResponsiveLayoutOverrideConfigModel |
   ResponsiveContentInjectionConfigModel |
   ResponsiveStylingConfigModel |

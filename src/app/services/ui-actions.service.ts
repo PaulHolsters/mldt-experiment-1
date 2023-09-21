@@ -5,15 +5,15 @@ import {Subject} from "rxjs";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StateService} from "./state.service";
 import {RenderPropertiesService} from "./renderProperties.service";
-import {ActionValueModel} from "../models/ActionValueModel";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {NoValueType} from "../enums/no_value_type";
-import {ConfirmationModel} from "../models/ConfirmationModel";
 import {ServerDataService} from "./data/server/server-data.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
+import {ActionValueModel} from "../design-dimensions/ActionValueModel";
+import {ConfirmationModel} from "../design-dimensions/component-specific-config/confirm-popup/ConfirmationModel";
 
 @Injectable({
   providedIn: 'root'

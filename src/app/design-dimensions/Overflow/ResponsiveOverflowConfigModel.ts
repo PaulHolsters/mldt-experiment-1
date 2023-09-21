@@ -3,13 +3,36 @@ import {OverflowRenderModel} from "./OverflowRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
+import {LayoutOverrideConfigModel} from "../LayoutOverride/LayoutOverrideConfigModel";
 
-export class ResponsiveOverflowConfigModel extends ResponsiveConfigModel<ResponsiveOverflowConfigModel>{
+export class ResponsiveOverflowConfigModel extends ResponsiveConfigModel<ResponsiveOverflowConfigModel>
+implements ResponsiveConfigModelI<ResponsiveOverflowConfigModel>{
   public smartphone:OverflowConfigModel=new OverflowConfigModel()
   public portraitTablet: OverflowConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:OverflowConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: OverflowConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public highResolution: OverflowConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  setSmartphone(smartphone:OverflowConfigModel){
+    this.smartphone = smartphone
+    return this
+  }
+  setPortraitTablet(portraitTablet: OverflowConfigModel| ZeroValueType.DeterminedByEngine){
+    this.portraitTablet = portraitTablet
+    return this
+  }
+  setTablet(tablet: OverflowConfigModel| ZeroValueType.DeterminedByEngine){
+    this.tablet = tablet
+    return this
+  }
+  setLaptop(laptop: OverflowConfigModel | ZeroValueType.DeterminedByEngine){
+    this.laptop = laptop
+    return this
+  }
+  setHighResolution(highResolution: OverflowConfigModel| ZeroValueType.DeterminedByEngine){
+    this.highResolution = highResolution
+    return this
+  }
   constructor() {
     super()
   }

@@ -18,34 +18,37 @@ import {
 } from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
+import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 
 export interface ComponentI {
   // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk van de interface gebruik kunnen maken
-  name: string
-  layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
-  children: ComponentModel[] | undefined
-  position: ResponsiveLayoutOverrideConfigModel
-  size: ResponsiveSizeConfigModel
-  componentSpecificConfig:ResponsiveComponentSpecificConfigModel|undefined
-  visibility: ResponsiveVisibilityConfigModel
-  overflow: ResponsiveOverflowConfigModel
-  styling: ResponsiveStylingConfigModel | undefined
-  clientData: ClientDataConfigModel | undefined
-  dataRepresentation: ResponsiveDataRepresentationConfigModel | undefined
-  dataInput: ResponsiveDataInputConfigModel | undefined
-  contentInjection: ResponsiveContentInjectionConfigModel | undefined
   // todo voeg conditie toe dat als je dimension hebt je ook setDimension moet hebben = partial interface eerst voor maken
+  name: string
+  size: ResponsiveSizeConfigModel
   setSize: (dimensions: ResponsiveSizeConfigModel) => ComponentModel
-  setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
-  setPosition: (pos: ResponsiveLayoutOverrideConfigModel) => ComponentModel
-  setStyling: ((styling: ResponsiveStylingConfigModel) => ComponentModel)|undefined
+  spacing:ResponsiveSpacingConfigModel
+  setSpacing: (spacing:ResponsiveSpacingConfigModel) => ComponentModel
+  visibility: ResponsiveVisibilityConfigModel
   setVisibility: (visibility: ResponsiveVisibilityConfigModel) => ComponentModel
+  overflow: ResponsiveOverflowConfigModel
+  setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
+  layoutOverride: ResponsiveLayoutOverrideConfigModel
+  setLayoutOverride: (pos: ResponsiveLayoutOverrideConfigModel) => ComponentModel
+  styling: ResponsiveStylingConfigModel | undefined
+  setStyling: ((styling: ResponsiveStylingConfigModel) => ComponentModel)|undefined
+  clientData: ClientDataConfigModel | undefined
+  setClientData: ((clientData: ClientData) => ComponentModel)|undefined
+  dataRepresentation: ResponsiveDataRepresentationConfigModel | undefined
+  setDataRepresentation: ((dataRepresentation: ResponsiveDataRepresentationConfigModel) => ComponentModel)|undefined
+  dataInput: ResponsiveDataInputConfigModel | undefined
+  setDataInput: ((dataInput: ResponsiveDataInputConfigModel) => ComponentModel)|undefined
+  contentInjection: ResponsiveContentInjectionConfigModel | undefined
+  setContentInjection: ((contentInjection: ResponsiveContentInjectionConfigModel) => ComponentModel)|undefined
+  layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
   setLayout: ((layout: ResponsiveContainerChildLayoutConfigModel) => ComponentModel)|
     ((layout: ResponsiveTableLayoutConfigModel) => ComponentModel)|undefined
+  children: ComponentModel[] | undefined
   setChildren: ((children: ComponentModel[]) => ComponentModel)|undefined
-  setClientData: ((clientData: ClientData) => ComponentModel)|undefined
-  setDataRepresentation: ((dataRepresentation: ResponsiveDataRepresentationConfigModel) => ComponentModel)|undefined
-  setDataInput: ((dataInput: ResponsiveDataInputConfigModel) => ComponentModel)|undefined
-  setContentInjection: ((contentInjection: ResponsiveContentInjectionConfigModel) => ComponentModel)|undefined
+  componentSpecificConfig:ResponsiveComponentSpecificConfigModel|undefined
   setComponentSpecificConfig: ((specifics: ResponsiveComponentSpecificConfigModel) => ComponentModel)|undefined
 }
