@@ -8,7 +8,7 @@ const mainContainer:ContainerModel = new ContainerModel('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
 mainContainer.layout.smartphone.setLayout(new ColumnLayoutConfigModel().setWrap(false))
 mainContainer.setChildren([
-
+  // todo
 ])
 export const RootComponent = new AppConfig({
   components: [

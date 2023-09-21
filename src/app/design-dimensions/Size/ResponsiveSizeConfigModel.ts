@@ -8,6 +8,7 @@ import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
 import {ButtonSizeRenderModel} from "./button/ButtonSizeRenderModel";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
+import {DesignDimensionType} from "../../enums/designDimensionType.enum";
 export class ResponsiveSizeConfigModel
   extends ResponsiveConfigModel<ResponsiveSizeConfigModel>
   implements ResponsiveConfigModelI<ResponsiveSizeConfigModel>{
@@ -38,6 +39,9 @@ export class ResponsiveSizeConfigModel
   }
   constructor(){
     super()
+  }
+  to(designDimension:DesignDimensionType){
+
   }
   public getSizeRenderProperties(screenSize: number): SizeRenderModel {
     const mapToSizeRenderProperties = (dimensionsConfig: SizeConfigModel): SizeRenderModel => {

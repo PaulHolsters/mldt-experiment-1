@@ -4,6 +4,7 @@ import {NonCalculatedSizeConfigModel} from "./NonCalculatedSizeConfigModel";
 import {CalculatedSizeConfigModel} from "./CalculatedSizeConfigModel";
 import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
+
 export class SizeConfigModel {
   width:
     NonCalculatedSizeConfigModel |
@@ -18,9 +19,11 @@ export class SizeConfigModel {
   dynamicSize:DynamicSizeConfigModel|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   // todo zorg ervoor dat at compile time je geen foutieve component kan nemen
   componentSpecificSize:ButtonSizeConfigModel|ZeroValueType.NotAllowed=ZeroValueType.NotAllowed
-  constructor(// todo later nog de mogelijkheid van een ratio toevoegen
-     ){
+  constructor(
+  // todo later nog de mogelijkheid van een ratio toevoegen
+  ){
   }
+
   setWidth(width:
              NonCalculatedSizeConfigModel |
              CalculatedSizeConfigModel |

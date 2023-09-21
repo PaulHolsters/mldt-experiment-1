@@ -33,3 +33,4 @@ export type ResponsiveConfigModelType =
   ResponsiveDataInputConfigModel
 
 export type ComponentModelType = ContainerModel
+export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
