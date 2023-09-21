@@ -19,13 +19,17 @@ import {
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
 import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
+import {SizeConfigModel} from "../design-dimensions/Size/SizeConfigModel";
+import {ScreenSize} from "../enums/screenSizes.enum";
+import {ChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ChildLayoutConfigModel";
+import {TableLayoutConfigModel} from "../design-dimensions/Layout/Table/TableLayoutConfigModel";
 
 export interface ComponentI {
   // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk van de interface gebruik kunnen maken
   // todo voeg conditie toe dat als je dimension hebt je ook setDimension moet hebben = partial interface eerst voor maken
   name: string
   size: ResponsiveSizeConfigModel
-  setSize: (dimensions: ResponsiveSizeConfigModel) => ComponentModel
+  setSize: (screen:ScreenSize,size: SizeConfigModel) => ComponentModel
   spacing:ResponsiveSpacingConfigModel
   setSpacing: (spacing:ResponsiveSpacingConfigModel) => ComponentModel
   visibility: ResponsiveVisibilityConfigModel
@@ -45,9 +49,10 @@ export interface ComponentI {
   contentInjection: ResponsiveContentInjectionConfigModel | undefined
   setContentInjection: ((contentInjection: ResponsiveContentInjectionConfigModel) => ComponentModel)|undefined
   layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
-  setLayout: ((layout: ResponsiveContainerChildLayoutConfigModel) => ComponentModel)|
-    ((layout: ResponsiveTableLayoutConfigModel) => ComponentModel)|undefined
+  setLayout: ((screen:ScreenSize,layout: ChildLayoutConfigModel) => ComponentModel)|
+    ((screen:ScreenSize,layout: TableLayoutConfigModel) => ComponentModel)|undefined
   children: ComponentModel[] | undefined
+  // todo op termijn moeten de children ook responsive worden
   setChildren: ((children: ComponentModel[]) => ComponentModel)|undefined
   componentSpecificConfig:ResponsiveComponentSpecificConfigModel|undefined
   setComponentSpecificConfig: ((specifics: ResponsiveComponentSpecificConfigModel) => ComponentModel)|undefined

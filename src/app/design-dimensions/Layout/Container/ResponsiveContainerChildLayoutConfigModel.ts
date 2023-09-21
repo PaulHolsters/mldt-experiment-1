@@ -57,9 +57,9 @@ implements ResponsiveConfigModelI<ResponsiveContainerChildLayoutConfigModel>{
       const parentPropsObj = new ParentRenderPropertiesModel()
       const childPropsObj = new ChildPropertiesRenderModel()
       parentPropsObj.wrap = childLayoutConfig.layout.wrap
-      if(childLayoutConfig.layout.sizeOfChildren.dynamic){
-        childPropsObj.grow = childLayoutConfig.layout.sizeOfChildren.dynamic.grow
-        childPropsObj.shrink = childLayoutConfig.layout.sizeOfChildren.dynamic.shrink
+      if(childLayoutConfig.layout.sizeOfChildren.dynamicSize){
+        childPropsObj.grow = childLayoutConfig.layout.sizeOfChildren.dynamicSize.grow
+        childPropsObj.shrink = childLayoutConfig.layout.sizeOfChildren.dynamicSize.shrink
       }
       if(childLayoutConfig.layout.sizeOfChildren.width) {
         if(childLayoutConfig.layout.sizeOfChildren.width instanceof CalculatedSizeConfigModel){

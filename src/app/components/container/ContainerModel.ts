@@ -4,15 +4,19 @@ import {
 } from "../../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ComponentModel} from "../../design-dimensions/ComponentModel";
-import {ResponsiveContainerChildLayoutConfigModel} from "../../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {
-  ResponsiveSizeConfigModel
-} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
+  ResponsiveContainerChildLayoutConfigModel
+} from "../../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
+import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
+import {ScreenSize} from "../../enums/screenSizes.enum";
+import {SizeConfigModel} from "../../design-dimensions/Size/SizeConfigModel";
+import {ChildLayoutConfigModel} from "../../design-dimensions/Layout/Container/ChildLayoutConfigModel";
 
 export class ContainerModel extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
+  // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten
   public name:string
   public spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
   public setSpacing(spacing:ResponsiveSpacingConfigModel){
@@ -25,8 +29,11 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     return this
   }
   public layout: ResponsiveContainerChildLayoutConfigModel = new ResponsiveContainerChildLayoutConfigModel()
-  setLayout(childLayout:ResponsiveContainerChildLayoutConfigModel){
-    this.layout = childLayout
+  setLayout(screensize:ScreenSize,childLayout:ChildLayoutConfigModel){
+    switch (screensize){
+      case ScreenSize.smartphone:
+        this.layout.smartphone = childLayout
+    }
     return this
   }
   public children: ComponentModel[]=[]
@@ -35,8 +42,11 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     return this
   }
   public size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
-  setSize(size:ResponsiveSizeConfigModel){
-    this.size = size
+  setSize(screensize:ScreenSize,size:SizeConfigModel){
+    switch (screensize){
+      case ScreenSize.smartphone:
+        this.size.smartphone = size
+    }
     return this
   }
   public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()

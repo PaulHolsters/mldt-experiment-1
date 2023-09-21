@@ -62,9 +62,9 @@ export class ResponsiveSizeConfigModel
           compPropsObj.calcHeight = ParentConfigType.static
         } else throw new Error('Er is een optie bijgekomen die nog niet werd geïmplementeerd')
       }
-      if(dimensionsConfig.dynamic){
-        compPropsObj.grow = dimensionsConfig.dynamic.grow
-        compPropsObj.shrink = dimensionsConfig.dynamic.shrink
+      if(dimensionsConfig.dynamicSize){
+        compPropsObj.grow = dimensionsConfig.dynamicSize.grow
+        compPropsObj.shrink = dimensionsConfig.dynamicSize.shrink
       }
       if(dimensionsConfig.componentSpecificSize){
         // todo zorg ervoor via conditional typing dat je hier altijd de juiste moet gebruiken (naming!)
