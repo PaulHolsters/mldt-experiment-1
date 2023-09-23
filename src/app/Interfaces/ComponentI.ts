@@ -23,13 +23,14 @@ import {SizeConfigModel} from "../design-dimensions/Size/SizeConfigModel";
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {ChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ChildLayoutConfigModel";
 import {TableLayoutConfigModel} from "../design-dimensions/Layout/Table/TableLayoutConfigModel";
+import {ZeroValueType} from "../enums/zeroValueTypes.enum";
 
 export interface ComponentI {
   // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk van de interface gebruik kunnen maken
   // todo voeg conditie toe dat als je dimension hebt je ook setDimension moet hebben = partial interface eerst voor maken
   name: string
   size: ResponsiveSizeConfigModel
-  setSize: (screen:ScreenSize,size: SizeConfigModel) => ComponentModel
+  setSize: (size: ResponsiveSizeConfigModel) => ComponentModel
   spacing:ResponsiveSpacingConfigModel
   setSpacing: (spacing:ResponsiveSpacingConfigModel) => ComponentModel
   visibility: ResponsiveVisibilityConfigModel
@@ -40,8 +41,8 @@ export interface ComponentI {
   setLayoutOverride: (pos: ResponsiveLayoutOverrideConfigModel) => ComponentModel
   styling: ResponsiveStylingConfigModel | undefined
   setStyling: ((styling: ResponsiveStylingConfigModel) => ComponentModel)|undefined
-  clientData: ClientDataConfigModel | undefined
-  setClientData: ((clientData: ClientData) => ComponentModel)|undefined
+  clientData: ClientDataConfigModel|ZeroValueType.NoValueYet | undefined
+  setClientData: ((clientData: ClientDataConfigModel|ZeroValueType.NoValueYet) => ComponentModel)|undefined
   dataRepresentation: ResponsiveDataRepresentationConfigModel | undefined
   setDataRepresentation: ((dataRepresentation: ResponsiveDataRepresentationConfigModel) => ComponentModel)|undefined
   dataInput: ResponsiveDataInputConfigModel | undefined

@@ -11,24 +11,22 @@ import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/Responsive
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ScreenSize} from "../../enums/screenSizes.enum";
-import {SizeConfigModel} from "../../design-dimensions/Size/SizeConfigModel";
 import {ChildLayoutConfigModel} from "../../design-dimensions/Layout/Container/ChildLayoutConfigModel";
-
-export class ContainerModel extends ComponentModel implements ComponentI{
+export class Container extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
   // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten
-  public name:string
-  public spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
-  public setSpacing(spacing:ResponsiveSpacingConfigModel){
+  name:string
+  spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
+  setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing
     return this
   }
-  public visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
-  public setVisibility(visibility:ResponsiveVisibilityConfigModel){
+  visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
+  setVisibility(visibility:ResponsiveVisibilityConfigModel){
     this.visibility = visibility
     return this
   }
-  public layout: ResponsiveContainerChildLayoutConfigModel = new ResponsiveContainerChildLayoutConfigModel()
+  layout: ResponsiveContainerChildLayoutConfigModel = new ResponsiveContainerChildLayoutConfigModel()
   setLayout(screensize:ScreenSize,childLayout:ChildLayoutConfigModel){
     switch (screensize){
       case ScreenSize.smartphone:
@@ -36,41 +34,38 @@ export class ContainerModel extends ComponentModel implements ComponentI{
     }
     return this
   }
-  public children: ComponentModel[]=[]
+  children: ComponentModel[]=[]
   setChildren(children:ComponentModel[]){
     this.children = children
     return this
   }
-  public size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
-  setSize(screensize:ScreenSize,size:SizeConfigModel){
-    switch (screensize){
-      case ScreenSize.smartphone:
-        this.size.smartphone = size
-    }
+  size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
+  setSize(size:ResponsiveSizeConfigModel){
+    this.size = size
     return this
   }
-  public overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
+  overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
   setOverflow(overflow:ResponsiveOverflowConfigModel){
     this.overflow = overflow
     return this
   }
-  public layoutOverride: ResponsiveLayoutOverrideConfigModel = new ResponsiveLayoutOverrideConfigModel()
-  public setLayoutOverride(lo:ResponsiveLayoutOverrideConfigModel){
+  layoutOverride: ResponsiveLayoutOverrideConfigModel = new ResponsiveLayoutOverrideConfigModel()
+  setLayoutOverride(lo:ResponsiveLayoutOverrideConfigModel){
     this.layoutOverride=lo
     return this
   }
-  public styling = undefined
-  public setStyling=undefined
-  public clientData: undefined = undefined
-  public setClientData:undefined = undefined
-  public dataRepresentation: undefined = undefined
-  public setDataRepresentation:undefined = undefined
-  public dataInput: undefined = undefined
-  public setDataInput:undefined = undefined
-  public contentInjection: undefined = undefined
-  public setContentInjection:undefined = undefined
-  public componentSpecificConfig: undefined = undefined
-  public setComponentSpecificConfig:undefined=undefined
+  styling = undefined
+  setStyling=undefined
+  clientData: undefined = undefined
+  setClientData:undefined = undefined
+  dataRepresentation: undefined = undefined
+  setDataRepresentation:undefined = undefined
+  dataInput: undefined = undefined
+  setDataInput:undefined = undefined
+  contentInjection: undefined = undefined
+  setContentInjection:undefined = undefined
+  componentSpecificConfig: undefined = undefined
+  setComponentSpecificConfig:undefined=undefined
   constructor(name:string) {
     super()
     this.name = name

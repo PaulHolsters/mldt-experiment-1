@@ -1,10 +1,10 @@
 import AppConfig from "../../services/appConfig";
 import {effects} from "../effects/effects";
-import {ContainerModel} from "../../components/container/ContainerModel";
+import {Container} from "../../components/container/Container";
 import {CalculatedSizeConfigModel} from "../../design-dimensions/Size/CalculatedSizeConfigModel";
 import {ColumnLayoutConfigModel} from "../../design-dimensions/Layout/Container/ColumnLayoutConfigModel";
 
-const mainContainer:ContainerModel = new ContainerModel('content-container')
+const mainContainer:Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
 mainContainer.layout.smartphone.setLayout(new ColumnLayoutConfigModel().setWrap(false))
 mainContainer.setChildren([

@@ -1,7 +1,7 @@
 import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
-import {ContainerModel} from "../components/container/ContainerModel";
+import {Container} from "../components/container/Container";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveLayoutOverrideConfigModel} from "../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {
@@ -32,5 +32,5 @@ export type ResponsiveConfigModelType =
   ResponsiveDataRepresentationConfigModel |
   ResponsiveDataInputConfigModel
 
-export type ComponentModelType = ContainerModel
+export type ComponentModelType = Container
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
