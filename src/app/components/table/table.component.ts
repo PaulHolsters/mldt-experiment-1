@@ -6,7 +6,6 @@ import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Component as AbstractComponent} from "../Component"
 import {NoValueType} from "../../enums/no_value_type";
-import {AttributeComponentModel} from "../../design-dimensions/DataRepresentation/junkmodels/AttributeComponentModel";
 import {TableColumnModel} from "../../design-dimensions/component-specific-config/table/TableColumnModel";
 
 @Component({

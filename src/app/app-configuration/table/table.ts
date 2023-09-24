@@ -30,7 +30,6 @@ import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
 import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
 import {IconSizeType} from "../../enums/iconSizeType.enum";
 import {IconType} from "../../enums/iconType.enum";
-import {ClientDataConfigModel} from "../../models/Data/ClientDataConfigModel";
 
 export const table = {
   name: 'table',

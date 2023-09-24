@@ -9,10 +9,32 @@ import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/Re
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ClientDataConfigModel} from "../../design-dimensions/ClientData/ClientDataConfigModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+import {DataRepresentationConfigModel} from "../../design-dimensions/DataRepresentation/DataRepresentationConfigModel";
+import {
+  TableDataRepresentationConfigModel
+} from "../../design-dimensions/DataRepresentation/Table/TableDataRepresentationConfigModel";
+import {
+  ResponsiveDataRepresentationConfigModel
+} from "../../design-dimensions/DataRepresentation/ResponsiveDataRepresentationConfigModel";
+import {
+  ResponsiveContentInjectionConfigModel
+} from "../../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
+import {ContentInjectionConfigModel} from "../../design-dimensions/ContentInjection/ContentInjectionConfigModel";
+import {
+  TableContentInjectionConfigModel
+} from "../../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
+import {
+  ResponsiveComponentSpecificConfigModel
+} from "../../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
+import {
+  ComponentSpecificConfigModel
+} from "../../design-dimensions/component-specific-config/ComponentSpecificConfigModel";
+import {TableConfigModel} from "../../design-dimensions/component-specific-config/table/TableConfigModel";
+import {ResponsiveStylingConfigModel} from "../../design-dimensions/Styling/ResponsiveStylingConfigModel";
+import {StylingConfigModel} from "../../design-dimensions/Styling/StylingConfigModel";
 
 export class Table extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
-  // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten
   name:string
   spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
@@ -44,24 +66,50 @@ export class Table extends ComponentModel implements ComponentI{
     this.clientData=cd
     return this
   }
-  dataRepresentation: undefined = undefined
-  setDataRepresentation:undefined = undefined
-  dataInput: undefined = undefined
-  setDataInput:undefined = undefined
+  dataRepresentation: ResponsiveDataRepresentationConfigModel=new ResponsiveDataRepresentationConfigModel(
+      new DataRepresentationConfigModel(
+        new TableDataRepresentationConfigModel()
+      )
+  )
+  setDataRepresentation(dr:ResponsiveDataRepresentationConfigModel){
+    this.dataRepresentation=dr
+    return this
+  }
+  contentInjection: ResponsiveContentInjectionConfigModel=new ResponsiveContentInjectionConfigModel(
+    new ContentInjectionConfigModel(
+      new TableContentInjectionConfigModel()
+    )
+  )
+  setContentInjection(ci:ResponsiveContentInjectionConfigModel){
+    this.contentInjection=ci
+    return this
+  }
+  componentSpecificConfig: ResponsiveComponentSpecificConfigModel=new ResponsiveComponentSpecificConfigModel(
+    new ComponentSpecificConfigModel(
+      new TableConfigModel()
+    )
+  )
+  setComponentSpecificConfig(cs:ResponsiveComponentSpecificConfigModel){
+    this.componentSpecificConfig=cs
+    return this
+  }
+  styling: ResponsiveStylingConfigModel=new ResponsiveStylingConfigModel(
+    new StylingConfigModel(
+      new TableConfigModel()
+    )
+  )
+  setStyling(st:ResponsiveStylingConfigModel){
+    this.styling=st
+    return this
+  }
 
+  dataInput = undefined
+  setDataInput = undefined
 
-
-  styling = undefined
-  setStyling=undefined
   children=undefined
   setChildren=undefined
   layout=undefined
   setLayout=undefined
-
-  contentInjection: undefined = undefined
-  setContentInjection:undefined = undefined
-  componentSpecificConfig: undefined = undefined
-  setComponentSpecificConfig:undefined=undefined
   constructor(name:string) {
     super()
     this.name = name

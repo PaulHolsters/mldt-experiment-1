@@ -4,9 +4,10 @@ import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTy
 import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
 import {MarginType} from "../../enums/marginType.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
+import {TableStylingRenderModel} from "./table/TableStylingRenderModel";
 
 export class StylingRenderModel {
-  public componentRenderModel:ButtonStylingRenderModel|IconStylingRenderModel|undefined=undefined
+  public componentRenderModel:ButtonStylingRenderModel|IconStylingRenderModel|TableStylingRenderModel|undefined=undefined
 constructor() {
 }
   public setProperty(propName: string, value: VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType | MarginType|PaddingType|undefined): void {

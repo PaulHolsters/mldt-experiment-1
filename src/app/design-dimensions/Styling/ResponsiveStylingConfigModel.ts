@@ -8,6 +8,8 @@ import {ButtonStylingRenderModel} from "./button/ButtonStylingRenderModel";
 import {IconStylingRenderModel} from "./icon/IconStylingRenderModel";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
 import {SpacingConfigModel} from "../Spacing/SpacingConfigModel";
+import {TableStylingConfigModel} from "./table/TableStylingConfigModel";
+import {TableStylingRenderModel} from "./table/TableStylingRenderModel";
 
 export class ResponsiveStylingConfigModel extends ResponsiveConfigModel<ResponsiveStylingConfigModel>
   implements ResponsiveConfigModelI<ResponsiveStylingConfigModel>{
@@ -51,6 +53,8 @@ export class ResponsiveStylingConfigModel extends ResponsiveConfigModel<Responsi
           rm.componentRenderModel=new ButtonStylingRenderModel()
         } else if(stylingConfig.componentConfigModel instanceof IconStylingConfigModel){
           rm.componentRenderModel=new IconStylingRenderModel()
+        } else if(stylingConfig.componentConfigModel instanceof TableStylingConfigModel){
+          rm.componentRenderModel=new TableStylingRenderModel()
         }
         Object.entries(stylingConfig.componentConfigModel).forEach(([k,v])=>{
           if(v) rm.componentRenderModel?.setProperty(k,v)
