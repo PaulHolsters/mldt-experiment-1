@@ -13,17 +13,14 @@ import {
   ResponsiveContentInjectionConfigModel
 } from "../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
 import {ResponsiveTableLayoutConfigModel} from "../design-dimensions/Layout/Table/ResponsiveTableLayoutConfigModel";
-import {
-  ResponsiveComponentSpecificConfigModel
-} from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
 import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
-import {SizeConfigModel} from "../design-dimensions/Size/SizeConfigModel";
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {ChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ChildLayoutConfigModel";
 import {TableLayoutConfigModel} from "../design-dimensions/Layout/Table/TableLayoutConfigModel";
 import {ZeroValueType} from "../enums/zeroValueTypes.enum";
+import {ResponsiveStructuralConfigModel} from "../design-dimensions/StructuralConfig/ResponsiveStructuralConfigModel";
 
 export interface ComponentI {
   // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk van de interface gebruik kunnen maken
@@ -55,6 +52,6 @@ export interface ComponentI {
   children: ComponentModel[] | undefined
   // todo op termijn moeten de children ook responsive worden
   setChildren: ((children: ComponentModel[]) => ComponentModel)|undefined
-  componentSpecificConfig:ResponsiveComponentSpecificConfigModel|undefined
-  setComponentSpecificConfig: ((specifics: ResponsiveComponentSpecificConfigModel) => ComponentModel)|undefined
+  componentSpecificConfig:ResponsiveStructuralConfigModel|undefined
+  setComponentSpecificConfig: ((specifics: ResponsiveStructuralConfigModel) => ComponentModel)|undefined
 }

@@ -1,6 +1,6 @@
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {ConfigType, RenderType} from "../types/conditional-types";
-import {ResponsiveConfigModelType, ScreenSizeType} from "../types/union-types";
+import {ComponentStructuralConfigModelType, ResponsiveConfigModelType, ScreenSizeType} from "../types/union-types";
 
 export class ResponsiveConfigModel<T extends ResponsiveConfigModelType>{
   protected getRenderProperties(screenSize:ScreenSize,mapping:(configModel:ConfigType<T>)=>RenderType<T>):RenderType<T>{

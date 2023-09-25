@@ -23,17 +23,14 @@ import {ContentInjectionConfigModel} from "../../design-dimensions/ContentInject
 import {
   TableContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
-import {
-  ResponsiveComponentSpecificConfigModel
-} from "../../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
-import {
-  ComponentSpecificConfigModel
-} from "../../design-dimensions/component-specific-config/ComponentSpecificConfigModel";
-import {TableConfigModel} from "../../design-dimensions/component-specific-config/table/TableConfigModel";
 import {ResponsiveStylingConfigModel} from "../../design-dimensions/Styling/ResponsiveStylingConfigModel";
 import {StylingConfigModel} from "../../design-dimensions/Styling/StylingConfigModel";
+import {TableConfigModel} from "../../design-dimensions/StructuralConfig/table/TableConfigModel";
+import {
+  ResponsiveStructuralConfigModel
+} from "../../design-dimensions/StructuralConfig/ResponsiveStructuralConfigModel";
 
-export class Table extends ComponentModel implements ComponentI{
+export class Table<S extends TableConfigModel> extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
   name:string
   spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
@@ -84,12 +81,10 @@ export class Table extends ComponentModel implements ComponentI{
     this.contentInjection=ci
     return this
   }
-  componentSpecificConfig: ResponsiveComponentSpecificConfigModel=new ResponsiveComponentSpecificConfigModel(
-    new ComponentSpecificConfigModel(
+  componentSpecificConfig: ResponsiveStructuralConfigModel=new ResponsiveStructuralConfigModel(
       new TableConfigModel()
-    )
   )
-  setComponentSpecificConfig(cs:ResponsiveComponentSpecificConfigModel){
+  setComponentSpecificConfig(cs:ResponsiveStructuralConfigModel){
     this.componentSpecificConfig=cs
     return this
   }

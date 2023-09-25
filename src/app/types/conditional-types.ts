@@ -30,38 +30,44 @@ import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderM
 import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
 import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
 import {DataInputRenderModel} from "../design-dimensions/DataInput/DataInputRenderModel";
-import {
-  ResponsiveComponentSpecificConfigModel
-} from "../design-dimensions/component-specific-config/ResponsiveComponentSpecificConfigModel";
-import {
-  ComponentSpecificRenderModel
-} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
 import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
 import {StylingConfigModel} from "../design-dimensions/Styling/StylingConfigModel";
 import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
 import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {SpacingRenderModel} from "../design-dimensions/Spacing/SpacingRenderModel";
 import {SpacingConfigModel} from "../design-dimensions/Spacing/SpacingConfigModel";
-import {
-  ComponentSpecificConfigModel
-} from "../design-dimensions/component-specific-config/ComponentSpecificConfigModel";
 import {ResponsiveTableLayoutConfigModel} from "../design-dimensions/Layout/Table/ResponsiveTableLayoutConfigModel";
 import {TableLayoutConfigModel} from "../design-dimensions/Layout/Table/TableLayoutConfigModel";
 import {TableLayoutRenderModel} from "../design-dimensions/Layout/Table/TableLayoutRenderModel";
+import {ResponsiveStructuralConfigModel} from "../design-dimensions/StructuralConfig/ResponsiveStructuralConfigModel";
+import {ComponentStructuralConfigModelType, ComponentStructuralRenderModelType} from "./union-types";
+
+
+/*export type StructuralConfigModelType<T> =
+  T extends TableConfigModel ? TableConfigModel :
+    T extends ImageConfigModel ? ImageConfigModel :
+      T extends MenubarConfigModel ? MenubarConfigModel :
+        T extends ConfirmPopupConfigModel ? ConfirmPopupConfigModel :
+          T extends DialogConfigModel ? DialogConfigModel :
+            T extends ButtonConfigModel ? ButtonConfigModel : never*/
+/*
+*
+*
+* */
 
 export type ResponsiveConfigType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ResponsiveContainerChildLayoutConfigModel :
     T extends ResponsiveVisibilityConfigModel ? ResponsiveVisibilityConfigModel :
-      T extends ResponsiveComponentSpecificConfigModel ? ResponsiveComponentSpecificConfigModel :
+      T extends ResponsiveStructuralConfigModel ? ResponsiveStructuralConfigModel :
         T extends ResponsiveStylingConfigModel ? ResponsiveStylingConfigModel :
           T extends ResponsiveContentInjectionConfigModel ? ResponsiveContentInjectionConfigModel :
             T extends ResponsiveTableLayoutConfigModel ? ResponsiveTableLayoutConfigModel :
-            T extends ResponsiveDataInputConfigModel ? ResponsiveDataInputConfigModel :
-              T extends ResponsiveDataRepresentationConfigModel ? ResponsiveDataRepresentationConfigModel :
-                T extends ResponsiveOverflowConfigModel ? ResponsiveOverflowConfigModel :
-                  T extends ResponsiveLayoutOverrideConfigModel ? ResponsiveLayoutOverrideConfigModel :
-                    T extends ResponsiveSpacingConfigModel ? ResponsiveSpacingConfigModel :
-                      T extends ResponsiveSizeConfigModel ? ResponsiveSizeConfigModel : never
+              T extends ResponsiveDataInputConfigModel ? ResponsiveDataInputConfigModel :
+                T extends ResponsiveDataRepresentationConfigModel ? ResponsiveDataRepresentationConfigModel :
+                  T extends ResponsiveOverflowConfigModel ? ResponsiveOverflowConfigModel :
+                    T extends ResponsiveLayoutOverrideConfigModel ? ResponsiveLayoutOverrideConfigModel :
+                      T extends ResponsiveSpacingConfigModel ? ResponsiveSpacingConfigModel :
+                        T extends ResponsiveSizeConfigModel ? ResponsiveSizeConfigModel : never
 
 export type ConfigType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutConfigModel :
@@ -72,21 +78,21 @@ export type ConfigType<T> =
             T extends ResponsiveDataRepresentationConfigModel ? DataRepresentationConfigModel :
               T extends ResponsiveOverflowConfigModel ? OverflowConfigModel :
                 T extends ResponsiveTableLayoutConfigModel ? TableLayoutConfigModel :
-                T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideConfigModel :
-                  T extends ResponsiveSpacingConfigModel ? SpacingConfigModel :
-                    T extends ResponsiveComponentSpecificConfigModel ? ComponentSpecificConfigModel :
-                    T extends ResponsiveSizeConfigModel ? SizeConfigModel : never;
+                  T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideConfigModel :
+                    T extends ResponsiveSpacingConfigModel ? SpacingConfigModel :
+                      T extends ResponsiveStructuralConfigModel ? ComponentStructuralConfigModelType:
+                        T extends ResponsiveSizeConfigModel ? SizeConfigModel : never;
 
 export type RenderType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutRenderModel :
     T extends ResponsiveVisibilityConfigModel ? VisibilityRenderModel :
-      T extends ResponsiveComponentSpecificConfigModel ? ComponentSpecificRenderModel :
+      T extends ResponsiveStructuralConfigModel ? ComponentStructuralRenderModelType :
         T extends ResponsiveStylingConfigModel ? StylingRenderModel :
           T extends ResponsiveContentInjectionConfigModel ? ContentInjectionRenderModel :
             T extends ResponsiveDataInputConfigModel ? DataInputRenderModel :
               T extends ResponsiveDataRepresentationConfigModel ? DataRepresentationRenderModel :
                 T extends ResponsiveTableLayoutConfigModel ? TableLayoutRenderModel :
                   T extends ResponsiveOverflowConfigModel ? OverflowRenderModel :
-                  T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideRenderModel :
-                    T extends ResponsiveSpacingConfigModel ? SpacingRenderModel :
-                      T extends ResponsiveSizeConfigModel ? SizeRenderModel : never
+                    T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideRenderModel :
+                      T extends ResponsiveSpacingConfigModel ? SpacingRenderModel :
+                        T extends ResponsiveSizeConfigModel ? SizeRenderModel : never

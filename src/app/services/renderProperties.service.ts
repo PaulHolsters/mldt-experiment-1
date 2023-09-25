@@ -11,7 +11,7 @@ import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubje
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
-import {ComponentSpecificRenderModel} from "../design-dimensions/component-specific-config/ComponentSpecificRenderModel";
+import {StructuralRenderModel} from "../design-dimensions/component-specific-config/StructuralRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
 import {CalculationModel} from "../design-dimensions/CalculationModel";
@@ -69,7 +69,7 @@ export class RenderPropertiesService implements OnInit {
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       LayoutOverrideRenderModel |
-      ComponentSpecificRenderModel |
+      StructuralRenderModel |
       VisibilityRenderModel |
       OverflowRenderModel |
       StylingRenderModel |
