@@ -6,6 +6,8 @@ import {ColumnLayoutConfigModel} from "../../design-dimensions/Layout/Container/
 import {Table} from "../../components/table/Table";
 import {ChildPropertiesConfigModel} from "../../design-dimensions/Layout/Container/ChildPropertiesConfigModel";
 import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
+import {TableStylingConfigModel} from "../../design-dimensions/Styling/table/TableStylingConfigModel";
+import {TableGridType} from "../../enums/tableGridType.enum";
 
 
 const mainContainer:Container = new Container('content-container')
@@ -13,8 +15,14 @@ mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 
 mainContainer.layout.smartphone
   .setLayout(new ColumnLayoutConfigModel().setWrap(false))
   .setChildConfig(new ChildPropertiesConfigModel()).childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100))
+const mainTable = new Table('main-table')
+// todo dit suckt natuurlijk => dit patroon veranderen en elke component apart een responsive model geven
+if(mainTable.styling.smartphone.componentConfigModel instanceof TableStylingConfigModel){
+  mainTable.styling.smartphone.componentConfigModel.setGridType(TableGridType.Row)
+}
+
 mainContainer.setChildren([
-  new Table('main-table')
+
 ])
 export const RootComponent = new AppConfig({
   components: [
@@ -28,6 +36,4 @@ export const RootComponent = new AppConfig({
 styling:
 gridlines
 stacked
-size: 100%
 
-mainContainer.layout.smartphone.childConfig?

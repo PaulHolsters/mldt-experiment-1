@@ -11,7 +11,7 @@ import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.en
 import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
-import {TableStylingType} from "../../enums/tableStylingType.enum";
+import {TableStylingType} from "../../enums/tableGridType.enum";
 import {NoValueType} from "../../enums/no_value_type";
 import {StylingConfigPropsModel} from "../../models/Styling/StylingConfigPropsModel";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
@@ -27,7 +27,7 @@ import {PositioningConfigPropsModel} from "../../models/LayoutOverride/self/Posi
 import {DisplayType} from "../../enums/displayType.enum";
 import {IconMeaningType} from "../../enums/iconMeaningType.enum";
 import {ButtonSizeType} from "../../enums/buttonSizeType.enum";
-import {ButtonAppearanceType} from "../../enums/buttonAppearanceType.enum";
+import {ButtonAppearanceType} from "../../enums/buttonStylingType.enum";
 import {IconSizeType} from "../../enums/iconSizeType.enum";
 import {IconType} from "../../enums/iconType.enum";
 

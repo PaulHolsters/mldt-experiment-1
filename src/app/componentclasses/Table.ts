@@ -1,5 +1,5 @@
 import {Component} from "./Component";
-import {TableStylingType} from "../enums/tableStylingType.enum";
+import {TableStylingType} from "../enums/tableGridType.enum";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ComponentModel} from "../design-dimensions/ComponentModel";

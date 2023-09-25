@@ -7,7 +7,6 @@ import {IconStylingConfigModel} from "./icon/IconStylingConfigModel";
 import {ButtonStylingRenderModel} from "./button/ButtonStylingRenderModel";
 import {IconStylingRenderModel} from "./icon/IconStylingRenderModel";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
-import {SpacingConfigModel} from "../Spacing/SpacingConfigModel";
 import {TableStylingConfigModel} from "./table/TableStylingConfigModel";
 import {TableStylingRenderModel} from "./table/TableStylingRenderModel";
 

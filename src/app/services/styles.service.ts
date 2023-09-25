@@ -13,9 +13,9 @@ import {TextColorType} from "../enums/textColorType.enum";
 import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ButtonSizeType} from "../enums/buttonSizeType.enum";
 import {NoValueType} from "../enums/no_value_type";
-import {ButtonFormType} from "../enums/buttonFormType.enum";
+import {ButtonFormType} from "../enums/buttonAppearanceType.enum";
 import {ButtonMeaningType} from "../enums/buttonMeaningType.enum";
-import {ButtonAppearanceType} from "../enums/buttonAppearanceType.enum";
+import {ButtonAppearanceType} from "../enums/buttonStylingType.enum";
 
 @Injectable({
   providedIn: 'root'

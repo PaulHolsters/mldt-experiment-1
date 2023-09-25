@@ -1,6 +1,8 @@
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {IconConfigModel} from "./IconConfigModel";
 export class ButtonRenderModel {
   public label:string|ZeroValueType.NotConfigured|undefined=undefined
+  public icon:IconConfigModel|ZeroValueType.NotConfigured|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

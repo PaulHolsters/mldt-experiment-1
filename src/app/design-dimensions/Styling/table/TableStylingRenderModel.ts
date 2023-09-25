@@ -1,5 +1,7 @@
-export class TableStylingRenderModel {
+import {TableGridType} from "../../../enums/tableGridType.enum";
 
+export class TableStylingRenderModel {
+  gridType:TableGridType|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {
