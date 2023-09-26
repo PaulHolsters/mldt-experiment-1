@@ -8,8 +8,6 @@ import {ChildPropertiesConfigModel} from "../../design-dimensions/Layout/Contain
 import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
 import {TableStylingConfigModel} from "../../design-dimensions/Styling/table/TableStylingConfigModel";
 import {TableGridType} from "../../enums/tableGridType.enum";
-import {TableConfigModel} from "../../design-dimensions/StructuralConfig/table/TableConfigModel";
-
 
 const mainContainer:Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
