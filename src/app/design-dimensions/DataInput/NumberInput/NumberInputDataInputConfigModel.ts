@@ -1,8 +1,8 @@
 import {NumberInputModeType} from "../../../enums/numberInputModeType.enum";
-import {ButtonClassType} from "../../../enums/buttonClassType.enum";
 import {IconType} from "../../../enums/iconType.enum";
 import {ButtonLayoutType} from "../../../enums/buttonLayoutType.enum";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {ButtonMeaningType} from "../../../enums/buttonMeaningType.enum";
 
 export class NumberInputDataInputConfigModel {
   public advisoryText:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
@@ -11,11 +11,16 @@ export class NumberInputDataInputConfigModel {
   public mode:NumberInputModeType=NumberInputModeType.Decimal
   public min:number=Number.MIN_SAFE_INTEGER
   public max:number=Number.MAX_SAFE_INTEGER
-  public decrementButtonClass:ButtonClassType=ButtonClassType.Primary
-  public incrementButtonClass:ButtonClassType=ButtonClassType.Primary
+  public decrementButtonClass:ButtonMeaningType=ButtonMeaningType.Info
+  public incrementButtonClass:ButtonMeaningType=ButtonMeaningType.Info
   public incrementButtonIcon:IconType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public decrementButtonIcon:IconType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public buttonLayout:ButtonLayoutType=ButtonLayoutType.Stacked
+  public disabled: boolean | ZeroValueType.NotAllowed = false
+  setDisabled(disabled: boolean | ZeroValueType.NotAllowed):NumberInputDataInputConfigModel {
+    this.disabled = disabled
+    return this
+  }
   constructor() {
   }
   setAdvisoryText(advisoryText:string|ZeroValueType.NotConfigured) {
@@ -42,11 +47,11 @@ export class NumberInputDataInputConfigModel {
     this.max = max
     return this
   }
-  setDecrementButtonClass(decrementButtonClass:ButtonClassType) {
+  setDecrementButtonClass(decrementButtonClass:ButtonMeaningType) {
     this.decrementButtonClass = decrementButtonClass
     return this
   }
-  setIncrementButtonClass(incrementButtonClass:ButtonClassType) {
+  setIncrementButtonClass(incrementButtonClass:ButtonMeaningType) {
     this.incrementButtonClass = incrementButtonClass
     return this
   }

@@ -14,24 +14,34 @@ import {
 import {ResponsiveDataInputConfigModel} from "../design-dimensions/DataInput/ResponsiveDataInputConfigModel";
 import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ResponsiveTableLayoutConfigModel} from "../design-dimensions/Layout/Table/ResponsiveTableLayoutConfigModel";
-import {TableConfigModel} from "../design-dimensions/StructuralConfig/table/TableConfigModel";
-import {ConfirmPopupConfigModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupConfigModel";
-import {MenubarConfigModel} from "../design-dimensions/StructuralConfig/menubar/MenubarConfigModel";
-import {DialogConfigModel} from "../design-dimensions/StructuralConfig/dialog/DialogConfigModel";
-import {ResponsiveStructuralConfigModel} from "../design-dimensions/StructuralConfig/ResponsiveStructuralConfigModel";
-import {ImageConfigModel} from "../design-dimensions/StructuralConfig/image/ImageConfigModel";
-import {ButtonConfigModel} from "../design-dimensions/StructuralConfig/button/ButtonConfigModel";
-import {MenubarRenderModel} from "../design-dimensions/StructuralConfig/menubar/MenubarRenderModel";
-import {ImageRenderModel} from "../design-dimensions/StructuralConfig/image/ImageRenderModel";
-import {DialogRenderModel} from "../design-dimensions/StructuralConfig/dialog/DialogRenderModel";
-import {ButtonRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonRenderModel";
-import {ConfirmPopupRenderModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupRenderModel";
-import {TableRenderModel} from "../design-dimensions/StructuralConfig/table/TableRenderModel";
+import {
+  ResponsiveStructuralButtonConfigModel
+} from "../design-dimensions/StructuralConfig/button/ResponsiveStructuralButtonConfigModel";
+import {
+  ResponsiveStructuralImageConfigModel
+} from "../design-dimensions/StructuralConfig/image/ResponsiveStructuralImageConfigModel";
+import {
+  ResponsiveStructuralConfirmPopupConfigModel
+} from "../design-dimensions/StructuralConfig/confirm-popup/ResponsiveStructuralConfirmPopupConfigModel";
+import {
+  ResponsiveStructuralDialogConfigModel
+} from "../design-dimensions/StructuralConfig/dialog/ResponsiveStructuralDialogConfigModel";
+import {
+  ResponsiveStructuralTableConfigModel
+} from "../design-dimensions/StructuralConfig/table/ResponsiveStructuralTableConfigModel";
+import {
+  ResponsiveStructuralMenubarConfigModel
+} from "../design-dimensions/StructuralConfig/menubar/ResponsiveStructuralMenubarConfigModel";
 
 export type ResponsiveConfigModelType =
   ResponsiveSizeConfigModel |
   ResponsiveVisibilityConfigModel |
-  ResponsiveStructuralConfigModel|
+  ResponsiveStructuralButtonConfigModel|
+  ResponsiveStructuralImageConfigModel|
+  ResponsiveStructuralConfirmPopupConfigModel|
+  ResponsiveStructuralDialogConfigModel|
+  ResponsiveStructuralMenubarConfigModel|
+  ResponsiveStructuralTableConfigModel|
   ResponsiveSpacingConfigModel|
   ResponsiveOverflowConfigModel |
   ResponsiveTableLayoutConfigModel|
@@ -41,22 +51,6 @@ export type ResponsiveConfigModelType =
   ResponsiveStylingConfigModel |
   ResponsiveDataRepresentationConfigModel |
   ResponsiveDataInputConfigModel
-
-export type ComponentStructuralConfigModelType =
-  TableConfigModel|
-  ImageConfigModel|
-  MenubarConfigModel|
-  ConfirmPopupConfigModel|
-  DialogConfigModel|
-  ButtonConfigModel
-
-export type ComponentStructuralRenderModelType =
-  TableRenderModel|
-  ImageRenderModel|
-  MenubarRenderModel|
-  ConfirmPopupRenderModel|
-  DialogRenderModel|
-  ButtonRenderModel
 
 export type ComponentModelType = Container
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'

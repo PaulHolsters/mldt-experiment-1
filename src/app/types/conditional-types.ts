@@ -39,35 +39,36 @@ import {SpacingConfigModel} from "../design-dimensions/Spacing/SpacingConfigMode
 import {ResponsiveTableLayoutConfigModel} from "../design-dimensions/Layout/Table/ResponsiveTableLayoutConfigModel";
 import {TableLayoutConfigModel} from "../design-dimensions/Layout/Table/TableLayoutConfigModel";
 import {TableLayoutRenderModel} from "../design-dimensions/Layout/Table/TableLayoutRenderModel";
-import {ResponsiveStructuralConfigModel} from "../design-dimensions/StructuralConfig/ResponsiveStructuralConfigModel";
-import {ComponentStructuralConfigModelType, ComponentStructuralRenderModelType} from "./union-types";
-
-
-/*export type StructuralConfigModelType<T> =
-  T extends TableConfigModel ? TableConfigModel :
-    T extends ImageConfigModel ? ImageConfigModel :
-      T extends MenubarConfigModel ? MenubarConfigModel :
-        T extends ConfirmPopupConfigModel ? ConfirmPopupConfigModel :
-          T extends DialogConfigModel ? DialogConfigModel :
-            T extends ButtonConfigModel ? ButtonConfigModel : never*/
-/*
-*
-*
-* */
-
-export type ResponsiveConfigType<T> =
-  T extends ResponsiveContainerChildLayoutConfigModel ? ResponsiveContainerChildLayoutConfigModel :
-    T extends ResponsiveVisibilityConfigModel ? ResponsiveVisibilityConfigModel :
-      T extends ResponsiveStructuralConfigModel ? ResponsiveStructuralConfigModel :
-        T extends ResponsiveStylingConfigModel ? ResponsiveStylingConfigModel :
-          T extends ResponsiveContentInjectionConfigModel ? ResponsiveContentInjectionConfigModel :
-            T extends ResponsiveTableLayoutConfigModel ? ResponsiveTableLayoutConfigModel :
-              T extends ResponsiveDataInputConfigModel ? ResponsiveDataInputConfigModel :
-                T extends ResponsiveDataRepresentationConfigModel ? ResponsiveDataRepresentationConfigModel :
-                  T extends ResponsiveOverflowConfigModel ? ResponsiveOverflowConfigModel :
-                    T extends ResponsiveLayoutOverrideConfigModel ? ResponsiveLayoutOverrideConfigModel :
-                      T extends ResponsiveSpacingConfigModel ? ResponsiveSpacingConfigModel :
-                        T extends ResponsiveSizeConfigModel ? ResponsiveSizeConfigModel : never
+import {
+  ResponsiveStructuralButtonConfigModel
+} from "../design-dimensions/StructuralConfig/button/ResponsiveStructuralButtonConfigModel";
+import {ButtonConfigModel} from "../design-dimensions/StructuralConfig/button/ButtonConfigModel";
+import {ButtonRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonRenderModel";
+import {TableConfigModel} from "../design-dimensions/StructuralConfig/table/TableConfigModel";
+import {ConfirmPopupConfigModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupConfigModel";
+import {MenubarConfigModel} from "../design-dimensions/StructuralConfig/menubar/MenubarConfigModel";
+import {
+  ResponsiveStructuralImageConfigModel
+} from "../design-dimensions/StructuralConfig/image/ResponsiveStructuralImageConfigModel";
+import {
+  ResponsiveStructuralConfirmPopupConfigModel
+} from "../design-dimensions/StructuralConfig/confirm-popup/ResponsiveStructuralConfirmPopupConfigModel";
+import {
+  ResponsiveStructuralDialogConfigModel
+} from "../design-dimensions/StructuralConfig/dialog/ResponsiveStructuralDialogConfigModel";
+import {
+  ResponsiveStructuralTableConfigModel
+} from "../design-dimensions/StructuralConfig/table/ResponsiveStructuralTableConfigModel";
+import {DialogConfigModel} from "../design-dimensions/StructuralConfig/dialog/DialogConfigModel";
+import {ImageConfigModel} from "../design-dimensions/StructuralConfig/image/ImageConfigModel";
+import {
+  ResponsiveStructuralMenubarConfigModel
+} from "../design-dimensions/StructuralConfig/menubar/ResponsiveStructuralMenubarConfigModel";
+import {MenubarRenderModel} from "../design-dimensions/StructuralConfig/menubar/MenubarRenderModel";
+import {ImageRenderModel} from "../design-dimensions/StructuralConfig/image/ImageRenderModel";
+import {DialogRenderModel} from "../design-dimensions/StructuralConfig/dialog/DialogRenderModel";
+import {ConfirmPopupRenderModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupRenderModel";
+import {TableRenderModel} from "../design-dimensions/StructuralConfig/table/TableRenderModel";
 
 export type ConfigType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutConfigModel :
@@ -80,13 +81,23 @@ export type ConfigType<T> =
                 T extends ResponsiveTableLayoutConfigModel ? TableLayoutConfigModel :
                   T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideConfigModel :
                     T extends ResponsiveSpacingConfigModel ? SpacingConfigModel :
-                      T extends ResponsiveStructuralConfigModel ? ComponentStructuralConfigModelType:
+                      T extends ResponsiveStructuralButtonConfigModel ? ButtonConfigModel:
+                        T extends ResponsiveStructuralDialogConfigModel ? DialogConfigModel:
+                          T extends ResponsiveStructuralImageConfigModel ? ImageConfigModel:
+                            T extends ResponsiveStructuralMenubarConfigModel ? MenubarConfigModel:
+                              T extends ResponsiveStructuralTableConfigModel ? TableConfigModel:
+                                T extends ResponsiveStructuralConfirmPopupConfigModel ? ConfirmPopupConfigModel:
                         T extends ResponsiveSizeConfigModel ? SizeConfigModel : never;
 
 export type RenderType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutRenderModel :
     T extends ResponsiveVisibilityConfigModel ? VisibilityRenderModel :
-      T extends ResponsiveStructuralConfigModel ? ComponentStructuralRenderModelType :
+      T extends ResponsiveStructuralButtonConfigModel ? ButtonRenderModel :
+        T extends ResponsiveStructuralDialogConfigModel ? DialogRenderModel :
+          T extends ResponsiveStructuralImageConfigModel ? ImageRenderModel :
+            T extends ResponsiveStructuralMenubarConfigModel ? MenubarRenderModel :
+              T extends ResponsiveStructuralTableConfigModel ? TableRenderModel :
+                T extends ResponsiveStructuralConfirmPopupConfigModel ? ConfirmPopupRenderModel :
         T extends ResponsiveStylingConfigModel ? StylingRenderModel :
           T extends ResponsiveContentInjectionConfigModel ? ContentInjectionRenderModel :
             T extends ResponsiveDataInputConfigModel ? DataInputRenderModel :

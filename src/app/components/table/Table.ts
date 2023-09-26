@@ -27,8 +27,8 @@ import {ResponsiveStylingConfigModel} from "../../design-dimensions/Styling/Resp
 import {StylingConfigModel} from "../../design-dimensions/Styling/StylingConfigModel";
 import {TableConfigModel} from "../../design-dimensions/StructuralConfig/table/TableConfigModel";
 import {
-  ResponsiveStructuralConfigModel
-} from "../../design-dimensions/StructuralConfig/ResponsiveStructuralConfigModel";
+  ResponsiveStructuralTableConfigModel
+} from "../../design-dimensions/StructuralConfig/table/ResponsiveStructuralTableConfigModel";
 
 export class Table<S extends TableConfigModel> extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
@@ -81,10 +81,10 @@ export class Table<S extends TableConfigModel> extends ComponentModel implements
     this.contentInjection=ci
     return this
   }
-  componentSpecificConfig: ResponsiveStructuralConfigModel=new ResponsiveStructuralConfigModel(
-      new TableConfigModel()
+  componentSpecificConfig: ResponsiveStructuralTableConfigModel=new ResponsiveStructuralTableConfigModel(
+    new TableConfigModel()
   )
-  setComponentSpecificConfig(cs:ResponsiveStructuralConfigModel){
+  setComponentSpecificConfig(cs:ResponsiveStructuralTableConfigModel){
     this.componentSpecificConfig=cs
     return this
   }

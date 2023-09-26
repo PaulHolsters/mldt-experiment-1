@@ -4,7 +4,7 @@ import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {RadioButtonGroupDataInputRenderModel} from "./RadioButtonGroup/RadioButtonGroupDataInputRenderModel";
 
 export class DataInputRenderModel {
-  public disabled: boolean | ZeroValueType.NotAllowed|undefined=undefined
+
   public componentRenderModel:
     NumberInputDataInputRenderModel|TextInputDataInputRenderModel|RadioButtonGroupDataInputRenderModel | undefined = undefined
 constructor(

@@ -17,8 +17,7 @@ mainContainer.layout.smartphone
   .setLayout(new ColumnLayoutConfigModel().setWrap(false))
   .setChildConfig(new ChildPropertiesConfigModel()).childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100))
 const mainTable = new Table('main-table')
-// todo dit suckt natuurlijk => dit patroon veranderen en elke component apart een responsive model geven
-  (mainTable.componentSpecificConfig.smartphone as TableConfigModel).set
+mainTable.componentSpecificConfig.smartphone.
 
 if(mainTable.styling.smartphone.componentConfigModel instanceof TableStylingConfigModel){
   mainTable.styling.smartphone.componentConfigModel.setGridType(TableGridType.Row)

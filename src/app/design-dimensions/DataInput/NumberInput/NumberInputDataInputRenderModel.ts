@@ -1,8 +1,8 @@
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {NumberInputModeType} from "../../../enums/numberInputModeType.enum";
-import {ButtonClassType} from "../../../enums/buttonClassType.enum";
 import {IconType} from "../../../enums/iconType.enum";
 import {ButtonLayoutType} from "../../../enums/buttonLayoutType.enum";
+import {ButtonMeaningType} from "../../../enums/buttonMeaningType.enum";
 export class NumberInputDataInputRenderModel {
   public advisoryText:string|ZeroValueType.NotConfigured|undefined=undefined
   public showButtons:boolean|undefined=undefined
@@ -10,11 +10,12 @@ export class NumberInputDataInputRenderModel {
   public mode:NumberInputModeType|undefined=undefined
   public min:number|undefined=undefined
   public max:number|undefined=undefined
-  public decrementButtonClass:ButtonClassType|undefined=undefined
-  public incrementButtonClass:ButtonClassType|undefined=undefined
+  public decrementButtonClass:ButtonMeaningType|undefined=undefined
+  public incrementButtonClass:ButtonMeaningType|undefined=undefined
   public incrementButtonIcon:IconType|ZeroValueType.NotConfigured|undefined=undefined
   public decrementButtonIcon:IconType|ZeroValueType.NotConfigured|undefined=undefined
   public buttonLayout:ButtonLayoutType|undefined=undefined
+  public disabled: boolean | ZeroValueType.NotAllowed|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

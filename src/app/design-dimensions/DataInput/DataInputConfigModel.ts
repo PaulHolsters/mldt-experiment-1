@@ -4,7 +4,7 @@ import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {RadioButtonGroupDataInputConfigModel} from "./RadioButtonGroup/RadioButtonGroupDataInputConfigModel";
 
 export class DataInputConfigModel {
-  public disabled: boolean | ZeroValueType.NotAllowed = false
+
 
   constructor(
     public componentConfigModel:
@@ -14,8 +14,5 @@ export class DataInputConfigModel {
   ) {
   }
 
-  setDisabled(disabled: boolean | ZeroValueType.NotAllowed):DataInputConfigModel {
-    this.disabled = disabled
-    return this
-  }
+
 }
