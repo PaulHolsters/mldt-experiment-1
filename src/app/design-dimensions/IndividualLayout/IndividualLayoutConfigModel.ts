@@ -2,8 +2,9 @@ import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayo
 import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 
-export class LayoutOverrideConfigModel {
-  public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
+export class IndividualLayoutConfigModel {
+  public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured,
+  public displayType:DisplayType
   constructor(
 
     ) {

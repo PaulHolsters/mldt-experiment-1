@@ -25,8 +25,8 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
         {
           name: 'content-container',
           type: ComponentType.Container,
-          position: new ResponsiveLayoutOverrideConfigModel(
-            new LayoutOverrideConfigModel()),
+          position: new ResponsiveIndividualLayoutConfigModel(
+            new IndividualLayoutConfigModel()),
           visibility: new ResponsiveSpacingConfigModel(),
           dimensions: new ResponsiveSizeConfigModel(
             new IconStylingConfigModel(

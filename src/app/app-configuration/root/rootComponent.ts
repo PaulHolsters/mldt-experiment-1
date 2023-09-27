@@ -6,8 +6,8 @@ import {ColumnLayoutConfigModel} from "../../design-dimensions/Layout/Container/
 import {Table} from "../../components/table/Table";
 import {ChildPropertiesConfigModel} from "../../design-dimensions/Layout/Container/ChildPropertiesConfigModel";
 import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
-import {TableStylingConfigModel} from "../../design-dimensions/Styling/table/TableStylingConfigModel";
 import {TableGridType} from "../../enums/tableGridType.enum";
+import {ClientDataConfigModel} from "../../design-dimensions/ClientData/ClientDataConfigModel";
 
 const mainContainer:Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
@@ -15,14 +15,17 @@ mainContainer.layout.smartphone
   .setLayout(new ColumnLayoutConfigModel().setWrap(false))
   .setChildConfig(new ChildPropertiesConfigModel()).childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100))
 const mainTable = new Table('main-table')
-mainTable.componentSpecificConfig.smartphone.
+mainTable.styling.smartphone.setGridType(TableGridType.Row)
+mainTable.setClientData(new ClientDataConfigModel('populate_table'))
+const col1HeaderContainer = new Container('col1-container')
+// todo add icon component
+// todo vul styling icon aan
+// todo add displayType bij individualLayout (wijzig naam!)
+mainTable.contentInjection.smartphone.setColumnHeaderComponents([
 
-if(mainTable.styling.smartphone.componentConfigModel instanceof TableStylingConfigModel){
-  mainTable.styling.smartphone.componentConfigModel.setGridType(TableGridType.Row)
-}
-
+])
 mainContainer.setChildren([
-
+  mainTable
 ])
 export const RootComponent = new AppConfig({
   components: [
@@ -32,8 +35,4 @@ export const RootComponent = new AppConfig({
   //      de condities zoals gedefinieerd in de overeenkomstige actie
   effects: effects
 })
-// config needed for main table
-styling:
-gridlines
-stacked
 

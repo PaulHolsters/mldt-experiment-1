@@ -1,5 +1,5 @@
 export class IconStylingRenderModel {
-
+// todo
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

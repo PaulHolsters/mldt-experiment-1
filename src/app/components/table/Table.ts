@@ -9,26 +9,26 @@ import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/Re
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ClientDataConfigModel} from "../../design-dimensions/ClientData/ClientDataConfigModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
-import {DataRepresentationConfigModel} from "../../design-dimensions/DataRepresentation/DataRepresentationConfigModel";
 import {
   TableDataRepresentationConfigModel
 } from "../../design-dimensions/DataRepresentation/Table/TableDataRepresentationConfigModel";
 import {
-  ResponsiveDataRepresentationConfigModel
-} from "../../design-dimensions/DataRepresentation/ResponsiveDataRepresentationConfigModel";
-import {
-  ResponsiveContentInjectionConfigModel
-} from "../../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
-import {ContentInjectionConfigModel} from "../../design-dimensions/ContentInjection/ContentInjectionConfigModel";
-import {
   TableContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
-import {ResponsiveStylingConfigModel} from "../../design-dimensions/Styling/ResponsiveStylingConfigModel";
-import {StylingConfigModel} from "../../design-dimensions/Styling/StylingConfigModel";
 import {TableConfigModel} from "../../design-dimensions/StructuralConfig/table/TableConfigModel";
 import {
   ResponsiveStructuralTableConfigModel
 } from "../../design-dimensions/StructuralConfig/table/ResponsiveStructuralTableConfigModel";
+import {
+  ResponsiveDataRepresentationTableConfigModel
+} from "../../design-dimensions/DataRepresentation/Table/ResponsiveDataRepresentationTableConfigModel";
+import {
+  ResponsiveContentInjectionTableConfigModel
+} from "../../design-dimensions/ContentInjection/table/ResponsiveContentInjectionTableConfigModel";
+import {
+  ResponsiveStylingTableConfigModel
+} from "../../design-dimensions/Styling/table/ResponsiveStylingTableConfigModel";
+import {TableStylingConfigModel} from "../../design-dimensions/Styling/table/TableStylingConfigModel";
 
 export class Table<S extends TableConfigModel> extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
@@ -63,21 +63,17 @@ export class Table<S extends TableConfigModel> extends ComponentModel implements
     this.clientData=cd
     return this
   }
-  dataRepresentation: ResponsiveDataRepresentationConfigModel=new ResponsiveDataRepresentationConfigModel(
-      new DataRepresentationConfigModel(
-        new TableDataRepresentationConfigModel()
-      )
+  dataRepresentation: ResponsiveDataRepresentationTableConfigModel=new ResponsiveDataRepresentationTableConfigModel(
+      new TableDataRepresentationConfigModel()
   )
-  setDataRepresentation(dr:ResponsiveDataRepresentationConfigModel){
+  setDataRepresentation(dr:ResponsiveDataRepresentationTableConfigModel){
     this.dataRepresentation=dr
     return this
   }
-  contentInjection: ResponsiveContentInjectionConfigModel=new ResponsiveContentInjectionConfigModel(
-    new ContentInjectionConfigModel(
-      new TableContentInjectionConfigModel()
-    )
+  contentInjection: ResponsiveContentInjectionTableConfigModel=new ResponsiveContentInjectionTableConfigModel(
+    new TableContentInjectionConfigModel()
   )
-  setContentInjection(ci:ResponsiveContentInjectionConfigModel){
+  setContentInjection(ci:ResponsiveContentInjectionTableConfigModel){
     this.contentInjection=ci
     return this
   }
@@ -88,12 +84,9 @@ export class Table<S extends TableConfigModel> extends ComponentModel implements
     this.componentSpecificConfig=cs
     return this
   }
-  styling: ResponsiveStylingConfigModel=new ResponsiveStylingConfigModel(
-    new StylingConfigModel(
-      new TableConfigModel()
-    )
-  )
-  setStyling(st:ResponsiveStylingConfigModel){
+  styling: ResponsiveStylingTableConfigModel=new ResponsiveStylingTableConfigModel(
+    new TableStylingConfigModel())
+  setStyling(st:ResponsiveStylingTableConfigModel){
     this.styling=st
     return this
   }

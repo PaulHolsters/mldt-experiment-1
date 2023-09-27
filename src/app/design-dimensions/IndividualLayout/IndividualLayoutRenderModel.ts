@@ -4,7 +4,7 @@ import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {MarginType} from "../../enums/marginType.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
 
-export class LayoutOverrideRenderModel {
+export class IndividualLayoutRenderModel {
   public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|ZeroValueType.NotConfigured|undefined=undefined
   constructor() {
   }

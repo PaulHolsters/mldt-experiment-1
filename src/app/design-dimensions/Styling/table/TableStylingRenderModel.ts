@@ -2,6 +2,7 @@ import {TableGridType} from "../../../enums/tableGridType.enum";
 
 export class TableStylingRenderModel {
   gridType:TableGridType|undefined=undefined
+  // todo vul aan
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

@@ -14,7 +14,6 @@ import {NonCalculatedSizeConfigModel} from "../../Size/NonCalculatedSizeConfigMo
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {DataRepresentationConfigModel} from "../../DataRepresentation/DataRepresentationConfigModel";
 
 export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ResponsiveContainerChildLayoutConfigModel>
 implements ResponsiveConfigModelI<ResponsiveContainerChildLayoutConfigModel>{
