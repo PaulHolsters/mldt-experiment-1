@@ -2,12 +2,16 @@ import AppConfig from "../../services/appConfig";
 import {effects} from "../effects/effects";
 import {Container} from "../../components/container/Container";
 import {CalculatedSizeConfigModel} from "../../design-dimensions/Size/CalculatedSizeConfigModel";
-import {ColumnLayoutConfigModel} from "../../design-dimensions/Layout/Container/ColumnLayoutConfigModel";
 import {Table} from "../../components/table/Table";
-import {ChildPropertiesConfigModel} from "../../design-dimensions/Layout/Container/ChildPropertiesConfigModel";
 import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
 import {TableGridType} from "../../enums/tableGridType.enum";
 import {ClientDataConfigModel} from "../../design-dimensions/ClientData/ClientDataConfigModel";
+import {
+  ColumnLayoutConfigModel
+} from "../../design-dimensions/ComponentSpecificLayout/Container/ColumnLayoutConfigModel";
+import {
+  ChildPropertiesConfigModel
+} from "../../design-dimensions/ComponentSpecificLayout/Container/ChildPropertiesConfigModel";
 
 const mainContainer:Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))

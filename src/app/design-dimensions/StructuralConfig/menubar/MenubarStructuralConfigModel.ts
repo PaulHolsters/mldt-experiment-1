@@ -1,6 +1,6 @@
 import {MenuItem} from "primeng/api";
 
-export class MenubarConfigModel {
+export class MenubarStructuralConfigModel {
   constructor(public menuItems: MenuItem[]) {
   }
 }

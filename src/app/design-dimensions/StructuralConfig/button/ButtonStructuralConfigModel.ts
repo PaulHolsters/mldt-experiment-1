@@ -1,7 +1,7 @@
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {IconConfigModel} from "./IconConfigModel";
 
-export class ButtonConfigModel {
+export class ButtonStructuralConfigModel {
   public label:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public icon:IconConfigModel|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   public disabled: boolean = false

@@ -26,10 +26,8 @@ import {
   ResponsiveStylingTableConfigModel
 } from "../../design-dimensions/Styling/table/ResponsiveStylingTableConfigModel";
 import {TableStylingConfigModel} from "../../design-dimensions/Styling/table/TableStylingConfigModel";
-import {
-  ResponsiveIndividualLayoutConfigModel
-} from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
-export class Table extends ComponentModel implements ComponentI{
+
+export class Icon<S extends TableStructuralConfigModel> extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
   name:string
   spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
@@ -52,9 +50,9 @@ export class Table extends ComponentModel implements ComponentI{
     this.overflow = overflow
     return this
   }
-  individualLayout: ResponsiveIndividualLayoutConfigModel = new ResponsiveIndividualLayoutConfigModel()
-  setLayoutOverride(il:ResponsiveIndividualLayoutConfigModel){
-    this.individualLayout=il
+  layoutOverride: ResponsiveLayoutOverrideConfigModel = new ResponsiveLayoutOverrideConfigModel()
+  setLayoutOverride(lo:ResponsiveLayoutOverrideConfigModel){
+    this.layoutOverride=lo
     return this
   }
   clientData: ClientDataConfigModel|ZeroValueType.NoValueYet=ZeroValueType.NoValueYet

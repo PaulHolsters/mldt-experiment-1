@@ -1,6 +1,6 @@
 import {TableColumnModel} from "./TableColumnModel";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-export class TableConfigModel{
+export class TableStructuralConfigModel {
   public textWhenEmpty:string|ZeroValueType.NotConfigured='No records found'
   public paginator:boolean=true
   public columns:TableColumnModel[]|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -14,47 +14,47 @@ export class TableConfigModel{
   public totalRecords:number=0
   constructor() {
   }
-  setTextWhenEmpty(textWhenEmpty:string|ZeroValueType.NotConfigured):TableConfigModel{
+  setTextWhenEmpty(textWhenEmpty:string|ZeroValueType.NotConfigured):TableStructuralConfigModel{
     this.textWhenEmpty = textWhenEmpty
     return this
   }
-  setPaginator(paginator:boolean):TableConfigModel{
+  setPaginator(paginator:boolean):TableStructuralConfigModel{
     this.paginator = paginator
     return this
   }
-  setColumns(columns:TableColumnModel[]|ZeroValueType.DeterminedByEngine):TableConfigModel{
+  setColumns(columns:TableColumnModel[]|ZeroValueType.DeterminedByEngine):TableStructuralConfigModel{
     this.columns = columns
     return this
   }
-  setRows(rows:number):TableConfigModel{
+  setRows(rows:number):TableStructuralConfigModel{
     this.rows = rows
     return this
   }
-  setRowsPerPage(rowsPerPage:number[]):TableConfigModel{
+  setRowsPerPage(rowsPerPage:number[]):TableStructuralConfigModel{
     this.rowsPerPage = rowsPerPage
     return this
   }
-  setCurrentPageReportTemplate(currentPageReportTemplate:string):TableConfigModel{
+  setCurrentPageReportTemplate(currentPageReportTemplate:string):TableStructuralConfigModel{
     this.currentPageReportTemplate = currentPageReportTemplate
     return this
   }
-  setShowFirstLastIcon(showFirstLastIcon:boolean):TableConfigModel{
+  setShowFirstLastIcon(showFirstLastIcon:boolean):TableStructuralConfigModel{
     this.showFirstLastIcon = showFirstLastIcon
     return this
   }
-  setShowJumpToPageDropdown(showJumpToPageDropdown:boolean):TableConfigModel{
+  setShowJumpToPageDropdown(showJumpToPageDropdown:boolean):TableStructuralConfigModel{
     this.showJumpToPageDropdown = showJumpToPageDropdown
     return this
   }
-  setShowPageLinks(showPageLinks:boolean):TableConfigModel{
+  setShowPageLinks(showPageLinks:boolean):TableStructuralConfigModel{
     this.showPageLinks = showPageLinks
     return this
   }
-  setFirst(first:number):TableConfigModel{
+  setFirst(first:number):TableStructuralConfigModel{
     this.first = first
     return this
   }
-  setTotalRecords(totalRecords:number):TableConfigModel{
+  setTotalRecords(totalRecords:number):TableStructuralConfigModel{
     this.totalRecords = totalRecords
     return this
   }

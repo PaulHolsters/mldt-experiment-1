@@ -1,35 +1,35 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-import {DialogConfigModel} from "./DialogConfigModel";
-import {DialogRenderModel} from "./DialogRenderModel";
+import {DialogStructuralConfigModel} from "./DialogStructuralConfigModel";
+import {DialogStructuralRenderModel} from "./DialogStructuralRenderModel";
 export class ResponsiveStructuralDialogConfigModel
   extends ResponsiveConfigModel<ResponsiveStructuralDialogConfigModel>
   implements ResponsiveConfigModelI<ResponsiveStructuralDialogConfigModel>{
-  public highResolution: DialogConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public laptop:DialogConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public tablet:DialogConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public portraitTablet:DialogConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  constructor(public smartphone: DialogConfigModel) {
+  public highResolution: DialogStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public laptop:DialogStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public tablet:DialogStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public portraitTablet:DialogStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  constructor(public smartphone: DialogStructuralConfigModel) {
     super()
   }
-  setSmartphone(smartphone:DialogConfigModel){
+  setSmartphone(smartphone:DialogStructuralConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: DialogConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: DialogStructuralConfigModel| ZeroValueType.DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:DialogConfigModel | ZeroValueType.DeterminedByEngine){
+  setTablet(tablet:DialogStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: DialogConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: DialogStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:DialogConfigModel | ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution:DialogStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }
@@ -37,10 +37,10 @@ export class ResponsiveStructuralDialogConfigModel
   getInstance() {
     return 'table'
   }
-  public getConfirmPopupStructuralRenderProperties(screenSize: number): DialogRenderModel {
+  public getConfirmPopupStructuralRenderProperties(screenSize: number): DialogStructuralRenderModel {
     // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToDialogStructuralRenderProperties = (config: DialogConfigModel): DialogRenderModel => {
-        const renderInstance = new DialogRenderModel()
+    const mapToDialogStructuralRenderProperties = (config: DialogStructuralConfigModel): DialogStructuralRenderModel => {
+        const renderInstance = new DialogStructuralRenderModel()
       Object.entries(config).forEach(([k, v]) => {
         if (v) renderInstance.setProperty(k, v)
       })

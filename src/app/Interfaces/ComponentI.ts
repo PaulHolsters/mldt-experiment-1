@@ -1,26 +1,22 @@
-import {ClientData} from "../services/data/client/ClientData";
-import {ResponsiveContainerChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
-import {ResponsiveLayoutOverrideConfigModel} from "../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ClientDataConfigModel} from "../design-dimensions/ClientData/ClientDataConfigModel";
-import {
-  ResponsiveDataRepresentationConfigModel
-} from "../design-dimensions/DataRepresentation/ResponsiveDataRepresentationConfigModel";
-import {ResponsiveDataInputConfigModel} from "../design-dimensions/DataInput/ResponsiveDataInputConfigModel";
-import {
-  ResponsiveContentInjectionConfigModel
-} from "../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
-import {ResponsiveTableLayoutConfigModel} from "../design-dimensions/Layout/Table/ResponsiveTableLayoutConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
 import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ScreenSize} from "../enums/screenSizes.enum";
-import {ChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ChildLayoutConfigModel";
-import {TableLayoutConfigModel} from "../design-dimensions/Layout/Table/TableLayoutConfigModel";
 import {ZeroValueType} from "../enums/zeroValueTypes.enum";
-import {ResponsiveStructuralConfigModel} from "../design-dimensions/StructuralConfig/ResponsiveStructuralConfigModel";
+import {
+  ResponsiveIndividualLayoutConfigModel
+} from "../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
+import {
+  ResponsiveContainerChildLayoutConfigModel
+} from "../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
+import {
+  ResponsiveTableLayoutConfigModel
+} from "../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
+import {ChildLayoutConfigModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutConfigModel";
+import {TableLayoutConfigModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutConfigModel";
 
 export interface ComponentI {
   // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk van de interface gebruik kunnen maken
@@ -34,8 +30,8 @@ export interface ComponentI {
   setVisibility: (visibility: ResponsiveVisibilityConfigModel) => ComponentModel
   overflow: ResponsiveOverflowConfigModel
   setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
-  layoutOverride: ResponsiveLayoutOverrideConfigModel
-  setLayoutOverride: (pos: ResponsiveLayoutOverrideConfigModel) => ComponentModel
+  individualLayout: ResponsiveIndividualLayoutConfigModel
+  setIndividualLayout: (pos: ResponsiveIndividualLayoutConfigModel) => ComponentModel
   styling: ResponsiveStylingConfigModel | undefined
   setStyling: ((styling: ResponsiveStylingConfigModel) => ComponentModel)|undefined
   clientData: ClientDataConfigModel|ZeroValueType.NoValueYet | undefined

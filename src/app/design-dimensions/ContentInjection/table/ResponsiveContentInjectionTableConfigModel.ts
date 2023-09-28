@@ -3,8 +3,8 @@ import {TableContentInjectionConfigModel} from "./TableContentInjectionConfigMod
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {TableContentInjectionRenderModel} from "./TableContentInjectionRenderModel";
-export class ResponsiveContentInjectionTableConfigModel extends ResponsiveConfigModel<ResponsiveContentInjectionTableConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveContentInjectionTableConfigModel>{
+export class ResponsiveContentInjectionTableConfigModel<S> extends ResponsiveConfigModel<ResponsiveContentInjectionTableConfigModel<S>>
+  implements ResponsiveConfigModelI<ResponsiveContentInjectionTableConfigModel<S>>{
   public portraitTablet: TableContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:TableContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: TableContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine

@@ -1,52 +1,27 @@
-import {ChildLayoutRenderModel} from "../design-dimensions/Layout/Container/ChildLayoutRenderModel";
+
 import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {VisibilityConfigModel} from "../design-dimensions/Visibility/VisibilityConfigModel";
-import {ChildLayoutConfigModel} from "../design-dimensions/Layout/Container/ChildLayoutConfigModel";
-import {
-  ResponsiveContainerChildLayoutConfigModel
-} from "../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {SizeConfigModel} from "../design-dimensions/Size/SizeConfigModel";
 import {
   ResponsiveContentInjectionConfigModel
 } from "../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
-import {ResponsiveDataInputConfigModel} from "../design-dimensions/DataInput/ResponsiveDataInputConfigModel";
-import {
-  ResponsiveDataRepresentationConfigModel
-} from "../design-dimensions/DataRepresentation/ResponsiveDataRepresentationConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {
-  ResponsiveLayoutOverrideConfigModel
-} from "../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
-import {DataRepresentationConfigModel} from "../design-dimensions/DataRepresentation/DataRepresentationConfigModel";
-import {DataInputConfigModel} from "../design-dimensions/DataInput/DataInputConfigModel";
-import {ContentInjectionConfigModel} from "../design-dimensions/ContentInjection/ContentInjectionConfigModel";
 import {OverflowConfigModel} from "../design-dimensions/Overflow/OverflowConfigModel";
-import {LayoutOverrideConfigModel} from "../design-dimensions/LayoutOverride/LayoutOverrideConfigModel";
-import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
-import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
-import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
-import {DataInputRenderModel} from "../design-dimensions/DataInput/DataInputRenderModel";
-import {ResponsiveStylingConfigModel} from "../design-dimensions/Styling/ResponsiveStylingConfigModel";
-import {StylingConfigModel} from "../design-dimensions/Styling/StylingConfigModel";
-import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
 import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {SpacingRenderModel} from "../design-dimensions/Spacing/SpacingRenderModel";
 import {SpacingConfigModel} from "../design-dimensions/Spacing/SpacingConfigModel";
-import {ResponsiveTableLayoutConfigModel} from "../design-dimensions/Layout/Table/ResponsiveTableLayoutConfigModel";
-import {TableLayoutConfigModel} from "../design-dimensions/Layout/Table/TableLayoutConfigModel";
-import {TableLayoutRenderModel} from "../design-dimensions/Layout/Table/TableLayoutRenderModel";
 import {
   ResponsiveStructuralButtonConfigModel
 } from "../design-dimensions/StructuralConfig/button/ResponsiveStructuralButtonConfigModel";
-import {ButtonConfigModel} from "../design-dimensions/StructuralConfig/button/ButtonConfigModel";
-import {ButtonRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonRenderModel";
-import {TableConfigModel} from "../design-dimensions/StructuralConfig/table/TableConfigModel";
-import {ConfirmPopupConfigModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupConfigModel";
-import {MenubarConfigModel} from "../design-dimensions/StructuralConfig/menubar/MenubarConfigModel";
+import {ButtonStructuralConfigModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralConfigModel";
+import {ButtonStructuralRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralRenderModel";
+import {TableStructuralConfigModel} from "../design-dimensions/StructuralConfig/table/TableStructuralConfigModel";
+import {ConfirmPopupStructuralConfigModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupStructuralConfigModel";
+import {MenubarStructuralConfigModel} from "../design-dimensions/StructuralConfig/menubar/MenubarStructuralConfigModel";
 import {
   ResponsiveStructuralImageConfigModel
 } from "../design-dimensions/StructuralConfig/image/ResponsiveStructuralImageConfigModel";
@@ -59,51 +34,116 @@ import {
 import {
   ResponsiveStructuralTableConfigModel
 } from "../design-dimensions/StructuralConfig/table/ResponsiveStructuralTableConfigModel";
-import {DialogConfigModel} from "../design-dimensions/StructuralConfig/dialog/DialogConfigModel";
-import {ImageConfigModel} from "../design-dimensions/StructuralConfig/image/ImageConfigModel";
+import {DialogStructuralConfigModel} from "../design-dimensions/StructuralConfig/dialog/DialogStructuralConfigModel";
+import {ImageStructuralConfigModel} from "../design-dimensions/StructuralConfig/image/ImageStructuralConfigModel";
 import {
   ResponsiveStructuralMenubarConfigModel
 } from "../design-dimensions/StructuralConfig/menubar/ResponsiveStructuralMenubarConfigModel";
-import {MenubarRenderModel} from "../design-dimensions/StructuralConfig/menubar/MenubarRenderModel";
-import {ImageRenderModel} from "../design-dimensions/StructuralConfig/image/ImageRenderModel";
-import {DialogRenderModel} from "../design-dimensions/StructuralConfig/dialog/DialogRenderModel";
-import {ConfirmPopupRenderModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupRenderModel";
-import {TableRenderModel} from "../design-dimensions/StructuralConfig/table/TableRenderModel";
+import {MenubarStructuralRenderModel} from "../design-dimensions/StructuralConfig/menubar/MenubarStructuralRenderModel";
+import {ImageStructuralRenderModel} from "../design-dimensions/StructuralConfig/image/ImageStructuralRenderModel";
+import {DialogStructuralRenderModel} from "../design-dimensions/StructuralConfig/dialog/DialogStructuralRenderModel";
+import {ConfirmPopupStructuralRenderModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupStructuralRenderModel";
+import {TableStructuralRenderModel} from "../design-dimensions/StructuralConfig/table/TableStructuralRenderModel";
+import {
+  ResponsiveContainerChildLayoutConfigModel
+} from "../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
+import {ChildLayoutConfigModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutConfigModel";
+import {
+  ResponsiveIndividualLayoutConfigModel
+} from "../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
+import {IndividualLayoutConfigModel} from "../design-dimensions/IndividualLayout/IndividualLayoutConfigModel";
+import {TableLayoutConfigModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutConfigModel";
+import {
+  ResponsiveTableLayoutConfigModel
+} from "../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
+import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
+import {TableLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutRenderModel";
+import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
+import {ConfigModelType, ContentInjectConfigModelType, ContentInjectRenderModelType} from "./union-types";
+import {
+  DialogContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionConfigModel";
+import {
+  MenubarContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionConfigModel";
+import {
+  TableContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
+import {
+  TableContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/table/TableContentInjectionRenderModel";
+import {
+  DialogContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionRenderModel";
+import {
+  MenubarContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
+import {
+  NumberInputDataInputConfigModel
+} from "../design-dimensions/DataInput/NumberInput/NumberInputDataInputConfigModel";
+import {
+  NumberInputDataInputRenderModel
+} from "../design-dimensions/DataInput/NumberInput/NumberInputDataInputRenderModel";
+import {
+  RadioButtonGroupDataInputConfigModel
+} from "../design-dimensions/DataInput/RadioButtonGroup/RadioButtonGroupDataInputConfigModel";
+import {
+  RadioButtonGroupDataInputRenderModel
+} from "../design-dimensions/DataInput/RadioButtonGroup/RadioButtonGroupDataInputRenderModel";
+import {TextInputDataInputConfigModel} from "../design-dimensions/DataInput/TextInput/TextInputDataInputConfigModel";
+import {TextInputDataInputRenderModel} from "../design-dimensions/DataInput/TextInput/TextInputDataInputRenderModel";
 
-export type ConfigType<T> =
+export type RenderModelType<T extends ConfigModelType> =
+  T extends ChildLayoutConfigModel ?  ChildLayoutRenderModel :
+  T extends TableLayoutConfigModel ? TableLayoutRenderModel :
+
+  T extends DialogContentInjectionConfigModel ? DialogContentInjectionRenderModel :
+  T extends MenubarContentInjectionConfigModel ? MenubarContentInjectionRenderModel :
+  T extends TableContentInjectionConfigModel ? TableContentInjectionRenderModel :
+
+  T extends NumberInputDataInputConfigModel ? NumberInputDataInputRenderModel :
+  T extends RadioButtonGroupDataInputConfigModel ? RadioButtonGroupDataInputRenderModel :
+  T extends TextInputDataInputConfigModel ? TextInputDataInputRenderModel
+
+/*export type ConfigType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutConfigModel :
-    T extends ResponsiveVisibilityConfigModel ? VisibilityConfigModel :
-      T extends ResponsiveStylingConfigModel ? StylingConfigModel :
-        T extends ResponsiveContentInjectionConfigModel ? ContentInjectionConfigModel :
-          T extends ResponsiveDataInputConfigModel ? DataInputConfigModel :
-            T extends ResponsiveDataRepresentationConfigModel ? DataRepresentationConfigModel :
-              T extends ResponsiveOverflowConfigModel ? OverflowConfigModel :
-                T extends ResponsiveTableLayoutConfigModel ? TableLayoutConfigModel :
-                  T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideConfigModel :
-                    T extends ResponsiveSpacingConfigModel ? SpacingConfigModel :
-                      T extends ResponsiveStructuralButtonConfigModel ? ButtonConfigModel:
-                        T extends ResponsiveStructuralDialogConfigModel ? DialogConfigModel:
-                          T extends ResponsiveStructuralImageConfigModel ? ImageConfigModel:
-                            T extends ResponsiveStructuralMenubarConfigModel ? MenubarConfigModel:
-                              T extends ResponsiveStructuralTableConfigModel ? TableConfigModel:
-                                T extends ResponsiveStructuralConfirmPopupConfigModel ? ConfirmPopupConfigModel:
-                        T extends ResponsiveSizeConfigModel ? SizeConfigModel : never;
+  T extends ResponsiveVisibilityConfigModel ? VisibilityConfigModel :
+  T extends ResponsiveContentInjectionConfigModel<ContentInjectConfigModelType,ContentInjectRenderModelType> ?
+    ContentInjectConfigModelType extends DialogContentInjectionConfigModel ? DialogContentInjectionConfigModel :
+      ContentInjectConfigModelType extends MenubarContentInjectionConfigModel ? MenubarContentInjectionConfigModel :
+    ContentInjectConfigModelType extends TableContentInjectionConfigModel ? TableContentInjectionConfigModel :
+  T extends ResponsiveOverflowConfigModel ? OverflowConfigModel :
+  T extends ResponsiveTableLayoutConfigModel ? TableLayoutConfigModel :
+  T extends ResponsiveIndividualLayoutConfigModel ? IndividualLayoutConfigModel :
+  T extends ResponsiveSpacingConfigModel ? SpacingConfigModel :
+
+  T extends ResponsiveStructuralButtonConfigModel ? ButtonStructuralConfigModel:
+    T extends ResponsiveStructuralDialogConfigModel ? DialogStructuralConfigModel:
+      T extends ResponsiveStructuralImageConfigModel ? ImageStructuralConfigModel:
+        T extends ResponsiveStructuralMenubarConfigModel ? MenubarStructuralConfigModel:
+          T extends ResponsiveStructuralTableConfigModel ? TableStructuralConfigModel:
+            T extends ResponsiveStructuralConfirmPopupConfigModel ? ConfirmPopupStructuralConfigModel:
+
+                        T extends ResponsiveSizeConfigModel ? SizeConfigModel : never
 
 export type RenderType<T> =
   T extends ResponsiveContainerChildLayoutConfigModel ? ChildLayoutRenderModel :
     T extends ResponsiveVisibilityConfigModel ? VisibilityRenderModel :
-      T extends ResponsiveStructuralButtonConfigModel ? ButtonRenderModel :
-        T extends ResponsiveStructuralDialogConfigModel ? DialogRenderModel :
-          T extends ResponsiveStructuralImageConfigModel ? ImageRenderModel :
-            T extends ResponsiveStructuralMenubarConfigModel ? MenubarRenderModel :
-              T extends ResponsiveStructuralTableConfigModel ? TableRenderModel :
-                T extends ResponsiveStructuralConfirmPopupConfigModel ? ConfirmPopupRenderModel :
-        T extends ResponsiveStylingConfigModel ? StylingRenderModel :
-          T extends ResponsiveContentInjectionConfigModel ? ContentInjectionRenderModel :
-            T extends ResponsiveDataInputConfigModel ? DataInputRenderModel :
-              T extends ResponsiveDataRepresentationConfigModel ? DataRepresentationRenderModel :
+
+      T extends ResponsiveStructuralButtonConfigModel ? ButtonStructuralRenderModel :
+        T extends ResponsiveStructuralDialogConfigModel ? DialogStructuralRenderModel :
+          T extends ResponsiveStructuralImageConfigModel ? ImageStructuralRenderModel :
+            T extends ResponsiveStructuralMenubarConfigModel ? MenubarStructuralRenderModel :
+              T extends ResponsiveStructuralTableConfigModel ? TableStructuralRenderModel :
+                T extends ResponsiveStructuralConfirmPopupConfigModel ? ConfirmPopupStructuralRenderModel :
+
+                  T extends ResponsiveContentInjectionConfigModel<ContentInjectConfigModelType,ContentInjectRenderModelType> ?
+                    ContentInjectRenderModelType extends DialogContentInjectionRenderModel ? DialogContentInjectionRenderModel :
+                      ContentInjectRenderModelType extends MenubarContentInjectionRenderModel ? MenubarContentInjectionRenderModel :
+                        ContentInjectRenderModelType extends TableContentInjectionRenderModel ? TableContentInjectionRenderModel : never :
+
                 T extends ResponsiveTableLayoutConfigModel ? TableLayoutRenderModel :
                   T extends ResponsiveOverflowConfigModel ? OverflowRenderModel :
-                    T extends ResponsiveLayoutOverrideConfigModel ? LayoutOverrideRenderModel :
+                    T extends ResponsiveIndividualLayoutConfigModel ? IndividualLayoutRenderModel :
                       T extends ResponsiveSpacingConfigModel ? SpacingRenderModel :
-                        T extends ResponsiveSizeConfigModel ? SizeRenderModel : never
+                        T extends ResponsiveSizeConfigModel ? SizeRenderModel : never*/

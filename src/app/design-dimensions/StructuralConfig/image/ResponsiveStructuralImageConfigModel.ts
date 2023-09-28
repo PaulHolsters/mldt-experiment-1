@@ -1,35 +1,35 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-import {ImageConfigModel} from "./ImageConfigModel";
-import {ImageRenderModel} from "./ImageRenderModel";
+import {ImageStructuralConfigModel} from "./ImageStructuralConfigModel";
+import {ImageStructuralRenderModel} from "./ImageStructuralRenderModel";
 export class ResponsiveStructuralImageConfigModel
   extends ResponsiveConfigModel<ResponsiveStructuralImageConfigModel>
   implements ResponsiveConfigModelI<ResponsiveStructuralImageConfigModel>{
-  public highResolution: ImageConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public laptop:ImageConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public tablet:ImageConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public portraitTablet:ImageConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  constructor(public smartphone: ImageConfigModel) {
+  public highResolution: ImageStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public laptop:ImageStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public tablet:ImageStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public portraitTablet:ImageStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  constructor(public smartphone: ImageStructuralConfigModel) {
     super()
   }
-  setSmartphone(smartphone:ImageConfigModel){
+  setSmartphone(smartphone:ImageStructuralConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ImageConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ImageStructuralConfigModel| ZeroValueType.DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:ImageConfigModel | ZeroValueType.DeterminedByEngine){
+  setTablet(tablet:ImageStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ImageConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: ImageStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:ImageConfigModel | ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution:ImageStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }
@@ -37,10 +37,10 @@ export class ResponsiveStructuralImageConfigModel
   getInstance() {
     return 'table'
   }
-  public getImageStructuralRenderProperties(screenSize: number): ImageRenderModel {
+  public getImageStructuralRenderProperties(screenSize: number): ImageStructuralRenderModel {
     // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToImageStructuralRenderProperties = (config: ImageConfigModel): ImageRenderModel => {
-        const renderInstance = new ImageRenderModel()
+    const mapToImageStructuralRenderProperties = (config: ImageStructuralConfigModel): ImageStructuralRenderModel => {
+        const renderInstance = new ImageStructuralRenderModel()
       Object.entries(config).forEach(([k, v]) => {
         if (v) renderInstance.setProperty(k, v)
       })

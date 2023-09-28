@@ -1,35 +1,35 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-import {MenubarConfigModel} from "./MenubarConfigModel";
-import {MenubarRenderModel} from "./MenubarRenderModel";
+import {MenubarStructuralConfigModel} from "./MenubarStructuralConfigModel";
+import {MenubarStructuralRenderModel} from "./MenubarStructuralRenderModel";
 export class ResponsiveStructuralMenubarConfigModel
   extends ResponsiveConfigModel<ResponsiveStructuralMenubarConfigModel>
   implements ResponsiveConfigModelI<ResponsiveStructuralMenubarConfigModel>{
-  public highResolution: MenubarConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public laptop:MenubarConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public tablet:MenubarConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public portraitTablet:MenubarConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  constructor(public smartphone: MenubarConfigModel) {
+  public highResolution: MenubarStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public laptop:MenubarStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public tablet:MenubarStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public portraitTablet:MenubarStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  constructor(public smartphone: MenubarStructuralConfigModel) {
     super()
   }
-  setSmartphone(smartphone:MenubarConfigModel){
+  setSmartphone(smartphone:MenubarStructuralConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: MenubarConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: MenubarStructuralConfigModel| ZeroValueType.DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:MenubarConfigModel | ZeroValueType.DeterminedByEngine){
+  setTablet(tablet:MenubarStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: MenubarConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: MenubarStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:MenubarConfigModel | ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution:MenubarStructuralConfigModel | ZeroValueType.DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }
@@ -37,10 +37,10 @@ export class ResponsiveStructuralMenubarConfigModel
   getInstance() {
     return 'table'
   }
-  public getConfirmPopupStructuralRenderProperties(screenSize: number): MenubarRenderModel {
+  public getConfirmPopupStructuralRenderProperties(screenSize: number): MenubarStructuralRenderModel {
     // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToConfirmPopupStructuralRenderProperties = (config: MenubarConfigModel): MenubarRenderModel => {
-        const renderInstance = new MenubarRenderModel()
+    const mapToConfirmPopupStructuralRenderProperties = (config: MenubarStructuralConfigModel): MenubarStructuralRenderModel => {
+        const renderInstance = new MenubarStructuralRenderModel()
       Object.entries(config).forEach(([k, v]) => {
         if (v) renderInstance.setProperty(k, v)
       })

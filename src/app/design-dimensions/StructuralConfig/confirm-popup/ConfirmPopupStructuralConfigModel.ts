@@ -1,6 +1,6 @@
 import {ConfirmationModel} from "./ConfirmationModel";
 
-export class ConfirmPopupConfigModel {
+export class ConfirmPopupStructuralConfigModel {
   constructor(public confirmationModel:ConfirmationModel=new ConfirmationModel()) {
   }
 }
