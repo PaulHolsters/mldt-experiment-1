@@ -10,7 +10,8 @@ export class ResponsiveStructuralTableConfigModel
   public laptop:TableStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet:TableStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public portraitTablet:TableStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  constructor(public smartphone: TableStructuralConfigModel) {
+  public smartphone:TableStructuralConfigModel = new TableStructuralConfigModel()
+  constructor() {
     super()
   }
   setSmartphone(smartphone:TableStructuralConfigModel){

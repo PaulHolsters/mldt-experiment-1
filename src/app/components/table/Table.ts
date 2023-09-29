@@ -29,7 +29,16 @@ import {TableStylingConfigModel} from "../../design-dimensions/Styling/table/Tab
 import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
-export class Table extends ComponentModel implements ComponentI{
+import {
+  ResponsiveTableLayoutConfigModel
+} from "../../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
+export class Table extends ComponentModel implements ComponentI<
+  ResponsiveContentInjectionTableConfigModel,
+  ResponsiveStructuralTableConfigModel,
+  ResponsiveStylingTableConfigModel,
+  ResponsiveTableLayoutConfigModel,
+  undefined,
+  ResponsiveDataRepresentationTableConfigModel>{
   name:string
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
@@ -75,13 +84,6 @@ export class Table extends ComponentModel implements ComponentI{
     this.contentInjection=ci
     return this
   }
-  componentSpecificConfig: ResponsiveStructuralTableConfigModel=new ResponsiveStructuralTableConfigModel(
-    new TableStructuralConfigModel()
-  )
-  setComponentSpecificConfig(cs:ResponsiveStructuralTableConfigModel){
-    this.componentSpecificConfig=cs
-    return this
-  }
   styling: ResponsiveStylingTableConfigModel=new ResponsiveStylingTableConfigModel(
     new TableStylingConfigModel())
   setStyling(st:ResponsiveStylingTableConfigModel){
@@ -100,4 +102,15 @@ export class Table extends ComponentModel implements ComponentI{
     super()
     this.name = name
   }
+
+  componentSpecificLayout=new ResponsiveTableLayoutConfigModel()
+  setComponentSpecificLayout(csl: ResponsiveTableLayoutConfigModel): ComponentModel {
+    this.componentSpecificLayout = csl
+    return this
+  }
+  setStructural(str: ResponsiveStructuralTableConfigModel): ComponentModel {
+    this.structural = str
+    return this
+  }
+  structural= new  ResponsiveStructuralTableConfigModel()
 }

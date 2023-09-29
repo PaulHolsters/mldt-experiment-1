@@ -1,17 +1,10 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
-import {
-  ResponsiveLayoutOverrideConfigModel
-} from "../../design-dimensions/LayoutOverride/ResponsiveLayoutOverrideConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ComponentModel} from "../../design-dimensions/ComponentModel";
-import {
-  ResponsiveContainerChildLayoutConfigModel
-} from "../../design-dimensions/Layout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ScreenSize} from "../../enums/screenSizes.enum";
-import {ChildLayoutConfigModel} from "../../design-dimensions/Layout/Container/ChildLayoutConfigModel";
 export class Container extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
   // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten

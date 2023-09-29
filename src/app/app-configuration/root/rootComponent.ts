@@ -22,9 +22,9 @@ const mainTable = new Table('main-table')
 mainTable.styling.smartphone.setGridType(TableGridType.Row)
 mainTable.setClientData(new ClientDataConfigModel('populate_table'))
 const col1HeaderContainer = new Container('col1-container')
-// todo add icon component
-// todo vul styling icon aan
 // todo add displayType bij individualLayout (wijzig naam!)
+// todo vul styling icon aan
+// todo add icon component
 mainTable.contentInjection.smartphone.setColumnHeaderComponents([
 
 ])
