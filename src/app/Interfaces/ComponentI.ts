@@ -23,6 +23,25 @@ import {
   ResponsiveDataRepresentationConfigModelType, ResponsiveStructuralConfigModelType,
   ResponsiveStylingConfigModelType
 } from "../types/union-types";
+import {ResponsiveContentInjectConfigModelTypeSingle} from "../types/conditional-types";
+import {
+  DialogContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionConfigModel";
+import {
+  MenubarContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionConfigModel";
+import {
+  TableContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
+import {
+  ResponsiveContentInjectionDialogConfigModel
+} from "../design-dimensions/ContentInjection/dialog/ResponsiveContentInjectionDialogConfigModel";
+import {
+  ResponsiveContentInjectionMenubarConfigModel
+} from "../design-dimensions/ContentInjection/menubar/ResponsiveContentInjectionMenubarConfigModel";
+import {
+  ResponsiveContentInjectionTableConfigModel
+} from "../design-dimensions/ContentInjection/table/ResponsiveContentInjectionTableConfigModel";
 
 export interface ComponentI {
   name: string
@@ -36,21 +55,25 @@ export interface ComponentI {
   setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
   individualLayout: ResponsiveIndividualLayoutConfigModel
   setIndividualLayout: (il: ResponsiveIndividualLayoutConfigModel) => ComponentModel
-  styling: ResponsiveStylingConfigModelType | undefined
-  setStyling: ((styling: ResponsiveStylingConfigModelType) => ComponentModel)|undefined
+  styling: any | undefined
+  setStyling: ((styling: any) => ComponentModel)|undefined
   clientData: ClientDataConfigModel|ZeroValueType.NoValueYet | undefined
   setClientData: ((clientData: ClientDataConfigModel|ZeroValueType.NoValueYet) => ComponentModel)|undefined
-  dataRepresentation: ResponsiveDataRepresentationConfigModelType | undefined
-  setDataRepresentation: ((dataRepresentation: ResponsiveDataRepresentationConfigModelType) => ComponentModel)|undefined
-  dataInput: ResponsiveDataInputConfigModelType | undefined
-  setDataInput: ((dataInput: ResponsiveDataInputConfigModelType) => ComponentModel)|undefined
-  contentInjection: ResponsiveContentInjectionConfigModelType | undefined
-  setContentInjection: ((contentInjection: ResponsiveContentInjectionConfigModelType) => ComponentModel)|undefined
+  // todo dit is lastig want wordt niet geaccpeteerd in bv Table component:
+  /*
+  * Het probleem is dat je heir zegt dat je drie modellen moet toelaten maar in de Table component laat je er maar één van de drie toe
+  * */
+  dataRepresentation: any | undefined
+  setDataRepresentation: ((dataRepresentation: any) => ComponentModel)|undefined
+  dataInput: any | undefined
+  setDataInput: ((dataInput: any) => ComponentModel)|undefined
+  contentInjection: any | undefined
+  setContentInjection: ((contentInjection: any) => ComponentModel)|undefined
   layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
   setLayout: ((screen:ScreenSize,layout: ChildLayoutConfigModel) => ComponentModel)|
     ((screen:ScreenSize,layout: TableLayoutConfigModel) => ComponentModel)|undefined
   children: ComponentModel[] | undefined
   setChildren: ((children: ComponentModel[]) => ComponentModel)|undefined
-  componentSpecificConfig:ResponsiveStructuralConfigModelType|undefined
-  setComponentSpecificConfig: ((specifics: ResponsiveStructuralConfigModelType) => ComponentModel)|undefined
+  componentSpecificConfig:any|undefined
+  setComponentSpecificConfig: ((specifics: any) => ComponentModel)|undefined
 }

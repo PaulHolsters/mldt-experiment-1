@@ -29,38 +29,30 @@ import {TableStylingConfigModel} from "../../design-dimensions/Styling/table/Tab
 import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
-import {
-  ResponsiveContentInjectionConfigModel
-} from "../../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
-import {
-  TableContentInjectionRenderModel
-} from "../../design-dimensions/ContentInjection/table/TableContentInjectionRenderModel";
-import {ContentInjectionRenderType} from "../../types/conditional-types";
 export class Table extends ComponentModel implements ComponentI{
-  // todo add conditional typing : prop required => set required too
   name:string
-  spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
+  spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing
     return this
   }
-  visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
+  visibility = new ResponsiveVisibilityConfigModel()
   setVisibility(visibility:ResponsiveVisibilityConfigModel){
     this.visibility = visibility
     return this
   }
-  size: ResponsiveSizeConfigModel= new ResponsiveSizeConfigModel()
+  size = new ResponsiveSizeConfigModel()
   setSize(size:ResponsiveSizeConfigModel){
     this.size = size
     return this
   }
-  overflow: ResponsiveOverflowConfigModel = new ResponsiveOverflowConfigModel()
+  overflow = new ResponsiveOverflowConfigModel()
   setOverflow(overflow:ResponsiveOverflowConfigModel){
     this.overflow = overflow
     return this
   }
-  individualLayout: ResponsiveIndividualLayoutConfigModel = new ResponsiveIndividualLayoutConfigModel()
-  setLayoutOverride(il:ResponsiveIndividualLayoutConfigModel){
+  individualLayout = new ResponsiveIndividualLayoutConfigModel()
+  setIndividualLayout(il:ResponsiveIndividualLayoutConfigModel){
     this.individualLayout=il
     return this
   }
@@ -69,14 +61,14 @@ export class Table extends ComponentModel implements ComponentI{
     this.clientData=cd
     return this
   }
-  dataRepresentation: ResponsiveDataRepresentationTableConfigModel=new ResponsiveDataRepresentationTableConfigModel(
+  dataRepresentation =new ResponsiveDataRepresentationTableConfigModel(
       new TableDataRepresentationConfigModel()
   )
   setDataRepresentation(dr:ResponsiveDataRepresentationTableConfigModel){
     this.dataRepresentation=dr
     return this
   }
-  contentInjection=new ResponsiveContentInjectionConfigModel<TableContentInjectionConfigModel,ContentInjectionRenderType<TableContentInjectionConfigModel>>(
+  contentInjection=new ResponsiveContentInjectionTableConfigModel(
     new TableContentInjectionConfigModel()
   )
   setContentInjection(ci:ResponsiveContentInjectionTableConfigModel){
