@@ -3,8 +3,8 @@ import {TextInputDataRepresentationConfigModel} from "./TextInputDataRepresentat
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {TextInputDataRepresentationRenderModel} from "./TextInputDataRepresentationRenderModel";
-export class ResponsiveDataRepresentationTextInputConfigModel extends ResponsiveConfigModel<ResponsiveDataRepresentationTextInputConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveDataRepresentationTextInputConfigModel>{
+export class ResponsiveDataRepresentationTextInputConfigModel extends ResponsiveConfigModel<TextInputDataRepresentationConfigModel>
+  implements ResponsiveConfigModelI<TextInputDataRepresentationConfigModel>{
   public portraitTablet: TextInputDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:TextInputDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: TextInputDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -36,14 +36,12 @@ export class ResponsiveDataRepresentationTextInputConfigModel extends Responsive
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number): TextInputDataRepresentationRenderModel {
-    const mapToTextInputDataRepresentationRenderProperties = (config: TextInputDataRepresentationConfigModel): TextInputDataRepresentationRenderModel => {
-      const renderInstance = new TextInputDataRepresentationRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize,mapToTextInputDataRepresentationRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new TextInputDataRepresentationRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
+    return renderInstance
   }
 
 }

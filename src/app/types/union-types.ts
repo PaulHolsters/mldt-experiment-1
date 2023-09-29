@@ -2,9 +2,6 @@ import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSiz
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {Container} from "../components/container/Container";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {
-  ResponsiveContentInjectionConfigModel
-} from "../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
 import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {
   ResponsiveStructuralButtonConfigModel
@@ -91,6 +88,84 @@ import {OverflowConfigModel} from "../design-dimensions/Overflow/OverflowConfigM
 import {SizeConfigModel} from "../design-dimensions/Size/SizeConfigModel";
 import {SpacingConfigModel} from "../design-dimensions/Spacing/SpacingConfigModel";
 import {VisibilityConfigModel} from "../design-dimensions/Visibility/VisibilityConfigModel";
+import {
+  TableDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/Table/TableDataRepresentationRenderModel";
+import {
+  RadioButtonGroupDataInputRenderModel
+} from "../design-dimensions/DataInput/RadioButtonGroup/RadioButtonGroupDataInputRenderModel";
+import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
+import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
+import {TableStructuralRenderModel} from "../design-dimensions/StructuralConfig/table/TableStructuralRenderModel";
+import {IconStylingRenderModel} from "../design-dimensions/Styling/icon/IconStylingRenderModel";
+import {MenubarStructuralRenderModel} from "../design-dimensions/StructuralConfig/menubar/MenubarStructuralRenderModel";
+import {TableLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutRenderModel";
+import {
+  RadioButtonGroupDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/RadioButtonGroup/RadioButtonGroupDataRepresentationRenderModel";
+import {ButtonStructuralRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralRenderModel";
+import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
+import {SpacingRenderModel} from "../design-dimensions/Spacing/SpacingRenderModel";
+import {
+  NumberInputDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/NumberInput/NumberInputDataRepresentationRenderModel";
+import {DialogStructuralRenderModel} from "../design-dimensions/StructuralConfig/dialog/DialogStructuralRenderModel";
+import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
+import {ImageStructuralRenderModel} from "../design-dimensions/StructuralConfig/image/ImageStructuralRenderModel";
+import {TableStylingRenderModel} from "../design-dimensions/Styling/table/TableStylingRenderModel";
+import {
+  MultiSelectDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/MultiSelect/MultiSelectDataRepresentationRenderModel";
+import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
+import {
+  NumberInputDataInputRenderModel
+} from "../design-dimensions/DataInput/NumberInput/NumberInputDataInputRenderModel";
+import {TextInputDataInputRenderModel} from "../design-dimensions/DataInput/TextInput/TextInputDataInputRenderModel";
+import {
+  TextInputDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/TextInput/TextInputDataRepresentationRenderModel";
+import {
+  ConfirmPopupStructuralRenderModel
+} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupStructuralRenderModel";
+import {ButtonStylingRenderModel} from "../design-dimensions/Styling/button/ButtonStylingRenderModel";
+import {ResponsiveStylingTableConfigModel} from "../design-dimensions/Styling/table/ResponsiveStylingTableConfigModel";
+import {
+  ResponsiveStylingButtonConfigModel
+} from "../design-dimensions/Styling/button/ResponsiveStylingButtonConfigModel";
+import {ResponsiveStylingIconConfigModel} from "../design-dimensions/Styling/icon/ResponsiveStylingIconConfigModel";
+import {
+  ResponsiveDataRepresentationTableConfigModel
+} from "../design-dimensions/DataRepresentation/Table/ResponsiveDataRepresentationTableConfigModel";
+import {
+  ResponsiveDataRepresentationMultiSelectConfigModel
+} from "../design-dimensions/DataRepresentation/MultiSelect/ResponsiveDataRepresentationMultiSelectConfigModel";
+import {
+  ResponsiveDataRepresentationRadioButtonGroupConfigModel
+} from "../design-dimensions/DataRepresentation/RadioButtonGroup/ResponsiveDataRepresentationRadioButtonGroupConfigModel";
+import {
+  ResponsiveDataRepresentationNumberInputConfigModel
+} from "../design-dimensions/DataRepresentation/NumberInput/ResponsiveDataRepresentationNumberInputConfigModel";
+import {
+  ResponsiveDataRepresentationTextInputConfigModel
+} from "../design-dimensions/DataRepresentation/TextInput/ResponsiveDataRepresentationTextInputConfigModel";
+import {
+  ResponsiveDataInputTextInputConfigModel
+} from "../design-dimensions/DataInput/TextInput/ResponsiveDataInputTextInputConfigModel";
+import {
+  ResponsiveDataInputNumberInputConfigModel
+} from "../design-dimensions/DataInput/NumberInput/ResponsiveDataInputNumberInputConfigModel";
+import {
+  ResponsiveDataInputRadioButtonGroupConfigModel
+} from "../design-dimensions/DataInput/RadioButtonGroup/ResponsiveDataInputRadioButtonGroupConfigModel";
+import {
+  ResponsiveContentInjectionMenubarConfigModel
+} from "../design-dimensions/ContentInjection/menubar/ResponsiveContentInjectionMenubarConfigModel";
+import {
+  ResponsiveContentInjectionTableConfigModel
+} from "../design-dimensions/ContentInjection/table/ResponsiveContentInjectionTableConfigModel";
+import {
+  ResponsiveContentInjectionDialogConfigModel
+} from "../design-dimensions/ContentInjection/dialog/ResponsiveContentInjectionDialogConfigModel";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -120,6 +195,7 @@ export type StylingConfigModelType =
   ButtonStylingConfigModel|
   IconStylingConfigModel|
   TableStylingConfigModel|never
+
 export type ConfigModelType =
   ContentInjectionConfigModelType|
   ComponentSpecificLayoutConfigModelType|
@@ -133,26 +209,74 @@ export type ConfigModelType =
   SpacingConfigModel|
   VisibilityConfigModel|never
 
-/*export type ResponsiveConfigModelType<ContentInjectConfigModelType,ContentInjectRenderModelType> =
-  ResponsiveSizeConfigModel |
-  ResponsiveVisibilityConfigModel |
+export type ContentInjectionRenderModelType =
+  DialogContentInjectionRenderModel |
+  MenubarContentInjectionRenderModel|
+  TableContentInjectionRenderModel|never
+export type ComponentSpecificLayoutRenderModelType =
+  ChildLayoutRenderModel |
+  TableLayoutRenderModel | never
+export type DataInputRenderModelType =
+  NumberInputDataInputRenderModel|
+  TextInputDataInputRenderModel|
+  RadioButtonGroupDataInputRenderModel | never
+export type DataRepresentationRenderModelType =
+  MultiSelectDataRepresentationRenderModel|
+  NumberInputDataRepresentationRenderModel|
+  RadioButtonGroupDataRepresentationRenderModel|
+  TableDataRepresentationRenderModel|
+  TextInputDataRepresentationRenderModel|never
+export type StructuralRenderModelType =
+  ButtonStructuralRenderModel|
+  ConfirmPopupStructuralRenderModel|
+  DialogStructuralRenderModel|
+  ImageStructuralRenderModel|
+  MenubarStructuralRenderModel|
+  TableStructuralRenderModel|never
+export type StylingRenderModelType =
+  ButtonStylingRenderModel|
+  IconStylingRenderModel|
+  TableStylingRenderModel|never
 
+export type RenderModelType =
+  ContentInjectionRenderModelType|
+  ComponentSpecificLayoutRenderModelType|
+  DataInputRenderModelType|
+  DataRepresentationRenderModelType|
+  StructuralRenderModelType|
+  StylingRenderModelType|
+  IndividualLayoutRenderModel|
+  OverflowRenderModel|
+  SizeRenderModel|
+  SpacingRenderModel|
+  VisibilityRenderModel|never
+
+export type ResponsiveStylingConfigModelType =
+  ResponsiveStylingTableConfigModel|ResponsiveStylingButtonConfigModel|ResponsiveStylingIconConfigModel|never
+export type ResponsiveStructuralConfigModelType =
+  ResponsiveStructuralTableConfigModel|
   ResponsiveStructuralButtonConfigModel|
-  ResponsiveStructuralImageConfigModel|
   ResponsiveStructuralConfirmPopupConfigModel|
   ResponsiveStructuralDialogConfigModel|
   ResponsiveStructuralMenubarConfigModel|
-  ResponsiveStructuralTableConfigModel|
-
-  ResponsiveSpacingConfigModel|
-  ResponsiveOverflowConfigModel |
-  ResponsiveTableLayoutConfigModel|
+  ResponsiveStructuralImageConfigModel|never
+export type ResponsiveDataRepresentationConfigModelType =
+  ResponsiveDataRepresentationTableConfigModel|
+  ResponsiveDataRepresentationMultiSelectConfigModel|
+  ResponsiveDataRepresentationRadioButtonGroupConfigModel|
+  ResponsiveDataRepresentationNumberInputConfigModel|
+  ResponsiveDataRepresentationTextInputConfigModel|never
+export type ResponsiveDataInputConfigModelType =
+  ResponsiveDataInputRadioButtonGroupConfigModel|
+  ResponsiveDataInputNumberInputConfigModel|
+  ResponsiveDataInputTextInputConfigModel|never
+export type ResponsiveContentInjectionConfigModelType =
+  ResponsiveContentInjectionDialogConfigModel|
+  ResponsiveContentInjectionMenubarConfigModel|
+  ResponsiveContentInjectionTableConfigModel|never
+export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
-  ResponsiveIndividualLayoutConfigModel |
-
-  ResponsiveContentInjectionConfigModel<ContentInjectConfigModelType,ContentInjectRenderModelType> |
-
-  never*/
+  ResponsiveTableLayoutConfigModel|never
 
 export type ComponentModelType = Container
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'

@@ -3,8 +3,8 @@ import {IndividualLayoutRenderModel} from "./IndividualLayoutRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
-export class ResponsiveIndividualLayoutConfigModel extends ResponsiveConfigModel<ResponsiveIndividualLayoutConfigModel>
-implements ResponsiveConfigModelI<ResponsiveIndividualLayoutConfigModel>{
+export class ResponsiveIndividualLayoutConfigModel extends ResponsiveConfigModel<IndividualLayoutConfigModel>
+implements ResponsiveConfigModelI<IndividualLayoutConfigModel>{
   public smartphone:IndividualLayoutConfigModel=new IndividualLayoutConfigModel()
   public portraitTablet: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -37,14 +37,11 @@ implements ResponsiveConfigModelI<ResponsiveIndividualLayoutConfigModel>{
     return 'position'
   }
   public getPositionRenderProperties(screenSize: number): IndividualLayoutRenderModel {
-    const mapToPositioningRenderProperties =
-      (config: IndividualLayoutConfigModel): IndividualLayoutRenderModel => {
-        const renderInstance = new IndividualLayoutRenderModel()
-        Object.entries(config).forEach(([k,v])=>{
-          if(v) renderInstance.setProperty(k,v)
-        })
-        return renderInstance
-      }
-     return this.getRenderProperties(screenSize,mapToPositioningRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new IndividualLayoutRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance.setProperty(k,v)
+    })
+    return renderInstance
   }
 }

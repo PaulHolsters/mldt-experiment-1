@@ -4,8 +4,8 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 export class ResponsiveStructuralConfirmPopupConfigModel
-  extends ResponsiveConfigModel<ResponsiveStructuralConfirmPopupConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveStructuralConfirmPopupConfigModel>{
+  extends ResponsiveConfigModel<ConfirmPopupStructuralConfigModel>
+  implements ResponsiveConfigModelI<ConfirmPopupStructuralConfigModel>{
   public highResolution: ConfirmPopupStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public laptop:ConfirmPopupStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet:ConfirmPopupStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
@@ -38,14 +38,11 @@ export class ResponsiveStructuralConfirmPopupConfigModel
     return 'table'
   }
   public getConfirmPopupStructuralRenderProperties(screenSize: number): ConfirmPopupStructuralRenderModel {
-    // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToConfirmPopupStructuralRenderProperties = (config: ConfirmPopupStructuralConfigModel): ConfirmPopupStructuralRenderModel => {
-        const renderInstance = new ConfirmPopupStructuralRenderModel()
-      Object.entries(config).forEach(([k, v]) => {
-        if (v) renderInstance.setProperty(k, v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize, mapToConfirmPopupStructuralRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new ConfirmPopupStructuralRenderModel()
+    Object.entries(config).forEach(([k, v]) => {
+      if (v) renderInstance.setProperty(k, v)
+    })
+    return renderInstance
   }
 }

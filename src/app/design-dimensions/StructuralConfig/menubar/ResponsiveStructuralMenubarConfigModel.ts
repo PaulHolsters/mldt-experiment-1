@@ -4,8 +4,8 @@ import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {MenubarStructuralConfigModel} from "./MenubarStructuralConfigModel";
 import {MenubarStructuralRenderModel} from "./MenubarStructuralRenderModel";
 export class ResponsiveStructuralMenubarConfigModel
-  extends ResponsiveConfigModel<ResponsiveStructuralMenubarConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveStructuralMenubarConfigModel>{
+  extends ResponsiveConfigModel<MenubarStructuralConfigModel>
+  implements ResponsiveConfigModelI<MenubarStructuralConfigModel>{
   public highResolution: MenubarStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public laptop:MenubarStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet:MenubarStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
@@ -38,14 +38,11 @@ export class ResponsiveStructuralMenubarConfigModel
     return 'table'
   }
   public getConfirmPopupStructuralRenderProperties(screenSize: number): MenubarStructuralRenderModel {
-    // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToConfirmPopupStructuralRenderProperties = (config: MenubarStructuralConfigModel): MenubarStructuralRenderModel => {
-        const renderInstance = new MenubarStructuralRenderModel()
-      Object.entries(config).forEach(([k, v]) => {
-        if (v) renderInstance.setProperty(k, v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize, mapToConfirmPopupStructuralRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new MenubarStructuralRenderModel()
+    Object.entries(config).forEach(([k, v]) => {
+      if (v) renderInstance.setProperty(k, v)
+    })
+    return renderInstance
   }
 }

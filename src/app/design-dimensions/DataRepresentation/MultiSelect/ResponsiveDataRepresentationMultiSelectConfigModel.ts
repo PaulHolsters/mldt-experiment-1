@@ -3,8 +3,8 @@ import {MultiSelectDataRepresentationConfigModel} from "./MultiSelectDataReprese
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {MultiSelectDataRepresentationRenderModel} from "./MultiSelectDataRepresentationRenderModel";
-export class ResponsiveDataRepresentationMultiSelectConfigModel extends ResponsiveConfigModel<ResponsiveDataRepresentationMultiSelectConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveDataRepresentationMultiSelectConfigModel>{
+export class ResponsiveDataRepresentationMultiSelectConfigModel extends ResponsiveConfigModel<MultiSelectDataRepresentationConfigModel>
+  implements ResponsiveConfigModelI<MultiSelectDataRepresentationConfigModel>{
   public portraitTablet: MultiSelectDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:MultiSelectDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: MultiSelectDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -36,14 +36,12 @@ export class ResponsiveDataRepresentationMultiSelectConfigModel extends Responsi
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number): MultiSelectDataRepresentationRenderModel {
-    const mapToMultiSelectDataRepresentationRenderProperties = (config: MultiSelectDataRepresentationConfigModel): MultiSelectDataRepresentationRenderModel => {
-      const renderInstance = new MultiSelectDataRepresentationRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize,mapToMultiSelectDataRepresentationRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new MultiSelectDataRepresentationRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
+    return renderInstance
   }
 
 }

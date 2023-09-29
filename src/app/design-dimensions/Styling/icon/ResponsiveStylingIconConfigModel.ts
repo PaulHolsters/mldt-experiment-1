@@ -4,8 +4,8 @@ import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI
 import {IconStylingConfigModel} from "./IconStylingConfigModel";
 import {IconStylingRenderModel} from "./IconStylingRenderModel";
 export class ResponsiveStylingIconConfigModel
-  extends ResponsiveConfigModel<ResponsiveStylingIconConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveStylingIconConfigModel>{
+  extends ResponsiveConfigModel<IconStylingConfigModel>
+  implements ResponsiveConfigModelI<IconStylingConfigModel>{
   public highResolution: IconStylingConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public laptop: IconStylingConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet: IconStylingConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
@@ -38,14 +38,11 @@ export class ResponsiveStylingIconConfigModel
     return 'table'
   }
   public getIconStructuralRenderProperties(screenSize: number): IconStylingRenderModel {
-    // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToToIconStructuralRenderProperties = (config: IconStylingConfigModel): IconStylingRenderModel => {
-      const renderInstance = new IconStylingRenderModel()
-      Object.entries(config).forEach(([k, v]) => {
-        if (v) renderInstance.setProperty(k, v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize, mapToToIconStructuralRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new IconStylingRenderModel()
+    Object.entries(config).forEach(([k, v]) => {
+      if (v) renderInstance.setProperty(k, v)
+    })
+    return renderInstance
   }
 }

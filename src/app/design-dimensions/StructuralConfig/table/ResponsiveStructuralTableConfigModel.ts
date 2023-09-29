@@ -4,8 +4,8 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 export class ResponsiveStructuralTableConfigModel
-  extends ResponsiveConfigModel<ResponsiveStructuralTableConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveStructuralTableConfigModel>{
+  extends ResponsiveConfigModel<TableStructuralConfigModel>
+  implements ResponsiveConfigModelI<TableStructuralConfigModel>{
   public highResolution: TableStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public laptop:TableStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet:TableStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
@@ -38,14 +38,11 @@ export class ResponsiveStructuralTableConfigModel
     return 'table'
   }
   public getTableStructuralRenderProperties(screenSize: number): TableStructuralRenderModel {
-    // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToTableStructuralRenderProperties = (config: TableStructuralConfigModel): TableStructuralRenderModel => {
-        const renderInstance = new TableStructuralRenderModel()
-      Object.entries(config).forEach(([k, v]) => {
-        if (v) renderInstance.setProperty(k, v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize, mapToTableStructuralRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new TableStructuralRenderModel()
+    Object.entries(config).forEach(([k, v]) => {
+      if (v) renderInstance.setProperty(k, v)
+    })
+    return renderInstance
   }
 }

@@ -4,7 +4,7 @@ import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 
 export class IndividualLayoutConfigModel {
   public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured,
-  public displayType:DisplayType
+  public displayType:DisplayType//todo
   constructor(
 
     ) {

@@ -5,8 +5,8 @@ import {TableLayoutConfigModel} from "./TableLayoutConfigModel";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 
-export class ResponsiveTableLayoutConfigModel extends ResponsiveConfigModel<ResponsiveTableLayoutConfigModel>
-implements ResponsiveConfigModelI<ResponsiveTableLayoutConfigModel>{
+export class ResponsiveTableLayoutConfigModel extends ResponsiveConfigModel<TableLayoutConfigModel>
+implements ResponsiveConfigModelI<TableLayoutConfigModel>{
   public smartphone:TableLayoutConfigModel = new TableLayoutConfigModel()
   public portraitTablet: TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -42,14 +42,11 @@ implements ResponsiveConfigModelI<ResponsiveTableLayoutConfigModel>{
     return 'childLayout'
   }
   getTableLayoutRenderProperties(screenSize: number): TableLayoutRenderModel {
-    const mapToTableLayoutRenderProperties = (config: TableLayoutConfigModel): TableLayoutRenderModel => {
-      const renderInstance = new TableLayoutRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance.setProperty(k,v)
-      })
-      return renderInstance
-
-    }
-    return this.getRenderProperties(screenSize,mapToTableLayoutRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new TableLayoutRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance.setProperty(k,v)
+    })
+    return renderInstance
   }
 }

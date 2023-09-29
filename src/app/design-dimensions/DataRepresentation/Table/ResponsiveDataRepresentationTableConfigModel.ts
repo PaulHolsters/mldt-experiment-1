@@ -3,8 +3,8 @@ import {TableDataRepresentationConfigModel} from "./TableDataRepresentationConfi
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {TableDataRepresentationRenderModel} from "./TableDataRepresentationRenderModel";
-export class ResponsiveDataRepresentationTableConfigModel extends ResponsiveConfigModel<ResponsiveDataRepresentationTableConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveDataRepresentationTableConfigModel>{
+export class ResponsiveDataRepresentationTableConfigModel extends ResponsiveConfigModel<TableDataRepresentationConfigModel>
+  implements ResponsiveConfigModelI<TableDataRepresentationConfigModel>{
   public portraitTablet: TableDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:TableDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: TableDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -36,14 +36,12 @@ export class ResponsiveDataRepresentationTableConfigModel extends ResponsiveConf
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number): TableDataRepresentationRenderModel {
-    const mapToTableDataRepresentationRenderProperties = (config: TableDataRepresentationConfigModel): TableDataRepresentationRenderModel => {
-      const renderInstance = new TableDataRepresentationRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize,mapToTableDataRepresentationRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new TableDataRepresentationRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
+    return renderInstance
   }
 
 }

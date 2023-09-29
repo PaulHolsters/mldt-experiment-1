@@ -4,8 +4,8 @@ import {ButtonStructuralConfigModel} from "./ButtonStructuralConfigModel";
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 export class ResponsiveStructuralButtonConfigModel
-  extends ResponsiveConfigModel<ResponsiveStructuralButtonConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveStructuralButtonConfigModel>{
+  extends ResponsiveConfigModel<ButtonStructuralConfigModel>
+  implements ResponsiveConfigModelI<ButtonStructuralConfigModel>{
   public highResolution: ButtonStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public laptop: ButtonStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet: ButtonStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
@@ -38,14 +38,11 @@ export class ResponsiveStructuralButtonConfigModel
     return 'table'
   }
   public getButtonStructuralRenderProperties(screenSize: number): ButtonStructuralRenderModel {
-    // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToToButtonStructuralRenderProperties = (config: ButtonStructuralConfigModel): ButtonStructuralRenderModel => {
-      const renderInstance = new ButtonStructuralRenderModel()
-      Object.entries(config).forEach(([k, v]) => {
-        if (v) renderInstance.setProperty(k, v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize, mapToToButtonStructuralRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new ButtonStructuralRenderModel()
+    Object.entries(config).forEach(([k, v]) => {
+      if (v) renderInstance.setProperty(k, v)
+    })
+    return renderInstance
   }
 }

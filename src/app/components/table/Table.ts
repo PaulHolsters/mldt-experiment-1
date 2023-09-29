@@ -29,6 +29,13 @@ import {TableStylingConfigModel} from "../../design-dimensions/Styling/table/Tab
 import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
+import {
+  ResponsiveContentInjectionConfigModel
+} from "../../design-dimensions/ContentInjection/ResponsiveContentInjectionConfigModel";
+import {
+  TableContentInjectionRenderModel
+} from "../../design-dimensions/ContentInjection/table/TableContentInjectionRenderModel";
+import {ContentInjectionRenderType} from "../../types/conditional-types";
 export class Table extends ComponentModel implements ComponentI{
   // todo add conditional typing : prop required => set required too
   name:string
@@ -69,7 +76,7 @@ export class Table extends ComponentModel implements ComponentI{
     this.dataRepresentation=dr
     return this
   }
-  contentInjection: ResponsiveContentInjectionTableConfigModel=new ResponsiveContentInjectionTableConfigModel(
+  contentInjection=new ResponsiveContentInjectionConfigModel<TableContentInjectionConfigModel,ContentInjectionRenderType<TableContentInjectionConfigModel>>(
     new TableContentInjectionConfigModel()
   )
   setContentInjection(ci:ResponsiveContentInjectionTableConfigModel){

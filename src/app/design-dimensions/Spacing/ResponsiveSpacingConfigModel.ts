@@ -6,8 +6,8 @@ import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
 import {OverflowConfigModel} from "../Overflow/OverflowConfigModel";
 
-export class ResponsiveSpacingConfigModel extends ResponsiveConfigModel<ResponsiveSpacingConfigModel>
-implements ResponsiveConfigModelI<ResponsiveSpacingConfigModel>{
+export class ResponsiveSpacingConfigModel extends ResponsiveConfigModel<SpacingConfigModel>
+implements ResponsiveConfigModelI<SpacingConfigModel>{
   public smartphone:SpacingConfigModel=new SpacingConfigModel()
   public portraitTablet: SpacingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:SpacingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -40,13 +40,10 @@ implements ResponsiveConfigModelI<ResponsiveSpacingConfigModel>{
     return 'overflow'
   }
   public getOverflowRenderProperties(screenSize: number): SpacingRenderModel {
-    const mapToSpacingRenderProperties =
-      (config: SpacingConfigModel): SpacingRenderModel => {
-        const orm =new SpacingRenderModel()
-        // todo
-        return orm
-      }
-    return this.getRenderProperties(screenSize,mapToSpacingRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const orm =new SpacingRenderModel()
+    // todo
+    return orm
   }
 
 

@@ -3,8 +3,8 @@ import {DialogContentInjectionConfigModel} from "./DialogContentInjectionConfigM
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {DialogContentInjectionRenderModel} from "./DialogContentInjectionRenderModel";
-export class ResponsiveContentInjectionDialogConfigModel extends ResponsiveConfigModel<ResponsiveContentInjectionDialogConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveContentInjectionDialogConfigModel>{
+export class ResponsiveContentInjectionDialogConfigModel extends ResponsiveConfigModel<DialogContentInjectionConfigModel>
+  implements ResponsiveConfigModelI<DialogContentInjectionConfigModel>{
   public portraitTablet: DialogContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:DialogContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: DialogContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -36,14 +36,12 @@ export class ResponsiveContentInjectionDialogConfigModel extends ResponsiveConfi
     return 'content-injection'
   }
   public getContentInjectionRenderProperties(screenSize: number): DialogContentInjectionRenderModel {
-    const mapToDialogContentInjectionRenderProperties = (config: DialogContentInjectionConfigModel): DialogContentInjectionRenderModel => {
-      const renderInstance = new DialogContentInjectionRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize,mapToDialogContentInjectionRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new DialogContentInjectionRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
+    return renderInstance
   }
 
 }

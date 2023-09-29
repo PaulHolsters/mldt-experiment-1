@@ -3,8 +3,8 @@ import {TableContentInjectionConfigModel} from "./TableContentInjectionConfigMod
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {TableContentInjectionRenderModel} from "./TableContentInjectionRenderModel";
-export class ResponsiveContentInjectionTableConfigModel<S> extends ResponsiveConfigModel<ResponsiveContentInjectionTableConfigModel<S>>
-  implements ResponsiveConfigModelI<ResponsiveContentInjectionTableConfigModel<S>>{
+export class ResponsiveContentInjectionTableConfigModel extends ResponsiveConfigModel<TableContentInjectionConfigModel>
+  implements ResponsiveConfigModelI<TableContentInjectionConfigModel>{
   public portraitTablet: TableContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:TableContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: TableContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -36,14 +36,12 @@ export class ResponsiveContentInjectionTableConfigModel<S> extends ResponsiveCon
     return 'content-injection'
   }
   public getContentInjectionRenderProperties(screenSize: number): TableContentInjectionRenderModel {
-    const mapToTableContentInjectionRenderProperties = (config: TableContentInjectionConfigModel): TableContentInjectionRenderModel => {
-      const renderInstance = new TableContentInjectionRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize,mapToTableContentInjectionRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new TableContentInjectionRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
+    return renderInstance
   }
 
 }

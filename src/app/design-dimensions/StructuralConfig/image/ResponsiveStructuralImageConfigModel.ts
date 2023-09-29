@@ -4,8 +4,8 @@ import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ImageStructuralConfigModel} from "./ImageStructuralConfigModel";
 import {ImageStructuralRenderModel} from "./ImageStructuralRenderModel";
 export class ResponsiveStructuralImageConfigModel
-  extends ResponsiveConfigModel<ResponsiveStructuralImageConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveStructuralImageConfigModel>{
+  extends ResponsiveConfigModel<ImageStructuralConfigModel>
+  implements ResponsiveConfigModelI<ImageStructuralConfigModel>{
   public highResolution: ImageStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public laptop:ImageStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet:ImageStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
@@ -38,14 +38,11 @@ export class ResponsiveStructuralImageConfigModel
     return 'table'
   }
   public getImageStructuralRenderProperties(screenSize: number): ImageStructuralRenderModel {
-    // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToImageStructuralRenderProperties = (config: ImageStructuralConfigModel): ImageStructuralRenderModel => {
-        const renderInstance = new ImageStructuralRenderModel()
-      Object.entries(config).forEach(([k, v]) => {
-        if (v) renderInstance.setProperty(k, v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize, mapToImageStructuralRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new ImageStructuralRenderModel()
+    Object.entries(config).forEach(([k, v]) => {
+      if (v) renderInstance.setProperty(k, v)
+    })
+    return renderInstance
   }
 }

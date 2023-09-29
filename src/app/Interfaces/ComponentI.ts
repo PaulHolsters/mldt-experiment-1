@@ -17,10 +17,14 @@ import {
 } from "../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
 import {ChildLayoutConfigModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutConfigModel";
 import {TableLayoutConfigModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutConfigModel";
+import {
+  ResponsiveContentInjectionConfigModelType,
+  ResponsiveDataInputConfigModelType,
+  ResponsiveDataRepresentationConfigModelType, ResponsiveStructuralConfigModelType,
+  ResponsiveStylingConfigModelType
+} from "../types/union-types";
 
 export interface ComponentI {
-  // todo ik denk dat je beter met ? werkt zodat er meerdere zaken gemakkelijk van de interface gebruik kunnen maken
-  // todo voeg conditie toe dat als je dimension hebt je ook setDimension moet hebben = partial interface eerst voor maken
   name: string
   size: ResponsiveSizeConfigModel
   setSize: (size: ResponsiveSizeConfigModel) => ComponentModel
@@ -31,23 +35,22 @@ export interface ComponentI {
   overflow: ResponsiveOverflowConfigModel
   setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
   individualLayout: ResponsiveIndividualLayoutConfigModel
-  setIndividualLayout: (pos: ResponsiveIndividualLayoutConfigModel) => ComponentModel
-  styling: ResponsiveStylingConfigModel | undefined
-  setStyling: ((styling: ResponsiveStylingConfigModel) => ComponentModel)|undefined
+  setIndividualLayout: (il: ResponsiveIndividualLayoutConfigModel) => ComponentModel
+  styling: ResponsiveStylingConfigModelType | undefined
+  setStyling: ((styling: ResponsiveStylingConfigModelType) => ComponentModel)|undefined
   clientData: ClientDataConfigModel|ZeroValueType.NoValueYet | undefined
   setClientData: ((clientData: ClientDataConfigModel|ZeroValueType.NoValueYet) => ComponentModel)|undefined
-  dataRepresentation: ResponsiveDataRepresentationConfigModel | undefined
-  setDataRepresentation: ((dataRepresentation: ResponsiveDataRepresentationConfigModel) => ComponentModel)|undefined
-  dataInput: ResponsiveDataInputConfigModel | undefined
-  setDataInput: ((dataInput: ResponsiveDataInputConfigModel) => ComponentModel)|undefined
-  contentInjection: ResponsiveContentInjectionConfigModel | undefined
-  setContentInjection: ((contentInjection: ResponsiveContentInjectionConfigModel) => ComponentModel)|undefined
+  dataRepresentation: ResponsiveDataRepresentationConfigModelType | undefined
+  setDataRepresentation: ((dataRepresentation: ResponsiveDataRepresentationConfigModelType) => ComponentModel)|undefined
+  dataInput: ResponsiveDataInputConfigModelType | undefined
+  setDataInput: ((dataInput: ResponsiveDataInputConfigModelType) => ComponentModel)|undefined
+  contentInjection: ResponsiveContentInjectionConfigModelType | undefined
+  setContentInjection: ((contentInjection: ResponsiveContentInjectionConfigModelType) => ComponentModel)|undefined
   layout: ResponsiveContainerChildLayoutConfigModel|ResponsiveTableLayoutConfigModel | undefined
   setLayout: ((screen:ScreenSize,layout: ChildLayoutConfigModel) => ComponentModel)|
     ((screen:ScreenSize,layout: TableLayoutConfigModel) => ComponentModel)|undefined
   children: ComponentModel[] | undefined
-  // todo op termijn moeten de children ook responsive worden
   setChildren: ((children: ComponentModel[]) => ComponentModel)|undefined
-  componentSpecificConfig:ResponsiveStructuralConfigModel|undefined
-  setComponentSpecificConfig: ((specifics: ResponsiveStructuralConfigModel) => ComponentModel)|undefined
+  componentSpecificConfig:ResponsiveStructuralConfigModelType|undefined
+  setComponentSpecificConfig: ((specifics: ResponsiveStructuralConfigModelType) => ComponentModel)|undefined
 }

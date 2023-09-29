@@ -3,8 +3,8 @@ import {RadioButtonGroupDataRepresentationConfigModel} from "./RadioButtonGroupD
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {RadioButtonGroupDataRepresentationRenderModel} from "./RadioButtonGroupDataRepresentationRenderModel";
-export class ResponsiveDataRepresentationRadioButtonConfigModel extends ResponsiveConfigModel<ResponsiveDataRepresentationRadioButtonConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveDataRepresentationRadioButtonConfigModel>{
+export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataRepresentationConfigModel>
+  implements ResponsiveConfigModelI<RadioButtonGroupDataRepresentationConfigModel>{
   public portraitTablet: RadioButtonGroupDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:RadioButtonGroupDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: RadioButtonGroupDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -36,14 +36,12 @@ export class ResponsiveDataRepresentationRadioButtonConfigModel extends Responsi
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number): RadioButtonGroupDataRepresentationRenderModel {
-    const mapToRadioButtonGroupDataRepresentationRenderProperties = (config: RadioButtonGroupDataRepresentationConfigModel): RadioButtonGroupDataRepresentationRenderModel => {
-      const renderInstance = new RadioButtonGroupDataRepresentationRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize,mapToRadioButtonGroupDataRepresentationRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new RadioButtonGroupDataRepresentationRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
+    return renderInstance
   }
 
 }

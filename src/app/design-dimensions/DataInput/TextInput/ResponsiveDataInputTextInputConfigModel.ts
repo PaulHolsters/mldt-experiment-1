@@ -3,8 +3,8 @@ import {TextInputDataInputConfigModel} from "./TextInputDataInputConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {TextInputDataInputRenderModel} from "./TextInputDataInputRenderModel";
-export class ResponsiveDataInputTextInputConfigModel extends ResponsiveConfigModel<ResponsiveDataInputTextInputConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveDataInputTextInputConfigModel>{
+export class ResponsiveDataInputTextInputConfigModel extends ResponsiveConfigModel<TextInputDataInputConfigModel>
+  implements ResponsiveConfigModelI<TextInputDataInputConfigModel>{
   public portraitTablet: TextInputDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:TextInputDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: TextInputDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -36,14 +36,12 @@ export class ResponsiveDataInputTextInputConfigModel extends ResponsiveConfigMod
     return 'content-injection'
   }
   public getDataInputRenderProperties(screenSize: number): TextInputDataInputRenderModel {
-    const mapToTextInputDataInputRenderProperties = (config: TextInputDataInputConfigModel): TextInputDataInputRenderModel => {
-      const renderInstance = new TextInputDataInputRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize,mapToTextInputDataInputRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new TextInputDataInputRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
+    return renderInstance
   }
 
 }

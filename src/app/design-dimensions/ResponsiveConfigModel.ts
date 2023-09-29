@@ -1,15 +1,12 @@
 import {ScreenSize} from "../enums/screenSizes.enum";
-import {
-  ConfigModelType
-} from "../types/union-types";
+import {ConfigModelType} from "../types/union-types";
 
-export class ResponsiveConfigModel
-<T extends ConfigModelType>{
-  protected getRenderProperties(screenSize:ScreenSize,mapping:(configModelType:T)=>RenderModelType<T>):RenderModelType<T>{
+export class ResponsiveConfigModel<T extends ConfigModelType>{
+  protected getConfigModel(screenSize:ScreenSize):T{
     let lastScreenSize:ScreenSize = screenSize
     while (lastScreenSize >= 0) {
       if (Reflect.has(this,ScreenSize[lastScreenSize])) {
-        return mapping(Reflect.get(this,ScreenSize[lastScreenSize]))
+        return Reflect.get(this, ScreenSize[lastScreenSize])
       }
       lastScreenSize--
     }

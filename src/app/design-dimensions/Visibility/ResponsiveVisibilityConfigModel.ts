@@ -3,8 +3,8 @@ import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {VisibilityRenderModel} from "./VisibilityRenderModel";
 import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
-export class ResponsiveVisibilityConfigModel extends ResponsiveConfigModel<ResponsiveVisibilityConfigModel>
-implements ResponsiveConfigModelI<ResponsiveVisibilityConfigModel>{
+export class ResponsiveVisibilityConfigModel extends ResponsiveConfigModel<VisibilityConfigModel>
+implements ResponsiveConfigModelI<VisibilityConfigModel>{
   public highResolution: VisibilityConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   public laptop: VisibilityConfigModel | ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
   public portraitTablet: VisibilityConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
@@ -34,13 +34,11 @@ implements ResponsiveConfigModelI<ResponsiveVisibilityConfigModel>{
     return 'visibility'
   }
   public getVisibilityRenderProperties(screenSize: number): VisibilityRenderModel {
-    const mapToVisibilityComponentProps = (visibilityConfig: VisibilityConfigModel): VisibilityRenderModel => {
-      const compPropsObj = new VisibilityRenderModel()
-      Object.entries(visibilityConfig).forEach(([k, v]) => {
-        compPropsObj.setProperty(k, v)
-      })
-      return compPropsObj
-    }
-    return this.getRenderProperties(screenSize,mapToVisibilityComponentProps)
+    const configModel = this.getConfigModel(screenSize)
+    const compPropsObj = new VisibilityRenderModel()
+    Object.entries(configModel).forEach(([k, v]) => {
+      compPropsObj.setProperty(k, v)
+    })
+    return compPropsObj
   }
 }

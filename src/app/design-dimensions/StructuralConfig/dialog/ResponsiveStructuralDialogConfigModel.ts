@@ -4,8 +4,8 @@ import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {DialogStructuralConfigModel} from "./DialogStructuralConfigModel";
 import {DialogStructuralRenderModel} from "./DialogStructuralRenderModel";
 export class ResponsiveStructuralDialogConfigModel
-  extends ResponsiveConfigModel<ResponsiveStructuralDialogConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveStructuralDialogConfigModel>{
+  extends ResponsiveConfigModel<DialogStructuralConfigModel>
+  implements ResponsiveConfigModelI<DialogStructuralConfigModel>{
   public highResolution: DialogStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public laptop:DialogStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet:DialogStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
@@ -38,14 +38,11 @@ export class ResponsiveStructuralDialogConfigModel
     return 'table'
   }
   public getConfirmPopupStructuralRenderProperties(screenSize: number): DialogStructuralRenderModel {
-    // todo hier kan je de constructie methode wel toepassen denk ik
-    const mapToDialogStructuralRenderProperties = (config: DialogStructuralConfigModel): DialogStructuralRenderModel => {
-        const renderInstance = new DialogStructuralRenderModel()
-      Object.entries(config).forEach(([k, v]) => {
-        if (v) renderInstance.setProperty(k, v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize, mapToDialogStructuralRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new DialogStructuralRenderModel()
+    Object.entries(config).forEach(([k, v]) => {
+      if (v) renderInstance.setProperty(k, v)
+    })
+    return renderInstance
   }
 }

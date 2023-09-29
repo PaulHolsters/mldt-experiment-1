@@ -3,8 +3,8 @@ import {MenubarContentInjectionConfigModel} from "./MenubarContentInjectionConfi
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {MenubarContentInjectionRenderModel} from "./MenubarContentInjectionRenderModel";
-export class ResponsiveContentInjectionMenubarConfigModel extends ResponsiveConfigModel<ResponsiveContentInjectionMenubarConfigModel>
-  implements ResponsiveConfigModelI<ResponsiveContentInjectionMenubarConfigModel>{
+export class ResponsiveContentInjectionMenubarConfigModel extends ResponsiveConfigModel<MenubarContentInjectionConfigModel>
+  implements ResponsiveConfigModelI<MenubarContentInjectionConfigModel>{
   public portraitTablet: MenubarContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public tablet:MenubarContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
   public laptop: MenubarContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
@@ -36,14 +36,12 @@ export class ResponsiveContentInjectionMenubarConfigModel extends ResponsiveConf
     return 'content-injection'
   }
   public getContentInjectionRenderProperties(screenSize: number): MenubarContentInjectionRenderModel {
-    const mapToMenubarContentInjectionRenderProperties = (config: MenubarContentInjectionConfigModel): MenubarContentInjectionRenderModel => {
-      const renderInstance = new MenubarContentInjectionRenderModel()
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-      return renderInstance
-    }
-    return this.getRenderProperties(screenSize,mapToMenubarContentInjectionRenderProperties)
+    const config = this.getConfigModel(screenSize)
+    const renderInstance = new MenubarContentInjectionRenderModel()
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
+    return renderInstance
   }
 
 }
