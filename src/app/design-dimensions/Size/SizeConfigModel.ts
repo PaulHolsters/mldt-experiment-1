@@ -4,7 +4,7 @@ import {NonCalculatedSizeConfigModel} from "./NonCalculatedSizeConfigModel";
 import {CalculatedSizeConfigModel} from "./CalculatedSizeConfigModel";
 import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
-import {IconStructuralConfigModel} from "../StructuralConfig/icon/IconStructuralConfigModel";
+import {IconSizeConfigModel} from "./icon/IconSizeConfigModel";
 
 export class SizeConfigModel {
   width:
@@ -19,12 +19,11 @@ export class SizeConfigModel {
     ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   dynamicSize:DynamicSizeConfigModel|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
   // todo zorg ervoor dat at compile time je geen foutieve component kan nemen
-  componentSpecificSize:ButtonSizeConfigModel|ZeroValueType.NotAllowed=ZeroValueType.NotAllowed
+  componentSpecificSize:ButtonSizeConfigModel|IconSizeConfigModel|ZeroValueType.NotAllowed=ZeroValueType.NotAllowed
   constructor(
   // todo later nog de mogelijkheid van een ratio toevoegen
   ){
   }
-
   setWidth(width:
              NonCalculatedSizeConfigModel |
              CalculatedSizeConfigModel |
@@ -45,7 +44,7 @@ export class SizeConfigModel {
     this.dynamicSize = dynamicSize
     return this
   }
-  setComponentSpecificSize(componentSpecificSize:ButtonSizeConfigModel|ZeroValueType.NotAllowed){
+  setComponentSpecificSize(componentSpecificSize:ButtonSizeConfigModel|IconSizeConfigModel|ZeroValueType.NotAllowed){
     this.componentSpecificSize = componentSpecificSize
     return this
   }

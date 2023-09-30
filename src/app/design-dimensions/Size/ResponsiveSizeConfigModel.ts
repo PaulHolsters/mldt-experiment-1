@@ -11,6 +11,8 @@ import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
 import {DesignDimensionType} from "../../enums/designDimensionType.enum";
 import {IconStructuralConfigModel} from "../StructuralConfig/icon/IconStructuralConfigModel";
 import {IconStructuralRenderModel} from "../StructuralConfig/icon/IconStructuralRenderModel";
+import {IconSizeConfigModel} from "./icon/IconSizeConfigModel";
+import {IconSizeRenderModel} from "./icon/IconSizeRenderModel";
 export class ResponsiveSizeConfigModel
   extends ResponsiveConfigModel<SizeConfigModel>
   implements ResponsiveConfigModelI<SizeConfigModel>{
@@ -74,8 +76,14 @@ export class ResponsiveSizeConfigModel
     }
     if(dimensionsConfig.componentSpecificSize){
       // todo zorg ervoor via conditional typing dat je hier altijd de juiste moet gebruiken (naming!)
+      //      hier zit meer generics in verborgen!
       if(dimensionsConfig.componentSpecificSize instanceof ButtonSizeConfigModel){
         const rm = new ButtonSizeRenderModel()
+        rm.size = dimensionsConfig.componentSpecificSize.size
+        compPropsObj.componentSpecificSize = rm
+      }
+      if(dimensionsConfig.componentSpecificSize instanceof IconSizeConfigModel){
+        const rm = new IconSizeRenderModel()
         rm.size = dimensionsConfig.componentSpecificSize.size
         compPropsObj.componentSpecificSize = rm
       }

@@ -10,8 +10,7 @@ export class ResponsiveStructuralIconConfigModel
   public laptop:IconStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet:IconStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public portraitTablet:IconStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public smartphone:IconStructuralConfigModel = new IconStructuralConfigModel()
-  constructor() {
+  constructor(public smartphone:IconStructuralConfigModel) {
     super()
   }
   setSmartphone(smartphone:IconStructuralConfigModel){

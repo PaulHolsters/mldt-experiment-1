@@ -12,6 +12,8 @@ import {
 import {
   ResponsiveStructuralIconConfigModel
 } from "../../design-dimensions/StructuralConfig/icon/ResponsiveStructuralIconConfigModel";
+import {IconType} from "../../enums/iconType.enum";
+import {IconStructuralConfigModel} from "../../design-dimensions/StructuralConfig/icon/IconStructuralConfigModel";
 export class Icon extends ComponentModel implements ComponentI<
   undefined,
   ResponsiveStructuralIconConfigModel,
@@ -57,15 +59,16 @@ export class Icon extends ComponentModel implements ComponentI<
   setChildren=undefined
   layout=undefined
   setLayout=undefined
-  constructor(name:string) {
+  constructor(name:string,icon:IconType) {
     super()
     this.name = name
+    this.structural = new ResponsiveStructuralIconConfigModel(new IconStructuralConfigModel(icon))
   }
   setStructural(str: ResponsiveStructuralIconConfigModel): ComponentModel {
     this.structural = str
     return this
   }
-  structural= new  ResponsiveStructuralIconConfigModel()
+  structural: ResponsiveStructuralIconConfigModel
   componentSpecificLayout: undefined
   contentInjection: undefined
   dataRepresentation: undefined

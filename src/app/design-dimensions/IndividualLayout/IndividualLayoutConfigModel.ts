@@ -13,4 +13,13 @@ export class IndividualLayoutConfigModel {
     // todo add z-index
     // todo add absolute position
   }
+  setSelfAlign(selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|ZeroValueType.NotConfigured){
+    this.selfAlign=selfAlign
+    return this
+  }
+  setDisplayType(displayType:DisplayType|ZeroValueType.NotConfigured){
+    this.displayType=displayType
+    return this
+  }
+
 }

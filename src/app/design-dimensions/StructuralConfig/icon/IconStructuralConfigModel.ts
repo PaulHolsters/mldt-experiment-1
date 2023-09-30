@@ -1,6 +1,8 @@
+import {IconType} from "../../../enums/iconType.enum";
+
 export class IconStructuralConfigModel {
   public spin:boolean=false
-  constructor(){
+  constructor(public icon:IconType){
   }
 
 }
