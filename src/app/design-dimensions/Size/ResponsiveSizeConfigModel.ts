@@ -9,6 +9,8 @@ import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
 import {ButtonSizeRenderModel} from "./button/ButtonSizeRenderModel";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
 import {DesignDimensionType} from "../../enums/designDimensionType.enum";
+import {IconStructuralConfigModel} from "../StructuralConfig/icon/IconStructuralConfigModel";
+import {IconStructuralRenderModel} from "../StructuralConfig/icon/IconStructuralRenderModel";
 export class ResponsiveSizeConfigModel
   extends ResponsiveConfigModel<SizeConfigModel>
   implements ResponsiveConfigModelI<SizeConfigModel>{

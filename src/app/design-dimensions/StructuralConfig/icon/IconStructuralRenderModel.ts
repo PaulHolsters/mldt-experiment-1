@@ -1,5 +1,5 @@
-export class IconStylingRenderModel {
-// todo
+export class IconStructuralRenderModel {
+  public spin:boolean|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

@@ -15,15 +15,13 @@ import {
 
 const mainContainer:Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
-mainContainer.layout.smartphone
+mainContainer.componentSpecificLayout.smartphone
   .setLayout(new ColumnLayoutConfigModel().setWrap(false))
   .setChildConfig(new ChildPropertiesConfigModel()).childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100))
 const mainTable = new Table('main-table')
 mainTable.styling.smartphone.setGridType(TableGridType.Row)
 mainTable.setClientData(new ClientDataConfigModel('populate_table'))
 const col1HeaderContainer = new Container('col1-container')
-// todo add displayType bij individualLayout (wijzig naam!)
-// todo vul styling icon aan
 // todo add icon component
 mainTable.contentInjection.smartphone.setColumnHeaderComponents([
 

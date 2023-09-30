@@ -4,8 +4,13 @@ import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
-import {ScreenSize} from "../../enums/screenSizes.enum";
-export class Container extends ComponentModel implements ComponentI{
+import {
+  ResponsiveIndividualLayoutConfigModel
+} from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
+import {
+  ResponsiveContainerChildLayoutConfigModel
+} from "../../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
+export class Container extends ComponentModel implements ComponentI<undefined,undefined,undefined,ResponsiveContainerChildLayoutConfigModel,undefined,undefined>{
   // todo add conditional typing : prop required => set required too
   // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten
   name:string
@@ -17,14 +22,6 @@ export class Container extends ComponentModel implements ComponentI{
   visibility: ResponsiveVisibilityConfigModel = new ResponsiveVisibilityConfigModel()
   setVisibility(visibility:ResponsiveVisibilityConfigModel){
     this.visibility = visibility
-    return this
-  }
-  layout: ResponsiveContainerChildLayoutConfigModel = new ResponsiveContainerChildLayoutConfigModel()
-  setLayout(screensize:ScreenSize,childLayout:ChildLayoutConfigModel){
-    switch (screensize){
-      case ScreenSize.smartphone:
-        this.layout.smartphone = childLayout
-    }
     return this
   }
   children: ComponentModel[]=[]
@@ -42,25 +39,30 @@ export class Container extends ComponentModel implements ComponentI{
     this.overflow = overflow
     return this
   }
-  layoutOverride: ResponsiveLayoutOverrideConfigModel = new ResponsiveLayoutOverrideConfigModel()
-  setLayoutOverride(lo:ResponsiveLayoutOverrideConfigModel){
-    this.layoutOverride=lo
-    return this
-  }
-  styling = undefined
-  setStyling=undefined
-  clientData: undefined = undefined
-  setClientData:undefined = undefined
-  dataRepresentation: undefined = undefined
-  setDataRepresentation:undefined = undefined
-  dataInput: undefined = undefined
-  setDataInput:undefined = undefined
-  contentInjection: undefined = undefined
-  setContentInjection:undefined = undefined
-  componentSpecificConfig: undefined = undefined
-  setComponentSpecificConfig:undefined=undefined
   constructor(name:string) {
     super()
     this.name = name
   }
+  clientData= undefined
+  setClientData=undefined
+  componentSpecificLayout = new ResponsiveContainerChildLayoutConfigModel()
+  setComponentSpecificLayout(csl: ResponsiveContainerChildLayoutConfigModel): ComponentModel {
+    this.componentSpecificLayout = csl
+    return this
+  }
+  contentInjection = undefined
+  dataInput = undefined
+  dataRepresentation = undefined;
+  individualLayout = new  ResponsiveIndividualLayoutConfigModel()
+  setIndividualLayout(il: ResponsiveIndividualLayoutConfigModel): ComponentModel {
+    this.individualLayout = il
+    return this
+  }
+  setContentInjection = undefined
+  setDataInput = undefined
+  setDataRepresentation = undefined
+  setStructural = undefined
+  setStyling = undefined
+  structural = undefined
+  styling = undefined
 }

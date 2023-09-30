@@ -1,8 +1,4 @@
-import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {Container} from "../components/container/Container";
-import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {
   ResponsiveStructuralButtonConfigModel
 } from "../design-dimensions/StructuralConfig/button/ResponsiveStructuralButtonConfigModel";
@@ -27,9 +23,6 @@ import {
 import {
   ResponsiveTableLayoutConfigModel
 } from "../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
-import {
-  ResponsiveIndividualLayoutConfigModel
-} from "../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
 import {
   DialogContentInjectionConfigModel
 } from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionConfigModel";
@@ -81,7 +74,6 @@ import {ImageStructuralConfigModel} from "../design-dimensions/StructuralConfig/
 import {MenubarStructuralConfigModel} from "../design-dimensions/StructuralConfig/menubar/MenubarStructuralConfigModel";
 import {TableStructuralConfigModel} from "../design-dimensions/StructuralConfig/table/TableStructuralConfigModel";
 import {ButtonStylingConfigModel} from "../design-dimensions/Styling/button/ButtonStylingConfigModel";
-import {IconStylingConfigModel} from "../design-dimensions/Styling/icon/IconStylingConfigModel";
 import {TableStylingConfigModel} from "../design-dimensions/Styling/table/TableStylingConfigModel";
 import {IndividualLayoutConfigModel} from "../design-dimensions/IndividualLayout/IndividualLayoutConfigModel";
 import {OverflowConfigModel} from "../design-dimensions/Overflow/OverflowConfigModel";
@@ -97,7 +89,6 @@ import {
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {TableStructuralRenderModel} from "../design-dimensions/StructuralConfig/table/TableStructuralRenderModel";
-import {IconStylingRenderModel} from "../design-dimensions/Styling/icon/IconStylingRenderModel";
 import {MenubarStructuralRenderModel} from "../design-dimensions/StructuralConfig/menubar/MenubarStructuralRenderModel";
 import {TableLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutRenderModel";
 import {
@@ -132,7 +123,6 @@ import {ResponsiveStylingTableConfigModel} from "../design-dimensions/Styling/ta
 import {
   ResponsiveStylingButtonConfigModel
 } from "../design-dimensions/Styling/button/ResponsiveStylingButtonConfigModel";
-import {ResponsiveStylingIconConfigModel} from "../design-dimensions/Styling/icon/ResponsiveStylingIconConfigModel";
 import {
   ResponsiveDataRepresentationTableConfigModel
 } from "../design-dimensions/DataRepresentation/Table/ResponsiveDataRepresentationTableConfigModel";
@@ -166,6 +156,10 @@ import {
 import {
   ResponsiveContentInjectionDialogConfigModel
 } from "../design-dimensions/ContentInjection/dialog/ResponsiveContentInjectionDialogConfigModel";
+import {
+  ResponsiveStructuralIconConfigModel
+} from "../design-dimensions/StructuralConfig/icon/ResponsiveStructuralIconConfigModel";
+import {IconStructuralConfigModel} from "../design-dimensions/StructuralConfig/icon/IconStructuralConfigModel";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -189,11 +183,11 @@ export type StructuralConfigModelType =
   ConfirmPopupStructuralConfigModel|
   DialogStructuralConfigModel|
   ImageStructuralConfigModel|
+  IconStructuralConfigModel|
   MenubarStructuralConfigModel|
   TableStructuralConfigModel|never
 export type StylingConfigModelType =
   ButtonStylingConfigModel|
-  IconStylingConfigModel|
   TableStylingConfigModel|never
 
 export type ConfigModelType =
@@ -209,56 +203,15 @@ export type ConfigModelType =
   SpacingConfigModel|
   VisibilityConfigModel|never
 
-export type ContentInjectionRenderModelType =
-  DialogContentInjectionRenderModel |
-  MenubarContentInjectionRenderModel|
-  TableContentInjectionRenderModel|never
-export type ComponentSpecificLayoutRenderModelType =
-  ChildLayoutRenderModel |
-  TableLayoutRenderModel | never
-export type DataInputRenderModelType =
-  NumberInputDataInputRenderModel|
-  TextInputDataInputRenderModel|
-  RadioButtonGroupDataInputRenderModel | never
-export type DataRepresentationRenderModelType =
-  MultiSelectDataRepresentationRenderModel|
-  NumberInputDataRepresentationRenderModel|
-  RadioButtonGroupDataRepresentationRenderModel|
-  TableDataRepresentationRenderModel|
-  TextInputDataRepresentationRenderModel|never
-export type StructuralRenderModelType =
-  ButtonStructuralRenderModel|
-  ConfirmPopupStructuralRenderModel|
-  DialogStructuralRenderModel|
-  ImageStructuralRenderModel|
-  MenubarStructuralRenderModel|
-  TableStructuralRenderModel|never
-export type StylingRenderModelType =
-  ButtonStylingRenderModel|
-  IconStylingRenderModel|
-  TableStylingRenderModel|never
-
-export type RenderModelType =
-  ContentInjectionRenderModelType|
-  ComponentSpecificLayoutRenderModelType|
-  DataInputRenderModelType|
-  DataRepresentationRenderModelType|
-  StructuralRenderModelType|
-  StylingRenderModelType|
-  IndividualLayoutRenderModel|
-  OverflowRenderModel|
-  SizeRenderModel|
-  SpacingRenderModel|
-  VisibilityRenderModel|never
-
 export type ResponsiveStylingConfigModelType =
-  ResponsiveStylingTableConfigModel|ResponsiveStylingButtonConfigModel|ResponsiveStylingIconConfigModel|never
+  ResponsiveStylingTableConfigModel|ResponsiveStylingButtonConfigModel|never
 export type ResponsiveStructuralConfigModelType =
   ResponsiveStructuralTableConfigModel|
   ResponsiveStructuralButtonConfigModel|
   ResponsiveStructuralConfirmPopupConfigModel|
   ResponsiveStructuralDialogConfigModel|
   ResponsiveStructuralMenubarConfigModel|
+  ResponsiveStructuralIconConfigModel|
   ResponsiveStructuralImageConfigModel|never
 export type ResponsiveDataRepresentationConfigModelType =
   ResponsiveDataRepresentationTableConfigModel|

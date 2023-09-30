@@ -4,6 +4,7 @@ import {NonCalculatedSizeConfigModel} from "./NonCalculatedSizeConfigModel";
 import {CalculatedSizeConfigModel} from "./CalculatedSizeConfigModel";
 import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
+import {IconStructuralConfigModel} from "../StructuralConfig/icon/IconStructuralConfigModel";
 
 export class SizeConfigModel {
   width:
