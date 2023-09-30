@@ -10,7 +10,8 @@ export class ResponsiveStructuralButtonConfigModel
   public laptop: ButtonStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet: ButtonStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public portraitTablet: ButtonStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  constructor(public smartphone: ButtonStructuralConfigModel) {
+  public smartphone: ButtonStructuralConfigModel = new ButtonStructuralConfigModel()
+  constructor() {
     super()
   }
   setSmartphone(smartphone:ButtonStructuralConfigModel){

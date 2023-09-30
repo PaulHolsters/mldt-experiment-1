@@ -10,8 +10,8 @@ import {ResponsiveDimensioningConfigModel} from "../../models/Size/ResponsiveSiz
 import {DimensioningConfigModel} from "../../models/Size/IconStylingConfigModel";
 import {HeightConfigModel} from "../../models/Size/HeightConfigModel";
 import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
-import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
-import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
+import {DimensionValueConfigType} from "../../enums/sizeValueConfigTypes.enum";
+import {DimensionUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
 import {AttributesConfigPropsModel} from "../../models/component-specific-config/AttributesConfigPropsModel";

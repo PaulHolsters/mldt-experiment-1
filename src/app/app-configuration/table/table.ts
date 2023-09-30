@@ -7,8 +7,8 @@ import {ResponsiveAttributesConfigModel} from "../../models/component-specific-c
 import {HeightValueConfigType} from "../../enums/HeightValueConfigTypes.enum";
 import {WidthConfigModel} from "../../models/Size/WidthConfigModel";
 import {FixedDimensioningConfigModel} from "../../models/Size/NonCalculatedSizeConfigModel";
-import {DimensionValueConfigType} from "../../enums/dimensionValueConfigTypes.enum";
-import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
+import {DimensionValueConfigType} from "../../enums/sizeValueConfigTypes.enum";
+import {DimensionUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 import {DynamicDimensionValueConfigType} from "../../enums/DynamicDimensionValueConfigTypes.enum";
 import {ResponsiveStylingConfigModel} from "../../models/Styling/ResponsiveStylingConfigModel";
 import {TableStylingType} from "../../enums/tableGridType.enum";

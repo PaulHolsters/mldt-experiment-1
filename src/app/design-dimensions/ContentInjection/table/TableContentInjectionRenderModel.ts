@@ -1,12 +1,12 @@
 import {ComponentModel} from "../../ComponentModel";
 import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
-import {TableColumnModel} from "../../component-specific-config/table/TableColumnModel";
+import {ExtraColumnModel} from "./ExtraColumnModel";
 
 export class TableContentInjectionRenderModel {
   public columnHeaderComponents: ComponentModel[]|ZeroValueType.NotConfigured|undefined=undefined
   public footer: ComponentModel|ZeroValueType.NotConfigured|undefined=undefined
   public caption: ComponentModel|ZeroValueType.NotConfigured|undefined=undefined
-  public extraColumns:TableColumnModel[]|ZeroValueType.NotConfigured|undefined=undefined
+  public extraColumns:ExtraColumnModel[]|ZeroValueType.NotConfigured|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

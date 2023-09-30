@@ -10,7 +10,8 @@ export class ResponsiveStylingButtonConfigModel
   public laptop: ButtonStylingConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public tablet: ButtonStylingConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
   public portraitTablet: ButtonStylingConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  constructor(public smartphone: ButtonStylingConfigModel) {
+  public smartphone: ButtonStylingConfigModel=new ButtonStylingConfigModel()
+  constructor() {
     super()
   }
   setSmartphone(smartphone:ButtonStylingConfigModel){

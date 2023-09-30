@@ -8,9 +8,6 @@ import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
 import {ButtonSizeRenderModel} from "./button/ButtonSizeRenderModel";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
-import {DesignDimensionType} from "../../enums/designDimensionType.enum";
-import {IconStructuralConfigModel} from "../StructuralConfig/icon/IconStructuralConfigModel";
-import {IconStructuralRenderModel} from "../StructuralConfig/icon/IconStructuralRenderModel";
 import {IconSizeConfigModel} from "./icon/IconSizeConfigModel";
 import {IconSizeRenderModel} from "./icon/IconSizeRenderModel";
 export class ResponsiveSizeConfigModel
@@ -43,9 +40,6 @@ export class ResponsiveSizeConfigModel
   }
   constructor(){
     super()
-  }
-  to(designDimension:DesignDimensionType){
-
   }
   public getSizeRenderProperties(screenSize: number): SizeRenderModel {
     const dimensionsConfig = this.getConfigModel(screenSize)
@@ -91,6 +85,6 @@ export class ResponsiveSizeConfigModel
     return compPropsObj
   }
   getInstance(){
-    return 'dimensions'
+    return 'size'
   }
 }

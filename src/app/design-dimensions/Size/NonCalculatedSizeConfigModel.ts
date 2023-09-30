@@ -1,8 +1,8 @@
-import {DimensionUnitConfigType} from "../../enums/dimensionUnitConfigTypes.enum";
+import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 
 export class NonCalculatedSizeConfigModel {
   constructor(public value: number,
-              public unit: DimensionUnitConfigType=DimensionUnitConfigType.PX,
+              public unit: SizeUnitConfigType=SizeUnitConfigType.PX,
   ) {}
 
 }
