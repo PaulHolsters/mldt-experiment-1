@@ -6,10 +6,10 @@ import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
 export class ResponsiveIndividualLayoutConfigModel extends ResponsiveConfigModel<IndividualLayoutConfigModel>
 implements ResponsiveConfigModelI<IndividualLayoutConfigModel>{
   public smartphone:IndividualLayoutConfigModel=new IndividualLayoutConfigModel()
-  public portraitTablet: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=new IndividualLayoutConfigModel()
+  public tablet:IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=new IndividualLayoutConfigModel()
+  public laptop: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=new IndividualLayoutConfigModel()
+  public highResolution: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=new IndividualLayoutConfigModel()
   setSmartphone(smartphone:IndividualLayoutConfigModel){
     this.smartphone = smartphone
     return this

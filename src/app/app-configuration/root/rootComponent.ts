@@ -65,7 +65,6 @@ const mainTable = new Table('main-table')
       new TableColumnModel('specifications','Product specificaties'),
       new TableColumnModel('options','Opties'),
     ])
-  mainTable.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage))
   mainTable.componentSpecificLayout.smartphone.setResponsiveTableLayout(ResponsiveTableLayoutType.Stacked)
 // main container
 const mainContainer: Container = new Container('content-container')
@@ -73,7 +72,7 @@ mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 
 mainContainer.componentSpecificLayout.smartphone
   .setLayout(new ColumnLayoutConfigModel().setWrap(false))
   .setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100))
+  .childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage))
   mainContainer.setChildren([
     mainTable
   ])
