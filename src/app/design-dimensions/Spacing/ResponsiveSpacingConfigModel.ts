@@ -1,35 +1,33 @@
 import {SpacingConfigModel} from "./SpacingConfigModel";
 import {SpacingRenderModel} from "./SpacingRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
-import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
-import {OverflowConfigModel} from "../Overflow/OverflowConfigModel";
+import {DeterminedByEngine} from "../../types/type-aliases";
 
 export class ResponsiveSpacingConfigModel extends ResponsiveConfigModel<SpacingConfigModel>
 implements ResponsiveConfigModelI<SpacingConfigModel>{
   public smartphone:SpacingConfigModel=new SpacingConfigModel()
-  public portraitTablet: SpacingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:SpacingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: SpacingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: SpacingConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: SpacingConfigModel|DeterminedByEngine=undefined
+  public tablet:SpacingConfigModel|DeterminedByEngine=undefined
+  public laptop: SpacingConfigModel|DeterminedByEngine=undefined
+  public highResolution: SpacingConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:SpacingConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: SpacingConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: SpacingConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: SpacingConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: SpacingConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: SpacingConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: SpacingConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: SpacingConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: SpacingConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

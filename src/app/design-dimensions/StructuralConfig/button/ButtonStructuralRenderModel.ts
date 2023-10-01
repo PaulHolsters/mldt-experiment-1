@@ -1,8 +1,8 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {IconConfigModel} from "./IconConfigModel";
+import {NotConfigured} from "../../../types/type-aliases";
 export class ButtonStructuralRenderModel {
-  public label:string|ZeroValueType.NotConfigured|undefined=undefined
-  public icon:IconConfigModel|ZeroValueType.NotConfigured|undefined=undefined
+  public label:string|NotConfigured=undefined
+  public icon:IconConfigModel|NotConfigured=undefined
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

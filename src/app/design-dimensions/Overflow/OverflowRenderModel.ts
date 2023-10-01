@@ -1,5 +1,3 @@
-import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
-
 export class OverflowRenderModel {
   public overflowAuto:boolean|undefined=undefined
   public overflowScroll:boolean|undefined=undefined

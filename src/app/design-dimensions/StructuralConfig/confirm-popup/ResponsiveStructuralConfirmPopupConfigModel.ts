@@ -2,14 +2,14 @@ import {ConfirmPopupStructuralRenderModel} from "./ConfirmPopupStructuralRenderM
 import {ConfirmPopupStructuralConfigModel} from "./ConfirmPopupStructuralConfigModel";
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveStructuralConfirmPopupConfigModel
   extends ResponsiveConfigModel<ConfirmPopupStructuralConfigModel>
   implements ResponsiveConfigModelI<ConfirmPopupStructuralConfigModel>{
-  public highResolution: ConfirmPopupStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public laptop:ConfirmPopupStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public tablet:ConfirmPopupStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public portraitTablet:ConfirmPopupStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public highResolution: ConfirmPopupStructuralConfigModel| DeterminedByEngine = undefined
+  public laptop:ConfirmPopupStructuralConfigModel  | DeterminedByEngine = undefined
+  public tablet:ConfirmPopupStructuralConfigModel  | DeterminedByEngine = undefined
+  public portraitTablet:ConfirmPopupStructuralConfigModel | DeterminedByEngine = undefined
   constructor(public smartphone: ConfirmPopupStructuralConfigModel) {
     super()
   }
@@ -17,19 +17,19 @@ export class ResponsiveStructuralConfirmPopupConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ConfirmPopupStructuralConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ConfirmPopupStructuralConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:ConfirmPopupStructuralConfigModel | ZeroValueType.DeterminedByEngine){
+  setTablet(tablet:ConfirmPopupStructuralConfigModel | DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ConfirmPopupStructuralConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: ConfirmPopupStructuralConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:ConfirmPopupStructuralConfigModel | ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution:ConfirmPopupStructuralConfigModel | DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

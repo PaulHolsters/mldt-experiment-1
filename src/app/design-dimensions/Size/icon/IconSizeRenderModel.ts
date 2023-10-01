@@ -1,13 +1,13 @@
 import {NonCalculatedSizeConfigModel} from "../NonCalculatedSizeConfigModel";
 import {CalculatedSizeConfigModel} from "../CalculatedSizeConfigModel";
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {NotConfigured} from "../../../types/type-aliases";
 
 export class IconSizeRenderModel {
   public size:
     NonCalculatedSizeConfigModel |
     CalculatedSizeConfigModel |
-    ParentConfigType.static|ZeroValueType.NotConfigured|undefined=undefined
+    ParentConfigType.static|NotConfigured|undefined=undefined
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {
