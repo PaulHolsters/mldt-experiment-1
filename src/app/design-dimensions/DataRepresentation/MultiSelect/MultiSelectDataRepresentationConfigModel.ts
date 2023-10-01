@@ -1,15 +1,16 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {DeterminedByEngine} from "../../../types/type-aliases";
+
 
 export class MultiSelectDataRepresentationConfigModel {
-  public optionLabel:string|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public defaultLabel:string|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public optionLabel:string|DeterminedByEngine=undefined
+  public defaultLabel:string|DeterminedByEngine=undefined
   constructor() {
   }
-  setOptionLabel(optionLabel:string|ZeroValueType.DeterminedByEngine) {
+  setOptionLabel(optionLabel:string|DeterminedByEngine) {
     this.optionLabel = optionLabel
     return this
   }
-  setDefaultLabel(defaultLabel:string|ZeroValueType.DeterminedByEngine) {
+  setDefaultLabel(defaultLabel:string|DeterminedByEngine) {
     this.defaultLabel = defaultLabel
     return this
   }

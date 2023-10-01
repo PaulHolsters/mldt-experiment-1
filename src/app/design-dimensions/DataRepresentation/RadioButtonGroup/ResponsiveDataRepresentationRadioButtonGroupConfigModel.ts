@@ -1,31 +1,31 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {RadioButtonGroupDataRepresentationConfigModel} from "./RadioButtonGroupDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {RadioButtonGroupDataRepresentationRenderModel} from "./RadioButtonGroupDataRepresentationRenderModel";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataRepresentationConfigModel>{
-  public portraitTablet: RadioButtonGroupDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:RadioButtonGroupDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: RadioButtonGroupDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: RadioButtonGroupDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: RadioButtonGroupDataRepresentationConfigModel|DeterminedByEngine=undefined
+  public tablet:RadioButtonGroupDataRepresentationConfigModel|DeterminedByEngine=undefined
+  public laptop: RadioButtonGroupDataRepresentationConfigModel|DeterminedByEngine=undefined
+  public highResolution: RadioButtonGroupDataRepresentationConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:RadioButtonGroupDataRepresentationConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: RadioButtonGroupDataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: RadioButtonGroupDataRepresentationConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: RadioButtonGroupDataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: RadioButtonGroupDataRepresentationConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: RadioButtonGroupDataRepresentationConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: RadioButtonGroupDataRepresentationConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: RadioButtonGroupDataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: RadioButtonGroupDataRepresentationConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

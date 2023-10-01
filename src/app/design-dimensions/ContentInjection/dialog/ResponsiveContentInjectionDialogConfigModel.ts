@@ -1,31 +1,31 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {DialogContentInjectionConfigModel} from "./DialogContentInjectionConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {DialogContentInjectionRenderModel} from "./DialogContentInjectionRenderModel";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveContentInjectionDialogConfigModel extends ResponsiveConfigModel<DialogContentInjectionConfigModel>
   implements ResponsiveConfigModelI<DialogContentInjectionConfigModel>{
-  public portraitTablet: DialogContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:DialogContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: DialogContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: DialogContentInjectionConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: DialogContentInjectionConfigModel|DeterminedByEngine=undefined
+  public tablet:DialogContentInjectionConfigModel|DeterminedByEngine=undefined
+  public laptop: DialogContentInjectionConfigModel|DeterminedByEngine=undefined
+  public highResolution: DialogContentInjectionConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:DialogContentInjectionConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: DialogContentInjectionConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: DialogContentInjectionConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: DialogContentInjectionConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: DialogContentInjectionConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: DialogContentInjectionConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: DialogContentInjectionConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: DialogContentInjectionConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: DialogContentInjectionConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

@@ -1,13 +1,13 @@
 import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
 import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {MarginType} from "../../enums/marginType.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
 import {DisplayType} from "../../enums/displayType.enum";
+import {NotConfigured} from "../../types/type-aliases";
 
 export class IndividualLayoutRenderModel {
-  public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|ZeroValueType.NotConfigured|undefined=undefined
-  public displayType:DisplayType|ZeroValueType.NotConfigured|undefined=undefined
+  public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|NotConfigured=undefined
+  public displayType:DisplayType|NotConfigured=undefined
   constructor() {
   }
   public setProperty(propName: string, value: VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType | MarginType|PaddingType|undefined): void {

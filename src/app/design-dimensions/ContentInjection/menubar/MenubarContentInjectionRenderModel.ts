@@ -1,10 +1,9 @@
-import {MenuItem} from "primeng/api";
 import {ComponentModel} from "../../ComponentModel";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {NotConfigured} from "../../../types/type-aliases";
 
 export class MenubarContentInjectionRenderModel {
-  public start: ComponentModel|ZeroValueType.NotConfigured|undefined=undefined
-  public end: ComponentModel|ZeroValueType.NotConfigured|undefined=undefined
+  public start: ComponentModel|NotConfigured=undefined
+  public end: ComponentModel|NotConfigured=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

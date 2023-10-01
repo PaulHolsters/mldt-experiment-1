@@ -1,13 +1,13 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {IconType} from "../../../enums/iconType.enum";
 import {IconPositionType} from "../../../enums/iconPositionType.enum";
 import {InputFontSizeType} from "../../../enums/inputFontSizeType.enum";
+import {NotConfigured} from "../../../types/type-aliases";
 export class TextInputDataRepresentationRenderModel {
-  public icon:IconType|ZeroValueType.NotConfigured|undefined=undefined
-  public iconPosition:IconPositionType|ZeroValueType.NotConfigured|undefined=undefined
+  public icon:IconType|NotConfigured=undefined
+  public iconPosition:IconPositionType|NotConfigured=undefined
   public inputFontSize:InputFontSizeType|undefined=undefined
   public floatLabel:boolean|undefined=undefined
-  public advisoryText:string|ZeroValueType.NotConfigured|undefined=undefined
+  public advisoryText:string|NotConfigured=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

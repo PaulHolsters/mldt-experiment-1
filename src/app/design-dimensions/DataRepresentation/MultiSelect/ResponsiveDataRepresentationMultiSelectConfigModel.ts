@@ -1,31 +1,31 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {MultiSelectDataRepresentationConfigModel} from "./MultiSelectDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {MultiSelectDataRepresentationRenderModel} from "./MultiSelectDataRepresentationRenderModel";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveDataRepresentationMultiSelectConfigModel extends ResponsiveConfigModel<MultiSelectDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<MultiSelectDataRepresentationConfigModel>{
-  public portraitTablet: MultiSelectDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:MultiSelectDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: MultiSelectDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: MultiSelectDataRepresentationConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
+  public tablet:MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
+  public laptop: MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
+  public highResolution: MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:MultiSelectDataRepresentationConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: MultiSelectDataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: MultiSelectDataRepresentationConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: MultiSelectDataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: MultiSelectDataRepresentationConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: MultiSelectDataRepresentationConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: MultiSelectDataRepresentationConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: MultiSelectDataRepresentationConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: MultiSelectDataRepresentationConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

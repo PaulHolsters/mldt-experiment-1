@@ -12,33 +12,33 @@ import {HorizontalColumnLayoutConfigType} from "../../../enums/HorizontalColumnL
 import {CalculatedSizeConfigModel} from "../../Size/CalculatedSizeConfigModel";
 import {NonCalculatedSizeConfigModel} from "../../Size/NonCalculatedSizeConfigModel";
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 
 export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ChildLayoutConfigModel>
 implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
   public smartphone:ChildLayoutConfigModel = new ChildLayoutConfigModel()
-  public portraitTablet: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: ChildLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: ChildLayoutConfigModel|DeterminedByEngine=undefined
+  public tablet:ChildLayoutConfigModel|DeterminedByEngine=undefined
+  public laptop: ChildLayoutConfigModel|DeterminedByEngine=undefined
+  public highResolution: ChildLayoutConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:ChildLayoutConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ChildLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ChildLayoutConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: ChildLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: ChildLayoutConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ChildLayoutConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: ChildLayoutConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: ChildLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: ChildLayoutConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

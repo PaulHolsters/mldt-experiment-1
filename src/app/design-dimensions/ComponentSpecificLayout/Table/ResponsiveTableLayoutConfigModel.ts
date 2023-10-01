@@ -2,33 +2,34 @@ import {ScreenSize} from "../../../enums/screenSizes.enum";
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {TableLayoutRenderModel} from "./TableLayoutRenderModel";
 import {TableLayoutConfigModel} from "./TableLayoutConfigModel";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 
 export class ResponsiveTableLayoutConfigModel extends ResponsiveConfigModel<TableLayoutConfigModel>
 implements ResponsiveConfigModelI<TableLayoutConfigModel>{
+  // todo los probleem op ivm het feit dat een nieuw scherm configureren een hele burden is nu
   public smartphone:TableLayoutConfigModel = new TableLayoutConfigModel()
-  public portraitTablet: TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: TableLayoutConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: TableLayoutConfigModel|DeterminedByEngine=undefined
+  public tablet:TableLayoutConfigModel|DeterminedByEngine=undefined
+  public laptop: TableLayoutConfigModel|DeterminedByEngine=undefined
+  public highResolution: TableLayoutConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:TableLayoutConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: TableLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: TableLayoutConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: TableLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: TableLayoutConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: TableLayoutConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: TableLayoutConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: TableLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: TableLayoutConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

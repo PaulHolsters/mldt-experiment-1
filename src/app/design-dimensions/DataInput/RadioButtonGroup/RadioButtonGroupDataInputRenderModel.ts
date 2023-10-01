@@ -1,7 +1,8 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {DeterminedByEngine, NotAllowed} from "../../../types/type-aliases";
+
 export class RadioButtonGroupDataInputRenderModel {
-  public radioValues:{label:string,value:string}[]|ZeroValueType.DeterminedByEngine|undefined=undefined
-  public disabled: boolean | ZeroValueType.NotAllowed|undefined=undefined
+  public radioValues:{label:string,value:string}[]|DeterminedByEngine=undefined
+  public disabled: boolean |NotAllowed=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

@@ -1,6 +1,5 @@
 
 import {ComponentModel} from "../../ComponentModel";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 
 export class DialogContentInjectionRenderModel {
   public content: ComponentModel|undefined=undefined

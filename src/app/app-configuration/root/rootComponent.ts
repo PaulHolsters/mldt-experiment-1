@@ -27,55 +27,60 @@ import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.e
 const col1SortIcon = new Icon('col1-sort-icon', IconType.Sort)
 const col1FilterIcon = new Icon('col1-filter-icon', IconType.Filter)
 const col1HeaderContainer = new Container('col1-container')
-  col1HeaderContainer.individualLayout.smartphone.setDisplayType(DisplayType.Inline)
-  col1HeaderContainer.componentSpecificLayout.smartphone.childConfig?.size.smartphone.setComponentSpecificSize(
-    new IconSizeConfigModel(
-      new NonCalculatedSizeConfigModel(1, SizeUnitConfigType.REM)))
-  col1HeaderContainer.setChildren([
-      col1SortIcon,
-      col1FilterIcon
-  ])
+col1HeaderContainer.individualLayout.smartphone.setDisplayType(DisplayType.Inline)
+col1HeaderContainer.componentSpecificLayout.smartphone.childConfig?.size.smartphone.setComponentSpecificSize(
+  new IconSizeConfigModel(
+    new NonCalculatedSizeConfigModel(1, SizeUnitConfigType.REM)))
+col1HeaderContainer.setChildren([
+  col1SortIcon,
+  col1FilterIcon
+])
 const col2Icon = new Icon('col2-icon', IconType.Sort)
-  col2Icon.size.smartphone.setComponentSpecificSize(new IconSizeConfigModel(
-    new NonCalculatedSizeConfigModel(2, SizeUnitConfigType.REM)))
+col2Icon.size.smartphone.setComponentSpecificSize(new IconSizeConfigModel(
+  new NonCalculatedSizeConfigModel(2, SizeUnitConfigType.REM)))
 const col3Icon = new Icon('col3-icon', IconType.Sort)
 const col4Icon = new Icon('col4-icon', IconType.Sort)
-  col4Icon.size.smartphone.setComponentSpecificSize(
-    new IconSizeConfigModel(
-      new NonCalculatedSizeConfigModel(2, SizeUnitConfigType.REM)))
+col4Icon.size.smartphone.setComponentSpecificSize(
+  new IconSizeConfigModel(
+    new NonCalculatedSizeConfigModel(2, SizeUnitConfigType.REM)))
 // in de laatste kolom komt een edit button zodat je een product kan updaten
 const actionBtn = new Button('edit-product-btn')
-  actionBtn.structural.smartphone.setLabel('Edit').setIcon(new IconConfigModel(IconType.Pencil))
+actionBtn.structural.smartphone.setLabel('Edit').setIcon(new IconConfigModel(IconType.Pencil))
 // de eigenlijke tabel met de producten
 const mainTable = new Table('main-table')
-  mainTable.styling.smartphone.setGridType(TableGridType.Row)
-  mainTable.setClientData(new ClientDataConfigModel('populate_table'))
-  mainTable.contentInjection.smartphone
-    .setColumnHeaderComponents([
-      col1HeaderContainer,
-      col2Icon,
-      col3Icon,
-      col4Icon])
-    .setExtraColumns([new ExtraColumnModel(actionBtn,new TableColumnModel('actions'))])
-  mainTable.structural.smartphone
-    .setTextWhenEmpty('Er bestaan nog geen producten')
-    .setColumns([
-      new TableColumnModel('price','Prijs'),
-      new TableColumnModel('name','Product'),
-      new TableColumnModel('specifications','Product specificaties'),
-      new TableColumnModel('options','Opties'),
-    ])
-  mainTable.componentSpecificLayout.smartphone.setResponsiveTableLayout(ResponsiveTableLayoutType.Stacked)
+mainTable.styling.smartphone.setGridType(TableGridType.Row)
+mainTable.setClientData(new ClientDataConfigModel('populate_table'))
+mainTable.contentInjection.smartphone
+  .setColumnHeaderComponents([
+    col1HeaderContainer,
+    col2Icon,
+    col3Icon,
+    col4Icon])
+  .setExtraColumns([new ExtraColumnModel(actionBtn, new TableColumnModel('actions'))])
+mainTable.structural.smartphone
+  .setTextWhenEmpty('Er bestaan nog geen producten')
+  .setColumns([
+    new TableColumnModel('price', 'Prijs'),
+    new TableColumnModel('name', 'Product'),
+    new TableColumnModel('specifications', 'Product specificaties'),
+    new TableColumnModel('options', 'Opties'),
+  ])
+mainTable.componentSpecificLayout.smartphone.setResponsiveTableLayout(ResponsiveTableLayoutType.Stacked)
 // main container
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
+// todo de oplossing is niet zo moeilijk maak allemaal zerovalue undefnied types aan
 mainContainer.componentSpecificLayout.smartphone
   .setLayout(new ColumnLayoutConfigModel().setWrap(false))
   .setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage))
-  mainContainer.setChildren([
-    mainTable
-  ])
+  .childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage))
+mainContainer.componentSpecificLayout.tablet ?
+  ( mainContainer.componentSpecificLayout.tablet.childConfig?.size.tablet ?
+    mainContainer.componentSpecificLayout.tablet.childConfig?.size.tablet.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage)) : undefined
+
+mainContainer.setChildren([
+  mainTable
+])
 // zo ziet elke nieuwe app er uit: een blok dat alles omvat
 // en effects die de user interactie en interacties met de server definiëren
 export const RootComponent = new AppConfig({

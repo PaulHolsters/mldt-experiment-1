@@ -1,18 +1,16 @@
 import {LocaleType} from "../../../enums/localeType.enum";
-import {CurrencyType} from "../../../enums/currencyType.enum";
-import {CurrencyDisplayType} from "../../../enums/currencyDisplayType.enum";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {CurrencyModel} from "./CurrencyModel";
+import {NotConfigured} from "../../../types/type-aliases";
 
 export class NumberInputDataRepresentationConfigModel {
   public useGrouping: boolean = true
   public locale: LocaleType = LocaleType.en_US
-  public currency:CurrencyModel|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
+  public currency:CurrencyModel|NotConfigured=undefined
   public minFractionDigits: number = 0
   public maxFractionDigits: number = 20
   public floatLabel:boolean=true
-  public suffix:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
-  public prefix:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured
+  public suffix:string|NotConfigured=undefined
+  public prefix:string|NotConfigured=undefined
 
   constructor() {
   }
@@ -40,11 +38,11 @@ export class NumberInputDataRepresentationConfigModel {
     this.floatLabel = floatLabel
     return this
   }
-  setPrefix(prefix:string|ZeroValueType.NotConfigured) {
+  setPrefix(prefix:string|NotConfigured) {
     this.prefix = prefix
     return this
   }
-  setSuffix(suffix:string|ZeroValueType.NotConfigured) {
+  setSuffix(suffix:string|NotConfigured) {
     this.suffix = suffix
     return this
   }

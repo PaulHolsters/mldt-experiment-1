@@ -1,31 +1,31 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {RadioButtonGroupDataInputConfigModel} from "./RadioButtonGroupDataInputConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {RadioButtonGroupDataInputRenderModel} from "./RadioButtonGroupDataInputRenderModel";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveDataInputRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataInputConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataInputConfigModel>{
-  public portraitTablet: RadioButtonGroupDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:RadioButtonGroupDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: RadioButtonGroupDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: RadioButtonGroupDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
+  public tablet:RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
+  public laptop: RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
+  public highResolution: RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:RadioButtonGroupDataInputConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: RadioButtonGroupDataInputConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: RadioButtonGroupDataInputConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: RadioButtonGroupDataInputConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: RadioButtonGroupDataInputConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: RadioButtonGroupDataInputConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: RadioButtonGroupDataInputConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: RadioButtonGroupDataInputConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: RadioButtonGroupDataInputConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

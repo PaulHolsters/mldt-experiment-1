@@ -1,31 +1,31 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {TextInputDataInputConfigModel} from "./TextInputDataInputConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {TextInputDataInputRenderModel} from "./TextInputDataInputRenderModel";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveDataInputTextInputConfigModel extends ResponsiveConfigModel<TextInputDataInputConfigModel>
   implements ResponsiveConfigModelI<TextInputDataInputConfigModel>{
-  public portraitTablet: TextInputDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public tablet:TextInputDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public laptop: TextInputDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public highResolution: TextInputDataInputConfigModel|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public portraitTablet: TextInputDataInputConfigModel|DeterminedByEngine=undefined
+  public tablet:TextInputDataInputConfigModel|DeterminedByEngine=undefined
+  public laptop: TextInputDataInputConfigModel|DeterminedByEngine=undefined
+  public highResolution: TextInputDataInputConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:TextInputDataInputConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: TextInputDataInputConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: TextInputDataInputConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: TextInputDataInputConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: TextInputDataInputConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: TextInputDataInputConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: TextInputDataInputConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: TextInputDataInputConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: TextInputDataInputConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

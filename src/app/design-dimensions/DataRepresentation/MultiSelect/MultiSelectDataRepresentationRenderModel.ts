@@ -1,7 +1,8 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {DeterminedByEngine} from "../../../types/type-aliases";
+
 export class MultiSelectDataRepresentationRenderModel {
-  public optionLabel:string|ZeroValueType.DeterminedByEngine|undefined=undefined
-  public defaultLabel:string|ZeroValueType.DeterminedByEngine|undefined=undefined
+  public optionLabel:string|DeterminedByEngine=undefined
+  public defaultLabel:string|DeterminedByEngine=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

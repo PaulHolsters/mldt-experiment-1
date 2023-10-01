@@ -1,32 +1,32 @@
 import {IndividualLayoutConfigModel} from "./IndividualLayoutConfigModel";
 import {IndividualLayoutRenderModel} from "./IndividualLayoutRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
+import {DeterminedByEngine} from "../../types/type-aliases";
 export class ResponsiveIndividualLayoutConfigModel extends ResponsiveConfigModel<IndividualLayoutConfigModel>
 implements ResponsiveConfigModelI<IndividualLayoutConfigModel>{
   public smartphone:IndividualLayoutConfigModel=new IndividualLayoutConfigModel()
-  public portraitTablet: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=new IndividualLayoutConfigModel()
-  public tablet:IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=new IndividualLayoutConfigModel()
-  public laptop: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=new IndividualLayoutConfigModel()
-  public highResolution: IndividualLayoutConfigModel|ZeroValueType.DeterminedByEngine=new IndividualLayoutConfigModel()
+  public portraitTablet: IndividualLayoutConfigModel|DeterminedByEngine=undefined
+  public tablet:IndividualLayoutConfigModel|DeterminedByEngine=undefined
+  public laptop: IndividualLayoutConfigModel|DeterminedByEngine=undefined
+  public highResolution: IndividualLayoutConfigModel|DeterminedByEngine=undefined
   setSmartphone(smartphone:IndividualLayoutConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: IndividualLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: IndividualLayoutConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: IndividualLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: IndividualLayoutConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: IndividualLayoutConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: IndividualLayoutConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: IndividualLayoutConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: IndividualLayoutConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

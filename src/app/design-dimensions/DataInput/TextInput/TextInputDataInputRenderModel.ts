@@ -1,8 +1,8 @@
 import {RestrictionType} from "../../../enums/restrictionType.enum";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {NotAllowed} from "../../../types/type-aliases";
 export class TextInputDataInputRenderModel {
   public restrictions:RestrictionType[]|RegExp|undefined=undefined
-  public disabled: boolean | ZeroValueType.NotAllowed|undefined=undefined
+  public disabled: boolean | NotAllowed=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

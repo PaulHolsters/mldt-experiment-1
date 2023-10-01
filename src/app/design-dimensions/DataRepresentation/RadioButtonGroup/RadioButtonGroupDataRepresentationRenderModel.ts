@@ -1,7 +1,7 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {FunctionType} from "../../../enums/functionTypes.enum";
+import {NotConfigured} from "../../../types/type-aliases";
 export class RadioButtonGroupDataRepresentationRenderModel {
-  public pipe:FunctionType[]|ZeroValueType.NotConfigured|undefined=undefined
+  public pipe:FunctionType[]|NotConfigured=undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

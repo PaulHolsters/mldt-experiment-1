@@ -1,7 +1,7 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ComponentModel} from "../../ComponentModel";
 import {TableColumnModel} from "../../StructuralConfig/table/TableColumnModel";
+import {NotConfigured} from "../../../types/type-aliases";
 export class ExtraColumnModel {
-    constructor(public component:ComponentModel,public config:TableColumnModel|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured) {
+    constructor(public component:ComponentModel,public config:TableColumnModel|NotConfigured=undefined) {
     }
 }

@@ -1,8 +1,8 @@
 import {ComponentModel} from "../../ComponentModel";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {NotConfigured} from "../../../types/type-aliases";
 
 export class MenubarContentInjectionConfigModel {
-  constructor( public start: ComponentModel|ZeroValueType.NotConfigured,
-               public end: ComponentModel|ZeroValueType.NotConfigured) {
+  constructor( public start: ComponentModel|NotConfigured,
+               public end: ComponentModel|NotConfigured) {
   }
 }

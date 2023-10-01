@@ -11,4 +11,6 @@ export type ObjectIdType = string
 export type ConditionType = string
 
 export type NotConfigured =  undefined
+export type DeterminedByEngine = undefined
+export type NotAllowed = undefined
 

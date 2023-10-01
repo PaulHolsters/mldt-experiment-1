@@ -1,20 +1,20 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {DeterminedByEngine, NotConfigured} from "../../../types/type-aliases";
 
 export class TableDataRepresentationConfigModel {
-  public columnName:string|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
-  public sort:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function = ZeroValueType.DeterminedByEngine
-  public filter:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function = ZeroValueType.NotConfigured
+  public columnName:string|DeterminedByEngine=undefined
+  public sort:DeterminedByEngine|NotConfigured|Function = undefined
+  public filter:DeterminedByEngine|NotConfigured|Function = undefined
   constructor() {
   }
-  setColumnName(columnName:string|ZeroValueType.DeterminedByEngine) {
+  setColumnName(columnName:string|DeterminedByEngine) {
     this.columnName = columnName
     return this
   }
-  setSort(sort:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function) {
+  setSort(sort:DeterminedByEngine|NotConfigured|Function) {
     this.sort = sort
     return this
   }
-  setFilter(filter:ZeroValueType.DeterminedByEngine|ZeroValueType.NotConfigured|Function) {
+  setFilter(filter:DeterminedByEngine|NotConfigured|Function) {
     this.filter = filter
     return this
   }
