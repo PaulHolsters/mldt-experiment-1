@@ -13,15 +13,21 @@ import {CalculatedSizeConfigModel} from "../../Size/CalculatedSizeConfigModel";
 import {NonCalculatedSizeConfigModel} from "../../Size/NonCalculatedSizeConfigModel";
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {DeterminedByEngine, NotConfigured} from "../../../types/type-aliases";
+import {ChildPropertiesConfigModel} from "./ChildPropertiesConfigModel";
 
 export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ChildLayoutConfigModel>
 implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
   public smartphone:ChildLayoutConfigModel = new ChildLayoutConfigModel()
-  public portraitTablet: ChildLayoutConfigModel|DeterminedByEngine=undefined
-  public tablet:ChildLayoutConfigModel|DeterminedByEngine=undefined
-  public laptop: ChildLayoutConfigModel|DeterminedByEngine=undefined
-  public highResolution: ChildLayoutConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: ChildLayoutConfigModel|DeterminedByEngine
+  public tablet:ChildLayoutConfigModel|DeterminedByEngine
+  public laptop: ChildLayoutConfigModel|DeterminedByEngine
+  public highResolution: ChildLayoutConfigModel|DeterminedByEngine
+  public childConfig:ChildPropertiesConfigModel|NotConfigured
+  setChildConfig(config:ChildPropertiesConfigModel){
+    this.childConfig = config
+    return this
+  }
   setSmartphone(smartphone:ChildLayoutConfigModel){
     this.smartphone = smartphone
     return this
@@ -109,9 +115,9 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
       parentPropsObj.alignItemsBaseline = childLayoutConfig.layout.horizontalLayoutOfChildren === HorizontalColumnLayoutConfigType.Baseline
       parentPropsObj.alignItemsStretch = childLayoutConfig.layout.horizontalLayoutOfChildren === HorizontalColumnLayoutConfigType.Stretch
     }
-    if(childLayoutConfig.childConfig){
-      if(childLayoutConfig.childConfig.visibility){
-        const visibilityRenderModel = childLayoutConfig.childConfig.visibility.getVisibilityRenderProperties(screenSize)
+    if(this.childConfig){
+      if(this.childConfig.visibility){
+        const visibilityRenderModel = this.childConfig.visibility.getVisibilityRenderProperties(screenSize)
         childPropsObj.holdSpace = visibilityRenderModel.holdSpace
         childPropsObj.visible = visibilityRenderModel.visible
       }

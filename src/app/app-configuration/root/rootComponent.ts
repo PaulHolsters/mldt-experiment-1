@@ -28,7 +28,8 @@ const col1SortIcon = new Icon('col1-sort-icon', IconType.Sort)
 const col1FilterIcon = new Icon('col1-filter-icon', IconType.Filter)
 const col1HeaderContainer = new Container('col1-container')
 col1HeaderContainer.individualLayout.smartphone.setDisplayType(DisplayType.Inline)
-col1HeaderContainer.componentSpecificLayout.smartphone.childConfig?.size.smartphone.setComponentSpecificSize(
+col1HeaderContainer.componentSpecificLayout.setChildConfig(new ChildPropertiesConfigModel())
+  .childConfig?.size.smartphone.setComponentSpecificSize(
   new IconSizeConfigModel(
     new NonCalculatedSizeConfigModel(1, SizeUnitConfigType.REM)))
 col1HeaderContainer.setChildren([
@@ -69,15 +70,11 @@ mainTable.componentSpecificLayout.smartphone.setResponsiveTableLayout(Responsive
 // main container
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
-// todo de oplossing is niet zo moeilijk maak allemaal zerovalue undefnied types aan
-mainContainer.componentSpecificLayout.smartphone
-  .setLayout(new ColumnLayoutConfigModel().setWrap(false))
+mainContainer.componentSpecificLayout.smartphone.setLayout(new ColumnLayoutConfigModel().setWrap(false))
+mainContainer.componentSpecificLayout
   .setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig?.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage))
-mainContainer.componentSpecificLayout.tablet ?
-  ( mainContainer.componentSpecificLayout.tablet.childConfig?.size.tablet ?
-    mainContainer.componentSpecificLayout.tablet.childConfig?.size.tablet.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage)) : undefined
-
+  .childConfig?.size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage))
+mainContainer.componentSpecificLayout.childConfig?.size?.tablet?.setWidth(new NonCalculatedSizeConfigModel(50, SizeUnitConfigType.Percentage))
 mainContainer.setChildren([
   mainTable
 ])
