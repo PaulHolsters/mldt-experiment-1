@@ -5,14 +5,13 @@ import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/Responsive
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ClientDataConfigModel} from "../../design-dimensions/ClientData/ClientDataConfigModel";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
+
 import {
   TableDataRepresentationConfigModel
 } from "../../design-dimensions/DataRepresentation/Table/TableDataRepresentationConfigModel";
 import {
   TableContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
-import {TableStructuralConfigModel} from "../../design-dimensions/StructuralConfig/table/TableStructuralConfigModel";
 import {
   ResponsiveStructuralTableConfigModel
 } from "../../design-dimensions/StructuralConfig/table/ResponsiveStructuralTableConfigModel";
@@ -32,6 +31,7 @@ import {
 import {
   ResponsiveTableLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
+import {NoValueYet} from "../../types/type-aliases";
 export class Table extends ComponentModel implements ComponentI<
   ResponsiveContentInjectionTableConfigModel,
   ResponsiveStructuralTableConfigModel,
@@ -65,8 +65,8 @@ export class Table extends ComponentModel implements ComponentI<
     this.individualLayout=il
     return this
   }
-  clientData: ClientDataConfigModel|ZeroValueType.NoValueYet=ZeroValueType.NoValueYet
-  setClientData(cd:ClientDataConfigModel|ZeroValueType.NoValueYet){
+  clientData: ClientDataConfigModel|NoValueYet=undefined
+  setClientData(cd:ClientDataConfigModel|NoValueYet){
     this.clientData=cd
     return this
   }

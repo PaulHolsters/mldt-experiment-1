@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ComponentModel} from "../../models/ComponentModel";
 import {RenderPropertiesService} from "../../services/renderProperties.service";
 import {Effect} from "../../effectclasses/Effect";
+import {ComponentModel} from "../../design-dimensions/ComponentModel";
 
 @Component({
   selector: 'm-app-template',

@@ -6,6 +6,7 @@ import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Component as AbstractComponent} from "../Component"
 import {NoValueType} from "../../enums/no_value_type";
+import {TableColumnModel} from "../../design-dimensions/StructuralConfig/table/TableColumnModel";
 
 @Component({
   selector: 'm-table',
@@ -51,15 +52,15 @@ x:{key:string,value:number}
     })
     this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
   }
-  filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
+/*  filterByColumn(event:MouseEvent,column:{field:string,header:string,sort:boolean,filter:boolean}){
     const field = this.getPropValue(PropertyName.attributes)?.find((attr:AttributeComponentModel) => attr.name === column.field)
-    /*this.xP ? this.xP.value = event.clientX : undefined
-    this.yP ? this.yP.value = event.clientY : undefined*/
+    /!*this.xP ? this.xP.value = event.clientX : undefined
+    this.yP ? this.yP.value = event.clientY : undefined*!/
     if(field && field.tableColumn?.filter){
       this.setPropValue(PropertyName.currentColumn,column)
       this.eventsService.triggerEvent(TriggerType.ComponentClicked,this.name)
     }
-  }
+  }*/
   onRowSelect(event:any){
     // je kan altijd je custom event maken en het orginele includen
     this.eventsService.triggerEvent(TriggerType.RowSelected,this.name, this.selectedItem)
@@ -96,28 +97,18 @@ x:{key:string,value:number}
     }*/
   }
   getColumns():TableColumnModel[]{
-    let columns
-    let extraColumns
-    if(this.getPropValue(PropertyName.extraColumns)){
-      extraColumns = this.getPropValue(PropertyName.extraColumns)?.map((tcm:TableColumnModel)=>{
-        if(!this.cstmSort && tcm.sort && tcm.customSort){
-          this.cstmSort = true
-        }
-        return tcm
-      })
-    }
-    if(this.getPropValue(PropertyName.columns) && this.getPropValue(PropertyName.columns)!==NoValueType.NA){
-      columns = this.getPropValue(PropertyName.columns)
-    }else if(this.getPropValue(PropertyName.conceptBlueprint)
+    let columns = this.getPropValue(PropertyName.columns)
+    let extraColumns= this.getPropValue(PropertyName.extraColumns)
+    if(this.getPropValue(PropertyName.conceptBlueprint)
       && this.getPropValue(PropertyName.conceptBlueprint).properties?.properties){
       columns =
         Array.from((this.getPropValue(PropertyName.conceptBlueprint).properties.properties as Map<string,any>).keys()).map(k=>{
-        return {field:k,header:k,sort:false,filter:false,customSort:false,anchor:NoValueType.NA}
+        return {field:k,header:k}
       })
     }
     if(columns){
       if(extraColumns && extraColumns.length>0){
-        return  columns.concat(extraColumns)
+        return columns.concat(extraColumns)
       }
       return columns
     }

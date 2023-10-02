@@ -13,7 +13,6 @@ import {
 import {
   ResponsiveStylingButtonConfigModel
 } from "../../design-dimensions/Styling/button/ResponsiveStylingButtonConfigModel";
-import {IconConfigModel} from "../../design-dimensions/StructuralConfig/button/IconConfigModel";
 export class Button extends ComponentModel implements ComponentI<
   undefined,
   ResponsiveStructuralButtonConfigModel,

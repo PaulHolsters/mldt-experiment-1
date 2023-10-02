@@ -1,32 +1,32 @@
 import {VisibilityConfigModel} from "./VisibilityConfigModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {VisibilityRenderModel} from "./VisibilityRenderModel";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
+import {DeterminedByEngine} from "../../types/type-aliases";
 export class ResponsiveVisibilityConfigModel extends ResponsiveConfigModel<VisibilityConfigModel>
 implements ResponsiveConfigModelI<VisibilityConfigModel>{
-  public highResolution: VisibilityConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
-  public laptop: VisibilityConfigModel | ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
-  public portraitTablet: VisibilityConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
-  public tablet: VisibilityConfigModel| ZeroValueType.DeterminedByEngine =ZeroValueType.DeterminedByEngine
+  public highResolution: VisibilityConfigModel| DeterminedByEngine =undefined
+  public laptop: VisibilityConfigModel | DeterminedByEngine =undefined
+  public portraitTablet: VisibilityConfigModel| DeterminedByEngine =undefined
+  public tablet: VisibilityConfigModel| DeterminedByEngine =undefined
   public smartphone:VisibilityConfigModel = new VisibilityConfigModel()
   setSmartphone(smartphone:VisibilityConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: VisibilityConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: VisibilityConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: VisibilityConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: VisibilityConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: VisibilityConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: VisibilityConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: VisibilityConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: VisibilityConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

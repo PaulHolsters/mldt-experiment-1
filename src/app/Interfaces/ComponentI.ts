@@ -4,7 +4,6 @@ import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/R
 import {ClientDataConfigModel} from "../design-dimensions/ClientData/ClientDataConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
-import {ZeroValueType} from "../enums/zeroValueTypes.enum";
 import {
   ResponsiveIndividualLayoutConfigModel
 } from "../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
@@ -15,6 +14,7 @@ import {
   ResponsiveDataRepresentationConfigModelType, ResponsiveStructuralConfigModelType,
   ResponsiveStylingConfigModelType
 } from "../types/union-types";
+import {NotAllowed, NoValueYet} from "../types/type-aliases";
 
 export interface ComponentI<
   ContentInjection extends ResponsiveContentInjectionConfigModelType|undefined,
@@ -37,8 +37,8 @@ export interface ComponentI<
   setIndividualLayout: (il: ResponsiveIndividualLayoutConfigModel) => ComponentModel
   styling:  Styling
   setStyling: Styling extends undefined ? Styling: ((contentInjection: Styling) => ComponentModel)
-  clientData: ClientDataConfigModel|ZeroValueType.NoValueYet | undefined
-  setClientData: ((clientData: ClientDataConfigModel|ZeroValueType.NoValueYet) => ComponentModel)|undefined
+  clientData: ClientDataConfigModel|NoValueYet | NotAllowed
+  setClientData: ((clientData: ClientDataConfigModel|NoValueYet) => ComponentModel)|undefined
   dataRepresentation: DataRepresentation
   setDataRepresentation: DataRepresentation extends undefined ? DataRepresentation: ((contentInjection: DataRepresentation) => ComponentModel)
   dataInput: DataInput

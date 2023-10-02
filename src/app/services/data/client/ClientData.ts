@@ -1,8 +1,7 @@
 import {ActionIdType, ComponentNameType} from "../../../types/type-aliases";
 import {Blueprint} from "./Blueprint";
-import {DataRecordModel} from "../../../models/DataRecordModel";
 import {NoValueType} from "../../../enums/no_value_type";
-import {AttributeComponentModel} from "../../../models/DataRepresentation/AttributeComponentModel";
+import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 
 export class ClientData {
   public constructor(public readonly id:ActionIdType,public readonly name:ComponentNameType, private _blueprint:Blueprint,

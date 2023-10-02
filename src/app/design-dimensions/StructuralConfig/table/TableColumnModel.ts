@@ -1,5 +1,6 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {NotConfigured} from "../../../types/type-aliases";
+
 export class TableColumnModel {
-    constructor(public field:string,public header:string|ZeroValueType.NotConfigured=ZeroValueType.NotConfigured) {
+    constructor(public field:string,public header:string|NotConfigured=undefined) {
     }
 }

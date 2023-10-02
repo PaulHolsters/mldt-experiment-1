@@ -1,10 +1,10 @@
 import {MutationType} from "../../../../enums/mutationTypes.enum";
-import {DataRecordModel} from "../../../../models/DataRecordModel";
 import utilFunctions from "../../../../utils/utilFunctions";
 import {ObjectIdType} from "../../../../types/type-aliases";
 import {NoValueType} from "../../../../enums/no_value_type";
 import {ConfigService} from "../../../config.service";
 import {ClientData} from "../../client/ClientData";
+import {DataRecordModel} from "../../../../design-dimensions/DataRecordModel";
 
 export class Mutation {
   public constructor(

@@ -13,7 +13,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
-import {ConfirmationModel} from "../design-dimensions/component-specific-config/confirm-popup/ConfirmationModel";
+import {ConfirmationModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmationModel";
 
 @Injectable({
   providedIn: 'root'

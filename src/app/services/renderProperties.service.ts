@@ -10,11 +10,10 @@ import {ActionIdType} from "../types/type-aliases";
 import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubject";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
-import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
-import {StructuralRenderModel} from "../design-dimensions/component-specific-config/StructuralRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
-import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
 import {CalculationModel} from "../design-dimensions/CalculationModel";
+import {IndividualLayoutConfigModel} from "../design-dimensions/IndividualLayout/IndividualLayoutConfigModel";
+import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +67,7 @@ export class RenderPropertiesService implements OnInit {
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
-      LayoutOverrideRenderModel |
+      IndividualLayoutRenderModel |
       StructuralRenderModel |
       VisibilityRenderModel |
       OverflowRenderModel |

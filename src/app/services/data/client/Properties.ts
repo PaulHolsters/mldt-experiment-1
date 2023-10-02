@@ -1,6 +1,6 @@
-import {DataRecordModel} from "../../../models/DataRecordModel";
 import {NoValueType} from "../../../enums/no_value_type";
 import {Blueprint} from "./Blueprint";
+import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 export class Properties {
   public readonly properties:Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueType.NVY]|string[]]|string>
   public constructor(public propertiesStr:string ) {

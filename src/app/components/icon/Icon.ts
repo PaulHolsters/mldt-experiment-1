@@ -5,7 +5,6 @@ import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/Responsive
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ClientDataConfigModel} from "../../design-dimensions/ClientData/ClientDataConfigModel";
-import {ZeroValueType} from "../../enums/zeroValueTypes.enum";
 import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
@@ -14,6 +13,7 @@ import {
 } from "../../design-dimensions/StructuralConfig/icon/ResponsiveStructuralIconConfigModel";
 import {IconType} from "../../enums/iconType.enum";
 import {IconStructuralConfigModel} from "../../design-dimensions/StructuralConfig/icon/IconStructuralConfigModel";
+import {NoValueYet} from "../../types/type-aliases";
 export class Icon extends ComponentModel implements ComponentI<
   undefined,
   ResponsiveStructuralIconConfigModel,
@@ -47,8 +47,8 @@ export class Icon extends ComponentModel implements ComponentI<
     this.individualLayout=il
     return this
   }
-  clientData: ClientDataConfigModel|ZeroValueType.NoValueYet=ZeroValueType.NoValueYet
-  setClientData(cd:ClientDataConfigModel|ZeroValueType.NoValueYet){
+  clientData: ClientDataConfigModel|NoValueYet=undefined
+  setClientData(cd:ClientDataConfigModel|NoValueYet){
     this.clientData=cd
     return this
   }

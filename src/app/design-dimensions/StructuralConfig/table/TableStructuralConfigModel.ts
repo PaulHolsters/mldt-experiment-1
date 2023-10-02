@@ -1,9 +1,9 @@
 import {TableColumnModel} from "./TableColumnModel";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
+import {DeterminedByEngine, NotConfigured} from "../../../types/type-aliases";
 export class TableStructuralConfigModel {
-  public textWhenEmpty:string|ZeroValueType.NotConfigured='No records found'
+  public textWhenEmpty:string|NotConfigured='No records found'
   public paginator:boolean=true
-  public columns:TableColumnModel[]|ZeroValueType.DeterminedByEngine=ZeroValueType.DeterminedByEngine
+  public columns:TableColumnModel[]|DeterminedByEngine=undefined
   public rows:number=10
   public rowsPerPage:number[]=[10,25,50]
   public currentPageReportTemplate:string= '{first} - {last} of {totalRecords}'
@@ -14,7 +14,7 @@ export class TableStructuralConfigModel {
   public totalRecords:number=0
   constructor() {
   }
-  setTextWhenEmpty(textWhenEmpty:string|ZeroValueType.NotConfigured):TableStructuralConfigModel{
+  setTextWhenEmpty(textWhenEmpty:string|NotConfigured):TableStructuralConfigModel{
     this.textWhenEmpty = textWhenEmpty
     return this
   }
@@ -22,7 +22,7 @@ export class TableStructuralConfigModel {
     this.paginator = paginator
     return this
   }
-  setColumns(columns:TableColumnModel[]|ZeroValueType.DeterminedByEngine):TableStructuralConfigModel{
+  setColumns(columns:TableColumnModel[]|DeterminedByEngine):TableStructuralConfigModel{
     this.columns = columns
     return this
   }

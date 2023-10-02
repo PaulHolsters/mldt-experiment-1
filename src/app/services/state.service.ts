@@ -11,7 +11,6 @@ import {TextInput} from "../componentclasses/TextInput";
 import {FormControl} from "../componentclasses/FormControl";
 import {Icon} from "../componentclasses/Icon";
 import {Paginator} from "../componentclasses/Paginator";
-import {TableFooter} from "../componentclasses/TableFooter";
 import {ConfirmPopup} from "../componentclasses/ConfirmPopup";
 @Injectable({
   providedIn: 'root'

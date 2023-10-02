@@ -8,18 +8,13 @@ import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
-import {ComponentDimensionValueConfigType} from "../enums/componentDimensionValueConfigTypes.enum";
 import {ComponentModelType} from "../types/union-types";
 import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
-import {ChildLayoutRenderModel} from "../design-dimensions/Layout/Container/ChildLayoutRenderModel";
-import {ContentInjectionRenderModel} from "../design-dimensions/ContentInjection/ContentInjectionRenderModel";
-import {LayoutOverrideRenderModel} from "../design-dimensions/LayoutOverride/LayoutOverrideRenderModel";
-import {StructuralRenderModel} from "../design-dimensions/component-specific-config/StructuralRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
-import {StylingRenderModel} from "../design-dimensions/Styling/StylingRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
-import {DataRepresentationRenderModel} from "../design-dimensions/DataRepresentation/DataRepresentationRenderModel";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
+import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
+import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -55,7 +50,7 @@ export class ResponsiveBehaviourService implements OnInit{
     })
   }
   public setRBSState(componentName: string,
-                     newState: (LayoutOverrideRenderModel |
+                     newState: (IndividualLayoutRenderModel |
                        StructuralRenderModel |
                        VisibilityRenderModel) |
                        StylingRenderModel |

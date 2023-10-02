@@ -1,15 +1,15 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ButtonStylingConfigModel} from "./ButtonStylingConfigModel";
 import {ButtonStylingRenderModel} from "./ButtonStylingRenderModel";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveStylingButtonConfigModel
   extends ResponsiveConfigModel<ButtonStylingConfigModel>
   implements ResponsiveConfigModelI<ButtonStylingConfigModel>{
-  public highResolution: ButtonStylingConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public laptop: ButtonStylingConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public tablet: ButtonStylingConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public portraitTablet: ButtonStylingConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public highResolution: ButtonStylingConfigModel| DeterminedByEngine = undefined
+  public laptop: ButtonStylingConfigModel | DeterminedByEngine = undefined
+  public tablet: ButtonStylingConfigModel | DeterminedByEngine = undefined
+  public portraitTablet: ButtonStylingConfigModel| DeterminedByEngine = undefined
   public smartphone: ButtonStylingConfigModel=new ButtonStylingConfigModel()
   constructor() {
     super()
@@ -18,19 +18,19 @@ export class ResponsiveStylingButtonConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ButtonStylingConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ButtonStylingConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: ButtonStylingConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: ButtonStylingConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ButtonStylingConfigModel| ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: ButtonStylingConfigModel| DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: ButtonStylingConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: ButtonStylingConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

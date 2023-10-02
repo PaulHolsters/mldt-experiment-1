@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import { Observable, Subject} from "rxjs";
-import {ActionSubjectModel} from "../models/ActionSubject";
 import {ConfigService} from "./config.service";
 import {Effect} from "../effectclasses/Effect";
 import {Action} from "../effectclasses/Action";
+import {ActionSubjectModel} from "../design-dimensions/ActionSubject";
 
 @Injectable({
   providedIn: 'root'

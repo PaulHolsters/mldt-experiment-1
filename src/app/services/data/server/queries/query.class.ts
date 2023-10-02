@@ -1,10 +1,10 @@
 import utilFunctions from "../../../../utils/utilFunctions";
 import {QueryType} from "../../../../enums/queryTypes";
 import {AttributeNameType, ConceptNameType, ObjectIdType} from "../../../../types/type-aliases";
-import {FilterModel} from "../../../../models/FilterModel";
 import {NoValueType} from "../../../../enums/no_value_type";
 import {Blueprint} from "../../client/Blueprint";
 import {Properties} from "../../client/Properties";
+import {FilterModel} from "../../../../design-dimensions/FilterModel";
 
 export class Query {
   public constructor(

@@ -1,7 +1,7 @@
-import {ComponentModel} from "../models/ComponentModel";
-import {ComponentObjectModel} from "../models/ComponentObjectModel";
 import {Effect} from "../effectclasses/Effect";
 import {SystemEffects} from "../effectclasses/systemEffects";
+import {ComponentModel} from "../design-dimensions/ComponentModel";
+import {ComponentObjectModel} from "../design-dimensions/ComponentObjectModel";
 
 export default class AppConfig {
   constructor(private _userConfig: { components: (ComponentModel|ComponentObjectModel)[]; effects: Effect[] }) {

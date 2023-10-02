@@ -1,15 +1,12 @@
 import {Injectable} from '@angular/core';
-import {ComponentModel} from "../models/ComponentModel";
 import AppConfig from "./appConfig";
-import {ComponentObjectModel} from "../models/ComponentObjectModel";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ScreenSize} from '../enums/screenSizes.enum';
 import {PropertyName} from '../enums/PropertyNameTypes.enum';
-import {ResponsiveAttributesConfigModel} from '../models/component-specific-config/ResponsiveTableConfigModel';
-import {TableColumnModel} from "../models/TableColumnModel";
 import { Effect } from '../effectclasses/Effect';
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {SystemEffects} from "../effectclasses/systemEffects";
+import { ComponentModel } from '../design-dimensions/ComponentModel';
 
 @Injectable({
   providedIn: 'root'

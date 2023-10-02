@@ -1,6 +1,6 @@
 import { ConceptNameType} from "../../../types/type-aliases";
-import {DataRecordModel} from "../../../models/DataRecordModel";
 import {Properties} from "./Properties";
+import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 export class Blueprint {
   public readonly properties:Properties
   public readonly conceptName:ConceptNameType

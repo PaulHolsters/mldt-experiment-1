@@ -32,15 +32,6 @@ import {
 import {
   TableContentInjectionConfigModel
 } from "../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
-import {
-  TableContentInjectionRenderModel
-} from "../design-dimensions/ContentInjection/table/TableContentInjectionRenderModel";
-import {
-  DialogContentInjectionRenderModel
-} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionRenderModel";
-import {
-  MenubarContentInjectionRenderModel
-} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
 import {ChildLayoutConfigModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutConfigModel";
 import {TableLayoutConfigModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutConfigModel";
 import {
@@ -80,45 +71,6 @@ import {OverflowConfigModel} from "../design-dimensions/Overflow/OverflowConfigM
 import {SizeConfigModel} from "../design-dimensions/Size/SizeConfigModel";
 import {SpacingConfigModel} from "../design-dimensions/Spacing/SpacingConfigModel";
 import {VisibilityConfigModel} from "../design-dimensions/Visibility/VisibilityConfigModel";
-import {
-  TableDataRepresentationRenderModel
-} from "../design-dimensions/DataRepresentation/Table/TableDataRepresentationRenderModel";
-import {
-  RadioButtonGroupDataInputRenderModel
-} from "../design-dimensions/DataInput/RadioButtonGroup/RadioButtonGroupDataInputRenderModel";
-import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
-import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
-import {TableStructuralRenderModel} from "../design-dimensions/StructuralConfig/table/TableStructuralRenderModel";
-import {MenubarStructuralRenderModel} from "../design-dimensions/StructuralConfig/menubar/MenubarStructuralRenderModel";
-import {TableLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutRenderModel";
-import {
-  RadioButtonGroupDataRepresentationRenderModel
-} from "../design-dimensions/DataRepresentation/RadioButtonGroup/RadioButtonGroupDataRepresentationRenderModel";
-import {ButtonStructuralRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralRenderModel";
-import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
-import {SpacingRenderModel} from "../design-dimensions/Spacing/SpacingRenderModel";
-import {
-  NumberInputDataRepresentationRenderModel
-} from "../design-dimensions/DataRepresentation/NumberInput/NumberInputDataRepresentationRenderModel";
-import {DialogStructuralRenderModel} from "../design-dimensions/StructuralConfig/dialog/DialogStructuralRenderModel";
-import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
-import {ImageStructuralRenderModel} from "../design-dimensions/StructuralConfig/image/ImageStructuralRenderModel";
-import {TableStylingRenderModel} from "../design-dimensions/Styling/table/TableStylingRenderModel";
-import {
-  MultiSelectDataRepresentationRenderModel
-} from "../design-dimensions/DataRepresentation/MultiSelect/MultiSelectDataRepresentationRenderModel";
-import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
-import {
-  NumberInputDataInputRenderModel
-} from "../design-dimensions/DataInput/NumberInput/NumberInputDataInputRenderModel";
-import {TextInputDataInputRenderModel} from "../design-dimensions/DataInput/TextInput/TextInputDataInputRenderModel";
-import {
-  TextInputDataRepresentationRenderModel
-} from "../design-dimensions/DataRepresentation/TextInput/TextInputDataRepresentationRenderModel";
-import {
-  ConfirmPopupStructuralRenderModel
-} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupStructuralRenderModel";
-import {ButtonStylingRenderModel} from "../design-dimensions/Styling/button/ButtonStylingRenderModel";
 import {ResponsiveStylingTableConfigModel} from "../design-dimensions/Styling/table/ResponsiveStylingTableConfigModel";
 import {
   ResponsiveStylingButtonConfigModel

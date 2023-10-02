@@ -1,15 +1,15 @@
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ImageStructuralConfigModel} from "./ImageStructuralConfigModel";
 import {ImageStructuralRenderModel} from "./ImageStructuralRenderModel";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveStructuralImageConfigModel
   extends ResponsiveConfigModel<ImageStructuralConfigModel>
   implements ResponsiveConfigModelI<ImageStructuralConfigModel>{
-  public highResolution: ImageStructuralConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public laptop:ImageStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public tablet:ImageStructuralConfigModel  | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public portraitTablet:ImageStructuralConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public highResolution: ImageStructuralConfigModel| DeterminedByEngine = undefined
+  public laptop:ImageStructuralConfigModel  | DeterminedByEngine = undefined
+  public tablet:ImageStructuralConfigModel  | DeterminedByEngine = undefined
+  public portraitTablet:ImageStructuralConfigModel | DeterminedByEngine = undefined
   constructor(public smartphone: ImageStructuralConfigModel) {
     super()
   }
@@ -17,19 +17,19 @@ export class ResponsiveStructuralImageConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ImageStructuralConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ImageStructuralConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:ImageStructuralConfigModel | ZeroValueType.DeterminedByEngine){
+  setTablet(tablet:ImageStructuralConfigModel | DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ImageStructuralConfigModel | ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: ImageStructuralConfigModel | DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:ImageStructuralConfigModel | ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution:ImageStructuralConfigModel | DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }

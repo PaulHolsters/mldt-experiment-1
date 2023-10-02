@@ -1,15 +1,15 @@
-import {ZeroValueType} from "../../../enums/zeroValueTypes.enum";
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {TableStylingConfigModel} from "./TableStylingConfigModel";
 import {TableStylingRenderModel} from "./TableStylingRenderModel";
+import {DeterminedByEngine} from "../../../types/type-aliases";
 export class ResponsiveStylingTableConfigModel
   extends ResponsiveConfigModel<TableStylingConfigModel>
   implements ResponsiveConfigModelI<TableStylingConfigModel>{
-  public highResolution: TableStylingConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public laptop: TableStylingConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public tablet: TableStylingConfigModel | ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
-  public portraitTablet: TableStylingConfigModel| ZeroValueType.DeterminedByEngine = ZeroValueType.DeterminedByEngine
+  public highResolution: TableStylingConfigModel| DeterminedByEngine = undefined
+  public laptop: TableStylingConfigModel | DeterminedByEngine = undefined
+  public tablet: TableStylingConfigModel | DeterminedByEngine = undefined
+  public portraitTablet: TableStylingConfigModel| DeterminedByEngine = undefined
   constructor(public smartphone: TableStylingConfigModel) {
     super()
   }
@@ -17,19 +17,19 @@ export class ResponsiveStylingTableConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: TableStylingConfigModel| ZeroValueType.DeterminedByEngine){
+  setPortraitTablet(portraitTablet: TableStylingConfigModel| DeterminedByEngine){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: TableStylingConfigModel| ZeroValueType.DeterminedByEngine){
+  setTablet(tablet: TableStylingConfigModel| DeterminedByEngine){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: TableStylingConfigModel| ZeroValueType.DeterminedByEngine){
+  setLaptop(laptop: TableStylingConfigModel| DeterminedByEngine){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: TableStylingConfigModel| ZeroValueType.DeterminedByEngine){
+  setHighResolution(highResolution: TableStylingConfigModel| DeterminedByEngine){
     this.highResolution = highResolution
     return this
   }
