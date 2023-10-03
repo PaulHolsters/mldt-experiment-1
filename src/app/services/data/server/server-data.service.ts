@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {NoValueType} from "../../../enums/no_value_type";
 import {Subject} from "rxjs";
 import {ActionsService} from "../../actions.service";
 import {ConfigService} from "../../config.service";

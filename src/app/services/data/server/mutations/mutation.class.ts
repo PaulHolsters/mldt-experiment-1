@@ -14,7 +14,7 @@ export class Mutation {
   ) {
   }
   private getData():DataRecordModel|(DataRecordModel|null)[]|Error{
-    return this.data.data !== NoValueType.NVY ? this.data.data : new Error('data is not defined')
+    return this.data.data ? this.data.data : new Error('data is not defined')
   }
   private getParams(): string {
     const data = this.getData()
