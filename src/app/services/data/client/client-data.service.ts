@@ -7,7 +7,7 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
 import {ClientData} from "./ClientData";
-import {ActionIdType, ComponentNameType, ConceptNameType} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, NotConfigured, NoValueYet} from "../../../types/type-aliases";
 import {FunctionType} from "../../../enums/functionTypes.enum";
 import utilFunctions from "../../../utils/utilFunctions";
 import {ConfigService} from "../../config.service";
@@ -44,13 +44,10 @@ export class ClientDataService {
             propSubj.propValue.next(clientData.blueprint)
             break
           case PropertyName.dataLink:
-            const datalink = this.configService.getConfigFromRoot(clientData.name)?.data?.dataLink
+            const datalink = this.configService.getConfigFromRoot(clientData.name)?.clientData?.dataLink
             if(datalink !== NoValueType.NA){
               propSubj.propValue.next(datalink)
             }
-            break
-          case PropertyName.hardCodedData:
-            propSubj.propValue.next(clientData.hardcodedData)
             break
         }
       }
@@ -65,16 +62,12 @@ export class ClientDataService {
             const blueprint = this.getClientData( res.data[0])?.blueprint
             if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
             if (res.data[1] instanceof Array) {
-              this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], NoValueType.NA, [], [])
-            } else if (res.data[1] instanceof AttributeComponentModel) {
-              this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, NoValueType.NVY, NoValueType.NA, [res.data[1]], [])
-            } else if (typeof res.data[1] === 'string') {
-              this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, NoValueType.NVY, NoValueType.NA, [], [res.data[1]])
+              this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1],  [])
             } else if (res.data[1].hasOwnProperty('id') && res.data[1].hasOwnProperty('__typename')) {
-              this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], NoValueType.NA, [], [])
+              this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], undefined)
             } else throw new Error('data has not a correct format ' + res.data[1])
           } else if (res.data instanceof Blueprint) {
-            this.createClientData(res.effect.action.id, res.effect.action.target, res.data, NoValueType.NVY, NoValueType.NA, [], [])
+            this.createClientData(res.effect.action.id, res.effect.action.target, res.data, undefined, undefined)
           } else throw new Error('data has not a correct format ' + res.data)
         }
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -93,10 +86,8 @@ export class ClientDataService {
     actionId:ActionIdType,
     componentName:ComponentNameType,
     blueprint:Blueprint,
-    data:(DataRecordModel|null)[]|DataRecordModel|NoValueType.NVY,
-    hardcodedData:any|NoValueType.NA,
-    attributes:AttributeComponentModel[],
-    errorMessages:string[]|NoValueType.NI
+    data:(DataRecordModel|null)[]|DataRecordModel|NoValueYet,
+    errorMessages:string[]|NotConfigured
   ){
     if(blueprint)
       for(let [k,v] of blueprint.properties.properties){

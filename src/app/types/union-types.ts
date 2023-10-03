@@ -112,6 +112,9 @@ import {
   ResponsiveStructuralIconConfigModel
 } from "../design-dimensions/StructuralConfig/icon/ResponsiveStructuralIconConfigModel";
 import {IconStructuralConfigModel} from "../design-dimensions/StructuralConfig/icon/IconStructuralConfigModel";
+import {Table} from "../components/table/Table";
+import {Button} from "../components/button/Button";
+import {Icon} from "../components/icon/Icon";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -183,5 +186,5 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
   ResponsiveTableLayoutConfigModel|never
 
-export type ComponentModelType = Container
+export type ComponentModelType = Container|Table|Button|Icon
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'

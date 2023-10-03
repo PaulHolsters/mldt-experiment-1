@@ -69,12 +69,12 @@ export class Icon extends ComponentModel implements ComponentI<
     return this
   }
   structural: ResponsiveStructuralIconConfigModel
-  componentSpecificLayout: undefined
-  contentInjection: undefined
-  dataRepresentation: undefined
-  setComponentSpecificLayout: undefined
-  setContentInjection: undefined
-  setDataRepresentation: undefined
-  setStyling: undefined
-  styling: undefined
+  componentSpecificLayout= undefined
+  contentInjection= undefined
+  dataRepresentation= undefined
+  setComponentSpecificLayout= undefined
+  setContentInjection= undefined
+  setDataRepresentation= undefined
+  setStyling= undefined
+  styling= undefined
 }

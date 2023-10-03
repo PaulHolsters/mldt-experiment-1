@@ -1,13 +1,12 @@
 import {Effect} from "../effectclasses/Effect";
 import {SystemEffects} from "../effectclasses/systemEffects";
-import {ComponentModel} from "../design-dimensions/ComponentModel";
-import {ComponentObjectModel} from "../design-dimensions/ComponentObjectModel";
+import {ComponentModelType} from "../types/union-types";
 
 export default class AppConfig {
-  constructor(private _userConfig: { components: (ComponentModel|ComponentObjectModel)[]; effects: Effect[] }) {
+  constructor(private _userConfig: { components: ComponentModelType[]; effects: Effect[] }) {
     this._userConfig.effects.concat(SystemEffects.getSystemEffects())
   }
-  public get userConfig():{ components: (ComponentModel|ComponentObjectModel)[], effects: Effect[] } {
+  public get userConfig():{ components: ComponentModelType[], effects: Effect[] } {
     return this._userConfig
   }
 }
