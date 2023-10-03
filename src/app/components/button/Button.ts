@@ -13,6 +13,7 @@ import {
 import {
   ResponsiveStylingButtonConfigModel
 } from "../../design-dimensions/Styling/button/ResponsiveStylingButtonConfigModel";
+import {ComponentModelType} from "../../types/union-types";
 export class Button extends ComponentModel implements ComponentI<
   undefined,
   ResponsiveStructuralButtonConfigModel,
@@ -51,12 +52,12 @@ export class Button extends ComponentModel implements ComponentI<
     return this
   }
 
-  setStructural(str: ResponsiveStructuralButtonConfigModel): ComponentModel {
+  setStructural(str: ResponsiveStructuralButtonConfigModel): ComponentModelType {
     this.structural = str
     return this
   }
   structural= new ResponsiveStructuralButtonConfigModel()
-  setStyling(styling: ResponsiveStylingButtonConfigModel): ComponentModel {
+  setStyling(styling: ResponsiveStylingButtonConfigModel): ComponentModelType {
     this.styling = styling
     return this
   }

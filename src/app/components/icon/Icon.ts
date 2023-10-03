@@ -14,6 +14,7 @@ import {
 import {IconType} from "../../enums/iconType.enum";
 import {IconStructuralConfigModel} from "../../design-dimensions/StructuralConfig/icon/IconStructuralConfigModel";
 import {NoValueYet} from "../../types/type-aliases";
+import {ComponentModelType} from "../../types/union-types";
 export class Icon extends ComponentModel implements ComponentI<
   undefined,
   ResponsiveStructuralIconConfigModel,
@@ -64,7 +65,7 @@ export class Icon extends ComponentModel implements ComponentI<
     this.name = name
     this.structural = new ResponsiveStructuralIconConfigModel(new IconStructuralConfigModel(icon))
   }
-  setStructural(str: ResponsiveStructuralIconConfigModel): ComponentModel {
+  setStructural(str: ResponsiveStructuralIconConfigModel): ComponentModelType {
     this.structural = str
     return this
   }

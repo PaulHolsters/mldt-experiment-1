@@ -32,6 +32,7 @@ import {
   ResponsiveTableLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
 import {NoValueYet} from "../../types/type-aliases";
+import {ComponentModelType} from "../../types/union-types";
 export class Table extends ComponentModel implements ComponentI<
   ResponsiveContentInjectionTableConfigModel,
   ResponsiveStructuralTableConfigModel,
@@ -70,14 +71,14 @@ export class Table extends ComponentModel implements ComponentI<
     this.clientData=cd
     return this
   }
-  dataRepresentation =new ResponsiveDataRepresentationTableConfigModel(
+  dataRepresentation = new ResponsiveDataRepresentationTableConfigModel(
       new TableDataRepresentationConfigModel()
   )
   setDataRepresentation(dr:ResponsiveDataRepresentationTableConfigModel){
     this.dataRepresentation=dr
     return this
   }
-  contentInjection=new ResponsiveContentInjectionTableConfigModel(
+  contentInjection= new ResponsiveContentInjectionTableConfigModel(
     new TableContentInjectionConfigModel()
   )
   setContentInjection(ci:ResponsiveContentInjectionTableConfigModel){
@@ -90,10 +91,8 @@ export class Table extends ComponentModel implements ComponentI<
     this.styling=st
     return this
   }
-
   dataInput = undefined
   setDataInput = undefined
-
   children=undefined
   setChildren=undefined
   layout=undefined
@@ -104,11 +103,11 @@ export class Table extends ComponentModel implements ComponentI<
   }
 
   componentSpecificLayout=new ResponsiveTableLayoutConfigModel()
-  setComponentSpecificLayout(csl: ResponsiveTableLayoutConfigModel): ComponentModel {
+  setComponentSpecificLayout(csl: ResponsiveTableLayoutConfigModel): ComponentModelType {
     this.componentSpecificLayout = csl
     return this
   }
-  setStructural(str: ResponsiveStructuralTableConfigModel): ComponentModel {
+  setStructural(str: ResponsiveStructuralTableConfigModel): ComponentModelType {
     this.structural = str
     return this
   }

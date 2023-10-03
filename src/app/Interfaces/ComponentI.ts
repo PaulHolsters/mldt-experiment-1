@@ -1,4 +1,3 @@
-import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ClientDataConfigModel} from "../design-dimensions/ClientData/ClientDataConfigModel";
@@ -8,6 +7,7 @@ import {
   ResponsiveIndividualLayoutConfigModel
 } from "../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
 import {
+  ComponentModelType,
   ResponsiveComponentSpecificLayoutConfigModelType,
   ResponsiveContentInjectionConfigModelType,
   ResponsiveDataInputConfigModelType,
@@ -26,29 +26,29 @@ export interface ComponentI<
 > {
   name: string
   size: ResponsiveSizeConfigModel
-  setSize: (size: ResponsiveSizeConfigModel) => ComponentModel
+  setSize: (size: ResponsiveSizeConfigModel) => ComponentModelType
   spacing:ResponsiveSpacingConfigModel
-  setSpacing: (spacing:ResponsiveSpacingConfigModel) => ComponentModel
+  setSpacing: (spacing:ResponsiveSpacingConfigModel) => ComponentModelType
   visibility: ResponsiveVisibilityConfigModel
-  setVisibility: (visibility: ResponsiveVisibilityConfigModel) => ComponentModel
+  setVisibility: (visibility: ResponsiveVisibilityConfigModel) => ComponentModelType
   overflow: ResponsiveOverflowConfigModel
-  setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModel
+  setOverflow: (overflow: ResponsiveOverflowConfigModel) => ComponentModelType
   individualLayout: ResponsiveIndividualLayoutConfigModel
-  setIndividualLayout: (il: ResponsiveIndividualLayoutConfigModel) => ComponentModel
+  setIndividualLayout: (il: ResponsiveIndividualLayoutConfigModel) => ComponentModelType
   styling:  Styling
-  setStyling: Styling extends undefined ? Styling: ((contentInjection: Styling) => ComponentModel)
+  setStyling: Styling extends undefined ? Styling: ((contentInjection: Styling) => ComponentModelType)
   clientData: ClientDataConfigModel|NoValueYet | NotAllowed
-  setClientData: ((clientData: ClientDataConfigModel|NoValueYet) => ComponentModel)|undefined
+  setClientData: ((clientData: ClientDataConfigModel|NoValueYet) => ComponentModelType)|undefined
   dataRepresentation: DataRepresentation
-  setDataRepresentation: DataRepresentation extends undefined ? DataRepresentation: ((contentInjection: DataRepresentation) => ComponentModel)
+  setDataRepresentation: DataRepresentation extends undefined ? DataRepresentation: ((contentInjection: DataRepresentation) => ComponentModelType)
   dataInput: DataInput
-  setDataInput: DataInput extends undefined ? DataInput: ((contentInjection: DataInput) => ComponentModel)
+  setDataInput: DataInput extends undefined ? DataInput: ((contentInjection: DataInput) => ComponentModelType)
   contentInjection: ContentInjection
-  setContentInjection: ContentInjection extends undefined ? ContentInjection: ((contentInjection: ContentInjection) => ComponentModel)
+  setContentInjection: ContentInjection extends undefined ? ContentInjection: ((contentInjection: ContentInjection) => ComponentModelType)
   componentSpecificLayout: ComponentSpecificLayout
-  setComponentSpecificLayout: ComponentSpecificLayout extends undefined ? ComponentSpecificLayout: ((contentInjection: ComponentSpecificLayout) => ComponentModel)
-  children: ComponentModel[] | undefined
-  setChildren: ((children: ComponentModel[]) => ComponentModel)|undefined
+  setComponentSpecificLayout: ComponentSpecificLayout extends undefined ? ComponentSpecificLayout: ((contentInjection: ComponentSpecificLayout) => ComponentModelType)
+  children: ComponentModelType[] | undefined
+  setChildren: ((children: ComponentModelType[]) => ComponentModelType)|undefined
   structural:Structural
-  setStructural:Structural extends undefined ? Structural: ((contentInjection: Structural) => ComponentModel)
+  setStructural:Structural extends undefined ? Structural: ((contentInjection: Structural) => ComponentModelType)
 }

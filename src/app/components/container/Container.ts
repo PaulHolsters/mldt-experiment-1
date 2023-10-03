@@ -10,6 +10,7 @@ import {
 import {
   ResponsiveContainerChildLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
+import {ComponentModelType} from "../../types/union-types";
 export class Container extends ComponentModel implements ComponentI<undefined,undefined,undefined,ResponsiveContainerChildLayoutConfigModel,undefined,undefined>{
   // todo add conditional typing : prop required => set required too
   // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten
@@ -24,8 +25,8 @@ export class Container extends ComponentModel implements ComponentI<undefined,un
     this.visibility = visibility
     return this
   }
-  children: ComponentModel[]=[]
-  setChildren(children:ComponentModel[]){
+  children: ComponentModelType[]=[]
+  setChildren(children:ComponentModelType[]){
     this.children = children
     return this
   }
@@ -46,7 +47,7 @@ export class Container extends ComponentModel implements ComponentI<undefined,un
   clientData= undefined
   setClientData=undefined
   componentSpecificLayout = new ResponsiveContainerChildLayoutConfigModel()
-  setComponentSpecificLayout(csl: ResponsiveContainerChildLayoutConfigModel): ComponentModel {
+  setComponentSpecificLayout(csl: ResponsiveContainerChildLayoutConfigModel): ComponentModelType {
     this.componentSpecificLayout = csl
     return this
   }
@@ -54,7 +55,7 @@ export class Container extends ComponentModel implements ComponentI<undefined,un
   dataInput = undefined
   dataRepresentation = undefined;
   individualLayout = new  ResponsiveIndividualLayoutConfigModel()
-  setIndividualLayout(il: ResponsiveIndividualLayoutConfigModel): ComponentModel {
+  setIndividualLayout(il: ResponsiveIndividualLayoutConfigModel): ComponentModelType {
     this.individualLayout = il
     return this
   }

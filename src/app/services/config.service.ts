@@ -57,12 +57,13 @@ export class ConfigService {
   * */
   public getConfigFromComponent(nameComponent: string, component: ComponentModelType): ComponentModelType | undefined {
     if (component.name === nameComponent) return component
-    // todo
-    const arr: ComponentModelType[] = this.convertChildren(component)
+    const arr: ComponentModelType[]|undefined = component.children
+    if(!arr) return undefined
     while (arr.length > 0) {
       const child: ComponentModelType = arr.pop() as ComponentModelType
       if (child.name === nameComponent) return child
-      arr.unshift(...this.convertChildren(child))
+      if(child.children)
+      arr.unshift(...child.children)
     }
     return undefined
   }
@@ -71,40 +72,38 @@ export class ConfigService {
     return this.getConfigFromComponent(nameComponent, (this.appConfig.userConfig).components[0])
   }
   public getParentConfig(nameComponent: string, component: ComponentModelType): ComponentModelType | undefined {
-    // todo herwerken
     if (component.name === nameComponent) return undefined
-    const convertParentWithChildren = (parent: ComponentModelType): [ComponentModelType,ComponentModelType][] => {
-      const children = this.convertChildren(parent)
+    const getParentWithChildren = (parent: ComponentModelType): [ComponentModelType,ComponentModelType][] => {
       const arr: [ComponentModelType,ComponentModelType][] = []
-      for (let child of children) {
-        arr.push([parent, child])
+      if(parent.children){
+        for (let child of parent.children) {
+          arr.push([parent, child])
+        }
       }
       return arr
     }
-    const arr: ComponentModelType[][] = convertParentWithChildren(component)
+    const arr: ComponentModelType[][] = getParentWithChildren(component)
     while (arr.length > 0) {
       const parentChild: ComponentModelType[] = arr.pop() as ComponentModelType[]
       if (parentChild[1].name === nameComponent) return parentChild[0]
-      arr.unshift(...convertParentWithChildren(parentChild[1]))
+      arr.unshift(...getParentWithChildren(parentChild[1]))
     }
     return undefined
   }
   public getParentConfigFromRoot(nameComponent: string): ComponentModelType | undefined {
-    // todo herwerken
-    const componentsConfig = this.convertToComponentModelTypes(this.appConfig.userConfig).components
-    if (componentsConfig.length !== 1) throw new Error('Only one root component named content-container is allowed')
-    if (componentsConfig[0].name === nameComponent) return undefined
-    return this.getParentConfig(nameComponent, componentsConfig[0])
+    if (this.appConfig.userConfig.components.length !== 1) throw new Error('Only one root component named content-container is allowed')
+    if (this.appConfig.userConfig.components[0].name === nameComponent) return undefined
+    return this.getParentConfig(nameComponent, this.appConfig.userConfig.components[0])
   }
   public isAncestor(nameComponent: string, nameAncestor: string): boolean {
-    // todo herwerken
     let parent = this.getParentConfigFromRoot(nameComponent)
     while (parent && parent.name !== nameAncestor) {
       parent = this.getParentConfigFromRoot(parent.name)
     }
     return parent !== undefined
   }
-  public getFirstAncestorConfigWithProperty(nameComponent: string, component: ComponentModelTypeType, property: PropertyName): ComponentModelTypeType | undefined {
+  public getFirstAncestorConfigWithProperty(nameComponent: string, component: ComponentModelType, property: PropertyName)
+    : ComponentModelType | undefined {
     let parent = this.getParentConfig(nameComponent, component)
     while (parent && !(parent.hasOwnProperty(property))) {
       parent = this.getParentConfig(nameComponent, parent)
@@ -112,9 +111,8 @@ export class ConfigService {
     return parent
   }
   public getFirstAncestorConfigWithPropertyFromRoot(nameComponent: string, property: PropertyName): ComponentModelType | undefined {
-    const componentsConfig = this.convertToComponentModelTypes(this.appConfig.userConfig).components
-    if (componentsConfig.length !== 1) throw new Error('Only one root component named content-container is allowed')
-    return this.getFirstAncestorConfigWithProperty(nameComponent, componentsConfig[0], property)
+    if (this.appConfig.userConfig.components.length !== 1) throw new Error('Only one root component named content-container is allowed')
+    return this.getFirstAncestorConfigWithProperty(nameComponent, this.appConfig.userConfig.components[0], property)
   }
   isSubComponent(nameSubcomponent: string, nameParentComponent: string): boolean {
     const subComponent = this.getConfigFromRoot(nameSubcomponent)
@@ -125,9 +123,7 @@ export class ConfigService {
     }
     return parentOfSub !== undefined
   }
-
-
-  getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel): any {
+/*  getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel): any {
     let lastScreenSize = screenSize
     const stateModelObj = Object.create(attributes)
     while (lastScreenSize >= 0) {
@@ -141,7 +137,7 @@ export class ConfigService {
     }
     throw new Error('No screensize configuration was found for given ResponsiveTableConfigModel and' +
       ' property ' + confirmationModel + ' and screen ' + ScreenSize[screenSize])
-  }
+  }*/
 /*  getAppTemplateData(): { components: ComponentModelType[], ef: ActionModel[] } | undefined {
     return this.convertToComponentModelTypes(this.appConfig?.userConfig)
   }*/
