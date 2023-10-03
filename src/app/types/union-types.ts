@@ -115,6 +115,8 @@ import {IconStructuralConfigModel} from "../design-dimensions/StructuralConfig/i
 import {Table} from "../components/table/Table";
 import {Button} from "../components/button/Button";
 import {Icon} from "../components/icon/Icon";
+import {DataRecordModel} from "../design-dimensions/DataRecordModel";
+import {NoValueYet} from "./type-aliases";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -188,3 +190,4 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 export type ComponentModelType = Container|Table|Button|Icon
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
+export type OutputData = (DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet

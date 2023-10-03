@@ -1,26 +1,24 @@
-import {ActionIdType, ComponentNameType, NotConfigured, NoValueYet} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, NotConfigured} from "../../../types/type-aliases";
 import {Blueprint} from "./Blueprint";
-import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
+import {OutputData} from "../../../types/union-types";
 
 export class ClientData {
   public constructor(public readonly id:ActionIdType,
                      public readonly name:ComponentNameType,
                      private _blueprint:Blueprint,
-                     // todo kandidaat voor branded types
-                     public data:(DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet=undefined,
+                     public data:OutputData=undefined,
                      public errorMessages:string[]|NotConfigured=undefined) {
   }
   public get blueprint():Blueprint{
     return Object.create(this._blueprint)
   }
-  public update(data:Blueprint|DataRecordModel|(DataRecordModel|null)[]){
-    if(data instanceof Array){
-      this.data = data
-    }  else if(data instanceof Blueprint){
+  public update(data:Blueprint|OutputData){
+    // todo branded type DATA, eens gecheckt altijd valid
+    if(data instanceof Blueprint){
       this._blueprint = data
-    } else if(data.hasOwnProperty('id') && data.hasOwnProperty('__typename')){
+    } else {
       this.data = data
-    } else throw new Error('Data has an invalid format: '+data.toString())
+    }
   }
 
 }

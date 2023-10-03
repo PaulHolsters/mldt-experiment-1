@@ -17,6 +17,7 @@ import {StateService} from "../../state.service";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
+import {OutputData} from "../../../types/union-types";
 @Injectable({
   providedIn: 'root'
 })
@@ -38,19 +39,13 @@ export class ClientDataService {
       if(propSubj.componentName===clientData.name){
         switch (propSubj.propName){
           case PropertyName.conceptData:
-            // hier gebruik ik de data propertie maar zou ik dus logischerwijze beter zoeken in de blueprint
-            if(clientData.data instanceof Array || typeof clientData.data === 'object'
-              && clientData.data.hasOwnProperty('__typename') && clientData.data.hasOwnProperty('id'))
               propSubj.propValue.next(clientData.data)
             break
           case PropertyName.conceptBlueprint:
             propSubj.propValue.next(clientData.blueprint)
             break
           case PropertyName.dataLink:
-            const datalink = this.configService.getConfigFromRoot(clientData.name)?.clientData?.dataLink
-            if(datalink){
-              propSubj.propValue.next(datalink)
-            }
+            propSubj.propValue.next(this.configService.getConfigFromRoot(clientData.name)?.clientData?.dataLink)
             break
         }
       }
@@ -77,7 +72,7 @@ export class ClientDataService {
       }
     })
   }
-  public updateClientData(id:ActionIdType,data:Blueprint|DataRecordModel|(DataRecordModel|null)[]) {
+  public updateClientData(id:ActionIdType,data:Blueprint|OutputData) {
     const instance =  this.clientData.find(cd=>{
       return cd.id === id
     })
@@ -89,7 +84,7 @@ export class ClientDataService {
     actionId:ActionIdType,
     componentName:ComponentNameType,
     blueprint:Blueprint,
-    data:(DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet,
+    data:OutputData,
     errorMessages:string[]|NotConfigured
   ){
     if(blueprint)
@@ -116,7 +111,8 @@ export class ClientDataService {
     const cd = this.getClientData(componentName)
     if(cd) this.clientDataUpdated.next(cd)
   }
-  public getPropertyValue(name:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
+  // todo hier moet je branded type ConceptData komen
+  public getOutputData(name:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
     if(dataLink.length<2) throw new Error('Provided datalink array has not all data needed')
     const clientData = this.getClientData(name)
@@ -137,6 +133,10 @@ export class ClientDataService {
     }
     return currentAttr
   }
+  public setConceptData(){
+    // deze is belangrijker
+  }
+
   public getClientData(name:ComponentNameType): ClientData | undefined {
     return this.clientData.find(cd=>{
       return cd.name === name
