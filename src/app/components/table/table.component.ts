@@ -4,8 +4,7 @@ import {Observable} from "rxjs";
 import {SortEvent} from "primeng/api";
 import {Table} from "../../componentclasses/Table";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
-import {Component as AbstractComponent} from "../Component"
-import {NoValueType} from "../../enums/no_value_type";
+import {Component as AbstractComponent} from "../Component";
 import {TableColumnModel} from "../../design-dimensions/StructuralConfig/table/TableColumnModel";
 
 @Component({
@@ -38,7 +37,6 @@ x:{key:string,value:number}
 
         //todo zie dat de binnenkomende data correct verwerkt wordt
         if(k===PropertyName.conceptData){
-          debugger
           this.setPropValue(
             k,
             res,

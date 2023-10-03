@@ -17,7 +17,6 @@ import {StateService} from "../../state.service";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
-
 @Injectable({
   providedIn: 'root'
 })
@@ -25,17 +24,21 @@ export class ClientDataService {
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
   private clientData: ClientData[] = []
-  constructor(private actionsService:ActionsService,private configService:ConfigService,private queryService:QueryService,private stateService:StateService,
+  constructor(private actionsService:ActionsService,
+              private configService:ConfigService,
+              private queryService:QueryService,
+              private stateService:StateService,
               private renderPropertiesService:RenderPropertiesService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
   }
-  private setData(clientData: ClientData) {
+  private outputData(clientData: ClientData) {
     this.renderPropertiesService.getStatePropertySubjects().forEach(propSubj => {
       if(propSubj.componentName===clientData.name){
         switch (propSubj.propName){
           case PropertyName.conceptData:
+            // hier gebruik ik de data propertie maar zou ik dus logischerwijze beter zoeken in de blueprint
             if(clientData.data instanceof Array || typeof clientData.data === 'object'
               && clientData.data.hasOwnProperty('__typename') && clientData.data.hasOwnProperty('id'))
               propSubj.propValue.next(clientData.data)
@@ -45,7 +48,7 @@ export class ClientDataService {
             break
           case PropertyName.dataLink:
             const datalink = this.configService.getConfigFromRoot(clientData.name)?.clientData?.dataLink
-            if(datalink !== NoValueType.NA){
+            if(datalink){
               propSubj.propValue.next(datalink)
             }
             break
@@ -86,7 +89,7 @@ export class ClientDataService {
     actionId:ActionIdType,
     componentName:ComponentNameType,
     blueprint:Blueprint,
-    data:(DataRecordModel|null)[]|DataRecordModel|NoValueYet,
+    data:(DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet,
     errorMessages:string[]|NotConfigured
   ){
     if(blueprint)
@@ -109,11 +112,11 @@ export class ClientDataService {
           }
         }
       }
-    this.clientData.push(new ClientData(actionId,componentName,blueprint,data,hardcodedData,attributes,errorMessages))
+    this.clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
     const cd = this.getClientData(componentName)
     if(cd) this.clientDataUpdated.next(cd)
   }
-  public getAttribute(id:ActionIdType,name:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
+  public getPropertyValue(name:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
     // todo herwerk zodat je een willekeurige nesting kan hebben
     if(dataLink.length<2) throw new Error('Provided datalink array has not all data needed')
     const clientData = this.getClientData(name)
@@ -269,7 +272,6 @@ export class ClientDataService {
     // todo
     // wanneer een component gedestroyed wordt
   }
-
   //***********************************     data manipulation ACTIONS         ***************************************************************/
   /*  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {
       if (compConfig instanceof ClientDataConfigModel) {

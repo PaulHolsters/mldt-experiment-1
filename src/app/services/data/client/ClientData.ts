@@ -6,7 +6,8 @@ export class ClientData {
   public constructor(public readonly id:ActionIdType,
                      public readonly name:ComponentNameType,
                      private _blueprint:Blueprint,
-                     public data:(DataRecordModel|null)[]|DataRecordModel|NoValueYet=undefined,
+                     // todo kandidaat voor branded types
+                     public data:(DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet=undefined,
                      public errorMessages:string[]|NotConfigured=undefined) {
   }
   public get blueprint():Blueprint{

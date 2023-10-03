@@ -1,16 +1,23 @@
 import {NoValueType} from "../../../enums/no_value_type";
 import {Blueprint} from "./Blueprint";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
+import {NoValueYet} from "../../../types/type-aliases";
 export class Properties {
-  public readonly properties:Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueType.NVY]|string[]]|string>
+  public readonly properties:Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueYet]|string[]]|string>
   public constructor(public propertiesStr:string ) {
-    // todo zorg ervoor dat properties beter worden afgedwongen
-    this.properties = new Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueType.NVY]|string[]]|string>()
+    // todo zorg ervoor dat properties beter worden afgedwongen => typeScript vids!
+    this.properties = new Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueYet]|string[]]|string>()
     this.createProperties(propertiesStr)
   }
   public setValuesProperties(property:string,values:DataRecordModel[]|DataRecordModel){
     const val = this.properties?.get(property)
-    if(val instanceof Array && val.length===2 && typeof val[0]==='string' && val[1] instanceof Array && val[1].length===2 && val[1][0] instanceof Blueprint){
+    // todo ziet er uit als een branded type kandidaat
+    if(val instanceof Array
+      && val.length===2
+      && typeof val[0]==='string'
+      && val[1] instanceof Array
+      && val[1].length===2
+      && val[1][0] instanceof Blueprint){
       this.properties.set(property,[val[0],[val[1][0],values]])
     }
   }
@@ -31,7 +38,7 @@ export class Properties {
         // marshaller
         const blueprint = new Blueprint(blueprintObj)
         if(this.getTypeFromPropsObj(propsObj) === 'list'||this.getTypeFromPropsObj(propsObj).indexOf('object:')!==-1){
-          this.properties.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,NoValueType.NVY]])
+          this.properties.set(this.getNameFromPropsObj(propsObj),[this.getTypeFromPropsObj(propsObj),[blueprint,undefined]])
         }
       }
     }
