@@ -9,7 +9,7 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType, ComponentNameType} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, NotConfigured, NoValueYet} from "../../../types/type-aliases";
 import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
@@ -47,11 +47,16 @@ export class ServerDataService {
           const data = ServerData.getData(resFirst)
           if(data){
             if(ServerData.dataIsNumber(data,'numberOfNesting')){
-              this.queryService.getBlueprint(res.effect.action.conceptName,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
+              this.queryService
+                .getBlueprint(res.effect.action.conceptName,ServerData.getDataValue(data,'numberOfNesting'))
+                .subscribe(resOrErr=>{
                 const data = ServerData.getData(resOrErr)
                 if(data){
-                  // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is
-                  createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],NoValueType.NI, data)
+                  // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is =>
+                  //      dit is wellicht een mooie kandidaat voor branded types
+                  //      de reden waarom dat niet gecontroleerd wordt is dat data van het any type is
+                  //      dat is niet conform de type van de parameter maar het wordt gewoon niet gecontroleerd
+                  createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[], data)
                   this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
                 } else{
                   // todo handle error
@@ -72,6 +77,7 @@ export class ServerDataService {
               const data = ServerData.getData(errorOrResult)
               if(data){
                 if(data.dataSingle){
+                  // todo opgepast data is of type any!!!
                   self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
                   const cd = self.clientDataService.getClientData(res.effect.action.target)
                   if(cd)
@@ -94,7 +100,8 @@ export class ServerDataService {
                 this.queryService.getBlueprint(res.effect.action.conceptName,data.numberOfNesting).subscribe(resOrErr=>{
                   const data = ServerData.getData(resOrErr)
                   if(data){
-                    createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],NoValueType.NI,data)
+                    // todo opgepast data is of type any!!!
+                    createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],data)
                     const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                     if (blueprint) {
                       getRecord(this,blueprint,res)
@@ -140,7 +147,8 @@ export class ServerDataService {
               this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr => {
                 const data = ServerData.getData(resOrErr)
                 if(data){
-                  createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], NoValueType.NI, NoValueType.NVY)
+                  // todo opgepast data is of type any!!!
+                  createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], undefined)
                   const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                   if (blueprint) {
                     getAllRecords(this, blueprint, res)
@@ -197,15 +205,14 @@ export class ServerDataService {
                               blueprintStr:string|undefined,
                               actionId:ActionIdType,
                               name:ComponentNameType,
-                              errorMessages:string[]|NoValueType.NI,
-                              data:(DataRecordModel|null)[]|DataRecordModel|NoValueType.NVY){
+                              errorMessages:string[]|NotConfigured,
+                              data:(DataRecordModel|null)[]|DataRecordModel|NoValueYet){
       if(blueprintStr){
         self.clientDataService.createClientData(
           actionId,
           name,
           new Blueprint(blueprintStr),
           data,
-          NoValueType.NA,
           errorMessages
         )
         const cd = self.clientDataService.getClientData(name)
