@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import AppConfig from "./appConfig";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ScreenSize} from '../enums/screenSizes.enum';
 import {PropertyName} from '../enums/PropertyNameTypes.enum';
 import { Effect } from '../effectclasses/Effect';
 import {ServiceType} from "../enums/serviceTypes.enum";
@@ -145,19 +144,21 @@ export class ConfigService {
     const allComponents:ComponentModelType[] = []
     const components = [...this.appConfig.userConfig.components]
     if(components.length===1){
-      const root = {...this.convertToComponentModelType(components[0])}
+      const root = {...components[0]} as ComponentModelType
       if(!rootWithChildren){
-        const rootNoChildren = {...this.convertToComponentModelType(components[0])}
+        const rootNoChildren = {...components[0]} as ComponentModelType
         delete rootNoChildren.children
         allComponents.push(rootNoChildren)
       } else{
         allComponents.push(root)
       }
-      const children:ComponentModelType[]=this.convertChildren(root)
-      while(children.length>0){
-        const child:ComponentModelType = children.pop() as ComponentModelType
-        allComponents.push(child)
-        children.unshift(...this.convertChildren(child))
+      const children:ComponentModelType[]|undefined=root.children ? [...root.children] : undefined
+      if (children){
+        while(children.length>0){
+          const child:ComponentModelType = children.pop() as ComponentModelType
+          allComponents.push(child)
+          if(child.children)children.unshift(...child.children)
+        }
       }
       return allComponents
     } else throw new Error('Er mag maar 1 root component zijn')
