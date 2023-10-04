@@ -24,7 +24,7 @@ import {OutputData} from "../../../types/union-types";
 export class ClientDataService {
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
-  private clientData: ClientData[] = []
+  private _clientData: ClientData[] = []
   constructor(private actionsService:ActionsService,
               private configService:ConfigService,
               private queryService:QueryService,
@@ -34,28 +34,17 @@ export class ClientDataService {
       this.bindActions()
     })
   }
-  private outputData(clientData: ClientData) {
-    this.renderPropertiesService.getStatePropertySubjects().forEach(propSubj => {
-      if(propSubj.componentName===clientData.name){
-        switch (propSubj.propName){
-          case PropertyName.conceptData:
-              propSubj.propValue.next(clientData.data)
-            break
-          case PropertyName.conceptBlueprint:
-            propSubj.propValue.next(clientData.blueprint)
-            break
-          case PropertyName.dataLink:
-            propSubj.propValue.next(this.configService.getConfigFromRoot(clientData.name)?.clientData?.dataLink)
-            break
-        }
-      }
-    })
+  public get clientData(){
+    return [...this._clientData]
   }
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.CreateClientData))?.subscribe(res => {
-      if (res) {
+      // todo zie dat res.data niet any is => volgens mij is dit OutPutData
+      if (res?.effect.action.target) {
         const clientData = this.getClientData(res.effect.action.target)
         if (!clientData) {
+          // todo createClientData ook voor kinderen en kleinkinderen ? of hoe moet dit werken ?
+          // de data wordt gecreëerd op basis van de data die meekomt van de frontend
           if (res.data instanceof Array && res.data.length === 2) {
             const blueprint = this.getClientData( res.data[0])?.blueprint
             if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
@@ -71,7 +60,19 @@ export class ClientDataService {
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
     })
+    // todo ik veronderstel dat een service action zal gebruikt worden om data naar de component te krijgen
+    //      vandaar dat outPutData private staat, deze actie zal dan in Effects staan met een actionId
+    //      dat kan je gebruiken om de ClientData op te halen en dan de outPutData om het nodige te tonen
+    //
   }
+  // client data CRUD
+  public getClientData(target:ActionIdType|ComponentNameType,first:boolean=false): ClientData | undefined {
+    return this.clientData.find(cd=>{
+      if(first) return cd.id == target
+      else return cd.name === target
+    })
+  }
+  // in de volgende twee methodes moet outPutData correct staan
   public updateClientData(id:ActionIdType,data:Blueprint|OutputData) {
     const instance =  this.clientData.find(cd=>{
       return cd.id === id
@@ -111,8 +112,12 @@ export class ClientDataService {
     const cd = this.getClientData(componentName)
     if(cd) this.clientDataUpdated.next(cd)
   }
-  // todo hier moet je branded type ConceptData komen
-  public getOutputData(name:ComponentNameType,dataLink: string[]):AttributeComponentModel|undefined{
+  private deleteClientData(name:ComponentNameType,concept:ConceptNameType){
+    // todo
+    // wanneer een component gedestroyed wordt
+  }
+  // output data get/set
+  public getOutputData(name:ComponentNameType,dataLink: string[]):OutputData{
     // todo herwerk zodat je een willekeurige nesting kan hebben
     if(dataLink.length<2) throw new Error('Provided datalink array has not all data needed')
     const clientData = this.getClientData(name)
@@ -133,91 +138,17 @@ export class ClientDataService {
     }
     return currentAttr
   }
-  public setConceptData(){
-    // deze is belangrijker
-  }
-
-  public getClientData(name:ComponentNameType): ClientData | undefined {
-    return this.clientData.find(cd=>{
-      return cd.name === name
-    })
-    // dit haalt de clientdata op en vervangt ongedefinieerde te berekenen waarden, daarnaast pakt het een specifiek attribuut
-    // in deze clientdata
-    /*    const isDataObject = function(self:DataService,specs:DataSpecificationType[],obj:ClientDataRenderModel):boolean{
-          let isObj = true
-          while (specs.length>0){
-            const spec:DataSpecificationType = specs.pop() as DataSpecificationType
-            if(!(spec in obj && obj.getValueFor && obj.getValueFor(spec))){
-              isObj = false
-            }
-          }
-          return isObj
-        }
-        const dataLinkCopy = [...dataLink]
-        const obj = this.clientData.find(clientDataInstance => {
-          return clientDataInstance.conceptName === dataLinkCopy[0]
-            // geeft de waarde true terug of false naargelang de dataSpecs
-            && isDataObject(this,dataSpecs,clientDataInstance)
-          /!*        && (dataSpecs.reduce(
-                    (specA, specB) => {
-                      const copyDataObj = new ClientDataRenderModel(
-                        dataObj.conceptName,
-                        dataObj.attributes,
-                        dataObj.errorMessages,
-                        dataObj.dataList,
-                        dataObj.conceptData,
-                        dataObj.conceptBluePrint)
-                      return ((specA.toString() in copyDataObj && copyDataObj.getValueFor && copyDataObj.getValueFor(specA.toString())) && (specB.toString() in copyDataObj
-                        && copyDataObj.getValueFor && copyDataObj.getValueFor(specB.toString())))
-                    }
-                  ))*!/
-        })
-        if (obj) {
-          dataLinkCopy.splice(0, 1)
-          let attributes = [...obj.attributes] // leeg bij blueprint
-          let currentAttr: AttributeComponentModel | undefined | string = attributes.find(attr => {
-            return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
-          })
-          let spliced = dataLinkCopy.splice(0, 1)
-          while (currentAttr && dataLinkCopy.length > 0) {
-            // todo zoek een use case hiervoor
-            //      dit is in het specifieke geval je echt een attribuut wilt hebben in plaats van een volledig concept al
-            //      dan niet in een lijst
-            if (currentAttr instanceof AttributeComponentModel && currentAttr.concept) {
-              // todo ga na of dit echt wel een lijst met attribute component models zijn en geen config models!!!
-              attributes = [...currentAttr?.concept?.attributes]
-              currentAttr = attributes.find(attr => {
-                return typeof attr !== 'string' && attr.name === dataLinkCopy[0] && this.isCorrectType(attr, componentType)
-              })
-            } else {
-              throw new Error('Datalink bevat teveel entries.')
-            }
-            spliced = dataLinkCopy.splice(0, 1)
-          }
-          if (currentAttr && typeof currentAttr !== 'string') {
-            currentAttr = this.replaceDBIValues(obj, currentAttr)
-            currentAttr = this.replaceNVYValues(obj, currentAttr)
-            currentAttr = this.pipeValue(obj,currentAttr)
-            const [k, v] = Object.entries(obj.blueprint ?? {}).find(([k, v]) => {
-              return k === spliced[0]
-            }) ?? []
-            if (k) {
-              currentAttr.dataBlueprint = new Map([[k, v]])
-            }
-            return currentAttr
-          }
-        }
-        return undefined*/
-  }
-  public updateData(name: string, value: string|number|Date|NoValueType.DBI | DataRecordModel[] | undefined){
+  public setOutputData(name: string, value: string|number|Date|NoValueType.DBI | DataRecordModel[] | undefined){
     const cd = this.getClientData(name)
     if(cd){
       if(typeof value === 'string'
-        && typeof cd.data === 'object' && cd.data.hasOwnProperty('id') && cd.data.hasOwnProperty('__typename')){
+        && typeof cd.outputData === 'object'
+        && cd.outputData.hasOwnProperty('id')
+        && cd.outputData.hasOwnProperty('__typename')){
         const dataLink = [...this.stateService.getValue(name,PropertyName.dataLink)]
         dataLink.shift()
         let key = dataLink.shift()
-        if(typeof Reflect.get(cd.data,key) === 'object' && !(Reflect.get(cd.data,key) instanceof Array)){
+        if(typeof Reflect.get(cd.blueprint,key) === 'object' && !(Reflect.get(cd.blueprint,key) instanceof Array)){
           debugger
           // speciale geval dat we te maken hebben met een genest concept dat geen lijst is
           // todo (while nodig!)
@@ -268,61 +199,8 @@ export class ClientDataService {
       }
     }*/
   }
-  private deleteClientData(name:ComponentNameType,concept:ConceptNameType){
-    // todo
-    // wanneer een component gedestroyed wordt
-  }
+
   //***********************************     data manipulation ACTIONS         ***************************************************************/
-  /*  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {
-      if (compConfig instanceof ClientDataConfigModel) {
-        let newObj: ClientDataRenderModel = {
-          conceptName: compConfig.conceptName,
-          attributes: [],
-          errorMessages: NoValueType.NI,
-          blueprint: data.blueprint,
-          record: data.dataSingle ? Object.assign(data.dataSingle,{id:data.dataSingle?.id ?? NoValueType.NA}) : undefined,
-          listOfRecords: data.dataMultiple
-        }
-        const configCopy = {...compConfig}
-        if (configCopy.attributes && configCopy.attributes instanceof Array) {
-          configCopy.attributes?.forEach(attr => {
-            const entry = Object.entries(data.dataSingle ?? {}).find(([k, v]) => {
-              return k === attr.name
-            })
-            const entry2 = Object.entries(data.blueprint ?? {}).find(([k, v]) => {
-              return k === attr.name
-            })
-            const attrExp = {...attr}
-            if (entry && attr.name) {
-              attrExp.dataServer = entry[1];
-            }
-            if (entry2 && attr.name) {
-              attrExp.dataBlueprint = new Map();
-              attrExp.dataBlueprint.set(attr.name, entry2[1]);
-            }
-            (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
-          })
-          return newObj
-        }
-      } else {
-        throw new Error('unfinished else condition')
-      }
-      return undefined
-    }*/
-  /*  private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
-      switch (componentType) {
-        case ComponentType.MultiSelect:
-          return attr.multiselect !== undefined
-        case ComponentType.NumberInput:
-          return attr.number !== undefined
-        case ComponentType.TextInput:
-          return attr.text !== undefined
-        case ComponentType.RadioButton:
-          return attr.radio !== undefined
-        default:
-          return true
-      }
-    }*/
   private calculatePipeValue(radioValue:{label:string,value:string},array:FunctionType[]):{label:string,value:string}{
     let valCopy = {...radioValue}
     array.forEach(func=>{
@@ -422,3 +300,54 @@ export class ClientDataService {
     return attr
   }
 }
+/*  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {
+      if (compConfig instanceof ClientDataConfigModel) {
+        let newObj: ClientDataRenderModel = {
+          conceptName: compConfig.conceptName,
+          attributes: [],
+          errorMessages: NoValueType.NI,
+          blueprint: data.blueprint,
+          record: data.dataSingle ? Object.assign(data.dataSingle,{id:data.dataSingle?.id ?? NoValueType.NA}) : undefined,
+          listOfRecords: data.dataMultiple
+        }
+        const configCopy = {...compConfig}
+        if (configCopy.attributes && configCopy.attributes instanceof Array) {
+          configCopy.attributes?.forEach(attr => {
+            const entry = Object.entries(data.dataSingle ?? {}).find(([k, v]) => {
+              return k === attr.name
+            })
+            const entry2 = Object.entries(data.blueprint ?? {}).find(([k, v]) => {
+              return k === attr.name
+            })
+            const attrExp = {...attr}
+            if (entry && attr.name) {
+              attrExp.dataServer = entry[1];
+            }
+            if (entry2 && attr.name) {
+              attrExp.dataBlueprint = new Map();
+              attrExp.dataBlueprint.set(attr.name, entry2[1]);
+            }
+            (newObj.attributes as AttributeComponentModel[]).push(Object.assign(attrExp as AttributeComponentModel, {}))
+          })
+          return newObj
+        }
+      } else {
+        throw new Error('unfinished else condition')
+      }
+      return undefined
+    }*/
+  /*  private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
+      switch (componentType) {
+        case ComponentType.MultiSelect:
+          return attr.multiselect !== undefined
+        case ComponentType.NumberInput:
+          return attr.number !== undefined
+        case ComponentType.TextInput:
+          return attr.text !== undefined
+        case ComponentType.RadioButton:
+          return attr.radio !== undefined
+        default:
+          return true
+      }
+    }*/
+

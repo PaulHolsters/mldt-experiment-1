@@ -1,13 +1,12 @@
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {StateService} from "../../services/state.service";
-import {DataRecordModel} from "../../models/DataRecordModel";
 import {ActionType} from "../../enums/actionTypes.enum";
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Effect} from "../../effectclasses/Effect";
 import {Trigger} from "../../effectclasses/Trigger";
 import {Action} from "../../effectclasses/Action";
-import {NoValueType} from "../../enums/no_value_type";
-import {ActionValueModel} from "../../models/ActionValueModel";
+import {DataRecordModel} from "../../design-dimensions/DataRecordModel";
+import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
 
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
@@ -31,11 +30,10 @@ export const effects:Effect[] = [
     new Trigger(TriggerType.ComponentClicked, 'delete-btn'),
     new Action('delete_product',ActionType.DeleteInstance, 'product',  'delete-product'),
   ),
-  // todo zie dat input wordt gecleared ipv alles onzichtbaar gemaakt
   new Effect(
     new Trigger(TriggerType.ActionFinished,'delete_product'),
     new Action('set_delete-container_invisible',
-      ActionType.SetRenderProperty, NoValueType.NA,'delete-container',
+      ActionType.SetRenderProperty, ,'delete-container',
       new ActionValueModel(PropertyName.visible, false)),
   ),
   new Effect(

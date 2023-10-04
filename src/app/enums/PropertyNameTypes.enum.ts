@@ -2,7 +2,7 @@ export enum PropertyName {
   visible='visible',
   currentDataList='currentDataList',
   currentColumn='currentColumn',
-  conceptData = 'conceptData',
+  outputData = 'outputData',
   conceptName = 'conceptName',
   conceptBlueprint = 'conceptBlueprint',
   attributes = 'attributes',

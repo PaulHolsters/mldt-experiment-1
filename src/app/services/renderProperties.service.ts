@@ -12,7 +12,6 @@ import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {CalculationModel} from "../design-dimensions/CalculationModel";
-import {IndividualLayoutConfigModel} from "../design-dimensions/IndividualLayout/IndividualLayoutConfigModel";
 import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
 
 @Injectable({

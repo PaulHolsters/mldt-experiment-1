@@ -14,6 +14,7 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {ConfirmationModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmationModel";
+import {ClientDataService} from "./data/client/client-data.service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,13 @@ export class UiActionsService {
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
 
   constructor(
-    private storeService:RenderPropertiesService,
+    private renderPropertiesService:RenderPropertiesService,
     private stateService:StateService,
     private configService:ConfigService,
     private actionsService:ActionsService,
     private RBS:ResponsiveBehaviourService,
-    private dataService:ServerDataService) {
+    private dataService:ServerDataService,
+    private clientDataService:ClientDataService) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
@@ -57,13 +59,41 @@ export class UiActionsService {
         }
       }
     })
+    this.actionsService.bindToAction(new Action('',ActionType.UpdateView))?.subscribe(res=>{
+      if(res){
+        const action = this.outputData()
+        if(action){
+          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+        }
+      }
+    })
+  }
+  private outputData() {
+    this.clientDataService.clientData.forEach(cd=>{
+      this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
+        return ps.componentName===cd.name
+      }).forEach(propSubj=>{
+        switch (propSubj.propName){
+          case PropertyName.outputData:
+            propSubj.propValue.next(cd.outputData)
+            break
+          case PropertyName.conceptBlueprint:
+            propSubj.propValue.next(cd.blueprint)
+            break
+          case PropertyName.dataLink:
+            propSubj.propValue.next(this.configService.getConfigFromRoot(cd.name)?.clientData?.dataLink)
+            break
+        }
+      })
+    })
+    return true
   }
   private setConfigValueAndRebuild(action:Action){
     const currentAppConfig = this.configService.appConfig
     if(currentAppConfig){
       let config = this.configService.getConfigFromRoot(action.target)
       if(!config) throw new Error('action was not configured correctly')
-      if(config.replace && (action.value !==NoValueType.NA && !(action.value instanceof ActionValueModel))){
+      if(config.replace && (action.value && !(action.value instanceof ActionValueModel))){
         config.replace(action.value.getInstance(),action.value)
         this.configService.saveConfig(currentAppConfig)
         this.RBS.rebuildUI()
@@ -73,20 +103,18 @@ export class UiActionsService {
     return false
   }
   private setProperty(action:Action,data?:any){
-    debugger
     let val
     if(typeof (action.value as ActionValueModel).value === 'function'){
       val = (action.value as ActionValueModel).value(this.stateService)
     }
     if(!val) val = (action.value as ActionValueModel).value
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
-    debugger
-    this.storeService.getStatePropertySubjects().find(prop=>{
+    this.renderPropertiesService.getStatePropertySubjects().find(prop=>{
       if(prop.componentName === action.target && action.value instanceof ActionValueModel)
         return prop.propName === PropertyName.data
       return false
     })?.propValue.next(data)
-      this.storeService.getStatePropertySubjects().find(prop=>{
+      this.renderPropertiesService.getStatePropertySubjects().find(prop=>{
         if(prop.componentName === action.target && action.value instanceof ActionValueModel)
           return prop.propName === action.value.name
         return false
@@ -99,7 +127,7 @@ export class UiActionsService {
       if(comp && comp.attributes && this.RBS.screenSize){
         const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)
         const cm = new ConfirmationModel(attrVal.icon,attrVal.message, target,data)
-        this.storeService.getStatePropertySubjects().find(prop=>{
+        this.renderPropertiesService.getStatePropertySubjects().find(prop=>{
           if(prop.componentName === action.target)
             return prop.propName === PropertyName.confirmationModel
           return false

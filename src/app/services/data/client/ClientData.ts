@@ -6,7 +6,7 @@ export class ClientData {
   public constructor(public readonly id:ActionIdType,
                      public readonly name:ComponentNameType,
                      private _blueprint:Blueprint,
-                     public data:OutputData=undefined,
+                     public outputData:OutputData=undefined,
                      public errorMessages:string[]|NotConfigured=undefined) {
   }
   public get blueprint():Blueprint{
@@ -17,7 +17,7 @@ export class ClientData {
     if(data instanceof Blueprint){
       this._blueprint = data
     } else {
-      this.data = data
+      this.outputData = data
     }
   }
 

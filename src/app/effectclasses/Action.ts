@@ -1,10 +1,9 @@
 import {TargetType} from "../enums/targetTypes.enum";
-import {NoValueType} from "../enums/no_value_type";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
 import {ConceptName} from "../types/ConceptName";
-import {ActionIdType, ComponentNameType, ConceptNameType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, NotAllowed} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 export class Action {
   public readonly service:ServiceType
@@ -13,9 +12,9 @@ export class Action {
   public constructor(
     public id:ActionIdType,
     public type:ActionType,
-    public conceptName: ConceptNameType|NoValueType.NA=NoValueType.NA,
-    public target:ComponentNameType|NoValueType.NA=NoValueType.NA,
-    public value:ActionValueModel|NoValueType.NA=NoValueType.NA
+    public conceptName: ConceptNameType|NotAllowed=undefined,
+    public target:ComponentNameType|NotAllowed=undefined,
+    public value:ActionValueModel|NotAllowed=undefined
   ) {
     ConceptName.check(conceptName)
     switch (type){
