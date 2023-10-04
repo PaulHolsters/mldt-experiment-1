@@ -17,7 +17,7 @@ import {StateService} from "../../state.service";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
-import {OutputData} from "../../../types/union-types";
+import {DataLink, OutputData} from "../../../types/union-types";
 @Injectable({
   providedIn: 'root'
 })
@@ -39,7 +39,7 @@ export class ClientDataService {
   }
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.CreateClientData))?.subscribe(res => {
-      // todo zie dat res.data niet any is => volgens mij is dit OutPutData
+      // todo wat hier wat raar is dat CreateClientData blijkbaar altijd bedoeld is in relatie met eenbepaalde frontend component met data
       if (res?.effect.action.target) {
         const clientData = this.getClientData(res.effect.action.target)
         if (!clientData) {
@@ -49,13 +49,14 @@ export class ClientDataService {
             const blueprint = this.getClientData( res.data[0])?.blueprint
             if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
             if (res.data[1] instanceof Array) {
+              // todo voeg branded type toe zodat je automatisch kan zien dat je alle mogelijkheden hebt gecheckt if(isDataRecordArray) else isDataRecordModel
               this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1],  [])
             } else if (res.data[1].hasOwnProperty('id') && res.data[1].hasOwnProperty('__typename')) {
               this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], undefined)
             } else throw new Error('data has not a correct format ' + res.data[1])
           } else if (res.data instanceof Blueprint) {
             this.createClientData(res.effect.action.id, res.effect.action.target, res.data, undefined, undefined)
-          } else throw new Error('data has not a correct format ' + res.data)
+          }
         }
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
@@ -65,6 +66,7 @@ export class ClientDataService {
     //      dat kan je gebruiken om de ClientData op te halen en dan de outPutData om het nodige te tonen
     //
   }
+
   // client data CRUD
   public getClientData(target:ActionIdType|ComponentNameType,first:boolean=false): ClientData | undefined {
     return this.clientData.find(cd=>{
@@ -116,9 +118,11 @@ export class ClientDataService {
     // todo
     // wanneer een component gedestroyed wordt
   }
+
   // output data get/set
-  public getOutputData(name:ComponentNameType,dataLink: string[]):OutputData{
-    // todo herwerk zodat je een willekeurige nesting kan hebben
+  public getOutputData(name:ComponentNameType):OutputData{
+    // todo hier moet je enkel ophalen en subsitueren, bij het setten is het dat je datalink nodig hebt
+    //      de datalink gebruik je daar om in de blueprint van het hoofdobject te duiken en vervolgens de waarde op te halen
     if(dataLink.length<2) throw new Error('Provided datalink array has not all data needed')
     const clientData = this.getClientData(name)
     if(!clientData || !clientData.attributes || clientData.attributes.length===0 || clientData.attributes === NoValueType.NA) return undefined
@@ -139,6 +143,7 @@ export class ClientDataService {
     return currentAttr
   }
   public setOutputData(name: string, value: string|number|Date|NoValueType.DBI | DataRecordModel[] | undefined){
+    // todo te gebruiken door de update en create clientdata methods
     const cd = this.getClientData(name)
     if(cd){
       if(typeof value === 'string'
@@ -148,12 +153,12 @@ export class ClientDataService {
         const dataLink = [...this.stateService.getValue(name,PropertyName.dataLink)]
         dataLink.shift()
         let key = dataLink.shift()
-        if(typeof Reflect.get(cd.blueprint,key) === 'object' && !(Reflect.get(cd.blueprint,key) instanceof Array)){
+        if(typeof Reflect.get(cd.outputData,key) === 'object' && !(Reflect.get(cd.outputData,key) instanceof Array)){
           debugger
           // speciale geval dat we te maken hebben met een genest concept dat geen lijst is
           // todo (while nodig!)
         } else if(dataLink.length===0){
-          Reflect.set(cd.data,key,value)
+          Reflect.set(cd.outputData,key,value)
         }
       }
     }

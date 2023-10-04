@@ -14,6 +14,7 @@ import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
+import {OutputData} from "../../../types/union-types";
 
 // todo fix
 @Injectable({
@@ -41,13 +42,15 @@ export class ServerDataService {
     //********************     queries     ****************************/
 
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
-      if (res) {
+      if (res?.effect.action.conceptName && res.effect.action.target) {
+        const concept = res.effect.action.conceptName
+        const target = res.effect.action.target
         this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
           const data = ServerData.getData(resFirst)
           if(data){
             if(ServerData.dataIsNumber(data,'numberOfNesting')){
               this.queryService
-                .getBlueprint(res.effect.action.conceptName,ServerData.getDataValue(data,'numberOfNesting'))
+                .getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting'))
                 .subscribe(resOrErr=>{
                 const data = ServerData.getData(resOrErr)
                 if(data){
@@ -55,7 +58,7 @@ export class ServerDataService {
                   //      dit is wellicht een mooie kandidaat voor branded types
                   //      de reden waarom dat niet gecontroleerd wordt is dat data van het any type is
                   //      dat is niet conform de type van de parameter maar het wordt gewoon niet gecontroleerd
-                  createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[], data)
+                  createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
                   this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
                 } else{
                   // todo handle error
@@ -69,24 +72,26 @@ export class ServerDataService {
 
     this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
       if (res) {
-        if (typeof res.data === 'string') {
-          // todo zie dat je hier van een ObjectId type kan uitgaan
-          function getRecord(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect, data: any, target: EventTarget | undefined}){
-            self.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data).subscribe(errorOrResult=>{
-              const data = ServerData.getData(errorOrResult)
-              if(data){
+        if (typeof res.data === 'string' && res.effect.action.target) {
+          // todo zie dat je hier van een ObjectId type kan uitgaan = branded type
+          function getRecord(self:ServerDataService, blueprint:Blueprint, res:
+            {effect: Effect, data: string, target: EventTarget | undefined}){
+            if(res.effect.action.conceptName){
+              self.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data).subscribe(errorOrResult=>{
+                const data = ServerData.getData(errorOrResult)
                 if(data.dataSingle){
-                  // todo opgepast data is of type any!!!
-                  self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
-                  const cd = self.clientDataService.getClientData(res.effect.action.target)
-                  if(cd)
-                    self.clientDataService.clientDataUpdated.next(cd)
+                  if(data.dataSingle){
+                    // todo opgepast data is of type any!!!
+                    self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
+                    const cd = self.clientDataService.getClientData(res.effect.action.target)
+                    if(cd) self.clientDataService.clientDataUpdated.next(cd)
+                  }
+                  self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+                } else{
+                  throw new Error('bad types')
                 }
-                self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
-              } else{
-                // todo handle error
-              }
-            })
+              })
+            } else throw new Error('bad types')
           }
           const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
           if (blueprint) {
@@ -120,7 +125,7 @@ export class ServerDataService {
 
     this.actionsService.bindToAction(new Action('',ActionType.GetAllInstances))?.subscribe(async res => {
       if (res) {
-        function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect, data: any, target: EventTarget | undefined}){
+        function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect, data: OutputData, target: EventTarget | undefined}){
           self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
             const data = ServerData.getData(errorOrResult)
             if(data.dataMultiple){
