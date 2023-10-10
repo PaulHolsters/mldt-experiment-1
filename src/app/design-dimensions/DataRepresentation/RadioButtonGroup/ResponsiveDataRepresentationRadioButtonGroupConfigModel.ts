@@ -37,11 +37,11 @@ export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends Res
   getInstance(){
     return 'content-injection'
   }
-  public getDataRepresentationRenderProperties(screenSize: number,clientData?:OutputData): RadioButtonGroupDataRepresentationRenderModel {
+  public getDataRepresentationRenderProperties(screenSize: number,data?:string[]): RadioButtonGroupDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataRepresentationRenderModel()
-    if(clientData){
-      renderInstance?.setDBIValues()
+    if(data){
+      renderInstance?.setDBIValues(data)
     } else{
       Object.entries(config).forEach(([k,v])=>{
         if(v) renderInstance?.setProperty(k,v)

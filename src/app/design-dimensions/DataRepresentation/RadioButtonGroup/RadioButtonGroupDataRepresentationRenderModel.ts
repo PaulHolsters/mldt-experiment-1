@@ -1,6 +1,7 @@
 import {FunctionType} from "../../../enums/functionTypes.enum";
 import {DeterminedByEngine, LabelType, NotConfigured} from "../../../types/type-aliases";
 import utilFunctions from "../../../utils/utilFunctions";
+import {OutputData} from "../../../types/union-types";
 export class RadioButtonGroupDataRepresentationRenderModel {
   public pipe:FunctionType[]|NotConfigured=undefined
   public values:LabelType[]|DeterminedByEngine=undefined
@@ -36,19 +37,11 @@ export class RadioButtonGroupDataRepresentationRenderModel {
     })
     return valCopy
   }
-  setDBIValues() {
+  setDBIValues(data:string[]) {
     if(!this.values){
-        if (bp && bp instanceof Array && bp.length==2 && bp[0]==='enum'){
-          if(bp[1].length===0){
-            attr.radio.radioValues = []
-          } else
-          {
-            attr.radio.radioValues = bp[1].map(enumVal => {
-              if (typeof enumVal === 'string') {
-                return {label: utilFunctions.createSpaces(utilFunctions.capitalizeFirst(enumVal)), value: enumVal}
-              } else throw new Error('Invalid radio button configuration => enum values are not of type string ' + enumVal)
-            })
-          }}
+      this.values = data.map(enumVal => {
+          return {label: utilFunctions.createSpaces(utilFunctions.capitalizeFirst(enumVal)), value: enumVal}
+      })
     }
   }
 
