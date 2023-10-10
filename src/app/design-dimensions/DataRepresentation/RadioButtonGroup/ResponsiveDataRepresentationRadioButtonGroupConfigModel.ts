@@ -3,6 +3,8 @@ import {RadioButtonGroupDataRepresentationConfigModel} from "./RadioButtonGroupD
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {RadioButtonGroupDataRepresentationRenderModel} from "./RadioButtonGroupDataRepresentationRenderModel";
 import {DeterminedByEngine} from "../../../types/type-aliases";
+import {ClientData} from "../../../services/data/client/ClientData";
+import {OutputData} from "../../../types/union-types";
 export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataRepresentationConfigModel>{
   public portraitTablet: RadioButtonGroupDataRepresentationConfigModel|DeterminedByEngine=undefined
@@ -35,13 +37,17 @@ export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends Res
   getInstance(){
     return 'content-injection'
   }
-  public getDataRepresentationRenderProperties(screenSize: number): RadioButtonGroupDataRepresentationRenderModel {
-    // todo het lijkt mij dat de omzettingen beter hier komen
+  public getDataRepresentationRenderProperties(screenSize: number,clientData?:OutputData): RadioButtonGroupDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataRepresentationRenderModel()
-    Object.entries(config).forEach(([k,v])=>{
-      if(v) renderInstance?.setProperty(k,v)
-    })
+    if(clientData){
+      renderInstance?.setDBIValues()
+    } else{
+      Object.entries(config).forEach(([k,v])=>{
+        if(v) renderInstance?.setProperty(k,v)
+      })
+    }
     return renderInstance
   }
+
 }

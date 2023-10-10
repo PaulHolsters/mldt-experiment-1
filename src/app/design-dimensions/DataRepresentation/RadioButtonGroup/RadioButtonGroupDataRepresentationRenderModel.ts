@@ -36,7 +36,7 @@ export class RadioButtonGroupDataRepresentationRenderModel {
     })
     return valCopy
   }
-  replaceDBIValues() {
+  setDBIValues() {
     if(!this.values){
         if (bp && bp instanceof Array && bp.length==2 && bp[0]==='enum'){
           if(bp[1].length===0){
