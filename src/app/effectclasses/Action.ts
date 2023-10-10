@@ -2,9 +2,9 @@ import {TargetType} from "../enums/targetTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
-import {ConceptName} from "../types/ConceptName";
-import {ActionIdType, ComponentNameType, ConceptNameType, NotAllowed} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, NotAllowed, NotConfigured} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
+import {DataLink} from "../types/union-types";
 export class Action {
   public readonly service:ServiceType
   public readonly serviceMethod:ServiceMethodType
@@ -12,11 +12,10 @@ export class Action {
   public constructor(
     public id:ActionIdType,
     public type:ActionType,
-    public conceptName: ConceptNameType|NotAllowed=undefined,
+    public conceptName: ConceptNameType|NotAllowed|NotConfigured=undefined,
     public target:ComponentNameType|NotAllowed=undefined,
     public value:ActionValueModel|NotAllowed=undefined
   ) {
-    ConceptName.check(conceptName)
     switch (type){
       case ActionType.CreateInstance:
         this.service = ServiceType.DataService

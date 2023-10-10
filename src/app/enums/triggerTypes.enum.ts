@@ -7,5 +7,6 @@ export enum TriggerType {
   PageChanged,
   ActionAccepted,
   ActionRejected,
-  ClientDataUpdated
+  ClientDataUpdated,
+  BlueprintStrReady
 }

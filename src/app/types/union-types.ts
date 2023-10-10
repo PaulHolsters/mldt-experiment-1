@@ -116,7 +116,7 @@ import {Table} from "../components/table/Table";
 import {Button} from "../components/button/Button";
 import {Icon} from "../components/icon/Icon";
 import {DataRecordModel} from "../design-dimensions/DataRecordModel";
-import {NoValueYet} from "./type-aliases";
+import {NotApplicable, NoValueYet} from "./type-aliases";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -190,5 +190,8 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 export type ComponentModelType = Container|Table|Button|Icon
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
-export type OutputData = (DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet
 export type DataLink = string[]|string
+export type ResponseData = string|(DataRecordModel|null)[]|DataRecordModel
+export type OutputData = (DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet
+export type UIData = (DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet|NotApplicable
+export type info = ResponseData|UIData

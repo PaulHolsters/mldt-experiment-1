@@ -1,10 +1,9 @@
 import {MutationType} from "../../../../enums/mutationTypes.enum";
 import utilFunctions from "../../../../utils/utilFunctions";
 import {ObjectIdType} from "../../../../types/type-aliases";
-import {NoValueType} from "../../../../enums/no_value_type";
 import {ConfigService} from "../../../config.service";
 import {ClientData} from "../../client/ClientData";
-import {DataRecordModel} from "../../../../design-dimensions/DataRecordModel";
+import {OutputData} from "../../../../types/union-types";
 
 export class Mutation {
   public constructor(
@@ -13,8 +12,8 @@ export class Mutation {
     private configService:ConfigService
   ) {
   }
-  private getData():DataRecordModel|(DataRecordModel|null)[]|Error{
-    return this.data.data ? this.data.data : new Error('data is not defined')
+  private getData():OutputData|Error{
+    return this.data.outputData ? this.data.outputData : new Error('data is not defined')
   }
   private getParams(): string {
     const data = this.getData()
@@ -26,7 +25,8 @@ export class Mutation {
       return this.getParamsForRecord(data)
     }
   }
-  private getParamsForRecord(data:DataRecordModel|null):string {
+  private getParamsForRecord(data:OutputData):string {
+    // todo add checking that data is a recordmodel
     if (!data) return ''
     let str = ''
     const entries = Object.entries(data)

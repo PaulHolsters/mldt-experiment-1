@@ -17,5 +17,6 @@ export enum ActionType {
   UpdateView,
   CreateClientData,
   GetClientData,
-  DeleteClientData
+  DeleteClientData,
+  ContinueSuspendedServerCalls
 }

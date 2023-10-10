@@ -50,14 +50,15 @@ actionBtn.structural.smartphone.setLabel('Edit').setIcon(new IconConfigModel(Ico
 // de eigenlijke tabel met de producten
 const mainTable = new Table('main-table')
 mainTable.styling.smartphone.setGridType(TableGridType.Row)
-mainTable.setClientData(new ClientDataConfigModel('populate_table'))
-mainTable.contentInjection.smartphone
-  .setColumnHeaderComponents([
-    col1HeaderContainer,
-    col2Icon,
-    col3Icon,
-    col4Icon])
-  .setExtraColumns([new ExtraColumnModel(actionBtn, new TableColumnModel('actions'))])
+mainTable
+  .setClientData(new ClientDataConfigModel('populate_table'))
+  .contentInjection.smartphone
+    .setColumnHeaderComponents([
+      col1HeaderContainer,
+      col2Icon,
+      col3Icon,
+      col4Icon])
+    .setExtraColumns([new ExtraColumnModel(actionBtn, new TableColumnModel('actions'))])
 mainTable.structural.smartphone
   .setTextWhenEmpty('Er bestaan nog geen producten')
   .setColumns([

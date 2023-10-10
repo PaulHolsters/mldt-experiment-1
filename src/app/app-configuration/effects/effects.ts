@@ -22,7 +22,7 @@ const customFunction = (stateService: StateService): any[] => {
   })
 }
 export const effects:Effect[] = [
-  new Effect(
+/*  new Effect(
     new Trigger(TriggerType.ComponentReady, 'delete-container'),
     new Action('getBP_product',ActionType.GetBluePrint,'product','delete-container'),
   ),
@@ -33,9 +33,9 @@ export const effects:Effect[] = [
   new Effect(
     new Trigger(TriggerType.ActionFinished,'delete_product'),
     new Action('set_delete-container_invisible',
-      ActionType.SetRenderProperty, ,'delete-container',
+      ActionType.SetRenderProperty, 'delete-container',
       new ActionValueModel(PropertyName.visible, false)),
-  ),
+  ),*/
   new Effect(
     new Trigger(TriggerType.ComponentReady, 'table'),
     new Action('populate_table',ActionType.GetAllInstances, 'product','table')
@@ -46,7 +46,7 @@ export const effects:Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'create_client_data'),
-    new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, NoValueType.NA,'edit-product-dialog',
+    new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, undefined,'edit-product-dialog',
       new ActionValueModel(PropertyName.visible, true))
   ),
   new Effect(

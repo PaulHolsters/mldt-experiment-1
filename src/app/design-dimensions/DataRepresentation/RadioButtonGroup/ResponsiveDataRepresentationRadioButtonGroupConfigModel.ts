@@ -36,6 +36,7 @@ export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends Res
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number): RadioButtonGroupDataRepresentationRenderModel {
+    // todo het lijkt mij dat de omzettingen beter hier komen
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataRepresentationRenderModel()
     Object.entries(config).forEach(([k,v])=>{
@@ -43,5 +44,4 @@ export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends Res
     })
     return renderInstance
   }
-
 }

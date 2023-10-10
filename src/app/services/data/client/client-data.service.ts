@@ -7,21 +7,23 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
 import {ClientData} from "./ClientData";
-import {ActionIdType, ComponentNameType, ConceptNameType, NotConfigured, NoValueYet} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, LabelType, NotConfigured} from "../../../types/type-aliases";
 import {FunctionType} from "../../../enums/functionTypes.enum";
 import utilFunctions from "../../../utils/utilFunctions";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
-import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {RenderPropertiesService} from "../../renderProperties.service";
-import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
-import {DataLink, OutputData} from "../../../types/union-types";
+import {OutputData} from "../../../types/union-types";
+import {
+  RadioButtonGroupDataRepresentationConfigModel
+} from "../../../design-dimensions/DataRepresentation/RadioButtonGroup/RadioButtonGroupDataRepresentationConfigModel";
 @Injectable({
   providedIn: 'root'
 })
 export class ClientDataService {
+  // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
   private _clientData: ClientData[] = []
@@ -74,6 +76,7 @@ export class ClientDataService {
       else return cd.name === target
     })
   }
+
   // in de volgende twee methodes moet outPutData correct staan
   public updateClientData(id:ActionIdType,data:Blueprint|OutputData) {
     const instance =  this.clientData.find(cd=>{
@@ -118,123 +121,15 @@ export class ClientDataService {
     // todo
     // wanneer een component gedestroyed wordt
   }
-
-  // output data get/set
-  public getOutputData(name:ComponentNameType):OutputData{
-    // todo hier moet je enkel ophalen en subsitueren, bij het setten is het dat je datalink nodig hebt
-    //      de datalink gebruik je daar om in de blueprint van het hoofdobject te duiken en vervolgens de waarde op te halen
-    if(dataLink.length<2) throw new Error('Provided datalink array has not all data needed')
-    const clientData = this.getClientData(name)
-    if(!clientData || !clientData.attributes || clientData.attributes.length===0 || clientData.attributes === NoValueType.NA) return undefined
-    const attr = clientData.attributes.find(attr=>{
-      return attr.name===dataLink[1]
-    })
-    if(!attr) return undefined
-    let currentAttr = {...attr}
-    currentAttr = this.replaceDBIValues(clientData, currentAttr)
-    currentAttr = this.replaceNVYValues(clientData, currentAttr)
-    currentAttr = this.pipeValue(clientData, currentAttr)
-    const [k, v] = Object.entries(clientData.blueprint ?? {}).find(([k, v]) => {
-      return k === dataLink[1]
-    }) ?? []
-    if (k) {
-      currentAttr.dataBlueprint = new Map([[k, v]])
-    }
-    return currentAttr
+  public getOutputDataForUIComponent(name:ComponentNameType):OutputData|undefined{
+    return this.clientData.find(cd=>{
+      return cd.name === name
+    })?.outputData
   }
-  public setOutputData(name: string, value: string|number|Date|NoValueType.DBI | DataRecordModel[] | undefined){
-    // todo te gebruiken door de update en create clientdata methods
-    const cd = this.getClientData(name)
-    if(cd){
-      if(typeof value === 'string'
-        && typeof cd.outputData === 'object'
-        && cd.outputData.hasOwnProperty('id')
-        && cd.outputData.hasOwnProperty('__typename')){
-        const dataLink = [...this.stateService.getValue(name,PropertyName.dataLink)]
-        dataLink.shift()
-        let key = dataLink.shift()
-        if(typeof Reflect.get(cd.outputData,key) === 'object' && !(Reflect.get(cd.outputData,key) instanceof Array)){
-          debugger
-          // speciale geval dat we te maken hebben met een genest concept dat geen lijst is
-          // todo (while nodig!)
-        } else if(dataLink.length===0){
-          Reflect.set(cd.outputData,key,value)
-        }
-      }
-    }
-    /*
-    const parts = name.split('_')
-    const obj = this.clientData.find(instance => {
-      return instance.record && instance.record.id === id
-        || (instance.conceptName === parts[0] && !instance.listOfRecords)
-    })
-    if (obj && obj.attributes) {
-      if (parts.length === 2) {
-        const attr = (obj.attributes as AttributeConfigModel[]).find(attr => {
-          return attr.name === parts[1]
-        })
-        if (attr) {
-          if (attr.text && typeof value === 'string') {
-            attr.text.value = value
-            attr.dataServer = value
-          }
-          if (attr.number && typeof value === 'number') {
-            attr.number.value = value
-            attr.dataServer = value
-          }
-          if (attr.radio && typeof value === 'string') {
-            attr.radio.value = value
-            attr.dataServer = value
-          }
-          if (attr.multiselect && value instanceof Array) {
-            attr.multiselect.selectedOptions = value
-            attr.dataServer = value
-          }
-          // todo alle andere datatypes (form controls) => refactor dit is gebonden aan specifieke componenten wat niet goed is
-
-          (obj.attributes as AttributeConfigModel[]).splice((obj.attributes as AttributeConfigModel[]).findIndex(attr => {
-            return attr.name === parts[1]
-          }), 1, attr)
-          this.clientData.splice(this.clientData.findIndex(instance => {
-            return instance.record?.id === id || (instance.conceptName === parts[0] && !instance.listOfRecords)
-          }), 1, obj)
-        }
-      } else {
-        // Het gaat om een concept
-      }
-    }*/
-  }
-
-  //***********************************     data manipulation ACTIONS         ***************************************************************/
-  private calculatePipeValue(radioValue:{label:string,value:string},array:FunctionType[]):{label:string,value:string}{
-    let valCopy = {...radioValue}
-    array.forEach(func=>{
-      switch (func){
-        case FunctionType.ToLowerCase:
-          valCopy.label = utilFunctions.toLowerCase(valCopy.label)
-          break
-        case FunctionType.ToUpperCase:
-          valCopy.label = utilFunctions.toUpperCase(valCopy.label)
-          break
-        case FunctionType.CreateSpaces:
-          valCopy.label = utilFunctions.createSpaces(valCopy.label)
-          break
-        case FunctionType.CapitalizeFirstLetter:
-          valCopy.label = utilFunctions.capitalizeFirst(valCopy.label)
-          break
-      }
-    })
-    return valCopy
-  }
-  private pipeValue(concept:ClientData, attr:AttributeComponentModel):AttributeComponentModel{
-    if (attr.radio && attr.radio.pipe instanceof Array) {
-      const pipeCopy = attr.radio.pipe
-      if(attr.radio.radioValues instanceof Array && pipeCopy)
-        attr.radio.radioValues = attr.radio.radioValues.map(val =>{ return this.calculatePipeValue(val,pipeCopy)})
-    }
-    return attr
-  }
+  //***********************************     data manipulation methods         ***************************************************************/
   private replaceDBIValues(clientData: ClientData, attr: AttributeComponentModel): AttributeComponentModel {
+    // todo waar haal je de overeenksomtige config vandaag: via name component => datarepresentation config (
+    //      daarbij juiste screensize gebruiken
     const bp = attr.dataBlueprint?.get(attr.name)
     if (attr.radio) {
       if (attr.radio.conceptName === NoValueType.DBI) {
