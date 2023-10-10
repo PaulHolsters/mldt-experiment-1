@@ -60,6 +60,7 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('',ActionType.UpdateView))?.subscribe(res=>{
+      // todo dit zou meer granulair moeten komen maar kom
       if(res){
         const action = this.outputData()
         if(action){
@@ -75,6 +76,11 @@ export class UiActionsService {
       }).forEach(propSubj=>{
         switch (propSubj.propName){
           case PropertyName.outputData:
+            // todo hier moet je nu de render properties opvragen en doorsturen,
+            //      bijkomend bij de gewone data
+            //      edoch het lijkt er op dat je hier beter een andere service op aanspreekt
+            //      waarbinnen een actie bestaat die dat afhandelt, maar doe het voorlopig maar gewoon hier
+            //
             propSubj.propValue.next(cd.outputData)
             break
           case PropertyName.conceptBlueprint:
