@@ -80,15 +80,15 @@ export class DeterminedByEngineService {
     }
     return true
   }
-  // todo alle concrete situaties naar de concrete modellen
-  private replaceDBIValues(clientData: ClientData): AttributeComponentModel {
+  // todo alle concrete situaties DBE / NVY naar de concrete modellen
+/*  private replaceDBIValues(clientData: ClientData): AttributeComponentModel {
     if(attr.tableColumn){
       if(attr.tableColumn.label === NoValueType.DBI){
         attr.tableColumn.label = utilFunctions.capitalizeFirst(attr.name)
       }
     }
     return attr
-  }
+  }*/
 
   private replaceNVYValues(clientData: ClientData, attr: AttributeComponentModel): AttributeComponentModel {
     if (attr.text && attr.text.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string') {

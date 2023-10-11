@@ -34,11 +34,11 @@ export class ResponsiveStructuralTableConfigModel
     this.highResolution = highResolution
     return this
   }
-
   getInstance() {
     return 'table'
   }
-  public getTableStructuralRenderProperties(screenSize: number): TableStructuralRenderModel {
+  public getStructuralRenderProperties(screenSize: number): TableStructuralRenderModel {
+    // todo werk dbe waarden verder af
     const config = this.getConfigModel(screenSize)
     const renderInstance = new TableStructuralRenderModel()
     Object.entries(config).forEach(([k, v]) => {
