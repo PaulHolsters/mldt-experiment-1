@@ -4,7 +4,7 @@ Elk onderdeel van Mouldit zit in een aparte directory - of zal nog in een aparte
 ### Models
 Hierin vind je de modellen terug die de eerste feature van Mouldit, het Responsive Behaviour System, volledig beschrijven. Het systeem kent (voorlopig) de volgende onderdelen:
 - Attributes: dit zijn HTML attributen die specifiek voor bepaalde componenten bestaan, maar niet per se voor andere. Voorbeeld: het src attribuut van een img tag.
-- ChildLayout: Dit zijn de modellen waar een Container component gebruik van maakt. Hiermee kan je als gebruiker aangeven hoe de child components zich moeten gedragen wat betreft positie en dimensies.
+- ChildLayout: Dit zijn de modellen waar een Multiselect component gebruik van maakt. Hiermee kan je als gebruiker aangeven hoe de child components zich moeten gedragen wat betreft positie en dimensies.
 - Dimensioning: deze modellen bepalen de dimensies van een component, meerbepaald de hoogte en/of de breedte.
 - Overflow: deze modellen bepalen alles i.v.m. overflow, bijvoorbeeld wanneer de scrollfunctie moet getoond worden (deze feature werkt nog niet).
 - Positioning: deze modellen bepalen waar de componenten op de pagina gerendered moeten worden.
@@ -24,7 +24,7 @@ Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verande
       components: [
         {
           name: 'content-container',
-          type: ComponentType.Container,
+          type: ComponentType.Multiselect,
           position: new ResponsiveIndividualLayoutConfigModel(
             new IndividualLayoutConfigModel()),
           visibility: new ResponsiveSpacingConfigModel(),
@@ -253,7 +253,7 @@ We behandelen nu voor elk der properties de configuratiemogelijkheden in detail.
 #### Attributes
 Dit is eenvoudig. Bij aanmaak van een instantie geef je gewoon de waarden in van elk HTML attribuut bv. een waarde voor het src attribuut, het alt attribuut enz. 
 #### ChildLayout
-Hoewel verbetering hier zeker nog mogelijk is qua "clean code", is dit toch al behoorlijk. De essentie is dat je als parent component (voorlopig is er maar 1 component die van deze responsive property gebruikt maakt, namelijk de Container component) gaat configureren wat er met je directe children moet gebeuren op vlak van dimensionering en positionering. Dit doe je door enerzijds configuratie mee te geven op vlak van horizontale childLayout - in deze context wordt met "childLayout" bedoeld het totaal pakket van positionering en dimensionering - alsook op vlak van verticale childLayout (*HorizontalLayoutConfigPropsModel* en *VerticalLayoutConfigPropsModel* repectievelijk). Momenteel zijn er wat dat betreft telkens 6 properties die je als parameters voor de constructor moet meegeven:
+Hoewel verbetering hier zeker nog mogelijk is qua "clean code", is dit toch al behoorlijk. De essentie is dat je als parent component (voorlopig is er maar 1 component die van deze responsive property gebruikt maakt, namelijk de Multiselect component) gaat configureren wat er met je directe children moet gebeuren op vlak van dimensionering en positionering. Dit doe je door enerzijds configuratie mee te geven op vlak van horizontale childLayout - in deze context wordt met "childLayout" bedoeld het totaal pakket van positionering en dimensionering - alsook op vlak van verticale childLayout (*HorizontalLayoutConfigPropsModel* en *VerticalLayoutConfigPropsModel* repectievelijk). Momenteel zijn er wat dat betreft telkens 6 properties die je als parameters voor de constructor moet meegeven:
 - axis
 - wrap
 - scroll
@@ -292,6 +292,6 @@ Zoals reeds vermeld kan je alle Mouldit componenten vinden in de *components* ma
 Een block is wat de naam suggereert. Een block met een achtergrond kleur naar keuze en dimensies ook naar keuze. Deze component is voorlopig enkel bedoeld om mee te experimenteren, juist vanwege zijn eenvoud.
 ### Logo
 Deze component is bedoeld om te gebruiken voor het logo van je firma. Het aanvaard de url van een bestand en verder ofwel een breedte ofwel een hoogte (zodat de verhouding niet in de war gaat). Uiteraard is dit allemaal nog zeer rudimentair en eerder bedoeld als een manier om zaken uit te proberen. Dit is dus verre van de definitieve versie.
-### Container
-Dit is binnen Mouldit een cruciale component. Dit is (voorlopig) de enige component die toelaat om er andere componenten in onder te brengen. Positie en dimensie van deze child components kan je dan configureren via de childLayout property binnen het *RBS*. Uiteraard kan je deze component zelf ook nog configureren binnen het *RBS*. Het is de bedoeling om op termijn toe te laten dat je een Container kan onderbrengen binnen een parent Container alsook de Container te gebruiken als een "ankerpunt" binnen een bestaande component waar je via de configuratie kinderen in kan injecteren. Dit laatste lijkt mij een absoluut noodzakelijke feature indien je een waarlijk customizable frontend wilt kunnen maken met Mouldit.  
-Een Container heeft een *children* property. De mogelijke waarde van deze property is ofwel een array met strings waar de strings de namen zijn van de childcomponents. Ofwel komt hier de volledige configuratie van elk kind. Elk kind is dan het het *ComponentModel* type. Een mix is (voorlopig) niet mogelijk. Voorlopig kan je maar één diep nesten in deze property. Dat wil zeggen dat als je een Container binnen een Container wil nesten dat je dan verplicht bent om met een array van strings te werken.
+### Multiselect
+Dit is binnen Mouldit een cruciale component. Dit is (voorlopig) de enige component die toelaat om er andere componenten in onder te brengen. Positie en dimensie van deze child components kan je dan configureren via de childLayout property binnen het *RBS*. Uiteraard kan je deze component zelf ook nog configureren binnen het *RBS*. Het is de bedoeling om op termijn toe te laten dat je een Multiselect kan onderbrengen binnen een parent Multiselect alsook de Multiselect te gebruiken als een "ankerpunt" binnen een bestaande component waar je via de configuratie kinderen in kan injecteren. Dit laatste lijkt mij een absoluut noodzakelijke feature indien je een waarlijk customizable frontend wilt kunnen maken met Mouldit.  
+Een Multiselect heeft een *children* property. De mogelijke waarde van deze property is ofwel een array met strings waar de strings de namen zijn van de childcomponents. Ofwel komt hier de volledige configuratie van elk kind. Elk kind is dan het het *ComponentModel* type. Een mix is (voorlopig) niet mogelijk. Voorlopig kan je maar één diep nesten in deze property. Dat wil zeggen dat als je een Multiselect binnen een Multiselect wil nesten dat je dan verplicht bent om met een array van strings te werken.

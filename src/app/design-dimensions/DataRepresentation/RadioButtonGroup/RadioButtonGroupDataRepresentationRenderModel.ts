@@ -1,7 +1,6 @@
 import {FunctionType} from "../../../enums/functionTypes.enum";
-import {DeterminedByEngine, LabelType, NotConfigured} from "../../../types/type-aliases";
+import {DataLink, DeterminedByEngine, LabelType, NotConfigured} from "../../../types/type-aliases";
 import utilFunctions from "../../../utils/utilFunctions";
-import {DataLink, OutputData} from "../../../types/union-types";
 import {Blueprint} from "../../../services/data/client/Blueprint";
 
 export class RadioButtonGroupDataRepresentationRenderModel {
@@ -39,14 +38,10 @@ export class RadioButtonGroupDataRepresentationRenderModel {
   }
 
   setDBIValues(data: [DataLink,Blueprint]) {
-    const values = data[1].properties.getValue(data[0])
-    // todo branded type
-    if (!this.values && values instanceof Array) {
-      this.values = values.map(enumVal => {
-        if(typeof enumVal === 'string'){
+    const value = data[1].getBlueprintValueForDataLink(data[0])
+    if(value instanceof Array && value[0]==='enum'){
+      this.values = value[1].map(enumVal => {
           return {label: utilFunctions.createSpaces(utilFunctions.capitalizeFirst(enumVal)), value: enumVal}
-        }
-        throw new Error('illegal array value')
       })
       if (this.pipe) {
         this.values = this.values.map(val => {

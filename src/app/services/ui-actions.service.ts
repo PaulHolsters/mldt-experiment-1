@@ -59,15 +59,7 @@ export class UiActionsService {
         }
       }
     })
-    this.actionsService.bindToAction(new Action('',ActionType.UpdateView))?.subscribe(res=>{
-      // todo dit zou meer granulair moeten komen maar kom
-      if(res){
-        const action = this.outputData()
-        if(action){
-          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
-        }
-      }
-    })
+
   }
   private outputData() {
     this.clientDataService.clientData.forEach(cd=>{

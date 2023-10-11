@@ -7,18 +7,14 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
 import {ClientData} from "./ClientData";
-import {ActionIdType, ComponentNameType, ConceptNameType, LabelType, NotConfigured} from "../../../types/type-aliases";
-import {FunctionType} from "../../../enums/functionTypes.enum";
+import {ActionIdType, ComponentNameType, ConceptNameType, DataLink, NotConfigured} from "../../../types/type-aliases";
 import utilFunctions from "../../../utils/utilFunctions";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
-import {DataLink, OutputData} from "../../../types/union-types";
-import {
-  RadioButtonGroupDataRepresentationConfigModel
-} from "../../../design-dimensions/DataRepresentation/RadioButtonGroup/RadioButtonGroupDataRepresentationConfigModel";
+import {OutputData} from "../../../types/union-types";
 @Injectable({
   providedIn: 'root'
 })
@@ -78,19 +74,20 @@ export class ClientDataService {
   }
 
   // in de volgende twee methodes moet outPutData correct staan
-  public updateClientData(id:ActionIdType,data:Blueprint|DataLink) {
+  public updateClientData(id:ActionIdType,data:Blueprint|OutputData) {
     const instance =  this.clientData.find(cd=>{
       return cd.id === id
     })
     if(instance){
       instance.update(data)
+      this.clientDataUpdated.next(instance)
     } else throw new Error('Client data instance does not exist')
   }
   public createClientData(
     actionId:ActionIdType,
     componentName:ComponentNameType,
     blueprint:Blueprint,
-    data:DataLink,
+    data:OutputData,
     errorMessages:string[]|NotConfigured
   ){
     if(blueprint)
@@ -125,81 +122,10 @@ export class ClientDataService {
     const cd = this.clientData.find(cd=>{
       return cd.name === name
     })
-    return cd?.getOutputData()
+    return cd?.outputData
   }
   //***********************************     data manipulation methods         ***************************************************************/
-  private replaceDBIValues(clientData: ClientData, attr: AttributeComponentModel): AttributeComponentModel {
-    // todo waar haal je de overeenksomtige config vandaag: via name component => datarepresentation config (
-    //      daarbij juiste screensize gebruiken
-    const bp = attr.dataBlueprint?.get(attr.name)
-    if (attr.radio) {
-      if (attr.radio.conceptName === NoValueType.DBI) {
-        const cn = this.configService.getEffectsForComponent(clientData.name).find(e=>{
-          return e.action.id===clientData.id
-        })?.action?.conceptName
-        if(cn)
-          attr.radio.conceptName = cn
-        else throw new Error('no conceptname found for concept '+clientData)
-      }
-      if (attr.radio.radioValues === NoValueType.DBI) {
-        if (bp && bp instanceof Array && bp.length==2 && bp[0]==='enum'){
-          if(bp[1].length===0){
-            attr.radio.radioValues = []
-          } else {
-            attr.radio.radioValues = bp[1].map(enumVal=>{
-              if(typeof enumVal === 'string'){
-                return {label:utilFunctions.createSpaces(utilFunctions.capitalizeFirst(enumVal)),value:enumVal}
-              } else throw new Error('Invalid radio button configuration => enum values are not of type string '+enumVal)
-            })
-          }
-        }
-      }
-    } else if (attr.multiselect) {
-      if (attr.multiselect.conceptName === NoValueType.DBI) {
-        const cn = this.configService.getEffectsForComponent(clientData.name).find(e=>{
-          return e.action.id===clientData.id
-        })?.action?.conceptName
-        if(cn)
-          attr.multiselect.conceptName = cn
-        else throw new Error('no conceptname found for concept '+clientData)
-      }
-      if (attr.multiselect.options === NoValueType.DBI) {
-        if (bp instanceof Array && bp.length==2 && bp[0]==='list' && bp[1] instanceof Array && bp[1].length===2 && bp[1][0] instanceof Map
-          && bp[1][1] instanceof Array) {
-          if(bp[1][1].length===0){
-            attr.multiselect.options = []
-          } else {
-            attr.multiselect.options = [...bp[1][1]]
-          }
-        }
-      }
 
-      if (attr.multiselect.optionLabel === NoValueType.DBI) {
-        // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
-      }
-    }
-    if(attr.tableColumn){
-      if(attr.tableColumn.label === NoValueType.DBI){
-        attr.tableColumn.label = utilFunctions.capitalizeFirst(attr.name)
-      }
-    }
-    return attr
-  }
-  private replaceNVYValues(clientData: ClientData, attr: AttributeComponentModel): AttributeComponentModel {
-    if (attr.text && attr.text.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string') {
-      attr.text.value = attr.dataServer
-    }
-    if (attr.number && attr.number.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'number') {
-      attr.number.value = attr.dataServer
-    }
-    if (attr.radio && attr.radio.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string') {
-      attr.radio.value = attr.dataServer
-    }
-    if (attr.multiselect && attr.multiselect.selectedOptions.length === 0 && attr.dataServer && attr.dataServer instanceof Array) {
-      attr.multiselect.selectedOptions = attr.dataServer
-    }
-    return attr
-  }
 }
 /*  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {
       if (compConfig instanceof ClientDataConfigModel) {

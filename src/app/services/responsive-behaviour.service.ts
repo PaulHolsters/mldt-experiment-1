@@ -15,11 +15,12 @@ import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderM
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
 import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
+
 @Injectable({
   providedIn: 'root'
 })
 export class ResponsiveBehaviourService implements OnInit{
-  private screensize:ScreenSize|undefined
+  private screensize:ScreenSize=ScreenSize.smartphone
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
   public get screenSize(){
     return this.screensize

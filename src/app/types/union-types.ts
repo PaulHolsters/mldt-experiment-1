@@ -117,6 +117,9 @@ import {Button} from "../components/button/Button";
 import {Icon} from "../components/icon/Icon";
 import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 import {NotApplicable, NoValueYet} from "./type-aliases";
+import {RadioButtonGroup} from "../components/form/radio-button/RadioButtonGroup";
+import {Multiselect} from "../components/form/multiselect/Multiselect";
+import {Blueprint} from "../services/data/client/Blueprint";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -188,9 +191,11 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
   ResponsiveTableLayoutConfigModel|never
 
-export type ComponentModelType = Container|Table|Button|Icon
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
 export type ResponseData = string|(DataRecordModel|null)[]|DataRecordModel
 export type OutputData = ((DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet)&{ __brand: 'output data'}
 export type UIData = (DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet|NotApplicable
-export type info = ResponseData|UIData
+export type Info = ResponseData|UIData
+export type PropertyType = 'string'|'number'|'boolean'|'Date'
+export type BlueprintValue = PropertyType|['enum',string[]]|['object'|'list',[Blueprint,undefined]]

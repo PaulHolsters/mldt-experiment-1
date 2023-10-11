@@ -16,7 +16,7 @@ export const filterDialog =         // todo dit is het attribuut filterComponent
               NoValueType.NA, NoValueType.NA, NoValueType.NA,
               new ComponentModel(
                 'filter-form-container',
-                ComponentType.Container,
+                ComponentType.Multiselect,
                 formLayout,
                 undefined,
                 new ResponsiveSizeConfigModel(new DimensioningConfigPropsModel(

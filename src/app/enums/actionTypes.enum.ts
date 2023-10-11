@@ -14,9 +14,8 @@ export enum ActionType {
   SetRenderProperty,
   SetLocalConfigurationValueAndRebuild,
   SetConfirmation,// todo hier zouden geen component namen mogen komen
-  UpdateView,
   CreateClientData,
   GetClientData,
   DeleteClientData,
-  ContinueSuspendedServerCalls
+  UpdateDataRelatedProperties
 }

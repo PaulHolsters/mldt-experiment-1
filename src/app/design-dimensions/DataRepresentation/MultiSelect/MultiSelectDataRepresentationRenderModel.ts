@@ -1,5 +1,4 @@
-import {DeterminedByEngine} from "../../../types/type-aliases";
-import {DataLink} from "../../../types/union-types";
+import {DataLink, DeterminedByEngine} from "../../../types/type-aliases";
 import {Blueprint} from "../../../services/data/client/Blueprint";
 
 export class MultiSelectDataRepresentationRenderModel {
@@ -13,10 +12,10 @@ export class MultiSelectDataRepresentationRenderModel {
   }
   setDBIValues(data: [DataLink,Blueprint]) {
     if (!this.optionLabel) {
-      this.optionLabel = data[0]
+      // todo
     }
     if (!this.defaultLabel) {
-      this.defaultLabel = data[1]
+      // todo
     }
   }
 

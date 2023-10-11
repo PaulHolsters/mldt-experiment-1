@@ -2,9 +2,7 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {RadioButtonGroupDataRepresentationConfigModel} from "./RadioButtonGroupDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {RadioButtonGroupDataRepresentationRenderModel} from "./RadioButtonGroupDataRepresentationRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
-import {ClientData} from "../../../services/data/client/ClientData";
-import {DataLink, OutputData} from "../../../types/union-types";
+import {DataLink, DeterminedByEngine} from "../../../types/type-aliases";
 import {Blueprint} from "../../../services/data/client/Blueprint";
 export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataRepresentationConfigModel>{
@@ -32,13 +30,15 @@ export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends Res
     this.highResolution = highResolution
     return this
   }
-  constructor(public smartphone:RadioButtonGroupDataRepresentationConfigModel) {
+  constructor(public smartphone:RadioButtonGroupDataRepresentationConfigModel=new RadioButtonGroupDataRepresentationConfigModel()) {
     super()
   }
   getInstance(){
     return 'content-injection'
   }
-  public getDataRepresentationRenderProperties(screenSize: number,data?:[DataLink,Blueprint]): RadioButtonGroupDataRepresentationRenderModel {
+  public getDataRepresentationRenderProperties(screenSize: number,
+                                               data:[DataLink,Blueprint]|undefined=undefined)
+    : RadioButtonGroupDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataRepresentationRenderModel()
     if(data){

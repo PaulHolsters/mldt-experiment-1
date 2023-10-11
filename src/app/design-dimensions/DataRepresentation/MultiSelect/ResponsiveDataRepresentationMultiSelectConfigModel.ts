@@ -2,8 +2,7 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {MultiSelectDataRepresentationConfigModel} from "./MultiSelectDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {MultiSelectDataRepresentationRenderModel} from "./MultiSelectDataRepresentationRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
-import {DataLink} from "../../../types/union-types";
+import {DataLink, DeterminedByEngine} from "../../../types/type-aliases";
 import {Blueprint} from "../../../services/data/client/Blueprint";
 export class ResponsiveDataRepresentationMultiSelectConfigModel extends ResponsiveConfigModel<MultiSelectDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<MultiSelectDataRepresentationConfigModel>{
@@ -31,13 +30,15 @@ export class ResponsiveDataRepresentationMultiSelectConfigModel extends Responsi
     this.highResolution = highResolution
     return this
   }
-  constructor(public smartphone:MultiSelectDataRepresentationConfigModel) {
+  constructor(public smartphone:MultiSelectDataRepresentationConfigModel=new MultiSelectDataRepresentationConfigModel()) {
     super()
   }
   getInstance(){
     return 'content-injection'
   }
-  public getDataRepresentationRenderProperties(screenSize: number,data:[DataLink,Blueprint]): MultiSelectDataRepresentationRenderModel {
+  public getDataRepresentationRenderProperties(screenSize: number,
+                                               data:[DataLink,Blueprint]|undefined=undefined)
+    : MultiSelectDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new MultiSelectDataRepresentationRenderModel()
     if(data){

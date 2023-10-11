@@ -4,7 +4,6 @@ import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
 import {ActionIdType, ComponentNameType, ConceptNameType, NotAllowed, NotConfigured} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
-import {DataLink} from "../types/union-types";
 export class Action {
   public readonly service:ServiceType
   public readonly serviceMethod:ServiceMethodType
@@ -42,8 +41,9 @@ export class Action {
         this.serviceMethod = ServiceMethodType.CreateClientData
         this.targetType = TargetType.Client
         break
-      case ActionType.UpdateView:
-        this.service = ServiceType.UpdateViewService
+      case ActionType.UpdateDataRelatedProperties:
+        this.service = ServiceType.DeterminedByEngineService
+        // todo => hoeveel nut heeft dit eigenlijk?
         this.serviceMethod = ServiceMethodType.SetData
         this.targetType = TargetType.Client
         break
@@ -109,6 +109,7 @@ export class Action {
         break
       default:
         throw new Error('The action is not implemented yet '+this.type)
+        // todo add typescript switch completion
     }
   }
 }
