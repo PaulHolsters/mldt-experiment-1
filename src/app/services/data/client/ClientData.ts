@@ -41,8 +41,11 @@ export class ClientData {
         val = this.blueprint.properties.properties.get(key)
       }
     }
-    while(val && datalink.length>=1){
-      // todo
+    while(val instanceof Array && val.length === 2 && val[1][0] instanceof Blueprint && datalink.length>=1){
+      key = datalink.pop() as string
+      if(key in val[1][0].properties.properties){
+        val = val[1][0].properties.properties.get(key)
+      }
     }
     if(this.isOutPutData(val)) return val
     throw new Error('bad config')
