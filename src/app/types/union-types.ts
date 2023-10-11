@@ -198,4 +198,5 @@ export type OutputData = ((DataRecordModel|null)[]|DataRecordModel|string[]|stri
 export type UIData = (DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet|NotApplicable
 export type Info = ResponseData|UIData
 export type PropertyType = 'string'|'number'|'boolean'|'Date'
-export type BlueprintValue = PropertyType|['enum',string[]]|['object'|'list',[Blueprint,undefined]]
+export type List = (DataRecordModel|null)[]
+export type BlueprintValue = PropertyType|['enum',string[]]|['object',[Blueprint,DataRecordModel]]|['list',[Blueprint,List]]

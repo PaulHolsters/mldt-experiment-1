@@ -3,6 +3,7 @@ import {NumberInputDataInputConfigModel} from "./NumberInputDataInputConfigModel
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {NumberInputDataInputRenderModel} from "./NumberInputDataInputRenderModel";
 import {DeterminedByEngine} from "../../../types/type-aliases";
+import {BlueprintValue} from "../../../types/union-types";
 export class ResponsiveDataInputNumberInputConfigModel extends ResponsiveConfigModel<NumberInputDataInputConfigModel>
   implements ResponsiveConfigModelI<NumberInputDataInputConfigModel>{
   public portraitTablet: NumberInputDataInputConfigModel|DeterminedByEngine=undefined
@@ -35,7 +36,8 @@ export class ResponsiveDataInputNumberInputConfigModel extends ResponsiveConfigM
   getInstance(){
     return 'content-injection'
   }
-  public getDataInputRenderProperties(screenSize: number): NumberInputDataInputRenderModel {
+  public getDataInputRenderProperties(screenSize: number,
+                                      data:BlueprintValue|undefined=undefined): NumberInputDataInputRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new NumberInputDataInputRenderModel()
     Object.entries(config).forEach(([k,v])=>{

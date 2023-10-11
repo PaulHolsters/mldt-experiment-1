@@ -2,8 +2,8 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {MultiSelectDataRepresentationConfigModel} from "./MultiSelectDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {MultiSelectDataRepresentationRenderModel} from "./MultiSelectDataRepresentationRenderModel";
-import {DataLink, DeterminedByEngine} from "../../../types/type-aliases";
-import {Blueprint} from "../../../services/data/client/Blueprint";
+import {DeterminedByEngine} from "../../../types/type-aliases";
+import {BlueprintValue} from "../../../types/union-types";
 export class ResponsiveDataRepresentationMultiSelectConfigModel extends ResponsiveConfigModel<MultiSelectDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<MultiSelectDataRepresentationConfigModel>{
   public portraitTablet: MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
@@ -37,7 +37,7 @@ export class ResponsiveDataRepresentationMultiSelectConfigModel extends Responsi
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number,
-                                               data:[DataLink,Blueprint]|undefined=undefined)
+                                               data:BlueprintValue|undefined=undefined)
     : MultiSelectDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new MultiSelectDataRepresentationRenderModel()

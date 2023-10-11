@@ -2,8 +2,8 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {RadioButtonGroupDataRepresentationConfigModel} from "./RadioButtonGroupDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {RadioButtonGroupDataRepresentationRenderModel} from "./RadioButtonGroupDataRepresentationRenderModel";
-import {DataLink, DeterminedByEngine} from "../../../types/type-aliases";
-import {Blueprint} from "../../../services/data/client/Blueprint";
+import {DeterminedByEngine} from "../../../types/type-aliases";
+import {BlueprintValue} from "../../../types/union-types";
 export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataRepresentationConfigModel>{
   public portraitTablet: RadioButtonGroupDataRepresentationConfigModel|DeterminedByEngine=undefined
@@ -37,7 +37,7 @@ export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends Res
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number,
-                                               data:[DataLink,Blueprint]|undefined=undefined)
+                                               data:BlueprintValue|undefined=undefined)
     : RadioButtonGroupDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataRepresentationRenderModel()

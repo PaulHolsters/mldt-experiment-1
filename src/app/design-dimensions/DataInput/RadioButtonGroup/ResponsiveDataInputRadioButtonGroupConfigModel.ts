@@ -2,8 +2,8 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {RadioButtonGroupDataInputConfigModel} from "./RadioButtonGroupDataInputConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {RadioButtonGroupDataInputRenderModel} from "./RadioButtonGroupDataInputRenderModel";
-import {DataLink, DeterminedByEngine} from "../../../types/type-aliases";
-import {Blueprint} from "../../../services/data/client/Blueprint";
+import {DeterminedByEngine} from "../../../types/type-aliases";
+import {BlueprintValue} from "../../../types/union-types";
 export class ResponsiveDataInputRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataInputConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataInputConfigModel>{
   public portraitTablet: RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
@@ -37,16 +37,12 @@ export class ResponsiveDataInputRadioButtonGroupConfigModel extends ResponsiveCo
     return 'content-injection'
   }
   public getDataInputRenderProperties(screenSize: number,
-                                      data:[DataLink,Blueprint]|undefined=undefined): RadioButtonGroupDataInputRenderModel {
+                                      data:BlueprintValue|undefined=undefined): RadioButtonGroupDataInputRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataInputRenderModel()
-    if(data){
-      renderInstance?.setDBIValues(data)
-    } else{
-      Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
-      })
-    }
+    Object.entries(config).forEach(([k,v])=>{
+      if(v) renderInstance?.setProperty(k,v)
+    })
     return renderInstance
   }
 

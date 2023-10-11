@@ -55,16 +55,17 @@ export class DeterminedByEngineService {
       if(dl && dl.clientData?.dataLink){
         // todo voeg interface voor getRenderProps toe
         const link = dl.clientData.dataLink
+        const value = res.data.blueprint.getBlueprintValueForDataLink(link)
         const input:{
           [key: string]: any
         }|undefined
           = dl.dataInput?.getDataInputRenderProperties(this.responsiveBehaviourService.screenSize,
-          [link,res.data.blueprint])
+          value)
         const repres:{
           [key: string]: any
         }|undefined
           = dl.dataRepresentation?.getDataRepresentationRenderProperties(this.responsiveBehaviourService.screenSize,
-          [link,res.data.blueprint])
+          value)
         this.renderPropService.getStatePropertySubjects().filter(sp=>{
           return sp.componentName===res.effect.action.target
         }).forEach(prop=>{
@@ -81,36 +82,6 @@ export class DeterminedByEngineService {
   }
   // todo alle concrete situaties naar de concrete modellen
   private replaceDBIValues(clientData: ClientData): AttributeComponentModel {
-    // todo waar haal je de overeenksomtige config vandaag: via name component => datarepresentation config (
-    //      daarbij juiste screensize gebruiken
-    const bp = attr.dataBlueprint?.get(attr.name)
-      if (attr.radio.radioValues === NoValueType.DBI) {
-
-      }
-    } else if (attr.multiselect) {
-      if (attr.multiselect.conceptName === NoValueType.DBI) {
-        const cn = this.configService.getEffectsForComponent(clientData.name).find(e=>{
-          return e.action.id===clientData.id
-        })?.action?.conceptName
-        if(cn)
-          attr.multiselect.conceptName = cn
-        else throw new Error('no conceptname found for concept '+clientData)
-      }
-      if (attr.multiselect.options === NoValueType.DBI) {
-        if (bp instanceof Array && bp.length==2 && bp[0]==='list' && bp[1] instanceof Array && bp[1].length===2 && bp[1][0] instanceof Map
-          && bp[1][1] instanceof Array) {
-          if(bp[1][1].length===0){
-            attr.multiselect.options = []
-          } else {
-            attr.multiselect.options = [...bp[1][1]]
-          }
-        }
-      }
-
-      if (attr.multiselect.optionLabel === NoValueType.DBI) {
-        // todo ik stel voor dat standaard altijd de eerste property wordt genomen => later implementeren nu staat er automatisch 'name'
-      }
-    }
     if(attr.tableColumn){
       if(attr.tableColumn.label === NoValueType.DBI){
         attr.tableColumn.label = utilFunctions.capitalizeFirst(attr.name)
@@ -118,6 +89,7 @@ export class DeterminedByEngineService {
     }
     return attr
   }
+
   private replaceNVYValues(clientData: ClientData, attr: AttributeComponentModel): AttributeComponentModel {
     if (attr.text && attr.text.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string') {
       attr.text.value = attr.dataServer
