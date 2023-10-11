@@ -3,6 +3,8 @@ import {MultiSelectDataRepresentationConfigModel} from "./MultiSelectDataReprese
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {MultiSelectDataRepresentationRenderModel} from "./MultiSelectDataRepresentationRenderModel";
 import {DeterminedByEngine} from "../../../types/type-aliases";
+import {DataLink} from "../../../types/union-types";
+import {Blueprint} from "../../../services/data/client/Blueprint";
 export class ResponsiveDataRepresentationMultiSelectConfigModel extends ResponsiveConfigModel<MultiSelectDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<MultiSelectDataRepresentationConfigModel>{
   public portraitTablet: MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
@@ -35,12 +37,16 @@ export class ResponsiveDataRepresentationMultiSelectConfigModel extends Responsi
   getInstance(){
     return 'content-injection'
   }
-  public getDataRepresentationRenderProperties(screenSize: number): MultiSelectDataRepresentationRenderModel {
+  public getDataRepresentationRenderProperties(screenSize: number,data:[DataLink,Blueprint]): MultiSelectDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new MultiSelectDataRepresentationRenderModel()
-    Object.entries(config).forEach(([k,v])=>{
-      if(v) renderInstance?.setProperty(k,v)
-    })
+    if(data){
+      renderInstance?.setDBIValues(data)
+    } else{
+      Object.entries(config).forEach(([k,v])=>{
+        if(v) renderInstance?.setProperty(k,v)
+      })
+    }
     return renderInstance
   }
 

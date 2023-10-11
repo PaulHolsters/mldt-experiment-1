@@ -15,7 +15,7 @@ import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
-import {OutputData} from "../../../types/union-types";
+import {DataLink, OutputData} from "../../../types/union-types";
 import {
   RadioButtonGroupDataRepresentationConfigModel
 } from "../../../design-dimensions/DataRepresentation/RadioButtonGroup/RadioButtonGroupDataRepresentationConfigModel";
@@ -78,7 +78,7 @@ export class ClientDataService {
   }
 
   // in de volgende twee methodes moet outPutData correct staan
-  public updateClientData(id:ActionIdType,data:Blueprint|OutputData) {
+  public updateClientData(id:ActionIdType,data:Blueprint|DataLink) {
     const instance =  this.clientData.find(cd=>{
       return cd.id === id
     })
@@ -90,7 +90,7 @@ export class ClientDataService {
     actionId:ActionIdType,
     componentName:ComponentNameType,
     blueprint:Blueprint,
-    data:OutputData,
+    data:DataLink,
     errorMessages:string[]|NotConfigured
   ){
     if(blueprint)
@@ -122,9 +122,10 @@ export class ClientDataService {
     // wanneer een component gedestroyed wordt
   }
   public getOutputDataForUIComponent(name:ComponentNameType):OutputData|undefined{
-    return this.clientData.find(cd=>{
+    const cd = this.clientData.find(cd=>{
       return cd.name === name
-    })?.outputData
+    })
+    return cd?.getOutputData()
   }
   //***********************************     data manipulation methods         ***************************************************************/
   private replaceDBIValues(clientData: ClientData, attr: AttributeComponentModel): AttributeComponentModel {

@@ -190,8 +190,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 export type ComponentModelType = Container|Table|Button|Icon
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
-export type DataLink = string[]|string
 export type ResponseData = string|(DataRecordModel|null)[]|DataRecordModel
-export type OutputData = (DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet
+export type OutputData = ((DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet)&{ __brand: 'output data'}
 export type UIData = (DataRecordModel|null)[]|DataRecordModel|string[]|string|NoValueYet|NotApplicable
 export type info = ResponseData|UIData

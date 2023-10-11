@@ -17,3 +17,4 @@ export type NoValueYet = undefined
 export type NotApplicable = undefined
 export type dynamic = undefined
 export type LabelType = {label:string,value:string}
+export type DataLink = string[]
