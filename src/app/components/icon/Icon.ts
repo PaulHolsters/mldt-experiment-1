@@ -13,7 +13,6 @@ import {
 } from "../../design-dimensions/StructuralConfig/icon/ResponsiveStructuralIconConfigModel";
 import {IconType} from "../../enums/iconType.enum";
 import {IconStructuralConfigModel} from "../../design-dimensions/StructuralConfig/icon/IconStructuralConfigModel";
-import {NoValueYet} from "../../types/type-aliases";
 import {ComponentModelType} from "../../types/union-types";
 export class Icon extends ComponentModel implements ComponentI<
   undefined,
@@ -48,8 +47,8 @@ export class Icon extends ComponentModel implements ComponentI<
     this.individualLayout=il
     return this
   }
-  clientData: ClientDataConfigModel|NoValueYet=undefined
-  setClientData(cd:ClientDataConfigModel|NoValueYet){
+  clientData: ClientDataConfigModel|undefined
+  setClientData(cd:ClientDataConfigModel|undefined){
     this.clientData=cd
     return this
   }

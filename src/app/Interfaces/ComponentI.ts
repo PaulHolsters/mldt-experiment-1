@@ -14,7 +14,7 @@ import {
   ResponsiveDataRepresentationConfigModelType, ResponsiveStructuralConfigModelType,
   ResponsiveStylingConfigModelType
 } from "../types/union-types";
-import {NotAllowed, NoValueYet} from "../types/type-aliases";
+import {NoValueType} from "../enums/NoValueTypes.enum";
 
 export interface ComponentI<
   ContentInjection extends ResponsiveContentInjectionConfigModelType|undefined,
@@ -37,8 +37,8 @@ export interface ComponentI<
   setIndividualLayout: (il: ResponsiveIndividualLayoutConfigModel) => ComponentModelType
   styling:  Styling
   setStyling: Styling extends undefined ? Styling: ((contentInjection: Styling) => ComponentModelType)
-  clientData: ClientDataConfigModel|NoValueYet | NotAllowed
-  setClientData: ((clientData: ClientDataConfigModel|NoValueYet) => ComponentModelType)|undefined
+  clientData: ClientDataConfigModel|undefined
+  setClientData: ((clientData: ClientDataConfigModel|undefined) => ComponentModelType)|undefined
   dataRepresentation: DataRepresentation
   setDataRepresentation: DataRepresentation extends undefined ? DataRepresentation: ((contentInjection: DataRepresentation) => ComponentModelType)
   dataInput: DataInput

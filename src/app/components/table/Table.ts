@@ -5,19 +5,12 @@ import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/Responsive
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ClientDataConfigModel} from "../../design-dimensions/ClientData/ClientDataConfigModel";
-
-import {
-  TableDataRepresentationConfigModel
-} from "../../design-dimensions/DataRepresentation/Table/TableDataRepresentationConfigModel";
 import {
   TableContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/table/TableContentInjectionConfigModel";
 import {
   ResponsiveStructuralTableConfigModel
 } from "../../design-dimensions/StructuralConfig/table/ResponsiveStructuralTableConfigModel";
-import {
-  ResponsiveDataRepresentationTableConfigModel
-} from "../../design-dimensions/DataRepresentation/Table/ResponsiveDataRepresentationTableConfigModel";
 import {
   ResponsiveContentInjectionTableConfigModel
 } from "../../design-dimensions/ContentInjection/table/ResponsiveContentInjectionTableConfigModel";
@@ -31,7 +24,6 @@ import {
 import {
   ResponsiveTableLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
-import {NoValueYet} from "../../types/type-aliases";
 import {ComponentModelType} from "../../types/union-types";
 export class Table extends ComponentModel implements ComponentI<
   ResponsiveContentInjectionTableConfigModel,
@@ -39,7 +31,7 @@ export class Table extends ComponentModel implements ComponentI<
   ResponsiveStylingTableConfigModel,
   ResponsiveTableLayoutConfigModel,
   undefined,
-  ResponsiveDataRepresentationTableConfigModel>{
+  undefined>{
   name:string
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
@@ -66,18 +58,13 @@ export class Table extends ComponentModel implements ComponentI<
     this.individualLayout=il
     return this
   }
-  clientData: ClientDataConfigModel|NoValueYet=undefined
-  setClientData(cd:ClientDataConfigModel|NoValueYet){
+  clientData: ClientDataConfigModel|undefined
+  setClientData(cd:ClientDataConfigModel|undefined){
     this.clientData=cd
     return this
   }
-  dataRepresentation = new ResponsiveDataRepresentationTableConfigModel(
-      new TableDataRepresentationConfigModel()
-  )
-  setDataRepresentation(dr:ResponsiveDataRepresentationTableConfigModel){
-    this.dataRepresentation=dr
-    return this
-  }
+  dataRepresentation:undefined
+  setDataRepresentation:undefined
   contentInjection= new ResponsiveContentInjectionTableConfigModel(
     new TableContentInjectionConfigModel()
   )

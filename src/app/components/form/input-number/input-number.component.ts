@@ -1,7 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {NoValueType} from "../../../enums/no_value_type";
 import {InputNumber} from "primeng/inputnumber";
-import {ServerDataService} from "../../../services/data/server/server-data.service";
 import {Observable} from "rxjs";
 import {RenderPropertiesService} from "../../../services/renderProperties.service";
 import {ClientDataService} from "../../../services/data/client/client-data.service";
@@ -16,7 +14,7 @@ export class InputNumberComponent implements OnInit {
   @Input() data:any|undefined
   @Input() advisoryText:string|undefined
   @Input() label:string|undefined
-  @Input() floatLabel:boolean|undefined| NoValueType.NA
+  @Input() floatLabel:boolean|undefined
   @Input() disabled:boolean|undefined
   @Input() dirty:boolean|undefined
   @Input() invalid:boolean|undefined
@@ -39,7 +37,7 @@ export class InputNumberComponent implements OnInit {
   @Input() incrementButtonIcon:string|undefined
   @Input() decrementButtonIcon:string|undefined
   @Input() buttonLayout:string|undefined
-  @Input() value:number|undefined | NoValueType.NA | NoValueType.NVY
+  @Input() value:number|undefined
   @Input() updateKey!: string
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
   calcHeight$: Observable<any>|undefined
@@ -48,7 +46,6 @@ export class InputNumberComponent implements OnInit {
   width:string|undefined
   height:string|undefined
   Number = Number
-  NI = NoValueType.NI
   constructor(private storeService:RenderPropertiesService, private clientDataService:ClientDataService) {
   }
   setCalculatedHeight(val:any):boolean{
@@ -80,7 +77,8 @@ export class InputNumberComponent implements OnInit {
     const text2 = text.substring(text.indexOf('<input ')+7)
     const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
     this.value = Number(text3.substring(0,text3.indexOf('">')))
-    this.clientDataService.updateData(this.name, this.value)
+    // todo
+    this.clientDataService.updateClientData(this.name, this.value)
   }
 
 }

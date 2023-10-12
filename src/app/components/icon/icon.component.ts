@@ -2,7 +2,6 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {Component as AbstractComponent} from "../Component";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
-import {NoValueType} from "../../enums/no_value_type";
 import {MarginType} from "../../enums/marginType.enum";
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Icon} from "../../componentclasses/Icon";
@@ -45,8 +44,8 @@ export class IconComponent extends AbstractComponent implements OnInit,AfterView
     this.cd.detectChanges()
   }
   getStyleClasses(
-    padding:PaddingType|NoValueType.NA,
-    margin:MarginType|NoValueType.NA):Object|undefined{
-    return this.stylesService.getStyleClasses(padding,margin,NoValueType.NA, NoValueType.NA)
+    padding:PaddingType|undefined,
+    margin:MarginType|undefined):Object|undefined{
+    return this.stylesService.getStyleClasses(padding,margin,undefined, undefined)
   }
 }

@@ -36,12 +36,12 @@ x:{key:string,value:number}
         // todo als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
 
         //todo zie dat de binnenkomende data correct verwerkt wordt
-        if(k===PropertyName.conceptData){
+        if(k===PropertyName.outputData){
           this.setPropValue(
             k,
             res,
             undefined,
-            [{prop:PropertyName.currentDataList,use:PropertyName.conceptData}]
+            [{prop:PropertyName.currentDataList,use:PropertyName.outputData}]
           )
         } else{
           this.setPropValue(k,res)

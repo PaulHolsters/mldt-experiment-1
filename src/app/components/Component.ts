@@ -2,14 +2,12 @@ import utilFunctions from "../utils/utilFunctions";
 import {StateService} from "../services/state.service";
 import {RenderPropertiesService} from "../services/renderProperties.service";
 import {EventsService} from "../services/events.service";
-import {ServerDataService} from "../services/data/server/server-data.service";
 import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
 import {StylesService} from "../services/styles.service";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {ComponentType} from "../enums/componentTypes.enum";
 import {InputFontSizeType} from "../enums/inputFontSizeType.enum";
-import {NoValueType} from "../enums/no_value_type";
 import {RestrictionType} from "../enums/restrictionType.enum";
 import {FontWeightType} from "../enums/fontWeightType.enum";
 import {FontSizeType} from "../enums/fontSizeType.enum";
@@ -18,6 +16,7 @@ import {TextColorType} from "../enums/textColorType.enum";
 import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ClientDataService} from "../services/data/client/client-data.service";
+import {NoValueType} from "../enums/NoValueTypes.enum";
 @Directive()
 export class Component{
   @Input() public name!:string
