@@ -2,14 +2,14 @@ import {ButtonStructuralRenderModel} from "./ButtonStructuralRenderModel";
 import {ButtonStructuralConfigModel} from "./ButtonStructuralConfigModel";
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveStructuralButtonConfigModel
   extends ResponsiveConfigModel<ButtonStructuralConfigModel>
   implements ResponsiveConfigModelI<ButtonStructuralConfigModel>{
-  public highResolution: ButtonStructuralConfigModel| DeterminedByEngine = undefined
-  public laptop: ButtonStructuralConfigModel | DeterminedByEngine = undefined
-  public tablet: ButtonStructuralConfigModel | DeterminedByEngine = undefined
-  public portraitTablet: ButtonStructuralConfigModel| DeterminedByEngine = undefined
+  public highResolution: ButtonStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: ButtonStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet: ButtonStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public portraitTablet: ButtonStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   public smartphone: ButtonStructuralConfigModel = new ButtonStructuralConfigModel()
   constructor() {
     super()
@@ -18,19 +18,19 @@ export class ResponsiveStructuralButtonConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ButtonStructuralConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ButtonStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: ButtonStructuralConfigModel| DeterminedByEngine){
+  setTablet(tablet: ButtonStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ButtonStructuralConfigModel| DeterminedByEngine){
+  setLaptop(laptop: ButtonStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: ButtonStructuralConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: ButtonStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

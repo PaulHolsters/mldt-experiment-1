@@ -11,17 +11,13 @@ import {Subject} from "rxjs";
 import {ActionIdType, ComponentNameType} from "../types/type-aliases";
 import {ClientData} from "./data/client/ClientData";
 import {NoValueType} from "../enums/no_value_type";
-import utilFunctions from "../utils/utilFunctions";
-import {OutputData} from "../types/union-types";
-import {RadioButtonGroup} from "../components/form/radio-button/RadioButtonGroup";
-import {Multiselect} from "../components/form/multiselect/Multiselect";
 import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {RenderPropertiesService} from "./renderProperties.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class DeterminedByEngineService {
+export class NoValueType.CALCULATED_BY_ENGINEService {
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
 
   constructor(    private configService:ConfigService,
@@ -45,6 +41,7 @@ export class DeterminedByEngineService {
   public isClientData(data:any):data is ClientData{
     return data instanceof ClientData
   }
+  // todo mogelijks is het niet interessant om hier een aparte service voor te maken, je zou dit ook in de UI actions service kunnen steken
 
   private updateProps(res: {
     effect: Effect,
@@ -90,7 +87,7 @@ export class DeterminedByEngineService {
     return attr
   }*/
 
-  private replaceNVYValues(clientData: ClientData, attr: AttributeComponentModel): AttributeComponentModel {
+  private replaceNVYValues(clientData: ClientData): AttributeComponentModel {
     if (attr.text && attr.text.value === NoValueType.NVY && attr.dataServer && typeof attr.dataServer === 'string') {
       attr.text.value = attr.dataServer
     }

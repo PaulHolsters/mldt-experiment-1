@@ -1,17 +1,17 @@
 import {ComponentModel} from "../../ComponentModel";
 import {TableColumnModel} from "./TableColumnModel";
 export class TableStructuralRenderModel {
-  public textWhenEmpty:string|undefined=undefined
-  public paginator:boolean|undefined=undefined
-  public columns:TableColumnModel[]|undefined=undefined
-  public rows:number|undefined=undefined
-  public rowsPerPage:number[]|undefined=undefined
-  public currentPageReportTemplate:string|undefined=undefined
-  public showFirstLastIcon:boolean|undefined=undefined
-  public showJumpToPageDropdown:boolean|undefined=undefined
-  public showPageLinks:boolean|undefined=undefined
-  public first:number|undefined=undefined
-  public totalRecords:number|undefined=undefined
+  public textWhenEmpty:string|undefined
+  public paginator:boolean|undefined
+  public columns:TableColumnModel[]|undefined
+  public rows:number|undefined
+  public rowsPerPage:number[]|undefined
+  public currentPageReportTemplate:string|undefined
+  public showFirstLastIcon:boolean|undefined
+  public showJumpToPageDropdown:boolean|undefined
+  public showPageLinks:boolean|undefined
+  public first:number|undefined
+  public totalRecords:number|undefined
   constructor() {
   }
   public setProperty(propName: string, value: string|number|ComponentModel| undefined): void {

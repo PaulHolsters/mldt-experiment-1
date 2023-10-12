@@ -1,7 +1,7 @@
 import {ConfirmationModel} from "./ConfirmationModel";
 
 export class ConfirmPopupStructuralRenderModel {
-  public confirmationModel:ConfirmationModel|undefined=undefined
+  public confirmationModel:ConfirmationModel|undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

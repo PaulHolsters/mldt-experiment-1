@@ -1,11 +1,11 @@
 import {HorizontalColumnLayoutConfigType} from "../../enums/HorizontalColumnLayoutConfigTypes.enum";
 import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
 import {DisplayType} from "../../enums/displayType.enum";
-import {NotConfigured} from "../../types/type-aliases";
+import {NoValueType} from "../../enums/NoValueTypes.enum";
 
 export class IndividualLayoutConfigModel {
-  public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|NotConfigured=undefined
-  public displayType:DisplayType|NotConfigured=undefined
+  public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public displayType:DisplayType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   constructor(
 
     ) {
@@ -13,11 +13,11 @@ export class IndividualLayoutConfigModel {
     // todo add z-index
     // todo add absolute position
   }
-  setSelfAlign(selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|NotConfigured){
+  setSelfAlign(selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|NoValueType.NO_VALUE_NEEDED){
     this.selfAlign=selfAlign
     return this
   }
-  setDisplayType(displayType:DisplayType|NotConfigured){
+  setDisplayType(displayType:DisplayType|NoValueType.NO_VALUE_NEEDED){
     this.displayType=displayType
     return this
   }

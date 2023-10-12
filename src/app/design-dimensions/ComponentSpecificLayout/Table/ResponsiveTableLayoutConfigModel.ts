@@ -3,33 +3,33 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {TableLayoutRenderModel} from "./TableLayoutRenderModel";
 import {TableLayoutConfigModel} from "./TableLayoutConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class ResponsiveTableLayoutConfigModel extends ResponsiveConfigModel<TableLayoutConfigModel>
 implements ResponsiveConfigModelI<TableLayoutConfigModel>{
   // todo los probleem op ivm het feit dat een nieuw scherm configureren een hele burden is nu
   public smartphone:TableLayoutConfigModel = new TableLayoutConfigModel()
-  public portraitTablet: TableLayoutConfigModel|DeterminedByEngine=undefined
-  public tablet:TableLayoutConfigModel|DeterminedByEngine=undefined
-  public laptop: TableLayoutConfigModel|DeterminedByEngine=undefined
-  public highResolution: TableLayoutConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: TableLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:TableLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: TableLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: TableLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   setSmartphone(smartphone:TableLayoutConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: TableLayoutConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: TableLayoutConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: TableLayoutConfigModel| DeterminedByEngine){
+  setTablet(tablet: TableLayoutConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: TableLayoutConfigModel | DeterminedByEngine){
+  setLaptop(laptop: TableLayoutConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: TableLayoutConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: TableLayoutConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

@@ -2,20 +2,19 @@ import {NumberInputModeType} from "../../../enums/numberInputModeType.enum";
 import {IconType} from "../../../enums/iconType.enum";
 import {ButtonLayoutType} from "../../../enums/buttonLayoutType.enum";
 import {ButtonMeaningType} from "../../../enums/buttonMeaningType.enum";
-import {NotAllowed, NotConfigured} from "../../../types/type-aliases";
 export class NumberInputDataInputRenderModel {
-  public advisoryText:string|NotConfigured|undefined=undefined
-  public showButtons:boolean|undefined=undefined
-  public step:number|undefined=undefined
-  public mode:NumberInputModeType|undefined=undefined
-  public min:number|undefined=undefined
-  public max:number|undefined=undefined
-  public decrementButtonClass:ButtonMeaningType|undefined=undefined
-  public incrementButtonClass:ButtonMeaningType|undefined=undefined
-  public incrementButtonIcon:IconType|NotConfigured|undefined=undefined
-  public decrementButtonIcon:IconType|NotConfigured|undefined=undefined
-  public buttonLayout:ButtonLayoutType|undefined=undefined
-  public disabled: boolean | NotAllowed=undefined
+  public advisoryText:string|undefined
+  public showButtons:boolean|undefined
+  public step:number|undefined
+  public mode:NumberInputModeType|undefined
+  public min:number|undefined
+  public max:number|undefined
+  public decrementButtonClass:ButtonMeaningType|undefined
+  public incrementButtonClass:ButtonMeaningType|undefined
+  public incrementButtonIcon:IconType|undefined
+  public decrementButtonIcon:IconType|undefined
+  public buttonLayout:ButtonLayoutType|undefined
+  public disabled: boolean | undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

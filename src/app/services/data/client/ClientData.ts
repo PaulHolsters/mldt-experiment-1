@@ -1,4 +1,4 @@
-import {ActionIdType, ComponentNameType, DataLink, NotConfigured, NoValueYet} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, DataLink, NoValueType.NO_VALUE_NEEDED, NoValueYet} from "../../../types/type-aliases";
 import {Blueprint} from "./Blueprint";
 import {BlueprintValue, OutputData} from "../../../types/union-types";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
@@ -8,7 +8,7 @@ export class ClientData {
                      public readonly name:ComponentNameType,
                      private _blueprint:Blueprint,
                      public outputData:OutputData,
-                     public errorMessages:string[]|NotConfigured=undefined) {
+                     public errorMessages:string[]|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED) {
   }
   public get blueprint():Blueprint{
     return Object.create(this._blueprint)

@@ -4,22 +4,22 @@ import {CalculatedSizeConfigModel} from "./CalculatedSizeConfigModel";
 import {ParentConfigType} from "../../enums/ParentConfigTypes.enum";
 import {ButtonSizeConfigModel} from "./button/ButtonSizeConfigModel";
 import {IconSizeConfigModel} from "./icon/IconSizeConfigModel";
-import {NotAllowed, NotConfigured} from "../../types/type-aliases";
+import {NoValueType} from "../../enums/NoValueTypes.enum";
 
 export class SizeConfigModel {
   width:
     NonCalculatedSizeConfigModel |
     CalculatedSizeConfigModel |
     ParentConfigType.static |
-    NotConfigured=undefined
+    NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   height:
     NonCalculatedSizeConfigModel |
     CalculatedSizeConfigModel |
     ParentConfigType.static |
-    NotConfigured=undefined
-  dynamicSize:DynamicSizeConfigModel|NotConfigured=undefined
+    NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  dynamicSize:DynamicSizeConfigModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   // todo zorg ervoor dat at compile time je geen foutieve component kan nemen
-  componentSpecificSize:ButtonSizeConfigModel|IconSizeConfigModel|NotAllowed=undefined
+  componentSpecificSize:ButtonSizeConfigModel|IconSizeConfigModel|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED
   constructor(
   // todo later nog de mogelijkheid van een ratio toevoegen
   ){
@@ -28,7 +28,7 @@ export class SizeConfigModel {
              NonCalculatedSizeConfigModel |
              CalculatedSizeConfigModel |
              ParentConfigType.static |
-             NotConfigured){
+             NoValueType.NO_VALUE_NEEDED){
     this.width = width
     return this
   }
@@ -36,15 +36,15 @@ export class SizeConfigModel {
               NonCalculatedSizeConfigModel |
               CalculatedSizeConfigModel |
               ParentConfigType.static |
-              NotConfigured){
+              NoValueType.NO_VALUE_NEEDED){
     this.height = height
     return this
   }
-  setDynamicSize(dynamicSize:DynamicSizeConfigModel|NotConfigured){
+  setDynamicSize(dynamicSize:DynamicSizeConfigModel|NoValueType.NO_VALUE_NEEDED){
     this.dynamicSize = dynamicSize
     return this
   }
-  setComponentSpecificSize(componentSpecificSize:ButtonSizeConfigModel|IconSizeConfigModel|NotAllowed){
+  setComponentSpecificSize(componentSpecificSize:ButtonSizeConfigModel|IconSizeConfigModel|NoValueType.NO_VALUE_ALLOWED){
     this.componentSpecificSize = componentSpecificSize
     return this
   }

@@ -4,5 +4,5 @@ export enum ServiceType {
   RBSService,
   UpdateViewService,
   ActionsService,
-  DeterminedByEngineService
+  NoValueType.CALCULATED_BY_ENGINEService
 }

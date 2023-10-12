@@ -13,17 +13,17 @@ import {CalculatedSizeConfigModel} from "../../Size/CalculatedSizeConfigModel";
 import {NonCalculatedSizeConfigModel} from "../../Size/NonCalculatedSizeConfigModel";
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {DeterminedByEngine, NotConfigured} from "../../../types/type-aliases";
 import {ChildPropertiesConfigModel} from "./ChildPropertiesConfigModel";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class ResponsiveContainerChildLayoutConfigModel extends ResponsiveConfigModel<ChildLayoutConfigModel>
 implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
   public smartphone:ChildLayoutConfigModel = new ChildLayoutConfigModel()
-  public portraitTablet: ChildLayoutConfigModel|DeterminedByEngine
-  public tablet:ChildLayoutConfigModel|DeterminedByEngine
-  public laptop: ChildLayoutConfigModel|DeterminedByEngine
-  public highResolution: ChildLayoutConfigModel|DeterminedByEngine
-  public childConfig:ChildPropertiesConfigModel|NotConfigured
+  public portraitTablet: ChildLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:ChildLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: ChildLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: ChildLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public childConfig:ChildPropertiesConfigModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   setChildConfig(config:ChildPropertiesConfigModel){
     this.childConfig = config
     return this
@@ -32,19 +32,19 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ChildLayoutConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ChildLayoutConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: ChildLayoutConfigModel| DeterminedByEngine){
+  setTablet(tablet: ChildLayoutConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ChildLayoutConfigModel | DeterminedByEngine){
+  setLaptop(laptop: ChildLayoutConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: ChildLayoutConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: ChildLayoutConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }
@@ -62,7 +62,7 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
     const parentPropsObj = new ParentRenderPropertiesModel()
     const childPropsObj = new ChildPropertiesRenderModel()
     parentPropsObj.wrap = childLayoutConfig.layout.wrap
-    if(childLayoutConfig.layout.sizeOfChildren.dynamicSize){
+    if(childLayoutConfig.layout.sizeOfChildren.dynamicSize!==NoValueType.NO_VALUE_NEEDED){
       childPropsObj.grow = childLayoutConfig.layout.sizeOfChildren.dynamicSize.grow
       childPropsObj.shrink = childLayoutConfig.layout.sizeOfChildren.dynamicSize.shrink
     }
@@ -116,7 +116,7 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
       parentPropsObj.alignItemsStretch = childLayoutConfig.layout.horizontalLayoutOfChildren === HorizontalColumnLayoutConfigType.Stretch
     }
     if(this.childConfig){
-      if(this.childConfig.visibility){
+      if(this.childConfig!==NoValueType.NO_VALUE_NEEDED && this.childConfig.visibility){
         const visibilityRenderModel = this.childConfig.visibility.getVisibilityRenderProperties(screenSize)
         childPropsObj.holdSpace = visibilityRenderModel.holdSpace
         childPropsObj.visible = visibilityRenderModel.visible

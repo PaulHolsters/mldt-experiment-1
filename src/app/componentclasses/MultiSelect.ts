@@ -1,13 +1,13 @@
 import {Component} from "./Component";
-import {NoValueType} from "../enums/no_value_type";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {DataRecordModel} from "../design-dimensions/DataRecordModel";
+import {NoValueType.CALCULATED_BY_ENGINE, NoValueYet} from "../types/type-aliases";
 
 export abstract class MultiSelect extends Component{
 
-  public static options:DataRecordModel[]|NoValueType.DBI|undefined=undefined
-  public static selectedOptions:DataRecordModel[]|NoValueType.DBI|undefined=undefined
-  public static optionLabel:string|undefined|NoValueType.DBI
+  public static options:DataRecordModel[]|NoValueYet=undefined
+  public static selectedOptions:DataRecordModel[]|NoValueYet=undefined
+  public static optionLabel:string|NoValueType.CALCULATED_BY_ENGINE
 
   public static calcWidth: string|undefined = undefined
   public static calcHeight: string|undefined = undefined

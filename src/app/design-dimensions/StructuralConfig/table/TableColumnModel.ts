@@ -1,9 +1,10 @@
-import {DeterminedByEngine, NotConfigured} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
+
 
 export class TableColumnModel {
     constructor(public field:string,
-                public header:string|NotConfigured=undefined,
-                public sort:DeterminedByEngine|NotConfigured|Function = undefined,
-                public filter:DeterminedByEngine|NotConfigured|Function = undefined) {
+                public header:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED,
+                public sort:NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_NEEDED|Function = NoValueType.NO_VALUE_NEEDED,
+                public filter:NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_NEEDED|Function  = NoValueType.NO_VALUE_NEEDED) {
     }
 }

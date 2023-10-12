@@ -1,8 +1,7 @@
 import {IconConfigModel} from "./IconConfigModel";
-import {NotConfigured} from "../../../types/type-aliases";
 export class ButtonStructuralRenderModel {
-  public label:string|NotConfigured=undefined
-  public icon:IconConfigModel|NotConfigured=undefined
+  public label:string|undefined
+  public icon:IconConfigModel|undefined
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

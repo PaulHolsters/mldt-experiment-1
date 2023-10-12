@@ -2,14 +2,14 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {TableStylingConfigModel} from "./TableStylingConfigModel";
 import {TableStylingRenderModel} from "./TableStylingRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveStylingTableConfigModel
   extends ResponsiveConfigModel<TableStylingConfigModel>
   implements ResponsiveConfigModelI<TableStylingConfigModel>{
-  public highResolution: TableStylingConfigModel| DeterminedByEngine = undefined
-  public laptop: TableStylingConfigModel | DeterminedByEngine = undefined
-  public tablet: TableStylingConfigModel | DeterminedByEngine = undefined
-  public portraitTablet: TableStylingConfigModel| DeterminedByEngine = undefined
+  public highResolution: TableStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: TableStylingConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet: TableStylingConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public portraitTablet: TableStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   constructor(public smartphone: TableStylingConfigModel) {
     super()
   }
@@ -17,19 +17,19 @@ export class ResponsiveStylingTableConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: TableStylingConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: TableStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: TableStylingConfigModel| DeterminedByEngine){
+  setTablet(tablet: TableStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: TableStylingConfigModel| DeterminedByEngine){
+  setLaptop(laptop: TableStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: TableStylingConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: TableStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

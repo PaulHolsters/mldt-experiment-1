@@ -9,32 +9,33 @@ import {ButtonSizeRenderModel} from "./button/ButtonSizeRenderModel";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
 import {IconSizeConfigModel} from "./icon/IconSizeConfigModel";
 import {IconSizeRenderModel} from "./icon/IconSizeRenderModel";
-import {DeterminedByEngine} from "../../types/type-aliases";
+import {NoValueType} from "../../enums/NoValueTypes.enum";
+
 export class ResponsiveSizeConfigModel
   extends ResponsiveConfigModel<SizeConfigModel>
   implements ResponsiveConfigModelI<SizeConfigModel>{
-  public highResolution: SizeConfigModel| DeterminedByEngine =undefined
-  public laptop: SizeConfigModel | DeterminedByEngine =undefined
-  public portraitTablet: SizeConfigModel| DeterminedByEngine =undefined
-  public tablet: SizeConfigModel| DeterminedByEngine =undefined
+  public highResolution: SizeConfigModel| NoValueType.CALCULATED_BY_ENGINE =NoValueType.CALCULATED_BY_ENGINE
+  public laptop: SizeConfigModel | NoValueType.CALCULATED_BY_ENGINE =NoValueType.CALCULATED_BY_ENGINE
+  public portraitTablet: SizeConfigModel| NoValueType.CALCULATED_BY_ENGINE =NoValueType.CALCULATED_BY_ENGINE
+  public tablet: SizeConfigModel| NoValueType.CALCULATED_BY_ENGINE =NoValueType.CALCULATED_BY_ENGINE
   public smartphone:SizeConfigModel = new SizeConfigModel()
   setSmartphone(smartphone:SizeConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: SizeConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: SizeConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: SizeConfigModel| DeterminedByEngine){
+  setTablet(tablet: SizeConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: SizeConfigModel | DeterminedByEngine){
+  setLaptop(laptop: SizeConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: SizeConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: SizeConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }
@@ -64,7 +65,7 @@ export class ResponsiveSizeConfigModel
         compPropsObj.calcHeight = ParentConfigType.static
       } else throw new Error('Er is een optie bijgekomen die nog niet werd geïmplementeerd')
     }
-    if(dimensionsConfig.dynamicSize){
+    if(dimensionsConfig.dynamicSize!==NoValueType.NO_VALUE_NEEDED){
       compPropsObj.grow = dimensionsConfig.dynamicSize.grow
       compPropsObj.shrink = dimensionsConfig.dynamicSize.shrink
     }

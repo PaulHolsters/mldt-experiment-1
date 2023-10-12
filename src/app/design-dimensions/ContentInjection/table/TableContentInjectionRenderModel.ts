@@ -1,12 +1,11 @@
 import {ComponentModel} from "../../ComponentModel";
 import {ExtraColumnModel} from "./ExtraColumnModel";
-import {NotConfigured} from "../../../types/type-aliases";
 
 export class TableContentInjectionRenderModel {
-  public columnHeaderComponents: ComponentModel[]|NotConfigured|undefined=undefined
-  public footer: ComponentModel|NotConfigured|undefined=undefined
-  public caption: ComponentModel|NotConfigured|undefined=undefined
-  public extraColumns:ExtraColumnModel[]|NotConfigured|undefined=undefined
+  public columnHeaderComponents: ComponentModel[]|undefined
+  public footer: ComponentModel|undefined
+  public caption: ComponentModel|undefined
+  public extraColumns:ExtraColumnModel[]|undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

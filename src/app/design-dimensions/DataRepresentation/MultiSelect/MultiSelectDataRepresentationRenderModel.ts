@@ -1,10 +1,9 @@
-import {DeterminedByEngine} from "../../../types/type-aliases";
 import {BlueprintValue} from "../../../types/union-types";
 
 export class MultiSelectDataRepresentationRenderModel {
-  public optionLabel:string|DeterminedByEngine=undefined
-  public optionValue:string|undefined=undefined
-  public placeholder:string|DeterminedByEngine=undefined
+  public optionLabel:string|undefined
+  public optionValue:string|undefined
+  public placeholder:string|undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

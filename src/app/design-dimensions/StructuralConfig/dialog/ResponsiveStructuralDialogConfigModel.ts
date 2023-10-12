@@ -2,14 +2,14 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {DialogStructuralConfigModel} from "./DialogStructuralConfigModel";
 import {DialogStructuralRenderModel} from "./DialogStructuralRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveStructuralDialogConfigModel
   extends ResponsiveConfigModel<DialogStructuralConfigModel>
   implements ResponsiveConfigModelI<DialogStructuralConfigModel>{
-  public highResolution: DialogStructuralConfigModel| DeterminedByEngine = undefined
-  public laptop:DialogStructuralConfigModel  | DeterminedByEngine = undefined
-  public tablet:DialogStructuralConfigModel  | DeterminedByEngine = undefined
-  public portraitTablet:DialogStructuralConfigModel | DeterminedByEngine = undefined
+  public highResolution: DialogStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop:DialogStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:DialogStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public portraitTablet:DialogStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   constructor(public smartphone: DialogStructuralConfigModel) {
     super()
   }
@@ -17,19 +17,19 @@ export class ResponsiveStructuralDialogConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: DialogStructuralConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: DialogStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:DialogStructuralConfigModel | DeterminedByEngine){
+  setTablet(tablet:DialogStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: DialogStructuralConfigModel | DeterminedByEngine){
+  setLaptop(laptop: DialogStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:DialogStructuralConfigModel | DeterminedByEngine){
+  setHighResolution(highResolution:DialogStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

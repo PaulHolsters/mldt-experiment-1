@@ -1,6 +1,6 @@
 export class VisibilityRenderModel {
-  public visible: boolean|undefined=undefined
-  public holdSpace: boolean|undefined=undefined
+  public visible: boolean|undefined
+  public holdSpace: boolean|undefined
   constructor(  ) {
   }
   public setProperty(propName: string, value: boolean | undefined): void {

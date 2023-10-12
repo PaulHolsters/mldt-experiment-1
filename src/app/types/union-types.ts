@@ -51,9 +51,6 @@ import {
   RadioButtonGroupDataRepresentationConfigModel
 } from "../design-dimensions/DataRepresentation/RadioButtonGroup/RadioButtonGroupDataRepresentationConfigModel";
 import {
-  TableDataRepresentationConfigModel
-} from "../design-dimensions/DataRepresentation/Table/TableDataRepresentationConfigModel";
-import {
   TextInputDataRepresentationConfigModel
 } from "../design-dimensions/DataRepresentation/TextInput/TextInputDataRepresentationConfigModel";
 import {ButtonStructuralConfigModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralConfigModel";
@@ -75,9 +72,6 @@ import {ResponsiveStylingTableConfigModel} from "../design-dimensions/Styling/ta
 import {
   ResponsiveStylingButtonConfigModel
 } from "../design-dimensions/Styling/button/ResponsiveStylingButtonConfigModel";
-import {
-  ResponsiveDataRepresentationTableConfigModel
-} from "../design-dimensions/DataRepresentation/Table/ResponsiveDataRepresentationTableConfigModel";
 import {
   ResponsiveDataRepresentationMultiSelectConfigModel
 } from "../design-dimensions/DataRepresentation/MultiSelect/ResponsiveDataRepresentationMultiSelectConfigModel";
@@ -120,6 +114,7 @@ import {NotApplicable, NoValueYet} from "./type-aliases";
 import {RadioButtonGroup} from "../components/form/radio-button/RadioButtonGroup";
 import {Multiselect} from "../components/form/multiselect/Multiselect";
 import {Blueprint} from "../services/data/client/Blueprint";
+import * as constants from "constants";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -136,7 +131,6 @@ export type DataRepresentationConfigModelType =
   MultiSelectDataRepresentationConfigModel|
   NumberInputDataRepresentationConfigModel|
   RadioButtonGroupDataRepresentationConfigModel|
-  TableDataRepresentationConfigModel|
   TextInputDataRepresentationConfigModel|never
 export type StructuralConfigModelType =
   ButtonStructuralConfigModel|
@@ -174,7 +168,6 @@ export type ResponsiveStructuralConfigModelType =
   ResponsiveStructuralIconConfigModel|
   ResponsiveStructuralImageConfigModel|never
 export type ResponsiveDataRepresentationConfigModelType =
-  ResponsiveDataRepresentationTableConfigModel|
   ResponsiveDataRepresentationMultiSelectConfigModel|
   ResponsiveDataRepresentationRadioButtonGroupConfigModel|
   ResponsiveDataRepresentationNumberInputConfigModel|
@@ -200,3 +193,4 @@ export type Info = ResponseData|UIData
 export type PropertyType = 'string'|'number'|'boolean'|'Date'
 export type List = (DataRecordModel|null)[]
 export type BlueprintValue = PropertyType|['enum',string[]]|['object',[Blueprint,DataRecordModel]]|['list',[Blueprint,List]]
+

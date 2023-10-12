@@ -1,7 +1,7 @@
 import {ButtonSizeType} from "../../../enums/buttonSizeType.enum";
 
 export class ButtonSizeRenderModel {
-  public size:ButtonSizeType|undefined=undefined
+  public size:ButtonSizeType|undefined
 
   constructor() {
   }

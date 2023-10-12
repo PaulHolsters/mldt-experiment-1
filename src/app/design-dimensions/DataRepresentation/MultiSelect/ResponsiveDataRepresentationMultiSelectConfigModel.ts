@@ -2,31 +2,32 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {MultiSelectDataRepresentationConfigModel} from "./MultiSelectDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {MultiSelectDataRepresentationRenderModel} from "./MultiSelectDataRepresentationRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
 import {BlueprintValue} from "../../../types/union-types";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
+
 export class ResponsiveDataRepresentationMultiSelectConfigModel extends ResponsiveConfigModel<MultiSelectDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<MultiSelectDataRepresentationConfigModel>{
-  public portraitTablet: MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
-  public tablet:MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
-  public laptop: MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
-  public highResolution: MultiSelectDataRepresentationConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: MultiSelectDataRepresentationConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:MultiSelectDataRepresentationConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: MultiSelectDataRepresentationConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: MultiSelectDataRepresentationConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   setSmartphone(smartphone:MultiSelectDataRepresentationConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: MultiSelectDataRepresentationConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: MultiSelectDataRepresentationConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: MultiSelectDataRepresentationConfigModel| DeterminedByEngine){
+  setTablet(tablet: MultiSelectDataRepresentationConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: MultiSelectDataRepresentationConfigModel | DeterminedByEngine){
+  setLaptop(laptop: MultiSelectDataRepresentationConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: MultiSelectDataRepresentationConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: MultiSelectDataRepresentationConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

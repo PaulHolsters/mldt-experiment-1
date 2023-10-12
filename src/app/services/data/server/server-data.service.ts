@@ -8,7 +8,7 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType, ComponentNameType, NotConfigured, NoValueYet} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, NoValueType.NO_VALUE_NEEDED, NoValueYet} from "../../../types/type-aliases";
 import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
@@ -208,7 +208,7 @@ export class ServerDataService {
                               blueprintStr:string|undefined,
                               actionId:ActionIdType,
                               name:ComponentNameType,
-                              errorMessages:string[]|NotConfigured,
+                              errorMessages:string[]|NoValueType.NO_VALUE_NEEDED,
                               data:(DataRecordModel|null)[]|DataRecordModel|NoValueYet){
       if(blueprintStr){
         self.clientDataService.createClientData(

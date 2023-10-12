@@ -2,7 +2,7 @@ import {TargetType} from "../enums/targetTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
-import {ActionIdType, ComponentNameType, ConceptNameType, NotAllowed, NotConfigured} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, NotAllowed, NoValueType.NO_VALUE_NEEDED} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 export class Action {
   public readonly service:ServiceType
@@ -11,7 +11,7 @@ export class Action {
   public constructor(
     public id:ActionIdType,
     public type:ActionType,
-    public conceptName: ConceptNameType|NotAllowed|NotConfigured=undefined,
+    public conceptName: ConceptNameType|NotAllowed|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED,
     public target:ComponentNameType|NotAllowed=undefined,
     public value:ActionValueModel|NotAllowed=undefined
   ) {
@@ -42,7 +42,7 @@ export class Action {
         this.targetType = TargetType.Client
         break
       case ActionType.UpdateDataRelatedProperties:
-        this.service = ServiceType.DeterminedByEngineService
+        this.service = ServiceType.NoValueType.CALCULATED_BY_ENGINEService
         // todo => hoeveel nut heeft dit eigenlijk?
         this.serviceMethod = ServiceMethodType.SetData
         this.targetType = TargetType.Client

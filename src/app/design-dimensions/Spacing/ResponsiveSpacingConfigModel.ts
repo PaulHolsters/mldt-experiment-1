@@ -2,32 +2,32 @@ import {SpacingConfigModel} from "./SpacingConfigModel";
 import {SpacingRenderModel} from "./SpacingRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
-import {DeterminedByEngine} from "../../types/type-aliases";
+import {NoValueType} from "../../enums/NoValueTypes.enum";
 
 export class ResponsiveSpacingConfigModel extends ResponsiveConfigModel<SpacingConfigModel>
 implements ResponsiveConfigModelI<SpacingConfigModel>{
   public smartphone:SpacingConfigModel=new SpacingConfigModel()
-  public portraitTablet: SpacingConfigModel|DeterminedByEngine=undefined
-  public tablet:SpacingConfigModel|DeterminedByEngine=undefined
-  public laptop: SpacingConfigModel|DeterminedByEngine=undefined
-  public highResolution: SpacingConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: SpacingConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:SpacingConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: SpacingConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: SpacingConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   setSmartphone(smartphone:SpacingConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: SpacingConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: SpacingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: SpacingConfigModel| DeterminedByEngine){
+  setTablet(tablet: SpacingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: SpacingConfigModel | DeterminedByEngine){
+  setLaptop(laptop: SpacingConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: SpacingConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: SpacingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

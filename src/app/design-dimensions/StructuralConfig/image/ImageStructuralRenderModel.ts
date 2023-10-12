@@ -1,6 +1,6 @@
 export class ImageStructuralRenderModel {
-  public src: string|undefined=undefined
-  public alt: string|undefined=undefined
+  public src: string|undefined
+  public alt: string|undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

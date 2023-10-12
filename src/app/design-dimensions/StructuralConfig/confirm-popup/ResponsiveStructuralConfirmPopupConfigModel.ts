@@ -2,14 +2,14 @@ import {ConfirmPopupStructuralRenderModel} from "./ConfirmPopupStructuralRenderM
 import {ConfirmPopupStructuralConfigModel} from "./ConfirmPopupStructuralConfigModel";
 import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveStructuralConfirmPopupConfigModel
   extends ResponsiveConfigModel<ConfirmPopupStructuralConfigModel>
   implements ResponsiveConfigModelI<ConfirmPopupStructuralConfigModel>{
-  public highResolution: ConfirmPopupStructuralConfigModel| DeterminedByEngine = undefined
-  public laptop:ConfirmPopupStructuralConfigModel  | DeterminedByEngine = undefined
-  public tablet:ConfirmPopupStructuralConfigModel  | DeterminedByEngine = undefined
-  public portraitTablet:ConfirmPopupStructuralConfigModel | DeterminedByEngine = undefined
+  public highResolution: ConfirmPopupStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop:ConfirmPopupStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:ConfirmPopupStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public portraitTablet:ConfirmPopupStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   constructor(public smartphone: ConfirmPopupStructuralConfigModel) {
     super()
   }
@@ -17,19 +17,19 @@ export class ResponsiveStructuralConfirmPopupConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ConfirmPopupStructuralConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ConfirmPopupStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:ConfirmPopupStructuralConfigModel | DeterminedByEngine){
+  setTablet(tablet:ConfirmPopupStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ConfirmPopupStructuralConfigModel | DeterminedByEngine){
+  setLaptop(laptop: ConfirmPopupStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:ConfirmPopupStructuralConfigModel | DeterminedByEngine){
+  setHighResolution(highResolution:ConfirmPopupStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

@@ -1,26 +1,26 @@
 import {ComponentModel} from "../../ComponentModel";
 import {ExtraColumnModel} from "./ExtraColumnModel";
-import {NotConfigured} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class TableContentInjectionConfigModel {
-  public columnHeaderComponents: ComponentModel[]|NotConfigured=undefined
-  public footer: ComponentModel|NotConfigured=undefined
-  public caption: ComponentModel|NotConfigured=undefined
-  public extraColumns:ExtraColumnModel[]|NotConfigured=undefined
+  public columnHeaderComponents: ComponentModel[]|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public footer: ComponentModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public caption: ComponentModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public extraColumns:ExtraColumnModel[]|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   constructor() {
   }
-  setColumnHeaderComponents(columnHeaderComponents: ComponentModel[]|NotConfigured){
+  setColumnHeaderComponents(columnHeaderComponents: ComponentModel[]|NoValueType.NO_VALUE_NEEDED){
     this.columnHeaderComponents=columnHeaderComponents
     return this
   }
-  setFooter(footer: ComponentModel|NotConfigured){
+  setFooter(footer: ComponentModel|NoValueType.NO_VALUE_NEEDED){
     this.footer=footer
     return this
   }
-  setCaption(caption: ComponentModel|NotConfigured){
+  setCaption(caption: ComponentModel|NoValueType.NO_VALUE_NEEDED){
     this.caption=caption
     return this
   }
-  setExtraColumns(extraColumns:ExtraColumnModel[]|NotConfigured){
+  setExtraColumns(extraColumns:ExtraColumnModel[]|NoValueType.NO_VALUE_NEEDED){
     this.extraColumns=extraColumns
     return this
   }

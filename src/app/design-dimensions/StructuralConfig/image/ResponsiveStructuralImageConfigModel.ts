@@ -2,14 +2,14 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ImageStructuralConfigModel} from "./ImageStructuralConfigModel";
 import {ImageStructuralRenderModel} from "./ImageStructuralRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveStructuralImageConfigModel
   extends ResponsiveConfigModel<ImageStructuralConfigModel>
   implements ResponsiveConfigModelI<ImageStructuralConfigModel>{
-  public highResolution: ImageStructuralConfigModel| DeterminedByEngine = undefined
-  public laptop:ImageStructuralConfigModel  | DeterminedByEngine = undefined
-  public tablet:ImageStructuralConfigModel  | DeterminedByEngine = undefined
-  public portraitTablet:ImageStructuralConfigModel | DeterminedByEngine = undefined
+  public highResolution: ImageStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop:ImageStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:ImageStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public portraitTablet:ImageStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   constructor(public smartphone: ImageStructuralConfigModel) {
     super()
   }
@@ -17,19 +17,19 @@ export class ResponsiveStructuralImageConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ImageStructuralConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ImageStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:ImageStructuralConfigModel | DeterminedByEngine){
+  setTablet(tablet:ImageStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ImageStructuralConfigModel | DeterminedByEngine){
+  setLaptop(laptop: ImageStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:ImageStructuralConfigModel | DeterminedByEngine){
+  setHighResolution(highResolution:ImageStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

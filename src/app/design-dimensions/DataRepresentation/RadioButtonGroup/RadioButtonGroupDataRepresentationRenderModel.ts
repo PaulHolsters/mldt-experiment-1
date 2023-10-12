@@ -1,11 +1,11 @@
 import {FunctionType} from "../../../enums/functionTypes.enum";
-import {DeterminedByEngine, LabelType, NotConfigured} from "../../../types/type-aliases";
+import {LabelType} from "../../../types/type-aliases";
 import utilFunctions from "../../../utils/utilFunctions";
 import {BlueprintValue} from "../../../types/union-types";
 
 export class RadioButtonGroupDataRepresentationRenderModel {
-  public pipe: FunctionType[] | NotConfigured = undefined
-  public values: LabelType[] | DeterminedByEngine = undefined
+  public pipe: FunctionType[] | undefined
+  public values: LabelType[] |  undefined
 
   constructor() {
   }

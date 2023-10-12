@@ -2,31 +2,31 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {RadioButtonGroupDataInputConfigModel} from "./RadioButtonGroupDataInputConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {RadioButtonGroupDataInputRenderModel} from "./RadioButtonGroupDataInputRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
 import {BlueprintValue} from "../../../types/union-types";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveDataInputRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataInputConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataInputConfigModel>{
-  public portraitTablet: RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
-  public tablet:RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
-  public laptop: RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
-  public highResolution: RadioButtonGroupDataInputConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: RadioButtonGroupDataInputConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:RadioButtonGroupDataInputConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: RadioButtonGroupDataInputConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: RadioButtonGroupDataInputConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   setSmartphone(smartphone:RadioButtonGroupDataInputConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: RadioButtonGroupDataInputConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: RadioButtonGroupDataInputConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: RadioButtonGroupDataInputConfigModel| DeterminedByEngine){
+  setTablet(tablet: RadioButtonGroupDataInputConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: RadioButtonGroupDataInputConfigModel | DeterminedByEngine){
+  setLaptop(laptop: RadioButtonGroupDataInputConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: RadioButtonGroupDataInputConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: RadioButtonGroupDataInputConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

@@ -1,8 +1,8 @@
 import {ResponsiveTableLayoutType} from "../../../enums/responsiveTableLayoutType.enum";
 
 export class TableLayoutRenderModel {
-  public responsiveTableLayout: ResponsiveTableLayoutType|undefined=undefined
-  public tableBreakpoint: number|undefined=undefined
+  public responsiveTableLayout: ResponsiveTableLayoutType|undefined
+  public tableBreakpoint: number|undefined
   constructor() {
   }
   public setProperty(propName: string, value: ResponsiveTableLayoutType|number): void {

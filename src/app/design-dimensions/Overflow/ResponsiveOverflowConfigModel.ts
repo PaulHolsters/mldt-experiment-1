@@ -3,32 +3,32 @@ import {OverflowRenderModel} from "./OverflowRenderModel";
 import {ResponsiveConfigModel} from "../ResponsiveConfigModel";
 import {OverflowValueConfigType} from "../../enums/overflowValueConfigTypes.enum";
 import {ResponsiveConfigModelI} from "../../Interfaces/ResponsiveConfigModelI";
-import {DeterminedByEngine} from "../../types/type-aliases";
+import {NoValueType} from "../../enums/NoValueTypes.enum";
 
 export class ResponsiveOverflowConfigModel extends ResponsiveConfigModel<OverflowConfigModel>
 implements ResponsiveConfigModelI<OverflowConfigModel>{
   public smartphone:OverflowConfigModel=new OverflowConfigModel()
-  public portraitTablet: OverflowConfigModel|DeterminedByEngine=undefined
-  public tablet:OverflowConfigModel|DeterminedByEngine=undefined
-  public laptop: OverflowConfigModel|DeterminedByEngine=undefined
-  public highResolution: OverflowConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: OverflowConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:OverflowConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: OverflowConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: OverflowConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   setSmartphone(smartphone:OverflowConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: OverflowConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: OverflowConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: OverflowConfigModel| DeterminedByEngine){
+  setTablet(tablet: OverflowConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: OverflowConfigModel | DeterminedByEngine){
+  setLaptop(laptop: OverflowConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: OverflowConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: OverflowConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

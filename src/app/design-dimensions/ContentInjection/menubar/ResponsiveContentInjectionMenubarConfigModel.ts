@@ -2,30 +2,31 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {MenubarContentInjectionConfigModel} from "./MenubarContentInjectionConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {MenubarContentInjectionRenderModel} from "./MenubarContentInjectionRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
+
 export class ResponsiveContentInjectionMenubarConfigModel extends ResponsiveConfigModel<MenubarContentInjectionConfigModel>
   implements ResponsiveConfigModelI<MenubarContentInjectionConfigModel>{
-  public portraitTablet: MenubarContentInjectionConfigModel|DeterminedByEngine=undefined
-  public tablet:MenubarContentInjectionConfigModel|DeterminedByEngine=undefined
-  public laptop: MenubarContentInjectionConfigModel|DeterminedByEngine=undefined
-  public highResolution: MenubarContentInjectionConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: MenubarContentInjectionConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:MenubarContentInjectionConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: MenubarContentInjectionConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: MenubarContentInjectionConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   setSmartphone(smartphone:MenubarContentInjectionConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: MenubarContentInjectionConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: MenubarContentInjectionConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: MenubarContentInjectionConfigModel| DeterminedByEngine){
+  setTablet(tablet: MenubarContentInjectionConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: MenubarContentInjectionConfigModel | DeterminedByEngine){
+  setLaptop(laptop: MenubarContentInjectionConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: MenubarContentInjectionConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: MenubarContentInjectionConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

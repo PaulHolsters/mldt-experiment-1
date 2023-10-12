@@ -1,17 +1,17 @@
 import {IconConfigModel} from "./IconConfigModel";
-import {NotConfigured} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class ButtonStructuralConfigModel {
-  public label:string|NotConfigured=undefined
-  public icon:IconConfigModel|NotConfigured=undefined
+  public label:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public icon:IconConfigModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   public disabled: boolean = false
   constructor(){
   }
-  setLabel(label:string|NotConfigured){
+  setLabel(label:string|NoValueType.NO_VALUE_NEEDED){
     this.label=label
     return this
   }
-  setIcon(icon:IconConfigModel|NotConfigured){
+  setIcon(icon:IconConfigModel|NoValueType.NO_VALUE_NEEDED){
     this.icon=icon
     return this
   }

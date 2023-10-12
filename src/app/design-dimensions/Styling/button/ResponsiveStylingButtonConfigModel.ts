@@ -2,14 +2,14 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ButtonStylingConfigModel} from "./ButtonStylingConfigModel";
 import {ButtonStylingRenderModel} from "./ButtonStylingRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveStylingButtonConfigModel
   extends ResponsiveConfigModel<ButtonStylingConfigModel>
   implements ResponsiveConfigModelI<ButtonStylingConfigModel>{
-  public highResolution: ButtonStylingConfigModel| DeterminedByEngine = undefined
-  public laptop: ButtonStylingConfigModel | DeterminedByEngine = undefined
-  public tablet: ButtonStylingConfigModel | DeterminedByEngine = undefined
-  public portraitTablet: ButtonStylingConfigModel| DeterminedByEngine = undefined
+  public highResolution: ButtonStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: ButtonStylingConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet: ButtonStylingConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public portraitTablet: ButtonStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   public smartphone: ButtonStylingConfigModel=new ButtonStylingConfigModel()
   constructor() {
     super()
@@ -18,19 +18,19 @@ export class ResponsiveStylingButtonConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: ButtonStylingConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: ButtonStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: ButtonStylingConfigModel| DeterminedByEngine){
+  setTablet(tablet: ButtonStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: ButtonStylingConfigModel| DeterminedByEngine){
+  setLaptop(laptop: ButtonStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: ButtonStylingConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: ButtonStylingConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

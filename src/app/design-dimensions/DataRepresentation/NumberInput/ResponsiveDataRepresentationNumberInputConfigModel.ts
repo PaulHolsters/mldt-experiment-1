@@ -2,30 +2,30 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {NumberInputDataRepresentationConfigModel} from "./NumberInputDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {NumberInputDataRepresentationRenderModel} from "./NumberInputDataRepresentationRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveDataRepresentationNumberInputConfigModel extends ResponsiveConfigModel<NumberInputDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<NumberInputDataRepresentationConfigModel>{
-  public portraitTablet: NumberInputDataRepresentationConfigModel|DeterminedByEngine=undefined
-  public tablet:NumberInputDataRepresentationConfigModel|DeterminedByEngine=undefined
-  public laptop: NumberInputDataRepresentationConfigModel|DeterminedByEngine=undefined
-  public highResolution: NumberInputDataRepresentationConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: NumberInputDataRepresentationConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:NumberInputDataRepresentationConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: NumberInputDataRepresentationConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: NumberInputDataRepresentationConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   setSmartphone(smartphone:NumberInputDataRepresentationConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: NumberInputDataRepresentationConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: NumberInputDataRepresentationConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: NumberInputDataRepresentationConfigModel| DeterminedByEngine){
+  setTablet(tablet: NumberInputDataRepresentationConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: NumberInputDataRepresentationConfigModel | DeterminedByEngine){
+  setLaptop(laptop: NumberInputDataRepresentationConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: NumberInputDataRepresentationConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: NumberInputDataRepresentationConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

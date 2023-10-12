@@ -1,9 +1,9 @@
-import {DataLink, DeterminedByEngine, NotAllowed} from "../../../types/type-aliases";
+import {DataLink} from "../../../types/type-aliases";
 import {Blueprint} from "../../../services/data/client/Blueprint";
 import {BlueprintValue} from "../../../types/union-types";
 
 export class RadioButtonGroupDataInputRenderModel {
-  public disabled: boolean |NotAllowed=undefined
+  public disabled: boolean |undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

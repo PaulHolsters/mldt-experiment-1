@@ -1,8 +1,8 @@
 import {IconType} from "../../../enums/iconType.enum";
 
 export class IconStructuralRenderModel {
-  public icon:IconType|undefined=undefined
-  public spin:boolean|undefined=undefined
+  public icon:IconType|undefined
+  public spin:boolean|undefined
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

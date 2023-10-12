@@ -7,7 +7,7 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
 import {ClientData} from "./ClientData";
-import {ActionIdType, ComponentNameType, ConceptNameType, DataLink, NotConfigured} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, DataLink, NoValueType.NO_VALUE_NEEDED} from "../../../types/type-aliases";
 import utilFunctions from "../../../utils/utilFunctions";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
@@ -88,7 +88,7 @@ export class ClientDataService {
     componentName:ComponentNameType,
     blueprint:Blueprint,
     data:OutputData,
-    errorMessages:string[]|NotConfigured
+    errorMessages:string[]|NoValueType.NO_VALUE_NEEDED
   ){
     if(blueprint)
       for(let [k,v] of blueprint.properties.properties){

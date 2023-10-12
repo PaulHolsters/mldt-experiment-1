@@ -2,10 +2,10 @@ import {ButtonMeaningType} from "../../../enums/buttonMeaningType.enum";
 import {ButtonAppearanceType} from "../../../enums/buttonAppearanceType.enum";
 
 export class ButtonStylingRenderModel {
-  public meaning:ButtonMeaningType|undefined=undefined
-  public appearance:ButtonAppearanceType|undefined=undefined
-  public raised:boolean|undefined=undefined
-  public rounded:boolean|undefined=undefined
+  public meaning:ButtonMeaningType|undefined
+  public appearance:ButtonAppearanceType|undefined
+  public raised:boolean|undefined
+  public rounded:boolean|undefined
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

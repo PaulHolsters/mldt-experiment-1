@@ -1,9 +1,10 @@
 import {TableColumnModel} from "./TableColumnModel";
-import {DeterminedByEngine, NotConfigured} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
+
 export class TableStructuralConfigModel {
-  public textWhenEmpty:string|NotConfigured='No records found'
+  public textWhenEmpty:string|NoValueType.NO_VALUE_NEEDED='No records found'
   public paginator:boolean=true
-  public columns:TableColumnModel[]|DeterminedByEngine=undefined
+  public columns:TableColumnModel[]|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   public rows:number=10
   public rowsPerPage:number[]=[10,25,50]
   public currentPageReportTemplate:string= '{first} - {last} of {totalRecords}'
@@ -14,7 +15,7 @@ export class TableStructuralConfigModel {
   public totalRecords:number=0
   constructor() {
   }
-  setTextWhenEmpty(textWhenEmpty:string|NotConfigured):TableStructuralConfigModel{
+  setTextWhenEmpty(textWhenEmpty:string|NoValueType.NO_VALUE_NEEDED):TableStructuralConfigModel{
     this.textWhenEmpty = textWhenEmpty
     return this
   }
@@ -22,7 +23,7 @@ export class TableStructuralConfigModel {
     this.paginator = paginator
     return this
   }
-  setColumns(columns:TableColumnModel[]|DeterminedByEngine):TableStructuralConfigModel{
+  setColumns(columns:TableColumnModel[]|NoValueType.CALCULATED_BY_ENGINE):TableStructuralConfigModel{
     this.columns = columns
     return this
   }

@@ -1,13 +1,12 @@
 import {IconType} from "../../../enums/iconType.enum";
 import {IconPositionType} from "../../../enums/iconPositionType.enum";
 import {InputFontSizeType} from "../../../enums/inputFontSizeType.enum";
-import {NotConfigured} from "../../../types/type-aliases";
 export class TextInputDataRepresentationRenderModel {
-  public icon:IconType|NotConfigured=undefined
-  public iconPosition:IconPositionType|NotConfigured=undefined
-  public inputFontSize:InputFontSizeType|undefined=undefined
-  public floatLabel:boolean|undefined=undefined
-  public advisoryText:string|NotConfigured=undefined
+  public icon:IconType|undefined
+  public iconPosition:IconPositionType|undefined
+  public inputFontSize:InputFontSizeType|undefined
+  public floatLabel:boolean|undefined
+  public advisoryText:string|undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

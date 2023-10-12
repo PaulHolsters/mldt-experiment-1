@@ -1,17 +1,16 @@
-import {DeterminedByEngine} from "../../../types/type-aliases";
-
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class MultiSelectDataRepresentationConfigModel {
-  public optionLabel:string|DeterminedByEngine=undefined // het eerste veld niet gelijk aan id
+  public optionLabel:string|NoValueType.SERVER_DATA_RELATED_DEFAULT_VALUE=NoValueType.SERVER_DATA_RELATED_DEFAULT_VALUE
   public optionValue:string='id'
-  public placeholder:string|DeterminedByEngine=undefined // Select a WAARDE optionLabel
+  public placeholder:string|NoValueType.SERVER_DATA_RELATED_DEFAULT_VALUE=NoValueType.SERVER_DATA_RELATED_DEFAULT_VALUE // Select a WAARDE optionLabel
   constructor() {
   }
-  setOptionLabel(optionLabel:string|DeterminedByEngine) {
+  setOptionLabel(optionLabel:string|NoValueType.SERVER_DATA_RELATED_DEFAULT_VALUE) {
     this.optionLabel = optionLabel
     return this
   }
-  setPlaceholder(ph:string|DeterminedByEngine) {
+  setPlaceholder(ph:string|NoValueType.SERVER_DATA_RELATED_DEFAULT_VALUE) {
     this.placeholder = ph
     return this
   }

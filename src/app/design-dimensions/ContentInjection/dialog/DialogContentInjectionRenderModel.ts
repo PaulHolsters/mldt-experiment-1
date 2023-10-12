@@ -2,7 +2,7 @@
 import {ComponentModel} from "../../ComponentModel";
 
 export class DialogContentInjectionRenderModel {
-  public content: ComponentModel|undefined=undefined
+  public content: ComponentModel|undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

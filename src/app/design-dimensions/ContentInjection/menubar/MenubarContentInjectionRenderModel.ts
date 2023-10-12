@@ -1,9 +1,8 @@
 import {ComponentModel} from "../../ComponentModel";
-import {NotConfigured} from "../../../types/type-aliases";
 
 export class MenubarContentInjectionRenderModel {
-  public start: ComponentModel|NotConfigured=undefined
-  public end: ComponentModel|NotConfigured=undefined
+  public start: ComponentModel|undefined
+  public end: ComponentModel|undefined
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

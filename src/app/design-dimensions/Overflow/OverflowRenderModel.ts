@@ -1,11 +1,11 @@
 export class OverflowRenderModel {
-  public overflowAuto:boolean|undefined=undefined
-  public overflowScroll:boolean|undefined=undefined
-  public overflowVisible:boolean|undefined=undefined
-  public overflowHidden:boolean|undefined=undefined
-  public overflowXAuto:boolean|undefined=undefined
-  public overflowXVisible:boolean|undefined=undefined
-  public overflowXHidden:boolean|undefined=undefined
+  public overflowAuto:boolean|undefined
+  public overflowScroll:boolean|undefined
+  public overflowVisible:boolean|undefined
+  public overflowHidden:boolean|undefined
+  public overflowXAuto:boolean|undefined
+  public overflowXVisible:boolean|undefined
+  public overflowXHidden:boolean|undefined
   constructor(
   ) {
   }

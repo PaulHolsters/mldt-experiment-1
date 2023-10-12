@@ -1,10 +1,10 @@
 import {IconType} from "../../../enums/iconType.enum";
-import {NotConfigured} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class ConfirmationModel {
   constructor(
     public message:string='Please confirm or cancel',
-    public icon:IconType|NotConfigured=undefined
+    public icon:IconType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   ) {
   }
 }

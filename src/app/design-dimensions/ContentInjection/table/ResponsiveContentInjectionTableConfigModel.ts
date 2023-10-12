@@ -2,30 +2,30 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {TableContentInjectionConfigModel} from "./TableContentInjectionConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {TableContentInjectionRenderModel} from "./TableContentInjectionRenderModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveContentInjectionTableConfigModel extends ResponsiveConfigModel<TableContentInjectionConfigModel>
   implements ResponsiveConfigModelI<TableContentInjectionConfigModel>{
-  public portraitTablet: TableContentInjectionConfigModel|DeterminedByEngine=undefined
-  public tablet:TableContentInjectionConfigModel|DeterminedByEngine=undefined
-  public laptop: TableContentInjectionConfigModel|DeterminedByEngine=undefined
-  public highResolution: TableContentInjectionConfigModel|DeterminedByEngine=undefined
+  public portraitTablet: TableContentInjectionConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:TableContentInjectionConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop: TableContentInjectionConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public highResolution: TableContentInjectionConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   setSmartphone(smartphone:TableContentInjectionConfigModel){
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: TableContentInjectionConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: TableContentInjectionConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet: TableContentInjectionConfigModel| DeterminedByEngine){
+  setTablet(tablet: TableContentInjectionConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: TableContentInjectionConfigModel | DeterminedByEngine){
+  setLaptop(laptop: TableContentInjectionConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution: TableContentInjectionConfigModel| DeterminedByEngine){
+  setHighResolution(highResolution: TableContentInjectionConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

@@ -2,14 +2,14 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {IconStructuralRenderModel} from "./IconStructuralRenderModel";
 import {IconStructuralConfigModel} from "./IconStructuralConfigModel";
-import {DeterminedByEngine} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveStructuralIconConfigModel
   extends ResponsiveConfigModel<IconStructuralConfigModel>
   implements ResponsiveConfigModelI<IconStructuralConfigModel>{
-  public highResolution: IconStructuralConfigModel| DeterminedByEngine = undefined
-  public laptop:IconStructuralConfigModel  | DeterminedByEngine = undefined
-  public tablet:IconStructuralConfigModel  | DeterminedByEngine = undefined
-  public portraitTablet:IconStructuralConfigModel | DeterminedByEngine = undefined
+  public highResolution: IconStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public laptop:IconStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public tablet:IconStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
+  public portraitTablet:IconStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   constructor(public smartphone:IconStructuralConfigModel) {
     super()
   }
@@ -17,19 +17,19 @@ export class ResponsiveStructuralIconConfigModel
     this.smartphone = smartphone
     return this
   }
-  setPortraitTablet(portraitTablet: IconStructuralConfigModel| DeterminedByEngine){
+  setPortraitTablet(portraitTablet: IconStructuralConfigModel| NoValueType.CALCULATED_BY_ENGINE){
     this.portraitTablet = portraitTablet
     return this
   }
-  setTablet(tablet:IconStructuralConfigModel | DeterminedByEngine){
+  setTablet(tablet:IconStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.tablet = tablet
     return this
   }
-  setLaptop(laptop: IconStructuralConfigModel | DeterminedByEngine){
+  setLaptop(laptop: IconStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.laptop = laptop
     return this
   }
-  setHighResolution(highResolution:IconStructuralConfigModel | DeterminedByEngine){
+  setHighResolution(highResolution:IconStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE){
     this.highResolution = highResolution
     return this
   }

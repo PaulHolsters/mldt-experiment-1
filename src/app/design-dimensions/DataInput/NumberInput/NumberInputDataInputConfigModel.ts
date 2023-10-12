@@ -2,10 +2,10 @@ import {NumberInputModeType} from "../../../enums/numberInputModeType.enum";
 import {IconType} from "../../../enums/iconType.enum";
 import {ButtonLayoutType} from "../../../enums/buttonLayoutType.enum";
 import {ButtonMeaningType} from "../../../enums/buttonMeaningType.enum";
-import {NotAllowed, NotConfigured} from "../../../types/type-aliases";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class NumberInputDataInputConfigModel {
-  public advisoryText:string|NotConfigured=undefined
+  public advisoryText:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   public showButtons:boolean=true
   public step:number=0
   public mode:NumberInputModeType=NumberInputModeType.Decimal
@@ -13,17 +13,17 @@ export class NumberInputDataInputConfigModel {
   public max:number=Number.MAX_SAFE_INTEGER
   public decrementButtonClass:ButtonMeaningType=ButtonMeaningType.Info
   public incrementButtonClass:ButtonMeaningType=ButtonMeaningType.Info
-  public incrementButtonIcon:IconType|NotConfigured=undefined
-  public decrementButtonIcon:IconType|NotConfigured=undefined
+  public incrementButtonIcon:IconType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public decrementButtonIcon:IconType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   public buttonLayout:ButtonLayoutType=ButtonLayoutType.Stacked
-  public disabled: boolean | NotAllowed = false
-  setDisabled(disabled: boolean | NotAllowed):NumberInputDataInputConfigModel {
+  public disabled: boolean =false
+  setDisabled(disabled: boolean):NumberInputDataInputConfigModel {
     this.disabled = disabled
     return this
   }
   constructor() {
   }
-  setAdvisoryText(advisoryText:string|NotConfigured) {
+  setAdvisoryText(advisoryText:string|NoValueType.NO_VALUE_NEEDED) {
     this.advisoryText = advisoryText
     return this
   }
@@ -55,11 +55,11 @@ export class NumberInputDataInputConfigModel {
     this.incrementButtonClass = incrementButtonClass
     return this
   }
-  setIncrementButtonIcon(incrementButtonIcon:IconType|NotConfigured) {
+  setIncrementButtonIcon(incrementButtonIcon:IconType|NoValueType.NO_VALUE_NEEDED) {
     this.incrementButtonIcon = incrementButtonIcon
     return this
   }
-  setDecrementButtonIcon(decrementButtonIcon:IconType|NotConfigured) {
+  setDecrementButtonIcon(decrementButtonIcon:IconType|NoValueType.NO_VALUE_NEEDED) {
     this.decrementButtonIcon = decrementButtonIcon
     return this
   }
