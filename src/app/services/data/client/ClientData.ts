@@ -1,14 +1,14 @@
-import {ActionIdType, ComponentNameType, DataLink, NoValueType.NO_VALUE_NEEDED, NoValueYet} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType} from "../../../types/type-aliases";
 import {Blueprint} from "./Blueprint";
-import {BlueprintValue, OutputData} from "../../../types/union-types";
-import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
+import { OutputData} from "../../../types/union-types";
 
 export class ClientData {
+  // dit kan je zien als het client data render model
   public constructor(public readonly id:ActionIdType,
                      public readonly name:ComponentNameType,
                      private _blueprint:Blueprint,
-                     public outputData:OutputData,
-                     public errorMessages:string[]|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED) {
+                     public outputData:OutputData|undefined,
+                     public errorMessages:string[]|undefined) {
   }
   public get blueprint():Blueprint{
     return Object.create(this._blueprint)

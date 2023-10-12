@@ -3,47 +3,47 @@ import {BackgroundColorType} from "../enums/backgroundColorType.enum";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 
 export abstract class Container extends Component{
-  public static children:ComponentModel[]|undefined=undefined
-  public static row:boolean|undefined=undefined
-  public static column:boolean|undefined=undefined
-  public static wrap:boolean|undefined=undefined
-  public static justifyContentStart:boolean|undefined=undefined
-  public static justifyContentCenter:boolean|undefined=undefined
-  public static justifyContentEnd:boolean|undefined=undefined
-  public static justifyContentBetween:boolean|undefined=undefined
-  public static justifyContentEvenly:boolean|undefined=undefined
-  public static justifyContentAround:boolean|undefined=undefined
-  public static alignItemsStart:boolean|undefined=undefined
-  public static alignItemsCenter:boolean|undefined=undefined
-  public static alignItemsEnd:boolean|undefined=undefined
-  public static alignContentStart:boolean|undefined=undefined
-  public static alignContentCenter:boolean|undefined=undefined
-  public static alignContentEnd:boolean|undefined=undefined
-  public static alignContentBetween:boolean|undefined=undefined
-  public static alignContentEvenly:boolean|undefined=undefined
-  public static alignContentAround:boolean|undefined=undefined
-  public static overflowScroll:boolean|undefined=undefined
-  public static overflowXScroll:boolean|undefined=undefined
-  public static overflowHidden:boolean|undefined=undefined
-  public static overflowXHidden:boolean|undefined=undefined
-  public static overflowAuto:boolean|undefined=undefined
-  public static overflowXAuto:boolean|undefined=undefined
-  public static height:string|undefined=undefined
-  public static width:string|undefined=undefined
-  public static backgroundColorPrimary:BackgroundColorType|undefined=undefined
-  public static backgroundColorWhite:BackgroundColorType|undefined=undefined
-  public static backgroundColorDanger:BackgroundColorType|undefined=undefined
-  public static visible:boolean|undefined=undefined
-  public static holdSpace:boolean|undefined=undefined
-  public static calcHeight:string|undefined=undefined
-  public static calcWidth:string|undefined=undefined
-  public static alignSelfStretch:boolean|undefined=undefined
-  public static alignItemsStretch:boolean|undefined=undefined
-  public static grow:number|undefined=undefined
-  public static shrink:number|undefined=undefined
+  public static children:ComponentModel[]|undefined
+  public static row:boolean|undefined
+  public static column:boolean|undefined
+  public static wrap:boolean|undefined
+  public static justifyContentStart:boolean|undefined
+  public static justifyContentCenter:boolean|undefined
+  public static justifyContentEnd:boolean|undefined
+  public static justifyContentBetween:boolean|undefined
+  public static justifyContentEvenly:boolean|undefined
+  public static justifyContentAround:boolean|undefined
+  public static alignItemsStart:boolean|undefined
+  public static alignItemsCenter:boolean|undefined
+  public static alignItemsEnd:boolean|undefined
+  public static alignContentStart:boolean|undefined
+  public static alignContentCenter:boolean|undefined
+  public static alignContentEnd:boolean|undefined
+  public static alignContentBetween:boolean|undefined
+  public static alignContentEvenly:boolean|undefined
+  public static alignContentAround:boolean|undefined
+  public static overflowScroll:boolean|undefined
+  public static overflowXScroll:boolean|undefined
+  public static overflowHidden:boolean|undefined
+  public static overflowXHidden:boolean|undefined
+  public static overflowAuto:boolean|undefined
+  public static overflowXAuto:boolean|undefined
+  public static height:string|undefined
+  public static width:string|undefined
+  public static backgroundColorPrimary:BackgroundColorType|undefined
+  public static backgroundColorWhite:BackgroundColorType|undefined
+  public static backgroundColorDanger:BackgroundColorType|undefined
+  public static visible:boolean|undefined
+  public static holdSpace:boolean|undefined
+  public static calcHeight:string|undefined
+  public static calcWidth:string|undefined
+  public static alignSelfStretch:boolean|undefined
+  public static alignItemsStretch:boolean|undefined
+  public static grow:number|undefined
+  public static shrink:number|undefined
 
-  public static display: string|undefined = undefined
+  public static display: string|undefined
 
-  public static data: any|undefined = undefined
+  public static data: any|undefined
 
 }

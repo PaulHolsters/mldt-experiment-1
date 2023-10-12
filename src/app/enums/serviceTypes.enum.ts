@@ -3,6 +3,5 @@ export enum ServiceType {
   UIService,
   RBSService,
   UpdateViewService,
-  ActionsService,
-  NoValueType.CALCULATED_BY_ENGINEService
+  ActionsService
 }

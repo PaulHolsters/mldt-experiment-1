@@ -4,5 +4,5 @@ export enum NoValueType {
   DEFAULT_VALUE_DETERMINED_BY_ENGINE='default value determined by engine',
   NO_VALUE_NEEDED='no value needed',
   DATA_FROM_SERVER='data from server',
-  CALCULATED_BY_ENGINE='calculated by engine'
+  CALCULATED_BY_ENGINE='calculated by engine',
 }

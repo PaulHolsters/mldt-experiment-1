@@ -1,11 +1,10 @@
 import {Blueprint} from "./Blueprint";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
-import {NoValueYet} from "../../../types/type-aliases";
 export class Properties {
-  public readonly properties:Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueYet]|string[]]|string>
+  public readonly properties:Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|undefined]|string[]]|string>
   public constructor(public propertiesStr:string ) {
-    // todo zorg ervoor dat properties beter worden afgedwongen => typeScript vids!
-    this.properties = new Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|NoValueYet]|string[]]|string>()
+    // todo zorg ervoor dat properties beter worden afgedwongen
+    this.properties = new Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|undefined]|string[]]|string>()
     this.createProperties(propertiesStr)
   }
   public setValuesProperties(property:string,values:DataRecordModel[]|DataRecordModel){

@@ -6,15 +6,19 @@ import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
 import {StateService} from "./state.service";
 import {RenderPropertiesService} from "./renderProperties.service";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
-import {NoValueType} from "../enums/no_value_type";
 import {ServerDataService} from "./data/server/server-data.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {ConfirmationModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmationModel";
 import {ClientDataService} from "./data/client/client-data.service";
+import {Effect} from "../effectclasses/Effect";
+import {Blueprint} from "./data/client/Blueprint";
+import {DataRecordModel} from "../design-dimensions/DataRecordModel";
+import {ClientData} from "./data/client/ClientData";
+import {NoValueType} from "../enums/NoValueTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +63,51 @@ export class UiActionsService {
         }
       }
     })
+    this.actionsService.bindToAction(new Action('',ActionType.UpdateDataRelatedProperties))?.subscribe(res=>{
+      if(res){
+        const action = this.updateDataRelatedProps(res)
+        if(action){
+          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+        }
+      }
+    })
 
+  }
+  public isClientData(data:any):data is ClientData{
+    return data instanceof ClientData
+  }
+  private updateDataRelatedProps(res: {
+    effect: Effect,
+    data: Blueprint|[ComponentNameType,DataRecordModel|(DataRecordModel|null)[]]|ClientData,
+    target: EventTarget | undefined}){
+    if(this.isClientData(res.data) && res.effect.action.target){
+      const dl = this.configService.getConfigFromRoot(res.effect.action.target)
+      if(dl && dl.clientData?.dataLink){
+        // todo voeg interface voor getRenderProps toe
+        const value = res.data.blueprint.getBlueprintValueForDataLink(dl.clientData.dataLink)
+        const input:{
+          [key: string]: any
+        }|undefined
+          = dl.dataInput?.getDataInputRenderProperties(this.RBS.screenSize,
+          value)
+        const repres:{
+          [key: string]: any
+        }|undefined
+          = dl.dataRepresentation?.getDataRepresentationRenderProperties(this.RBS.screenSize,
+          value)
+        this.renderPropertiesService.getStatePropertySubjects().filter(sp=>{
+          return sp.componentName===res.effect.action.target
+        }).forEach(prop=>{
+          if(input && prop.propName in input){
+            prop.propValue.next(input[prop.propName])
+          }
+          if(repres && prop.propName in repres){
+            prop.propValue.next(repres[prop.propName])
+          }
+        })
+      }
+    }
+    return true
   }
   private outputData() {
     this.clientDataService.clientData.forEach(cd=>{
@@ -91,8 +139,8 @@ export class UiActionsService {
     if(currentAppConfig){
       let config = this.configService.getConfigFromRoot(action.target)
       if(!config) throw new Error('action was not configured correctly')
-      if(config.replace && (action.value && !(action.value instanceof ActionValueModel))){
-        config.replace(action.value.getInstance(),action.value)
+      if(config.replace && (action.value!==NoValueType.NO_VALUE_ALLOWED)){
+        config.replace(action.value.name,action.value.value)
         this.configService.saveConfig(currentAppConfig)
         this.RBS.rebuildUI()
         return true
@@ -120,7 +168,7 @@ export class UiActionsService {
     return true
   }
   private setConfirmation(action:Action,data?:any,target?:EventTarget){
-    if(action.target!==NoValueType.NA){
+    if(action.target!==NoValueType.NO_VALUE_ALLOWED){
       let comp = this.configService.getConfigFromRoot(action.target)
       if(comp && comp.attributes && this.RBS.screenSize){
         const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)

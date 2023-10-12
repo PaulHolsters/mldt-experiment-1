@@ -1,6 +1,6 @@
 import {ResponsiveConfigModel} from "../design-dimensions/ResponsiveConfigModel";
 import {ConfigModelType} from "../types/union-types";
-import {NoValueType.CALCULATED_BY_ENGINE} from "../types/type-aliases";
+import {NoValueType} from "../enums/NoValueTypes.enum";
 export interface ResponsiveConfigModelI<T extends ConfigModelType> {
   smartphone:T
   setSmartphone:(ct:T)=>ResponsiveConfigModel<T>

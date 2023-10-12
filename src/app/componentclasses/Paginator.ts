@@ -3,26 +3,26 @@ import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {BorderModel} from "../design-dimensions/BorderModel";
 
 export abstract class Paginator extends Component {
-  public static rowsPerPageOptions: number[] | undefined = undefined
-  public static first: number | undefined = undefined
-  public static rows: number | undefined = undefined
-  public static totalRecords: number | undefined = undefined
-  public static showCurrentPageReport:boolean | undefined = undefined
-  public static showPageLinks:boolean | undefined = undefined
-  public static showJumpToPageDropdown:boolean | undefined = undefined
-  public static showFirstLastIcon:boolean | undefined = undefined
-  public static currentPageReportTemplate:string | undefined = undefined
-  public static grow: number|undefined| ParentConfigType.grow = undefined
-  public static shrink: number|undefined| ParentConfigType.shrink= undefined
-  public static visible: boolean|undefined = undefined
-  public static holdSpace: boolean|undefined = undefined
-  public static calcHeight: string|undefined = undefined
-  public static calcWidth: string|undefined = undefined
-  public static width:string|undefined = undefined
-  public static height:string|undefined = undefined
-  public static padding: string|undefined = undefined
-  public static margin: string|undefined = undefined
-  public static border: BorderModel|undefined = undefined
+  public static rowsPerPageOptions: number[] | undefined
+  public static first: number | undefined
+  public static rows: number | undefined
+  public static totalRecords: number | undefined
+  public static showCurrentPageReport:boolean | undefined
+  public static showPageLinks:boolean | undefined
+  public static showJumpToPageDropdown:boolean | undefined
+  public static showFirstLastIcon:boolean | undefined
+  public static currentPageReportTemplate:string | undefined
+  public static grow: number|undefined| ParentConfigType.grow
+  public static shrink: number|undefined| ParentConfigType.shrink
+  public static visible: boolean|undefined
+  public static holdSpace: boolean|undefined
+  public static calcHeight: string|undefined
+  public static calcWidth: string|undefined
+  public static width:string|undefined
+  public static height:string|undefined
+  public static padding: string|undefined
+  public static margin: string|undefined
+  public static border: BorderModel|undefined
 
-  public static data: any | undefined = undefined
+  public static data: any | undefined
 }

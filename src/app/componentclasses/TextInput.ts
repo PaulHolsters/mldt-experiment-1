@@ -2,38 +2,37 @@ import {Component} from "./Component";
 import {IconType} from "../enums/iconType.enum";
 import {IconPositionType} from "../enums/iconPositionType.enum";
 import {RestrictionType} from "../enums/restrictionType.enum";
-import {NoValueType} from "../enums/no_value_type";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 export abstract class TextInput extends Component{
-  public static width:string|undefined = undefined
-  public static height:string|undefined = undefined
-  public static calcHeight: string|undefined = undefined
-  public static calcWidth: string|undefined = undefined
-  public static updateKey: string|undefined = undefined
-  public static conceptId:string|undefined= undefined
-  public static icon: IconType | undefined= undefined
-  public static iconPosition: IconPositionType |NoValueType.NI| undefined= undefined
-  public static advisoryText: string | undefined= undefined
-  public static label: string | undefined= undefined
-  public static floatLabel: boolean | undefined | NoValueType.NA= undefined
-  public static dirty: boolean | undefined= undefined
-  public static invalid: boolean | undefined= undefined
-  public static small: boolean | undefined= undefined
-  public static large: boolean | undefined= undefined
-  public static disabled: boolean | undefined= undefined
+  public static width:string|undefined
+  public static height:string|undefined
+  public static calcHeight: string|undefined
+  public static calcWidth: string|undefined
+  public static updateKey: string|undefined
+  public static conceptId:string|undefined
+  public static icon: IconType | undefined
+  public static iconPosition: IconPositionType |undefined
+  public static advisoryText: string | undefined
+  public static label: string | undefined
+  public static floatLabel: boolean | undefined
+  public static dirty: boolean | undefined
+  public static invalid: boolean | undefined
+  public static small: boolean | undefined
+  public static large: boolean | undefined
+  public static disabled: boolean | undefined
 
-  public static keyFilter: string | RegExp | undefined | RestrictionType.NA | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"= undefined
-  public static grow: number|undefined| ParentConfigType.grow = undefined
-  public static shrink: number|undefined| ParentConfigType.shrink = undefined
-  public static visible: boolean|undefined = undefined
-  public static holdSpace: boolean|undefined = undefined
+  public static keyFilter: string | RegExp | undefined | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"
+  public static grow: number|undefined| ParentConfigType.grow
+  public static shrink: number|undefined| ParentConfigType.shrink
+  public static visible: boolean|undefined
+  public static holdSpace: boolean|undefined
 
-  public static data: any|undefined = undefined
+  public static data: any|undefined
 
-  public static conceptData:string|undefined = undefined
-  public static conceptBlueprint:Blueprint|undefined = undefined
-  public static dataLink: string[] | undefined = undefined
+  public static conceptData:string|undefined
+  public static conceptBlueprint:Blueprint|undefined
+  public static dataLink: string[] | undefined
 
-  public static value: string | undefined= undefined
+  public static value: string | undefined
 }
