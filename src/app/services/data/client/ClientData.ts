@@ -17,9 +17,9 @@ export class ClientData {
     let updated = false
     if(data instanceof Blueprint){
       this._blueprint = data
-    } else {
+    } else if(this.isOutPutData(data)){
       this.outputData = data
-    }
+    } else throw new Error('invalid data')
   }
   public setOutputData(data:unknown){
     if(this.isOutPutData(data)) this.outputData = data

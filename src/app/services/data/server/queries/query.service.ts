@@ -4,7 +4,6 @@ import {Apollo, gql} from "apollo-angular";
 import {Observable} from "rxjs";
 import {Query} from "./query.class";
 import {ConceptNameType, ObjectIdType} from "../../../../types/type-aliases";
-import {NoValueType} from "../../../../enums/no_value_type";
 import {Blueprint} from "../../client/Blueprint";
 import {FilterModel} from "../../../../design-dimensions/FilterModel";
 
@@ -136,7 +135,7 @@ export class QueryService {
     }*/
   }
   public getAllRecords(conceptName:ConceptNameType,blueprint:Blueprint):Observable<{data:Object}> {
-    return this.query(new Query(QueryType.GetAllRecords, conceptName,NoValueType.NA,blueprint))
+    return this.query(new Query(QueryType.GetAllRecords, conceptName,undefined,blueprint))
 /*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
       if (comp && comp.data) {
@@ -170,7 +169,7 @@ export class QueryService {
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
   public getSingleRecord(conceptName:ConceptNameType,blueprint:Blueprint, id: ObjectIdType):Observable<{data:Object}> {
-    return this.query(new Query(QueryType.GetSingleRecord, conceptName,NoValueType.NA,blueprint,id))
+    return this.query(new Query(QueryType.GetSingleRecord, conceptName,undefined,blueprint,id))
 /*    if (action.targetType === TargetType.Client) {
       let comp = this.configService.getConfigFromRoot(action.target)
       if (comp !== undefined && comp.data) {
@@ -196,6 +195,6 @@ export class QueryService {
     // todo maak een flow waarbij je data kan doorpompen naar een volgende actie
   }
   public getMultipleRecords(conceptName:ConceptNameType,blueprint:Blueprint,filter:FilterModel):Observable<{data:Object}>{
-    return this.query(new Query(QueryType.GetMultipleRecords, conceptName,NoValueType.NA,blueprint,NoValueType.NA,filter))
+    return this.query(new Query(QueryType.GetMultipleRecords, conceptName,undefined,blueprint,undefined,filter))
   }
 }

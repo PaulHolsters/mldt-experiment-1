@@ -197,8 +197,7 @@ export type OutputData = (
   List|
   DataRecordModel|
   RenderPropertyTypeList<RenderPropertyType>[] |
-  RenderPropertyType|
-  undefined)&{ __brand: 'output data'}
+  RenderPropertyType)&{ __brand: 'output data'}
 export type UIData = OutputData
 
 export type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecordModel]]|['list',[Blueprint,List]]

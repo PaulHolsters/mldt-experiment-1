@@ -8,13 +8,13 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType, ComponentNameType, NoValueType.NO_VALUE_NEEDED, NoValueYet} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType,} from "../../../types/type-aliases";
 import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
-import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 import {OutputData} from "../../../types/union-types";
+import {ClientData} from "../client/ClientData";
 
 // todo fix
 @Injectable({
@@ -73,7 +73,8 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
       if (res) {
         if (typeof res.data === 'string' && res.effect.action.target) {
-          // todo zie dat je hier van een ObjectId type kan uitgaan = branded type
+          // todo zie dat je hier van een ObjectId type kan uitgaan = branded type!
+          const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
           function getRecord(self:ServerDataService, blueprint:Blueprint, res:
             {effect: Effect, data: string, target: EventTarget | undefined}){
             if(res.effect.action.conceptName){
@@ -81,7 +82,7 @@ export class ServerDataService {
                 const data = ServerData.getData(errorOrResult)
                 if(data.dataSingle){
                   if(data.dataSingle){
-                    // todo opgepast data is of type any!!!
+                    // todo opgepast data is of type any
                     self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
                     const cd = self.clientDataService.getClientData(res.effect.action.target)
                     if(cd) self.clientDataService.clientDataUpdated.next(cd)
@@ -95,7 +96,7 @@ export class ServerDataService {
           }
           const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
           if (blueprint) {
-            getRecord(this,blueprint,res)
+            getRecord(this,blueprint,info)
           } else{
             this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
               const data = ServerData.getData(resFirst)
@@ -108,7 +109,7 @@ export class ServerDataService {
                     createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],data)
                     const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                     if (blueprint) {
-                      getRecord(this,blueprint,res)
+                      getRecord(this,blueprint,info)
                     }
                   } else{
                     // todo handle error
@@ -124,7 +125,8 @@ export class ServerDataService {
     })
 
     this.actionsService.bindToAction(new Action('',ActionType.GetAllInstances))?.subscribe(async res => {
-      if (res) {
+      if (res && res.data instanceof ClientData && res.data.outputData) {
+        const info = {effect:res.effect,data:res.data.outputData,target:res.target}
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect, data: OutputData, target: EventTarget | undefined}){
           self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
             const data = ServerData.getData(errorOrResult)
@@ -142,7 +144,7 @@ export class ServerDataService {
         }
         const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
         if (blueprint) {
-          getAllRecords(this,blueprint,res)
+          getAllRecords(this,blueprint,info)
         } else{
           this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
             const data = ServerData.getData(resFirst)
@@ -154,7 +156,7 @@ export class ServerDataService {
                   createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], undefined)
                   const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                   if (blueprint) {
-                    getAllRecords(this, blueprint, res)
+                    getAllRecords(this, blueprint, info)
                   }
                 } else{
                   // todo handle error
@@ -170,9 +172,10 @@ export class ServerDataService {
 
     this.actionsService.bindToAction(new Action('',ActionType.DeleteInstance))?.subscribe(res => {
       // todo werk data als any weg
-      if (res) {
+      if (res &&  res.data instanceof ClientData) {
         // todo verder uitwerken bv cverwijderen vabn client data
-        this.mutationService.deleteRecordOrHandleError(res.data.id)?.subscribe(errorOrResult=>{
+
+        this.mutationService.deleteRecordOrHandleError(res.data)?.subscribe(errorOrResult=>{
           if (errorOrResult) {
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
@@ -208,8 +211,8 @@ export class ServerDataService {
                               blueprintStr:string|undefined,
                               actionId:ActionIdType,
                               name:ComponentNameType,
-                              errorMessages:string[]|NoValueType.NO_VALUE_NEEDED,
-                              data:(DataRecordModel|null)[]|DataRecordModel|NoValueYet){
+                              errorMessages:string[]|undefined,
+                              data:OutputData|undefined){
       if(blueprintStr){
         self.clientDataService.createClientData(
           actionId,

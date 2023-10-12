@@ -26,7 +26,7 @@ export class Mutation {
     }
   }
   private getParamsForRecord(data:OutputData):string {
-    // todo add checking that data is a recordmodel
+    // todo is dit wel output data en wat ik hieronder doe is dan gewoon niet genoeg
     if (!data) return ''
     let str = ''
     const entries = Object.entries(data)

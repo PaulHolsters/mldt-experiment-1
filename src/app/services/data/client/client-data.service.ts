@@ -6,14 +6,13 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
 import {ClientData} from "./ClientData";
-import {ActionIdType, ComponentNameType, ConceptNameType, DataLink} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType} from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {OutputData} from "../../../types/union-types";
-import {NoValueType} from "../../../enums/NoValueTypes.enum";
 @Injectable({
   providedIn: 'root'
 })
@@ -86,8 +85,8 @@ export class ClientDataService {
     actionId:ActionIdType,
     componentName:ComponentNameType,
     blueprint:Blueprint,
-    data:OutputData,
-    errorMessages:string[]|NoValueType.NO_VALUE_NEEDED
+    data?:OutputData|undefined,
+    errorMessages?:string[]|undefined
   ){
     if(blueprint)
       for(let [k,v] of blueprint.properties.properties){

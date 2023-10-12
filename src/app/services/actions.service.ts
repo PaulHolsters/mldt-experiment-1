@@ -8,6 +8,7 @@ import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 import {Blueprint} from "./data/client/Blueprint";
 import {ComponentNameType} from "../types/type-aliases";
 import {ClientData} from "./data/client/ClientData";
+import {List, OutputData} from "../types/union-types";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class ActionsService{
   public bindToAction(action:Action):Observable<{
     // todo hier gaat op termijn een branded type moeten komen dat gaat checken of wat er binnenkomt
     //      qua type wel ok is on runtime
-       effect: Effect, data: Blueprint|[ComponentNameType,DataRecordModel|(DataRecordModel|null)[]]|ClientData, target:EventTarget|undefined
+       effect: Effect, data: Blueprint|[ComponentNameType,DataRecordModel|List]|ClientData|string, target:EventTarget|undefined
 }|undefined>|undefined{
     return this.actionSubjects?.find(actionSubject => {
       return actionSubject.service === action.service && actionSubject.method === action.serviceMethod

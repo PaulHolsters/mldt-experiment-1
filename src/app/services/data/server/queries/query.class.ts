@@ -1,7 +1,6 @@
 import utilFunctions from "../../../../utils/utilFunctions";
 import {QueryType} from "../../../../enums/queryTypes";
 import {AttributeNameType, ConceptNameType, ObjectIdType} from "../../../../types/type-aliases";
-import {NoValueType} from "../../../../enums/no_value_type";
 import {Blueprint} from "../../client/Blueprint";
 import {Properties} from "../../client/Properties";
 import {FilterModel} from "../../../../design-dimensions/FilterModel";
@@ -10,12 +9,12 @@ export class Query {
   public constructor(
     public readonly type:QueryType,
     public readonly conceptName:ConceptNameType,
-    public readonly numberOfNesting:number|NoValueType.NA=NoValueType.NA,
-    public readonly blueprint:Blueprint|NoValueType.NA=NoValueType.NA,
-    public readonly id:ObjectIdType|NoValueType.NA=NoValueType.NA,
-    public readonly filter:FilterModel|NoValueType.NA=NoValueType.NA,
-    public readonly include:AttributeNameType[]|NoValueType.NA=NoValueType.NA,
-    public readonly exclude:AttributeNameType[]|NoValueType.NA=NoValueType.NA,
+    public readonly numberOfNesting?:number|undefined,
+    public readonly blueprint?:Blueprint|undefined,
+    public readonly id?:ObjectIdType|undefined,
+    public readonly filter?:FilterModel|undefined,
+    public readonly include?:AttributeNameType[]|undefined,
+    public readonly exclude?:AttributeNameType[]|undefined,
   ) {}
   private getAllAttributes(): string {
     function getProperties(properties:Properties):string{
@@ -28,7 +27,7 @@ export class Query {
         return returnA+'\n'}
       ).join('')
     }
-    if(!this.blueprint ||this.blueprint===NoValueType.NA) throw new Error('no blueprint client data was given while needed')
+    if(!this.blueprint) throw new Error('no blueprint client data was given while needed')
     return getProperties(this.blueprint.properties as Properties)
 /*    if (data instanceof ClientDataConfigModel && data.attributes && data.attributes instanceof Array && data.attributes.length > 0) {
       return data.attributes.map(x => {
