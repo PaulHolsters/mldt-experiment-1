@@ -1,6 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {TriggerType} from "../../enums/triggerTypes.enum";
-import {NoValueType} from "../../enums/no_value_type";
 import {Component as AbstractComponent} from "../Component"
 import {Form} from "../../componentclasses/Form";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
@@ -11,7 +10,7 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
   styleUrls: ['./form.component.css']
 })
 export class FormComponent extends AbstractComponent implements OnInit{
-  @Input() conceptId:string|NoValueType.NA=NoValueType.NA
+  @Input() conceptId:string|undefined
   @ViewChild('form') form:ElementRef|undefined
   ngOnInit(): void {
     this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.conceptId)

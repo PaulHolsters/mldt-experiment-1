@@ -3,6 +3,7 @@ import {InputNumber} from "primeng/inputnumber";
 import {Observable} from "rxjs";
 import {RenderPropertiesService} from "../../../services/renderProperties.service";
 import {ClientDataService} from "../../../services/data/client/client-data.service";
+import {isOutPutData} from "../../../types/union-types";
 
 @Component({
   selector: 'm-input-number',
@@ -77,7 +78,7 @@ export class InputNumberComponent implements OnInit {
     const text2 = text.substring(text.indexOf('<input ')+7)
     const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
     this.value = Number(text3.substring(0,text3.indexOf('">')))
-    // todo
+    if(isOutPutData(this.value))
     this.clientDataService.updateClientData(this.name, this.value)
   }
 

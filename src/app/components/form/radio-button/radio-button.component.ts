@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {RadioButton} from "../../../componentclasses/RadioButton";
+import {isOutPutData} from "../../../types/union-types";
 
 @Component({
   selector: 'm-radio',
@@ -13,8 +14,8 @@ export class RadioButtonComponent extends AbstractComponent implements OnInit {
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
 
   updateData() {
-    if(this.selectedValue){
-      this.clientDataService.updateData(this.name, this.selectedValue)
+    if(isOutPutData(this.selectedValue)){
+      this.clientDataService.updateClientData(this.name, this.selectedValue)
     }
   }
 

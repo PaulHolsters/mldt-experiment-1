@@ -1,7 +1,7 @@
 import {ConceptNameType, DataLink} from "../../../types/type-aliases";
 import {Properties} from "./Properties";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
-import {BlueprintValue} from "../../../types/union-types";
+import {BlueprintValue, isBlueprintValue} from "../../../types/union-types";
 export class Blueprint {
   public readonly properties:Properties
   public readonly conceptName:ConceptNameType
@@ -21,14 +21,6 @@ export class Blueprint {
     if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
     return blueprintObj.substring(blueprintObj.indexOf('props:')+6,blueprintObj.lastIndexOf(']')+1).trim()
   }
-  public isBlueprintValue(data:any): data is BlueprintValue{
-    if(typeof data === 'string' && ['string','number','Date','boolean'].includes(data)) return true
-    if(data instanceof Array && data.length===2){
-      if(data[0]==='enum' && data[1] instanceof Array) return true
-      return (data[0] === 'object' || data[0] === 'list') && data[1][0] instanceof Blueprint
-    }
-    return false
-  }
   public getBlueprintValueForDataLink(datalink:DataLink):BlueprintValue{
     const keys = this.properties.properties.keys()
     if(datalink.length>=1) datalink.pop()
@@ -46,7 +38,7 @@ export class Blueprint {
         val = val[1][0].properties.properties.get(key)
       }
     }
-    if(this.isBlueprintValue(val)) return val
+    if(isBlueprintValue(val)) return val
     throw new Error('bad config')
   }
 }

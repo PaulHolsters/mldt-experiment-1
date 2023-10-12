@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
-import {NoValueType} from "../../../enums/no_value_type";
 import {MultiSelect} from "../../../componentclasses/MultiSelect";
 import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
+import {isOutPutData} from "../../../types/union-types";
 
 @Component({
   selector: 'm-multiselect',
@@ -12,7 +12,7 @@ import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
 })
 export class MultiselectComponent extends AbstractComponent implements OnInit {
   @ViewChild('multiselect') multiselect: ElementRef | undefined
-  selectedOptions:DataRecordModel[]|NoValueType.DBI|undefined
+  selectedOptions:DataRecordModel[]|undefined
 
   ngOnInit(): void {
     this.props = MultiSelect.getProperties()
@@ -48,8 +48,8 @@ export class MultiselectComponent extends AbstractComponent implements OnInit {
   }
 
   updateData() {
-    if(this.name){
-      this.clientDataService.updateData(this.name, this.selectedOptions)
+    if(this.name && isOutPutData(this.selectedOptions)){
+      this.clientDataService.updateClientData(this.name, this.selectedOptions)
     }
 
   }

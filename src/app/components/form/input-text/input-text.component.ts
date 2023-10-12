@@ -32,7 +32,7 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
     })
   }
   getValue():string{
-    const data = this.getPropValue(PropertyName.conceptData)
+    const data = this.getPropValue(PropertyName.outputData)
     if(data){
       const dataLink = [...this.getPropValue(PropertyName.dataLink)]
       dataLink.shift()
@@ -73,6 +73,6 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
     return false
   }
   updateData() {
-    this.clientDataService.updateData(this.name, this.inputElement?.nativeElement.value)
+    this.clientDataService.updateClientData(this.name, this.inputElement?.nativeElement.value)
   }
 }

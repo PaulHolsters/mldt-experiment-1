@@ -198,6 +198,23 @@ export type OutputData = (
   DataRecordModel|
   RenderPropertyTypeList<RenderPropertyType>[] |
   RenderPropertyType)&{ __brand: 'output data'}
+export const isOutPutData = function isOutputData(data:any): data is OutputData{
+  if(!data) return true
+  if(typeof data === 'string') return true
+  if((typeof data === 'object' && !(data instanceof Array) && 'id' in data && '__typename' in data)) return true
+  if(data instanceof Array && data.length===0) return true
+  return data instanceof Array && (typeof data[0] === 'string' || data[0] === null ||
+    (typeof data[0] === 'object' && !(data[0] instanceof Array) && 'id' in data[0] && '__typename' in data[0])
+  )
+}
+export const isBlueprintValue=function isBlueprintValue(data:any): data is BlueprintValue{
+  if(typeof data === 'string' && ['string','number','Date','boolean'].includes(data)) return true
+  if(data instanceof Array && data.length===2){
+    if(data[0]==='enum' && data[1] instanceof Array) return true
+    return (data[0] === 'object' || data[0] === 'list') && data[1][0] instanceof Blueprint
+  }
+  return false
+}
 export type UIData = OutputData
 
 export type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecordModel]]|['list',[Blueprint,List]]

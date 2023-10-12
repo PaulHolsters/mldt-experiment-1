@@ -9,16 +9,9 @@ import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
 import {
-  ResponsiveDataInputRadioButtonGroupConfigModel
-} from "../../../design-dimensions/DataInput/RadioButtonGroup/ResponsiveDataInputRadioButtonGroupConfigModel";
-import {
-  ResponsiveDataRepresentationRadioButtonGroupConfigModel
-} from "../../../design-dimensions/DataRepresentation/RadioButtonGroup/ResponsiveDataRepresentationRadioButtonGroupConfigModel";
-import {
   ResponsiveDataRepresentationMultiSelectConfigModel
 } from "../../../design-dimensions/DataRepresentation/MultiSelect/ResponsiveDataRepresentationMultiSelectConfigModel";
 import {ClientDataConfigModel} from "../../../design-dimensions/ClientData/ClientDataConfigModel";
-import {NoValueYet} from "../../../types/type-aliases";
 
 export class Multiselect extends ComponentModel
   implements ComponentI<undefined,undefined,undefined,undefined,
@@ -52,8 +45,8 @@ export class Multiselect extends ComponentModel
     super()
     this.name = name
   }
-  clientData: ClientDataConfigModel|NoValueYet=undefined
-  setClientData(cd:ClientDataConfigModel|NoValueYet){
+  clientData: ClientDataConfigModel|undefined
+  setClientData(cd:ClientDataConfigModel|undefined){
     this.clientData=cd
     return this
   }

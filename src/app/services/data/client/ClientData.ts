@@ -1,6 +1,6 @@
 import {ActionIdType, ComponentNameType} from "../../../types/type-aliases";
 import {Blueprint} from "./Blueprint";
-import { OutputData} from "../../../types/union-types";
+import {isOutPutData, OutputData} from "../../../types/union-types";
 
 export class ClientData {
   // dit kan je zien als het client data render model
@@ -17,21 +17,12 @@ export class ClientData {
     let updated = false
     if(data instanceof Blueprint){
       this._blueprint = data
-    } else if(this.isOutPutData(data)){
+    } else if(isOutPutData(data)){
       this.outputData = data
     } else throw new Error('invalid data')
   }
   public setOutputData(data:unknown){
-    if(this.isOutPutData(data)) this.outputData = data
-  }
-  public isOutPutData(data:any): data is OutputData{
-    if(!data) return true
-    if(typeof data === 'string') return true
-    if((typeof data === 'object' && !(data instanceof Array) && 'id' in data && '__typename' in data)) return true
-    if(data instanceof Array && data.length===0) return true
-    return data instanceof Array && (typeof data[0] === 'string' || data[0] === null ||
-      (typeof data[0] === 'object' && !(data[0] instanceof Array) && 'id' in data[0] && '__typename' in data[0])
-    )
+    if(isOutPutData(data)) this.outputData = data
   }
   //export type BlueprintValue = PropertyType|['enum',string[]]|['object'|'list',[Blueprint,undefined]]
 }

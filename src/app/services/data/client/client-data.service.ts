@@ -72,10 +72,8 @@ export class ClientDataService {
   }
 
   // in de volgende twee methodes moet outPutData correct staan
-  public updateClientData(id:ActionIdType,data:Blueprint|OutputData) {
-    const instance =  this.clientData.find(cd=>{
-      return cd.id === id
-    })
+  public updateClientData(id:ActionIdType|ComponentNameType,data:Blueprint|OutputData) {
+    const instance =  this.getClientData(id)
     if(instance){
       instance.update(data)
       this.clientDataUpdated.next(instance)
@@ -112,7 +110,7 @@ export class ClientDataService {
     const cd = this.getClientData(componentName)
     if(cd) this.clientDataUpdated.next(cd)
   }
-  private deleteClientData(name:ComponentNameType,concept:ConceptNameType){
+  private deleteClientData(name:ActionIdType|ComponentNameType,concept:ConceptNameType){
     // todo
     // wanneer een component gedestroyed wordt
   }

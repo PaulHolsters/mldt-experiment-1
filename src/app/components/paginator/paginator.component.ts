@@ -4,7 +4,6 @@ import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Paginator} from "../../componentclasses/Paginator";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {PaddingType} from "../../enums/paddingType.enum";
-import {NoValueType} from "../../enums/no_value_type";
 import {MarginType} from "../../enums/marginType.enum";
 import {BorderModel} from "../../design-dimensions/BorderModel";
 
@@ -32,7 +31,7 @@ export class PaginatorComponent extends AbstractComponent implements OnInit,Afte
     this.trigger(TriggerType.PageChanged)
   }
   setCalculatedHeight(val:any):boolean{
-    if(val && val !== NoValueType.NA){
+    if(val){
       this.paginator?.nativeElement?.style?.setProperty('--heightVal','calc('+val+')')
       this.setPropValue(PropertyName.height,undefined)
       return true
@@ -41,7 +40,7 @@ export class PaginatorComponent extends AbstractComponent implements OnInit,Afte
     return false
   }
   setCalculatedWidth(val:any):boolean{
-    if(val && val !== NoValueType.NA){
+    if(val){
       this.paginator?.nativeElement?.style?.setProperty('--widthVal','calc('+val+')')
       this.setPropValue(PropertyName.width,undefined)
       return true
@@ -50,10 +49,10 @@ export class PaginatorComponent extends AbstractComponent implements OnInit,Afte
     return false
   }
   getStyleClasses(
-    padding:PaddingType|NoValueType.NA,
-    margin:MarginType|NoValueType.NA,
-    border:BorderModel|NoValueType.NA):Object|undefined{
-    return this.stylesService.getStyleClasses(padding,margin,border, NoValueType.NA)
+    padding:PaddingType|undefined,
+    margin:MarginType|undefined,
+    border:BorderModel|undefined):Object|undefined{
+    return this.stylesService.getStyleClasses(padding,margin,border, undefined)
   }
   ngAfterViewInit(){
     this.setCalculatedHeight(this.getPropValue(PropertyName.calcHeight))

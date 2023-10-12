@@ -4,7 +4,6 @@ import {PaddingType} from "../../../enums/paddingType.enum";
 import {BackgroundColorType} from "../../../enums/backgroundColorType.enum";
 import {Component as AbstractComponent} from "../../Component"
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
-import {NoValueType} from "../../../enums/no_value_type";
 import {Label} from "../../../componentclasses/Label";
 import {Blueprint} from "../../../services/data/client/Blueprint";
 import {BorderModel} from "../../../design-dimensions/BorderModel";
@@ -15,12 +14,12 @@ import {BorderModel} from "../../../design-dimensions/BorderModel";
   styleUrls: ['./label.component.css']
 })
 export class LabelComponent extends AbstractComponent implements OnInit {
-  @Input() backgroundColor: BackgroundColorType|NoValueType.NA=NoValueType.NA
+  @Input() backgroundColor: BackgroundColorType|undefined
   @Input() calcHeight: string|undefined
   @Input() calcWidth: string|undefined
-  @Input() padding: PaddingType|NoValueType.NA=NoValueType.NA
-  @Input() margin: MarginType|NoValueType.NA=NoValueType.NA
-  @Input() border: BorderModel|NoValueType.NA=NoValueType.NA
+  @Input() padding: PaddingType|undefined
+  @Input() margin: MarginType|undefined
+  @Input() border: BorderModel|undefined
   @Input() text: any|undefined
   @ViewChild('label') label:ElementRef|undefined
   ngOnInit(): void {
@@ -50,8 +49,8 @@ export class LabelComponent extends AbstractComponent implements OnInit {
     this.setPropValue(PropertyName.width,'100%')
     return false
   }
-  getStyleClasses(padding:PaddingType|NoValueType.NA,margin:MarginType|NoValueType.NA,
-                  border:BorderModel|NoValueType.NA,backgroundColor:BackgroundColorType|NoValueType.NA):Object|undefined{
+  getStyleClasses(padding:PaddingType|undefined,margin:MarginType|undefined,
+                  border:BorderModel|undefined,backgroundColor:BackgroundColorType|undefined):Object|undefined{
     if(padding && margin && border && backgroundColor)
     return Object.assign({},this.stylesService.getPadding(padding),this.stylesService.getMargin(margin),
       this.stylesService.getBorder(border),this.stylesService.getBackgroundColor(backgroundColor))

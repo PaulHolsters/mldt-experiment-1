@@ -15,7 +15,6 @@ import {
   ResponsiveDataRepresentationRadioButtonGroupConfigModel
 } from "../../../design-dimensions/DataRepresentation/RadioButtonGroup/ResponsiveDataRepresentationRadioButtonGroupConfigModel";
 import {ClientDataConfigModel} from "../../../design-dimensions/ClientData/ClientDataConfigModel";
-import {NoValueYet} from "../../../types/type-aliases";
 
 export class RadioButtonGroup extends ComponentModel
   implements ComponentI<undefined,undefined,undefined,undefined,
@@ -49,8 +48,8 @@ export class RadioButtonGroup extends ComponentModel
     super()
     this.name = name
   }
-  clientData: ClientDataConfigModel|NoValueYet=undefined
-  setClientData(cd:ClientDataConfigModel|NoValueYet){
+  clientData: ClientDataConfigModel|undefined
+  setClientData(cd:ClientDataConfigModel|undefined){
     this.clientData=cd
     return this
   }
