@@ -19,6 +19,7 @@ import {Blueprint} from "./data/client/Blueprint";
 import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 import {ClientData} from "./data/client/ClientData";
 import {NoValueType} from "../enums/NoValueTypes.enum";
+import {isClientData} from "../types/union-types";
 
 @Injectable({
   providedIn: 'root'
@@ -73,16 +74,13 @@ export class UiActionsService {
     })
 
   }
-  public isClientData(data:any):data is ClientData{
-    return data instanceof ClientData
-  }
   private updateDataRelatedProps(res: {
     effect: Effect,
-    data: Blueprint|[ComponentNameType,DataRecordModel|(DataRecordModel|null)[]]|ClientData,
+    data: Blueprint|[ComponentNameType,DataRecordModel|(DataRecordModel|null)[]]|ClientData|string,
     target: EventTarget | undefined}){
-    if(this.isClientData(res.data) && res.effect.action.target){
+    if(isClientData(res.data) && res.effect.action.target){
       const dl = this.configService.getConfigFromRoot(res.effect.action.target)
-      if(dl && dl.clientData?.dataLink){
+      if(dl && dl.clientData && dl.clientData?.dataLink!==NoValueType.NO_VALUE_ALLOWED){
         // todo voeg interface voor getRenderProps toe
         const value = res.data.blueprint.getBlueprintValueForDataLink(dl.clientData.dataLink)
         const input:{

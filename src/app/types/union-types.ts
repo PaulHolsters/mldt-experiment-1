@@ -113,6 +113,7 @@ import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 import {RadioButtonGroup} from "../components/form/radio-button/RadioButtonGroup";
 import {Multiselect} from "../components/form/multiselect/Multiselect";
 import {Blueprint} from "../services/data/client/Blueprint";
+import {ClientData} from "../services/data/client/ClientData";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -206,6 +207,9 @@ export const isOutPutData = function isOutputData(data:any): data is OutputData{
   return data instanceof Array && (typeof data[0] === 'string' || data[0] === null ||
     (typeof data[0] === 'object' && !(data[0] instanceof Array) && 'id' in data[0] && '__typename' in data[0])
   )
+}
+export const isClientData = function isClientData(data:any):data is ClientData{
+  return data instanceof ClientData
 }
 export const isBlueprintValue=function isBlueprintValue(data:any): data is BlueprintValue{
   if(typeof data === 'string' && ['string','number','Date','boolean'].includes(data)) return true
