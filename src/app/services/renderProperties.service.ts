@@ -13,6 +13,7 @@ import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityR
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {CalculationModel} from "../design-dimensions/CalculationModel";
 import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
+import {ComponentModelType, OutputData, RenderModelType} from "../types/union-types";
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,7 @@ export class RenderPropertiesService implements OnInit {
       return ps.componentName === compName && ps.propName === propName
     })
   }
-  private createProps(component: ComponentModel) {
+  private createProps(component: ComponentModelType) {
     this.stateService.getProperties(component.type)?.forEach((v, k) => {
       const propSubj = new BehaviorSubject<any | undefined>(v)
       this.statePropertySubjects.push({
@@ -66,18 +67,11 @@ export class RenderPropertiesService implements OnInit {
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
-      IndividualLayoutRenderModel |
-      StructuralRenderModel |
-      VisibilityRenderModel |
-      OverflowRenderModel |
-      StylingRenderModel |
-      string |
-      number |
-      boolean |
-      number[] |
+      RenderModelType|
+      OutputData|
       CalculationModel |
-      ComponentModel |
-      ComponentModel[]> |
+      ComponentModelType |
+      ComponentModelType[]> |
     undefined {
     // todo create a union type to denote this
     return this.statePropertySubjects.find(state => {

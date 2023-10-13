@@ -1,14 +1,13 @@
 import {NonCalculatedSizeConfigModel} from "../NonCalculatedSizeConfigModel";
 import {CalculatedSizeConfigModel} from "../CalculatedSizeConfigModel";
 import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
-import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class IconSizeConfigModel {
 
   constructor(public size:
                 NonCalculatedSizeConfigModel |
                 CalculatedSizeConfigModel |
-                ParentConfigType.static|NoValueType.NO_VALUE_NEEDED){
+                ParentConfigType.static){
   }
   // todo dit is een typisch geval van een component specifieke sizing die wellicht gedeeld kan worden met andere componenten
   //      in de UI component zelf komt dit overeen met de css fontsize style property
@@ -16,7 +15,7 @@ export class IconSizeConfigModel {
   setSize(size:
             NonCalculatedSizeConfigModel |
             CalculatedSizeConfigModel |
-            ParentConfigType.static|NoValueType.NO_VALUE_NEEDED){
+            ParentConfigType.static){
     this.size = size
     return this
   }
