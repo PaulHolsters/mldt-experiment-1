@@ -60,8 +60,6 @@ export class StateService {
         return Icon.getProperties()
       case ComponentType.Paginator:
         return Paginator.getProperties()
-      case ComponentType.TableFooter:
-        return TableFooter.getProperties()
       case ComponentType.ConfirmPopup:
         return ConfirmPopup.getProperties()
       default:
