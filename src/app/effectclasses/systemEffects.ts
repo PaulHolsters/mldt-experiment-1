@@ -20,14 +20,10 @@ export abstract class SystemEffects {
         new Trigger(TriggerType.ClientDataUpdated,ServiceType.DataService),
         new Action('update_data_related_render_properties',ActionType.UpdateDataRelatedProperties)
       ),
-/*      new Effect(
-        new Trigger(TriggerType.ClientDataUpdated,ServiceType.DataService),
-        new Action('continue_suspended_server_calls',ActionType.ContinueSuspendedServerCalls)
-      ),
       new Effect(
         new Trigger(TriggerType.BlueprintStrReady, ServiceType.DataService),
         new Action('create_client_data',ActionType.CreateClientData)
-      )*/
+      )
     ]
   }
 }

@@ -1,6 +1,7 @@
 export enum ActionType {
   // todo hier kan nog gerefactored worden omdat er een sterke connectie is tussen action en target type
-  CreateInstance = 1,
+  UpdateDataProperties=1,
+  CreateInstance ,
   CreateInstances,
   UpdateInstance,
   UpdateInstances,
@@ -17,5 +18,5 @@ export enum ActionType {
   CreateClientData,
   GetClientData,
   DeleteClientData,
-  UpdateDataRelatedProperties
+  UpdateDataRelatedProperties,
 }

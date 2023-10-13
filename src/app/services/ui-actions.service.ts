@@ -19,7 +19,7 @@ import {Blueprint} from "./data/client/Blueprint";
 import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 import {ClientData} from "./data/client/ClientData";
 import {NoValueType} from "../enums/NoValueTypes.enum";
-import {isClientData} from "../types/union-types";
+import {isClientData, List} from "../types/union-types";
 
 @Injectable({
   providedIn: 'root'
@@ -72,7 +72,14 @@ export class UiActionsService {
         }
       }
     })
-
+    this.actionsService.bindToAction(new Action('',ActionType.UpdateDataProperties))?.subscribe(res=>{
+      if(res){
+        const action = this.outputData(res)
+        if(action){
+          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+        }
+      }
+    })
   }
   private updateDataRelatedProps(res: {
     effect: Effect,
@@ -107,29 +114,43 @@ export class UiActionsService {
     }
     return true
   }
-  private outputData() {
-    this.clientDataService.clientData.forEach(cd=>{
+  private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecordModel|List]|ClientData|string, target:EventTarget|undefined}) {
+    if(res.effect.action.target){
+      const cd = this.clientDataService.getClientData(res.effect.action.target)
       this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
-        return ps.componentName===cd.name
+        return ps.componentName===cd?.name
       }).forEach(propSubj=>{
         switch (propSubj.propName){
           case PropertyName.outputData:
-            // todo hier moet je nu de render properties opvragen en doorsturen,
-            //      bijkomend bij de gewone data
-            //      edoch het lijkt er op dat je hier beter een andere service op aanspreekt
-            //      waarbinnen een actie bestaat die dat afhandelt, maar doe het voorlopig maar gewoon hier
-            //
-            propSubj.propValue.next(cd.outputData)
+            propSubj.propValue.next(cd?.outputData)
             break
           case PropertyName.conceptBlueprint:
-            propSubj.propValue.next(cd.blueprint)
+            propSubj.propValue.next(cd?.blueprint)
             break
           case PropertyName.dataLink:
-            propSubj.propValue.next(this.configService.getConfigFromRoot(cd.name)?.clientData?.dataLink)
+            if(cd?.name) propSubj.propValue.next(this.configService.getConfigFromRoot(cd.name)?.clientData?.dataLink)
             break
         }
       })
-    })
+    } else{
+      this.clientDataService.clientData.forEach(cd=>{
+        this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
+          return ps.componentName===cd.name
+        }).forEach(propSubj=>{
+          switch (propSubj.propName){
+            case PropertyName.outputData:
+              propSubj.propValue.next(cd.outputData)
+              break
+            case PropertyName.conceptBlueprint:
+              propSubj.propValue.next(cd.blueprint)
+              break
+            case PropertyName.dataLink:
+              propSubj.propValue.next(this.configService.getConfigFromRoot(cd.name)?.clientData?.dataLink)
+              break
+          }
+        })
+      })
+    }
     return true
   }
   private setConfigValueAndRebuild(action:Action){
