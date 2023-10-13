@@ -37,7 +37,7 @@ export class ResponsiveStructuralIconConfigModel
   getInstance() {
     return 'table'
   }
-  public getIconStructuralRenderProperties(screenSize: number): IconStructuralRenderModel {
+  public getStructuralRenderProperties(screenSize: number): IconStructuralRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new IconStructuralRenderModel()
     Object.entries(config).forEach(([k, v]) => {

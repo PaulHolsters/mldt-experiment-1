@@ -37,7 +37,7 @@ export class ResponsiveStructuralImageConfigModel
   getInstance() {
     return 'table'
   }
-  public getImageStructuralRenderProperties(screenSize: number): ImageStructuralRenderModel {
+  public getStructuralRenderProperties(screenSize: number): ImageStructuralRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new ImageStructuralRenderModel()
     Object.entries(config).forEach(([k, v]) => {

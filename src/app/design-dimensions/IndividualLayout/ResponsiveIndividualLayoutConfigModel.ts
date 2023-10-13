@@ -36,7 +36,7 @@ implements ResponsiveConfigModelI<IndividualLayoutConfigModel>{
   getInstance(){
     return 'position'
   }
-  public getPositionRenderProperties(screenSize: number): IndividualLayoutRenderModel {
+  public getIndividualLayoutRenderProperties(screenSize: number): IndividualLayoutRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new IndividualLayoutRenderModel()
     Object.entries(config).forEach(([k,v])=>{

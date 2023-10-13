@@ -57,7 +57,7 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
   getInstance(){
     return 'childLayout'
   }
-  getChildLayoutRenderProperties(screenSize: number): ChildLayoutRenderModel {
+  getRenderProperties(screenSize: number): ChildLayoutRenderModel {
     const childLayoutConfig = this.getConfigModel(screenSize)
     const parentPropsObj = new ParentRenderPropertiesModel()
     const childPropsObj = new ChildPropertiesRenderModel()

@@ -37,7 +37,7 @@ export class ResponsiveStructuralDialogConfigModel
   getInstance() {
     return 'table'
   }
-  public getConfirmPopupStructuralRenderProperties(screenSize: number): DialogStructuralRenderModel {
+  public getStructuralRenderProperties(screenSize: number): DialogStructuralRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new DialogStructuralRenderModel()
     Object.entries(config).forEach(([k, v]) => {

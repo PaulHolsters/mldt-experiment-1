@@ -37,7 +37,7 @@ export class ResponsiveStructuralMenubarConfigModel
   getInstance() {
     return 'table'
   }
-  public getConfirmPopupStructuralRenderProperties(screenSize: number): MenubarStructuralRenderModel {
+  public getStructuralRenderProperties(screenSize: number): MenubarStructuralRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new MenubarStructuralRenderModel()
     Object.entries(config).forEach(([k, v]) => {

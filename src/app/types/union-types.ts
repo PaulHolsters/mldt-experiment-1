@@ -114,6 +114,52 @@ import {RadioButtonGroup} from "../components/form/radio-button/RadioButtonGroup
 import {Multiselect} from "../components/form/multiselect/Multiselect";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ClientData} from "../services/data/client/ClientData";
+import {
+  TableContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/table/TableContentInjectionRenderModel";
+import {MenubarStructuralRenderModel} from "../design-dimensions/StructuralConfig/menubar/MenubarStructuralRenderModel";
+import {TableLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Table/TableLayoutRenderModel";
+import {
+  RadioButtonGroupDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/RadioButtonGroup/RadioButtonGroupDataRepresentationRenderModel";
+import {
+  NumberInputDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/NumberInput/NumberInputDataRepresentationRenderModel";
+import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
+import {TableStylingRenderModel} from "../design-dimensions/Styling/table/TableStylingRenderModel";
+import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
+import {TextInputDataInputRenderModel} from "../design-dimensions/DataInput/TextInput/TextInputDataInputRenderModel";
+import {
+  ConfirmPopupStructuralRenderModel
+} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmPopupStructuralRenderModel";
+import {IconStructuralRenderModel} from "../design-dimensions/StructuralConfig/icon/IconStructuralRenderModel";
+import {ButtonStylingRenderModel} from "../design-dimensions/Styling/button/ButtonStylingRenderModel";
+import {
+  RadioButtonGroupDataInputRenderModel
+} from "../design-dimensions/DataInput/RadioButtonGroup/RadioButtonGroupDataInputRenderModel";
+import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
+import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
+import {TableStructuralRenderModel} from "../design-dimensions/StructuralConfig/table/TableStructuralRenderModel";
+import {
+  DialogContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/dialog/DialogContentInjectionRenderModel";
+import {ButtonStructuralRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralRenderModel";
+import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
+import {SpacingRenderModel} from "../design-dimensions/Spacing/SpacingRenderModel";
+import {DialogStructuralRenderModel} from "../design-dimensions/StructuralConfig/dialog/DialogStructuralRenderModel";
+import {ImageStructuralRenderModel} from "../design-dimensions/StructuralConfig/image/ImageStructuralRenderModel";
+import {
+  MultiSelectDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/MultiSelect/MultiSelectDataRepresentationRenderModel";
+import {
+  NumberInputDataInputRenderModel
+} from "../design-dimensions/DataInput/NumberInput/NumberInputDataInputRenderModel";
+import {
+  TextInputDataRepresentationRenderModel
+} from "../design-dimensions/DataRepresentation/TextInput/TextInputDataRepresentationRenderModel";
+import {
+  MenubarContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -156,6 +202,47 @@ export type ConfigModelType =
   SpacingConfigModel|
   VisibilityConfigModel|never
 
+export type ContentInjectionRenderModelType =
+  DialogContentInjectionRenderModel |
+  MenubarContentInjectionRenderModel|
+  TableContentInjectionRenderModel|never
+export type ComponentSpecificLayoutRenderModelType =
+  ChildLayoutRenderModel |
+  TableLayoutRenderModel | never
+export type DataInputRenderModelType =
+  NumberInputDataInputRenderModel|
+  TextInputDataInputRenderModel|
+  RadioButtonGroupDataInputRenderModel | never
+export type DataRepresentationRenderModelType =
+  MultiSelectDataRepresentationRenderModel|
+  NumberInputDataRepresentationRenderModel|
+  RadioButtonGroupDataRepresentationRenderModel|
+  TextInputDataRepresentationRenderModel|never
+export type StructuralRenderModelType =
+  ButtonStructuralRenderModel|
+  ConfirmPopupStructuralRenderModel|
+  DialogStructuralRenderModel|
+  ImageStructuralRenderModel|
+  IconStructuralRenderModel|
+  MenubarStructuralRenderModel|
+  TableStructuralRenderModel|never
+export type StylingRenderModelType =
+  ButtonStylingRenderModel|
+  TableStylingRenderModel|never
+
+export type RenderModelType =
+  ContentInjectionRenderModelType|
+  ComponentSpecificLayoutRenderModelType|
+  DataInputRenderModelType|
+  DataRepresentationRenderModelType|
+  StructuralRenderModelType|
+  StylingRenderModelType|
+  IndividualLayoutRenderModel|
+  OverflowRenderModel|
+  SizeRenderModel|
+  SpacingRenderModel|
+  VisibilityRenderModel|never
+
 export type ResponsiveStylingConfigModelType =
   ResponsiveStylingTableConfigModel|ResponsiveStylingButtonConfigModel|never
 export type ResponsiveStructuralConfigModelType =
@@ -182,6 +269,8 @@ export type ResponsiveContentInjectionConfigModelType =
 export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
   ResponsiveTableLayoutConfigModel|never
+
+
 
 export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'

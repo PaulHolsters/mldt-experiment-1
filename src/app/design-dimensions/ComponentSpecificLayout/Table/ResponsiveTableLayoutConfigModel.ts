@@ -42,7 +42,7 @@ implements ResponsiveConfigModelI<TableLayoutConfigModel>{
   getInstance(){
     return 'childLayout'
   }
-  getTableLayoutRenderProperties(screenSize: number): TableLayoutRenderModel {
+  getRenderProperties(screenSize: number): TableLayoutRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new TableLayoutRenderModel()
     Object.entries(config).forEach(([k,v])=>{

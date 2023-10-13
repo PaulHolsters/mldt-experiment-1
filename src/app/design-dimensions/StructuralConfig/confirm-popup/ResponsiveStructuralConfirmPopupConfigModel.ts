@@ -37,7 +37,7 @@ export class ResponsiveStructuralConfirmPopupConfigModel
   getInstance() {
     return 'table'
   }
-  public getConfirmPopupStructuralRenderProperties(screenSize: number): ConfirmPopupStructuralRenderModel {
+  public getStructuralRenderProperties(screenSize: number): ConfirmPopupStructuralRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new ConfirmPopupStructuralRenderModel()
     Object.entries(config).forEach(([k, v]) => {

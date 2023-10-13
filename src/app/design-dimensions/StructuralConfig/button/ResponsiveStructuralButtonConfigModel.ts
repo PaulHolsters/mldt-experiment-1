@@ -38,7 +38,7 @@ export class ResponsiveStructuralButtonConfigModel
   getInstance() {
     return 'table'
   }
-  public getButtonStructuralRenderProperties(screenSize: number): ButtonStructuralRenderModel {
+  public getStructuralRenderProperties(screenSize: number): ButtonStructuralRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new ButtonStructuralRenderModel()
     Object.entries(config).forEach(([k, v]) => {

@@ -8,13 +8,15 @@ import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
-import {ComponentModelType} from "../types/union-types";
+import {ComponentModelType, RenderModelType} from "../types/union-types";
 import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
 import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
+import {SizeUnitConfigType} from "../enums/sizeUnitConfigTypes.enum";
+import {SizeValueConfigType} from "../enums/sizeValueConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -51,34 +53,9 @@ export class ResponsiveBehaviourService implements OnInit{
     })
   }
   public setRBSState(componentName: string,
-                     newState: (IndividualLayoutRenderModel |
-                       StructuralRenderModel |
-                       VisibilityRenderModel) |
-                       StylingRenderModel |
-                       ContentInjectionRenderModel |
-                       SizeRenderModel |
-                       OverflowRenderModel |
-                       ChildLayoutRenderModel |
-                       DataRepresentationRenderModel|
-                       (ComponentModel[])): void {
-    // todo voeg datarepresentation toe
-    if (newState instanceof LayoutOverrideRenderModel ||
-      newState instanceof StructuralRenderModel ||
-      newState instanceof VisibilityRenderModel ||
-      newState instanceof StylingRenderModel ||
-      newState instanceof ContentInjectionRenderModel ||
-      newState instanceof SizeRenderModel ||
-      newState instanceof OverflowRenderModel ||
-      newState instanceof DataRepresentationRenderModel
-    ) {
-      for (let [k, v] of Object.entries(newState)) {
-        if (v !== ComponentDimensionValueConfigType.Parent) {
-          this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-            return subj.componentName === componentName && subj.propName === k
-          })?.propValue.next(v)
-        }
-      }
-    } else if (newState instanceof ChildLayoutRenderModel) {
+                     newState: RenderModelType|
+                       (ComponentModelType[])): void {
+    if (newState instanceof ChildLayoutRenderModel) {
       if (newState.parentProps) {
         for (let [k, v] of Object.entries(newState.parentProps)) {
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
@@ -90,7 +67,7 @@ export class ResponsiveBehaviourService implements OnInit{
         for (let [k, v] of Object.entries(newState.childProps)) {
           let parent = this.configService.getConfigFromRoot(componentName)
           if (parent?.children) {
-            (parent.children as ComponentModel[]).forEach(childComp => {
+            (parent.children as ComponentModelType[]).forEach(childComp => {
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
                 return subj.componentName === childComp.name && subj.propName === k
               })?.propValue.next(v)
@@ -98,10 +75,16 @@ export class ResponsiveBehaviourService implements OnInit{
           }
         }
       }
-    } else {
+    } else if(newState instanceof Array){
       this.renderPropertiesService.getStatePropertySubjects().find(subj => {
         return subj.componentName === componentName && subj.propName === 'children'
       })?.propValue.next(newState)
+    } else{
+      for (let [k, v] of Object.entries(newState)) {
+          this.renderPropertiesService.getStatePropertySubjects().find(subj => {
+            return subj.componentName === componentName && subj.propName === k
+          })?.propValue.next(v)
+      }
     }
   }
   ngOnInit(): void {
@@ -210,59 +193,24 @@ export class ResponsiveBehaviourService implements OnInit{
   }
   private setState(component: ComponentModelType, screenSize: number) {
     this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize))
-    this.setRBSState(component.name, component.position.getPositionRenderProperties(screenSize))
-    this.setRBSState(component.name, component.dimensions.getDimensionsRenderProperties(screenSize))
-    //this.setRBSState(component.name, component.overflow.getOverflowRenderProperties(screenSize))
-    if (component.childLayout){
+    this.setRBSState(component.name, component.size.getSizeRenderProperties(screenSize))
+    this.setRBSState(component.name, component.individualLayout.getIndividualLayoutRenderProperties(screenSize))
+    // todo this.setRBSState(component.name, component.overflow.getOverflowRenderProperties(screenSize))
+    // todo  if (component.styling) this.setRBSState(component.name, component.styling.getStylingRenderProperties(screenSize))
+    if(component.dataRepresentation) this.setRBSState(component.name, component.dataRepresentation.getDataRepresentationRenderProperties(screenSize))
+    if(component.dataInput) this.setRBSState(component.name, component.dataInput.getDataInputRenderProperties(screenSize))
+    if(component.structural) this.setRBSState(component.name, component.structural.getStructuralRenderProperties(screenSize))
+    if (component.componentSpecificLayout){
       //  todo undefined aanvaarden?
-      this.setRBSState(component.name, component.childLayout.getChildLayoutRenderProperties(screenSize))
+      this.setRBSState(component.name, component.componentSpecificLayout.getRenderProperties(screenSize))
     }
-    if (component.visibility){
-      //  todo undefined aanvaarden? => ja indien undefined
-
-    }
-    if (component.position){
-      //  todo undefined aanvaarden?
-
-    }
-    if (component.dimensions){
-      //  todo undefined aanvaarden?
-
-    }
-/*    if (component.overflow){
-      //  todo undefined aanvaarden?
-
-    }*/
-
     if (component.children && component.children.length > 0) {
       this.setRBSState(component.name, component.children)
-    }
-    if (component.attributes){
-      // todo mogelijks mag deze methode nu ook versimpeld worden
-/*      Object.values(this.storeService.getAttributesComponentProps(component.name, component.attributes, screenSize)).filter(val=>{
-        return val instanceof ComponentModel || this.configService.isComponentObjectModel(val) || (
-          val instanceof Array && val.length > 0 && (val[0] instanceof ComponentModel || this.configService.isComponentObjectModel(val[0])
-          || val[0] instanceof TableColumnModel)
-        )
-      }).forEach(val=>{
-        this.setState(val,screenSize)
-        if(val instanceof Array){
-          val.forEach(v=>{
-            if(v instanceof ComponentModel || this.configService.isComponentObjectModel(v)){
-              this.setState(this.configService.convertToComponentModel(v) as ComponentModel,screenSize)
-            } else this.setState(v.anchor,screenSize)
-          })
-        }
-      })*/
-      const props = component.attributes.getAttributesRenderProperties(screenSize)
-      this.setRBSState(component.name, props)
     }
     if (component.contentInjection){
       const contentInjection = component.contentInjection.getContentInjectionRenderProperties(screenSize)
       this.setRBSState(component.name, contentInjection)
     }
-/*    if (component.styling)
-      this.setRBSState(component.name, component.styling.getStylingRenderProperties(screenSize))*/
   }
 
   public setComponentStates( screenSize: number) {
