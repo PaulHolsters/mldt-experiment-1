@@ -17,6 +17,11 @@ import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ClientDataService} from "../services/data/client/client-data.service";
 import {NoValueType} from "../enums/NoValueTypes.enum";
+import {Container} from "./container/Container";
+import {Icon} from "./icon/Icon";
+import {Button} from "./button/Button";
+import {Multiselect} from "./form/multiselect/Multiselect";
+import {RadioButtonGroup} from "./form/radio-button/RadioButtonGroup";
 @Directive()
 export class Component{
   @Input() public name!:string
@@ -36,8 +41,7 @@ export class Component{
   protected props:Map<string,any>|undefined
   protected readonly TriggerType = TriggerType
   protected readonly PropertyName = PropertyName
-  protected readonly componentType = ComponentType
-  protected readonly NoValueType = NoValueType
+  protected readonly ComponentType = ComponentType
   protected readonly RestrictionType = RestrictionType
   protected readonly InputFontSizeType = InputFontSizeType
   protected readonly Math = Math

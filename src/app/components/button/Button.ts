@@ -14,6 +14,7 @@ import {
   ResponsiveStylingButtonConfigModel
 } from "../../design-dimensions/Styling/button/ResponsiveStylingButtonConfigModel";
 import {ComponentModelType} from "../../types/union-types";
+import {ComponentType} from "../../enums/componentTypes.enum";
 export class Button extends ComponentModel implements ComponentI<
   undefined,
   ResponsiveStructuralButtonConfigModel,
@@ -26,6 +27,7 @@ export class Button extends ComponentModel implements ComponentI<
     this.name = name
   }
   name:string
+  type=ComponentType.Button
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing

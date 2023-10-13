@@ -11,10 +11,12 @@ import {
   ResponsiveContainerChildLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ComponentModelType} from "../../types/union-types";
+import {ComponentType} from "../../enums/componentTypes.enum";
 export class Container extends ComponentModel implements ComponentI<undefined,undefined,undefined,ResponsiveContainerChildLayoutConfigModel,undefined,undefined>{
   // todo add conditional typing : prop required => set required too
   // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten
   name:string
+  type=ComponentType.Container
   spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing

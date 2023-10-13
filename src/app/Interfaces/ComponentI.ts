@@ -15,6 +15,7 @@ import {
   ResponsiveStylingConfigModelType
 } from "../types/union-types";
 import {NoValueType} from "../enums/NoValueTypes.enum";
+import {ComponentType} from "../enums/componentTypes.enum";
 
 export interface ComponentI<
   ContentInjection extends ResponsiveContentInjectionConfigModelType|undefined,
@@ -25,6 +26,7 @@ export interface ComponentI<
   DataRepresentation extends ResponsiveDataRepresentationConfigModelType|undefined
 > {
   name: string
+  type:ComponentType
   size: ResponsiveSizeConfigModel
   setSize: (size: ResponsiveSizeConfigModel) => ComponentModelType
   spacing:ResponsiveSpacingConfigModel

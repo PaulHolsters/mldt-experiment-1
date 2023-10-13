@@ -12,6 +12,7 @@ import {
   ResponsiveDataRepresentationMultiSelectConfigModel
 } from "../../../design-dimensions/DataRepresentation/MultiSelect/ResponsiveDataRepresentationMultiSelectConfigModel";
 import {ClientDataConfigModel} from "../../../design-dimensions/ClientData/ClientDataConfigModel";
+import {ComponentType} from "../../../enums/componentTypes.enum";
 
 export class Multiselect extends ComponentModel
   implements ComponentI<undefined,undefined,undefined,undefined,
@@ -19,6 +20,7 @@ export class Multiselect extends ComponentModel
   // todo add conditional typing : prop required => set required too
   // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten
   name:string
+  type = ComponentType.MultiSelect
   spacing:ResponsiveSpacingConfigModel = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing

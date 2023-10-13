@@ -21,7 +21,7 @@
      #inputWrapper>
     <i class="pi pi-{{getPropValue(PropertyName.icon)}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
-    <small *ngIf="getPropValue(PropertyName.advisoryText)!==NoValueType.NI">{{getPropValue(PropertyName.advisoryText)}}</small>
+    <small *ngIf="getPropValue(PropertyName.advisoryText)">{{getPropValue(PropertyName.advisoryText)}}</small>
 </div>
 <!-- non-floating label inputs without an icon inside -->
 <div *ngIf="!getPropValue(PropertyName.icon) && !getPropValue(PropertyName.floatLabel)"
@@ -32,7 +32,7 @@
      #inputWrapper
 >
   <ng-template [ngTemplateOutlet]="input"></ng-template>
-  <small *ngIf="getPropValue(PropertyName.advisoryText)!==NoValueType.NI">{{getPropValue(PropertyName.advisoryText)}}</small>
+  <small *ngIf="getPropValue(PropertyName.advisoryText)">{{getPropValue(PropertyName.advisoryText)}}</small>
 </div>
 <!-- floating label inputs without icons -->
 <div *ngIf="getPropValue(PropertyName.floatLabel) && !getPropValue(PropertyName.icon)" class="p-float-label"
@@ -44,7 +44,7 @@
 >
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{getPropValue(PropertyName.label)}}</label>
-  <small *ngIf="getPropValue(PropertyName.advisoryText)!==NoValueType.NI">{{getPropValue(PropertyName.advisoryText)}}</small>
+  <small *ngIf="getPropValue(PropertyName.advisoryText)">{{getPropValue(PropertyName.advisoryText)}}</small>
 </div>
 <!-- floating label inputs with icons -->
 <div *ngIf="getPropValue(PropertyName.icon) && getPropValue(PropertyName.floatLabel)"
@@ -58,5 +58,5 @@
     <i class="pi pi-{{getPropValue(PropertyName.icon)}}"></i>
     <ng-template [ngTemplateOutlet]="input"></ng-template>
     <label>{{getPropValue(PropertyName.label)}}</label>
-  <small *ngIf="getPropValue(PropertyName.advisoryText)!==NoValueType.NI">{{getPropValue(PropertyName.advisoryText)}}</small>
+  <small *ngIf="getPropValue(PropertyName.advisoryText)">{{getPropValue(PropertyName.advisoryText)}}</small>
 </div>

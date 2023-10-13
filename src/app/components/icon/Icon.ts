@@ -14,6 +14,7 @@ import {
 import {IconType} from "../../enums/iconType.enum";
 import {IconStructuralConfigModel} from "../../design-dimensions/StructuralConfig/icon/IconStructuralConfigModel";
 import {ComponentModelType} from "../../types/union-types";
+import {ComponentType} from "../../enums/componentTypes.enum";
 export class Icon extends ComponentModel implements ComponentI<
   undefined,
   ResponsiveStructuralIconConfigModel,
@@ -22,6 +23,7 @@ export class Icon extends ComponentModel implements ComponentI<
   undefined,
   undefined>{
   name:string
+  type = ComponentType.Icon
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing

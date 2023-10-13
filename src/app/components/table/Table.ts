@@ -25,6 +25,7 @@ import {
   ResponsiveTableLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
 import {ComponentModelType} from "../../types/union-types";
+import {ComponentType} from "../../enums/componentTypes.enum";
 export class Table extends ComponentModel implements ComponentI<
   ResponsiveContentInjectionTableConfigModel,
   ResponsiveStructuralTableConfigModel,
@@ -33,6 +34,7 @@ export class Table extends ComponentModel implements ComponentI<
   undefined,
   undefined>{
   name:string
+  type=ComponentType.Table
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing

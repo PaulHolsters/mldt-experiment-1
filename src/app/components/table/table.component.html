@@ -42,7 +42,7 @@
   (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
   dataKey="name"
   >
-  <ng-template *ngIf="getPropValue(PropertyName.caption)!==NoValueType.NA" pTemplate="caption">
+  <ng-template *ngIf="getPropValue(PropertyName.caption)" pTemplate="caption">
     <m-anchor  [component]="getPropValue(PropertyName.caption)"></m-anchor>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
@@ -65,7 +65,7 @@
       <td colspan="7">{{getPropValue(PropertyName.textWhenEmpty)}}</td>
     </tr>
   </ng-template>
-  <ng-template  *ngIf="getPropValue(PropertyName.footer)!==NoValueType.NA" pTemplate="summary">
+  <ng-template  *ngIf="getPropValue(PropertyName.footer)" pTemplate="summary">
     <m-anchor [component]="getPropValue(PropertyName.footer)"></m-anchor>
   </ng-template>
 </p-table>

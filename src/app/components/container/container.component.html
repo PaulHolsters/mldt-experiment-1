@@ -49,27 +49,27 @@
       ||(child.type === componentType.Label && !getPropValue(PropertyName.dataAttribute))"-->
       <div
         [class.visibilityHidden]="
-      (child.type !== componentType.Container) &&
+      (child.type !== ComponentType.Container) &&
       !(bindToStateProperty(child.name,'visible') | async)
       && (bindToStateProperty(child.name,'holdSpace') | async) "
 
-        [class.displayNone]="(child.type !== componentType.Container)
+        [class.displayNone]="(child.type !== ComponentType.Container)
       &&!(bindToStateProperty(child.name,'visible') | async)
       && !(bindToStateProperty(child.name,'holdSpace') | async)"
 
-        [style.height]="(child.type !== componentType.Container) ? (bindToStateProperty(child.name,'height') | async) : ''"
-        [style.width]="(child.type !== componentType.Container) ? (bindToStateProperty(child.name,'width') | async) : ''"
-        [class.align-self-stretch]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'alignSelfStretch')|async)"
-        [class.overflow-hidden]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowHidden')|async)"
-        [class.overflow-x-hidden]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowXHidden')|async)"
-        [class.overflow-auto]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowAuto')|async)"
-        [class.overflow-x-auto]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowXAuto')|async)"
-        [class.overflow-scroll]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowScroll')|async)"
-        [class.overflow-x-scroll]="(child.type !== componentType.Container) && (bindToStateProperty(child.name,'overflowXScroll')|async)"
+        [style.height]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,'height') | async) : ''"
+        [style.width]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,'width') | async) : ''"
+        [class.align-self-stretch]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'alignSelfStretch')|async)"
+        [class.overflow-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowHidden')|async)"
+        [class.overflow-x-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowXHidden')|async)"
+        [class.overflow-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowAuto')|async)"
+        [class.overflow-x-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowXAuto')|async)"
+        [class.overflow-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowScroll')|async)"
+        [class.overflow-x-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowXScroll')|async)"
         [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-        [class.flex]="(child.type === componentType.Form)"
+        [class.flex]="(child.type === ComponentType.Form)"
         [ngSwitch]="child.type">
 
         <m-block       [class]="['flex',
@@ -77,22 +77,22 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                        [style.height]="'100%'"
                        [style.width]="'100%'"
-                       *ngSwitchCase="componentType.Block"
+                       *ngSwitchCase="ComponentType.Block"
                        [name]="child.name"></m-block>
         <m-confirm-popup       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                        [style.height]="'100%'"
                        [style.width]="'100%'"
-                       *ngSwitchCase="componentType.ConfirmPopup"
+                       *ngSwitchCase="ComponentType.ConfirmPopup"
                        [name]="child.name"></m-confirm-popup>
         <!-- todo voeg hier ook een ngFor aan toe zodat de config vereenvoudigd kan worden-->
         <m-formcontrol       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                             *ngSwitchCase="componentType.FormControl"
+                             *ngSwitchCase="ComponentType.FormControl"
                              [name]="child.name"></m-formcontrol>
-        <ng-container *ngSwitchCase="componentType.Label">
+        <ng-container *ngSwitchCase="ComponentType.Label">
           <!-- todo nagaan of automatische hoogte en breedte van 100% wel wenselijk is-->
 <!--          *ngIf="!getPropValue(PropertyName.dataAttribute)['floatLabel'] && getPropValue(PropertyName.dataAttribute)['floatLabel'] !== NoValueType.NA"-->
 <!--          [text]="(getPropValue(PropertyName.dataAttribute)?.label !== NoValueType.DBI)
@@ -135,7 +135,7 @@
         [small]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSizeType.Small"
         [large]="getPropValue(PropertyName.dataAttribute)?.text['inputFontSize']===InputFontSizeType.Large"
         [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"-->
-        <ng-container *ngSwitchCase="componentType.TextInput">
+        <ng-container *ngSwitchCase="ComponentType.TextInput">
           <m-input-text
                         [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
@@ -173,7 +173,7 @@
         [decrementButtonClass]="getPropValue(PropertyName.dataAttribute)?.number['decrementButtonClass']"
         [incrementButtonClass]="getPropValue(PropertyName.dataAttribute)?.number['incrementButtonClass']"
         [buttonLayout]="getPropValue(PropertyName.dataAttribute)?.number['buttonLayout']"-->
-        <ng-container *ngSwitchCase="componentType.NumberInput">
+        <ng-container *ngSwitchCase="ComponentType.NumberInput">
           <m-input-number
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
@@ -191,7 +191,7 @@
         [dirty]="false"
         [invalid]="false"
         [disabled]="replaceWithBooleanOrUndefined(getPropValue(PropertyName.dataAttribute)?.disabled)"-->
-        <ng-container *ngSwitchCase="componentType.MultiSelect">
+        <ng-container *ngSwitchCase="ComponentType.MultiSelect">
           <m-multiselect
             [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
@@ -199,7 +199,7 @@
             [name]="child.name"
           ></m-multiselect>
         </ng-container>
-        <ng-container *ngSwitchCase="componentType.DateInput">
+        <ng-container *ngSwitchCase="ComponentType.DateInput">
 <!--          *ngIf="getPropValue(PropertyName.dataLink)"-->
 <!--          [name]="getPropValue(PropertyName.dataLink).join('_')"-->
           <m-date
@@ -210,7 +210,7 @@
                   [style.width]="'100%'"
           ></m-date>
         </ng-container>
-        <ng-container *ngSwitchCase="componentType.RadioButton">
+        <ng-container *ngSwitchCase="ComponentType.RadioButton">
 <!--          [values]="getValues()"
           [selectedValue]="getPropValue(PropertyName.dataAttribute)['radio']?.value"
           [conceptName]="getPropValue(PropertyName.dataAttribute)['radio']['conceptName']"
@@ -229,58 +229,58 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                         [style.height]="'100%'"
                         [style.width]="'100%'"
-                        *ngSwitchCase="componentType.Button"
+                        *ngSwitchCase="ComponentType.Button"
                         [name]="child.name"></m-button>
         <m-dialog       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                         [style.height]="'100%'"
                         [style.width]="'100%'"
-                        *ngSwitchCase="componentType.Dialog"
+                        *ngSwitchCase="ComponentType.Dialog"
                         [name]="child.name"></m-dialog>
         <m-icon       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                         [style.height]="'100%'"
                         [style.width]="'100%'"
-                        *ngSwitchCase="componentType.Icon"
+                        *ngSwitchCase="ComponentType.Icon"
                         [name]="child.name"></m-icon>
         <m-image          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                           [style.height]="'100%'"
                           [style.width]="'100%'"
-                          *ngSwitchCase="componentType.Image"
+                          *ngSwitchCase="ComponentType.Image"
                           [name]="child.name"></m-image>
         <m-image2         [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                           [style.height]="'100%'"
                           [style.width]="'100%'"
-                          *ngSwitchCase="componentType.Image2"
+                          *ngSwitchCase="ComponentType.Image2"
                           [name]="child.name"></m-image2>
         <m-menubar          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                            *ngSwitchCase="componentType.Menubar"
+                            *ngSwitchCase="ComponentType.Menubar"
                             [name]="child.name"></m-menubar>
         <m-logo          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                          [style.height]="'100%'"
                          [style.width]="'100%'"
-                         *ngSwitchCase="componentType.Logo"
+                         *ngSwitchCase="ComponentType.Logo"
                          [name]="child.name"></m-logo>
 <!--        [conceptId]="'64aea3efb786c36de52c7cfd'"-->
         <m-form          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
-                         *ngSwitchCase="componentType.Form"
+                         *ngSwitchCase="ComponentType.Form"
                          [name]="child.name"
                          [style.height]="'100%'"
                          [style.width]="'100%'"
        ></m-form>
-        <ng-container *ngSwitchCase="componentType.Table">
+        <ng-container *ngSwitchCase="ComponentType.Table">
           <m-table          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -289,7 +289,7 @@
                             [style.width]="'100%'"
           ></m-table>
         </ng-container>
-        <ng-container *ngSwitchCase="componentType.Paginator">
+        <ng-container *ngSwitchCase="ComponentType.Paginator">
           <m-paginator          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -298,7 +298,7 @@
                             [style.width]="'100%'"
           ></m-paginator>
         </ng-container>
-        <m-container *ngSwitchCase="componentType.Container" [name]="child.name"  [class]="[
+        <m-container *ngSwitchCase="ComponentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"></m-container>
       </div>

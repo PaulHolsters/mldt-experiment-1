@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, 
 import {Observable} from "rxjs";
 import {RenderPropertiesService} from "../../services/renderProperties.service";
 @Component({
-  selector: 'm-NumberInput',
+  selector: 'm-menubar',
   templateUrl: './menubar.component.html',
   styleUrls: ['./menubar.component.css']
 })
