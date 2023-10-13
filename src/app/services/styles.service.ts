@@ -12,8 +12,10 @@ import {FontSizeType} from "../enums/fontSizeType.enum";
 import {TextColorType} from "../enums/textColorType.enum";
 import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ButtonSizeType} from "../enums/buttonSizeType.enum";
-import {NoValueType} from "../enums/no_value_type";
 import {ButtonMeaningType} from "../enums/buttonMeaningType.enum";
+import {BorderModel} from "../design-dimensions/BorderModel";
+import {ButtonAppearanceType} from "../enums/buttonAppearanceType.enum";
+import {NoValueType} from "../enums/NoValueTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -64,8 +66,8 @@ export class StylesService {
       'underline':textDecoration===TextDecorationType.Underline,
     }
   }
-  public getBackgroundColor(bgColor:BackgroundColorType|NoValueType.NA):Object|undefined{
-    if(bgColor===NoValueType.NA) return undefined
+  public getBackgroundColor(bgColor:BackgroundColorType|undefined):Object|undefined{
+    if(!bgColor) return undefined
     return {
       'bg-primary':bgColor===BackgroundColorType.Background_Color_Primary,
       'bg-primary-reverse':bgColor===BackgroundColorType.Background_Color_Primary_Reverse,
@@ -84,8 +86,8 @@ export class StylesService {
       // todo vul aan met gekleurde background en andere mogelijkheden binnen primeNG
     }
   }
-  public getMargin(margin:MarginType|NoValueType.NA):Object|undefined{
-    if(margin === NoValueType.NA) return undefined
+  public getMargin(margin:MarginType|undefined):Object|undefined{
+    if(!margin) return undefined
     return {
       "m-0":margin===MarginType.All_0,
       "m-1":margin===MarginType.All_1,
@@ -153,8 +155,8 @@ export class StylesService {
     }
   }
   public getPadding(
-    padding:PaddingType|NoValueType.NA):Object|undefined{
-    if(padding===NoValueType.NA)return undefined
+    padding:PaddingType|undefined):Object|undefined{
+    if(!padding)return undefined
     return {
       "p-0":padding===PaddingType.All_0,
       "p-1":padding===PaddingType.All_1,
@@ -221,8 +223,8 @@ export class StylesService {
       "py-8":padding===PaddingType.TopBottom_8,
     }
   }
-  public getBorder(border:BorderModel|NoValueType.NA):Object|undefined{
-    if(border === NoValueType.NA) return undefined
+  public getBorder(border:BorderModel|undefined):Object|undefined{
+    if(!border) return undefined
     return {
       'border-noround':border.radius===BorderRadiusType.No_rounding,
       'border-round-xs':border.radius===BorderRadiusType.Rounding_XS,
@@ -278,14 +280,14 @@ export class StylesService {
     }
   }
 
-  getButtonStyle(size:ButtonSizeType|NoValueType.NA,
-                 form:ButtonFormType|NoValueType.NA,
-                 appearance:ButtonAppearanceType|NoValueType.NA,
-                 meaning:ButtonMeaningType|NoValueType.NA){
+  getButtonStyle(size:ButtonSizeType|undefined,
+                 form:undefined,
+                 appearance:ButtonAppearanceType|undefined,
+                 meaning:ButtonMeaningType|undefined){
   }
 
-  getStyleClasses(padding:PaddingType|NoValueType.NA,margin:MarginType|NoValueType.NA,
-                  border:BorderModel|NoValueType.NA,backgroundColor:BackgroundColorType|NoValueType.NA){
+  getStyleClasses(padding:PaddingType|undefined,margin:MarginType|undefined,
+                  border:BorderModel|undefined,backgroundColor:BackgroundColorType|undefined){
     return Object.assign({},this.getPadding(padding),this.getMargin(margin),
       this.getBorder(border),this.getBackgroundColor(backgroundColor))
   }
