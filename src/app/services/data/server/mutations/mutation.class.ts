@@ -3,7 +3,7 @@ import utilFunctions from "../../../../utils/utilFunctions";
 import {ObjectIdType} from "../../../../types/type-aliases";
 import {ConfigService} from "../../../config.service";
 import {ClientData} from "../../client/ClientData";
-import {OutputData} from "../../../../types/union-types";
+import {extractConcept, OutputData} from "../../../../types/union-types";
 
 export class Mutation {
   public constructor(
@@ -100,9 +100,9 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     * PARAMS = DATARECORDMODEL
     * return values = errorhandling + errormessages = clientDataRenderModel.errorMessages
     * */
-    const cn = this.configService.appConfig.userConfig.effects.find(e=>{
+    const cn = extractConcept(this.configService.appConfig.userConfig.effects.find(e=>{
       return e.action.target === this.data.name
-    })?.action.conceptName
+    })?.action.conceptName)
     if(cn){
       return `
     mutation Mutation{

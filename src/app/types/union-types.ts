@@ -160,6 +160,7 @@ import {
 import {
   MenubarContentInjectionRenderModel
 } from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
+import {ConceptNameType, DataLink} from "./type-aliases";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -288,6 +289,13 @@ export type OutputData = (
   DataRecordModel|
   RenderPropertyTypeList<RenderPropertyType>[] |
   RenderPropertyType)&{ __brand: 'output data'}
+
+export const extractConcept = function extractConcept(concept:ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
+  if(!concept) return concept
+  if(!(concept instanceof Array)) return concept
+  if(concept.length===0) return undefined
+  return concept[0]
+}
 export const isOutPutData = function isOutputData(data:any): data is OutputData{
   if(!data) return true
   if(typeof data === 'string') return true

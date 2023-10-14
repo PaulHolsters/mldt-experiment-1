@@ -13,7 +13,7 @@ import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
-import {OutputData} from "../../../types/union-types";
+import {extractConcept, OutputData} from "../../../types/union-types";
 import {ClientData} from "../client/ClientData";
 
 // todo fix
@@ -37,19 +37,13 @@ export class ServerDataService {
       this.bindActions()
     })
   }
-  private extractConcept(concept:ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
-    if(!concept) return concept
-    if(!(concept instanceof Array)) return concept
-    if(concept.length===0) return undefined
-    return concept[0]
-  }
   public bindActions(){
 
     //********************     queries     ****************************/
 
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res?.effect.action.conceptName && res.effect.action.target) {
-        const concept = this.extractConcept(res.effect.action.conceptName)
+        const concept = extractConcept(res.effect.action.conceptName)
         const target = res.effect.action.target
         if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
@@ -80,7 +74,7 @@ export class ServerDataService {
 
     this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
       if (res) {
-        const concept = this.extractConcept(res.effect.action.conceptName)
+        const concept = extractConcept(res.effect.action.conceptName)
         const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
         if (typeof res.data === 'string' && res.effect.action.target && concept) {
           // todo zie dat je hier van een ObjectId type kan uitgaan = branded type!
@@ -134,7 +128,7 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.GetAllInstances))?.subscribe(async res => {
       if (res && res.data instanceof ClientData && res.data.outputData) {
         const info = {effect:res.effect,data:res.data.outputData,target:res.target}
-        const concept = this.extractConcept(res.effect.action.conceptName)
+        const concept = extractConcept(res.effect.action.conceptName)
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,
           data: OutputData, target: EventTarget | undefined},concept:ConceptNameType){
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
