@@ -43,7 +43,8 @@ export class ServerDataService {
 
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res?.effect.action.conceptName && res.effect.action.target) {
-        const concept = extractConcept(res.effect.action.conceptName)
+        // todo het target gaat niet per se aanwezig zijn
+        const concept = extractConcept(res.effect.action.conceptName) ? extractConcept(res.effect.action.conceptName) : typeof res.data === 'string' ? res.data:undefined
         const target = res.effect.action.target
         if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
@@ -59,6 +60,9 @@ export class ServerDataService {
                       //      dit is wellicht een mooie kandidaat voor branded types
                       //      de reden waarom dat niet gecontroleerd wordt is dat data van het any type is
                       //      dat is niet conform de type van de parameter maar het wordt gewoon niet gecontroleerd
+
+
+                      // hier zit de hele clue!
                       createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
                       this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
                     } else{

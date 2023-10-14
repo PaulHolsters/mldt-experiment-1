@@ -31,6 +31,9 @@ export class EventsService{
     this.clientDataService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
     })
+    this.clientDataService.blueprintNeeded.subscribe(res =>{
+      this.triggerEvent(TriggerType.BlueprintStrNeeded,ServiceType.DataService,res)
+    })
     this.UIActionsService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
     })
@@ -42,6 +45,7 @@ export class EventsService{
     })
   }
   public triggerEvent(trigger:TriggerType,source:string|ServiceType,data?:any,target?:EventTarget){
+    // todo werk any weg op termijn hier
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()

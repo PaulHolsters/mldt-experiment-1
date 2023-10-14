@@ -8,5 +8,6 @@ export enum TriggerType {
   ActionAccepted,
   ActionRejected,
   ClientDataUpdated,
-  BlueprintStrReady
+  BlueprintStrReady,
+  BlueprintStrNeeded,
 }

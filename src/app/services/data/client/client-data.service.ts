@@ -12,7 +12,8 @@ import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
-import {OutputData} from "../../../types/union-types";
+import {extractConcept, OutputData} from "../../../types/union-types";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +21,7 @@ export class ClientDataService {
   // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
+  public blueprintNeeded = new Subject<ConceptNameType>()
   private _clientData: ClientData[] = []
   constructor(private actionsService:ActionsService,
               private configService:ConfigService,
@@ -50,13 +52,27 @@ export class ClientDataService {
       *
       *
       * */
-
-
-      if (res?.effect.action.target) {
+      if (
+        res?.effect.action.target &&
+        res?.effect.action.target !== NoValueType.CALCULATED_BY_ENGINE &&
+        res?.effect.action.target !== NoValueType.NO_VALUE_ALLOWED) {
+        // todo maak een betere manier om zeker te zijn dat het datatype ConceptNameType is
         const clientData = this.getClientData(res.effect.action.target)
         if (!clientData) {
-          // todo createClientData ook voor kinderen en kleinkinderen ? of hoe moet dit werken ?
-          // de data wordt gecreëerd op basis van de data die meekomt van de frontend
+          // welke waarden kan res.data nu hebben?
+          // data: string | Blueprint | [string, (DataRecordModel | List)] | ClientData
+          const concept = extractConcept(res.effect.action.conceptName)
+          if(concept){
+            // dit resulteert automatisch in een client data instance
+            // de enige data nodig zijn target en concept,
+            // todo qua output data moet er nog iets van code bijkomen lijkt mij (actionValue)
+            this.blueprintNeeded.next(concept)
+          } else{
+
+          }
+
+
+
           if (res.data instanceof Array && res.data.length === 2) {
             const blueprint = this.getClientData( res.data[0])?.blueprint
             if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])

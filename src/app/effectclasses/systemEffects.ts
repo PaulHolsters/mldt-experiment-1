@@ -23,6 +23,10 @@ export abstract class SystemEffects {
       new Effect(
         new Trigger(TriggerType.BlueprintStrReady, ServiceType.DataService),
         new Action('create_client_data',ActionType.CreateClientData)
+      ),
+      new Effect(
+        new Trigger(TriggerType.BlueprintStrNeeded, ServiceType.DataService),
+        new Action('get_blueprint',ActionType.GetBluePrint) // het geniale is: dit resulteert automatisch in een clientdata instance
       )
     ]
   }
