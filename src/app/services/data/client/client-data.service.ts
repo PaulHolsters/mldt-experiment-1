@@ -35,7 +35,23 @@ export class ClientDataService {
   }
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.CreateClientData))?.subscribe(res => {
-      // todo wat hier wat raar is dat CreateClientData blijkbaar altijd bedoeld is in relatie met eenbepaalde frontend component met data
+      // via het effect kan je aan target(is dynamic of concreet) /concept (=datalink of conceptname of dynamic)
+      /*
+      * target = CALC => te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
+      * target = concreet => 1 CD
+      * concept = datalink of conceptnaam => voor blueprint altijd de data ophalen op basis van deze link of naam
+      * concept = CALC => gebruik res.effect.source om de cd te vinden welke BP je mag overnemen (via config)
+      * outputdata wordt normaal door server actions bepaald, maar wanneer het op vraag van de gebruiker gebeurt
+      * dan mag dit automatisch aangevuld worden op basis van res.data en actionValue uit de Action config
+      * // todo gebruik het actionValue veld zodat gebruikers daar extra info kunnen toevoegen betreffende welke data te outputten
+      *
+      *
+      *
+      *
+      *
+      * */
+
+
       if (res?.effect.action.target) {
         const clientData = this.getClientData(res.effect.action.target)
         if (!clientData) {
@@ -91,7 +107,7 @@ export class ClientDataService {
         if(v instanceof Array && v.length===2 && typeof v[0]==='string' && v[1] instanceof Array && v[1].length===2 && v[1][0] instanceof Blueprint){
           switch (v[0]){
             case 'list':
-              // todo dit lijkt de zaken wat minder rechtuit te maken ...
+              // wat hier gebeurt is dat op basis van de blueprint de bijhorende data wordt opgehaald
               this.queryService.getAllRecords(v[1][0].conceptName,v[1][0]).subscribe(res=>{
                 const data = ServerData.getData(res.data)
                 if(data){
@@ -105,6 +121,7 @@ export class ClientDataService {
               throw new Error('type of blueprint property unknown '+v[0])
           }
         }
+        // todo komt de enum waarde automatisch mee de eerste keer al, heeft die geen blueprint? => ik denk het niet maar controleer
       }
     this.clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
     const cd = this.getClientData(componentName)

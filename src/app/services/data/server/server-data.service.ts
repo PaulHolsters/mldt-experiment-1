@@ -8,7 +8,7 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType, ComponentNameType,} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, DataLink,} from "../../../types/type-aliases";
 import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
@@ -37,48 +37,56 @@ export class ServerDataService {
       this.bindActions()
     })
   }
+  private extractConcept(concept:ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
+    if(!concept) return concept
+    if(!(concept instanceof Array)) return concept
+    if(concept.length===0) return undefined
+    return concept[0]
+  }
   public bindActions(){
 
     //********************     queries     ****************************/
 
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res?.effect.action.conceptName && res.effect.action.target) {
-        const concept = res.effect.action.conceptName
+        const concept = this.extractConcept(res.effect.action.conceptName)
         const target = res.effect.action.target
-        this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
-          const data = ServerData.getData(resFirst)
-          if(data){
-            if(ServerData.dataIsNumber(data,'numberOfNesting')){
-              this.queryService
-                .getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting'))
-                .subscribe(resOrErr=>{
-                const data = ServerData.getData(resOrErr)
-                if(data){
-                  // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is =>
-                  //      dit is wellicht een mooie kandidaat voor branded types
-                  //      de reden waarom dat niet gecontroleerd wordt is dat data van het any type is
-                  //      dat is niet conform de type van de parameter maar het wordt gewoon niet gecontroleerd
-                  createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
-                  this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
-                } else{
-                  // todo handle error
-                }
-              })
+        if(concept){
+          this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
+            const data = ServerData.getData(resFirst)
+            if(data){
+              if(ServerData.dataIsNumber(data,'numberOfNesting')){
+                this.queryService
+                  .getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting'))
+                  .subscribe(resOrErr=>{
+                    const data = ServerData.getData(resOrErr)
+                    if(data){
+                      // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is =>
+                      //      dit is wellicht een mooie kandidaat voor branded types
+                      //      de reden waarom dat niet gecontroleerd wordt is dat data van het any type is
+                      //      dat is niet conform de type van de parameter maar het wordt gewoon niet gecontroleerd
+                      createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
+                      this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+                    } else{
+                      // todo handle error
+                    }
+                  })
+              }
             }
-          }
-        })
+          })
+        }
       }
     })
 
     this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
       if (res) {
-        if (typeof res.data === 'string' && res.effect.action.target) {
+        const concept = this.extractConcept(res.effect.action.conceptName)
+        const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
+        if (typeof res.data === 'string' && res.effect.action.target && concept) {
           // todo zie dat je hier van een ObjectId type kan uitgaan = branded type!
-          const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
           function getRecord(self:ServerDataService, blueprint:Blueprint, res:
-            {effect: Effect, data: string, target: EventTarget | undefined}){
-            if(res.effect.action.conceptName){
-              self.queryService.getSingleRecord(res.effect.action.conceptName, blueprint, res.data).subscribe(errorOrResult=>{
+            {effect: Effect, data: string, target: EventTarget | undefined},concept:ConceptNameType){
+              self.queryService.getSingleRecord(concept, blueprint, res.data).subscribe(errorOrResult=>{
                 const data = ServerData.getData(errorOrResult)
                 if(data.dataSingle){
                   if(data.dataSingle){
@@ -92,24 +100,23 @@ export class ServerDataService {
                   throw new Error('bad types')
                 }
               })
-            } else throw new Error('bad types')
-          }
+            }
           const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
           if (blueprint) {
-            getRecord(this,blueprint,info)
+            getRecord(this,blueprint,info,concept)
           } else{
-            this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
+            this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
               const data = ServerData.getData(resFirst)
               if(data){
               if(ServerData.dataIsNumber(data,'numberOfNesting')){
-                this.queryService.getBlueprint(res.effect.action.conceptName,data.numberOfNesting).subscribe(resOrErr=>{
+                this.queryService.getBlueprint(concept,data.numberOfNesting).subscribe(resOrErr=>{
                   const data = ServerData.getData(resOrErr)
                   if(data){
                     // todo opgepast data is of type any!!!
                     createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],data)
                     const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                     if (blueprint) {
-                      getRecord(this,blueprint,info)
+                      getRecord(this,blueprint,info,concept)
                     }
                   } else{
                     // todo handle error
@@ -127,8 +134,10 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.GetAllInstances))?.subscribe(async res => {
       if (res && res.data instanceof ClientData && res.data.outputData) {
         const info = {effect:res.effect,data:res.data.outputData,target:res.target}
-        function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect, data: OutputData, target: EventTarget | undefined}){
-          self.queryService.getAllRecords(res.effect.action.conceptName, blueprint).subscribe(errorOrResult=>{
+        const concept = this.extractConcept(res.effect.action.conceptName)
+        function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,
+          data: OutputData, target: EventTarget | undefined},concept:ConceptNameType){
+          self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
             const data = ServerData.getData(errorOrResult)
             if(data.dataMultiple){
               self.clientDataService.updateClientData(res.effect.action.id,data.dataMultiple)
@@ -143,20 +152,20 @@ export class ServerDataService {
           })
         }
         const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
-        if (blueprint) {
-          getAllRecords(this,blueprint,info)
-        } else{
-          this.queryService.getNumberOfNesting(res.effect.action.conceptName).subscribe(resFirst=>{
+        if (blueprint && concept) {
+          getAllRecords(this,blueprint,info,concept)
+        } else if(concept){
+          this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
             const data = ServerData.getData(resFirst)
             if(ServerData.dataIsNumber(data,'numberOfNesting')){
               const numberOfNesting = ServerData.getDataValue(data,'numberOfNesting')
-              this.queryService.getBlueprint(res.effect.action.conceptName, numberOfNesting).subscribe(resOrErr => {
+              this.queryService.getBlueprint(concept, numberOfNesting).subscribe(resOrErr => {
                 const data = ServerData.getData(resOrErr)
                 if(data){
                   createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], undefined)
                   const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                   if (blueprint) {
-                    getAllRecords(this, blueprint, info)
+                    getAllRecords(this, blueprint, info,concept)
                   }
                 } else{
                   // todo handle error

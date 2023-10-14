@@ -2,7 +2,7 @@ import {TargetType} from "../enums/targetTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
-import {ActionIdType, ComponentNameType, ConceptNameType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, DataLink} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {NoValueType} from "../enums/NoValueTypes.enum";
 export class Action {
@@ -12,8 +12,8 @@ export class Action {
   public constructor(
     public id:ActionIdType,
     public type:ActionType,
-    public conceptName: ConceptNameType|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
-    public target:ComponentNameType|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
+    public conceptName: ConceptNameType|DataLink|NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
+    public target:ComponentNameType|NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
     public value:ActionValueModel|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED
   ) {
     switch (type){
