@@ -160,7 +160,7 @@ import {
 import {
   MenubarContentInjectionRenderModel
 } from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
-import {ConceptNameType, DataLink} from "./type-aliases";
+import {BlueprintStr, ConceptNameType, DataLink} from "./type-aliases";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -289,6 +289,14 @@ export type OutputData = (
   DataRecordModel|
   RenderPropertyTypeList<RenderPropertyType>[] |
   RenderPropertyType)&{ __brand: 'output data'}
+export type ServerData = (
+  {
+    dataMultiple:List|null,
+    dataSingle:DataRecordModel|null,
+    blueprint:BlueprintStr|null,
+    numberOfNesting:number|null
+  }
+  )&{ __brand: 'server data'}
 
 export const extractConcept = function extractConcept(concept:ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
   if(!concept) return concept
@@ -296,14 +304,36 @@ export const extractConcept = function extractConcept(concept:ConceptNameType|un
   if(concept.length===0) return undefined
   return concept[0]
 }
-export const isOutPutData = function isOutputData(data:any): data is OutputData{
-  if(!data) return true
-  if(typeof data === 'string') return true
-  if((typeof data === 'object' && !(data instanceof Array) && 'id' in data && '__typename' in data)) return true
+export const isServerData = function isServerData(data:unknown):data is ServerData{
+  if(typeof data !== 'object' || data === null) return false
+  if(
+    data.hasOwnProperty('dataMultiple')&&
+    data.hasOwnProperty('dataSingle')&&
+    data.hasOwnProperty('blueprint')&&
+    data.hasOwnProperty('numberOfNesting')) {
+    const dataRef:{
+      [key: string]: any
+    }|undefined = data
+    if (!isList(dataRef['dataMultiple']) || dataRef['dataMultiple'] !== null) return false
+    if (!isDataRecord(dataRef['dataSingle']) || dataRef['dataSingle'] !== null) return false
+    if (typeof dataRef['blueprint'] !== 'string' && dataRef['blueprint'] !== null) return false
+    if (typeof dataRef['numberOfNesting'] !== 'number' && dataRef['numberOfNesting'] !== null) return false
+  }
+  return true
+}
+export const isList = function isList(data:unknown):data is List{
   if(data instanceof Array && data.length===0) return true
   return data instanceof Array && (typeof data[0] === 'string' || data[0] === null ||
-    (typeof data[0] === 'object' && !(data[0] instanceof Array) && 'id' in data[0] && '__typename' in data[0])
-  )
+    (typeof data[0] === 'object' && !(data[0] instanceof Array) && 'id' in data[0] && '__typename' in data[0]))
+}
+export const isDataRecord = function isDataRecord(data:unknown):data is DataRecordModel{
+  return data!==null && typeof data === 'object' && !(data instanceof Array) && 'id' in data && '__typename' in data
+}
+export const isOutPutData = function isOutputData(data:any): data is OutputData{
+  if(data===undefined) return true
+  if(typeof data === 'string') return true
+  if(isDataRecord(data)) return true
+  return (isList(data))
 }
 export const isClientData = function isClientData(data:any):data is ClientData{
   return data instanceof ClientData

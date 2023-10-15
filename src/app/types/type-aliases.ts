@@ -12,3 +12,4 @@ export type ConditionType = string
 export type Dynamic = undefined
 export type LabelType = {label:string,value:string}
 export type DataLink = string[]
+export type BlueprintStr = string
