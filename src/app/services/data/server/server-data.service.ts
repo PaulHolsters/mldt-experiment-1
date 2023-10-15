@@ -13,7 +13,13 @@ import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
-import {extractConcept, OutputData} from "../../../types/union-types";
+import {
+  extractConcept,
+  isDataRecord, isList,
+  isOutPutData,
+  OutputData,
+  ServerData as ServerDataType
+} from "../../../types/union-types";
 import {ClientData} from "../client/ClientData";
 
 // todo fix
@@ -86,13 +92,9 @@ export class ServerDataService {
             {effect: Effect, data: string, target: EventTarget | undefined},concept:ConceptNameType){
               self.queryService.getSingleRecord(concept, blueprint, res.data).subscribe(errorOrResult=>{
                 const data = ServerData.getData(errorOrResult)
-                if(data.dataSingle){
-                  if(data.dataSingle){
-                    // todo opgepast data is of type any
+                if(data && isOutPutData(data.dataSingle)){
                     self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
                     const cd = self.clientDataService.getClientData(res.effect.action.target)
-                    if(cd) self.clientDataService.clientDataUpdated.next(cd)
-                  }
                   self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
                 } else{
                   throw new Error('bad types')
@@ -105,9 +107,8 @@ export class ServerDataService {
           } else{
             this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
               const data = ServerData.getData(resFirst)
-              if(data){
-              if(ServerData.dataIsNumber(data,'numberOfNesting')){
-                this.queryService.getBlueprint(concept,data.numberOfNesting).subscribe(resOrErr=>{
+              if(data && data.numberOfNesting){
+                this.queryService.getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
                   const data = ServerData.getData(resOrErr)
                   if(data){
                     // todo opgepast data is of type any!!!
@@ -119,8 +120,7 @@ export class ServerDataService {
                   } else{
                     // todo handle error
                   }
-                })
-              }} else{
+                })} else{
                 // todo handle error
               }
             })
@@ -137,7 +137,7 @@ export class ServerDataService {
           data: OutputData, target: EventTarget | undefined},concept:ConceptNameType){
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
             const data = ServerData.getData(errorOrResult)
-            if(data.dataMultiple){
+            if(data && data.dataMultiple){
               self.clientDataService.updateClientData(res.effect.action.id,data.dataMultiple)
               const cd = self.clientDataService.getClientData(res.effect.action.target)
               if(cd){
@@ -215,11 +215,11 @@ export class ServerDataService {
     })
     //********************     Helpers     ****************************/
     function createClientData(self:ServerDataService,
-                              blueprintStr:string|undefined,
+                              blueprintStr:string|null,
                               actionId:ActionIdType,
                               name:ComponentNameType,
                               errorMessages:string[]|undefined,
-                              data:OutputData|undefined){
+                              data:ServerDataType|undefined){
       if(blueprintStr){
         self.clientDataService.createClientData(
           actionId,

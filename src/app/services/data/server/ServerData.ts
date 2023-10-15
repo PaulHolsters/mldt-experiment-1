@@ -7,11 +7,10 @@ export abstract class ServerData {
     return
   }
   public static getDataValue(data:ServerDataType,prop:string):number{
-    // todo fix
     const ar = Object.entries(data).find(([k,v])=>{
       return (k===prop)
     })
-    if(ar) return ar[1]
+    if(ar && ar.length > 1 && typeof ar[1] === 'number') return ar[1]
     throw new Error('No value find in data form server for '+prop)
   }
   public static dataIsNumber(data:ServerDataType,prop:string):boolean{

@@ -12,7 +12,7 @@ import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
-import {extractConcept, OutputData} from "../../../types/union-types";
+import {extractConcept, OutputData, ServerData as ServerDataType} from "../../../types/union-types";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
 @Injectable({
   providedIn: 'root'
@@ -115,7 +115,7 @@ export class ClientDataService {
     actionId:ActionIdType,
     componentName:ComponentNameType,
     blueprint:Blueprint,
-    data?:OutputData|undefined,
+    data?:ServerDataType|undefined,
     errorMessages?:string[]|undefined
   ){
     if(blueprint)
