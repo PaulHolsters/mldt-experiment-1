@@ -115,7 +115,8 @@ export class ClientDataService {
           }
         } else if(target===NoValueType.CALCULATED_BY_ENGINE){
           //  target = CALC => todo te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
-
+          // daarna indien nodig weer de andere takken
+          // de output is voor beiden gelijk
         } else throw new Error('Invalid target defined in action')
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
