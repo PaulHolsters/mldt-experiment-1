@@ -75,6 +75,7 @@ export class ConfigService {
     const getParentWithChildren = (parent: ComponentModelType): [ComponentModelType,ComponentModelType][] => {
       const arr: [ComponentModelType,ComponentModelType][] = []
       if(parent.children){
+        // todo via contentInjection heb je ook nog parents
         for (let child of parent.children) {
           arr.push([parent, child])
         }
