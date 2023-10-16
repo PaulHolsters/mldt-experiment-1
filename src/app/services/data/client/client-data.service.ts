@@ -6,13 +6,25 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
 import {ClientData} from "./ClientData";
-import {ActionIdType, ComponentNameType, ConceptNameType} from "../../../types/type-aliases";
+import {
+  ActionIdType,
+  ComponentNameType,
+  ConceptNameType, isActionIdType,
+  isComponentName,
+  isConceptName
+} from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
 import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
-import {extractConcept, OutputData, ServerData as ServerDataType} from "../../../types/union-types";
+import {
+  extractConcept, isDataRecord,
+  isList, isNoValueType,
+  isOutPutData,
+  OutputData,
+  ServerData as ServerDataType
+} from "../../../types/union-types";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
 @Injectable({
   providedIn: 'root'
@@ -37,31 +49,22 @@ export class ClientDataService {
   }
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.CreateClientData))?.subscribe(res => {
-      // via het effect kan je aan target(is dynamic of concreet) /concept (=datalink of conceptname of dynamic)
-      /*
+      /* todo stap 1
       * target = CALC => te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
       * target = concreet => 1 CD
+      * todo stap 2
       * concept = datalink of conceptnaam => voor blueprint altijd de data ophalen op basis van deze link of naam
       * concept = CALC => gebruik res.effect.source om de cd te vinden welke BP je mag overnemen (via config)
+      * todo stap 3
       * outputdata wordt normaal door server actions bepaald, maar wanneer het op vraag van de gebruiker gebeurt
-      * dan mag dit automatisch aangevuld worden op basis van res.data en actionValue uit de Action config
-      * // todo gebruik het actionValue veld zodat gebruikers daar extra info kunnen toevoegen betreffende welke data te outputten
-      *
-      *
-      *
-      *
-      *
-      * */
-      if (
-        res?.effect.action.target &&
-        res?.effect.action.target !== NoValueType.CALCULATED_BY_ENGINE &&
-        res?.effect.action.target !== NoValueType.NO_VALUE_ALLOWED) {
-        // todo maak een betere manier om zeker te zijn dat het datatype ConceptNameType is
-        const clientData = this.getClientData(res.effect.action.target)
+      * dan mag dit automatisch aangevuld worden op basis van res.data en actionValue uit de Action config */
+      const target = res?.effect.action.target
+      if (isComponentName(target,this.configService)) {
+        const clientData = this.getClientData(target)
         if (!clientData) {
           // welke waarden kan res.data nu hebben?
           // data: string | Blueprint | [string, (DataRecordModel | List)] | ClientData
-          const concept = extractConcept(res.effect.action.conceptName)
+          const concept = extractConcept(res?.effect.action.conceptName)
           if(concept){
             // dit resulteert automatisch in een client data instance
             // de enige data nodig zijn target en concept,
@@ -73,7 +76,7 @@ export class ClientDataService {
 
 
 
-          if (res.data instanceof Array && res.data.length === 2) {
+          if (res?.data instanceof Array && res.data.length === 2) {
             const blueprint = this.getClientData( res.data[0])?.blueprint
             if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
             if (res.data[1] instanceof Array) {
@@ -82,11 +85,11 @@ export class ClientDataService {
             } else if (res.data[1].hasOwnProperty('id') && res.data[1].hasOwnProperty('__typename')) {
               this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], undefined)
             } else throw new Error('data has not a correct format ' + res.data[1])
-          } else if (res.data instanceof Blueprint) {
+          } else if (res?.data instanceof Blueprint) {
             this.createClientData(res.effect.action.id, res.effect.action.target, res.data, undefined, undefined)
           }
         }
-        this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+        this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res?.effect.action.id})
       }
     })
     // todo ik veronderstel dat een service action zal gebruikt worden om data naar de component te krijgen
@@ -126,8 +129,8 @@ export class ClientDataService {
               // wat hier gebeurt is dat op basis van de blueprint de bijhorende data wordt opgehaald
               this.queryService.getAllRecords(v[1][0].conceptName,v[1][0]).subscribe(res=>{
                 const data = ServerData.getData(res.data)
-                if(data){
-                  blueprint.properties.setValuesProperties(k,data)
+                if(data?.dataMultiple){
+                  blueprint.properties.setValuesProperties(k,data.dataMultiple)
                 }
               })
               break
@@ -139,7 +142,9 @@ export class ClientDataService {
         }
         // todo komt de enum waarde automatisch mee de eerste keer al, heeft die geen blueprint? => ik denk het niet maar controleer
       }
-    this.clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
+    if(isOutPutData(data)){
+      this.clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
+    }
     const cd = this.getClientData(componentName)
     if(cd) this.clientDataUpdated.next(cd)
   }

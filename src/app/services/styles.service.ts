@@ -15,7 +15,6 @@ import {ButtonSizeType} from "../enums/buttonSizeType.enum";
 import {ButtonMeaningType} from "../enums/buttonMeaningType.enum";
 import {BorderModel} from "../design-dimensions/BorderModel";
 import {ButtonAppearanceType} from "../enums/buttonAppearanceType.enum";
-import {NoValueType} from "../enums/NoValueTypes.enum";
 
 @Injectable({
   providedIn: 'root'

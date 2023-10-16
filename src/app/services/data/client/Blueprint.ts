@@ -1,7 +1,6 @@
 import {ConceptNameType, DataLink} from "../../../types/type-aliases";
 import {Properties} from "./Properties";
-import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
-import {BlueprintValue, isBlueprintValue} from "../../../types/union-types";
+import {BlueprintValue, DataRecord, isBlueprintValue} from "../../../types/union-types";
 export class Blueprint {
   public readonly properties:Properties
   public readonly conceptName:ConceptNameType
@@ -10,7 +9,7 @@ export class Blueprint {
     this.properties = new Properties(this.getPropsFromObj(bluePrintObj).trim())
     this.conceptName = this.getConceptFromBlueprintObj(bluePrintObj)
   }
-  public setValuesBlueprintProperties(property:string,values:DataRecordModel[]|DataRecordModel){
+  public setValuesBlueprintProperties(property:string,values:DataRecord[]|DataRecord){
     this.properties.setValuesProperties(property,values)
   }
   private getConceptFromBlueprintObj(blueprintObj:string):ConceptNameType{

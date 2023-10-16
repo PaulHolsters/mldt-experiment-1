@@ -109,7 +109,6 @@ import {IconStructuralConfigModel} from "../design-dimensions/StructuralConfig/i
 import {Table} from "../components/table/Table";
 import {Button} from "../components/button/Button";
 import {Icon} from "../components/icon/Icon";
-import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 import {RadioButtonGroup} from "../components/form/radio-button/RadioButtonGroup";
 import {Multiselect} from "../components/form/multiselect/Multiselect";
 import {Blueprint} from "../services/data/client/Blueprint";
@@ -160,7 +159,8 @@ import {
 import {
   MenubarContentInjectionRenderModel
 } from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
-import {BlueprintStr, ConceptNameType, DataLink} from "./type-aliases";
+import {BlueprintStr, BlueprintType, ConceptNameType, DataLink, ObjectIdType} from "./type-aliases";
+import {NoValueType} from "../enums/NoValueTypes.enum";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -275,24 +275,31 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
-export type ResponseData = string|List|DataRecordModel
-export type Info = ResponseData|UIData
-export type List = (DataRecordModel|null)[]
+export type DataRecord= {
+  [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
+} & {
+  id: ObjectIdType;
+  __typename: string;
+}
+
+export type List = (DataRecord|null)[]
 export type RenderPropertyType = boolean|number|Date|string
 export type RenderPropertyTypeList<K> =
   K extends boolean ? boolean :
   K extends string ? string :
   K extends Date ? Date :
-  K extends number ? number : never
+  K extends number ? number: never
+
 export type OutputData = (
   List|
-  DataRecordModel|
+  DataRecord|
   RenderPropertyTypeList<RenderPropertyType>[] |
   RenderPropertyType)&{ __brand: 'output data'}
+
 export type ServerData = (
   {
     dataMultiple:List|null,
-    dataSingle:DataRecordModel|null,
+    dataSingle:DataRecord|null,
     blueprint:BlueprintStr|null,
     numberOfNesting:number|null
   }
@@ -326,7 +333,17 @@ export const isList = function isList(data:unknown):data is List{
   return data instanceof Array && (typeof data[0] === 'string' || data[0] === null ||
     (typeof data[0] === 'object' && !(data[0] instanceof Array) && 'id' in data[0] && '__typename' in data[0]))
 }
-export const isDataRecord = function isDataRecord(data:unknown):data is DataRecordModel{
+export const isNoValueType = function isNoValueType(data:unknown){
+  return (
+    data === NoValueType.NO_VALUE_ALLOWED ||
+    data === NoValueType.CALCULATED_BY_ENGINE ||
+    data === NoValueType.NO_VALUE_NEEDED ||
+    data === NoValueType.DEFAULT_VALUE_DETERMINED_BY_ENGINE ||
+    data === NoValueType.SERVER_DATA_RELATED_DEFAULT_VALUE ||
+    data === NoValueType.DATA_FROM_SERVER)
+}
+
+export const isDataRecord = function isDataRecord(data:unknown):data is DataRecord{
   return data!==null && typeof data === 'object' && !(data instanceof Array) && 'id' in data && '__typename' in data
 }
 export const isOutPutData = function isOutputData(data:any): data is OutputData{
@@ -348,5 +365,5 @@ export const isBlueprintValue=function isBlueprintValue(data:any): data is Bluep
 }
 export type UIData = OutputData
 
-export type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecordModel]]|['list',[Blueprint,List]]
+export type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecord]]|['list',[Blueprint,List]]
 

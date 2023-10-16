@@ -1,6 +1,6 @@
 import utilFunctions from "../../../../utils/utilFunctions";
 import {QueryType} from "../../../../enums/queryTypes";
-import {AttributeNameType, ConceptNameType, ObjectIdType} from "../../../../types/type-aliases";
+import { ConceptNameType, ObjectIdType} from "../../../../types/type-aliases";
 import {Blueprint} from "../../client/Blueprint";
 import {Properties} from "../../client/Properties";
 import {FilterModel} from "../../../../design-dimensions/FilterModel";
@@ -12,9 +12,7 @@ export class Query {
     public readonly numberOfNesting?:number|undefined,
     public readonly blueprint?:Blueprint|undefined,
     public readonly id?:ObjectIdType|undefined,
-    public readonly filter?:FilterModel|undefined,
-    public readonly include?:AttributeNameType[]|undefined,
-    public readonly exclude?:AttributeNameType[]|undefined,
+    public readonly filter?:FilterModel|undefined
   ) {}
   private getAllAttributes(): string {
     function getProperties(properties:Properties):string{

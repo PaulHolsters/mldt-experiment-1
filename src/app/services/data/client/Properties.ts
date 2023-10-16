@@ -1,13 +1,13 @@
 import {Blueprint} from "./Blueprint";
-import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
+import {DataRecord, List} from "../../../types/union-types";
 export class Properties {
-  public readonly properties:Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|undefined]|string[]]|string>
+  public readonly properties:Map<string,[string,[Blueprint,List|DataRecord|undefined]|string[]]|string>
   public constructor(public propertiesStr:string ) {
     // todo zorg ervoor dat properties beter worden afgedwongen
-    this.properties = new Map<string,[string,[Blueprint,DataRecordModel[]|DataRecordModel|undefined]|string[]]|string>()
+    this.properties = new Map<string,[string,[Blueprint,DataRecord[]|DataRecord|undefined]|string[]]|string>()
     this.createProperties(propertiesStr)
   }
-  public setValuesProperties(property:string,values:DataRecordModel[]|DataRecordModel){
+  public setValuesProperties(property:string,values:List|DataRecord){
     const val = this.properties?.get(property)
     // todo ziet er uit als een branded type kandidaat
     if(val instanceof Array

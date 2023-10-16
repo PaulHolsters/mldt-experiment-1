@@ -16,10 +16,9 @@ import {ConfirmationModel} from "../design-dimensions/StructuralConfig/confirm-p
 import {ClientDataService} from "./data/client/client-data.service";
 import {Effect} from "../effectclasses/Effect";
 import {Blueprint} from "./data/client/Blueprint";
-import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 import {ClientData} from "./data/client/ClientData";
 import {NoValueType} from "../enums/NoValueTypes.enum";
-import {isClientData, List} from "../types/union-types";
+import {DataRecord, isClientData, List} from "../types/union-types";
 
 @Injectable({
   providedIn: 'root'
@@ -83,7 +82,7 @@ export class UiActionsService {
   }
   private updateDataRelatedProps(res: {
     effect: Effect,
-    data: Blueprint|[ComponentNameType,DataRecordModel|(DataRecordModel|null)[]]|ClientData|string,
+    data: Blueprint|[ComponentNameType,DataRecord|(DataRecord|null)[]]|ClientData|string,
     target: EventTarget | undefined}){
     if(isClientData(res.data) && res.effect.action.target){
       const dl = this.configService.getConfigFromRoot(res.effect.action.target)
@@ -114,7 +113,7 @@ export class UiActionsService {
     }
     return true
   }
-  private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecordModel|List]|ClientData|string, target:EventTarget|undefined}) {
+  private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string, target:EventTarget|undefined}) {
     if(res.effect.action.target){
       const cd = this.clientDataService.getClientData(res.effect.action.target)
       this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{

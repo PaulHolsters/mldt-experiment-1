@@ -16,7 +16,7 @@ import {ServerData} from "./ServerData";
 import {
   extractConcept,
   isDataRecord, isList,
-  isOutPutData,
+  isOutPutData, List,
   OutputData,
   ServerData as ServerDataType
 } from "../../../types/union-types";
@@ -138,7 +138,8 @@ export class ServerDataService {
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
             const data = ServerData.getData(errorOrResult)
             if(data && data.dataMultiple){
-              self.clientDataService.updateClientData(res.effect.action.id,data.dataMultiple)
+              const dataC:List = data.dataMultiple
+              if(isOutPutData(dataC)) self.clientDataService.updateClientData(res.effect.action.id,dataC)
               const cd = self.clientDataService.getClientData(res.effect.action.target)
               if(cd){
                 self.clientDataService.clientDataUpdated.next(cd)
@@ -155,7 +156,7 @@ export class ServerDataService {
         } else if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
             const data = ServerData.getData(resFirst)
-            if(ServerData.dataIsNumber(data,'numberOfNesting')){
+            if(data && ServerData.dataIsNumber(data,'numberOfNesting')){
               const numberOfNesting = ServerData.getDataValue(data,'numberOfNesting')
               this.queryService.getBlueprint(concept, numberOfNesting).subscribe(resOrErr => {
                 const data = ServerData.getData(resOrErr)
