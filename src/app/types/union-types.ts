@@ -305,6 +305,8 @@ export type ServerData = (
   }
   )&{ __brand: 'server data'}
 
+export type ActionValueType = 'list'|'object'
+
 export const extractConcept = function extractConcept(concept:ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
   if(!concept) return concept
   if(!(concept instanceof Array)) return concept

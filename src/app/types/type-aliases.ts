@@ -20,6 +20,14 @@ export const isConceptName = function isConceptName(data:unknown,config:ConfigSe
     return eff.action.conceptName
   }).includes(data)
 }
+export const isDataLink = function isDataLink(data:unknown,config:ConfigService):data is DataLink{
+if(data instanceof Array && data.length===0) return true
+  return data instanceof Array && data.filter(d => {
+    return !(isConceptName(d, config))
+  }).length === 0
+
+}
+
 export const isComponentName = function isComponentName(data:unknown,config:ConfigService): data is ComponentNameType{
   if(typeof data !== 'string') return false
   if(isNoValueType(data)) return false

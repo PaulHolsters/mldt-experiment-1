@@ -11,7 +11,7 @@ import {
   ComponentNameType,
   ConceptNameType, isActionIdType,
   isComponentName,
-  isConceptName
+  isConceptName, isDataLink
 } from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
@@ -26,6 +26,7 @@ import {
   ServerData as ServerDataType
 } from "../../../types/union-types";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
+import {ActionValueModel} from "../../../design-dimensions/ActionValueModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +34,7 @@ export class ClientDataService {
   // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
-  public blueprintNeeded = new Subject<ConceptNameType>()
+  public blueprintNeeded = new Subject<{concept:ConceptNameType,component:ComponentNameType}>()
   private _clientData: ClientData[] = []
   constructor(private actionsService:ActionsService,
               private configService:ConfigService,
@@ -58,39 +59,61 @@ export class ClientDataService {
       * todo stap 3
       * outputdata wordt normaal door server actions bepaald, maar wanneer het op vraag van de gebruiker gebeurt
       * dan mag dit automatisch aangevuld worden op basis van res.data en actionValue uit de Action config */
-      const target = res?.effect.action.target
-      if (isComponentName(target,this.configService)) {
-        const clientData = this.getClientData(target)
-        if (!clientData) {
-          // welke waarden kan res.data nu hebben?
-          // data: string | Blueprint | [string, (DataRecordModel | List)] | ClientData
-          const concept = extractConcept(res?.effect.action.conceptName)
-          if(concept){
-            // dit resulteert automatisch in een client data instance
-            // de enige data nodig zijn target en concept,
-            // todo qua output data moet er nog iets van code bijkomen lijkt mij (actionValue)
-            this.blueprintNeeded.next(concept)
-          } else{
+      if(res){
+        const target = res.effect.action.target
+        if (isComponentName(target,this.configService)) {
+          const clientData = this.getClientData(target)
+          if (!clientData) {
+            // welke waarden kan res.data nu hebben?
+            // data: string | Blueprint | [string, (DataRecordModel | List)] | ClientData
+            const concept = extractConcept(res.effect.action.conceptName)
+            if((isDataLink(res.effect.action.conceptName,this.configService) ||
+                isConceptName(res.effect.action.conceptName,this.configService))
+              && concept){
+              this.blueprintNeeded.next({concept:concept,component:target})
+            } else if(res.effect.action.conceptName === NoValueType.CALCULATED_BY_ENGINE){
+              // todo step A: create blueprint
 
+              if(isComponentName(res.effect.trigger.source,this.configService)){
+                // todo find parent blueprint in client data array
+
+              } else throw new Error('bad configuration: source has to be an existing component or conceptName cannot be calculated')
+              // step B: getOutputData via res.data en res.effect.action.actionValue
+              if(res.effect.action.value instanceof ActionValueModel){
+                // dit geeft ons een property type en een propertyValue
+                 if(res.effect.action.value.value === 'list'){
+
+                 } else if(res.effect.action.value.value === 'object'){
+
+                 } else throw new Error('invalid action value for action Create Client Data')
+
+              } else if(res.data){
+                // data: string | Blueprint | [string, (DataRecord | List)] | ClientData
+
+              }
+              this.createClientData(res.effect.action.id,target,,)
+            } else throw new Error('conceptName has an invalid configuration for action create client data instance')
+            /*          if (res?.data instanceof Array && res.data.length === 2) {
+                        const blueprint = this.getClientData( res.data[0])?.blueprint
+                        if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
+                        if (res.data[1] instanceof Array) {
+                          // todo voeg branded type toe zodat je automatisch kan zien dat je alle mogelijkheden hebt gecheckt if(isDataRecordArray) else isDataRecordModel
+                          this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1],  [])
+                        } else if (res.data[1].hasOwnProperty('id') && res.data[1].hasOwnProperty('__typename')) {
+                          this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], undefined)
+                        } else throw new Error('data has not a correct format ' + res.data[1])
+                      } else if (res?.data instanceof Blueprint) {
+                        this.createClientData(res.effect.action.id, res.effect.action.target, res.data, undefined, undefined)
+                      }*/
           }
 
+        } else if(target===NoValueType.CALCULATED_BY_ENGINE){
+          //  target = CALC => todo te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
 
-
-          if (res?.data instanceof Array && res.data.length === 2) {
-            const blueprint = this.getClientData( res.data[0])?.blueprint
-            if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
-            if (res.data[1] instanceof Array) {
-              // todo voeg branded type toe zodat je automatisch kan zien dat je alle mogelijkheden hebt gecheckt if(isDataRecordArray) else isDataRecordModel
-              this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1],  [])
-            } else if (res.data[1].hasOwnProperty('id') && res.data[1].hasOwnProperty('__typename')) {
-              this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], undefined)
-            } else throw new Error('data has not a correct format ' + res.data[1])
-          } else if (res?.data instanceof Blueprint) {
-            this.createClientData(res.effect.action.id, res.effect.action.target, res.data, undefined, undefined)
-          }
         }
-        this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res?.effect.action.id})
+        this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
+
     })
     // todo ik veronderstel dat een service action zal gebruikt worden om data naar de component te krijgen
     //      vandaar dat outPutData private staat, deze actie zal dan in Effects staan met een actionId
