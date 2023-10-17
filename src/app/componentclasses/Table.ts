@@ -2,9 +2,9 @@ import {Component} from "./Component";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
-import {DataRecordModel} from "../design-dimensions/DataRecordModel";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {TableColumnModel} from "../design-dimensions/StructuralConfig/table/TableColumnModel";
+import {DataRecord} from "../types/union-types";
 
 export abstract class Table extends Component{
   public static currentColumn:{field:string,header:string|undefined,sort:boolean|undefined,filter:boolean|undefined}|undefined
@@ -25,9 +25,9 @@ export abstract class Table extends Component{
   public static columns:TableColumnModel[]|undefined
   public static extraColumns:TableColumnModel[]|undefined
 
-  public static conceptData:DataRecordModel[]|undefined
+  public static conceptData:DataRecord[]|undefined
   public static conceptBlueprint:Blueprint|undefined
   public static data: any|undefined
-  public static currentDataList:DataRecordModel[]|undefined
+  public static currentDataList:DataRecord[]|undefined
 
 }

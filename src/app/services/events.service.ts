@@ -31,8 +31,18 @@ export class EventsService{
     this.clientDataService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
     })
-    this.clientDataService.blueprintNeeded.subscribe(res =>{
-      this.triggerEvent(TriggerType.BlueprintStrNeeded,ServiceType.DataService,res)
+    this.clientDataService.serverDataNeeded.subscribe(res =>{
+      switch (res.requestType){
+        case 'blueprint':
+          this.triggerEvent(TriggerType.BlueprintStrNeeded,ServiceType.DataService,res)
+          break
+        case 'object':
+          this.triggerEvent(TriggerType.DataInstanceNeeded,ServiceType.DataService,res)
+          break
+        case 'list':
+          this.triggerEvent(TriggerType.ListOfDataNeeded,ServiceType.DataService,res)
+          break
+      }
     })
     this.UIActionsService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)

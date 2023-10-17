@@ -103,6 +103,11 @@ export class Action {
         this.serviceMethod = ServiceMethodType.UpdateInstances
         this.targetType = TargetType.Server
         break
+      case ActionType.UpdateDataProperties:
+        this.service = ServiceType.UIService
+        this.serviceMethod = ServiceMethodType.SetConfigValueAndRebuild
+        this.targetType = TargetType.Client
+        break
       case ActionType.SetLocalConfigurationValueAndRebuild:
         this.service = ServiceType.UIService
         this.serviceMethod = ServiceMethodType.SetConfigValueAndRebuild

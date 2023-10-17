@@ -27,6 +27,14 @@ export abstract class SystemEffects {
       new Effect(
         new Trigger(TriggerType.BlueprintStrNeeded, ServiceType.DataService),
         new Action('get_blueprint',ActionType.GetBluePrint) // het geniale is: dit resulteert automatisch in een clientdata instance
+      ),
+      new Effect(
+        new Trigger(TriggerType.DataInstanceNeeded, ServiceType.DataService),
+        new Action('get_data_instance',ActionType.GetInstance) // het geniale is: dit resulteert automatisch in een clientdata instance
+      ),
+      new Effect(
+        new Trigger(TriggerType.ListOfDataNeeded, ServiceType.DataService),
+        new Action('get_list_data',ActionType.GetAllInstances) // het geniale is: dit resulteert automatisch in een clientdata instance
       )
     ]
   }

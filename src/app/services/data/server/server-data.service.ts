@@ -14,6 +14,7 @@ import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {ServerData} from "./ServerData";
 import {
+  DataRecord,
   extractConcept,
   isDataRecord, isList,
   isOutPutData, List,
@@ -111,7 +112,6 @@ export class ServerDataService {
                 this.queryService.getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
                   const data = ServerData.getData(resOrErr)
                   if(data){
-                    // todo opgepast data is of type any!!!
                     createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],data)
                     const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                     if (blueprint) {
@@ -221,12 +221,18 @@ export class ServerDataService {
                               name:ComponentNameType,
                               errorMessages:string[]|undefined,
                               data:ServerDataType|undefined){
+      let outputData
+      if(data?.dataMultiple){
+        outputData = data?.dataMultiple
+      } else if(data?.dataSingle){
+        outputData = data?.dataSingle
+      }
       if(blueprintStr){
         self.clientDataService.createClientData(
           actionId,
           name,
           new Blueprint(blueprintStr),
-          data,
+          outputData,
           errorMessages
         )
         const cd = self.clientDataService.getClientData(name)

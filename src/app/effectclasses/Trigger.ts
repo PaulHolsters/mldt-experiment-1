@@ -27,6 +27,30 @@ export class Trigger {
       case TriggerType.ComponentReady:
         this.sourceType = SourceType.Component
         break
+      case TriggerType.DataInstanceNeeded:
+        this.sourceType = SourceType.System
+        break
+      case TriggerType.ListOfDataNeeded:
+        this.sourceType = SourceType.System
+        break
+      case TriggerType.BlueprintStrNeeded:
+        this.sourceType = SourceType.System
+        break
+      case TriggerType.ActionAccepted:
+        this.sourceType = SourceType.System
+        break
+      case TriggerType.ActionRejected:
+        this.sourceType = SourceType.System
+        break
+      case TriggerType.PageChanged:
+        this.sourceType = SourceType.Component
+        break
+      case TriggerType.RowSelected:
+        this.sourceType = SourceType.Component
+        break
+      case TriggerType.BlueprintStrReady:
+        this.sourceType = SourceType.System
+        break
       default:
         throw new Error('The trigger is not implemented yet: '+name)
     }

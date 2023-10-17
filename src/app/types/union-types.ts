@@ -161,6 +161,9 @@ import {
 } from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
 import {BlueprintStr, BlueprintType, ConceptNameType, DataLink, ObjectIdType} from "./type-aliases";
 import {NoValueType} from "../enums/NoValueTypes.enum";
+import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
+import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
+import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -305,7 +308,15 @@ export type ServerData = (
   }
   )&{ __brand: 'server data'}
 
-export type ActionValueType = 'list'|'object'
+export type ActionValueType = 'list'|
+  'object'|
+  ResponsiveSizeConfigModel |
+  ResponsiveOverflowConfigModel |
+  ResponsiveContainerChildLayoutConfigModel |
+  ResponsiveVisibilityConfigModel |
+  Function|
+  boolean|
+  undefined
 
 export const extractConcept = function extractConcept(concept:ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
   if(!concept) return concept

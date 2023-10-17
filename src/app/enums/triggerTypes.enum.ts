@@ -10,4 +10,6 @@ export enum TriggerType {
   ClientDataUpdated,
   BlueprintStrReady,
   BlueprintStrNeeded,
+  DataInstanceNeeded,
+  ListOfDataNeeded,
 }

@@ -2,8 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {MultiSelect} from "../../../componentclasses/MultiSelect";
-import {DataRecordModel} from "../../../design-dimensions/DataRecordModel";
-import {isOutPutData} from "../../../types/union-types";
+import {DataRecord, isOutPutData} from "../../../types/union-types";
 
 @Component({
   selector: 'm-multiselect',
@@ -12,7 +11,7 @@ import {isOutPutData} from "../../../types/union-types";
 })
 export class MultiselectComponent extends AbstractComponent implements OnInit {
   @ViewChild('multiselect') multiselect: ElementRef | undefined
-  selectedOptions:DataRecordModel[]|undefined
+  selectedOptions:DataRecord[]|undefined
 
   ngOnInit(): void {
     this.props = MultiSelect.getProperties()

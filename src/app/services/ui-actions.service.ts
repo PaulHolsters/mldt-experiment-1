@@ -10,7 +10,7 @@ import {ServerDataService} from "./data/server/server-data.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType, ComponentNameType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, isDataLink} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {ConfirmationModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmationModel";
 import {ClientDataService} from "./data/client/client-data.service";
@@ -19,6 +19,7 @@ import {Blueprint} from "./data/client/Blueprint";
 import {ClientData} from "./data/client/ClientData";
 import {NoValueType} from "../enums/NoValueTypes.enum";
 import {DataRecord, isClientData, List} from "../types/union-types";
+import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -86,9 +87,9 @@ export class UiActionsService {
     target: EventTarget | undefined}){
     if(isClientData(res.data) && res.effect.action.target){
       const dl = this.configService.getConfigFromRoot(res.effect.action.target)
-      if(dl && dl.clientData && dl.clientData?.dataLink!==NoValueType.NO_VALUE_ALLOWED){
+      if(dl && dl.clientData && isDataLink(res.effect.action.conceptName,this.configService)){
         // todo voeg interface voor getRenderProps toe
-        const value = res.data.blueprint.getBlueprintValueForDataLink(dl.clientData.dataLink)
+        const value = res.data.blueprint.getBlueprintValueForDataLink(res.effect.action.conceptName)
         const input:{
           [key: string]: any
         }|undefined
@@ -127,7 +128,9 @@ export class UiActionsService {
             propSubj.propValue.next(cd?.blueprint)
             break
           case PropertyName.dataLink:
-            if(cd?.name) propSubj.propValue.next(this.configService.getConfigFromRoot(cd.name)?.clientData?.dataLink)
+            if(cd?.name && isDataLink(res.effect.action.conceptName,this.configService)) {
+              propSubj.propValue.next(res.effect.action.conceptName)
+            }
             break
         }
       })
@@ -144,7 +147,9 @@ export class UiActionsService {
               propSubj.propValue.next(cd.blueprint)
               break
             case PropertyName.dataLink:
-              propSubj.propValue.next(this.configService.getConfigFromRoot(cd.name)?.clientData?.dataLink)
+              if(isDataLink(res.effect.action.conceptName,this.configService)) {
+                propSubj.propValue.next(res.effect.action.conceptName)
+              }
               break
           }
         })
@@ -157,7 +162,9 @@ export class UiActionsService {
     if(currentAppConfig){
       let config = this.configService.getConfigFromRoot(action.target)
       if(!config) throw new Error('action was not configured correctly')
-      if(config.replace && (action.value!==NoValueType.NO_VALUE_ALLOWED)){
+      if(config.replace && (action.value instanceof ActionValueModel)){
+        // ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel
+        if(action.value.value!=='list'&& action.value.value!=='object' && typeof action.value.value!=='function'&&typeof action.value.value !== 'boolean')
         config.replace(action.value.name,action.value.value)
         this.configService.saveConfig(currentAppConfig)
         this.RBS.rebuildUI()
@@ -168,8 +175,8 @@ export class UiActionsService {
   }
   private setProperty(action:Action,data?:any){
     let val
-    if(typeof (action.value as ActionValueModel).value === 'function'){
-      val = (action.value as ActionValueModel).value(this.stateService)
+    if(typeof ((action.value as ActionValueModel).value) === 'function'){
+      val = ((action.value as ActionValueModel).value as Function)(this.stateService)
     }
     if(!val) val = (action.value as ActionValueModel).value
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
@@ -186,7 +193,7 @@ export class UiActionsService {
     return true
   }
   private setConfirmation(action:Action,data?:any,target?:EventTarget){
-    if(action.target!==NoValueType.NO_VALUE_ALLOWED){
+/*    if(action.target!==NoValueType.NO_VALUE_ALLOWED){
       let comp = this.configService.getConfigFromRoot(action.target)
       if(comp && comp.attributes && this.RBS.screenSize){
         const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)
@@ -197,7 +204,7 @@ export class UiActionsService {
           return false
         })?.propValue.next(cm)
       } else throw new Error('Component with name '+action.target+ ' could not be found')
-    }
+    }*/
     return true
   }
 }

@@ -5,13 +5,13 @@ import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Effect} from "../../effectclasses/Effect";
 import {Trigger} from "../../effectclasses/Trigger";
 import {Action} from "../../effectclasses/Action";
-import {DataRecordModel} from "../../design-dimensions/DataRecordModel";
 import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
+import {DataRecord} from "../../types/union-types";
 
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
   const cc = stateService.getValue('filter-dialog', PropertyName.data)
-  return cl.filter((record: DataRecordModel) => {
+  return cl.filter((record: DataRecord) => {
     const entry = Object.entries(record).find(([k, v]) => {
       return k === cc.field
     })

@@ -22,14 +22,15 @@ import {Button} from "../../components/button/Button";
 import {IconConfigModel} from "../../design-dimensions/StructuralConfig/button/IconConfigModel";
 import {TableColumnModel} from "../../design-dimensions/StructuralConfig/table/TableColumnModel";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
+import {SizeConfigModel} from "../../design-dimensions/Size/SizeConfigModel";
 
 // icons waarop je kan klikken gesitueerd in de headers van de tabel
 const col1SortIcon = new Icon('col1-sort-icon', IconType.Sort)
 const col1FilterIcon = new Icon('col1-filter-icon', IconType.Filter)
 const col1HeaderContainer = new Container('col1-container')
-col1HeaderContainer.individualLayout.smartphone.setDisplayType(DisplayType.Inline)
-col1HeaderContainer.componentSpecificLayout.setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig?.size.smartphone.setComponentSpecificSize(
+col1HeaderContainer.individualLayout.smartphone.setDisplayType(DisplayType.Inline);
+(col1HeaderContainer.componentSpecificLayout.setChildConfig(new ChildPropertiesConfigModel())
+  .childConfig as ChildPropertiesConfigModel).size.smartphone.setComponentSpecificSize(
   new IconSizeConfigModel(
     new NonCalculatedSizeConfigModel(1, SizeUnitConfigType.REM)))
 col1HeaderContainer.setChildren([
@@ -71,11 +72,12 @@ mainTable.componentSpecificLayout.smartphone.setResponsiveTableLayout(Responsive
 // main container
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
-mainContainer.componentSpecificLayout.smartphone.setLayout(new ColumnLayoutConfigModel().setWrap(false))
-mainContainer.componentSpecificLayout
+mainContainer.componentSpecificLayout.smartphone.setLayout(new ColumnLayoutConfigModel().setWrap(false));
+(mainContainer.componentSpecificLayout
   .setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig?.size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage))
-mainContainer.componentSpecificLayout.childConfig?.size?.tablet?.setWidth(new NonCalculatedSizeConfigModel(50, SizeUnitConfigType.Percentage))
+  .childConfig as ChildPropertiesConfigModel).size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage));
+((mainContainer.componentSpecificLayout.childConfig as ChildPropertiesConfigModel).size?.setTablet(new SizeConfigModel()).tablet as SizeConfigModel)
+  .setWidth(new NonCalculatedSizeConfigModel(50, SizeUnitConfigType.Percentage))
 mainContainer.setChildren([
   mainTable
 ])

@@ -1,6 +1,5 @@
 import {DataRecord, isNoValueType} from "./union-types";
 import {ConfigService} from "../services/config.service";
-import {config} from "rxjs";
 
 export type ConceptNameType = string
 export type ComponentNameType = string

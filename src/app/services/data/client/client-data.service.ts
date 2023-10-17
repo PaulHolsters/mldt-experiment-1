@@ -35,7 +35,7 @@ export class ClientDataService {
   // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
-  public blueprintNeeded = new Subject<{concept:ConceptNameType,component:ComponentNameType}>()
+  public serverDataNeeded = new Subject<{actionId:ActionIdType,concept:ConceptNameType,target:ComponentNameType,requestType:string}>()
   private _clientData: ClientData[] = []
   constructor(private actionsService:ActionsService,
               private configService:ConfigService,
@@ -69,7 +69,11 @@ export class ClientDataService {
             if((isDataLink(res.effect.action.conceptName,this.configService) ||
                 isConceptName(res.effect.action.conceptName,this.configService))
               && concept){
-              this.blueprintNeeded.next({concept:concept,component:target})
+              this.serverDataNeeded.next({
+                actionId:res.effect.action.id,
+                concept:concept,
+                target:target,
+                requestType:'blueprint'})
             } else if(res.effect.action.conceptName === NoValueType.CALCULATED_BY_ENGINE){
               let blueprint:Blueprint|undefined
               if(isComponentName(res.effect.trigger.source,this.configService)){
@@ -84,14 +88,12 @@ export class ClientDataService {
               // step B: getOutputData via res.data en res.effect.action.actionValue
               if(res.effect.action.value instanceof ActionValueModel  && blueprint){
                 // dit geeft ons een property type en een propertyValue
-                 if(res.effect.action.value.value === 'list'){
-                   // todo use blueprint and value to retrieve data form server
-
-                   this.createClientData(res.effect.action.id,target,blueprint,)
-                 } else if(res.effect.action.value.value === 'object'){
-                   // todo use blueprint and value to retrieve data form server
-
-                   this.createClientData(res.effect.action.id,target,blueprint,)
+                 if(res.effect.action.value.value === 'list' || res.effect.action.value.value === 'object'){
+                   this.serverDataNeeded.next({
+                     actionId:res.effect.action.id,
+                     concept:blueprint.conceptName,
+                     target:target,
+                     requestType:res.effect.action.value.value})
                  } else throw new Error('invalid action value for action Create Client Data')
               } else if(res.data && blueprint){
                 // data: string | Blueprint | [string, (DataRecord | List)] | ClientData
@@ -114,6 +116,7 @@ export class ClientDataService {
                       }*/
           }
         } else if(target===NoValueType.CALCULATED_BY_ENGINE){
+          // todo
           //  target = CALC => todo te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
           // daarna indien nodig weer de andere takken
           // de output is voor beiden gelijk
