@@ -122,12 +122,15 @@ export class UiActionsService {
       }).forEach(propSubj=>{
         switch (propSubj.propName){
           case PropertyName.outputData:
+            debugger
             propSubj.propValue.next(cd?.outputData)
             break
           case PropertyName.conceptBlueprint:
+            debugger
             propSubj.propValue.next(cd?.blueprint)
             break
           case PropertyName.dataLink:
+            debugger
             if(cd?.name && isDataLink(res.effect.action.conceptName,this.configService)) {
               propSubj.propValue.next(res.effect.action.conceptName)
             }

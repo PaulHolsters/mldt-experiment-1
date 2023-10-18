@@ -60,6 +60,7 @@ export class ClientDataService {
       * todo stap 3
       * outputdata wordt normaal door server actions bepaald, maar wanneer het op vraag van de gebruiker gebeurt
       * dan mag dit automatisch aangevuld worden op basis van res.data en actionValue uit de Action config */
+      debugger
       if(res){
         const target = res.effect.action.target
         if (isComponentName(target,this.configService)) {
@@ -149,6 +150,7 @@ export class ClientDataService {
     data?:List|DataRecord|undefined,
     errorMessages?:string[]|undefined
   ){
+    debugger
     if(blueprint)
       for(let [k,v] of blueprint.properties.properties){
         if(v instanceof Array && v.length===2 && typeof v[0]==='string' && v[1] instanceof Array && v[1].length===2 && v[1][0] instanceof Blueprint){
@@ -156,9 +158,17 @@ export class ClientDataService {
             case 'list':
               // wat hier gebeurt is dat op basis van de blueprint de bijhorende data wordt opgehaald
               this.queryService.getAllRecords(v[1][0].conceptName,v[1][0]).subscribe(res=>{
+                debugger
                 const data = ServerData.getData(res.data)
+                debugger
                 if(data?.dataMultiple){
                   blueprint.properties.setValuesProperties(k,data.dataMultiple)
+                  debugger
+                  if(isOutPutData(data.dataMultiple)){
+                    this._clientData.push(new ClientData(actionId,componentName,blueprint,data.dataMultiple,errorMessages))
+                  }
+                  const cd = this.getClientData(componentName)
+                  if(cd) this.clientDataUpdated.next(cd)
                 }
               })
               break
@@ -170,11 +180,8 @@ export class ClientDataService {
         }
         // todo komt de enum waarde automatisch mee de eerste keer al, heeft die geen blueprint? => ik denk het niet maar controleer
       }
-    if(isOutPutData(data)){
-      this.clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
-    }
-    const cd = this.getClientData(componentName)
-    if(cd) this.clientDataUpdated.next(cd)
+    // todo dit moet automatisch in de rest worden opgenomen OF via messaging en reactive programm
+
   }
   private deleteClientData(name:ActionIdType|ComponentNameType,concept:ConceptNameType){
     // todo

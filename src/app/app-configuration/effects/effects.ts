@@ -37,8 +37,8 @@ export const effects:Effect[] = [
       new ActionValueModel(PropertyName.visible, false)),
   ),*/
   new Effect(
-    new Trigger(TriggerType.ComponentReady, 'table'),
-    new Action('populate_table',ActionType.GetAllInstances, 'product','table')
+    new Trigger(TriggerType.ComponentReady, 'main-table'),
+    new Action('populate_table',ActionType.GetAllInstances, 'product','main-table')
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),

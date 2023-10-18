@@ -1,9 +1,26 @@
-import { isServerData, ServerData as ServerDataType} from "../../../types/union-types";
+import {isDataRecord, isList, isServerData, ServerData as ServerDataType} from "../../../types/union-types";
 export abstract class ServerData {
   // todo eigenlijk is het logischer om al deze methodes onder de respectievelijke types te zetten als functions
   public static getData(data:Object):ServerDataType|undefined{
-    const serverData = Object.values(Object.values(data).length > 0 ? Object.values(data)[0] : {}).length>0 ? Object.values(Object.values(data)[0])[0] : undefined
-    if(isServerData(serverData)) return serverData
+    const serverData =
+      Object.values(Object.values(data).length > 0 ? Object.values(data)[0] : {}).length>0 ? Object.values(Object.values(data)[0])[0] : undefined
+    if(isServerData(serverData)){
+      return serverData
+    }else if(isList(serverData)){
+      return {
+        __brand: "server data",
+        blueprint: null,
+        dataSingle: null,
+        numberOfNesting: null,
+        dataMultiple:serverData}
+    } else if(isDataRecord(serverData)){
+      return {
+        __brand: "server data",
+        blueprint: null,
+        dataSingle: serverData,
+        numberOfNesting: null,
+        dataMultiple:null}
+    }
     return
   }
   public static getDataValue(data:ServerDataType,prop:string):number{

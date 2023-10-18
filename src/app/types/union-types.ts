@@ -325,7 +325,7 @@ export const extractConcept = function extractConcept(concept:ConceptNameType|un
   return concept[0]
 }
 export const isServerData = function isServerData(data:unknown):data is ServerData{
-  if(typeof data !== 'object' || data === null) return false
+  if(typeof data !== 'object' || (data === null || data instanceof Array)) return false
   if(
     data.hasOwnProperty('dataMultiple')&&
     data.hasOwnProperty('dataSingle')&&

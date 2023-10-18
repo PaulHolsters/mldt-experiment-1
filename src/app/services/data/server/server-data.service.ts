@@ -50,18 +50,22 @@ export class ServerDataService {
 
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res?.effect.action.conceptName && res.effect.action.target) {
+        debugger
         // todo het target gaat niet per se aanwezig zijn
         const concept = extractConcept(res.effect.action.conceptName) ? extractConcept(res.effect.action.conceptName) : typeof res.data === 'string' ? res.data:undefined
         const target = res.effect.action.target
         if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
+            debugger
             const data = ServerData.getData(resFirst)
             if(data){
               if(ServerData.dataIsNumber(data,'numberOfNesting')){
                 this.queryService
                   .getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting'))
                   .subscribe(resOrErr=>{
+                    debugger
                     const data = ServerData.getData(resOrErr)
+                    debugger
                     if(data){
                       // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is =>
                       //      dit is wellicht een mooie kandidaat voor branded types
@@ -130,12 +134,14 @@ export class ServerDataService {
     })
 
     this.actionsService.bindToAction(new Action('',ActionType.GetAllInstances))?.subscribe(async res => {
-      if (res && res.data instanceof ClientData && res.data.outputData) {
-        const info = {effect:res.effect,data:res.data.outputData,target:res.target}
+      if (res) {
+        const info = {effect:res.effect,data:res.data,target:res.target}
         const concept = extractConcept(res.effect.action.conceptName)
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,
-          data: OutputData, target: EventTarget | undefined},concept:ConceptNameType){
+          data:  string | Blueprint | ClientData | [string, (List | DataRecord)], target: EventTarget | undefined},concept:ConceptNameType){
+          debugger
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
+            debugger
             const data = ServerData.getData(errorOrResult)
             if(data && data.dataMultiple){
               const dataC:List = data.dataMultiple
@@ -152,6 +158,7 @@ export class ServerDataService {
         }
         const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
         if (blueprint && concept) {
+          debugger
           getAllRecords(this,blueprint,info,concept)
         } else if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
@@ -161,8 +168,10 @@ export class ServerDataService {
               this.queryService.getBlueprint(concept, numberOfNesting).subscribe(resOrErr => {
                 const data = ServerData.getData(resOrErr)
                 if(data){
+                  // todo client data wordt niet aangemaakt
                   createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], undefined)
                   const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
+                  debugger
                   if (blueprint) {
                     getAllRecords(this, blueprint, info,concept)
                   }
@@ -221,6 +230,7 @@ export class ServerDataService {
                               name:ComponentNameType,
                               errorMessages:string[]|undefined,
                               data:ServerDataType|undefined){
+      // in eerste instantie is data undefined
       let outputData
       if(data?.dataMultiple){
         outputData = data?.dataMultiple
@@ -235,10 +245,6 @@ export class ServerDataService {
           outputData,
           errorMessages
         )
-        const cd = self.clientDataService.getClientData(name)
-        if(cd){
-          self.clientDataService.clientDataUpdated.next(cd)
-        }
       }
     }
   }
