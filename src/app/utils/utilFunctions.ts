@@ -45,7 +45,7 @@ export default  {
       })
       return val1Filtered.length === 0 && val2Filtered.length === 0
     }
-    if(typeof val1 === 'object' && typeof val2 === 'object'){
+    if(val1!==null && val2!==null && typeof val1 === 'object' && typeof val2 === 'object'){
       const keys1 = Object.keys(val1)
       const keys2 = Object.keys(val2)
       if(this.areEqual(keys1,keys2)){

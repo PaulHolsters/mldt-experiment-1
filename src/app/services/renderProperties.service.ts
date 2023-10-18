@@ -8,11 +8,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
 import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubject";
-import {ComponentModel} from "../design-dimensions/ComponentModel";
-import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
-import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
 import {CalculationModel} from "../design-dimensions/CalculationModel";
-import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
 import {ComponentModelType, OutputData, RenderModelType} from "../types/union-types";
 
 @Injectable({

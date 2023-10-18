@@ -34,6 +34,8 @@ implements ResponsiveConfigModelI<VisibilityConfigModel>{
     return 'visibility'
   }
   public getVisibilityRenderProperties(screenSize: number): VisibilityRenderModel {
+    // todo fix bug: de methode geeft "CALCULATED BY ENGINE" terug (vroeger undefined)
+    // todo normaal moet dit een VisibilityConfigModel teruggeven, dat het dat niet doet betekent dat er meer safety moet komen
     const configModel = this.getConfigModel(screenSize)
     const compPropsObj = new VisibilityRenderModel()
     Object.entries(configModel).forEach(([k, v]) => {

@@ -3,47 +3,47 @@ import {BackgroundColorType} from "../enums/backgroundColorType.enum";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
 
 export abstract class Container extends Component{
-  public static children:ComponentModel[]|undefined
-  public static row:boolean|undefined
-  public static column:boolean|undefined
-  public static wrap:boolean|undefined
-  public static justifyContentStart:boolean|undefined
-  public static justifyContentCenter:boolean|undefined
-  public static justifyContentEnd:boolean|undefined
-  public static justifyContentBetween:boolean|undefined
-  public static justifyContentEvenly:boolean|undefined
-  public static justifyContentAround:boolean|undefined
-  public static alignItemsStart:boolean|undefined
-  public static alignItemsCenter:boolean|undefined
-  public static alignItemsEnd:boolean|undefined
-  public static alignContentStart:boolean|undefined
-  public static alignContentCenter:boolean|undefined
-  public static alignContentEnd:boolean|undefined
-  public static alignContentBetween:boolean|undefined
-  public static alignContentEvenly:boolean|undefined
-  public static alignContentAround:boolean|undefined
-  public static overflowScroll:boolean|undefined
-  public static overflowXScroll:boolean|undefined
-  public static overflowHidden:boolean|undefined
-  public static overflowXHidden:boolean|undefined
-  public static overflowAuto:boolean|undefined
-  public static overflowXAuto:boolean|undefined
-  public static height:string|undefined
-  public static width:string|undefined
-  public static backgroundColorPrimary:BackgroundColorType|undefined
-  public static backgroundColorWhite:BackgroundColorType|undefined
-  public static backgroundColorDanger:BackgroundColorType|undefined
-  public static visible:boolean|undefined
-  public static holdSpace:boolean|undefined
-  public static calcHeight:string|undefined
-  public static calcWidth:string|undefined
-  public static alignSelfStretch:boolean|undefined
-  public static alignItemsStretch:boolean|undefined
-  public static grow:number|undefined
-  public static shrink:number|undefined
+  public static children:ComponentModel[]|null=null
+  public static row:boolean|null=null
+  public static column:boolean|null=null
+  public static wrap:boolean|null=null
+  public static justifyContentStart:boolean|null=null
+  public static justifyContentCenter:boolean|null=null
+  public static justifyContentEnd:boolean|null=null
+  public static justifyContentBetween:boolean|null=null
+  public static justifyContentEvenly:boolean|null=null
+  public static justifyContentAround:boolean|null=null
+  public static alignItemsStart:boolean|null=null
+  public static alignItemsCenter:boolean|null=null
+  public static alignItemsEnd:boolean|null=null
+  public static alignContentStart:boolean|null=null
+  public static alignContentCenter:boolean|null=null
+  public static alignContentEnd:boolean|null=null
+  public static alignContentBetween:boolean|null=null
+  public static alignContentEvenly:boolean|null=null
+  public static alignContentAround:boolean|null=null
+  public static overflowScroll:boolean|null=null
+  public static overflowXScroll:boolean|null=null
+  public static overflowHidden:boolean|null=null
+  public static overflowXHidden:boolean|null=null
+  public static overflowAuto:boolean|null=null
+  public static overflowXAuto:boolean|null=null
+  public static height:string|null=null
+  public static width:string|null=null
+  public static backgroundColorPrimary:BackgroundColorType|null=null
+  public static backgroundColorWhite:BackgroundColorType|null=null
+  public static backgroundColorDanger:BackgroundColorType|null=null
+  public static visible:boolean|null=null
+  public static holdSpace:boolean|null=null
+  public static calcHeight:string|null=null
+  public static calcWidth:string|null=null
+  public static alignSelfStretch:boolean|null=null
+  public static alignItemsStretch:boolean|null=null
+  public static grow:number|null=null
+  public static shrink:number|null=null
 
-  public static display: string|undefined
+  public static display: string|null=null
 
-  public static data: any|undefined
+  public static data: any|null=null
 
 }

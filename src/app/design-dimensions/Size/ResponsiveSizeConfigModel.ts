@@ -45,7 +45,7 @@ export class ResponsiveSizeConfigModel
   public getSizeRenderProperties(screenSize: number): SizeRenderModel {
     const dimensionsConfig = this.getConfigModel(screenSize)
     const compPropsObj = new SizeRenderModel()
-    if(dimensionsConfig.width){
+    if(dimensionsConfig.width!==NoValueType.NO_VALUE_NEEDED){
       if(dimensionsConfig.width instanceof CalculatedSizeConfigModel){
         compPropsObj.width = dimensionsConfig.width.value
       } else if(dimensionsConfig.width instanceof NonCalculatedSizeConfigModel){
@@ -55,7 +55,7 @@ export class ResponsiveSizeConfigModel
         compPropsObj.calcWidth = ParentConfigType.static
       } else throw new Error('Er is een optie bijgekomen die nog niet werd geïmplementeerd')
     }
-    if(dimensionsConfig.height){
+    if(dimensionsConfig.height!==NoValueType.NO_VALUE_NEEDED){
       if(dimensionsConfig.height instanceof CalculatedSizeConfigModel){
         compPropsObj.height = dimensionsConfig.height.value
       } else if(dimensionsConfig.height instanceof NonCalculatedSizeConfigModel){
@@ -69,7 +69,7 @@ export class ResponsiveSizeConfigModel
       compPropsObj.grow = dimensionsConfig.dynamicSize.grow
       compPropsObj.shrink = dimensionsConfig.dynamicSize.shrink
     }
-    if(dimensionsConfig.componentSpecificSize){
+    if(dimensionsConfig.componentSpecificSize!==NoValueType.NO_VALUE_ALLOWED){
       // todo zorg ervoor via conditional typing dat je hier altijd de juiste moet gebruiken (naming!)
       //      hier zit meer generics in verborgen!
       if(dimensionsConfig.componentSpecificSize instanceof ButtonSizeConfigModel){

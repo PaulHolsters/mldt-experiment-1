@@ -66,7 +66,7 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
       childPropsObj.grow = childLayoutConfig.layout.sizeOfChildren.dynamicSize.grow
       childPropsObj.shrink = childLayoutConfig.layout.sizeOfChildren.dynamicSize.shrink
     }
-    if(childLayoutConfig.layout.sizeOfChildren.width) {
+    if(childLayoutConfig.layout.sizeOfChildren.width!==NoValueType.NO_VALUE_NEEDED) {
       if(childLayoutConfig.layout.sizeOfChildren.width instanceof CalculatedSizeConfigModel){
         childPropsObj.width = childLayoutConfig.layout.sizeOfChildren.width.value
       } else if(childLayoutConfig.layout.sizeOfChildren.width instanceof NonCalculatedSizeConfigModel){
@@ -76,7 +76,7 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
         childPropsObj.calcWidth = childLayoutConfig.layout.sizeOfChildren.width
       } else throw new Error('unimplemented option')
     }
-    if(childLayoutConfig.layout.sizeOfChildren.height) {
+    if(childLayoutConfig.layout.sizeOfChildren.height!==NoValueType.NO_VALUE_NEEDED) {
       if(childLayoutConfig.layout.sizeOfChildren.height instanceof CalculatedSizeConfigModel){
         childPropsObj.height = childLayoutConfig.layout.sizeOfChildren.height.value
       } else if(childLayoutConfig.layout.sizeOfChildren.height instanceof NonCalculatedSizeConfigModel){
@@ -115,8 +115,8 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
       parentPropsObj.alignItemsBaseline = childLayoutConfig.layout.horizontalLayoutOfChildren === HorizontalColumnLayoutConfigType.Baseline
       parentPropsObj.alignItemsStretch = childLayoutConfig.layout.horizontalLayoutOfChildren === HorizontalColumnLayoutConfigType.Stretch
     }
-    if(this.childConfig){
-      if(this.childConfig!==NoValueType.NO_VALUE_NEEDED && this.childConfig.visibility){
+    if(this.childConfig!==NoValueType.NO_VALUE_NEEDED){
+      if(this.childConfig.visibility){
         const visibilityRenderModel = this.childConfig.visibility.getVisibilityRenderProperties(screenSize)
         childPropsObj.holdSpace = visibilityRenderModel.holdSpace
         childPropsObj.visible = visibilityRenderModel.visible

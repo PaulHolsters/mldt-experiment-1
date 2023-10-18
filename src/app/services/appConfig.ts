@@ -3,10 +3,10 @@ import {SystemEffects} from "../effectclasses/systemEffects";
 import {ComponentModelType} from "../types/union-types";
 
 export default class AppConfig {
-  constructor(private _userConfig: { components: ComponentModelType[]; effects: Effect[] }) {
+  constructor(private _userConfig: { components: readonly ComponentModelType[]; effects: readonly Effect[] }) {
     this._userConfig.effects.concat(SystemEffects.getSystemEffects())
   }
-  public get userConfig():{ components: ComponentModelType[], effects: Effect[] } {
+  public get userConfig():{ components: readonly ComponentModelType[], effects: readonly Effect[] } {
     return this._userConfig
   }
 }

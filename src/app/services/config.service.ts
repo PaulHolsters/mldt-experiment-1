@@ -13,12 +13,10 @@ export class ConfigService {
   constructor() {
   }
   public saveConfig(config: AppConfig) {
-    // todo laat dit verlopen via een event!
-    this._appConfig.push(Object.create(config))
+    this._appConfig.push(config)
   }
   public get appConfig(): AppConfig {
-    if (this._appConfig.length > 0)
-      return Object.create(this._appConfig[this._appConfig.length - 1])
+    if (this._appConfig.length > 0) return this._appConfig[this._appConfig.length - 1]
     throw new Error('appConfig requested when not yet initialised')
   }
   private _appConfig: AppConfig[] = []
@@ -56,8 +54,8 @@ export class ConfigService {
   * */
   public getConfigFromComponent(nameComponent: string, component: ComponentModelType): ComponentModelType | undefined {
     if (component.name === nameComponent) return component
-    const arr: ComponentModelType[]|undefined = component.children
-    if(!arr) return undefined
+    if(!component.children) return undefined
+    const arr: ComponentModelType[] = [...component.children]
     while (arr.length > 0) {
       const child: ComponentModelType = arr.pop() as ComponentModelType
       if (child.name === nameComponent) return child
