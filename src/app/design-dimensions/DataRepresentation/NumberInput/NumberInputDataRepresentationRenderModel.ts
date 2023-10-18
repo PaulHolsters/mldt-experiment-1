@@ -3,15 +3,15 @@ import {CurrencyType} from "../../../enums/currencyType.enum";
 import {CurrencyDisplayType} from "../../../enums/currencyDisplayType.enum";
 
 export class NumberInputDataRepresentationRenderModel {
-  public useGrouping: boolean|undefined
-  public locale: LocaleType|undefined
-  public currency: CurrencyType | undefined
-  public currencyDisplay: CurrencyDisplayType | undefined
-  public minFractionDigits: number|undefined
-  public maxFractionDigits: number |undefined
-  public floatLabel:boolean|undefined
-  public suffix:string|undefined
-  public prefix:string|undefined
+  public useGrouping: boolean|null=null
+  public locale: LocaleType|null=null
+  public currency: CurrencyType | null=null
+  public currencyDisplay: CurrencyDisplayType | null=null
+  public minFractionDigits: number|null=null
+  public maxFractionDigits: number |null=null
+  public floatLabel:boolean|null=null
+  public suffix:string|null=null
+  public prefix:string|null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

@@ -1,7 +1,7 @@
 import {RestrictionType} from "../../../enums/restrictionType.enum";
 export class TextInputDataInputRenderModel {
-  public restrictions:RestrictionType[]|RegExp|undefined
-  public disabled: boolean | undefined
+  public restrictions:RestrictionType[]|RegExp|null=null
+  public disabled: boolean | null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

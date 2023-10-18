@@ -2,10 +2,10 @@ import {ComponentModel} from "../../ComponentModel";
 import {ExtraColumnModel} from "./ExtraColumnModel";
 
 export class TableContentInjectionRenderModel {
-  public columnHeaderComponents: ComponentModel[]|undefined
-  public footer: ComponentModel|undefined
-  public caption: ComponentModel|undefined
-  public extraColumns:ExtraColumnModel[]|undefined
+  public columnHeaderComponents: ComponentModel[]|null=null
+  public footer: ComponentModel|null=null
+  public caption: ComponentModel|null=null
+  public extraColumns:ExtraColumnModel[]|null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

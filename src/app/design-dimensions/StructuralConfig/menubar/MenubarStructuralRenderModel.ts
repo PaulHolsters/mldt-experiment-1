@@ -1,7 +1,7 @@
 import {MenuItem} from "primeng/api";
 
 export class MenubarStructuralRenderModel {
-  public menuItems: MenuItem[]|undefined
+  public menuItems: MenuItem[]|null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

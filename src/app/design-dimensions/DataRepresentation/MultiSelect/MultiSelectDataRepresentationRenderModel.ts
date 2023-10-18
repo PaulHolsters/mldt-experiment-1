@@ -1,9 +1,9 @@
 import {BlueprintValue} from "../../../types/union-types";
 
 export class MultiSelectDataRepresentationRenderModel {
-  public optionLabel:string|undefined
-  public optionValue:string|undefined
-  public placeholder:string|undefined
+  public optionLabel:string|null=null
+  public optionValue:string|null=null
+  public placeholder:string|null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

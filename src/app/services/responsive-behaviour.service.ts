@@ -9,14 +9,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
 import {ComponentModelType, RenderModelType} from "../types/union-types";
-import {SizeRenderModel} from "../design-dimensions/Size/SizeRenderModel";
-import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
-import {OverflowRenderModel} from "../design-dimensions/Overflow/OverflowRenderModel";
-import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
-import {IndividualLayoutRenderModel} from "../design-dimensions/IndividualLayout/IndividualLayoutRenderModel";
-import {SizeUnitConfigType} from "../enums/sizeUnitConfigTypes.enum";
-import {SizeValueConfigType} from "../enums/sizeValueConfigTypes.enum";
 
 @Injectable({
   providedIn: 'root'

@@ -6,7 +6,7 @@ export class IconSizeRenderModel {
   public size:
     NonCalculatedSizeConfigModel |
     CalculatedSizeConfigModel |
-    ParentConfigType.static|undefined
+    ParentConfigType.static|null=null
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

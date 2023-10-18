@@ -1,5 +1,5 @@
 export class DialogStructuralRenderModel {
-  public header:string|undefined
+  public header:string|null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

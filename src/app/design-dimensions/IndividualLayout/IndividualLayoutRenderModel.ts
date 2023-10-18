@@ -5,8 +5,8 @@ import {PaddingType} from "../../enums/paddingType.enum";
 import {DisplayType} from "../../enums/displayType.enum";
 
 export class IndividualLayoutRenderModel {
-  public selfAlign:VerticalRowLayoutConfigType|undefined
-  public displayType:DisplayType|undefined
+  public selfAlign:VerticalRowLayoutConfigType|null=null
+  public displayType:DisplayType|null=null
   constructor() {
   }
   public setProperty(propName: string, value: VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType | MarginType|PaddingType|undefined): void {

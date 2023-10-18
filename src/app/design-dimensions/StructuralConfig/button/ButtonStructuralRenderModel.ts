@@ -1,7 +1,7 @@
 import {IconConfigModel} from "./IconConfigModel";
 export class ButtonStructuralRenderModel {
-  public label:string|undefined
-  public icon:IconConfigModel|undefined
+  public label:string|null=null
+  public icon:IconConfigModel|null=null
   constructor() {
   }
   public setProperty(propName: string, value: any|undefined): void {

@@ -4,8 +4,8 @@ import utilFunctions from "../../../utils/utilFunctions";
 import {BlueprintValue} from "../../../types/union-types";
 
 export class RadioButtonGroupDataRepresentationRenderModel {
-  public pipe: FunctionType[] | undefined
-  public values: LabelType[] |  undefined
+  public pipe: FunctionType[] | null=null
+  public values: LabelType[] |  null=null
 
   constructor() {
   }

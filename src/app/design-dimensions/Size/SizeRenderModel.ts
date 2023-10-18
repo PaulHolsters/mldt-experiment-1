@@ -7,13 +7,13 @@ import {ButtonSizeRenderModel} from "./button/ButtonSizeRenderModel";
 import {IconSizeRenderModel} from "./icon/IconSizeRenderModel";
 
 export class SizeRenderModel {
-  public height: string |ParentConfigType.static| undefined
-  public width: string |ParentConfigType.static| undefined
-  public calcHeight: string |ParentConfigType.static| undefined
-  public calcWidth: string |ParentConfigType.static| undefined
-  public grow: number |ParentConfigType.static| undefined
-  public shrink: number | ParentConfigType.static|undefined
-  public componentSpecificSize:ButtonSizeRenderModel|IconSizeRenderModel|undefined
+  public height: string |ParentConfigType.static| null=null
+  public width: string |ParentConfigType.static| null=null
+  public calcHeight: string |ParentConfigType.static| null=null
+  public calcWidth: string |ParentConfigType.static| null=null
+  public grow: number |ParentConfigType.static| null=null
+  public shrink: number | ParentConfigType.static|null=null
+  public componentSpecificSize:ButtonSizeRenderModel|IconSizeRenderModel|null=null
   constructor() {
   }
   public setProperty(propName: string, value: VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType | MarginType|PaddingType|undefined): void {

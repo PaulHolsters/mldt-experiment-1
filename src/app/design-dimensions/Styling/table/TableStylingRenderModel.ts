@@ -1,7 +1,7 @@
 import {TableGridType} from "../../../enums/tableGridType.enum";
 
 export class TableStylingRenderModel {
-  gridType:TableGridType|undefined
+  gridType:TableGridType|null=null
   // todo vul aan
   constructor() {
   }

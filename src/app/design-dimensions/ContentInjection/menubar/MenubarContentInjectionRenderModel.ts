@@ -1,8 +1,8 @@
 import {ComponentModel} from "../../ComponentModel";
 
 export class MenubarContentInjectionRenderModel {
-  public start: ComponentModel|undefined
-  public end: ComponentModel|undefined
+  public start: ComponentModel|null=null
+  public end: ComponentModel|null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {
