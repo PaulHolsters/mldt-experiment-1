@@ -7,7 +7,6 @@ import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class ResponsiveTableLayoutConfigModel extends ResponsiveConfigModel<TableLayoutConfigModel>
 implements ResponsiveConfigModelI<TableLayoutConfigModel>{
-  // todo los probleem op ivm het feit dat een nieuw scherm configureren een hele burden is nu
   public smartphone:TableLayoutConfigModel = new TableLayoutConfigModel()
   public portraitTablet: TableLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   public tablet:TableLayoutConfigModel|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
