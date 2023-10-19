@@ -85,6 +85,7 @@ export class UiActionsService {
     effect: Effect,
     data: Blueprint|[ComponentNameType,DataRecord|(DataRecord|null)[]]|ClientData|string,
     target: EventTarget | undefined}){
+    debugger
     if(isClientData(res.data) && res.effect.action.target){
       const dl = this.configService.getConfigFromRoot(res.effect.action.target)
       if(dl && dl.clientData && isDataLink(res.effect.action.conceptName,this.configService)){
@@ -115,11 +116,16 @@ export class UiActionsService {
     return true
   }
   private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string, target:EventTarget|undefined}) {
+    debugger
+    // todo fix : no value is possible !
     if(res.effect.action.target){
+      debugger
       const cd = this.clientDataService.getClientData(res.effect.action.target)
+      debugger
       this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
         return ps.componentName===cd?.name
       }).forEach(propSubj=>{
+        debugger
         switch (propSubj.propName){
           case PropertyName.outputData:
             debugger
@@ -138,10 +144,12 @@ export class UiActionsService {
         }
       })
     } else{
+      debugger
       this.clientDataService.clientData.forEach(cd=>{
         this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
           return ps.componentName===cd.name
         }).forEach(propSubj=>{
+          debugger
           switch (propSubj.propName){
             case PropertyName.outputData:
               propSubj.propValue.next(cd.outputData)

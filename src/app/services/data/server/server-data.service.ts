@@ -50,29 +50,23 @@ export class ServerDataService {
 
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res?.effect.action.conceptName && res.effect.action.target) {
-        debugger
         // todo het target gaat niet per se aanwezig zijn
         const concept = extractConcept(res.effect.action.conceptName) ? extractConcept(res.effect.action.conceptName) : typeof res.data === 'string' ? res.data:undefined
         const target = res.effect.action.target
         if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
-            debugger
             const data = ServerData.getData(resFirst)
             if(data){
               if(ServerData.dataIsNumber(data,'numberOfNesting')){
                 this.queryService
                   .getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting'))
                   .subscribe(resOrErr=>{
-                    debugger
                     const data = ServerData.getData(resOrErr)
-                    debugger
                     if(data){
                       // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is =>
                       //      dit is wellicht een mooie kandidaat voor branded types
                       //      de reden waarom dat niet gecontroleerd wordt is dat data van het any type is
                       //      dat is niet conform de type van de parameter maar het wordt gewoon niet gecontroleerd
-
-
                       // hier zit de hele clue!
                       createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
                       this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -137,18 +131,14 @@ export class ServerDataService {
       if (res) {
         const info = {effect:res.effect,data:res.data,target:res.target}
         const concept = extractConcept(res.effect.action.conceptName)
-
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,
           data:  string | Blueprint | ClientData | [string, (List | DataRecord)], target: EventTarget | undefined},concept:ConceptNameType){
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
             const data = ServerData.getData(errorOrResult)
             if(data && data.dataMultiple){
               const dataC:List = data.dataMultiple
-              debugger
               if(isOutPutData(dataC)) self.clientDataService.updateClientData(res.effect.action.id,dataC)
-              debugger
               const cd = self.clientDataService.getClientData(res.effect.action.target)
-              debugger
               if(cd){
                 self.clientDataService.clientDataUpdated.next(cd)
               }
@@ -173,7 +163,6 @@ export class ServerDataService {
                   // todo client data wordt niet aangemaakt!
                   createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], undefined)
                   const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
-                  debugger
                   if (blueprint) {
                     getAllRecords(this, blueprint, info,concept)
                   }
@@ -192,8 +181,7 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.DeleteInstance))?.subscribe(res => {
       // todo werk data als any weg
       if (res &&  res.data instanceof ClientData) {
-        // todo verder uitwerken bv cverwijderen vabn client data
-
+        // todo verder uitwerken bv verwijderen van client data
         this.mutationService.deleteRecordOrHandleError(res.data)?.subscribe(errorOrResult=>{
           if (errorOrResult) {
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})

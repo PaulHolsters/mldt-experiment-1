@@ -36,6 +36,7 @@ export class ClientDataService {
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
   public serverDataNeeded = new Subject<{actionId:ActionIdType,concept:ConceptNameType,target:ComponentNameType,requestType:string}>()
+
   private _clientData: ClientData[] = []
   constructor(private actionsService:ActionsService,
               private configService:ConfigService,
@@ -142,10 +143,8 @@ export class ClientDataService {
     } else if(isActionIdType(id,this.configService)){
       instance =  this.getClientData(id,true)
     }
-    debugger
     if(instance){
       instance.update(data)
-      debugger
       this.clientDataUpdated.next(instance)
     } else throw new Error('Client data instance does not exist')
   }
@@ -167,7 +166,6 @@ export class ClientDataService {
                 if(data?.dataMultiple){
                   blueprint.properties.setValuesProperties(k,data.dataMultiple)
                   this.updateClientData(actionId,blueprint)
-                  debugger
                 }
               })
               break
@@ -183,7 +181,6 @@ export class ClientDataService {
         this._clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
       }
       const cd = this.getClientData(componentName)
-      debugger
       if(cd) this.clientDataUpdated.next(cd)
     }
     // todo dit moet automatisch in de rest worden opgenomen OF via messaging en reactive programm

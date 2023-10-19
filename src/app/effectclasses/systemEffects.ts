@@ -21,6 +21,10 @@ export abstract class SystemEffects {
         new Action('update_data_related_render_properties',ActionType.UpdateDataRelatedProperties)
       ),
       new Effect(
+        new Trigger(TriggerType.ClientDataUpdated,ServiceType.DataService),
+        new Action('update_data_render_properties',ActionType.UpdateDataProperties)
+      ),
+      new Effect(
         new Trigger(TriggerType.BlueprintStrReady, ServiceType.DataService),
         new Action('create_client_data',ActionType.CreateClientData)
       ),
