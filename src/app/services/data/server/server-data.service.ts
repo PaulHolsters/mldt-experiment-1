@@ -137,16 +137,18 @@ export class ServerDataService {
       if (res) {
         const info = {effect:res.effect,data:res.data,target:res.target}
         const concept = extractConcept(res.effect.action.conceptName)
+
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,
           data:  string | Blueprint | ClientData | [string, (List | DataRecord)], target: EventTarget | undefined},concept:ConceptNameType){
-          debugger
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
-            debugger
             const data = ServerData.getData(errorOrResult)
             if(data && data.dataMultiple){
               const dataC:List = data.dataMultiple
+              debugger
               if(isOutPutData(dataC)) self.clientDataService.updateClientData(res.effect.action.id,dataC)
+              debugger
               const cd = self.clientDataService.getClientData(res.effect.action.target)
+              debugger
               if(cd){
                 self.clientDataService.clientDataUpdated.next(cd)
               }
@@ -156,9 +158,9 @@ export class ServerDataService {
             self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           })
         }
+
         const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
         if (blueprint && concept) {
-          debugger
           getAllRecords(this,blueprint,info,concept)
         } else if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
@@ -168,7 +170,7 @@ export class ServerDataService {
               this.queryService.getBlueprint(concept, numberOfNesting).subscribe(resOrErr => {
                 const data = ServerData.getData(resOrErr)
                 if(data){
-                  // todo client data wordt niet aangemaakt
+                  // todo client data wordt niet aangemaakt!
                   createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], undefined)
                   const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
                   debugger

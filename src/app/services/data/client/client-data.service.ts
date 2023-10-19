@@ -134,12 +134,18 @@ export class ClientDataService {
       else return cd.name === target
     })
   }
-
   // in de volgende twee methodes moet outPutData correct staan
   public updateClientData(id:ActionIdType|ComponentNameType,data:Blueprint|OutputData) {
-    const instance =  this.getClientData(id)
+    let instance
+    if(isComponentName(id,this.configService)){
+      instance =  this.getClientData(id)
+    } else if(isActionIdType(id,this.configService)){
+      instance =  this.getClientData(id,true)
+    }
+    debugger
     if(instance){
       instance.update(data)
+      debugger
       this.clientDataUpdated.next(instance)
     } else throw new Error('Client data instance does not exist')
   }
@@ -150,25 +156,18 @@ export class ClientDataService {
     data?:List|DataRecord|undefined,
     errorMessages?:string[]|undefined
   ){
-    debugger
-    if(blueprint)
+    if(blueprint){
       for(let [k,v] of blueprint.properties.properties){
         if(v instanceof Array && v.length===2 && typeof v[0]==='string' && v[1] instanceof Array && v[1].length===2 && v[1][0] instanceof Blueprint){
           switch (v[0]){
             case 'list':
               // wat hier gebeurt is dat op basis van de blueprint de bijhorende data wordt opgehaald
               this.queryService.getAllRecords(v[1][0].conceptName,v[1][0]).subscribe(res=>{
-                debugger
                 const data = ServerData.getData(res.data)
-                debugger
                 if(data?.dataMultiple){
                   blueprint.properties.setValuesProperties(k,data.dataMultiple)
+                  this.updateClientData(actionId,blueprint)
                   debugger
-                  if(isOutPutData(data.dataMultiple)){
-                    this._clientData.push(new ClientData(actionId,componentName,blueprint,data.dataMultiple,errorMessages))
-                  }
-                  const cd = this.getClientData(componentName)
-                  if(cd) this.clientDataUpdated.next(cd)
                 }
               })
               break
@@ -180,6 +179,13 @@ export class ClientDataService {
         }
         // todo komt de enum waarde automatisch mee de eerste keer al, heeft die geen blueprint? => ik denk het niet maar controleer
       }
+      if(isOutPutData(data)){
+        this._clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
+      }
+      const cd = this.getClientData(componentName)
+      debugger
+      if(cd) this.clientDataUpdated.next(cd)
+    }
     // todo dit moet automatisch in de rest worden opgenomen OF via messaging en reactive programm
 
   }
