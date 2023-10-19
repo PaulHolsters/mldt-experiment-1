@@ -48,7 +48,7 @@ export class ResponsiveSizeConfigModel
     const compPropsObj = new SizeRenderModel()
     if(dimensionsConfig.width!==NoValueType.NO_VALUE_NEEDED){
       if(dimensionsConfig.width instanceof CalculatedSizeConfigModel){
-        compPropsObj.width = dimensionsConfig.width.value
+        compPropsObj.calcWidth = dimensionsConfig.width.value
       } else if(dimensionsConfig.width instanceof NonCalculatedSizeConfigModel){
         compPropsObj.width = dimensionsConfig.width.value+dimensionsConfig.width.unit
       } else if(dimensionsConfig.width === ParentConfigType.static){
@@ -58,7 +58,7 @@ export class ResponsiveSizeConfigModel
     }
     if(dimensionsConfig.height!==NoValueType.NO_VALUE_NEEDED){
       if(dimensionsConfig.height instanceof CalculatedSizeConfigModel){
-        compPropsObj.height = dimensionsConfig.height.value
+        compPropsObj.calcHeight = dimensionsConfig.height.value
       } else if(dimensionsConfig.height instanceof NonCalculatedSizeConfigModel){
         compPropsObj.height = dimensionsConfig.height.value+dimensionsConfig.height.unit
       } else if(dimensionsConfig.height === ParentConfigType.static){

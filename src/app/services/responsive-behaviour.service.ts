@@ -59,7 +59,6 @@ export class ResponsiveBehaviourService implements OnInit{
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
           let parent = this.configService.getConfigFromRoot(componentName)
-          debugger
           if (parent?.children) {
             (parent.children as ComponentModelType[]).forEach(childComp => {
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
@@ -70,13 +69,10 @@ export class ResponsiveBehaviourService implements OnInit{
         }
       }
     } else if(newState instanceof Array){
-      debugger
       this.renderPropertiesService.getStatePropertySubjects().find(subj => {
         return subj.componentName === componentName && subj.propName === 'children'
       })?.propValue.next(newState)
     } else{
-      // todo ga na waarom de gewone properties niet doorvloeien
-      debugger
       for (let [k, v] of Object.entries(newState)) {
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
             return subj.componentName === componentName && subj.propName === k
@@ -189,24 +185,39 @@ export class ResponsiveBehaviourService implements OnInit{
     }
   }
   private setState(component: ComponentModelType, screenSize: number) {
+    debugger
+    // todo nagaan waarom de props voor de tabel zoals datarep niet lukken en wellicht de rest ook niet
     // alle config is aanwezig!
     this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize))
     this.setRBSState(component.name, component.size.getSizeRenderProperties(screenSize))
     this.setRBSState(component.name, component.individualLayout.getIndividualLayoutRenderProperties(screenSize))
     // todo this.setRBSState(component.name, component.overflow.getOverflowRenderProperties(screenSize))
     // todo  if (component.styling) this.setRBSState(component.name, component.styling.getStylingRenderProperties(screenSize))
-    if(component.dataRepresentation) this.setRBSState(component.name, component.dataRepresentation.getDataRepresentationRenderProperties(screenSize))
-    if(component.dataInput) this.setRBSState(component.name, component.dataInput.getDataInputRenderProperties(screenSize))
-    if(component.structural) this.setRBSState(component.name, component.structural.getStructuralRenderProperties(screenSize))
+    if(component.dataRepresentation) {
+      debugger
+      this.setRBSState(component.name, component.dataRepresentation.getDataRepresentationRenderProperties(screenSize))
+    }
+    if(component.dataInput){
+      debugger
+      this.setRBSState(component.name, component.dataInput.getDataInputRenderProperties(screenSize))
+    }
+    if(component.structural) {
+      debugger
+      this.setRBSState(component.name, component.structural.getStructuralRenderProperties(screenSize))
+    }
     if (component.componentSpecificLayout){
       //  todo undefined aanvaarden?
+      debugger
       this.setRBSState(component.name, component.componentSpecificLayout.getRenderProperties(screenSize))
     }
     if (component.children && component.children.length > 0) {
+      debugger
       this.setRBSState(component.name, component.children)
     }
     if (component.contentInjection){
+      debugger
       const contentInjection = component.contentInjection.getContentInjectionRenderProperties(screenSize)
+      debugger
       this.setRBSState(component.name, contentInjection)
     }
   }
