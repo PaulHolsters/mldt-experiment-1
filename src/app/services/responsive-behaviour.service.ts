@@ -59,6 +59,7 @@ export class ResponsiveBehaviourService implements OnInit{
       if (newState.childProps) {
         for (let [k, v] of Object.entries(newState.childProps)) {
           let parent = this.configService.getConfigFromRoot(componentName)
+          debugger
           if (parent?.children) {
             (parent.children as ComponentModelType[]).forEach(childComp => {
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
@@ -69,10 +70,13 @@ export class ResponsiveBehaviourService implements OnInit{
         }
       }
     } else if(newState instanceof Array){
+      debugger
       this.renderPropertiesService.getStatePropertySubjects().find(subj => {
         return subj.componentName === componentName && subj.propName === 'children'
       })?.propValue.next(newState)
     } else{
+      // todo ga na waarom de gewone properties niet doorvloeien
+      debugger
       for (let [k, v] of Object.entries(newState)) {
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
             return subj.componentName === componentName && subj.propName === k
@@ -185,6 +189,7 @@ export class ResponsiveBehaviourService implements OnInit{
     }
   }
   private setState(component: ComponentModelType, screenSize: number) {
+    // alle config is aanwezig!
     this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize))
     this.setRBSState(component.name, component.size.getSizeRenderProperties(screenSize))
     this.setRBSState(component.name, component.individualLayout.getIndividualLayoutRenderProperties(screenSize))

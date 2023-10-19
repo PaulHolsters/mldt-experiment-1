@@ -37,6 +37,7 @@ x:{key:string,value:number}
 
         //todo zie dat de binnenkomende data correct verwerkt wordt
         if(k===PropertyName.outputData){
+          debugger
           this.setPropValue(
             k,
             res,

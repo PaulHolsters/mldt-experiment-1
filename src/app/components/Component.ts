@@ -16,12 +16,6 @@ import {TextColorType} from "../enums/textColorType.enum";
 import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ClientDataService} from "../services/data/client/client-data.service";
-import {NoValueType} from "../enums/NoValueTypes.enum";
-import {Container} from "./container/Container";
-import {Icon} from "./icon/Icon";
-import {Button} from "./button/Button";
-import {Multiselect} from "./form/multiselect/Multiselect";
-import {RadioButtonGroup} from "./form/radio-button/RadioButtonGroup";
 @Directive()
 export class Component{
   @Input() public name!:string

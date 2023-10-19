@@ -10,7 +10,7 @@ import {ServerDataService} from "./data/server/server-data.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType, ComponentNameType, isDataLink} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, isComponentName, isDataLink} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {ConfirmationModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmationModel";
 import {ClientDataService} from "./data/client/client-data.service";
@@ -118,7 +118,7 @@ export class UiActionsService {
   private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string, target:EventTarget|undefined}) {
     debugger
     // todo fix : no value is possible !
-    if(res.effect.action.target){
+    if(isComponentName(res.effect.action.target,this.configService)){
       debugger
       const cd = this.clientDataService.getClientData(res.effect.action.target)
       debugger

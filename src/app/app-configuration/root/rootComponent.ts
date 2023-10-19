@@ -50,7 +50,7 @@ const actionBtn = new Button('edit-product-btn')
 actionBtn.structural.smartphone.setLabel('Edit').setIcon(new IconConfigModel(IconType.Pencil))
 // de eigenlijke tabel met de producten
 const mainTable = new Table('main-table')
-mainTable.styling.smartphone.setGridType(TableGridType.Row)
+mainTable.styling.smartphone.setGridType(TableGridType.ColumnAndRow)
 mainTable
   .setClientData(new ClientDataConfigModel('populate_table'))
   .contentInjection.smartphone

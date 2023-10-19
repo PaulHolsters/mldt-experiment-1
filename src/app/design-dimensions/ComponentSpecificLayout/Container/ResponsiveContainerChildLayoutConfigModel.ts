@@ -9,9 +9,6 @@ import {HorizontalRowLayoutConfigType} from "../../../enums/HorizontalRowLayoutC
 import {VerticalRowLayoutConfigType} from "../../../enums/VerticalRowLayoutConfigTypes.enum";
 import {VerticalColumnLayoutConfigType} from "../../../enums/VerticalColumnLayoutConfigTypes.enum";
 import {HorizontalColumnLayoutConfigType} from "../../../enums/HorizontalColumnLayoutConfigTypes.enum";
-import {CalculatedSizeConfigModel} from "../../Size/CalculatedSizeConfigModel";
-import {NonCalculatedSizeConfigModel} from "../../Size/NonCalculatedSizeConfigModel";
-import {ParentConfigType} from "../../../enums/ParentConfigTypes.enum";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {ChildPropertiesConfigModel} from "./ChildPropertiesConfigModel";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
@@ -62,30 +59,6 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
     const parentPropsObj = new ParentRenderPropertiesModel()
     const childPropsObj = new ChildPropertiesRenderModel()
     parentPropsObj.wrap = childLayoutConfig.layout.wrap
-    if(childLayoutConfig.layout.sizeOfChildren.dynamicSize!==NoValueType.NO_VALUE_NEEDED){
-      childPropsObj.grow = childLayoutConfig.layout.sizeOfChildren.dynamicSize.grow
-      childPropsObj.shrink = childLayoutConfig.layout.sizeOfChildren.dynamicSize.shrink
-    }
-    if(childLayoutConfig.layout.sizeOfChildren.width!==NoValueType.NO_VALUE_NEEDED) {
-      if(childLayoutConfig.layout.sizeOfChildren.width instanceof CalculatedSizeConfigModel){
-        childPropsObj.width = childLayoutConfig.layout.sizeOfChildren.width.value
-      } else if(childLayoutConfig.layout.sizeOfChildren.width instanceof NonCalculatedSizeConfigModel){
-        childPropsObj.width = childLayoutConfig.layout.sizeOfChildren.width.value+childLayoutConfig.layout.sizeOfChildren.width.unit
-      } else if(childLayoutConfig.layout.sizeOfChildren.width===ParentConfigType.static){
-        childPropsObj.width = childLayoutConfig.layout.sizeOfChildren.width
-        childPropsObj.calcWidth = childLayoutConfig.layout.sizeOfChildren.width
-      } else throw new Error('unimplemented option')
-    }
-    if(childLayoutConfig.layout.sizeOfChildren.height!==NoValueType.NO_VALUE_NEEDED) {
-      if(childLayoutConfig.layout.sizeOfChildren.height instanceof CalculatedSizeConfigModel){
-        childPropsObj.height = childLayoutConfig.layout.sizeOfChildren.height.value
-      } else if(childLayoutConfig.layout.sizeOfChildren.height instanceof NonCalculatedSizeConfigModel){
-        childPropsObj.height = childLayoutConfig.layout.sizeOfChildren.height.value+childLayoutConfig.layout.sizeOfChildren.height.unit
-      } else if(childLayoutConfig.layout.sizeOfChildren.height===ParentConfigType.static){
-        childPropsObj.height = childLayoutConfig.layout.sizeOfChildren.height
-        childPropsObj.calcHeight = childLayoutConfig.layout.sizeOfChildren.height
-      } else throw new Error('unimplemented option')
-    }
     if(childLayoutConfig.layout instanceof RowLayoutConfigModel){
       parentPropsObj.row = true
       parentPropsObj.column = false
@@ -116,11 +89,16 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
       parentPropsObj.alignItemsStretch = childLayoutConfig.layout.horizontalLayoutOfChildren === HorizontalColumnLayoutConfigType.Stretch
     }
     if(this.childConfig!==NoValueType.NO_VALUE_NEEDED){
-      if(this.childConfig.visibility){
-        const visibilityRenderModel = this.childConfig.visibility.getVisibilityRenderProperties(screenSize)
-        childPropsObj.holdSpace = visibilityRenderModel.holdSpace
-        childPropsObj.visible = visibilityRenderModel.visible
-      }
+      const visibilityRenderModel = this.childConfig.visibility.getVisibilityRenderProperties(screenSize)
+      childPropsObj.holdSpace = visibilityRenderModel.holdSpace
+      childPropsObj.visible = visibilityRenderModel.visible
+      const sizeRenderModel = this.childConfig.size.getSizeRenderProperties(screenSize)
+      childPropsObj.grow = sizeRenderModel.grow
+      childPropsObj.shrink = sizeRenderModel.shrink
+      childPropsObj.width = sizeRenderModel.width
+      childPropsObj.calcWidth = sizeRenderModel.calcWidth
+      childPropsObj.height = sizeRenderModel.height
+      childPropsObj.calcHeight = sizeRenderModel.calcHeight
     }
     return new ChildLayoutRenderModel(parentPropsObj, childPropsObj)
   }
