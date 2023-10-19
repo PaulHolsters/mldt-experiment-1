@@ -43,6 +43,7 @@ export class ResponsiveSizeConfigModel
     super()
   }
   public getSizeRenderProperties(screenSize: number): SizeRenderModel {
+    // todo fix omzetting
     const dimensionsConfig = this.getConfigModel(screenSize)
     const compPropsObj = new SizeRenderModel()
     if(dimensionsConfig.width!==NoValueType.NO_VALUE_NEEDED){
