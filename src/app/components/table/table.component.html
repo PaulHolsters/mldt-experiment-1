@@ -42,6 +42,7 @@
   (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
   dataKey="name"
   >
+  <!--todo al die no value strings mogen hier niet een s zijn -->
   <ng-template *ngIf="getPropValue(PropertyName.caption)" pTemplate="caption">
     <m-anchor  [component]="getPropValue(PropertyName.caption)"></m-anchor>
   </ng-template>

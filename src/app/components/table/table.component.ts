@@ -37,7 +37,6 @@ x:{key:string,value:number}
 
         //todo zie dat de binnenkomende data correct verwerkt wordt
         if(k===PropertyName.outputData){
-          debugger
           this.setPropValue(
             k,
             res,
@@ -45,6 +44,8 @@ x:{key:string,value:number}
             [{prop:PropertyName.currentDataList,use:PropertyName.outputData}]
           )
         } else{
+          // todo Hier komen no value needed zaken binnen wat niet mag dit moet null zijn
+          // todo ook voor de andere schermen is dat het geval ...
           this.setPropValue(k,res)
         }
       })
@@ -100,6 +101,8 @@ x:{key:string,value:number}
     let extraColumns= this.getPropValue(PropertyName.extraColumns)
     if(this.getPropValue(PropertyName.conceptBlueprint)
       && this.getPropValue(PropertyName.conceptBlueprint).properties?.properties){
+      // todo fix bug: de conceptBlueprint overschrijft de gegevens van de columns property!
+      debugger
       columns =
         Array.from((this.getPropValue(PropertyName.conceptBlueprint).properties.properties as Map<string,any>).keys()).map(k=>{
         return {field:k,header:k}
@@ -107,7 +110,10 @@ x:{key:string,value:number}
     }
     if(columns){
       if(extraColumns && extraColumns.length>0){
-        return columns.concat(extraColumns)
+        // todo de action column komt er niet bij in de html omdat deze van een andere snit is maar de data is er wel
+        const cols = columns.concat(extraColumns)
+        debugger
+        return cols
       }
       return columns
     }

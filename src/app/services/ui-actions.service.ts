@@ -85,9 +85,8 @@ export class UiActionsService {
     effect: Effect,
     data: Blueprint|[ComponentNameType,DataRecord|(DataRecord|null)[]]|ClientData|string,
     target: EventTarget | undefined}){
-    debugger
-    if(isClientData(res.data) && res.effect.action.target){
-      const dl = this.configService.getConfigFromRoot(res.effect.action.target)
+    if(isClientData(res.data)){
+      const dl = this.configService.getConfigFromRoot(res.data.name)
       if(dl && dl.clientData && isDataLink(res.effect.action.conceptName,this.configService)){
         // todo voeg interface voor getRenderProps toe
         const value = res.data.blueprint.getBlueprintValueForDataLink(res.effect.action.conceptName)
@@ -102,7 +101,7 @@ export class UiActionsService {
           = dl.dataRepresentation?.getDataRepresentationRenderProperties(this.RBS.screenSize,
           value)
         this.renderPropertiesService.getStatePropertySubjects().filter(sp=>{
-          return sp.componentName===res.effect.action.target
+          return sp.componentName===dl.name
         }).forEach(prop=>{
           if(input && prop.propName in input){
             prop.propValue.next(input[prop.propName])
@@ -116,27 +115,19 @@ export class UiActionsService {
     return true
   }
   private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string, target:EventTarget|undefined}) {
-    debugger
-    // todo fix : no value is possible !
     if(isComponentName(res.effect.action.target,this.configService)){
-      debugger
       const cd = this.clientDataService.getClientData(res.effect.action.target)
-      debugger
       this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
         return ps.componentName===cd?.name
       }).forEach(propSubj=>{
-        debugger
         switch (propSubj.propName){
           case PropertyName.outputData:
-            debugger
             propSubj.propValue.next(cd?.outputData)
             break
           case PropertyName.conceptBlueprint:
-            debugger
             propSubj.propValue.next(cd?.blueprint)
             break
           case PropertyName.dataLink:
-            debugger
             if(cd?.name && isDataLink(res.effect.action.conceptName,this.configService)) {
               propSubj.propValue.next(res.effect.action.conceptName)
             }
@@ -144,12 +135,10 @@ export class UiActionsService {
         }
       })
     } else{
-      debugger
       this.clientDataService.clientData.forEach(cd=>{
         this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
           return ps.componentName===cd.name
         }).forEach(propSubj=>{
-          debugger
           switch (propSubj.propName){
             case PropertyName.outputData:
               propSubj.propValue.next(cd.outputData)
