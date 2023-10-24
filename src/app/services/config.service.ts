@@ -192,7 +192,7 @@ export class ConfigService {
               }
               break
             default:
-
+            // todo verzamel alle compponenten per scherm
           }
           allComponents.concat(components)
         }
