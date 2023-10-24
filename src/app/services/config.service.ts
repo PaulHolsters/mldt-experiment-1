@@ -140,7 +140,7 @@ export class ConfigService {
     return this.convertToComponentModelTypes(this.appConfig?.userConfig)
   }*/
   getAllComponents(rootWithChildren?:boolean):ComponentModelType[] {
-    // todo fix zodat ook injected components erin komen
+    // todo fix zodat ook injected components erin komen: logisch aangezien enkel "children" prop bekeken wordt hier
     const allComponents:ComponentModelType[] = []
     const components = [...this.appConfig.userConfig.components]
     if(components.length===1){
