@@ -1,8 +1,11 @@
-import {ComponentModel} from "../../ComponentModel";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
+import {ComponentModelType} from "../../../types/union-types";
 
 export class MenubarContentInjectionConfigModel {
-  constructor( public start: ComponentModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED,
-               public end: ComponentModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED) {
+  constructor( public start: ComponentModelType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED,
+               public end: ComponentModelType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED) {
+  }
+  getComponents(){
+    return [this.start,this.end]
   }
 }

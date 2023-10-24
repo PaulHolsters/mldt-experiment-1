@@ -216,10 +216,7 @@ export class ResponsiveBehaviourService implements OnInit{
     }
   }
   public setComponentStates( screenSize: number) {
-    this.configService.getAllComponents(true).forEach(c=>{
-      // todo waarschijnlijk zitten content injected components hier niet bij
-      //      door de nieuwe configuratie aanpassingen moet dit nog aangepast worden!
-      debugger
+    this.configService.getAllComponents(this.screenSize,true).forEach(c=>{
       this.setState(c, screenSize)
     })
   }

@@ -346,7 +346,7 @@ export const isList = function isList(data:unknown):data is List{
   return data instanceof Array && (typeof data[0] === 'string' || data[0] === null ||
     (typeof data[0] === 'object' && !(data[0] instanceof Array) && 'id' in data[0] && '__typename' in data[0]))
 }
-export const isNoValueType = function isNoValueType(data:unknown){
+export const isNoValueType = function isNoValueType(data:unknown):data is NoValueType{
   return (
     data === NoValueType.NO_VALUE_ALLOWED ||
     data === NoValueType.CALCULATED_BY_ENGINE ||

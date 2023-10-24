@@ -2,10 +2,12 @@ import {Injectable} from '@angular/core';
 import AppConfig from "./appConfig";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {PropertyName} from '../enums/PropertyNameTypes.enum';
-import { Effect } from '../effectclasses/Effect';
+import {Effect} from '../effectclasses/Effect';
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {SystemEffects} from "../effectclasses/systemEffects";
-import {ComponentModelType} from "../types/union-types";
+import {ComponentModelType, isNoValueType} from "../types/union-types";
+import {ScreenSize} from "../enums/screenSizes.enum";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -139,8 +141,8 @@ export class ConfigService {
 /*  getAppTemplateData(): { components: ComponentModelType[], ef: ActionModel[] } | undefined {
     return this.convertToComponentModelTypes(this.appConfig?.userConfig)
   }*/
-  getAllComponents(rootWithChildren?:boolean):ComponentModelType[] {
-    // todo fix zodat ook injected components erin komen: logisch aangezien enkel "children" prop bekeken wordt hier
+  getAllComponents(screenSize?:ScreenSize,rootWithChildren?:boolean):ComponentModelType[] {
+    // part 1
     const allComponents:ComponentModelType[] = []
     const components = [...this.appConfig.userConfig.components]
     if(components.length===1){
@@ -160,6 +162,41 @@ export class ConfigService {
           if(child.children)children.unshift(...child.children)
         }
       }
+      // part 2
+      const allComponentsCopy = [...allComponents]
+      allComponentsCopy.forEach(c=>{
+        if(c.contentInjection){
+          let components = c.contentInjection.smartphone.getComponents()
+          switch (screenSize){
+            case ScreenSize.smartphone:
+              // todo herhaal alles voor de kinderen en content Injection can deze componenten
+              break
+            case ScreenSize.portraitTablet:
+              if(!isNoValueType(c.contentInjection.portraitTablet)){
+                components = c.contentInjection.portraitTablet.getComponents()
+              }
+              break
+            case ScreenSize.tablet:
+              if(!isNoValueType(c.contentInjection.tablet)){
+                components = c.contentInjection.tablet.getComponents()
+              }
+              break
+            case ScreenSize.laptop:
+              if(!isNoValueType(c.contentInjection.laptop)){
+                components = c.contentInjection.laptop.getComponents()
+              }
+              break
+            case ScreenSize.highResolution:
+              if(!isNoValueType(c.contentInjection.highResolution)){
+                components = c.contentInjection.highResolution.getComponents()
+              }
+              break
+            default:
+
+          }
+          allComponents.concat(components)
+        }
+      })
       return allComponents
     } else throw new Error('Er mag maar 1 root component zijn')
   }

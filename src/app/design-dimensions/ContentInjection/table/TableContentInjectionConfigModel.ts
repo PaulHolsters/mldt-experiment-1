@@ -1,22 +1,39 @@
 import {ComponentModel} from "../../ComponentModel";
 import {ExtraColumnModel} from "./ExtraColumnModel";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
+import {ComponentModelType, isNoValueType} from "../../../types/union-types";
 export class TableContentInjectionConfigModel {
-  public columnHeaderComponents: ComponentModel[]|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
-  public footer: ComponentModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
-  public caption: ComponentModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public columnHeaderComponents: ComponentModelType[]|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public footer: ComponentModelType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public caption: ComponentModelType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   public extraColumns:ExtraColumnModel[]|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   constructor() {
   }
-  setColumnHeaderComponents(columnHeaderComponents: ComponentModel[]|NoValueType.NO_VALUE_NEEDED){
+  getComponents(){
+    const arr:ComponentModelType[] = []
+    if(!isNoValueType(this.columnHeaderComponents)){
+      arr.concat(this.columnHeaderComponents)
+    }
+    if(!isNoValueType(this.footer)){
+      arr.concat(this.footer)
+    }
+    if(!isNoValueType(this.caption)){
+      arr.concat(this.caption)
+    }
+    if(!isNoValueType(this.extraColumns)){
+      arr.concat(this.extraColumns.map(ec=>ec.component))
+    }
+    return arr
+  }
+  setColumnHeaderComponents(columnHeaderComponents: ComponentModelType[]|NoValueType.NO_VALUE_NEEDED){
     this.columnHeaderComponents=columnHeaderComponents
     return this
   }
-  setFooter(footer: ComponentModel|NoValueType.NO_VALUE_NEEDED){
+  setFooter(footer: ComponentModelType|NoValueType.NO_VALUE_NEEDED){
     this.footer=footer
     return this
   }
-  setCaption(caption: ComponentModel|NoValueType.NO_VALUE_NEEDED){
+  setCaption(caption: ComponentModelType|NoValueType.NO_VALUE_NEEDED){
     this.caption=caption
     return this
   }

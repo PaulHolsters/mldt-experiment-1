@@ -1,6 +1,9 @@
-import {ComponentModel} from "../../ComponentModel";
+import {ComponentModelType} from "../../../types/union-types";
 
 export class DialogContentInjectionConfigModel {
-  constructor( public content: ComponentModel) {
+  constructor( public content: ComponentModelType) {
+  }
+  getComponents(){
+    return [this.content]
   }
 }
