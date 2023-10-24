@@ -16,6 +16,7 @@ export class AnchorComponent extends AbstractComponent implements OnInit,AfterCo
 
   }
   bindToStateProperty(componentName: string, property: string): Observable<string> {
+    // if(componentName==='edit-product-btn') debugger
     return this.storeService.bindToStateProperty(componentName, property) as Observable<string>
   }
 }

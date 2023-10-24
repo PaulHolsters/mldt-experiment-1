@@ -48,6 +48,7 @@ export class ResponsiveBehaviourService implements OnInit{
   public setRBSState(componentName: string,
                      newState: RenderModelType|
                        (ComponentModelType[])): void {
+    if(componentName==='edit-product-btn') debugger
     if (newState instanceof ChildLayoutRenderModel) {
       if (newState.parentProps) {
         for (let [k, v] of Object.entries(newState.parentProps)) {
@@ -73,8 +74,10 @@ export class ResponsiveBehaviourService implements OnInit{
         return subj.componentName === componentName && subj.propName === 'children'
       })?.propValue.next(newState)
     } else{
+      if(componentName==='edit-product-btn') debugger
       for (let [k, v] of Object.entries(newState)) {
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
+            if(k==='visible'&&subj.componentName==='edit-product-btn') debugger
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
       }
@@ -212,16 +215,13 @@ export class ResponsiveBehaviourService implements OnInit{
       this.setRBSState(component.name, contentInjection)
     }
   }
-
   public setComponentStates( screenSize: number) {
     this.configService.getAllComponents(true).forEach(c=>{
+      // todo waarschijnlijk zitten content injected components hier niet bij
+      //      door de nieuwe configuratie aanpassingen moet dit nog aangepast worden!
+      debugger
       this.setState(c, screenSize)
     })
-            //         todo de formulieren zitten nog niet in de dialoogboxen wat verklaart waarom ze niet naar boven komen
-                //          of leeg naar boven komen
-    /*this.configService.convertToComponentModels(this.configService.appConfig?.userConfig).components.forEach(comp => {
-      this.setState(comp, screenSize)
-    })*/
   }
 
 }

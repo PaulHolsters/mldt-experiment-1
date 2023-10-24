@@ -1,5 +1,6 @@
 import {DataRecord, isNoValueType} from "./union-types";
 import {ConfigService} from "../services/config.service";
+import {ExtraColumnModel} from "../design-dimensions/ContentInjection/table/ExtraColumnModel";
 
 export type ConceptNameType = string
 export type ComponentNameType = string
@@ -18,6 +19,13 @@ export const isConceptName = function isConceptName(data:unknown,config:ConfigSe
   return config.effects.map(eff=>{
     return eff.action.conceptName
   }).includes(data)
+}
+export const isExtraColumnModelArray = function isExtraColumnModelArray(data:unknown): data is ExtraColumnModel[]{
+  if(!(data instanceof Array)) return false
+  if(data.length===0) return true
+  return data.filter(it=>{
+    return !(it instanceof ExtraColumnModel)
+  }).length === 0
 }
 export const isDataLink = function isDataLink(data:unknown,config:ConfigService):data is DataLink{
 if(data instanceof Array && data.length===0) return true

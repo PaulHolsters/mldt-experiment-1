@@ -98,11 +98,9 @@ x:{key:string,value:number}
   }
   getColumns():TableColumnModel[]{
     let columns = this.getPropValue(PropertyName.columns)
-    let extraColumns= this.getPropValue(PropertyName.extraColumns)
+    let extraColumns = this.getPropValue(PropertyName.extraColumns)
     if(this.getPropValue(PropertyName.conceptBlueprint)
-      && this.getPropValue(PropertyName.conceptBlueprint).properties?.properties){
-      // todo fix bug: de conceptBlueprint overschrijft de gegevens van de columns property!
-      debugger
+      && this.getPropValue(PropertyName.conceptBlueprint).properties?.properties && !columns){
       columns =
         Array.from((this.getPropValue(PropertyName.conceptBlueprint).properties.properties as Map<string,any>).keys()).map(k=>{
         return {field:k,header:k}
@@ -110,18 +108,14 @@ x:{key:string,value:number}
     }
     if(columns){
       if(extraColumns && extraColumns.length>0){
-        // todo de action column komt er niet bij in de html omdat deze van een andere snit is maar de data is er wel
-        const cols = columns.concat(extraColumns)
-        debugger
-        return cols
+        return columns.concat(extraColumns)
       }
       return columns
     }
     return []
   }
-// todo: bepalen hoe je configuratiegewijs omgaat gaan met niet primitieve data
-  // todo maak dat je kan aangeven hoe de data getoond wordt bv. als EUR, maw introduceer
-  //      de mogelijkheid van datapresentatie
+// todo zie dat als je het datamodelleren uitwerkt je eenzelfde configuratie nooit twee keer moet doen
+//  één keer in de backend en nogmaals in de frontend
   ngAfterViewInit(): void {
     this.cd.detectChanges()
   }

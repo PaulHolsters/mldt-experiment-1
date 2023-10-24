@@ -57,7 +57,9 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
       <td *ngFor="let column of columns">
-        {{ rowData[column['field']] }} <m-anchor *ngIf="column['anchor']" [data]="[name,rowData]" [component]="column['anchor']"></m-anchor>
+        <!-- todo is anchor nog relevant? of nog beter is extraColumns eigenlijk wel nodig?-->
+        {{ rowData[column['field']] }}
+        <m-anchor *ngIf="column['component']" [data]="[name,rowData]" [component]="column['component']"></m-anchor>
       </td>
     </tr>
   </ng-template>

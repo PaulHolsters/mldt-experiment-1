@@ -23,10 +23,11 @@ export abstract class Table extends Component{
   public static visible: boolean|null=null
   public static holdSpace: boolean|null=null
   public static columns:TableColumnModel[]|null=null
-  public static extraColumns:TableColumnModel[]|null=null
+  public static extraColumns:(TableColumnModel & {component:ComponentModel})[]|null=null
 
   public static outputData:DataRecord[]|null=null
   public static conceptBlueprint:Blueprint|null=null
+
   public static data: any|null=null
   public static currentDataList:DataRecord[]|null=null
 
