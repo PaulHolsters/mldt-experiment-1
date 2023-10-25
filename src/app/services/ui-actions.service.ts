@@ -42,6 +42,7 @@ export class UiActionsService {
   public bindActions(){
     this.actionsService.bindToAction(new Action('',ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res=>{
       if(res){
+        // todo hoe komt dat de trigger 9 1 3 hier afspeelt?
         debugger
         const action = this.setConfigValueAndRebuild(res.effect.action)
         if(action){
@@ -66,7 +67,9 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('',ActionType.UpdateDataRelatedProperties))?.subscribe(res=>{
+      debugger
       if(res){
+        debugger
         const action = this.updateDataRelatedProps(res)
         if(action){
           this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})

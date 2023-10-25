@@ -28,7 +28,7 @@ export class Action {
         this.targetType = TargetType.Client
         break
       case ActionType.CreateStore:
-        this.service = ServiceType.UpdateViewService
+        this.service = ServiceType.RenderPropertiesService
         this.serviceMethod = ServiceMethodType.CreateStore
         this.targetType = TargetType.Client
         break
@@ -44,8 +44,7 @@ export class Action {
         break
       case ActionType.UpdateDataRelatedProperties:
         this.service = ServiceType.UIService
-        // todo => hoeveel nut heeft dit eigenlijk?
-        this.serviceMethod = ServiceMethodType.SetData
+        this.serviceMethod = ServiceMethodType.UpdateDataRelatedProperties
         this.targetType = TargetType.Client
         break
       case ActionType.GetInstance:
@@ -105,7 +104,7 @@ export class Action {
         break
       case ActionType.UpdateDataProperties:
         this.service = ServiceType.UIService
-        this.serviceMethod = ServiceMethodType.SetConfigValueAndRebuild
+        this.serviceMethod = ServiceMethodType.UpdateDataProperties
         this.targetType = TargetType.Client
         break
       case ActionType.SetLocalConfigurationValueAndRebuild:

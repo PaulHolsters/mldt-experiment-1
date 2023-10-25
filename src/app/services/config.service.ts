@@ -7,6 +7,7 @@ import {ServiceType} from "../enums/serviceTypes.enum";
 import {SystemEffects} from "../effectclasses/systemEffects";
 import {ComponentModelType, isNoValueType} from "../types/union-types";
 import {ScreenSize} from "../enums/screenSizes.enum";
+import {NoValueType} from "../enums/NoValueTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -174,9 +175,15 @@ export class ConfigService {
           [key: string]: any
         } | undefined = c.contentInjection
         if(screenSize){
-          // todo hier is het resultaat afhankelijk van het scherm dus soms ook CALCULATED BY ENGINE
-          //      dat moet je hier dan ook doen!
-          arr = injection[ScreenSize[screenSize]].getComponents()
+          let lastScreenSize:ScreenSize = screenSize
+          while (lastScreenSize >= 0) {
+            if(injection[ScreenSize[lastScreenSize]]===NoValueType.CALCULATED_BY_ENGINE){
+              lastScreenSize--
+            } else{
+              arr = injection[ScreenSize[lastScreenSize]].getComponents()
+              lastScreenSize=-1
+            }
+          }
         } else{
           arr = arr.concat(c.contentInjection.smartphone.getComponents())
           if(!isNoValueType(c.contentInjection.portraitTablet)){

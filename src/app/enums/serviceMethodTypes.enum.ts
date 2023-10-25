@@ -13,9 +13,10 @@ export enum ServiceMethodType {
   ExecuteCustomFunction,
   SetConfirmation,
   CreateClientData,
-  SetData,
   GetClientData,
   CreateInstance,
   DeleteClientData,
-  CreateStore
+  CreateStore,
+  UpdateDataRelatedProperties,
+  UpdateDataProperties,
 }
