@@ -9,7 +9,7 @@ export class TableContentInjectionConfigModel {
   public extraColumns:ExtraColumnModel[]|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   constructor() {
   }
-  getComponents(){
+  getComponents():ComponentModelType[]{
     const arr:ComponentModelType[] = []
     if(!isNoValueType(this.columnHeaderComponents)){
       arr.concat(this.columnHeaderComponents)

@@ -158,48 +158,90 @@ export class ConfigService {
   /*  getAppTemplateData(): { components: ComponentModelType[], ef: ActionModel[] } | undefined {
       return this.convertToComponentModelTypes(this.appConfig?.userConfig)
     }*/
+  private getChildComponents(component: ComponentModelType) {
+
+  }
+
+  private getAllChildren(c: ComponentModelType) {
+    const getAllDirectChildrenViaDDChildren = function (c: ComponentModelType): ComponentModelType[] {
+      // todo
+    }
+    const getAllDirectChildrenViaDDContentInjection = function (c: ComponentModelType): ComponentModelType[] {
+      // todo
+    }
+    return getAllDirectChildrenViaDDChildren(c).concat(getAllDirectChildrenViaDDContentInjection(c))
+  }
+
   getAllComponents(screenSize?: ScreenSize, rootWithChildren?: boolean): ComponentModelType[] {
     const allComponents: ComponentModelType[] = []
     const components = [...this.appConfig.userConfig.components]
-    let children: ComponentModelType[] | undefined
+    let root
     if (components.length === 1) {
-      // part 1: de root plus alle kinderen van de root en van elk van deze kinderen weer de kinderen indien gevraagd, anders enkel root
-      const root = {...components[0]} as ComponentModelType
-      if (!rootWithChildren) {
-        const rootNoChildren = {...components[0]} as ComponentModelType
-        delete rootNoChildren.children
-        allComponents.push(rootNoChildren)
-      } else {
-        children = root.children ? [...root.children] : undefined
-        delete root.children
-        allComponents.push(root)
-        if (children) {
-          while (children.length > 0) {
-            const child: ComponentModelType = children.pop() as ComponentModelType
-            if (child.children) children.unshift(...child.children)
-            delete child.children
-            allComponents.push(child)
-          }
-        }
-      }
-      // part 2: van alle gevonden kinderen en de root de componenten via content injection
-      const components2: ComponentModelType[] = []
-      allComponents.forEach(c => {
-        if (c.contentInjection) {
-          const injection: {
-            [key: string]: any
-          } | undefined = c.contentInjection
-          if (screenSize) {
-            const componentsTemp = injection[ScreenSize[screenSize]].getComponents()
-            components2.concat(componentsTemp)
-          } else{
-            // todo ga elke screensize af op zoek naar een component
-          }
-        }
-      })
-      allComponents.concat(components2)
-      return allComponents
+      root = components[0]
     } else throw new Error('Er mag maar 1 root component zijn')
+    const directChildren = this.getAllChildren(root)
+    delete root.children
+    allComponents.push(root)
+    while (directChildren.length > 0) {
+      const child = directChildren.pop() as ComponentModelType
+      const children = this.getAllChildren(child)
+      delete child.children
+      allComponents.push(child)
+      directChildren.unshift(...children)
+    }
+    /*    let children: ComponentModelType[] | undefined
+        if (components.length === 1) {
+          // part 1: de root plus alle kinderen van de root en van elk van deze kinderen weer de kinderen indien gevraagd, anders enkel root
+          const root = {...components[0]} as ComponentModelType
+          if (!rootWithChildren) {
+            const rootNoChildren = {...components[0]} as ComponentModelType
+            delete rootNoChildren.children
+            allComponents.push(rootNoChildren)
+          } else {
+            children = root.children ? [...root.children] : undefined
+            delete root.children
+            allComponents.push(root)
+            if (children) {
+              while (children.length > 0) {
+                const child: ComponentModelType = children.pop() as ComponentModelType
+                if (child.children) children.unshift(...child.children)
+                delete child.children
+                allComponents.push(child)
+              }
+            }
+          }
+          // part 2: van alle gevonden kinderen en de root de componenten via content injection
+          const components2: ComponentModelType[] = []
+          allComponents.forEach(c => {
+            if (c.contentInjection) {
+              const injection: {
+                [key: string]: any
+              } | undefined = c.contentInjection
+              if (screenSize) {
+                const componentsTemp:ComponentModelType[] = injection[ScreenSize[screenSize]].getComponents()
+                while(componentsTemp.length>0){
+                  const child: ComponentModelType = componentsTemp.pop() as ComponentModelType
+                  if(child.children){
+                    children = [...child.children]
+                    while (children.length > 0) {
+                      const child: ComponentModelType = children.pop() as ComponentModelType
+                      if (child.children) children.unshift(...child.children)
+                      delete child.children
+                      allComponents.push(child)
+                    }
+                  }
+                  if(child.contentInjection){
+
+                  }
+                }
+                components2.concat([...componentsTemp])
+              } else{
+                // todo ga elke screensize af op zoek naar een component
+              }
+            }
+          })
+          allComponents.concat(components2)*/
+    return allComponents
   }
 }
 
