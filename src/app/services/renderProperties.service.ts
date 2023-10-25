@@ -10,6 +10,7 @@ import {ActionIdType} from "../types/type-aliases";
 import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubject";
 import {CalculationModel} from "../design-dimensions/CalculationModel";
 import {ComponentModelType, OutputData, RenderModelType} from "../types/union-types";
+import {ComponentType} from "../enums/componentTypes.enum";
 
 @Injectable({
   providedIn: 'root'

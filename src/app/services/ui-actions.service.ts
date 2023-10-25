@@ -12,14 +12,11 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType, ComponentNameType, isComponentName, isDataLink} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
-import {ConfirmationModel} from "../design-dimensions/StructuralConfig/confirm-popup/ConfirmationModel";
 import {ClientDataService} from "./data/client/client-data.service";
 import {Effect} from "../effectclasses/Effect";
 import {Blueprint} from "./data/client/Blueprint";
 import {ClientData} from "./data/client/ClientData";
-import {NoValueType} from "../enums/NoValueTypes.enum";
 import {DataRecord, isClientData, List} from "../types/union-types";
-import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +39,6 @@ export class UiActionsService {
   public bindActions(){
     this.actionsService.bindToAction(new Action('',ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res=>{
       if(res){
-        // todo hoe komt dat de trigger 9 1 3 hier afspeelt?
-        debugger
         const action = this.setConfigValueAndRebuild(res.effect.action)
         if(action){
           this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
@@ -67,9 +62,7 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('',ActionType.UpdateDataRelatedProperties))?.subscribe(res=>{
-      debugger
       if(res){
-        debugger
         const action = this.updateDataRelatedProps(res)
         if(action){
           this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
