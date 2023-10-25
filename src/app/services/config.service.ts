@@ -14,38 +14,46 @@ import {ScreenSize} from "../enums/screenSizes.enum";
 export class ConfigService {
   constructor() {
   }
+
   public saveConfig(config: AppConfig) {
     this._appConfig.push(config)
   }
+
   public get appConfig(): AppConfig {
     if (this._appConfig.length > 0) return this._appConfig[this._appConfig.length - 1]
     throw new Error('appConfig requested when not yet initialised')
   }
+
   private _appConfig: AppConfig[] = []
-  public getEffectsForComponent(name: string): Effect[]{
-    return this.appConfig.userConfig.effects.filter((effect:Effect) => {
+
+  public getEffectsForComponent(name: string): Effect[] {
+    return this.appConfig.userConfig.effects.filter((effect: Effect) => {
       return effect.action.target === name
-    }).concat(...SystemEffects.getSystemEffects().filter((effect:Effect) => {
+    }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
       return effect.action.target === name
     }))
   }
-  public get effects(){
+
+  public get effects() {
     return this.appConfig.userConfig.effects.concat(...SystemEffects.getSystemEffects())
   }
+
   public getEffectsForTrigger(trigger: TriggerType) {
     return this.appConfig.userConfig.effects.filter((effect: Effect) => {
       return effect.trigger.name === trigger
-    }).concat(...SystemEffects.getSystemEffects().filter((effect:Effect) => {
+    }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
       return effect.trigger.name === trigger
     }))
   }
-  public getEffectsForEvent(trigger: TriggerType,source:string|ServiceType):Effect[] {
+
+  public getEffectsForEvent(trigger: TriggerType, source: string | ServiceType): Effect[] {
     return this.appConfig.userConfig.effects.filter((effect) => {
-      return effect.trigger.name === trigger && effect.trigger.source===source
-    }).concat(...SystemEffects.getSystemEffects().filter((effect:Effect) => {
-      return effect.trigger.name === trigger && effect.trigger.source===source
+      return effect.trigger.name === trigger && effect.trigger.source === source
+    }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
+      return effect.trigger.name === trigger && effect.trigger.source === source
     }))
   }
+
   /*
   * export const RootComponent = new AppConfig({
   components: [
@@ -56,25 +64,27 @@ export class ConfigService {
   * */
   public getConfigFromComponent(nameComponent: string, component: ComponentModelType): ComponentModelType | undefined {
     if (component.name === nameComponent) return component
-    if(!component.children) return undefined
+    if (!component.children) return undefined
     const arr: ComponentModelType[] = [...component.children]
     while (arr.length > 0) {
       const child: ComponentModelType = arr.pop() as ComponentModelType
       if (child.name === nameComponent) return child
-      if(child.children)
-      arr.unshift(...child.children)
+      if (child.children)
+        arr.unshift(...child.children)
     }
     return undefined
   }
+
   public getConfigFromRoot(nameComponent: string): ComponentModelType | undefined {
     if ((this.appConfig.userConfig).components.length !== 1) throw new Error('Only one root component named content-container is allowed')
     return this.getConfigFromComponent(nameComponent, (this.appConfig.userConfig).components[0])
   }
+
   public getParentConfig(nameComponent: string, component: ComponentModelType): ComponentModelType | undefined {
     if (component.name === nameComponent) return undefined
-    const getParentWithChildren = (parent: ComponentModelType): [ComponentModelType,ComponentModelType][] => {
-      const arr: [ComponentModelType,ComponentModelType][] = []
-      if(parent.children){
+    const getParentWithChildren = (parent: ComponentModelType): [ComponentModelType, ComponentModelType][] => {
+      const arr: [ComponentModelType, ComponentModelType][] = []
+      if (parent.children) {
         // todo via contentInjection heb je ook nog parents
         for (let child of parent.children) {
           arr.push([parent, child])
@@ -90,11 +100,13 @@ export class ConfigService {
     }
     return undefined
   }
+
   public getParentConfigFromRoot(nameComponent: string): ComponentModelType | undefined {
     if (this.appConfig.userConfig.components.length !== 1) throw new Error('Only one root component named content-container is allowed')
     if (this.appConfig.userConfig.components[0].name === nameComponent) return undefined
     return this.getParentConfig(nameComponent, this.appConfig.userConfig.components[0])
   }
+
   public isAncestor(nameComponent: string, nameAncestor: string): boolean {
     let parent = this.getParentConfigFromRoot(nameComponent)
     while (parent && parent.name !== nameAncestor) {
@@ -102,6 +114,7 @@ export class ConfigService {
     }
     return parent !== undefined
   }
+
   public getFirstAncestorConfigWithProperty(nameComponent: string, component: ComponentModelType, property: PropertyName)
     : ComponentModelType | undefined {
     let parent = this.getParentConfig(nameComponent, component)
@@ -110,10 +123,12 @@ export class ConfigService {
     }
     return parent
   }
+
   public getFirstAncestorConfigWithPropertyFromRoot(nameComponent: string, property: PropertyName): ComponentModelType | undefined {
     if (this.appConfig.userConfig.components.length !== 1) throw new Error('Only one root component named content-container is allowed')
     return this.getFirstAncestorConfigWithProperty(nameComponent, this.appConfig.userConfig.components[0], property)
   }
+
   isSubComponent(nameSubcomponent: string, nameParentComponent: string): boolean {
     const subComponent = this.getConfigFromRoot(nameSubcomponent)
     if (!subComponent) throw new Error('subcomponent does not exist')
@@ -123,84 +138,75 @@ export class ConfigService {
     }
     return parentOfSub !== undefined
   }
-/*  getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel): any {
-    let lastScreenSize = screenSize
-    const stateModelObj = Object.create(attributes)
-    while (lastScreenSize >= 0) {
-      if (stateModelObj[ScreenSize[lastScreenSize]]) {
-        const prop = Object.keys(stateModelObj[ScreenSize[lastScreenSize]]).find(key => {
-          return key === confirmationModel
-        })
-        if (prop) return stateModelObj[ScreenSize[lastScreenSize]][prop]
+
+  /*  getAttributeValue(screenSize: ScreenSize, confirmationModel: PropertyName, attributes: ResponsiveAttributesConfigModel): any {
+      let lastScreenSize = screenSize
+      const stateModelObj = Object.create(attributes)
+      while (lastScreenSize >= 0) {
+        if (stateModelObj[ScreenSize[lastScreenSize]]) {
+          const prop = Object.keys(stateModelObj[ScreenSize[lastScreenSize]]).find(key => {
+            return key === confirmationModel
+          })
+          if (prop) return stateModelObj[ScreenSize[lastScreenSize]][prop]
+        }
+        lastScreenSize--
       }
-      lastScreenSize--
-    }
-    throw new Error('No screensize configuration was found for given ResponsiveTableConfigModel and' +
-      ' property ' + confirmationModel + ' and screen ' + ScreenSize[screenSize])
-  }*/
-/*  getAppTemplateData(): { components: ComponentModelType[], ef: ActionModel[] } | undefined {
-    return this.convertToComponentModelTypes(this.appConfig?.userConfig)
-  }*/
-  getAllComponents(screenSize?:ScreenSize,rootWithChildren?:boolean):ComponentModelType[] {
-    // part 1
-    const allComponents:ComponentModelType[] = []
+      throw new Error('No screensize configuration was found for given ResponsiveTableConfigModel and' +
+        ' property ' + confirmationModel + ' and screen ' + ScreenSize[screenSize])
+    }*/
+
+  /*  getAppTemplateData(): { components: ComponentModelType[], ef: ActionModel[] } | undefined {
+      return this.convertToComponentModelTypes(this.appConfig?.userConfig)
+    }*/
+  getAllComponents(screenSize?: ScreenSize, rootWithChildren?: boolean): ComponentModelType[] {
+    const allComponents: ComponentModelType[] = []
     const components = [...this.appConfig.userConfig.components]
-    if(components.length===1){
+    let children: ComponentModelType[] | undefined
+    if (components.length === 1) {
+      // part 1: de root plus alle kinderen van de root en van elk van deze kinderen weer de kinderen indien gevraagd, anders enkel root
       const root = {...components[0]} as ComponentModelType
-      if(!rootWithChildren){
+      if (!rootWithChildren) {
         const rootNoChildren = {...components[0]} as ComponentModelType
         delete rootNoChildren.children
         allComponents.push(rootNoChildren)
-      } else{
+      } else {
+        children = root.children ? [...root.children] : undefined
+        delete root.children
         allComponents.push(root)
-      }
-      const children:ComponentModelType[]|undefined=root.children ? [...root.children] : undefined
-      if (children){
-        while(children.length>0){
-          const child:ComponentModelType = children.pop() as ComponentModelType
-          allComponents.push(child)
-          if(child.children)children.unshift(...child.children)
+        if (children) {
+          while (children.length > 0) {
+            const child: ComponentModelType = children.pop() as ComponentModelType
+            if (child.children) children.unshift(...child.children)
+            delete child.children
+            allComponents.push(child)
+          }
         }
       }
-      // part 2
-      const allComponentsCopy = [...allComponents]
-      allComponentsCopy.forEach(c=>{
-        if(c.contentInjection){
-          let components = c.contentInjection.smartphone.getComponents()
-          switch (screenSize){
-            case ScreenSize.smartphone:
-              // todo herhaal alles voor de kinderen en content Injection can deze componenten
-              break
-            case ScreenSize.portraitTablet:
-              if(!isNoValueType(c.contentInjection.portraitTablet)){
-                components = c.contentInjection.portraitTablet.getComponents()
-              }
-              break
-            case ScreenSize.tablet:
-              if(!isNoValueType(c.contentInjection.tablet)){
-                components = c.contentInjection.tablet.getComponents()
-              }
-              break
-            case ScreenSize.laptop:
-              if(!isNoValueType(c.contentInjection.laptop)){
-                components = c.contentInjection.laptop.getComponents()
-              }
-              break
-            case ScreenSize.highResolution:
-              if(!isNoValueType(c.contentInjection.highResolution)){
-                components = c.contentInjection.highResolution.getComponents()
-              }
-              break
-            default:
-            // todo verzamel alle compponenten per scherm
+      // part 2: van alle gevonden kinderen en de root de componenten via content injection
+      const components2: ComponentModelType[] = []
+      allComponents.forEach(c => {
+        if (c.contentInjection) {
+          const injection: {
+            [key: string]: any
+          } | undefined = c.contentInjection
+          if (screenSize) {
+            const componentsTemp = injection[ScreenSize[screenSize]].getComponents()
+            components2.concat(componentsTemp)
+          } else{
+            // todo ga elke screensize af op zoek naar een component
           }
-          allComponents.concat(components)
         }
       })
+      allComponents.concat(components2)
       return allComponents
     } else throw new Error('Er mag maar 1 root component zijn')
   }
 }
+
+function keyof(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+
 /*  private resolve(value: CalculationModel): MixedArrayModel {
     let paramsArr: MixedArrayModel = []
     for (let v of value.values) {
