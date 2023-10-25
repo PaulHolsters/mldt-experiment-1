@@ -48,7 +48,6 @@ export class ResponsiveBehaviourService implements OnInit{
   public setRBSState(componentName: string,
                      newState: RenderModelType|
                        (ComponentModelType[])): void {
-    if(componentName==='edit-product-btn') debugger
     if (newState instanceof ChildLayoutRenderModel) {
       if (newState.parentProps) {
         for (let [k, v] of Object.entries(newState.parentProps)) {
@@ -74,10 +73,8 @@ export class ResponsiveBehaviourService implements OnInit{
         return subj.componentName === componentName && subj.propName === 'children'
       })?.propValue.next(newState)
     } else{
-      if(componentName==='edit-product-btn') debugger
       for (let [k, v] of Object.entries(newState)) {
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-            if(k==='visible'&&subj.componentName==='edit-product-btn') debugger
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
       }
@@ -216,7 +213,7 @@ export class ResponsiveBehaviourService implements OnInit{
     }
   }
   public setComponentStates( screenSize: number) {
-    this.configService.getAllComponents(this.screenSize,true).forEach(c=>{
+    this.configService.getAllComponents(this.screenSize).forEach(c=>{
       this.setState(c, screenSize)
     })
   }

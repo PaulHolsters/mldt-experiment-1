@@ -10,18 +10,18 @@ export class TableContentInjectionConfigModel {
   constructor() {
   }
   getComponents():ComponentModelType[]{
-    const arr:ComponentModelType[] = []
+    let arr:ComponentModelType[] = []
     if(!isNoValueType(this.columnHeaderComponents)){
-      arr.concat(this.columnHeaderComponents)
+      arr = arr.concat(this.columnHeaderComponents)
     }
     if(!isNoValueType(this.footer)){
-      arr.concat(this.footer)
+      arr = arr.concat(this.footer)
     }
     if(!isNoValueType(this.caption)){
-      arr.concat(this.caption)
+      arr = arr.concat(this.caption)
     }
     if(!isNoValueType(this.extraColumns)){
-      arr.concat(this.extraColumns.map(ec=>ec.component))
+      arr = arr.concat(this.extraColumns.map(ec=>ec.component))
     }
     return arr
   }

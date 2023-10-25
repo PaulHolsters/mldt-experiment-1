@@ -162,53 +162,53 @@ export class ConfigService {
 
   }
 
-  private getAllChildren(c: ComponentModelType) {
+  private getAllChildren(c: ComponentModelType,screenSize?:ScreenSize) {
     const getAllDirectChildrenViaDDChildren = function (c: ComponentModelType): ComponentModelType[] {
       if(c.children) return c.children
       else return []
     }
     const getAllDirectChildrenViaDDContentInjection = function (c: ComponentModelType,screenSize?:ScreenSize): ComponentModelType[] {
-      const arr:ComponentModelType[] = []
+      let arr:ComponentModelType[] = []
       if(c.contentInjection){
         const injection: {
           [key: string]: any
         } | undefined = c.contentInjection
         if(screenSize){
-          return injection[ScreenSize[screenSize]].getComponents()
+          arr = injection[ScreenSize[screenSize]].getComponents()
         } else{
-          arr.concat(c.contentInjection.smartphone.getComponents())
+          arr = arr.concat(c.contentInjection.smartphone.getComponents())
           if(!isNoValueType(c.contentInjection.portraitTablet)){
-            arr.concat(c.contentInjection.portraitTablet.getComponents())
+            arr = arr.concat(c.contentInjection.portraitTablet.getComponents())
           }
           if(!isNoValueType(c.contentInjection.tablet)){
-            arr.concat(c.contentInjection.tablet.getComponents())
+            arr = arr.concat(c.contentInjection.tablet.getComponents())
           }
           if(!isNoValueType(c.contentInjection.laptop)){
-            arr.concat(c.contentInjection.laptop.getComponents())
+            arr = arr.concat(c.contentInjection.laptop.getComponents())
           }
           if(!isNoValueType(c.contentInjection.highResolution)){
-            arr.concat(c.contentInjection.highResolution.getComponents())
+            arr = arr.concat(c.contentInjection.highResolution.getComponents())
           }
         }
       }
       return arr
     }
-    return getAllDirectChildrenViaDDChildren(c).concat(getAllDirectChildrenViaDDContentInjection(c))
+    return getAllDirectChildrenViaDDChildren(c).concat(getAllDirectChildrenViaDDContentInjection(c,screenSize))
   }
 
-  getAllComponents(screenSize?: ScreenSize, rootWithChildren?: boolean): ComponentModelType[] {
+  getAllComponents(screenSize?: ScreenSize): ComponentModelType[] {
     const allComponents: ComponentModelType[] = []
     const components = [...this.appConfig.userConfig.components]
     let root
     if (components.length === 1) {
-      root = components[0]
+      root = Object.assign({},components[0])
     } else throw new Error('Er mag maar 1 root component zijn')
-    const directChildren = this.getAllChildren(root)
+    const directChildren = this.getAllChildren(root,screenSize)
     delete root.children
     allComponents.push(root)
     while (directChildren.length > 0) {
       const child = directChildren.pop() as ComponentModelType
-      const children = this.getAllChildren(child)
+      const children = this.getAllChildren(child,screenSize)
       delete child.children
       allComponents.push(child)
       directChildren.unshift(...children)
