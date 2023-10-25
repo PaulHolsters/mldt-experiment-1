@@ -184,7 +184,7 @@ export class ResponsiveBehaviourService implements OnInit{
       this.setComponentStates(ScreenSize.highResolution)
     }
   }
-  private setState(component: ComponentModelType, screenSize: number) {
+  private setState(component: ComponentModelType, screenSize: ScreenSize) {
     // todo data related props worden geupdate in andere service en moeten er hier dus uit
     // alle config is aanwezig!
     this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize))
@@ -212,7 +212,7 @@ export class ResponsiveBehaviourService implements OnInit{
       this.setRBSState(component.name, contentInjection)
     }
   }
-  public setComponentStates( screenSize: number) {
+  public setComponentStates( screenSize: ScreenSize) {
     this.configService.getAllComponents(this.screenSize).forEach(c=>{
       this.setState(c, screenSize)
     })

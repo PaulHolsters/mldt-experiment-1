@@ -174,6 +174,8 @@ export class ConfigService {
           [key: string]: any
         } | undefined = c.contentInjection
         if(screenSize){
+          // todo hier is het resultaat afhankelijk van het scherm dus soms ook CALCULATED BY ENGINE
+          //      dat moet je hier dan ook doen!
           arr = injection[ScreenSize[screenSize]].getComponents()
         } else{
           arr = arr.concat(c.contentInjection.smartphone.getComponents())
@@ -204,12 +206,10 @@ export class ConfigService {
       root = Object.assign({},components[0])
     } else throw new Error('Er mag maar 1 root component zijn')
     const directChildren = this.getAllChildren(root,screenSize)
-    delete root.children
     allComponents.push(root)
     while (directChildren.length > 0) {
       const child = directChildren.pop() as ComponentModelType
       const children = this.getAllChildren(child,screenSize)
-      delete child.children
       allComponents.push(child)
       directChildren.unshift(...children)
     }

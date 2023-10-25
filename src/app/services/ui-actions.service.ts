@@ -42,6 +42,7 @@ export class UiActionsService {
   public bindActions(){
     this.actionsService.bindToAction(new Action('',ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res=>{
       if(res){
+        debugger
         const action = this.setConfigValueAndRebuild(res.effect.action)
         if(action){
           this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
@@ -159,7 +160,9 @@ export class UiActionsService {
   }
   private setConfigValueAndRebuild(action:Action){
     const currentAppConfig = this.configService.appConfig
+    debugger
     if(currentAppConfig){
+      // todo fix bug
       let config = this.configService.getConfigFromRoot(action.target)
       if(!config) throw new Error('action was not configured correctly')
       if(config.replace && (action.value instanceof ActionValueModel)){
