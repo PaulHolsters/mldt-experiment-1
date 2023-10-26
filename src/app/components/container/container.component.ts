@@ -1,7 +1,7 @@
 import {AfterContentChecked, Component, ElementRef,  OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {TriggerType} from "../../enums/triggerTypes.enum";
-import {RootComponent} from "../../app-configuration/root/rootComponent";
+import {RootComponent} from "../../app-configuration/app2/rootComponent";
 import {Component as AbstractComponent} from "../Component"
 import {Container} from "../../componentclasses/Container";
 

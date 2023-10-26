@@ -13,7 +13,7 @@ import {formControl1} from "./formControl1";
 import {formControl2} from "./formControl2";
 import {ResponsiveAttributesConfigModel} from "../../models/component-specific-config/ResponsiveTableConfigModel";
 import {VisibilityConfigModel} from "../../models/Visibility/SpacingConfigModel";
-import {conceptModel} from "../root/appDataModel";
+import {conceptModel} from "../app2/root/appDataModel";
 import {formControl3} from "./formControl3";
 import {formControl4} from "./formControl4";
 import {ResponsiveOverflowConfigModel} from "../../models/Overflow/self/ResponsiveOverflowConfigModel";

@@ -64,6 +64,7 @@ export class ClientDataService {
       debugger
       if(res){
         const target = res.effect.action.target
+        // todo fix bug: de component "edit-product-text-input" werd niet gevonden in de configuratie
         if (isComponentName(target,this.configService)) {
           const clientData = this.getClientData(target)
           if (!clientData) {
@@ -122,7 +123,7 @@ export class ClientDataService {
           //  target = CALC => todo te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
           // daarna indien nodig weer de andere takken
           // de output is voor beiden gelijk
-        } else throw new Error('Invalid target defined in action')
+        } else throw new Error('Invalid target defined in action. target: '+target)
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
     })

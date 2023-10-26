@@ -65,13 +65,12 @@ export class ConfigService {
   * */
   public getConfigFromComponent(nameComponent: string, component: ComponentModelType): ComponentModelType | undefined {
     if (component.name === nameComponent) return component
-    if (!component.children) return undefined
-    const arr: ComponentModelType[] = [...component.children]
-    while (arr.length > 0) {
-      const child: ComponentModelType = arr.pop() as ComponentModelType
-      if (child.name === nameComponent) return child
-      if (child.children)
-        arr.unshift(...child.children)
+    if (!component.children && !component.contentInjection) return undefined
+    const children = this.getAllChildren(component)
+    while(children.length>0){
+      const child = children.pop() as ComponentModelType
+      if(child.name === nameComponent) return child
+      children.unshift(...this.getAllChildren(child))
     }
     return undefined
   }
@@ -159,9 +158,6 @@ export class ConfigService {
   /*  getAppTemplateData(): { components: ComponentModelType[], ef: ActionModel[] } | undefined {
       return this.convertToComponentModelTypes(this.appConfig?.userConfig)
     }*/
-  private getChildComponents(component: ComponentModelType) {
-
-  }
 
   private getAllChildren(c: ComponentModelType,screenSize?:ScreenSize) {
     const getAllDirectChildrenViaDDChildren = function (c: ComponentModelType): ComponentModelType[] {

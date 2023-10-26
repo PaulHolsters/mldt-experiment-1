@@ -12,42 +12,13 @@ import {
 import {
   ChildPropertiesConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ChildPropertiesConfigModel";
-import {Icon} from "../../components/icon/Icon";
-import {IconType} from "../../enums/iconType.enum";
-import {DisplayType} from "../../enums/displayType.enum";
-import {IconSizeConfigModel} from "../../design-dimensions/Size/icon/IconSizeConfigModel";
 import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 import {ExtraColumnModel} from "../../design-dimensions/ContentInjection/table/ExtraColumnModel";
-import {Button} from "../../components/button/Button";
-import {IconConfigModel} from "../../design-dimensions/StructuralConfig/button/IconConfigModel";
 import {TableColumnModel} from "../../design-dimensions/StructuralConfig/table/TableColumnModel";
 import {ResponsiveTableLayoutType} from "../../enums/responsiveTableLayoutType.enum";
 import {SizeConfigModel} from "../../design-dimensions/Size/SizeConfigModel";
+import {actionBtn, col1HeaderContainer, col2Icon, col3Icon, col4Icon} from "./tableComponents";
 
-// icons waarop je kan klikken gesitueerd in de headers van de tabel
-const col1SortIcon = new Icon('col1-sort-icon', IconType.Sort)
-const col1FilterIcon = new Icon('col1-filter-icon', IconType.Filter)
-const col1HeaderContainer = new Container('col1-container')
-col1HeaderContainer.individualLayout.smartphone.setDisplayType(DisplayType.Inline);
-(col1HeaderContainer.componentSpecificLayout.setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig as ChildPropertiesConfigModel).size.smartphone.setComponentSpecificSize(
-  new IconSizeConfigModel(
-    new NonCalculatedSizeConfigModel(1, SizeUnitConfigType.REM)))
-col1HeaderContainer.setChildren([
-  col1SortIcon,
-  col1FilterIcon
-])
-const col2Icon = new Icon('col2-icon', IconType.Sort)
-col2Icon.size.smartphone.setComponentSpecificSize(new IconSizeConfigModel(
-  new NonCalculatedSizeConfigModel(2, SizeUnitConfigType.REM)))
-const col3Icon = new Icon('col3-icon', IconType.Sort)
-const col4Icon = new Icon('col4-icon', IconType.Sort)
-col4Icon.size.smartphone.setComponentSpecificSize(
-  new IconSizeConfigModel(
-    new NonCalculatedSizeConfigModel(2, SizeUnitConfigType.REM)))
-// in de laatste kolom komt een edit button zodat je een product kan updaten
-const actionBtn = new Button('edit-product-btn')
-actionBtn.structural.smartphone.setLabel('Edit').setIcon(new IconConfigModel(IconType.Pencil))
 // de eigenlijke tabel met de producten
 const mainTable = new Table('main-table')
 mainTable.styling.smartphone.setGridType(TableGridType.ColumnAndRow)
@@ -69,6 +40,8 @@ mainTable.structural.smartphone
     new TableColumnModel('options', 'Opties'),
   ])
 mainTable.componentSpecificLayout.smartphone.setResponsiveTableLayout(ResponsiveTableLayoutType.Stacked)
+// todo fix: display block voor icons
+
 // main container
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'))
@@ -81,8 +54,6 @@ mainContainer.componentSpecificLayout.smartphone.setLayout(new ColumnLayoutConfi
 mainContainer.setChildren([
   mainTable
 ])
-// zo ziet elke nieuwe app er uit: een blok dat alles omvat
-// en effects die de user interactie en interacties met de server definiëren
 export const RootComponent = new AppConfig({
   components: [
     mainContainer
