@@ -5,7 +5,7 @@ import {NoValueType} from "../../enums/NoValueTypes.enum";
 
 export class IndividualLayoutConfigModel {
   public selfAlign:VerticalRowLayoutConfigType|HorizontalColumnLayoutConfigType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
-  public displayType:DisplayType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public display:DisplayType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   constructor(
 
     ) {
@@ -18,7 +18,7 @@ export class IndividualLayoutConfigModel {
     return this
   }
   setDisplayType(displayType:DisplayType|NoValueType.NO_VALUE_NEEDED){
-    this.displayType=displayType
+    this.display=displayType
     return this
   }
 

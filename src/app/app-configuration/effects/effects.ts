@@ -46,7 +46,7 @@ export const effects:Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'create_client_data'),
-    new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, undefined,'edit-product-dialog',
+    new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, undefined,'update-product-dialog',
       new ActionValueModel(PropertyName.visible, true))
   ),
   new Effect(

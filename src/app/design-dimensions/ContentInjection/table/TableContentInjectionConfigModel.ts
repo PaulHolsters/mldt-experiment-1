@@ -1,4 +1,3 @@
-import {ComponentModel} from "../../ComponentModel";
 import {ExtraColumnModel} from "./ExtraColumnModel";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
 import {ComponentModelType, isNoValueType} from "../../../types/union-types";

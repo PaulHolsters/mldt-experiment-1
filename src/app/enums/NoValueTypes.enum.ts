@@ -5,4 +5,5 @@ export enum NoValueType {
   NO_VALUE_NEEDED='no value needed',
   DATA_FROM_SERVER='data from server',
   CALCULATED_BY_ENGINE='calculated by engine',
+  NO_VALUE_YET = 'no value yet',
 }

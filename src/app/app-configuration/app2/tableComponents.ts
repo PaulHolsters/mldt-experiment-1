@@ -27,12 +27,14 @@ col1HeaderContainer.setChildren([
 export const col2Icon = new Icon('col2-icon', IconType.Sort)
 col2Icon.size.smartphone.setComponentSpecificSize(new IconSizeConfigModel(
   new NonCalculatedSizeConfigModel(2, SizeUnitConfigType.REM)))
+col2Icon.individualLayout.smartphone.setDisplayType(DisplayType.Inline)
 export const col3Icon = new Icon('col3-icon', IconType.Sort)
+col3Icon.individualLayout.smartphone.setDisplayType(DisplayType.Inline)
 export const col4Icon = new Icon('col4-icon', IconType.Sort)
+col4Icon.individualLayout.smartphone.setDisplayType(DisplayType.Inline)
 col4Icon.size.smartphone.setComponentSpecificSize(
   new IconSizeConfigModel(
     new NonCalculatedSizeConfigModel(2, SizeUnitConfigType.REM)))
 // in de laatste kolom komt een edit button zodat je een product kan updaten
 export const actionBtn = new Button('edit-product-btn')
-// todo fix bug: het icon wordt niet getoond
 actionBtn.structural.smartphone.setLabel('Edit').setIcon(new IconConfigModel(IconType.Pencil))

@@ -14,7 +14,6 @@ import {
   ResponsiveDataRepresentationConfigModelType, ResponsiveStructuralConfigModelType,
   ResponsiveStylingConfigModelType
 } from "../types/union-types";
-import {NoValueType} from "../enums/NoValueTypes.enum";
 import {ComponentType} from "../enums/componentTypes.enum";
 
 export interface ComponentI<

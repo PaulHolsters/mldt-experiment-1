@@ -3,14 +3,14 @@ import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 
 export abstract class Dialog extends Component{
-  public static visible:boolean|undefined
-  public static header:string|undefined
-  public static content:ComponentModel|undefined
-  public static xClicked:number|undefined
-  public static yClicked:number|undefined
-  public static grow: number|undefined| ParentConfigType.grow
-  public static shrink: number|undefined| ParentConfigType.shrink
-  public static holdSpace: boolean|undefined
+  public static visible:boolean|null=null
+  public static header:string|null=null
+  public static content:ComponentModel|null=null
+  public static xClicked:number|null=null
+  public static yClicked:number|null=null
+  public static grow: number| ParentConfigType.grow|null=null
+  public static shrink: number| ParentConfigType.shrink|null=null
+  public static holdSpace: boolean|null=null
 
-  public static data: any|undefined
+  public static data: any|null=null
 }

@@ -164,6 +164,7 @@ import {NoValueType} from "../enums/NoValueTypes.enum";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
+import {Dialog} from "../components/dialog/Dialog";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -276,7 +277,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 
 
-export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
@@ -353,7 +354,8 @@ export const isNoValueType = function isNoValueType(data:unknown):data is NoValu
     data === NoValueType.NO_VALUE_NEEDED ||
     data === NoValueType.DEFAULT_VALUE_DETERMINED_BY_ENGINE ||
     data === NoValueType.SERVER_DATA_RELATED_DEFAULT_VALUE ||
-    data === NoValueType.DATA_FROM_SERVER)
+    data === NoValueType.DATA_FROM_SERVER) ||
+    data === NoValueType.NO_VALUE_YET
 }
 
 export const isDataRecord = function isDataRecord(data:unknown):data is DataRecord{
