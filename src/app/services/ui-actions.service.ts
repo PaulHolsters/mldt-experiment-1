@@ -10,7 +10,13 @@ import {ServerDataService} from "./data/server/server-data.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType, ComponentNameType, isComponentName, isDataLink} from "../types/type-aliases";
+import {
+  ActionIdType,
+  ComponentNameType,
+  isComponentName,
+  isDataLink,
+  isServerDataRequestType, ServerDataRequestType
+} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {ClientDataService} from "./data/client/client-data.service";
 import {Effect} from "../effectclasses/Effect";
@@ -80,7 +86,7 @@ export class UiActionsService {
   }
   private updateDataRelatedProps(res: {
     effect: Effect,
-    data: Blueprint|[ComponentNameType,DataRecord|(DataRecord|null)[]]|ClientData|string,
+    data: Blueprint|[ComponentNameType,DataRecord|(DataRecord|null)[]]|ClientData|string|ServerDataRequestType,
     target: EventTarget | undefined}){
     if(isClientData(res.data)){
       const dl = this.configService.getConfigFromRoot(res.data.name)
@@ -111,7 +117,7 @@ export class UiActionsService {
     }
     return true
   }
-  private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string, target:EventTarget|undefined}) {
+  private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string|ServerDataRequestType, target:EventTarget|undefined}) {
     if(isComponentName(res.effect.action.target,this.configService)){
       const cd = this.clientDataService.getClientData(res.effect.action.target)
       this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{

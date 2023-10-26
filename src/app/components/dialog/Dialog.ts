@@ -30,7 +30,7 @@ export class Dialog extends ComponentModel implements ComponentI<
     this.name = name
   }
   name:string
-  type=ComponentType.Button
+  type=ComponentType.Dialog
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing

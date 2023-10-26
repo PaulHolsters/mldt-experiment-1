@@ -8,7 +8,7 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType, ComponentNameType, ConceptNameType} from "../../../types/type-aliases";
+import {ActionIdType, ComponentNameType, ConceptNameType, isServerDataRequestType} from "../../../types/type-aliases";
 import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
@@ -16,9 +16,7 @@ import {ServerData} from "./ServerData";
 import {
   DataRecord,
   extractConcept,
-  isDataRecord, isList,
   isOutPutData, List,
-  OutputData,
   ServerData as ServerDataType
 } from "../../../types/union-types";
 import {ClientData} from "../client/ClientData";
@@ -49,25 +47,33 @@ export class ServerDataService {
     //********************     queries     ****************************/
 
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
-      if (res?.effect.action.conceptName && res.effect.action.target) {
-        // todo het target gaat niet per se aanwezig zijn
-        const concept = extractConcept(res.effect.action.conceptName) ? extractConcept(res.effect.action.conceptName) : typeof res.data === 'string' ? res.data:undefined
-        const target = res.effect.action.target
+      if (res && ((res.effect.action.conceptName && res.effect.action.target)||isServerDataRequestType(res.data))) {
+        let concept:string|undefined
+        let target:string|undefined
+        if(!isServerDataRequestType(res.data)){
+          concept = extractConcept(res.effect.action.conceptName) ? extractConcept(res.effect.action.conceptName)
+            : typeof res.data === 'string' ? res.data:undefined
+          target = res.effect.action.target
+        } else{
+          concept = res.data.concept
+          target = res.data.target
+        }
         if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
             const data = ServerData.getData(resFirst)
-            if(data){
+            if(data && concept){
               if(ServerData.dataIsNumber(data,'numberOfNesting')){
                 this.queryService
                   .getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting'))
                   .subscribe(resOrErr=>{
                     const data = ServerData.getData(resOrErr)
-                    if(data){
+                    if(data && target){
                       // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is =>
                       //      dit is wellicht een mooie kandidaat voor branded types
                       //      de reden waarom dat niet gecontroleerd wordt is dat data van het any type is
                       //      dat is niet conform de type van de parameter maar het wordt gewoon niet gecontroleerd
                       // hier zit de hele clue!
+                      debugger
                       createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
                       this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
                     } else{
@@ -128,7 +134,7 @@ export class ServerDataService {
     })
 
     this.actionsService.bindToAction(new Action('',ActionType.GetAllInstances))?.subscribe(async res => {
-      if (res) {
+      if (res && !isServerDataRequestType(res.data)) {
         const info = {effect:res.effect,data:res.data,target:res.target}
         const concept = extractConcept(res.effect.action.conceptName)
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,

@@ -61,7 +61,6 @@ export class ClientDataService {
       * todo stap 3
       * outputdata wordt normaal door server actions bepaald, maar wanneer het op vraag van de gebruiker gebeurt
       * dan mag dit automatisch aangevuld worden op basis van res.data en actionValue uit de Action config */
-      debugger
       if(res){
         const target = res.effect.action.target
         // todo fix bug: de component "edit-product-text-input" werd niet gevonden in de configuratie

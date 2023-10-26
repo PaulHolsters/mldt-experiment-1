@@ -32,7 +32,7 @@ export class TextInput extends ComponentModel implements ComponentI<
     this.name = name
   }
   name:string
-  type=ComponentType.Button
+  type=ComponentType.TextInput
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing

@@ -13,6 +13,19 @@ export type ConditionType = string
 export type LabelType = {label:string,value:string}
 export type DataLink = string[]
 export type BlueprintStr = string
+export type ServerDataRequestType = {
+  actionId:ActionIdType,
+  concept:ConceptNameType,
+  requestType:string,
+  target:ComponentNameType
+}
+export const isServerDataRequestType = function isServerDataRequestType(data:unknown): data is ServerDataRequestType{
+  return data !== null && typeof data === 'object' && !(data instanceof Array)
+    && data.hasOwnProperty('actionId')
+    && data.hasOwnProperty('concept')
+    && data.hasOwnProperty('requestType')
+    && data.hasOwnProperty('target')
+}
 export const isConceptName = function isConceptName(data:unknown,config:ConfigService): data is ConceptNameType{
   if(typeof data !== 'string') return false
   if(isNoValueType(data)) return false
