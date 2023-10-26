@@ -1,38 +1,37 @@
 import {Component} from "./Component";
 import {IconType} from "../enums/iconType.enum";
 import {IconPositionType} from "../enums/iconPositionType.enum";
-import {RestrictionType} from "../enums/restrictionType.enum";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 export abstract class TextInput extends Component{
-  public static width:string|undefined
-  public static height:string|undefined
-  public static calcHeight: string|undefined
-  public static calcWidth: string|undefined
-  public static updateKey: string|undefined
-  public static conceptId:string|undefined
-  public static icon: IconType | undefined
-  public static iconPosition: IconPositionType |undefined
-  public static advisoryText: string | undefined
-  public static label: string | undefined
-  public static floatLabel: boolean | undefined
-  public static dirty: boolean | undefined
-  public static invalid: boolean | undefined
-  public static small: boolean | undefined
-  public static large: boolean | undefined
-  public static disabled: boolean | undefined
+  public static width:string|null=null
+  public static height:string|null=null
+  public static calcHeight: string|null=null
+  public static calcWidth: string|null=null
+  public static updateKey: string|null=null
+  public static conceptId:string|null=null
+  public static icon: IconType | null=null
+  public static iconPosition: IconPositionType |null=null
+  public static advisoryText: string | null=null
+  public static label: string | null=null
+  public static floatLabel: boolean | null=null
+  public static dirty: boolean | null=null
+  public static invalid: boolean | null=null
+  public static small: boolean | null=null
+  public static large: boolean | null=null
+  public static disabled: boolean | null=null
 
-  public static keyFilter: string | RegExp | undefined | "alphanum" | "hex" | "alpha" | "int" | "money" | "number"
-  public static grow: number|undefined| ParentConfigType.grow
-  public static shrink: number|undefined| ParentConfigType.shrink
-  public static visible: boolean|undefined
-  public static holdSpace: boolean|undefined
+  public static keyFilter: string | RegExp |  "alphanum" | "hex" | "alpha" | "int" | "money" | "number" |null=null
+  public static grow: number| ParentConfigType.grow|null=null
+  public static shrink: number|null=null
+  public static visible: boolean|null=null
+  public static holdSpace: boolean|null=null
 
-  public static data: any|undefined
+  public static data: any|null=null
 
-  public static conceptData:string|undefined
-  public static conceptBlueprint:Blueprint|undefined
-  public static dataLink: string[] | undefined
+  public static conceptData:string|null=null
+  public static conceptBlueprint:Blueprint|null=null
+  public static dataLink: string[] | null=null
 
-  public static value: string | undefined
+  public static value: string | null=null
 }

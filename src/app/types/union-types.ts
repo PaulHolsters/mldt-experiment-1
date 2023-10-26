@@ -165,6 +165,7 @@ import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/R
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {Dialog} from "../components/dialog/Dialog";
+import {TextInput} from "../components/form/input-text/TextInput";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -277,7 +278,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 
 
-export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput
 export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>

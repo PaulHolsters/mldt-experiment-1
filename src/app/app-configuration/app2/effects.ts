@@ -50,8 +50,7 @@ export const effects:Effect[] = [
       new ActionValueModel(PropertyName.visible, true))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentClicked, 'edit-product-submit-btn'),
-    // todo het lijkt er op dat je ook een component naam gaat nodig hebben
+    new Trigger(TriggerType.ComponentClicked, 'submit-updated-product'),
     new Action('save_updated_product',ActionType.UpdateInstance,'product')
   ),
 ]
