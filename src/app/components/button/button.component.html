@@ -1,7 +1,7 @@
 <p-button
-  *ngIf="getPropValue(PropertyName.label)!=='Not applicable' && getPropValue(PropertyName.icon)!=='Not applicable'"
+  *ngIf="getPropValue(PropertyName.label) && getPropValue(PropertyName.icon)"
   label="{{getPropValue(PropertyName.label)}}"
-  icon="{{getPropValue(PropertyName.icon)}}"
+  icon="{{getPropValue(PropertyName.icon)['icon']}}"
   styleClass="
 {{getPropValue(PropertyName.buttonSize)}}
 {{getPropValue(PropertyName.buttonAppearance)}}
@@ -17,7 +17,7 @@
   #button
   (click)="trigger(TriggerType.ComponentClicked,$event)">
 </p-button>
-<p-button *ngIf="getPropValue(PropertyName.label)!=='Not applicable' && getPropValue(PropertyName.icon)==='Not applicable'"
+<p-button *ngIf="getPropValue(PropertyName.label) && !getPropValue(PropertyName.icon)"
           label="{{getPropValue(PropertyName.label)}}"
           styleClass="
 {{getPropValue(PropertyName.buttonSize)}}
@@ -28,8 +28,8 @@
   undefined,
   getPropValue(PropertyName.margin))"
           (click)="trigger(TriggerType.ComponentClicked,$event)"></p-button>
-<p-button *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)!=='Not applicable'"
-          icon="{{getPropValue(PropertyName.icon)}}"
+<p-button *ngIf="!getPropValue(PropertyName.label) && getPropValue(PropertyName.icon)"
+          icon="{{getPropValue(PropertyName.icon)['icon']}}"
           [ngClass]="getStyleClasses(
  undefined,
   getPropValue(PropertyName.margin))"
@@ -41,7 +41,7 @@
 "
           (click)="trigger(TriggerType.ComponentClicked,$event)"></p-button>
 <p-button
-  *ngIf="getPropValue(PropertyName.label)==='Not applicable' && getPropValue(PropertyName.icon)==='Not applicable'"
+  *ngIf="!getPropValue(PropertyName.label) && !getPropValue(PropertyName.icon)"
   [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
   [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
   [style.height]="getPropValue(PropertyName.height)"
