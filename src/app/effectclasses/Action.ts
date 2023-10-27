@@ -37,9 +37,14 @@ export class Action {
         this.serviceMethod = ServiceMethodType.SetProperty
         this.targetType = TargetType.Client
         break
-      case ActionType.CreateClientData:
+      case ActionType.UseInstanceFromFrontend:
         this.service = ServiceType.DataService
-        this.serviceMethod = ServiceMethodType.CreateClientData
+        this.serviceMethod = ServiceMethodType.UseInstanceFromFrontend
+        this.targetType = TargetType.Client
+        break
+      case ActionType.UseInstanceFromServer:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.UseInstanceFromServer
         this.targetType = TargetType.Client
         break
       case ActionType.UpdateDataRelatedProperties:

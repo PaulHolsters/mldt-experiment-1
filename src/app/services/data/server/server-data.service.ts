@@ -92,7 +92,6 @@ export class ServerDataService {
         const concept = extractConcept(res.effect.action.conceptName)
         const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
         if (typeof res.data === 'string' && res.effect.action.target && concept) {
-          // todo zie dat je hier van een ObjectId type kan uitgaan = branded type!
           function getRecord(self:ServerDataService, blueprint:Blueprint, res:
             {effect: Effect, data: string, target: EventTarget | undefined},concept:ConceptNameType){
               self.queryService.getSingleRecord(concept, blueprint, res.data).subscribe(errorOrResult=>{
@@ -138,7 +137,7 @@ export class ServerDataService {
         const info = {effect:res.effect,data:res.data,target:res.target}
         const concept = extractConcept(res.effect.action.conceptName)
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,
-          data:  string | Blueprint | ClientData | [string, (List | DataRecord)], target: EventTarget | undefined},concept:ConceptNameType){
+          data:  string | Blueprint | ClientData | [string, (List | DataRecord)]|DataRecord|List, target: EventTarget | undefined},concept:ConceptNameType){
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
             const data = ServerData.getData(errorOrResult)
             if(data && data.dataMultiple){

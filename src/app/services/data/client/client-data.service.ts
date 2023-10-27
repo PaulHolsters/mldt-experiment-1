@@ -7,11 +7,11 @@ import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
 import {ClientData} from "./ClientData";
 import {
-  ActionIdType, BlueprintType,
+  ActionIdType,
   ComponentNameType,
   ConceptNameType, isActionIdType,
   isComponentName,
-  isConceptName, isDataLink
+  isConceptName, isDataLink, isFrontendDataType, isServerDataRequestType
 } from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
@@ -20,11 +20,9 @@ import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {
   DataRecord,
-  extractConcept, isDataRecord,
-  isList, isNoValueType,
+  extractConcept,
   isOutPutData, List,
-  OutputData,
-  ServerData as ServerDataType
+  OutputData
 } from "../../../types/union-types";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
 import {ActionValueModel} from "../../../design-dimensions/ActionValueModel";
@@ -51,26 +49,36 @@ export class ClientDataService {
     return [...this._clientData]
   }
   public bindActions() {
-    this.actionsService.bindToAction(new Action('', ActionType.CreateClientData))?.subscribe(res => {
-      /* todo stap 1
-      * target = CALC => te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
+    this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromServer))?.subscribe(res => {
+      /*
+      stap 1: target bepaalt of er één dan wel meerdere client data instanties moeten worden aangemaakt
+      * todo target = CALC => te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
       * target = concreet => 1 CD
-      * todo stap 2
-      * concept = datalink of conceptnaam => voor blueprint altijd de data ophalen op basis van deze link of naam
-      * concept = CALC => gebruik res.effect.source om de cd te vinden welke BP je mag overnemen (via config)
-      * todo stap 3
-      * outputdata wordt normaal door server actions bepaald, maar wanneer het op vraag van de gebruiker gebeurt
-      * dan mag dit automatisch aangevuld worden op basis van res.data en actionValue uit de Action config */
-      if(res){
+      *
+      stap 2: concept bepaalt of de blueprint en outputData van de server moet worden afgehaald of kan worden overgenomen van de frontend
+      * concept = datalink of conceptnaam => voor Blueprint altijd de data ophalen op basis van deze link of naam en ook voor de OutPutData
+      * todo concept = CALC => gebruik res.effect.source om de cd te vinden welke BP je mag overnemen (via config) + outputData
+
+      Beste houding: wat via de frontend kan altijd via de frontend doen
+      Een blueprint is iets dat in principe nooit wijzigt en dus is de frontend altijd te verkiezen
+      En dus geef je dus best geen concept mee. Máár de voorwaarde is wel dat de frontend de te gebruiken outputData bevat.
+      Dat laatste is misschien niet altijd zo zeker. In principe echter als van een bepaald item een Id aanwezig is, is er ook geen probleem
+      want dat wijzigt ook nooit. Enige maar zéér belangrijke opmerking:
+      Het is gevaarlijk om zomaar data van de frontend als correct te beschouwen, behalve dan de blueprint.
+      Misschien is createClientData dan ook een incorrecte term die gebruikers kan verwarren.
+      */
+      if(res && isFrontendDataType(res.data,this.configService)){
+        // strategie
+
+
+
         const target = res.effect.action.target
-        // todo fix bug: de component "edit-product-text-input" werd niet gevonden in de configuratie
         if (isComponentName(target,this.configService)) {
           const clientData = this.getClientData(target)
           if (!clientData) {
             const concept = extractConcept(res.effect.action.conceptName)
             if((isDataLink(res.effect.action.conceptName,this.configService) ||
-                isConceptName(res.effect.action.conceptName,this.configService))
-              && concept){
+                isConceptName(res.effect.action.conceptName,this.configService)) && concept){
               this.serverDataNeeded.next({
                 actionId:res.effect.action.id,
                 concept:concept,
@@ -125,6 +133,9 @@ export class ClientDataService {
         } else throw new Error('Invalid target defined in action. target: '+target)
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       }
+    })
+    this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromFrontend))?.subscribe(res => {
+
     })
   }
 

@@ -1,4 +1,4 @@
-import {DataRecord, isNoValueType} from "./union-types";
+import {DataRecord, isDataRecord, isList, isNoValueType, List} from "./union-types";
 import {ConfigService} from "../services/config.service";
 import {ExtraColumnModel} from "../design-dimensions/ContentInjection/table/ExtraColumnModel";
 
@@ -13,6 +13,10 @@ export type ConditionType = string
 export type LabelType = {label:string,value:string}
 export type DataLink = string[]
 export type BlueprintStr = string
+export type FrontendDataType = [ComponentNameType,DataRecord|List]
+export const isFrontendDataType = function isFrontendDataType(data:unknown,config:ConfigService): data is FrontendDataType{
+  return (data instanceof Array) && data.length===2 && isComponentName(data[0],config) && (isDataRecord(data[1]) || isList(data[1]))
+}
 export type ServerDataRequestType = {
   actionId:ActionIdType,
   concept:ConceptNameType,

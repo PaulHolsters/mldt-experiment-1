@@ -5,7 +5,7 @@ import {Effect} from "../effectclasses/Effect";
 import {Action} from "../effectclasses/Action";
 import {ActionSubjectModel} from "../design-dimensions/ActionSubject";
 import {Blueprint} from "./data/client/Blueprint";
-import {ComponentNameType, ServerDataRequestType} from "../types/type-aliases";
+import {ComponentNameType, FrontendDataType, ServerDataRequestType} from "../types/type-aliases";
 import {ClientData} from "./data/client/ClientData";
 import {DataRecord, List} from "../types/union-types";
 
@@ -16,9 +16,9 @@ export class ActionsService{
   private actionSubjects:ActionSubjectModel[]|undefined
   public bindToActionsEmitter = new Subject()
   public bindToAction(action:Action):Observable<{
-    // todo hier gaat op termijn een branded type moeten komen dat gaat checken of wat er binnenkomt
-    //      qua type wel ok is on runtime
-       effect: Effect, data: Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string|ServerDataRequestType, target:EventTarget|undefined
+    // todo data is een kakofonie: eventueel binden vanuit de service naar acties met hetzelfde datatype voor data?
+       effect: Effect,
+    data: FrontendDataType|Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string|ServerDataRequestType, target:EventTarget|undefined
 }|undefined>|undefined{
     return this.actionSubjects?.find(actionSubject => {
       return actionSubject.service === action.service && actionSubject.method === action.serviceMethod

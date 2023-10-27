@@ -24,7 +24,7 @@ export abstract class SystemEffects {
         new Trigger(TriggerType.ClientDataUpdated,ServiceType.DataService),
         new Action('update_data_render_properties',ActionType.UpdateDataProperties)
       ),
-      new Effect(
+/*      new Effect(
         new Trigger(TriggerType.BlueprintStrReady, ServiceType.DataService),
         new Action('create_client_data',ActionType.CreateClientData)
       ),
@@ -39,7 +39,7 @@ export abstract class SystemEffects {
       new Effect(
         new Trigger(TriggerType.ListOfDataNeeded, ServiceType.DataService),
         new Action('get_list_data',ActionType.GetAllInstances) // het geniale is: dit resulteert automatisch in een clientdata instance
-      )
+      )*/
     ]
   }
 }

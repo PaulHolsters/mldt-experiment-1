@@ -19,4 +19,6 @@ export enum ServiceMethodType {
   CreateStore,
   UpdateDataRelatedProperties,
   UpdateDataProperties,
+  UseInstanceFromServer,
+  UseInstanceFromFrontend,
 }

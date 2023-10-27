@@ -86,7 +86,7 @@ export class UiActionsService {
   }
   private updateDataRelatedProps(res: {
     effect: Effect,
-    data: Blueprint|[ComponentNameType,DataRecord|(DataRecord|null)[]]|ClientData|string|ServerDataRequestType,
+    data: Blueprint|[ComponentNameType,DataRecord|(DataRecord|null)[]]|ClientData|string|ServerDataRequestType|DataRecord|List,
     target: EventTarget | undefined}){
     if(isClientData(res.data)){
       const dl = this.configService.getConfigFromRoot(res.data.name)
@@ -117,7 +117,7 @@ export class UiActionsService {
     }
     return true
   }
-  private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string|ServerDataRequestType, target:EventTarget|undefined}) {
+  private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string|ServerDataRequestType|DataRecord|List, target:EventTarget|undefined}) {
     if(isComponentName(res.effect.action.target,this.configService)){
       const cd = this.clientDataService.getClientData(res.effect.action.target)
       this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{

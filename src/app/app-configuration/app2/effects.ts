@@ -7,6 +7,7 @@ import {Trigger} from "../../effectclasses/Trigger";
 import {Action} from "../../effectclasses/Action";
 import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
 import {DataRecord} from "../../types/union-types";
+import {NoValueType} from "../../enums/NoValueTypes.enum";
 
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
@@ -41,8 +42,9 @@ export const effects:Effect[] = [
     new Action('populate_table',ActionType.GetAllInstances, 'product','main-table')
   ),
   new Effect(
+    // todo overlap met getInstance op termijn wegwerken
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
-    new Action('create_client_data',ActionType.CreateClientData, 'product','edit-product-text-input')
+    new Action('prepare_instance', ActionType.UseInstanceFromServer)
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'create_client_data'),
