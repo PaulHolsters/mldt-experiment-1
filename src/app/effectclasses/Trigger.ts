@@ -27,10 +27,10 @@ export class Trigger {
       case TriggerType.ComponentReady:
         this.sourceType = SourceType.Component
         break
-      case TriggerType.DataInstanceNeeded:
+      case TriggerType.InstanceNeeded:
         this.sourceType = SourceType.System
         break
-      case TriggerType.ListOfDataNeeded:
+      case TriggerType.AllInstancesNeeded:
         this.sourceType = SourceType.System
         break
       case TriggerType.BlueprintStrNeeded:

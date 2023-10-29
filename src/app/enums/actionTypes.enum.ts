@@ -1,8 +1,9 @@
 export enum ActionType {
-  // todo hier kan nog gerefactored worden omdat er een sterke connectie is tussen action en target type
+  UseInstancesFromServer=1,
+  UseInstancesFromFrontend,
   UseInstanceFromServer,
   UseInstanceFromFrontend,
-  UpdateDataProperties=1,
+  UpdateDataProperties,
   CreateInstance ,
   CreateInstances,
   UpdateInstance,
@@ -16,7 +17,7 @@ export enum ActionType {
   CreateStore,
   SetRenderProperty,
   SetLocalConfigurationValueAndRebuild,
-  SetConfirmation,// todo hier zouden geen component namen mogen komen
+  SetConfirmation,
   // CreateClientData,
   GetClientData,
   DeleteClientData,

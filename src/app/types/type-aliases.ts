@@ -1,6 +1,7 @@
 import {DataRecord, isDataRecord, isList, isNoValueType, List} from "./union-types";
 import {ConfigService} from "../services/config.service";
 import {ExtraColumnModel} from "../design-dimensions/ContentInjection/table/ExtraColumnModel";
+import {ActionType} from "../enums/actionTypes.enum";
 
 export type ConceptNameType = string
 export type ComponentNameType = string
@@ -14,21 +15,22 @@ export type LabelType = {label:string,value:string}
 export type DataLink = string[]
 export type BlueprintStr = string
 export type FrontendDataType = [ComponentNameType,DataRecord|List]
+export type TypeName = string
+export const isTypeName = function isTypeName(data:unknown): data is TypeName{
+  return typeof data === 'string' && data.endsWith('Data') && data.length>5
+}
 export const isFrontendDataType = function isFrontendDataType(data:unknown,config:ConfigService): data is FrontendDataType{
   return (data instanceof Array) && data.length===2 && isComponentName(data[0],config) && (isDataRecord(data[1]) || isList(data[1]))
 }
 export type ServerDataRequestType = {
-  actionId:ActionIdType,
-  concept:ConceptNameType,
-  requestType:string,
-  target:ComponentNameType
+concept:ConceptNameType,target:ComponentNameType,action:ActionType,data:string
 }
 export const isServerDataRequestType = function isServerDataRequestType(data:unknown): data is ServerDataRequestType{
   return data !== null && typeof data === 'object' && !(data instanceof Array)
-    && data.hasOwnProperty('actionId')
     && data.hasOwnProperty('concept')
-    && data.hasOwnProperty('requestType')
+    && data.hasOwnProperty('action')
     && data.hasOwnProperty('target')
+    && data.hasOwnProperty('data')
 }
 export const isConceptName = function isConceptName(data:unknown,config:ConfigService): data is ConceptNameType{
   if(typeof data !== 'string') return false

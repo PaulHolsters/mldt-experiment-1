@@ -88,45 +88,66 @@ export class ServerDataService {
     })
 
     this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
+      function getRecord(self:ServerDataService, blueprint:Blueprint, res:
+        {effect: Effect, data: string, target: EventTarget | undefined},concept:ConceptNameType,target?:ComponentNameType){
+        self.queryService.getSingleRecord(concept, blueprint, res.data).subscribe(errorOrResult=>{
+          const data = ServerData.getData(errorOrResult)
+          if(data && isOutPutData(data.dataSingle)){
+            self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
+            const cd = self.clientDataService.getClientData(target?target:res.effect.action.target)
+            self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+          } else{
+            throw new Error('bad types')
+          }
+        })
+      }
       if (res) {
-        const concept = extractConcept(res.effect.action.conceptName)
-        const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
-        if (typeof res.data === 'string' && res.effect.action.target && concept) {
-          function getRecord(self:ServerDataService, blueprint:Blueprint, res:
-            {effect: Effect, data: string, target: EventTarget | undefined},concept:ConceptNameType){
-              self.queryService.getSingleRecord(concept, blueprint, res.data).subscribe(errorOrResult=>{
-                const data = ServerData.getData(errorOrResult)
-                if(data && isOutPutData(data.dataSingle)){
-                    self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
-                    const cd = self.clientDataService.getClientData(res.effect.action.target)
-                  self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+        if(isServerDataRequestType(res.data)){
+          this.queryService.getNumberOfNesting(res.data.concept).subscribe(resFirst=>{
+            const data = ServerData.getData(resFirst)
+            if(data && data.numberOfNesting && isServerDataRequestType(res.data)){
+              this.queryService.getBlueprint(res.data.concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
+                const data = ServerData.getData(resOrErr)
+                if(data && isServerDataRequestType(res.data)){
+                  createClientData(this,data.blueprint,res.effect.action.id,res.data.target,[],undefined)
+                  const blueprint = this.clientDataService.getClientData(res.data.target)?.blueprint
+                  if (blueprint) {
+                    getRecord(this,blueprint,{effect:res.effect,data:res.data.data, target:res.target},res.data.concept,res.data.target)
+                  }
                 } else{
-                  throw new Error('bad types')
+                  // todo handle error
+                }
+              })} else{
+              // todo handle error
+            }
+          })
+        } else{
+          const concept = extractConcept(res.effect.action.conceptName)
+          const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
+          if (typeof res.data === 'string' && res.effect.action.target && concept) {
+            const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
+            if (blueprint) {
+              getRecord(this,blueprint,info,concept)
+            } else{
+              this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
+                const data = ServerData.getData(resFirst)
+                if(data && data.numberOfNesting){
+                  this.queryService.getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
+                    const data = ServerData.getData(resOrErr)
+                    if(data){
+                      createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],data)
+                      const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
+                      if (blueprint) {
+                        getRecord(this,blueprint,info,concept)
+                      }
+                    } else{
+                      // todo handle error
+                    }
+                  })} else{
+                  // todo handle error
                 }
               })
             }
-          const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
-          if (blueprint) {
-            getRecord(this,blueprint,info,concept)
-          } else{
-            this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
-              const data = ServerData.getData(resFirst)
-              if(data && data.numberOfNesting){
-                this.queryService.getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
-                  const data = ServerData.getData(resOrErr)
-                  if(data){
-                    createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],data)
-                    const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
-                    if (blueprint) {
-                      getRecord(this,blueprint,info,concept)
-                    }
-                  } else{
-                    // todo handle error
-                  }
-                })} else{
-                // todo handle error
-              }
-            })
           }
         }
       }
@@ -159,6 +180,7 @@ export class ServerDataService {
           getAllRecords(this,blueprint,info,concept)
         } else if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
+            debugger
             const data = ServerData.getData(resFirst)
             if(data && ServerData.dataIsNumber(data,'numberOfNesting')){
               const numberOfNesting = ServerData.getDataValue(data,'numberOfNesting')
@@ -200,7 +222,7 @@ export class ServerDataService {
         if(!clientData) throw new Error('No valid clientData found')
         this.mutationService.createRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
-            // todo wijzigen clientdata na aanmaak van nieuwe instance in db
+            //  todo wijzigen clientdata na aanmaak van nieuwe instance in db
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
         })

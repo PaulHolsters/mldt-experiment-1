@@ -159,7 +159,15 @@ import {
 import {
   MenubarContentInjectionRenderModel
 } from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
-import {BlueprintStr, BlueprintType, ConceptNameType, DataLink, ObjectIdType} from "./type-aliases";
+import {
+  BlueprintStr,
+  BlueprintType,
+  ConceptNameType,
+  DataLink,
+  isTypeName,
+  ObjectIdType,
+  TypeName
+} from "./type-aliases";
 import {NoValueType} from "../enums/NoValueTypes.enum";
 import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
@@ -320,7 +328,10 @@ export type ActionValueType = 'list'|
   boolean|
   undefined
 
-export const extractConcept = function extractConcept(concept:ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
+export const extractConcept = function extractConcept(concept:TypeName|ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
+  if(isTypeName(concept)){
+    return concept.substring(0,concept.indexOf('Data'))
+  }
   if(!concept) return concept
   if(!(concept instanceof Array)) return concept
   if(concept.length===0) return undefined

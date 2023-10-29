@@ -39,21 +39,20 @@ export const effects:Effect[] = [
   ),*/
   new Effect(
     new Trigger(TriggerType.ComponentReady, 'main-table'),
-    new Action('populate_table',ActionType.GetAllInstances, 'product','main-table')
+    new Action('populate_table',ActionType.GetAllInstances, 'main-table','product')
   ),
   new Effect(
-    // todo overlap met getInstance op termijn wegwerken
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
-    new Action('prepare_instance', ActionType.UseInstanceFromServer)
+    new Action('prepare_instance', ActionType.UseInstanceFromServer,'edit-product-text-input')
   ),
   new Effect(
-    new Trigger(TriggerType.ActionFinished, 'create_client_data'),
-    new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, undefined,'update-product-dialog',
+    new Trigger(TriggerType.ActionFinished, 'prepare_instance'),
+    new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, 'update-product-dialog',undefined,
       new ActionValueModel(PropertyName.visible, true))
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'submit-updated-product'),
-    new Action('save_updated_product',ActionType.UpdateInstance,'product')
+    new Action('save_updated_product',ActionType.UpdateInstance,NoValueType.CALCULATED_BY_ENGINE,'product')
   ),
 ]
 

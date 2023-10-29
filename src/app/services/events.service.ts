@@ -9,6 +9,7 @@ import {RenderPropertiesService} from "./renderProperties.service";
 import {UiActionsService} from "./ui-actions.service";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ClientDataService} from "./data/client/client-data.service";
+import {ActionType} from "../enums/actionTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -31,16 +32,14 @@ export class EventsService{
     this.clientDataService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
     })
-    this.clientDataService.serverDataNeeded.subscribe(res =>{
-      switch (res.requestType){
-        case 'blueprint':
-          this.triggerEvent(TriggerType.BlueprintStrNeeded,ServiceType.DataService,res)
+    this.clientDataService.startDataServerAction.subscribe(res =>{
+      // todo aanpassen
+      switch (res.action){
+        case ActionType.GetInstance:
+          this.triggerEvent(TriggerType.InstanceNeeded,ServiceType.DataService,res)
           break
-        case 'object':
-          this.triggerEvent(TriggerType.DataInstanceNeeded,ServiceType.DataService,res)
-          break
-        case 'list':
-          this.triggerEvent(TriggerType.ListOfDataNeeded,ServiceType.DataService,res)
+        case ActionType.GetAllInstances:
+          this.triggerEvent(TriggerType.AllInstancesNeeded,ServiceType.DataService,res)
           break
       }
     })

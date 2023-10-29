@@ -12,8 +12,8 @@ export class Action {
   public constructor(
     public id:ActionIdType,
     public type:ActionType,
-    public conceptName: ConceptNameType|DataLink|NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
     public target:ComponentNameType|NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
+    public conceptName: ConceptNameType|DataLink|NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
     public value:ActionValueModel|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED
   ) {
     switch (type){
@@ -45,6 +45,16 @@ export class Action {
       case ActionType.UseInstanceFromServer:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.UseInstanceFromServer
+        this.targetType = TargetType.Client
+        break
+      case ActionType.UseInstancesFromFrontend:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.UseInstancesFromFrontend
+        this.targetType = TargetType.Client
+        break
+      case ActionType.UseInstancesFromServer:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.UseInstancesFromServer
         this.targetType = TargetType.Client
         break
       case ActionType.UpdateDataRelatedProperties:

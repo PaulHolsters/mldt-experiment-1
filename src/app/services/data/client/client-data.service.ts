@@ -20,7 +20,7 @@ import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {
   DataRecord,
-  extractConcept,
+  extractConcept, isDataRecord, isNoValueType,
   isOutPutData, List,
   OutputData
 } from "../../../types/union-types";
@@ -33,7 +33,7 @@ export class ClientDataService {
   // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
-  public serverDataNeeded = new Subject<{actionId:ActionIdType,concept:ConceptNameType,target:ComponentNameType,requestType:string}>()
+  public startDataServerAction = new Subject<{concept:ConceptNameType,target:ComponentNameType,action:ActionType,data:string}>()
 
   private _clientData: ClientData[] = []
   constructor(private actionsService:ActionsService,
@@ -48,93 +48,60 @@ export class ClientDataService {
   public get clientData(){
     return [...this._clientData]
   }
+
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromServer))?.subscribe(res => {
-      /*
-      stap 1: target bepaalt of er één dan wel meerdere client data instanties moeten worden aangemaakt
-      * todo target = CALC => te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
-      * target = concreet => 1 CD
-      *
-      stap 2: concept bepaalt of de blueprint en outputData van de server moet worden afgehaald of kan worden overgenomen van de frontend
-      * concept = datalink of conceptnaam => voor Blueprint altijd de data ophalen op basis van deze link of naam en ook voor de OutPutData
-      * todo concept = CALC => gebruik res.effect.source om de cd te vinden welke BP je mag overnemen (via config) + outputData
-
-      Beste houding: wat via de frontend kan altijd via de frontend doen
-      Een blueprint is iets dat in principe nooit wijzigt en dus is de frontend altijd te verkiezen
-      En dus geef je dus best geen concept mee. Máár de voorwaarde is wel dat de frontend de te gebruiken outputData bevat.
-      Dat laatste is misschien niet altijd zo zeker. In principe echter als van een bepaald item een Id aanwezig is, is er ook geen probleem
-      want dat wijzigt ook nooit. Enige maar zéér belangrijke opmerking:
-      Het is gevaarlijk om zomaar data van de frontend als correct te beschouwen, behalve dan de blueprint.
-      Misschien is createClientData dan ook een incorrecte term die gebruikers kan verwarren.
-      */
-      if(res && isFrontendDataType(res.data,this.configService)){
-        // strategie
-
-
-
-        const target = res.effect.action.target
-        if (isComponentName(target,this.configService)) {
-          const clientData = this.getClientData(target)
-          if (!clientData) {
-            const concept = extractConcept(res.effect.action.conceptName)
-            if((isDataLink(res.effect.action.conceptName,this.configService) ||
-                isConceptName(res.effect.action.conceptName,this.configService)) && concept){
-              this.serverDataNeeded.next({
-                actionId:res.effect.action.id,
-                concept:concept,
-                target:target,
-                requestType:'blueprint'})
-            } else if(res.effect.action.conceptName === NoValueType.CALCULATED_BY_ENGINE){
-              let blueprint:Blueprint|undefined
-              if(isComponentName(res.effect.trigger.source,this.configService)){
-                let componentName = this.configService.getParentConfigFromRoot(res.effect.trigger.source)?.name
-                let cd
-                while(componentName && !cd){
-                  cd = this.getClientData(componentName)
-                  componentName = this.configService.getParentConfigFromRoot(componentName)?.name
-                }
-                blueprint = cd?.blueprint
-              } else throw new Error('bad configuration: source has to be an existing component or conceptName cannot be calculated')
-              // step B: getOutputData via res.data en res.effect.action.actionValue
-              if(res.effect.action.value instanceof ActionValueModel  && blueprint){
-                // dit geeft ons een property type en een propertyValue
-                 if(res.effect.action.value.value === 'list' || res.effect.action.value.value === 'object'){
-                   this.serverDataNeeded.next({
-                     actionId:res.effect.action.id,
-                     concept:blueprint.conceptName,
-                     target:target,
-                     requestType:res.effect.action.value.value})
-                 } else throw new Error('invalid action value for action Create Client Data')
-              } else if(res.data && blueprint){
-                // data: string | Blueprint | [string, (DataRecord | List)] | ClientData
-                if(res.data instanceof Array && res.data.length===2){
-                  this.createClientData(res.effect.action.id,target,blueprint,res.data[1])
-                } else throw new Error('no outputData found')
-              } else throw new Error('no outputData AND/OR blueprint found')
-            } else throw new Error('conceptName has an invalid configuration for action create client data instance')
-            /*          if (res?.data instanceof Array && res.data.length === 2) {
-                        const blueprint = this.getClientData( res.data[0])?.blueprint
-                        if (!blueprint) throw new Error('No parent blueprint found for component with name ' + res.data[0])
-                        if (res.data[1] instanceof Array) {
-                          // todo voeg branded type toe zodat je automatisch kan zien dat je alle mogelijkheden hebt gecheckt if(isDataRecordArray) else isDataRecordModel
-                          this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1],  [])
-                        } else if (res.data[1].hasOwnProperty('id') && res.data[1].hasOwnProperty('__typename')) {
-                          this.createClientData(res.effect.action.id, res.effect.action.target, blueprint, res.data[1], undefined)
-                        } else throw new Error('data has not a correct format ' + res.data[1])
-                      } else if (res?.data instanceof Blueprint) {
-                        this.createClientData(res.effect.action.id, res.effect.action.target, res.data, undefined, undefined)
-                      }*/
+      debugger
+      if(res && isFrontendDataType(res.data,this.configService) && !isNoValueType(res.effect.action.target)){
+        let concept:ConceptNameType|undefined
+        let objectId:string|undefined
+        if(isDataRecord(res.data[1])){
+          if(isNoValueType(res.effect.action.conceptName)){
+            concept = extractConcept(res.data[1].__typename)
+          }else{
+            concept = extractConcept(res.effect.action.conceptName)
           }
-        } else if(target===NoValueType.CALCULATED_BY_ENGINE){
-          // todo
-          //  target = CALC => todo te berekenen op basis van res.data => creatie van meerdere CD instances mogelijk
-          // daarna indien nodig weer de andere takken
-          // de output is voor beiden gelijk
-        } else throw new Error('Invalid target defined in action. target: '+target)
+          objectId = res.data[1].id
+        } else if(res.data[1].length>0){
+          const record = res.data[1].find(it=>{
+            return it !== null
+          })
+          if(!record) throw new Error('no valid record found')
+          if(isNoValueType(res.effect.action.conceptName)){
+            concept = extractConcept(record.__typename)
+          }else{
+            concept = extractConcept(res.effect.action.conceptName)
+          }
+          objectId = record.id
+        } else throw new Error('invalid frontend data type => list cannot be of length 0')
+        if(!concept) throw new Error('concept name could not be reconstructed')
+        if(!objectId) throw new Error('cannot get instance without a valid objectId')
+        this.startDataServerAction.next({
+          concept:concept,
+          target:res.effect.action.target,
+          action:ActionType.GetInstance,
+          data:objectId
+        })
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+      } else throw new Error('target was missing from action configuration')
+    })
+
+    this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromFrontend))?.subscribe(res => {
+      if(res && isFrontendDataType(res.data,this.configService) && !isNoValueType(res.effect.action.target)){
+        const cd = this.getClientData(res.data[0])
+        if(!cd) throw new Error('When you use frontend data entirely some parent component from which it came '+
+        'must still exist => configure useInstanceFromServer action instead')
+        this.createClientData(res.effect.action.id,res.effect.action.target,cd.blueprint,res.data[1],[])
       }
     })
-    this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromFrontend))?.subscribe(res => {
+
+    this.actionsService.bindToAction(new Action('', ActionType.UseInstancesFromServer))?.subscribe(res => {
+      // todo
+
+    })
+
+    this.actionsService.bindToAction(new Action('', ActionType.UseInstancesFromFrontend))?.subscribe(res => {
+      // todo
 
     })
   }

@@ -12,4 +12,6 @@ export enum TriggerType {
   BlueprintStrNeeded,
   DataInstanceNeeded,
   ListOfDataNeeded,
+  InstanceNeeded,
+  AllInstancesNeeded,
 }

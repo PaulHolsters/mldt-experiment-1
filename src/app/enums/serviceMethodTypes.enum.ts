@@ -21,4 +21,6 @@ export enum ServiceMethodType {
   UpdateDataProperties,
   UseInstanceFromServer,
   UseInstanceFromFrontend,
+  UseInstancesFromServer,
+  UseInstancesFromFrontend,
 }
