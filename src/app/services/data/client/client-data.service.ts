@@ -11,7 +11,7 @@ import {
   ComponentNameType,
   ConceptNameType, isActionIdType,
   isComponentName,
-  isConceptName, isDataLink, isFrontendDataType, isServerDataRequestType
+  isConceptName, isDataLink, isFrontendDataType, isServerDataRequestType, ServerDataRequestType
 } from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
@@ -33,7 +33,7 @@ export class ClientDataService {
   // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
   public clientDataUpdated = new Subject<ClientData>()
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
-  public startDataServerAction = new Subject<{concept:ConceptNameType,target:ComponentNameType,action:ActionType,data:string}>()
+  public startDataServerAction = new Subject<ServerDataRequestType>()
 
   private _clientData: ClientData[] = []
   constructor(private actionsService:ActionsService,
@@ -51,7 +51,6 @@ export class ClientDataService {
 
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromServer))?.subscribe(res => {
-      debugger
       if(res && isFrontendDataType(res.data,this.configService) && !isNoValueType(res.effect.action.target)){
         let concept:ConceptNameType|undefined
         let objectId:string|undefined
@@ -80,6 +79,7 @@ export class ClientDataService {
           concept:concept,
           target:res.effect.action.target,
           action:ActionType.GetInstance,
+          actionId:res.effect.action.id,
           data:objectId
         })
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})

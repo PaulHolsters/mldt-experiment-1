@@ -39,7 +39,7 @@ export class ResponsiveDataRepresentationTextInputConfigModel extends Responsive
     const config = this.getConfigModel(screenSize)
     const renderInstance = new TextInputDataRepresentationRenderModel()
     Object.entries(config).forEach(([k,v])=>{
-      if(v) renderInstance?.setProperty(k,v)
+      renderInstance.setProperty(k,v)
     })
     return renderInstance
   }

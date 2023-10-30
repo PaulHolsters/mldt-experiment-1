@@ -23,21 +23,25 @@ export const isFrontendDataType = function isFrontendDataType(data:unknown,confi
   return (data instanceof Array) && data.length===2 && isComponentName(data[0],config) && (isDataRecord(data[1]) || isList(data[1]))
 }
 export type ServerDataRequestType = {
-concept:ConceptNameType,target:ComponentNameType,action:ActionType,data:string
+concept:ConceptNameType,target:ComponentNameType,action:ActionType,actionId:ActionIdType,data:string
 }
 export const isServerDataRequestType = function isServerDataRequestType(data:unknown): data is ServerDataRequestType{
   return data !== null && typeof data === 'object' && !(data instanceof Array)
     && data.hasOwnProperty('concept')
     && data.hasOwnProperty('action')
+    && data.hasOwnProperty('actionId')
     && data.hasOwnProperty('target')
     && data.hasOwnProperty('data')
 }
 export const isConceptName = function isConceptName(data:unknown,config:ConfigService): data is ConceptNameType{
-  if(typeof data !== 'string') return false
+  if(typeof data !== 'string'&&!(data instanceof Array))return false
   if(isNoValueType(data)) return false
   return config.effects.map(eff=>{
     return eff.action.conceptName
   }).includes(data)
+}
+export const isDataLink = function isDataLink(data:unknown,config:ConfigService):data is DataLink{
+  return data instanceof Array && isConceptName(data,config)
 }
 export const isExtraColumnModelArray = function isExtraColumnModelArray(data:unknown): data is ExtraColumnModel[]{
   if(!(data instanceof Array)) return false
@@ -46,13 +50,7 @@ export const isExtraColumnModelArray = function isExtraColumnModelArray(data:unk
     return !(it instanceof ExtraColumnModel)
   }).length === 0
 }
-export const isDataLink = function isDataLink(data:unknown,config:ConfigService):data is DataLink{
-if(data instanceof Array && data.length===0) return true
-  return data instanceof Array && data.filter(d => {
-    return !(isConceptName(d, config))
-  }).length === 0
 
-}
 
 export const isComponentName = function isComponentName(data:unknown,config:ConfigService): data is ComponentNameType{
   if(typeof data !== 'string') return false

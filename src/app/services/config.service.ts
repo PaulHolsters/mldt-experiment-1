@@ -8,6 +8,8 @@ import {SystemEffects} from "../effectclasses/systemEffects";
 import {ComponentModelType, isNoValueType} from "../types/union-types";
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {NoValueType} from "../enums/NoValueTypes.enum";
+import {ActionIdType} from "../types/type-aliases";
+import {Action} from "../effectclasses/Action";
 
 @Injectable({
   providedIn: 'root'
@@ -217,6 +219,12 @@ export class ConfigService {
       directChildren.unshift(...children)
     }
     return allComponents
+  }
+
+  getActions(id: ActionIdType | undefined):Action|undefined {
+    return this.effects.find(e=>{
+      return e.action.id === id
+    })?.action
   }
 }
 

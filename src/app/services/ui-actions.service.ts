@@ -28,88 +28,91 @@ import {DataRecord, isClientData, List} from "../types/union-types";
   providedIn: 'root'
 })
 export class UiActionsService {
-  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
+  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: ActionIdType }>()
 
   constructor(
-    private renderPropertiesService:RenderPropertiesService,
-    private stateService:StateService,
-    private configService:ConfigService,
-    private actionsService:ActionsService,
-    private RBS:ResponsiveBehaviourService,
-    private dataService:ServerDataService,
-    private clientDataService:ClientDataService) {
-    this.actionsService.bindToActionsEmitter.subscribe(res=>{
+    private renderPropertiesService: RenderPropertiesService,
+    private stateService: StateService,
+    private configService: ConfigService,
+    private actionsService: ActionsService,
+    private RBS: ResponsiveBehaviourService,
+    private dataService: ServerDataService,
+    private clientDataService: ClientDataService) {
+    this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
   }
-  public bindActions(){
-    this.actionsService.bindToAction(new Action('',ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res=>{
-      if(res){
+
+  public bindActions() {
+    this.actionsService.bindToAction(new Action('', ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res => {
+      if (res) {
         const action = this.setConfigValueAndRebuild(res.effect.action)
-        if(action){
-          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+        if (action) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
       }
     })
-    this.actionsService.bindToAction(new Action('',ActionType.SetConfirmation))?.subscribe(res=>{
-      if(res && res.target && res.target instanceof EventTarget){
-        const action = this.setConfirmation(res.effect.action,res.data, res.target)
-        if(action){
-          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+    this.actionsService.bindToAction(new Action('', ActionType.SetConfirmation))?.subscribe(res => {
+      if (res && res.target && res.target instanceof EventTarget) {
+        const action = this.setConfirmation(res.effect.action, res.data, res.target)
+        if (action) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
       }
     })
-    this.actionsService.bindToAction(new Action('',ActionType.SetRenderProperty))?.subscribe(res=>{
-      if(res){
-        const action = this.setProperty(res.effect.action,res.data)
-        if(action){
-          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+    this.actionsService.bindToAction(new Action('', ActionType.SetRenderProperty))?.subscribe(res => {
+      if (res) {
+        const action = this.setProperty(res.effect.action, res.data)
+        if (action) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
       }
     })
-    this.actionsService.bindToAction(new Action('',ActionType.UpdateDataRelatedProperties))?.subscribe(res=>{
-      if(res){
+    this.actionsService.bindToAction(new Action('', ActionType.UpdateDataRelatedProperties))?.subscribe(res => {
+      if (res) {
         const action = this.updateDataRelatedProps(res)
-        if(action){
-          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+        if (action) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
       }
     })
-    this.actionsService.bindToAction(new Action('',ActionType.UpdateDataProperties))?.subscribe(res=>{
-      if(res){
+    this.actionsService.bindToAction(new Action('', ActionType.UpdateDataProperties))?.subscribe(res => {
+      if (res) {
         const action = this.outputData(res)
-        if(action){
-          this.actionFinished.next({trigger:TriggerType.ActionFinished,source:res.effect.action.id})
+        if (action) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
       }
     })
   }
+
   private updateDataRelatedProps(res: {
     effect: Effect,
-    data: Blueprint|[ComponentNameType,DataRecord|(DataRecord|null)[]]|ClientData|string|ServerDataRequestType|DataRecord|List,
-    target: EventTarget | undefined}){
-    if(isClientData(res.data)){
+    data: Blueprint | [ComponentNameType, DataRecord | (DataRecord | null)[]] | ClientData | string | ServerDataRequestType | DataRecord | List,
+    target: EventTarget | undefined
+  }) {
+    if (isClientData(res.data)) {
       const dl = this.configService.getConfigFromRoot(res.data.name)
-      if(dl && dl.clientData && isDataLink(res.effect.action.conceptName,this.configService)){
+      if (dl && dl.clientData && isDataLink(res.effect.action.conceptName, this.configService)) {
         // todo voeg interface voor getRenderProps toe
         const value = res.data.blueprint.getBlueprintValueForDataLink(res.effect.action.conceptName)
-        const input:{
+        const input: {
           [key: string]: any
-        }|undefined
+        } | undefined
           = dl.dataInput?.getDataInputRenderProperties(this.RBS.screenSize,
           value)
-        const repres:{
+        const repres: {
           [key: string]: any
-        }|undefined
+        } | undefined
           = dl.dataRepresentation?.getDataRepresentationRenderProperties(this.RBS.screenSize,
           value)
-        this.renderPropertiesService.getStatePropertySubjects().filter(sp=>{
-          return sp.componentName===dl.name
-        }).forEach(prop=>{
-          if(input && prop.propName in input){
+        this.renderPropertiesService.getStatePropertySubjects().filter(sp => {
+          return sp.componentName === dl.name
+        }).forEach(prop => {
+          if (input && prop.propName in input) {
             prop.propValue.next(input[prop.propName])
           }
-          if(repres && prop.propName in repres){
+          if (repres && prop.propName in repres) {
             prop.propValue.next(repres[prop.propName])
           }
         })
@@ -117,60 +120,52 @@ export class UiActionsService {
     }
     return true
   }
-  private outputData(res:{effect:Effect,data:Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string|ServerDataRequestType|DataRecord|List, target:EventTarget|undefined}) {
-    if(isComponentName(res.effect.action.target,this.configService)){
-      const cd = this.clientDataService.getClientData(res.effect.action.target)
-      this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
-        return ps.componentName===cd?.name
-      }).forEach(propSubj=>{
-        switch (propSubj.propName){
+
+  private outputData(
+    res: {
+      effect: Effect,
+      data: Blueprint | [ComponentNameType, DataRecord | List] | ClientData | string | ServerDataRequestType | DataRecord | List,
+      target: EventTarget | undefined }
+  ) {
+    if(isClientData(res.data)){
+      const cd = res.data
+      this.renderPropertiesService.getStatePropertySubjects().filter(ps => {
+        return  ps.componentName === cd.name
+      }).forEach(propSubj => {
+        switch (propSubj.propName) {
           case PropertyName.outputData:
-            propSubj.propValue.next(cd?.outputData)
+            propSubj.propValue.next(cd.outputData)
             break
           case PropertyName.conceptBlueprint:
-            propSubj.propValue.next(cd?.blueprint)
+            propSubj.propValue.next(cd.blueprint)
             break
           case PropertyName.dataLink:
-            if(cd?.name && isDataLink(res.effect.action.conceptName,this.configService)) {
-              propSubj.propValue.next(res.effect.action.conceptName)
+            const concept = cd ? this.configService.getActions(cd.id)?.conceptName : undefined
+            if (isDataLink(concept, this.configService)) {
+              propSubj.propValue.next(concept)
             }
             break
         }
       })
-    } else{
-      this.clientDataService.clientData.forEach(cd=>{
-        this.renderPropertiesService.getStatePropertySubjects().filter(ps=>{
-          return ps.componentName===cd.name
-        }).forEach(propSubj=>{
-          switch (propSubj.propName){
-            case PropertyName.outputData:
-              propSubj.propValue.next(cd.outputData)
-              break
-            case PropertyName.conceptBlueprint:
-              propSubj.propValue.next(cd.blueprint)
-              break
-            case PropertyName.dataLink:
-              if(isDataLink(res.effect.action.conceptName,this.configService)) {
-                propSubj.propValue.next(res.effect.action.conceptName)
-              }
-              break
-          }
-        })
+    } else {
+      this.clientDataService.clientData.forEach(cd => {
+        // todo
       })
     }
     return true
   }
-  private setConfigValueAndRebuild(action:Action){
+
+  private setConfigValueAndRebuild(action: Action) {
     const currentAppConfig = this.configService.appConfig
     debugger
-    if(currentAppConfig){
+    if (currentAppConfig) {
       // todo fix bug
       let config = this.configService.getConfigFromRoot(action.target)
-      if(!config) throw new Error('action was not configured correctly')
-      if(config.replace && (action.value instanceof ActionValueModel)){
+      if (!config) throw new Error('action was not configured correctly')
+      if (config.replace && (action.value instanceof ActionValueModel)) {
         // ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel
-        if(action.value.value!=='list'&& action.value.value!=='object' && typeof action.value.value!=='function'&&typeof action.value.value !== 'boolean')
-        config.replace(action.value.name,action.value.value)
+        if (action.value.value !== 'list' && action.value.value !== 'object' && typeof action.value.value !== 'function' && typeof action.value.value !== 'boolean')
+          config.replace(action.value.name, action.value.value)
         this.configService.saveConfig(currentAppConfig)
         this.RBS.rebuildUI()
         return true
@@ -178,38 +173,40 @@ export class UiActionsService {
     }
     return false
   }
-  private setProperty(action:Action,data?:any){
+
+  private setProperty(action: Action, data?: any) {
     let val
-    if(typeof ((action.value as ActionValueModel).value) === 'function'){
+    if (typeof ((action.value as ActionValueModel).value) === 'function') {
       val = ((action.value as ActionValueModel).value as Function)(this.stateService)
     }
-    if(!val) val = (action.value as ActionValueModel).value
+    if (!val) val = (action.value as ActionValueModel).value
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
-    this.renderPropertiesService.getStatePropertySubjects().find(prop=>{
-      if(prop.componentName === action.target && action.value instanceof ActionValueModel)
+    this.renderPropertiesService.getStatePropertySubjects().find(prop => {
+      if (prop.componentName === action.target && action.value instanceof ActionValueModel)
         return prop.propName === PropertyName.data
       return false
     })?.propValue.next(data)
-      this.renderPropertiesService.getStatePropertySubjects().find(prop=>{
-        if(prop.componentName === action.target && action.value instanceof ActionValueModel)
-          return prop.propName === action.value.name
-        return false
-      })?.propValue.next(val)
+    this.renderPropertiesService.getStatePropertySubjects().find(prop => {
+      if (prop.componentName === action.target && action.value instanceof ActionValueModel)
+        return prop.propName === action.value.name
+      return false
+    })?.propValue.next(val)
     return true
   }
-  private setConfirmation(action:Action,data?:any,target?:EventTarget){
-/*    if(action.target!==NoValueType.NO_VALUE_ALLOWED){
-      let comp = this.configService.getConfigFromRoot(action.target)
-      if(comp && comp.attributes && this.RBS.screenSize){
-        const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)
-        const cm = new ConfirmationModel(attrVal.icon,attrVal.message, target,data)
-        this.renderPropertiesService.getStatePropertySubjects().find(prop=>{
-          if(prop.componentName === action.target)
-            return prop.propName === PropertyName.confirmationModel
-          return false
-        })?.propValue.next(cm)
-      } else throw new Error('Component with name '+action.target+ ' could not be found')
-    }*/
+
+  private setConfirmation(action: Action, data?: any, target?: EventTarget) {
+    /*    if(action.target!==NoValueType.NO_VALUE_ALLOWED){
+          let comp = this.configService.getConfigFromRoot(action.target)
+          if(comp && comp.attributes && this.RBS.screenSize){
+            const attrVal = this.configService.getAttributeValue(this.RBS.screenSize,PropertyName.confirmationModel,comp.attributes)
+            const cm = new ConfirmationModel(attrVal.icon,attrVal.message, target,data)
+            this.renderPropertiesService.getStatePropertySubjects().find(prop=>{
+              if(prop.componentName === action.target)
+                return prop.propName === PropertyName.confirmationModel
+              return false
+            })?.propValue.next(cm)
+          } else throw new Error('Component with name '+action.target+ ' could not be found')
+        }*/
     return true
   }
 }

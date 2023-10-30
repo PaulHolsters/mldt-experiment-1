@@ -26,14 +26,14 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
     this.props = TextInput.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
         this.setPropValue(k,res)
       })
     })
   }
   getValue():string{
     const data = this.getPropValue(PropertyName.outputData)
-    if(data){
+    // todo zorg ervoor dat een check hier niet nodig is doordat de gebruiker niet kán vergeten om een datalink mee te geven
+    if(data && this.getPropValue(PropertyName.dataLink) instanceof Array){
       const dataLink = [...this.getPropValue(PropertyName.dataLink)]
       dataLink.shift()
       let key:string

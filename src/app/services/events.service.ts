@@ -33,7 +33,6 @@ export class EventsService{
       this.triggerEvent(res.trigger,res.source)
     })
     this.clientDataService.startDataServerAction.subscribe(res =>{
-      // todo aanpassen
       switch (res.action){
         case ActionType.GetInstance:
           this.triggerEvent(TriggerType.InstanceNeeded,ServiceType.DataService,res)

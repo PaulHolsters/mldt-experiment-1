@@ -43,7 +43,7 @@ export const effects:Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
-    new Action('prepare_instance', ActionType.UseInstanceFromServer,'edit-product-text-input')
+    new Action('prepare_instance', ActionType.UseInstanceFromServer,'edit-product-text-input',['product','name'])
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'prepare_instance'),

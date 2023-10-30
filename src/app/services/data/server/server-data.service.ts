@@ -86,14 +86,16 @@ export class ServerDataService {
         }
       }
     })
-
     this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
       function getRecord(self:ServerDataService, blueprint:Blueprint, res:
-        {effect: Effect, data: string, target: EventTarget | undefined},concept:ConceptNameType,target?:ComponentNameType){
+        {effect: Effect, data: string, target: EventTarget | undefined},
+                         concept:ConceptNameType,
+                         target?:ComponentNameType,
+                         actionId?:ActionIdType){
         self.queryService.getSingleRecord(concept, blueprint, res.data).subscribe(errorOrResult=>{
           const data = ServerData.getData(errorOrResult)
           if(data && isOutPutData(data.dataSingle)){
-            self.clientDataService.updateClientData(res.effect.action.id,data.dataSingle)
+            self.clientDataService.updateClientData(actionId ? actionId : res.effect.action.id,data.dataSingle)
             const cd = self.clientDataService.getClientData(target?target:res.effect.action.target)
             self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           } else{
@@ -103,16 +105,17 @@ export class ServerDataService {
       }
       if (res) {
         if(isServerDataRequestType(res.data)){
+          // todo verwerk hier het juiste actionId (dat zit niet in res.effect maar in res.data
           this.queryService.getNumberOfNesting(res.data.concept).subscribe(resFirst=>{
             const data = ServerData.getData(resFirst)
             if(data && data.numberOfNesting && isServerDataRequestType(res.data)){
               this.queryService.getBlueprint(res.data.concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
                 const data = ServerData.getData(resOrErr)
                 if(data && isServerDataRequestType(res.data)){
-                  createClientData(this,data.blueprint,res.effect.action.id,res.data.target,[],undefined)
+                  createClientData(this,data.blueprint,res.data.actionId,res.data.target,[],undefined)
                   const blueprint = this.clientDataService.getClientData(res.data.target)?.blueprint
                   if (blueprint) {
-                    getRecord(this,blueprint,{effect:res.effect,data:res.data.data, target:res.target},res.data.concept,res.data.target)
+                    getRecord(this,blueprint,{effect:res.effect,data:res.data.data, target:res.target},res.data.concept,res.data.target,res.data.actionId)
                   }
                 } else{
                   // todo handle error
@@ -174,13 +177,11 @@ export class ServerDataService {
             self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           })
         }
-
         const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
         if (blueprint && concept) {
           getAllRecords(this,blueprint,info,concept)
         } else if(concept){
           this.queryService.getNumberOfNesting(concept).subscribe(resFirst=>{
-            debugger
             const data = ServerData.getData(resFirst)
             if(data && ServerData.dataIsNumber(data,'numberOfNesting')){
               const numberOfNesting = ServerData.getDataValue(data,'numberOfNesting')
@@ -222,7 +223,6 @@ export class ServerDataService {
         if(!clientData) throw new Error('No valid clientData found')
         this.mutationService.createRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
-            //  todo wijzigen clientdata na aanmaak van nieuwe instance in db
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
         })
@@ -234,7 +234,6 @@ export class ServerDataService {
         if(!clientData) throw new Error('No valid clientData found')
         this.mutationService.updateRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
-            // todo wijzigen clientdata na wijizgen van instance in db
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
         })
