@@ -18,6 +18,14 @@ export class ClientData {
     if(data instanceof Blueprint){
       this._blueprint = data
     } else if(isOutPutData(data)){
+      // todo fix client data system:
+      /*
+      * strategie:
+      * UI component => name => clientData => outputData: raw data to be displayed in the UI component
+      * Op basis van action config kan je zien over welk veld het gaat => dus neem je deze data
+      * Wat nog ontbreekt: het veld waarover het gaat, of geen veld indien het om een volledig record gaat => staat al in de actie zelf
+      * in de action meerdere targets definiëren
+      * */
       this.outputData = data
     } else throw new Error('invalid data')
   }

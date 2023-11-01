@@ -157,8 +157,7 @@ export class UiActionsService {
 
   private setConfigValueAndRebuild(action: Action) {
     const currentAppConfig = this.configService.appConfig
-    debugger
-    if (currentAppConfig) {
+    if (currentAppConfig && !(action.target instanceof Array)) {
       // todo fix bug
       let config = this.configService.getConfigFromRoot(action.target)
       if (!config) throw new Error('action was not configured correctly')

@@ -39,11 +39,17 @@ export const effects:Effect[] = [
   ),*/
   new Effect(
     new Trigger(TriggerType.ComponentReady, 'main-table'),
-    new Action('populate_table',ActionType.GetAllInstances, 'main-table','product')
+    new Action('populate_table',ActionType.GetAllInstances, 'main-table','product') // alle velden, alle data, later gaan we hier partials moeten toelaten
+    /*
+    * bijkomend datatype target:
+    * [{target: 'edit-text-input', field: 'name'}], concept:'product' => concept kan hierbij eventueel van de afgeleide data komen, targets en velden niet
+    * in een later stadium kan het ook zo dat we een form component als target pakken voor een bepaald concept en dat de engine dan bepaald welke velden
+    * horen bij welke UI componenten bv. een string field hoort bij een text input component etc.
+    * */
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
-    new Action('prepare_instance', ActionType.UseInstanceFromServer,'edit-product-text-input',['product','name'])
+    new Action('prepare_instance', ActionType.UseInstanceFromServer,[{target:'edit-product-text-input',field:'name'}],'product')
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'prepare_instance'),

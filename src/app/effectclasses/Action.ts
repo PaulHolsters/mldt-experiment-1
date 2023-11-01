@@ -12,7 +12,7 @@ export class Action {
   public constructor(
     public id:ActionIdType,
     public type:ActionType,
-    public target:ComponentNameType|NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
+    public target:ComponentNameType|{target:ComponentNameType,field:string}[]|NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
     public conceptName: ConceptNameType|DataLink|NoValueType.CALCULATED_BY_ENGINE|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
     public value:ActionValueModel|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED
   ) {

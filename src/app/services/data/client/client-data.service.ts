@@ -11,7 +11,7 @@ import {
   ComponentNameType,
   ConceptNameType, isActionIdType,
   isComponentName,
-  isConceptName, isDataLink, isFrontendDataType, isServerDataRequestType, ServerDataRequestType
+  isFrontendDataType, ServerDataRequestType
 } from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
 import {QueryService} from "../server/queries/query.service";
@@ -24,8 +24,6 @@ import {
   isOutPutData, List,
   OutputData
 } from "../../../types/union-types";
-import {NoValueType} from "../../../enums/NoValueTypes.enum";
-import {ActionValueModel} from "../../../design-dimensions/ActionValueModel";
 @Injectable({
   providedIn: 'root'
 })
@@ -52,6 +50,8 @@ export class ClientDataService {
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromServer))?.subscribe(res => {
       if(res && isFrontendDataType(res.data,this.configService) && !isNoValueType(res.effect.action.target)){
+        // todo fix target kan nu ook een array zijn
+        // todo fix zodat output data enkel het desbetreffende veld bevat
         let concept:ConceptNameType|undefined
         let objectId:string|undefined
         if(isDataRecord(res.data[1])){
@@ -73,8 +73,10 @@ export class ClientDataService {
           }
           objectId = record.id
         } else throw new Error('invalid frontend data type => list cannot be of length 0')
+        // einde invullen objectId en concept
         if(!concept) throw new Error('concept name could not be reconstructed')
         if(!objectId) throw new Error('cannot get instance without a valid objectId')
+        // deze actie kan meerdere instanties aanmaken indien target een array is
         this.startDataServerAction.next({
           concept:concept,
           target:res.effect.action.target,
@@ -88,7 +90,7 @@ export class ClientDataService {
 
     this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromFrontend))?.subscribe(res => {
       if(res && isFrontendDataType(res.data,this.configService) && !isNoValueType(res.effect.action.target)){
-        const cd = this.getClientData(res.data[0])
+        const cd = this.getClientDataInstanceForComponent(res.data[0])
         if(!cd) throw new Error('When you use frontend data entirely some parent component from which it came '+
         'must still exist => configure useInstanceFromServer action instead')
         this.createClientData(res.effect.action.id,res.effect.action.target,cd.blueprint,res.data[1],[])
@@ -107,28 +109,33 @@ export class ClientDataService {
   }
 
   // client data CRUD
-  public getClientData(target:ActionIdType|ComponentNameType,first:boolean=false): ClientData | undefined {
-    return this.clientData.find(cd=>{
-      if(first) return cd.id == target
-      else return cd.name === target
-    })
+  public getClientDataInstanceForComponent(target:ComponentNameType): ClientData| undefined {
+      return this.clientData.find(
+        cd=>{
+          return cd.name === target
+        }
+      )
+  }
+  public getClientDataInstancesForId(target:ActionIdType): ClientData[]| undefined {
+      return this.clientData.filter(cd=>{
+        return cd.id == target
+      })
   }
   // in de volgende twee methodes moet outPutData correct staan
   public updateClientData(id:ActionIdType|ComponentNameType,data:Blueprint|OutputData) {
-    let instance
     if(isComponentName(id,this.configService)){
-      instance =  this.getClientData(id)
+      const instance =  this.getClientDataInstanceForComponent(id)
+      if(instance){
+        instance.update(data)
+        this.clientDataUpdated.next(instance)
+      } else throw new Error('Client data instance does not exist')
     } else if(isActionIdType(id,this.configService)){
-      instance =  this.getClientData(id,true)
-    }
-    if(instance){
-      instance.update(data)
-      this.clientDataUpdated.next(instance)
-    } else throw new Error('Client data instance does not exist')
+      const instances =  this.getClientDataInstancesForId(id)
+    } else throw new Error('id for fetching clientdata is not valid')
   }
   public createClientData(
     actionId:ActionIdType,
-    componentName:ComponentNameType,
+    componentName:ComponentNameType|{target:ComponentNameType,field:string}[],
     blueprint:Blueprint,
     data?:List|DataRecord|undefined,
     errorMessages?:string[]|undefined
@@ -153,16 +160,25 @@ export class ClientDataService {
               throw new Error('type of blueprint property unknown '+v[0])
           }
         }
-        // todo komt de enum waarde automatisch mee de eerste keer al, heeft die geen blueprint? => ik denk het niet maar controleer
       }
       if(isOutPutData(data)){
-        this._clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
-      }
-      const cd = this.getClientData(componentName)
-      if(cd) this.clientDataUpdated.next(cd)
-    }
-    // todo dit moet automatisch in de rest worden opgenomen OF via messaging en reactive programm
+        if(componentName instanceof Array){
+          componentName.forEach(name=>{
+            // todo extract data
 
+            this._clientData.push(new ClientData(actionId,name.target,blueprint,data,errorMessages))
+            const cd = this.getClientDataInstanceForComponent(name.target)
+            if(cd) this.clientDataUpdated.next(cd)
+          })
+        } else{
+          // todo kán outputdata afhankelijk zijn van de target (is datalink conceptname)
+
+          this._clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
+          const cd = this.getClientDataInstanceForComponent(componentName)
+          if(cd) this.clientDataUpdated.next(cd)
+        }
+      }
+    }
   }
   private deleteClientData(name:ActionIdType|ComponentNameType,concept:ConceptNameType){
     // todo

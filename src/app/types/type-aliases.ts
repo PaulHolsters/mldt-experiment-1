@@ -23,7 +23,7 @@ export const isFrontendDataType = function isFrontendDataType(data:unknown,confi
   return (data instanceof Array) && data.length===2 && isComponentName(data[0],config) && (isDataRecord(data[1]) || isList(data[1]))
 }
 export type ServerDataRequestType = {
-concept:ConceptNameType,target:ComponentNameType,action:ActionType,actionId:ActionIdType,data:string
+concept:ConceptNameType,target:ComponentNameType|{target:ComponentNameType,field:string}[],action:ActionType,actionId:ActionIdType,data:string
 }
 export const isServerDataRequestType = function isServerDataRequestType(data:unknown): data is ServerDataRequestType{
   return data !== null && typeof data === 'object' && !(data instanceof Array)
