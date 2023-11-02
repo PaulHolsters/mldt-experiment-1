@@ -124,7 +124,6 @@ export class ClientDataService {
   }
 
   public updateClientData(searchValue: ActionIdType | ComponentNameType | {target:ComponentNameType,field:string}[], data: Blueprint | OutputData) {
-    debugger
     if(searchValue instanceof Array){
       searchValue.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
@@ -182,6 +181,7 @@ export class ClientDataService {
             const fieldValue = data[name.field]
             this._clientData.push(new ClientData(actionId, name.target, blueprint, fieldValue, errorMessages))
           } else{
+            debugger
             this._clientData.push(new ClientData(actionId, name.target, blueprint, undefined, errorMessages))
           }
           const cd = this.getClientDataInstanceForComponent(name.target)

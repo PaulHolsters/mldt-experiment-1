@@ -2,41 +2,41 @@
     <p-inputNumber
       [(ngModel)]="value"
       (onInput)="updateData(this.numberInput)"
-      mode="{{mode}}"
-      [minFractionDigits]="minFractionDigits ?? 0"
-      [maxFractionDigits]="maxFractionDigits ?? 20"
-      [disabled]="disabled === true"
-      [useGrouping]="useGrouping === true"
-      [min]="min ?? Number.MIN_SAFE_INTEGER"
-      [max]="max ?? Number.MAX_SAFE_INTEGER"
-      locale="{{locale}}"
-      suffix="{{suffix}}"
-      prefix="{{prefix}}"
-      [showButtons]="showButtons === true"
-      [step]="step ?? 0"
-      currency="{{currency}}"
-      currencyDisplay="{{currencyDisplay}}"
-      decrementButtonClass="{{decrementButtonClass ? ('p-button-'+decrementButtonClass) : undefined}}"
-      incrementButtonClass="{{incrementButtonClass ? ('p-button-'+incrementButtonClass) : undefined}}"
-      incrementButtonIcon="{{incrementButtonIcon ? ('pi pi-'+incrementButtonIcon) : undefined}}"
-      decrementButtonIcon="{{decrementButtonIcon ? ('pi pi-'+decrementButtonIcon) : undefined}}"
-      buttonLayout="{{buttonLayout}}" #numberInput></p-inputNumber>
+      mode="{{getPropValue(PropertyName.mode)}}"
+      [minFractionDigits]="getPropValue(PropertyName.minFractionDigits) ?? 0"
+      [maxFractionDigits]="getPropValue(PropertyName.maxFractionDigits) ?? 20"
+      [disabled]="getPropValue(PropertyName.disabled) === true"
+      [useGrouping]="getPropValue(PropertyName.useGrouping) === true"
+      [min]="getPropValue(PropertyName.min) ?? Number.MIN_SAFE_INTEGER"
+      [max]="getPropValue(PropertyName.max) ?? Number.MAX_SAFE_INTEGER"
+      locale="{{getPropValue(PropertyName.locale)}}"
+      suffix="{{getPropValue(PropertyName.suffix)}}"
+      prefix="{{getPropValue(PropertyName.prefix)}}"
+      [showButtons]="getPropValue(PropertyName.showButtons) === true"
+      [step]="getPropValue(PropertyName.step) ?? 0"
+      [attr.currency]="getPropValue(PropertyName.currency)"
+      [attr.currencyDisplay]="getPropValue(PropertyName.currencyDisplay)"
+      decrementButtonClass="{{getPropValue(PropertyName.decrementButtonClass) ? ('p-button-'+getPropValue(PropertyName.decrementButtonClass)) : undefined}}"
+      incrementButtonClass="{{getPropValue(PropertyName.incrementButtonClass) ? ('p-button-'+getPropValue(PropertyName.incrementButtonClass)) : undefined}}"
+      incrementButtonIcon="{{getPropValue(PropertyName.incrementButtonIcon) ? ('pi pi-'+getPropValue(PropertyName.incrementButtonIcon)) : undefined}}"
+      decrementButtonIcon="{{getPropValue(PropertyName.decrementButtonIcon) ? ('pi pi-'+getPropValue(PropertyName.decrementButtonIcon)) : undefined}}"
+      buttonLayout="{{getPropValue(PropertyName.buttonLayout)}}" #numberInput></p-inputNumber>
 </ng-template>
-<div *ngIf="floatLabel"
-      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-      [style.height]="height"
-      [style.width]="width"
+<div *ngIf="getPropValue(PropertyName.floatLabel)"
+      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+      [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+      [style.height]="getPropValue(PropertyName.height)"
+      [style.width]="getPropValue(PropertyName.width)"
       #inputWrapper
 >
   <ng-template [ngTemplateOutlet]="input"></ng-template>
-  <label>{{label}}</label>
+  <label>{{getPropValue(PropertyName.label)}}</label>
 </div>
-<div *ngIf="!floatLabel"
-      [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-      [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-      [style.height]="height"
-      [style.width]="width"
+<div *ngIf="!getPropValue(PropertyName.floatLabel)"
+      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+      [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+      [style.height]="getPropValue(PropertyName.height)"
+      [style.width]="getPropValue(PropertyName.width)"
      #inputWrapper
 >
   <ng-template [ngTemplateOutlet]="input"></ng-template>

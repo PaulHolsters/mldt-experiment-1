@@ -1,83 +1,54 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {InputNumber} from "primeng/inputnumber";
-import {Observable} from "rxjs";
-import {RenderPropertiesService} from "../../../services/renderProperties.service";
-import {ClientDataService} from "../../../services/data/client/client-data.service";
 import {isOutPutData} from "../../../types/union-types";
+import {Component as AbstractComponent} from "../../Component";
+import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
+import {NumberInput} from "../../../componentclasses/NumberInput";
 
 @Component({
   selector: 'm-input-number',
   templateUrl: './input-number.component.html',
   styleUrls: ['./input-number.component.css']
 })
-export class InputNumberComponent implements OnInit {
-  @Input() name = ''
-  @Input() data:any|undefined
-  @Input() advisoryText:string|undefined
-  @Input() label:string|undefined
-  @Input() floatLabel:boolean|undefined
-  @Input() disabled:boolean|undefined
-  @Input() dirty:boolean|undefined
-  @Input() invalid:boolean|undefined
-  @Input() useGrouping:boolean|undefined
-  @Input() mode:string|undefined
-  @Input() suffix:string|undefined
-  @Input() prefix:string|undefined
-  @Input() locale:string|undefined
-  @Input() currency:string|undefined
-  @Input() currencyDisplay:string|undefined
-  @Input() minFractionDigits:number|undefined
-  @Input() maxFractionDigits:number|undefined
-  @Input() min:number|undefined
-  @Input() max:number|undefined
-  @Input() showButtons:boolean|undefined
-  @Input() spinnerMode:string|undefined
-  @Input() step:number|undefined
-  @Input() decrementButtonClass:string|undefined
-  @Input() incrementButtonClass:string|undefined
-  @Input() incrementButtonIcon:string|undefined
-  @Input() decrementButtonIcon:string|undefined
-  @Input() buttonLayout:string|undefined
-  @Input() value:number|undefined
-  @Input() updateKey!: string
+export class InputNumberComponent extends AbstractComponent implements OnInit {
   @ViewChild('inputWrapper') inputWrapper: ElementRef | undefined
-  calcHeight$: Observable<any>|undefined
-  calcWidth$: Observable<any>|undefined
-
-  width:string|undefined
-  height:string|undefined
+  value:number|undefined
   Number = Number
-  constructor(private storeService:RenderPropertiesService, private clientDataService:ClientDataService) {
-  }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
       this.inputWrapper?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
-      this.height = undefined
+      this.setPropValue(PropertyName.height,undefined)
       return true
     }
-    this.height = '100%'
+    this.setPropValue(PropertyName.height,'100%')
     return false
   }
   setCalculatedWidth(val:any):boolean{
     if(typeof val === 'string'){
       this.inputWrapper?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
-      this.width = undefined
+      this.setPropValue(PropertyName.width,undefined)
       return true
     }
-    this.width = '100%'
+    this.setPropValue(PropertyName.width,'100%')
     return false
   }
 
   ngOnInit(): void {
-    this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
-    this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
+    this.props = NumberInput.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        this.setPropValue(k,res)
+      })
+    })
+    // todo je moet een subscribe gebruiken omdat je niet anders kan
+    this.value = this.getPropValue(PropertyName.outputData)
   }
 
   updateData(formControl:InputNumber){
-    const text = formControl.el.nativeElement.innerHTML
+/*    const text = formControl.el.nativeElement.innerHTML
     const text2 = text.substring(text.indexOf('<input ')+7)
     const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
-    this.value = Number(text3.substring(0,text3.indexOf('">')))
+    const value = Number(text3.substring(0,text3.indexOf('">')))*/
     if(isOutPutData(this.value))
     this.clientDataService.updateClientData(this.name, this.value)
   }

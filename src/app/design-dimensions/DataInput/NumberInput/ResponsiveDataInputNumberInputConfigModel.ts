@@ -41,7 +41,7 @@ export class ResponsiveDataInputNumberInputConfigModel extends ResponsiveConfigM
     const config = this.getConfigModel(screenSize)
     const renderInstance = new NumberInputDataInputRenderModel()
     Object.entries(config).forEach(([k,v])=>{
-      if(v) renderInstance?.setProperty(k,v)
+      renderInstance.setProperty(k,v)
     })
     return renderInstance
   }

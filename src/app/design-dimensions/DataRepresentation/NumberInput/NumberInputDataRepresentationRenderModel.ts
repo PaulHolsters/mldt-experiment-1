@@ -1,6 +1,7 @@
 import {LocaleType} from "../../../enums/localeType.enum";
 import {CurrencyType} from "../../../enums/currencyType.enum";
 import {CurrencyDisplayType} from "../../../enums/currencyDisplayType.enum";
+import {isNoValueType} from "../../../types/union-types";
 
 export class NumberInputDataRepresentationRenderModel {
   public useGrouping: boolean|null=null
@@ -15,7 +16,12 @@ export class NumberInputDataRepresentationRenderModel {
   constructor() {
   }
   public setProperty(propName: string, value: string): void {
-    if (Reflect.has(this, propName)) Reflect.set(this, propName, value)
+    if (Reflect.has(this, propName)){
+      // todo aanpakken voor currency model
+      if(!isNoValueType(value)){
+        Reflect.set(this, propName, value)
+      }
+    }
     else throw new Error('cannot set property ' + propName + ' because it does not exist on the object of type TableStructuralRenderModel')
   }
 

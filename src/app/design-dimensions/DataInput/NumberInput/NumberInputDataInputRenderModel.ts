@@ -2,6 +2,7 @@ import {NumberInputModeType} from "../../../enums/numberInputModeType.enum";
 import {IconType} from "../../../enums/iconType.enum";
 import {ButtonLayoutType} from "../../../enums/buttonLayoutType.enum";
 import {ButtonMeaningType} from "../../../enums/buttonMeaningType.enum";
+import {isNoValueType} from "../../../types/union-types";
 export class NumberInputDataInputRenderModel {
   public advisoryText:string|null=null
   public showButtons:boolean|null=null
@@ -18,7 +19,9 @@ export class NumberInputDataInputRenderModel {
   constructor() {
   }
   public setProperty(propName: string, value: string): void {
-    if (Reflect.has(this, propName)) Reflect.set(this, propName, value)
+    if (Reflect.has(this, propName)){
+      if(!isNoValueType(value)) Reflect.set(this, propName, value)
+    }
     else throw new Error('cannot set property ' + propName + ' because it does not exist on the object of type TableStructuralRenderModel')
   }
 }
