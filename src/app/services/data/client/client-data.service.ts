@@ -53,15 +53,13 @@ export class ClientDataService {
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromServer))?.subscribe(res => {
       if (res && isFrontendDataType(res.data, this.configService) && !isNoValueType(res.effect.action.target)) {
-        // todo fix target kan nu ook een array zijn
-        // todo fix zodat output data enkel het desbetreffende veld bevat
         let concept: ConceptNameType | undefined
         let objectId: string | undefined
         if (isDataRecord(res.data[1])) {
           if (isNoValueType(res.effect.action.conceptName)) {
-            concept = extractConcept(res.data[1].__typename)
+            concept = extractConcept(res.data[1].__typename,this.configService)
           } else {
-            concept = extractConcept(res.effect.action.conceptName)
+            concept = extractConcept(res.effect.action.conceptName,this.configService)
           }
           objectId = res.data[1].id
         } else if (res.data[1].length > 0) {
@@ -70,16 +68,15 @@ export class ClientDataService {
           })
           if (!record) throw new Error('no valid record found')
           if (isNoValueType(res.effect.action.conceptName)) {
-            concept = extractConcept(record.__typename)
+            concept = extractConcept(record.__typename,this.configService)
           } else {
-            concept = extractConcept(res.effect.action.conceptName)
+            concept = extractConcept(res.effect.action.conceptName,this.configService)
           }
           objectId = record.id
         } else throw new Error('invalid frontend data type => list cannot be of length 0')
         // einde invullen objectId en concept
         if (!concept) throw new Error('concept name could not be reconstructed')
         if (!objectId) throw new Error('cannot get instance without a valid objectId')
-        // deze actie kan meerdere instanties aanmaken indien target een array is
         this.startDataServerAction.next({
           concept: concept,
           target: res.effect.action.target,
@@ -131,8 +128,6 @@ export class ClientDataService {
       searchValue.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
         if (instance) {
-          // todo hier zou met de structuur en de fields rekening gehouden moeten worden
-
           instance.update(data,t.field)
           this.clientDataUpdated.next(instance)
         } else throw new Error('Client data instance does not exist')
@@ -180,10 +175,14 @@ export class ClientDataService {
           }
         }
       }
-      if (componentName instanceof Array && isDataRecord(data)) {
+      if (componentName instanceof Array) {
         componentName.forEach(name => {
-          const fieldValue = data[name.field]
-          this._clientData.push(new ClientData(actionId, name.target, blueprint, fieldValue, errorMessages))
+          if(isDataRecord(data)){
+            const fieldValue = data[name.field]
+            this._clientData.push(new ClientData(actionId, name.target, blueprint, fieldValue, errorMessages))
+          } else{
+            this._clientData.push(new ClientData(actionId, name.target, blueprint, undefined, errorMessages))
+          }
           const cd = this.getClientDataInstanceForComponent(name.target)
           if (cd) this.clientDataUpdated.next(cd)
         })

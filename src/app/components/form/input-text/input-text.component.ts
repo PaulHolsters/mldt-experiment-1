@@ -32,7 +32,7 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
   }
   getValue():string{
     const data = this.getPropValue(PropertyName.outputData)
-    // todo zorg ervoor dat een check hier niet nodig is doordat de gebruiker niet kán vergeten om een datalink mee te geven
+    if(data && !(this.getPropValue(PropertyName.dataLink) instanceof Array)) return data
     if(data && this.getPropValue(PropertyName.dataLink) instanceof Array){
       const dataLink = [...this.getPropValue(PropertyName.dataLink)]
       dataLink.shift()

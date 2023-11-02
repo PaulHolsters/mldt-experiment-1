@@ -51,7 +51,7 @@ export class ServerDataService {
         let concept:string|undefined
         let target:string|{target: string, field: string}[]|undefined
         if(!isServerDataRequestType(res.data)){
-          concept = extractConcept(res.effect.action.conceptName) ? extractConcept(res.effect.action.conceptName)
+          concept = extractConcept(res.effect.action.conceptName,this.configService) ? extractConcept(res.effect.action.conceptName,this.configService)
             : typeof res.data === 'string' ? res.data:undefined
           target = res.effect.action.target
         } else{
@@ -143,7 +143,7 @@ export class ServerDataService {
           })
         } else{
           // gewone opvraag
-          const concept = extractConcept(res.effect.action.conceptName)
+          const concept = extractConcept(res.effect.action.conceptName,this.configService)
           const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
           if (typeof res.data === 'string' && res.effect.action.target && concept) {
             const target = res.effect.action.target instanceof Array ?  res.effect.action.target[0].target : res.effect.action.target
@@ -179,7 +179,7 @@ export class ServerDataService {
       if (res && !isServerDataRequestType(res.data)) {
         // gewone getAllInstances
         const info = {effect:res.effect,data:res.data,target:res.target}
-        const concept = extractConcept(res.effect.action.conceptName)
+        const concept = extractConcept(res.effect.action.conceptName,this.configService) // dit geeft nu "p" voor "product"
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,
           data:  string | Blueprint | ClientData | [string, (List | DataRecord)]|DataRecord|List, target: EventTarget | undefined},concept:ConceptNameType){
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{

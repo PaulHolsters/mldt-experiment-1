@@ -163,7 +163,7 @@ import {
   BlueprintStr,
   BlueprintType,
   ConceptNameType,
-  DataLink,
+  DataLink, isConceptName, isDataLink,
   isTypeName,
   ObjectIdType,
   TypeName
@@ -174,6 +174,7 @@ import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/Respo
 import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {Dialog} from "../components/dialog/Dialog";
 import {TextInput} from "../components/form/input-text/TextInput";
+import {ConfigService} from "../services/config.service";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -332,10 +333,11 @@ export type ActionValueType = 'list'|
   boolean|
   undefined
 
-export const extractConcept = function extractConcept(concept:TypeName|ConceptNameType|undefined|DataLink):ConceptNameType|undefined{
+export const extractConcept = function extractConcept(concept:TypeName|ConceptNameType|undefined|DataLink,config:ConfigService):ConceptNameType|undefined{
   if(isTypeName(concept)){
     return concept.substring(0,concept.indexOf('Data'))
   }
+  if(isConceptName(concept,config) && !isDataLink(concept,config)) return concept
   if(!concept) return concept
   if(concept.length===0) return undefined
   return concept[0]

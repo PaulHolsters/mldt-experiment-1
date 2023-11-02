@@ -102,7 +102,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     * */
     const cn = extractConcept(this.configService.appConfig.userConfig.effects.find(e=>{
       return e.action.target === this.data.name
-    })?.action.conceptName)
+    })?.action.conceptName,this.configService)
     if(cn){
       return `
     mutation Mutation{
