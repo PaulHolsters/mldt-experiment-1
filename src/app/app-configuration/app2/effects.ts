@@ -49,7 +49,10 @@ export const effects:Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
-    new Action('prepare_instance', ActionType.UseInstanceFromServer,[{target:'edit-product-text-input',field:'name'}],'product')
+    new Action('prepare_instance', ActionType.UseInstanceFromServer,[
+      {target:'edit-product-text-input',field:'name'},
+      {target:'edit-product-number-input',field:'price'}
+    ],'product')
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'prepare_instance'),

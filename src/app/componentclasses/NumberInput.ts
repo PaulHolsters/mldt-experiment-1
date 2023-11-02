@@ -3,7 +3,8 @@ import {IconType} from "../enums/iconType.enum";
 import {IconPositionType} from "../enums/iconPositionType.enum";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
-export abstract class TextInput extends Component{
+import {DataRecord} from "../types/union-types";
+export abstract class NumberInput extends Component{
   public static width:string|null=null
   public static height:string|null=null
   public static calcHeight: string|null=null

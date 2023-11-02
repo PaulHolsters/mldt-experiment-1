@@ -124,6 +124,7 @@ export class ClientDataService {
   }
 
   public updateClientData(searchValue: ActionIdType | ComponentNameType | {target:ComponentNameType,field:string}[], data: Blueprint | OutputData) {
+    debugger
     if(searchValue instanceof Array){
       searchValue.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
