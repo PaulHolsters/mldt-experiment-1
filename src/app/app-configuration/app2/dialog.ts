@@ -2,6 +2,7 @@ import {Dialog} from "../../components/dialog/Dialog";
 import {TextInput} from "../../components/form/input-text/TextInput";
 import {Button} from "../../components/button/Button";
 import {Container} from "../../components/container/Container";
+import {NumberInput} from "../../components/form/input-number/NumberInput";
 
 export const dialog = new Dialog('update-product-dialog')
 dialog.visibility.smartphone.setVisible(false)
