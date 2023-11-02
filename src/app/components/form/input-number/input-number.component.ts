@@ -34,6 +34,11 @@ export class InputNumberComponent extends AbstractComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.storeService.bindToStateProperty(this.name,PropertyName.outputData)?.subscribe(res=>{
+      if(typeof res === 'number'){
+        this.value = res
+      }
+    })
     this.props = NumberInput.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
@@ -41,7 +46,7 @@ export class InputNumberComponent extends AbstractComponent implements OnInit {
       })
     })
     // todo je moet een subscribe gebruiken omdat je niet anders kan
-    this.value = this.getPropValue(PropertyName.outputData)
+
   }
 
   updateData(formControl:InputNumber){
