@@ -287,7 +287,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 
 export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput
-export type ScreenSizeType = 'smartphone'|'portraitTablet'|'tablet'|'laptop'|'high resolution'
+
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
 } & {
@@ -298,16 +298,20 @@ export type DataRecord= {
 export type List = (DataRecord|null)[]
 export type RenderPropertyType = boolean|number|Date|string
 export type RenderPropertyTypeList<K> =
-  K extends boolean ? boolean :
-  K extends string ? string :
-  K extends Date ? Date :
-  K extends number ? number: never
+  K extends boolean ? boolean[] :
+  K extends string ? string[] :
+  K extends Date ? Date[] :
+  K extends number ? number[]: never
 
 export type OutputData = (
   List|
   DataRecord|
-  RenderPropertyTypeList<RenderPropertyType>[] |
-  RenderPropertyType)&{ __brand: 'output data'}
+  RenderPropertyTypeList<RenderPropertyType> |
+  RenderPropertyType)
+export const isOutPutData = function isOutputData(data:unknown): data is OutputData{
+  return isList(data)||isDataRecord(data)||(typeof data === 'string')||(typeof data === 'number')||(typeof data === 'boolean')
+  ||(typeof data === 'string')||data instanceof Date
+}
 
 export type ServerData = (
   {
@@ -333,7 +337,6 @@ export const extractConcept = function extractConcept(concept:TypeName|ConceptNa
     return concept.substring(0,concept.indexOf('Data'))
   }
   if(!concept) return concept
-  if(!(concept instanceof Array)) return concept
   if(concept.length===0) return undefined
   return concept[0]
 }
@@ -373,12 +376,7 @@ export const isNoValueType = function isNoValueType(data:unknown):data is NoValu
 export const isDataRecord = function isDataRecord(data:unknown):data is DataRecord{
   return data!==null && typeof data === 'object' && !(data instanceof Array) && 'id' in data && '__typename' in data
 }
-export const isOutPutData = function isOutputData(data:any): data is OutputData{
-  if(data===undefined) return true
-  if(typeof data === 'string') return true
-  if(isDataRecord(data)) return true
-  return (isList(data))
-}
+
 export const isClientData = function isClientData(data:any):data is ClientData{
   return data instanceof ClientData
 }

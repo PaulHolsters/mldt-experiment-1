@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Action} from "../../../effectclasses/Action";
 import {ActionType} from "../../../enums/actionTypes.enum";
 import {Blueprint} from "./Blueprint";
@@ -20,80 +20,83 @@ import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {
   DataRecord,
-  extractConcept, isDataRecord, isNoValueType,
+  extractConcept, isDataRecord, isList, isNoValueType,
   isOutPutData, List,
   OutputData
 } from "../../../types/union-types";
+
 @Injectable({
   providedIn: 'root'
 })
 export class ClientDataService {
   // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
   public clientDataUpdated = new Subject<ClientData>()
-  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
+  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: ActionIdType }>()
   public startDataServerAction = new Subject<ServerDataRequestType>()
 
   private _clientData: ClientData[] = []
-  constructor(private actionsService:ActionsService,
-              private configService:ConfigService,
-              private queryService:QueryService,
-              private stateService:StateService,
-              private renderPropertiesService:RenderPropertiesService) {
-    this.actionsService.bindToActionsEmitter.subscribe(res=>{
+
+  constructor(private actionsService: ActionsService,
+              private configService: ConfigService,
+              private queryService: QueryService,
+              private stateService: StateService,
+              private renderPropertiesService: RenderPropertiesService) {
+    this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
   }
-  public get clientData(){
+
+  public get clientData() {
     return [...this._clientData]
   }
 
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromServer))?.subscribe(res => {
-      if(res && isFrontendDataType(res.data,this.configService) && !isNoValueType(res.effect.action.target)){
+      if (res && isFrontendDataType(res.data, this.configService) && !isNoValueType(res.effect.action.target)) {
         // todo fix target kan nu ook een array zijn
         // todo fix zodat output data enkel het desbetreffende veld bevat
-        let concept:ConceptNameType|undefined
-        let objectId:string|undefined
-        if(isDataRecord(res.data[1])){
-          if(isNoValueType(res.effect.action.conceptName)){
+        let concept: ConceptNameType | undefined
+        let objectId: string | undefined
+        if (isDataRecord(res.data[1])) {
+          if (isNoValueType(res.effect.action.conceptName)) {
             concept = extractConcept(res.data[1].__typename)
-          }else{
+          } else {
             concept = extractConcept(res.effect.action.conceptName)
           }
           objectId = res.data[1].id
-        } else if(res.data[1].length>0){
-          const record = res.data[1].find(it=>{
+        } else if (res.data[1].length > 0) {
+          const record = res.data[1].find(it => {
             return it !== null
           })
-          if(!record) throw new Error('no valid record found')
-          if(isNoValueType(res.effect.action.conceptName)){
+          if (!record) throw new Error('no valid record found')
+          if (isNoValueType(res.effect.action.conceptName)) {
             concept = extractConcept(record.__typename)
-          }else{
+          } else {
             concept = extractConcept(res.effect.action.conceptName)
           }
           objectId = record.id
         } else throw new Error('invalid frontend data type => list cannot be of length 0')
         // einde invullen objectId en concept
-        if(!concept) throw new Error('concept name could not be reconstructed')
-        if(!objectId) throw new Error('cannot get instance without a valid objectId')
+        if (!concept) throw new Error('concept name could not be reconstructed')
+        if (!objectId) throw new Error('cannot get instance without a valid objectId')
         // deze actie kan meerdere instanties aanmaken indien target een array is
         this.startDataServerAction.next({
-          concept:concept,
-          target:res.effect.action.target,
-          action:ActionType.GetInstance,
-          actionId:res.effect.action.id,
-          data:objectId
+          concept: concept,
+          target: res.effect.action.target,
+          action: ActionType.GetInstance,
+          actionId: res.effect.action.id,
+          data: objectId
         })
         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
       } else throw new Error('target was missing from action configuration')
     })
 
     this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromFrontend))?.subscribe(res => {
-      if(res && isFrontendDataType(res.data,this.configService) && !isNoValueType(res.effect.action.target)){
+      if (res && isFrontendDataType(res.data, this.configService) && !isNoValueType(res.effect.action.target)) {
         const cd = this.getClientDataInstanceForComponent(res.data[0])
-        if(!cd) throw new Error('When you use frontend data entirely some parent component from which it came '+
-        'must still exist => configure useInstanceFromServer action instead')
-        this.createClientData(res.effect.action.id,res.effect.action.target,cd.blueprint,res.data[1],[])
+        if (!cd) throw new Error('When you use frontend data entirely some parent component from which it came ' +
+          'must still exist => configure useInstanceFromServer action instead')
+        this.createClientData(res.effect.action.id, res.effect.action.target, cd.blueprint, res.data[1], [])
       }
     })
 
@@ -109,90 +112,105 @@ export class ClientDataService {
   }
 
   // client data CRUD
-  public getClientDataInstanceForComponent(target:ComponentNameType): ClientData| undefined {
-      return this.clientData.find(
-        cd=>{
-          return cd.name === target
-        }
-      )
+  public getClientDataInstanceForComponent(target: ComponentNameType): ClientData | undefined {
+    return this.clientData.find(
+      cd => {
+        return cd.name === target
+      }
+    )
   }
-  public getClientDataInstancesForId(target:ActionIdType): ClientData[]| undefined {
-      return this.clientData.filter(cd=>{
-        return cd.id == target
+
+  public getClientDataInstancesForId(target: ActionIdType): ClientData[] | undefined {
+    return this.clientData.filter(cd => {
+      return cd.id == target
+    })
+  }
+
+  public updateClientData(searchValue: ActionIdType | ComponentNameType | {target:ComponentNameType,field:string}[], data: Blueprint | OutputData) {
+    if(searchValue instanceof Array){
+      searchValue.forEach(t=>{
+        const instance = this.getClientDataInstanceForComponent(t.target)
+        if (instance) {
+          // todo hier zou met de structuur en de fields rekening gehouden moeten worden
+
+          instance.update(data,t.field)
+          this.clientDataUpdated.next(instance)
+        } else throw new Error('Client data instance does not exist')
       })
-  }
-  // in de volgende twee methodes moet outPutData correct staan
-  public updateClientData(id:ActionIdType|ComponentNameType,data:Blueprint|OutputData) {
-    if(isComponentName(id,this.configService)){
-      const instance =  this.getClientDataInstanceForComponent(id)
-      if(instance){
+    } else if(isComponentName(searchValue, this.configService)){
+      const instance = this.getClientDataInstanceForComponent(searchValue)
+      if (instance) {
         instance.update(data)
         this.clientDataUpdated.next(instance)
       } else throw new Error('Client data instance does not exist')
-    } else if(isActionIdType(id,this.configService)){
-      const instances =  this.getClientDataInstancesForId(id)
+    } else if (isActionIdType(searchValue, this.configService)) {
+      const instances = this.getClientDataInstancesForId(searchValue)
+      instances?.forEach(i=>{
+        i.update(data)
+        this.clientDataUpdated.next(i)
+      })
     } else throw new Error('id for fetching clientdata is not valid')
   }
+
   public createClientData(
-    actionId:ActionIdType,
-    componentName:ComponentNameType|{target:ComponentNameType,field:string}[],
-    blueprint:Blueprint,
-    data?:List|DataRecord|undefined,
-    errorMessages?:string[]|undefined
-  ){
-    if(blueprint){
-      for(let [k,v] of blueprint.properties.properties){
-        if(v instanceof Array && v.length===2 && typeof v[0]==='string' && v[1] instanceof Array && v[1].length===2 && v[1][0] instanceof Blueprint){
-          switch (v[0]){
+    actionId: ActionIdType,
+    componentName: ComponentNameType | { target: ComponentNameType, field: string }[],
+    blueprint: Blueprint,
+    data?: List | DataRecord | undefined,
+    errorMessages?: string[] | undefined
+  ) {
+    if (blueprint) {
+      for (let [k, v] of blueprint.properties.properties) {
+        if (v instanceof Array && v.length === 2 && typeof v[0] === 'string' && v[1] instanceof Array && v[1].length === 2 && v[1][0] instanceof Blueprint) {
+          switch (v[0]) {
             case 'list':
               // wat hier gebeurt is dat op basis van de blueprint de bijhorende data wordt opgehaald
-              this.queryService.getAllRecords(v[1][0].conceptName,v[1][0]).subscribe(res=>{
+              this.queryService.getAllRecords(v[1][0].conceptName, v[1][0]).subscribe(res => {
                 const data = ServerData.getData(res.data)
-                if(data?.dataMultiple){
-                  blueprint.properties.setValuesProperties(k,data.dataMultiple)
-                  this.updateClientData(actionId,blueprint)
+                if (data?.dataMultiple) {
+                  blueprint.properties.setValuesProperties(k, data.dataMultiple)
+                  this.updateClientData(actionId, blueprint)
                 }
               })
               break
             case 'object':
               throw new Error('object property blueprint not implemented yet')
             default:
-              throw new Error('type of blueprint property unknown '+v[0])
+              throw new Error('type of blueprint property unknown ' + v[0])
           }
         }
       }
-      if(isOutPutData(data)){
-        if(componentName instanceof Array){
-          componentName.forEach(name=>{
-            // todo extract data
-
-            this._clientData.push(new ClientData(actionId,name.target,blueprint,data,errorMessages))
-            const cd = this.getClientDataInstanceForComponent(name.target)
-            if(cd) this.clientDataUpdated.next(cd)
-          })
-        } else{
-          // todo kán outputdata afhankelijk zijn van de target (is datalink conceptname)
-
-          this._clientData.push(new ClientData(actionId,componentName,blueprint,data,errorMessages))
-          const cd = this.getClientDataInstanceForComponent(componentName)
-          if(cd) this.clientDataUpdated.next(cd)
-        }
-      }
+      if (componentName instanceof Array && isDataRecord(data)) {
+        componentName.forEach(name => {
+          const fieldValue = data[name.field]
+          this._clientData.push(new ClientData(actionId, name.target, blueprint, fieldValue, errorMessages))
+          const cd = this.getClientDataInstanceForComponent(name.target)
+          if (cd) this.clientDataUpdated.next(cd)
+        })
+      } else if (isComponentName(componentName, this.configService)) {
+        this._clientData.push(new ClientData(actionId, componentName, blueprint, data, errorMessages))
+        const cd = this.getClientDataInstanceForComponent(componentName)
+        if (cd) this.clientDataUpdated.next(cd)
+      } else throw new Error('When there are several targets data should be of type datarecord')
     }
   }
-  private deleteClientData(name:ActionIdType|ComponentNameType,concept:ConceptNameType){
+
+  private deleteClientData(name: ActionIdType | ComponentNameType, concept: ConceptNameType) {
     // todo
     // wanneer een component gedestroyed wordt
   }
-  public getOutputDataForUIComponent(name:ComponentNameType):OutputData|undefined{
-    const cd = this.clientData.find(cd=>{
+
+  public getOutputDataForUIComponent(name: ComponentNameType): OutputData | undefined {
+    const cd = this.clientData.find(cd => {
       return cd.name === name
     })
     return cd?.outputData
   }
+
   //***********************************     data manipulation methods         ***************************************************************/
 
 }
+
 /*  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {
       if (compConfig instanceof ClientDataConfigModel) {
         let newObj: ClientDataRenderModel = {
@@ -229,18 +247,18 @@ export class ClientDataService {
       }
       return undefined
     }*/
-  /*  private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
-      switch (componentType) {
-        case ComponentType.MultiSelect:
-          return attr.multiselect !== undefined
-        case ComponentType.NumberInput:
-          return attr.number !== undefined
-        case ComponentType.TextInput:
-          return attr.text !== undefined
-        case ComponentType.RadioButton:
-          return attr.radio !== undefined
-        default:
-          return true
-      }
-    }*/
+/*  private isCorrectType(attr: AttributeComponentModel, componentType: ComponentType): boolean {
+    switch (componentType) {
+      case ComponentType.MultiSelect:
+        return attr.multiselect !== undefined
+      case ComponentType.NumberInput:
+        return attr.number !== undefined
+      case ComponentType.TextInput:
+        return attr.text !== undefined
+      case ComponentType.RadioButton:
+        return attr.radio !== undefined
+      default:
+        return true
+    }
+  }*/
 

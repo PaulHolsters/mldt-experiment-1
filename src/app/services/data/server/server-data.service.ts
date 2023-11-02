@@ -49,7 +49,7 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res && ((res.effect.action.conceptName && res.effect.action.target)||isServerDataRequestType(res.data))) {
         let concept:string|undefined
-        let target:string|undefined
+        let target:string|{target: string, field: string}[]|undefined
         if(!isServerDataRequestType(res.data)){
           concept = extractConcept(res.effect.action.conceptName) ? extractConcept(res.effect.action.conceptName)
             : typeof res.data === 'string' ? res.data:undefined
@@ -68,14 +68,15 @@ export class ServerDataService {
                   .subscribe(resOrErr=>{
                     const data = ServerData.getData(resOrErr)
                     if(data && target){
-                      // todo op termijn type safety toevoegen voor data zodat dit het gewenste type is =>
-                      //      dit is wellicht een mooie kandidaat voor branded types
-                      //      de reden waarom dat niet gecontroleerd wordt is dat data van het any type is
-                      //      dat is niet conform de type van de parameter maar het wordt gewoon niet gecontroleerd
-                      // hier zit de hele clue!
-                      debugger
-                      createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
-                      this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+                      if(target instanceof Array){
+                        target.forEach(t=>{
+                          createClientData(this,data.blueprint,res.effect.action.id,t.target,[], data)
+                          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+                        })
+                      } else{
+                        createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
+                        this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+                      }
                     } else{
                       // todo handle error
                     }
@@ -86,36 +87,52 @@ export class ServerDataService {
         }
       }
     })
+
     this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
-      function getRecord(self:ServerDataService, blueprint:Blueprint, res:
-        {effect: Effect, data: string, target: EventTarget | undefined},
-                         concept:ConceptNameType,
-                         target?:ComponentNameType,
-                         actionId?:ActionIdType){
+      function getRecord(
+        self:ServerDataService,
+        blueprint:Blueprint,
+        res:{effect: Effect, data: string, target: EventTarget | undefined},
+        concept:ConceptNameType,
+        target?:ComponentNameType|{target:ComponentNameType,field:string}[],
+        actionId?:ActionIdType){
         self.queryService.getSingleRecord(concept, blueprint, res.data).subscribe(errorOrResult=>{
           const data = ServerData.getData(errorOrResult)
           if(data && isOutPutData(data.dataSingle)){
-            self.clientDataService.updateClientData(actionId ? actionId : res.effect.action.id,data.dataSingle)
-            const cd = self.clientDataService.getClientData(target?target:res.effect.action.target)
-            self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+            const dataSingle = data.dataSingle
+            if(target){
+              self.clientDataService.updateClientData(target,dataSingle)
+              self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+            } else if(actionId){
+              self.clientDataService.updateClientData(actionId,dataSingle)
+              self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+            } else{
+              self.clientDataService.updateClientData(res.effect.action.target,dataSingle)
+              self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+            }
           } else{
             throw new Error('bad types')
           }
         })
       }
+
       if (res) {
         if(isServerDataRequestType(res.data)){
-          // todo verwerk hier het juiste actionId (dat zit niet in res.effect maar in res.data
+          const serverRequestData = res.data
+          // dit betekent frontend data
           this.queryService.getNumberOfNesting(res.data.concept).subscribe(resFirst=>{
             const data = ServerData.getData(resFirst)
-            if(data && data.numberOfNesting && isServerDataRequestType(res.data)){
-              this.queryService.getBlueprint(res.data.concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
+            if(data && data.numberOfNesting){
+              this.queryService.getBlueprint(serverRequestData.concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
                 const data = ServerData.getData(resOrErr)
-                if(data && isServerDataRequestType(res.data)){
-                  createClientData(this,data.blueprint,res.data.actionId,res.data.target,[],undefined)
-                  const blueprint = this.clientDataService.getClientData(res.data.target)?.blueprint
+                if(data){
+                  createClientData(this,data.blueprint,serverRequestData.actionId,serverRequestData.target,[],undefined)
+                  const target = serverRequestData.target instanceof Array ?  serverRequestData.target[0].target : serverRequestData.target
+                  const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
                   if (blueprint) {
-                    getRecord(this,blueprint,{effect:res.effect,data:res.data.data, target:res.target},res.data.concept,res.data.target,res.data.actionId)
+                    // todo multiple target s in this method or not?
+                    getRecord(this,blueprint,{effect:res.effect,data:serverRequestData.data, target:res.target},
+                      serverRequestData.concept,serverRequestData.target,serverRequestData.actionId)
                   }
                 } else{
                   // todo handle error
@@ -125,10 +142,12 @@ export class ServerDataService {
             }
           })
         } else{
+          // gewone opvraag
           const concept = extractConcept(res.effect.action.conceptName)
           const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
           if (typeof res.data === 'string' && res.effect.action.target && concept) {
-            const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
+            const target = res.effect.action.target instanceof Array ?  res.effect.action.target[0].target : res.effect.action.target
+            const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
             if (blueprint) {
               getRecord(this,blueprint,info,concept)
             } else{
@@ -138,8 +157,8 @@ export class ServerDataService {
                   this.queryService.getBlueprint(concept,ServerData.getDataValue(data,'numberOfNesting')).subscribe(resOrErr=>{
                     const data = ServerData.getData(resOrErr)
                     if(data){
-                      createClientData(this,data.blueprint,res.effect.action.id,res.effect.action.target,[],data)
-                      const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
+                      createClientData(this,data.blueprint,res.effect.action.id,target,[],data)
+                      const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
                       if (blueprint) {
                         getRecord(this,blueprint,info,concept)
                       }
@@ -158,6 +177,7 @@ export class ServerDataService {
 
     this.actionsService.bindToAction(new Action('',ActionType.GetAllInstances))?.subscribe(async res => {
       if (res && !isServerDataRequestType(res.data)) {
+        // gewone getAllInstances
         const info = {effect:res.effect,data:res.data,target:res.target}
         const concept = extractConcept(res.effect.action.conceptName)
         function getAllRecords(self:ServerDataService, blueprint:Blueprint, res:{effect: Effect,
@@ -166,10 +186,8 @@ export class ServerDataService {
             const data = ServerData.getData(errorOrResult)
             if(data && data.dataMultiple){
               const dataC:List = data.dataMultiple
-              if(isOutPutData(dataC)) self.clientDataService.updateClientData(res.effect.action.id,dataC)
-              const cd = self.clientDataService.getClientData(res.effect.action.target)
-              if(cd){
-                self.clientDataService.clientDataUpdated.next(cd)
+              if(isOutPutData(dataC)){
+                self.clientDataService.updateClientData(res.effect.action.target,dataC)
               }
             } else{
               // todo handle error
@@ -177,7 +195,9 @@ export class ServerDataService {
             self.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           })
         }
-        const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
+
+        const target = res.effect.action.target instanceof Array ?  res.effect.action.target[0].target : res.effect.action.target
+        const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
         if (blueprint && concept) {
           getAllRecords(this,blueprint,info,concept)
         } else if(concept){
@@ -190,7 +210,7 @@ export class ServerDataService {
                 if(data){
                   // todo client data wordt niet aangemaakt!
                   createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], undefined)
-                  const blueprint = this.clientDataService.getClientData(res.effect.action.target)?.blueprint
+                  const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
                   if (blueprint) {
                     getAllRecords(this, blueprint, info,concept)
                   }
@@ -217,33 +237,39 @@ export class ServerDataService {
         })
       }
     })
+
     this.actionsService.bindToAction(new Action('',ActionType.CreateInstance))?.subscribe(res=>{
       if(res){
-        const clientData = this.clientDataService.getClientData(res.effect.action.target)
-        if(!clientData) throw new Error('No valid clientData found')
+        // todo gebruik target want dit bevat alle nodige fields , alleen is het zo dat een actie niet per se een target moet hebben!
+/*        const clientData = this.clientDataService.getClientDataInstancesForId(res.effect.action.id)
+        if(!clientData||clientData.length===0) throw new Error('No valid clientData found')
         this.mutationService.createRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
-        })
+        })*/
       }
     })
+
     this.actionsService.bindToAction(new Action('',ActionType.UpdateInstance))?.subscribe(res=>{
       if(res){
-        const clientData = this.clientDataService.getClientData(res.effect.action.target)
+        // todo assemble all pieces to one object for update
+/*        const clientData = this.clientDataService.getClientData(res.effect.action.target)
         if(!clientData) throw new Error('No valid clientData found')
+        // onderstaande methode heeft de blueprint en alle outputdata nodig
         this.mutationService.updateRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
-        })
+        })*/
       }
     })
+
     //********************     Helpers     ****************************/
     function createClientData(self:ServerDataService,
                               blueprintStr:string|null,
                               actionId:ActionIdType,
-                              name:ComponentNameType,
+                              name:ComponentNameType | {target: string, field: string}[],
                               errorMessages:string[]|undefined,
                               data:ServerDataType|undefined){
       // in eerste instantie is data undefined
