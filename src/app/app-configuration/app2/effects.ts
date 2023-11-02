@@ -61,9 +61,14 @@ export const effects:Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'submit-updated-product'),
-    new Action('save_updated_product',ActionType.UpdateInstance,NoValueType.CALCULATED_BY_ENGINE,'product')
+    // todo breng een omvattend formulier met naam aan
+    // todo voor deze methode zal Mouldit zoeken naar het omvattende formulier voor deze source
+    //      vervolgens neemt het alle child components van dit formulier vermeld in de config onder eenzelfde concept (error indien meer dan 1 concept)
+    //
+    new Action('save_updated_product',ActionType.UpdateInstance)
   ),
 ]
+// todo werk een properdere manier uit met een formulier of container:
 
 /*{
   on:EventType.ActionFinished,
