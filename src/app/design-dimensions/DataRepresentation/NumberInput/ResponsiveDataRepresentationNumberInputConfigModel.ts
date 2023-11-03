@@ -41,7 +41,6 @@ export class ResponsiveDataRepresentationNumberInputConfigModel extends Responsi
     Object.entries(config).forEach(([k,v])=>{
       renderInstance.setProperty(k,v)
     })
-    debugger
     return renderInstance
   }
 

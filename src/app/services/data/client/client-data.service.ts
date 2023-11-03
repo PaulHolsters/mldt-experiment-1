@@ -20,8 +20,7 @@ import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {
   DataRecord,
-  extractConcept, isDataRecord, isList, isNoValueType,
-  isOutPutData, List,
+  extractConcept, isDataRecord,  isNoValueType, List,
   OutputData
 } from "../../../types/union-types";
 
@@ -124,6 +123,8 @@ export class ClientDataService {
   }
 
   public updateClientData(searchValue: ActionIdType | ComponentNameType | FormTargetType, data: Blueprint | OutputData) {
+    // todo die gaat niet werken want data is niet altijd afkomstig van de desbtreffende component
+    //      maw ik moet ervoor zorgen dat searchValue steeds de juiste waarde heeft maar dat
     if(typeof searchValue !== 'string'){
       searchValue.controls.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
@@ -132,8 +133,11 @@ export class ClientDataService {
           this.clientDataUpdated.next(instance)
         } else throw new Error('Client data instance does not exist')
       })
-      // todo update ook de submit button(s)
-
+      const instance = this.getClientDataInstanceForComponent(searchValue.submit)
+      if (instance) {
+        instance.update(data)
+        this.clientDataUpdated.next(instance)
+      } else throw new Error('Client data instance does not exist')
     } else if(isComponentName(searchValue, this.configService)){
       const instance = this.getClientDataInstanceForComponent(searchValue)
       if (instance) {
@@ -183,13 +187,16 @@ export class ClientDataService {
             const fieldValue = data[name.field]
             this._clientData.push(new ClientData(actionId, name.target, blueprint, fieldValue, errorMessages))
           } else{
-            debugger
             this._clientData.push(new ClientData(actionId, name.target, blueprint, undefined, errorMessages))
           }
           const cd = this.getClientDataInstanceForComponent(name.target)
           if (cd) this.clientDataUpdated.next(cd)
         })
-        // todo maak ook aan voor submit btns
+        if(isDataRecord(data)){
+          this._clientData.push(new ClientData(actionId, componentName.submit, blueprint, data, errorMessages))
+        } else{
+          this._clientData.push(new ClientData(actionId, componentName.submit, blueprint, undefined, errorMessages))
+        }
       } else if (isComponentName(componentName, this.configService)) {
         this._clientData.push(new ClientData(actionId, componentName, blueprint, data, errorMessages))
         const cd = this.getClientDataInstanceForComponent(componentName)
