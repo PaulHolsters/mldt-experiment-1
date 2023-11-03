@@ -9,7 +9,7 @@ import {ClientData} from "./ClientData";
 import {
   ActionIdType,
   ComponentNameType,
-  ConceptNameType, isActionIdType,
+  ConceptNameType, FormTargetType, isActionIdType,
   isComponentName,
   isFrontendDataType, ServerDataRequestType
 } from "../../../types/type-aliases";
@@ -123,15 +123,17 @@ export class ClientDataService {
     })
   }
 
-  public updateClientData(searchValue: ActionIdType | ComponentNameType | {target:ComponentNameType,field:string}[], data: Blueprint | OutputData) {
-    if(searchValue instanceof Array){
-      searchValue.forEach(t=>{
+  public updateClientData(searchValue: ActionIdType | ComponentNameType | FormTargetType, data: Blueprint | OutputData) {
+    if(typeof searchValue !== 'string'){
+      searchValue.controls.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
         if (instance) {
           instance.update(data,t.field)
           this.clientDataUpdated.next(instance)
         } else throw new Error('Client data instance does not exist')
       })
+      // todo update ook de submit button(s)
+
     } else if(isComponentName(searchValue, this.configService)){
       const instance = this.getClientDataInstanceForComponent(searchValue)
       if (instance) {
@@ -149,7 +151,7 @@ export class ClientDataService {
 
   public createClientData(
     actionId: ActionIdType,
-    componentName: ComponentNameType | { target: ComponentNameType, field: string }[],
+    componentName: ComponentNameType | FormTargetType,
     blueprint: Blueprint,
     data?: List | DataRecord | undefined,
     errorMessages?: string[] | undefined
@@ -175,8 +177,8 @@ export class ClientDataService {
           }
         }
       }
-      if (componentName instanceof Array) {
-        componentName.forEach(name => {
+      if (typeof componentName !== 'string') {
+        componentName.controls.forEach(name => {
           if(isDataRecord(data)){
             const fieldValue = data[name.field]
             this._clientData.push(new ClientData(actionId, name.target, blueprint, fieldValue, errorMessages))
@@ -187,6 +189,7 @@ export class ClientDataService {
           const cd = this.getClientDataInstanceForComponent(name.target)
           if (cd) this.clientDataUpdated.next(cd)
         })
+        // todo maak ook aan voor submit btns
       } else if (isComponentName(componentName, this.configService)) {
         this._clientData.push(new ClientData(actionId, componentName, blueprint, data, errorMessages))
         const cd = this.getClientDataInstanceForComponent(componentName)

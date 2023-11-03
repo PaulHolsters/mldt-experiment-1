@@ -3,6 +3,7 @@ import {TextInput} from "../../components/form/input-text/TextInput";
 import {Button} from "../../components/button/Button";
 import {Container} from "../../components/container/Container";
 import {NumberInput} from "../../components/form/input-number/NumberInput";
+import {Form} from "../../components/form/Form";
 
 export const dialog = new Dialog('update-product-dialog')
 dialog.visibility.smartphone.setVisible(false)
@@ -16,4 +17,6 @@ container.setChildren([
   priceInput,
   submitBtn
 ])
-dialog.contentInjection.smartphone.setContent(container)
+const form = new Form('update-product-form')
+form.contentInjection.smartphone.setContent(container)
+dialog.contentInjection.smartphone.setContent(form)

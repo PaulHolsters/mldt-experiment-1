@@ -8,7 +8,13 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {QueryService} from "./queries/query.service";
 import {MutationService} from "./mutations/mutation.service";
-import {ActionIdType, ComponentNameType, ConceptNameType, isServerDataRequestType} from "../../../types/type-aliases";
+import {
+  ActionIdType,
+  ComponentNameType,
+  ConceptNameType,
+  FormTargetType,
+  isServerDataRequestType
+} from "../../../types/type-aliases";
 import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
@@ -49,7 +55,7 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res && ((res.effect.action.conceptName && res.effect.action.target)||isServerDataRequestType(res.data))) {
         let concept:string|undefined
-        let target:string|{target: string, field: string}[]|undefined
+        let target:string|FormTargetType|undefined
         if(!isServerDataRequestType(res.data)){
           concept = extractConcept(res.effect.action.conceptName,this.configService) ? extractConcept(res.effect.action.conceptName,this.configService)
             : typeof res.data === 'string' ? res.data:undefined
@@ -68,11 +74,13 @@ export class ServerDataService {
                   .subscribe(resOrErr=>{
                     const data = ServerData.getData(resOrErr)
                     if(data && target){
-                      if(target instanceof Array){
-                        target.forEach(t=>{
+                      if(typeof target !== 'string'){
+                        target.controls.forEach(t=>{
                           createClientData(this,data.blueprint,res.effect.action.id,t.target,[], data)
                           this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
                         })
+                        // todo create ook clientdata voor submit button s
+
                       } else{
                         createClientData(this,data.blueprint,res.effect.action.id,target,[], data)
                         this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -94,7 +102,7 @@ export class ServerDataService {
         blueprint:Blueprint,
         res:{effect: Effect, data: string, target: EventTarget | undefined},
         concept:ConceptNameType,
-        target?:ComponentNameType|{target:ComponentNameType,field:string}[],
+        target?:ComponentNameType|FormTargetType,
         actionId?:ActionIdType){
         self.queryService.getSingleRecord(concept, blueprint, res.data).subscribe(errorOrResult=>{
           const data = ServerData.getData(errorOrResult)
@@ -127,10 +135,9 @@ export class ServerDataService {
                 const data = ServerData.getData(resOrErr)
                 if(data){
                   createClientData(this,data.blueprint,serverRequestData.actionId,serverRequestData.target,[],undefined)
-                  const target = serverRequestData.target instanceof Array ?  serverRequestData.target[0].target : serverRequestData.target
+                  const target = typeof serverRequestData.target !== 'string' ?  serverRequestData.target.controls[0].target : serverRequestData.target
                   const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
                   if (blueprint) {
-                    // todo multiple target s in this method or not?
                     getRecord(this,blueprint,{effect:res.effect,data:serverRequestData.data, target:res.target},
                       serverRequestData.concept,serverRequestData.target,serverRequestData.actionId)
                   }
@@ -146,7 +153,7 @@ export class ServerDataService {
           const concept = extractConcept(res.effect.action.conceptName,this.configService)
           const info:{effect:Effect,data:string,target:EventTarget} = res as {effect:Effect,data:string,target:EventTarget}
           if (typeof res.data === 'string' && res.effect.action.target && concept) {
-            const target = res.effect.action.target instanceof Array ?  res.effect.action.target[0].target : res.effect.action.target
+            const target = typeof res.effect.action.target !== 'string' ?  res.effect.action.target.controls[0].target : res.effect.action.target
             const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
             if (blueprint) {
               getRecord(this,blueprint,info,concept)
@@ -196,7 +203,7 @@ export class ServerDataService {
           })
         }
 
-        const target = res.effect.action.target instanceof Array ?  res.effect.action.target[0].target : res.effect.action.target
+        const target = typeof res.effect.action.target !== 'string' ?  res.effect.action.target.controls[0].target : res.effect.action.target
         const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
         if (blueprint && concept) {
           getAllRecords(this,blueprint,info,concept)
@@ -208,7 +215,6 @@ export class ServerDataService {
               this.queryService.getBlueprint(concept, numberOfNesting).subscribe(resOrErr => {
                 const data = ServerData.getData(resOrErr)
                 if(data){
-                  // todo client data wordt niet aangemaakt!
                   createClientData(this, data.blueprint, res.effect.action.id,res.effect.action.target,[], undefined)
                   const blueprint = this.clientDataService.getClientDataInstanceForComponent(target)?.blueprint
                   if (blueprint) {
@@ -269,7 +275,7 @@ export class ServerDataService {
     function createClientData(self:ServerDataService,
                               blueprintStr:string|null,
                               actionId:ActionIdType,
-                              name:ComponentNameType | {target: string, field: string}[],
+                              name:ComponentNameType |FormTargetType,
                               errorMessages:string[]|undefined,
                               data:ServerDataType|undefined){
       // in eerste instantie is data undefined

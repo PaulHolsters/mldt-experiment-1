@@ -22,41 +22,35 @@ const customFunction = (stateService: StateService): any[] => {
     return false
   })
 }
-export const effects:Effect[] = [
-/*  new Effect(
-    new Trigger(TriggerType.ComponentReady, 'delete-container'),
-    new Action('getBP_product',ActionType.GetBluePrint,'product','delete-container'),
-  ),
+export const effects: Effect[] = [
   new Effect(
-    new Trigger(TriggerType.ComponentClicked, 'delete-btn'),
-    new Action('delete_product',ActionType.DeleteInstance, 'product',  'delete-product'),
-  ),
-  new Effect(
-    new Trigger(TriggerType.ActionFinished,'delete_product'),
-    new Action('set_delete-container_invisible',
-      ActionType.SetRenderProperty, 'delete-container',
-      new ActionValueModel(PropertyName.visible, false)),
-  ),*/
-  new Effect(
-    new Trigger(TriggerType.ComponentReady, 'main-table'),
-    new Action('populate_table',ActionType.GetAllInstances, 'main-table','product') // alle velden, alle data, later gaan we hier partials moeten toelaten
-    /*
-    * bijkomend datatype target:
-    * [{target: 'edit-text-input', field: 'name'}], concept:'product' => concept kan hierbij eventueel van de afgeleide data komen, targets en velden niet
-    * in een later stadium kan het ook zo dat we een form component als target pakken voor een bepaald concept en dat de engine dan bepaald welke velden
-    * horen bij welke UI componenten bv. een string field hoort bij een text input component etc.
-    * */
+    new Trigger(TriggerType.ComponentReady,
+      'main-table'
+    ),
+    new Action('populate_table',
+      ActionType.GetAllInstances,
+      'main-table',
+      'product')
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked, 'edit-product-btn'),
-    new Action('prepare_instance', ActionType.UseInstanceFromServer,[
-      {target:'edit-product-text-input',field:'name'},
-      {target:'edit-product-number-input',field:'price'}
-    ],'product')
+    new Action('prepare_instance', ActionType.UseInstanceFromServer,
+      {
+        form: 'update-product-form',
+        controls: [
+          {target: 'edit-product-text-input', field: 'name'},
+          {target: 'edit-product-number-input', field: 'price'}
+        ],
+        submit: 'submit-updated-product'
+      },
+      'product')
   ),
   new Effect(
     new Trigger(TriggerType.ActionFinished, 'prepare_instance'),
-    new Action('set_edit-product-dialog_visible',ActionType.SetRenderProperty, 'update-product-dialog',undefined,
+    new Action('set_edit-product-dialog_visible',
+      ActionType.SetRenderProperty,
+      'update-product-dialog',
+      undefined,
       new ActionValueModel(PropertyName.visible, true))
   ),
   new Effect(
@@ -65,10 +59,10 @@ export const effects:Effect[] = [
     // todo voor deze methode zal Mouldit zoeken naar het omvattende formulier voor deze source
     //      vervolgens neemt het alle child components van dit formulier vermeld in de config onder eenzelfde concept (error indien meer dan 1 concept)
     //
-    new Action('save_updated_product',ActionType.UpdateInstance)
+    new Action('save_updated_product', ActionType.UpdateInstance)
   ),
 ]
-// todo werk een properdere manier uit met een formulier of container:
+
 
 /*{
   on:EventType.ActionFinished,
@@ -81,19 +75,17 @@ export const effects:Effect[] = [
 }*/
 
 
-
-
-  /*
-  {
-    actionType: ActionType.Client,
-    actionSubType: ActionSubType.SetConfigValueAndRebuild,
-    targetType: TargetType.Component,
-    targetName: 'delete-container',
-    value: new ResponsiveSpacingConfigModel(new VisibilityConfigPropsModel(false, false)),
-    sourceName: 'table',
-    on: EventType.RowSelected
-  },*/
-  /*   ,*/
+/*
+{
+  actionType: ActionType.Client,
+  actionSubType: ActionSubType.SetConfigValueAndRebuild,
+  targetType: TargetType.Component,
+  targetName: 'delete-container',
+  value: new ResponsiveSpacingConfigModel(new VisibilityConfigPropsModel(false, false)),
+  sourceName: 'table',
+  on: EventType.RowSelected
+},*/
+/*   ,*/
 /*  {
     on: EventType.ActionFinished,
     sourceId: 'delete-product',
@@ -209,38 +201,38 @@ export const effects:Effect[] = [
     sourceName: NoValueType.NA,
     targetType: TargetType.Component,
   },*/
-  /*        {
-            actionType: ActionType.Server,
-            actionSubType: ActionSubType.GetDataBluePrint,
-            targetType: TargetType.Component,
-            targetName: 'form-container',
-            sourceName: 'my first form',
-            on: EventType.ComponentReady
-          },
-          {
-            actionType: ActionType.Server,
-            actionSubType: ActionSubType.PersistNewData,
-            targetType: TargetType.API,
-            targetName: NoValueType.NA,
-            sourceName: 'submitbtn',
-            on: EventType.ComponentClicked
-          },*/
-  /*    {
-        actionType: ActionType.Server,
-        actionSubType: ActionSubType.GetDataByID,
-        targetType: TargetType.Component,
-        targetName: 'form-container',
-        sourceName: 'my first form',
-        on: EventType.ComponentReady
-      },
-      {
-        actionType: ActionType.Server,
-        actionSubType: ActionSubType.PersistUpdatedData,
-        targetType: TargetType.API,
-        targetName: NoValueType.NA,
-        sourceName: 'submitbtn',
-        on: EventType.ComponentClicked
-      },*/
+/*        {
+          actionType: ActionType.Server,
+          actionSubType: ActionSubType.GetDataBluePrint,
+          targetType: TargetType.Component,
+          targetName: 'form-container',
+          sourceName: 'my first form',
+          on: EventType.ComponentReady
+        },
+        {
+          actionType: ActionType.Server,
+          actionSubType: ActionSubType.PersistNewData,
+          targetType: TargetType.API,
+          targetName: NoValueType.NA,
+          sourceName: 'submitbtn',
+          on: EventType.ComponentClicked
+        },*/
+/*    {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.GetDataByID,
+      targetType: TargetType.Component,
+      targetName: 'form-container',
+      sourceName: 'my first form',
+      on: EventType.ComponentReady
+    },
+    {
+      actionType: ActionType.Server,
+      actionSubType: ActionSubType.PersistUpdatedData,
+      targetType: TargetType.API,
+      targetName: NoValueType.NA,
+      sourceName: 'submitbtn',
+      on: EventType.ComponentClicked
+    },*/
 
 /*       {
       actionType: ActionType.Server,

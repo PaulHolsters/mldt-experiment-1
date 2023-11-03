@@ -158,8 +158,7 @@ export class UiActionsService {
 
   private setConfigValueAndRebuild(action: Action) {
     const currentAppConfig = this.configService.appConfig
-    if (currentAppConfig && !(action.target instanceof Array)) {
-      // todo fix bug
+    if (currentAppConfig && typeof action.target === 'string') {
       let config = this.configService.getConfigFromRoot(action.target)
       if (!config) throw new Error('action was not configured correctly')
       if (config.replace && (action.value instanceof ActionValueModel)) {

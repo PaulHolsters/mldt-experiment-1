@@ -176,6 +176,7 @@ import {Dialog} from "../components/dialog/Dialog";
 import {TextInput} from "../components/form/input-text/TextInput";
 import {ConfigService} from "../services/config.service";
 import {NumberInput} from "../components/form/input-number/NumberInput";
+import {Form} from "../components/form/Form";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -288,7 +289,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 
 
-export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form
 
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>

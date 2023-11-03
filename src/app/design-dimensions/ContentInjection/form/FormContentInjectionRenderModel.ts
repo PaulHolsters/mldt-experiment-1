@@ -1,6 +1,5 @@
 import {ComponentModelType} from "../../../types/union-types";
-
-export class DialogContentInjectionRenderModel {
+export class FormContentInjectionRenderModel {
   public content: ComponentModelType|null=null
   constructor() {
   }

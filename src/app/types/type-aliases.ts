@@ -22,8 +22,17 @@ export const isTypeName = function isTypeName(data: unknown): data is TypeName {
 export const isFrontendDataType = function isFrontendDataType(data: unknown, config: ConfigService): data is FrontendDataType {
   return (data instanceof Array) && data.length === 2 && isComponentName(data[0], config) && (isDataRecord(data[1]) || isList(data[1]))
 }
+export type FormTargetType = {
+  form: ComponentNameType,
+  controls: [
+    {target: ComponentNameType, field: string},
+    {target: ComponentNameType, field: string}
+  ],
+  submit: ComponentNameType
+}
+
 export type ServerDataRequestType = {
-  concept: ConceptNameType, target: ComponentNameType | { target: ComponentNameType, field: string }[], action: ActionType, actionId: ActionIdType, data: string
+  concept: ConceptNameType, target: ComponentNameType | FormTargetType, action: ActionType, actionId: ActionIdType, data: string
 }
 export const isServerDataRequestType = function isServerDataRequestType(data: unknown): data is ServerDataRequestType {
   return data !== null && typeof data === 'object' && !(data instanceof Array)
