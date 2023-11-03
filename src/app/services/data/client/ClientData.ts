@@ -23,7 +23,10 @@ export class ClientData {
     } else if(isOutPutData(data)){
       if(isDataRecord(data) && field){
         this.outputData = data[field]
-      } else{
+      } else if(field && isDataRecord(this.outputData)){
+        this.outputData[field] = data
+      }
+      else{
         this.outputData = data
       }
     } else throw new Error('invalid data')

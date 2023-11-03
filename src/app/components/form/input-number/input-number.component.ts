@@ -50,12 +50,12 @@ export class InputNumberComponent extends AbstractComponent implements OnInit {
   }
 
   updateData(formControl:InputNumber){
-/*    const text = formControl.el.nativeElement.innerHTML
+    const text = formControl.el.nativeElement.innerHTML
     const text2 = text.substring(text.indexOf('<input ')+7)
     const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
-    const value = Number(text3.substring(0,text3.indexOf('">')))*/
-    if(isOutPutData(this.value))
-    this.clientDataService.updateClientData(this.name, this.value)
+    const value = Number(text3.substring(0,text3.indexOf('">')))
+    if(isOutPutData(value))
+    this.clientDataService.updateClientData(this.name, value)
   }
 
 }
