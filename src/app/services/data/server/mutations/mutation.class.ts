@@ -25,14 +25,7 @@ export class Mutation {
       return this.getParamsForRecord(data)
     }
   }
-  // todo: __typeName mag er niet bij
-  // todo specifications en options zijn leeg dus moet lege array zijn: this.data.blueprint?.properties.properties.get(k)
-  // todo en wellicht moet er ook nog iets in de return Values!
-/*  mutation Mutation{
-  editProduct(id:"64ba3660bd720cc5f3f3be86",name:"prod ayhcfhcj",category:HOTTUB,price:485000,specifications:,options:,__typename:ProductData){
-
-  }
-}*/
+  // todo: zie dat als je een geselecteerd subconcept wijzigt dat je hier de ID's voor kunt meesturen en dat het werkt ...
   private getParamsForRecord(data:OutputData):string {
     // todo is dit wel output data en wat ik hieronder doe is dan gewoon niet genoeg
     if (!data) return ''
@@ -47,15 +40,18 @@ export class Mutation {
         // todo werk de "as" weg
         str+='['
         v.forEach((val,index)=>{
-          index+1===v.length ? str+='"'+(val as ObjectIdType).toString()+'"' : str+='"'+(val as ObjectIdType).toString()+'",'
+          index+2===v.length ? str+='"'+(val as ObjectIdType).toString()+'"' : str+='"'+(val as ObjectIdType).toString()+'",'
         })
         str+=']'
-      } else{
+      } else if(v instanceof Array){
+        index+2===entries.length ? str += k + ':[]':
+          str += k + ':[],'
+      } else if(k!=='__typename'){
         if(this.singularPropNeedsQuotes(k)){
-          index+1===entries.length ? str += k + ':' + (v).toString():
+          index+2===entries.length ? str += k + ':' + (v).toString():
             str += k + ':"' + (v).toString()+'",'
         } else{
-          index+1===entries.length ? str += k + ':' + (v).toString():
+          index+2===entries.length ? str += k + ':' + (v).toString():
             str += k + ':' + (v).toString()+','
         }
       }
@@ -98,9 +94,6 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     .reduce((x, y) => x += `,` + y).trim()
   // todo zorg nog voor een meer ordelijke GQL string hier
   return strVal.charAt(strVal.length - 1) === ',' ? strVal.substring(0, strVal.length - 1) : strVal*/
-  private getReturnValues():string{
-    return ''
-  }
   public getStr(): string {
     // todo wat als je acties wil uitvoeren waarbij je meerdere concept instanties at once wil wijzi gen?
     /*
@@ -119,7 +112,7 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
       const str =  `
     mutation Mutation{
       ${this.type}${utilFunctions.capitalizeFirst(this.data.blueprint.conceptName)}(${this.getParams()}){
-        ${this.getReturnValues()}
+        __typename
       }
     }
     `
