@@ -10,7 +10,7 @@ import {
   ActionIdType,
   ComponentNameType,
   ConceptNameType, FormTargetType, isActionIdType,
-  isComponentName,
+  isComponentName, isFormTargetType,
   isFrontendDataType, ServerDataRequestType
 } from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
@@ -148,18 +148,18 @@ export class ClientDataService {
             return c.target
           }).includes(searchValue)
         })
-        if(!target) throw new Error('no submit control was found to co-update')
-        if(typeof target === 'string') throw new Error('target must be of type FormTargetType')
-        const instanceSubmit = this.getClientDataInstanceForComponent(target.submit)
-        if(instanceSubmit){
-          // todo welk veld moet er nu geüpdated worden ?
-          const fieldToUpdate = target.controls.find(c=>{
-            return c.target === searchValue
-          })?.field
-          if(!fieldToUpdate) throw new Error('Field to update is missing')
-          instanceSubmit.update(data,fieldToUpdate)
-          this.clientDataUpdated.next(instanceSubmit)
-        } else throw new Error('Client data instance for submit control does not exist')
+        if(isFormTargetType(target)){
+          const instance = this.getClientDataInstanceForComponent(target.submit)
+          if(instance){
+            // todo welk veld moet er nu geüpdated worden ?
+            const fieldToUpdate = target.controls.find(c=>{
+              return c.target === searchValue
+            })?.field
+            if(!fieldToUpdate) throw new Error('Field to update is missing')
+            instance.update(data,fieldToUpdate)
+            this.clientDataUpdated.next(instance)
+          } else throw new Error('Client data instance for submit control does not exist')
+        }
       } else throw new Error('Client data instance does not exist')
     } else if (isActionIdType(searchValue, this.configService)) {
       const instances = this.getClientDataInstancesForId(searchValue)

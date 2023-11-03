@@ -30,6 +30,12 @@ export type FormTargetType = {
   ],
   submit: ComponentNameType
 }
+export const isFormTargetType = function isFormTargetType(data:unknown):data is FormTargetType{
+  return data !== null && typeof data === 'object' && !(data instanceof Array)
+    && data.hasOwnProperty('form')
+    && data.hasOwnProperty('controls')
+    && data.hasOwnProperty('submit')
+}
 
 export type ServerDataRequestType = {
   concept: ConceptNameType, target: ComponentNameType | FormTargetType, action: ActionType, actionId: ActionIdType, data: string

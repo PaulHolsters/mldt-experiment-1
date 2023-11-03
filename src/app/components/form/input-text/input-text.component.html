@@ -4,7 +4,7 @@
          [class.p-inputtext-l]="getPropValue(PropertyName.large)"
          [class.ng-invalid]="getPropValue(PropertyName.invalid)"
          [class.ng-dirty]="getPropValue(PropertyName.dirty)"
-         pKeyFilter="{{getPropValue(PropertyName.keyFilter)}}"
+         [attr.keyFilter]="getPropValue(PropertyName.keyFilter)"
          [disabled]="false"
          [style.width]="'100%'"
          #inputElement
