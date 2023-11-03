@@ -25,6 +25,14 @@ export class Mutation {
       return this.getParamsForRecord(data)
     }
   }
+  // todo: __typeName mag er niet bij
+  // todo specifications en options zijn leeg dus moet lege array zijn: this.data.blueprint?.properties.properties.get(k)
+  // todo en wellicht moet er ook nog iets in de return Values!
+/*  mutation Mutation{
+  editProduct(id:"64ba3660bd720cc5f3f3be86",name:"prod ayhcfhcj",category:HOTTUB,price:485000,specifications:,options:,__typename:ProductData){
+
+  }
+}*/
   private getParamsForRecord(data:OutputData):string {
     // todo is dit wel output data en wat ik hieronder doe is dan gewoon niet genoeg
     if (!data) return ''
@@ -55,7 +63,8 @@ export class Mutation {
     return str
   }
   private singularPropNeedsQuotes(k:string):boolean{
-    switch (this.data.blueprint?.properties.properties.get(k)){
+    const prop = this.data.blueprint?.properties.properties.get(k)
+    switch (prop){
       case "string":
         return true
       case "number":
@@ -66,7 +75,10 @@ export class Mutation {
         return false
       case "boolean":
         return false
+      case "objectId":
+        return true
       default:
+        if(!prop || (prop instanceof Array && (prop[0]==='enum'||prop[0]==='list'))) return false
         throw new Error(k+' is not a singular property or type of '+k+' is not implemented')
     }
   }
@@ -100,17 +112,19 @@ ${(x.text?.value) ? '"' : (x.multiselect?.selectedOptions) ? ']' : ''}
     * PARAMS = DATARECORDMODEL
     * return values = errorhandling + errormessages = clientDataRenderModel.errorMessages
     * */
-    const cn = extractConcept(this.configService.appConfig.userConfig.effects.find(e=>{
+/*    const cn = extractConcept(this.configService.appConfig.userConfig.effects.find(e=>{
       return e.action.target === this.data.name
-    })?.action.conceptName,this.configService)
-    if(cn){
-      return `
+    })?.action.conceptName,this.configService)*/
+    if(this.data.blueprint.conceptName){
+      const str =  `
     mutation Mutation{
-      ${this.type}${utilFunctions.capitalizeFirst(cn)}(${this.getParams()}){
+      ${this.type}${utilFunctions.capitalizeFirst(this.data.blueprint.conceptName)}(${this.getParams()}){
         ${this.getReturnValues()}
       }
     }
     `
+      debugger
+      return str
     } else throw new Error('No concept found so mutation could not be done '+this.type)
 
 /*

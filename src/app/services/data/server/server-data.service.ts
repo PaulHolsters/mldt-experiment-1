@@ -258,16 +258,15 @@ export class ServerDataService {
     })
 
     this.actionsService.bindToAction(new Action('',ActionType.UpdateInstance))?.subscribe(res=>{
-      if(res){
-        // todo assemble all pieces to one object for update
-/*        const clientData = this.clientDataService.getClientData(res.effect.action.target)
+      if(res && typeof res.effect.trigger.source === 'string'){
+        const clientData = this.clientDataService.getClientDataInstanceForComponent(res.effect.trigger.source)
         if(!clientData) throw new Error('No valid clientData found')
-        // onderstaande methode heeft de blueprint en alle outputdata nodig
         this.mutationService.updateRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
+            debugger
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
-        })*/
+        })
       }
     })
 
