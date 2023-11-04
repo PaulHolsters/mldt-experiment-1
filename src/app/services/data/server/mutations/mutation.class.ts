@@ -3,7 +3,7 @@ import utilFunctions from "../../../../utils/utilFunctions";
 import {ObjectIdType} from "../../../../types/type-aliases";
 import {ConfigService} from "../../../config.service";
 import {ClientData} from "../../client/ClientData";
-import {extractConcept, OutputData} from "../../../../types/union-types";
+import { OutputData} from "../../../../types/union-types";
 
 export class Mutation {
   public constructor(

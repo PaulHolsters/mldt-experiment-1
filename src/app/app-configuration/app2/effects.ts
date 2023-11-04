@@ -39,7 +39,8 @@ export const effects: Effect[] = [
         form: 'update-product-form',
         controls: [
           {target: 'edit-product-text-input', field: 'name'},
-          {target: 'edit-product-number-input', field: 'price'}
+          {target: 'edit-product-number-input', field: 'price'},
+          {target: 'edit-product-multiselect', field: 'specifications'}
         ],
         submit: 'submit-updated-product'
       },

@@ -2,7 +2,9 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {MultiSelect} from "../../../componentclasses/MultiSelect";
-import {DataRecord, isOutPutData} from "../../../types/union-types";
+import {DataRecord, isList, isOutPutData, List} from "../../../types/union-types";
+import {Blueprint} from "../../../services/data/client/Blueprint";
+import {isFormTargetType} from "../../../types/type-aliases";
 
 @Component({
   selector: 'm-multiselect',
@@ -12,12 +14,33 @@ import {DataRecord, isOutPutData} from "../../../types/union-types";
 export class MultiselectComponent extends AbstractComponent implements OnInit {
   @ViewChild('multiselect') multiselect: ElementRef | undefined
   selectedOptions:DataRecord[]|undefined
+  options:List|undefined
 
   ngOnInit(): void {
+    // todo implement outputData and the like
     this.props = MultiSelect.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        if(k===PropertyName.conceptBlueprint && res && res instanceof Blueprint){
+          const target = this.configService.effects.map(e=>{
+            return e.action.target
+          }).find(t=>{
+            return typeof t !== 'string' && t.controls.map(c=>{
+              return c.target
+            }).includes(this.name)
+          })
+          if(isFormTargetType(target)){
+            const field = target.controls.find(c=>{
+              return c.target === this.name
+            })?.field
+            if(field){
+              const list = res.properties.properties.get(field)
+              if(list && isList(list[1][1])){
+                this.options = list[1][1]
+              }
+            }
+          }
+        }
         this.setPropValue(k,res)
       })
     })

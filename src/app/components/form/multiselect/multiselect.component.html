@@ -1,10 +1,10 @@
-<div *ngIf="getPropValue(PropertyName.options)"
+<div *ngIf="options"
      [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
      [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
      [style.height]="getPropValue(PropertyName.height)"
      [style.width]="getPropValue(PropertyName.width)"
      #multiselect>
-  <p-multiSelect appendTo="body" [options]="getPropValue(PropertyName.options) ? getPropValue(PropertyName.options) : []"
+  <p-multiSelect appendTo="body" [options]="options ? options : []"
                  (onPanelHide)="updateData()"
                  [(ngModel)]="selectedOptions" optionLabel="{{getPropValue(PropertyName.optionLabel)}}"></p-multiSelect>
 </div>

@@ -16,6 +16,7 @@ import {TextColorType} from "../enums/textColorType.enum";
 import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ClientDataService} from "../services/data/client/client-data.service";
+import {ConfigService} from "../services/config.service";
 @Directive()
 export class Component{
   @Input() public name!:string
@@ -29,6 +30,7 @@ export class Component{
     protected clientDataService:ClientDataService,
     protected stylesService:StylesService,
     protected confirmationService: ConfirmationService,
+    protected configService: ConfigService,
     protected messageService: MessageService) {
 
   }

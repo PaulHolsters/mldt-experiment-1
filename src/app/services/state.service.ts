@@ -13,6 +13,7 @@ import {Icon} from "../componentclasses/Icon";
 import {Paginator} from "../componentclasses/Paginator";
 import {ConfirmPopup} from "../componentclasses/ConfirmPopup";
 import {NumberInput} from "../componentclasses/NumberInput";
+import {MultiSelect} from "../componentclasses/MultiSelect";
 @Injectable({
   providedIn: 'root'
 })
@@ -57,6 +58,8 @@ export class StateService {
         return TextInput.getProperties()
       case ComponentType.NumberInput:
         return NumberInput.getProperties()
+      case ComponentType.MultiSelect:
+        return MultiSelect.getProperties()
       case ComponentType.FormControl:
         return FormControl.getProperties()
       case ComponentType.Icon:

@@ -24,9 +24,7 @@ export const isFrontendDataType = function isFrontendDataType(data: unknown, con
 }
 export type FormTargetType = {
   form: ComponentNameType,
-  controls: [
-    {target: ComponentNameType, field: string},
-    {target: ComponentNameType, field: string}
+  controls: {target: ComponentNameType, field: string}[
   ],
   submit: ComponentNameType
 }
