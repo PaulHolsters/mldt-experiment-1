@@ -43,10 +43,10 @@ export class ResponsiveDataRepresentationMultiSelectConfigModel extends Responsi
     const config = this.getConfigModel(screenSize)
     const renderInstance = new MultiSelectDataRepresentationRenderModel()
     if(data){
-      renderInstance?.setDBIValues(data)
+      renderInstance.setDBIValues(data)
     } else{
       Object.entries(config).forEach(([k,v])=>{
-        if(v) renderInstance?.setProperty(k,v)
+        renderInstance.setProperty(k,v)
       })
     }
     return renderInstance

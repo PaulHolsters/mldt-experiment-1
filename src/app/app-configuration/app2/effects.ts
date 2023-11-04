@@ -38,6 +38,7 @@ export const effects: Effect[] = [
       {
         form: 'update-product-form',
         controls: [
+          // todo voor dieper geneste objecten moet field een array zijn waar ook het dieper geneste concept in kan staan met bijhorende prop
           {target: 'edit-product-text-input', field: 'name'},
           {target: 'edit-product-number-input', field: 'price'},
           {target: 'edit-product-multiselect', field: 'specifications'}

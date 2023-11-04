@@ -85,16 +85,24 @@ export class UiActionsService {
       }
     })
   }
-
   private updateDataRelatedProps(res: {
     effect: Effect,
     data: Blueprint | [ComponentNameType, DataRecord | (DataRecord | null)[]] | ClientData | string | ServerDataRequestType | DataRecord | List,
     target: EventTarget | undefined
   }) {
+    // type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecord]]|['list',[Blueprint,List]]
     if (isClientData(res.data)) {
       const dl = this.configService.getConfigFromRoot(res.data.name)
-      if (dl && dl.clientData && isDataLink(res.effect.action.conceptName, this.configService)) {
-        // todo voeg interface voor getRenderProps toe
+      // uit de clientData moet je de desbetreffende property halen
+      // hier moet je dan een datalink van maken want anders weet je nooit precies welke value je wil
+
+      // todo hoe regelen we dat?
+      // uit cd => name component => uit actions haal je het overeenkomstige form object
+      // daaruit haal je via de naam van de comp het bijhorend field (string of array)
+
+      // via deze prop (string of array) geraak je aan de blueprintValue
+      // via deze bp value kan je de nodige propvalue naar de frontend sturen door deze via de DD op te vragen
+      if (dl) {
         const value = res.data.blueprint.getBlueprintValueForDataLink(res.effect.action.conceptName)
         const input: {
           [key: string]: any

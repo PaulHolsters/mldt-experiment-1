@@ -1,4 +1,4 @@
-import {BlueprintValue} from "../../../types/union-types";
+import {BlueprintValue, isNoValueType} from "../../../types/union-types";
 
 export class MultiSelectDataRepresentationRenderModel {
   public optionLabel:string|null=null
@@ -7,10 +7,11 @@ export class MultiSelectDataRepresentationRenderModel {
   constructor() {
   }
   public setProperty(propName: string, value: string): void {
-    // todo fix this shit
-    if (Reflect.has(this, propName)) Reflect.set(this, propName, value)
-    else throw new Error('cannot set property ' + propName + ' because it does not exist on the object of type TableStructuralRenderModel')
+    if (Reflect.has(this, propName) && !isNoValueType(value)){
+      Reflect.set(this, propName, value)
+    }
   }
+  //type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecord]]|['list',[Blueprint,List]]
   setDBIValues(data: BlueprintValue) {
     if (!this.optionLabel && data instanceof Array && data[0]==='list') {
        const arr = Array.from(data[1][0].properties.properties.keys()).filter(k=>{
@@ -25,5 +26,4 @@ export class MultiSelectDataRepresentationRenderModel {
       this.placeholder = 'Select a '+this.optionLabel
     }
   }
-
 }

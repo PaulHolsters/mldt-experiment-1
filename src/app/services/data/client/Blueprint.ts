@@ -20,8 +20,10 @@ export class Blueprint {
     if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
     return blueprintObj.substring(blueprintObj.indexOf('props:')+6,blueprintObj.lastIndexOf(']')+1).trim()
   }
-  public getBlueprintValueForDataLink(datalink:DataLink):BlueprintValue{
+  public getBlueprintValueForDataLink(prop:string|string[]):BlueprintValue{
+    // todo fix
     const keys = this.properties.properties.keys()
+
     if(datalink.length>=1) datalink.pop()
     let key:string
     let val

@@ -118,6 +118,8 @@ export enum PropertyName {
   incrementButtonIcon = 'incrementButtonIcon',
   decrementButtonIcon = 'decrementButtonIcon',
   buttonLayout = 'buttonLayout',
+  optionValue = 'optionValue',
+  placeholder = 'placeholder',
 
 
 
