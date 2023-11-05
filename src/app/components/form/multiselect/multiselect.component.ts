@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {MultiSelect} from "../../../componentclasses/MultiSelect";
@@ -11,13 +11,13 @@ import {isFormTargetType} from "../../../types/type-aliases";
   templateUrl: './multiselect.component.html',
   styleUrls: ['./multiselect.component.css']
 })
-export class MultiselectComponent extends AbstractComponent implements OnInit {
+export class MultiselectComponent extends AbstractComponent implements OnInit{
   @ViewChild('multiselect') multiselect: ElementRef | undefined
   selectedOptions:DataRecord[]|undefined
   options:List|undefined
-
+  // todo implement ngOndestroy and destroy associated clientData
   ngOnInit(): void {
-    // todo implement outputData and the like
+    debugger
     this.props = MultiSelect.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{

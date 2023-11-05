@@ -17,12 +17,12 @@ export class MultiSelectDataRepresentationRenderModel {
        const arr = Array.from(data[1][0].properties.properties.keys()).filter(k=>{
          return k!=='id'
        })
-      this.optionLabel = arr.length>0 ? arr[0] : 'name'
+      this.optionLabel = arr.length>0 ? arr[0] : null
     }
     if (!this.optionValue) {
       this.optionValue = 'id'
     }
-    if (!this.placeholder) {
+    if (!this.placeholder && this.optionLabel) {
       this.placeholder = 'Select a '+this.optionLabel
     }
   }

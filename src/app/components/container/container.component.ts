@@ -57,6 +57,9 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
       if (this.name === 'content-container') {
         this.eventsService.triggerEvent(TriggerType.RootComponentReady, this.name,RootComponent)
       }
+      if(this.name==='dialog-container'){
+        debugger
+      }
       this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
       this.props = Container.getProperties()
       this.props.forEach((v,k)=>{

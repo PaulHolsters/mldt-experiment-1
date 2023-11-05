@@ -13,9 +13,9 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import {
   ActionIdType,
   ComponentNameType,
-  isComponentName,
   isDataLink,
-  isServerDataRequestType, ServerDataRequestType
+  isFormTargetType,
+  ServerDataRequestType
 } from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {ClientDataService} from "./data/client/client-data.service";
@@ -90,42 +90,44 @@ export class UiActionsService {
     data: Blueprint | [ComponentNameType, DataRecord | (DataRecord | null)[]] | ClientData | string | ServerDataRequestType | DataRecord | List,
     target: EventTarget | undefined
   }) {
-    // type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecord]]|['list',[Blueprint,List]]
     if (isClientData(res.data)) {
-      // todo voor de multilist als je twee properties wil tonen moet je eerst een manipulatie doen en dan deze array doorgeven
-      //      hoe pak je dit best aan?
       const dl = this.configService.getConfigFromRoot(res.data.name)
-      // uit de clientData moet je de desbetreffende property halen
-      // hier moet je dan een datalink van maken want anders weet je nooit precies welke value je wil
-
-      // todo hoe regelen we dat?
-      // uit cd => name component => uit actions haal je het overeenkomstige form object
-      // daaruit haal je via de naam van de comp het bijhorend field (string of array)
-
-      // via deze prop (string of array) geraak je aan de blueprintValue
-      // via deze bp value kan je de nodige propvalue naar de frontend sturen door deze via de DD op te vragen
       if (dl) {
-        const value = res.data.blueprint.getBlueprintValueForDataLink(res.effect.action.conceptName)
-        const input: {
-          [key: string]: any
-        } | undefined
-          = dl.dataInput?.getDataInputRenderProperties(this.RBS.screenSize,
-          value)
-        const repres: {
-          [key: string]: any
-        } | undefined
-          = dl.dataRepresentation?.getDataRepresentationRenderProperties(this.RBS.screenSize,
-          value)
-        this.renderPropertiesService.getStatePropertySubjects().filter(sp => {
-          return sp.componentName === dl.name
-        }).forEach(prop => {
-          if (input && prop.propName in input) {
-            prop.propValue.next(input[prop.propName])
-          }
-          if (repres && prop.propName in repres) {
-            prop.propValue.next(repres[prop.propName])
-          }
+        const target = this.configService.effects.map(e=>{
+          return e.action.target
+        }).find(t=>{
+          return typeof t !== 'string' && t.controls.map(c=>{
+            return c.target
+          }).includes(dl.name)
         })
+        if(isFormTargetType(target)){
+          const field = target.controls.find(f=>{
+            return f.target === dl.name
+          })?.field
+          if(field){
+            const value = res.data.blueprint.getBlueprintValueForDataLink(field)
+            const input: {
+              [key: string]: any
+            } | undefined
+              = dl.dataInput?.getDataInputRenderProperties(this.RBS.screenSize,
+              value)
+            const repres: {
+              [key: string]: any
+            } | undefined
+              = dl.dataRepresentation?.getDataRepresentationRenderProperties(this.RBS.screenSize,
+              value)
+            this.renderPropertiesService.getStatePropertySubjects().filter(sp => {
+              return sp.componentName === dl.name
+            }).forEach(prop => {
+              if (input && prop.propName in input) {
+                prop.propValue.next(input[prop.propName])
+              }
+              if (repres && prop.propName in repres) {
+                prop.propValue.next(repres[prop.propName])
+              }
+            })
+          }
+        }
       }
     }
     return true
@@ -166,6 +168,7 @@ export class UiActionsService {
   }
 
   private setConfigValueAndRebuild(action: Action) {
+    // todo verwijder alle clientdata
     const currentAppConfig = this.configService.appConfig
     if (currentAppConfig && typeof action.target === 'string') {
       let config = this.configService.getConfigFromRoot(action.target)
@@ -183,6 +186,12 @@ export class UiActionsService {
   }
 
   private setProperty(action: Action, data?: any) {
+    // todo je zou hier kunnen bepalen als het om visible property gaat dat je in dit geval ook de
+    //      nodige clientdata gaat opkuisen => dan hoef je hier in de componenten zelf geen rekening mee te houden wat sowieso beter is!
+    //      strategie:
+    //      1. je haalt uit action het target
+    //      2. je gaat alle children na van deze target en verwijdert indien nodig de overeenkomstige clientdata en gebruikt daarbij indien nodig het form target
+
     let val
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
       val = ((action.value as ActionValueModel).value as Function)(this.stateService)

@@ -221,12 +221,6 @@ export class ClientDataService {
       } else throw new Error('When there are several targets data should be of type datarecord')
     }
   }
-
-  private deleteClientData(name: ActionIdType | ComponentNameType, concept: ConceptNameType) {
-    // todo
-    // wanneer een component gedestroyed wordt
-  }
-
   public getOutputDataForUIComponent(name: ComponentNameType): OutputData | undefined {
     const cd = this.clientData.find(cd => {
       return cd.name === name
@@ -236,6 +230,27 @@ export class ClientDataService {
 
   //***********************************     data manipulation methods         ***************************************************************/
 
+  destroy(name: string) {
+    // todo verwijder elke control in het overeenkomstige targets object
+    const target = this.configService.effects.map(e=>{
+      return e.action.target
+    }).find(t=>{
+      return typeof t !== 'string' && t.controls.map(c=>{
+        return c.target
+      }).includes(name)
+    })
+    if(isFormTargetType(target)){
+      target.controls.forEach(c=>{
+        this._clientData.splice(this._clientData.findIndex(v=>{
+          return v.name === c.target
+        }),1)
+      })
+      this._clientData.splice(this._clientData.findIndex(v=>{
+        return v.name === target.submit
+      }),1)
+      debugger
+    } else throw new Error('no clientdata found to be destroyed')
+  }
 }
 
 /*  private createExtendedConceptModel(componentName: string, data: DataObjectModel, compConfig: ClientDataConfigModel | string[] | ClientDataConfigModel[]): ClientDataRenderModel | undefined {

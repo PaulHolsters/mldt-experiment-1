@@ -20,23 +20,25 @@ export class Blueprint {
     if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
     return blueprintObj.substring(blueprintObj.indexOf('props:')+6,blueprintObj.lastIndexOf(']')+1).trim()
   }
-  public getBlueprintValueForDataLink(prop:string|string[]):BlueprintValue{
-    // todo fix
-    const keys = this.properties.properties.keys()
-
-    if(datalink.length>=1) datalink.pop()
-    let key:string
+  public getBlueprintValueForDataLink(link:string|string[]):BlueprintValue{
     let val
-    if(datalink.length>=1){
-      key = datalink.pop() as string
-      if(key in this.properties.properties){
-        val = this.properties.properties.get(key)
+    if(typeof link === 'string'){
+      if(this.properties.properties.has(link)){
+        val = this.properties.properties.get(link)
       }
-    }
-    while(val instanceof Array && val.length === 2 && val[1][0] instanceof Blueprint && datalink.length>=1){
-      key = datalink.pop() as string
-      if(key in val[1][0].properties.properties){
-        val = val[1][0].properties.properties.get(key)
+    } else{
+      let key:string
+      if(link.length>=1){
+        key = link.pop() as string
+        if(this.properties.properties.has(key)){
+          val = this.properties.properties.get(key)
+        }
+      }
+      while(val instanceof Array && val.length === 2 && val[1][0] instanceof Blueprint && link.length>=1){
+        key = link.pop() as string
+        if(val[1][0].properties.properties.has(key)){
+          val = val[1][0].properties.properties.get(key)
+        }
       }
     }
     if(isBlueprintValue(val)) return val

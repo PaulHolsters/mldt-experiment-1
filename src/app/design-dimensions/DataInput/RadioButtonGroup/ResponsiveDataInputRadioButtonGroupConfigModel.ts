@@ -41,7 +41,7 @@ export class ResponsiveDataInputRadioButtonGroupConfigModel extends ResponsiveCo
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataInputRenderModel()
     Object.entries(config).forEach(([k,v])=>{
-      if(v) renderInstance?.setProperty(k,v)
+      renderInstance.setProperty(k,v)
     })
     return renderInstance
   }

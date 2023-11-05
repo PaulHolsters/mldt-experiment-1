@@ -12,7 +12,6 @@ const container = new Container('dialog-container')
 const textInput = new TextInput('edit-product-text-input')
 const priceInput = new NumberInput('edit-product-number-input')
 const specificationsControl = new Multiselect('edit-product-multiselect')
-// specificationsControl.dataRepresentation.smartphone.setOptionLabel('name')
 const submitBtn = new Button('submit-updated-product')
 submitBtn.structural.smartphone.setLabel('aanpassen')
 container.setChildren([

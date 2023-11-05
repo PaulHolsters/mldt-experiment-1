@@ -27,22 +27,17 @@ export class Mutation {
   }
   // todo: zie dat als je een geselecteerd subconcept wijzigt dat je hier de ID's voor kunt meesturen en dat het werkt ...
   private getParamsForRecord(data:OutputData):string {
-    // todo is dit wel output data en wat ik hieronder doe is dan gewoon niet genoeg
     if (!data) return ''
     let str = ''
     const entries = Object.entries(data)
     entries.forEach(([k, v  ],index) => {
       if(v instanceof Array && v.length>0){
-        // array of DataRecordModel = lijst sub-concept zoals een product met een lijst aan specificaties
-        // dit heeft altijd de vorm van een lijst met id's, een sub-concept zelf wordt nooit aangepast
-        // binnen een concept door middel van dezelfde request, dit moeten dus altijd twee requests worden in dat geval
-        // en wel zo dat dan de request van het sub-concept eerst gebeurd en pas na succes de request voor het hoofdconcept
-        // todo werk de "as" weg
-        str+='['
-        v.forEach((val,index)=>{
-          index+2===v.length ? str+='"'+(val as ObjectIdType).toString()+'"' : str+='"'+(val as ObjectIdType).toString()+'",'
-        })
-        str+=']'
+        index+2===entries.length ? str+=k+':['+v.map(val=>{
+          return '"'+val.id+'"'
+        }).toString()+']' :
+          str+=k+':['+v.map(val=>{
+            return '"'+val.id+'"'
+          }).toString()+'],'
       } else if(v instanceof Array){
         index+2===entries.length ? str += k + ':[]':
           str += k + ':[],'
