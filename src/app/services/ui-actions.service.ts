@@ -92,6 +92,8 @@ export class UiActionsService {
   }) {
     // type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecord]]|['list',[Blueprint,List]]
     if (isClientData(res.data)) {
+      // todo voor de multilist als je twee properties wil tonen moet je eerst een manipulatie doen en dan deze array doorgeven
+      //      hoe pak je dit best aan?
       const dl = this.configService.getConfigFromRoot(res.data.name)
       // uit de clientData moet je de desbetreffende property halen
       // hier moet je dan een datalink van maken want anders weet je nooit precies welke value je wil
