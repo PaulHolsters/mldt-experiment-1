@@ -23,6 +23,13 @@ import {Effect} from "../effectclasses/Effect";
 import {Blueprint} from "./data/client/Blueprint";
 import {ClientData} from "./data/client/ClientData";
 import {DataRecord, isClientData, List} from "../types/union-types";
+import {NoValueType} from "../enums/NoValueTypes.enum";
+import {
+  ResponsiveContainerChildLayoutConfigModel
+} from '../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel';
+import {ResponsiveOverflowConfigModel} from '../design-dimensions/Overflow/ResponsiveOverflowConfigModel';
+import {ResponsiveSizeConfigModel} from '../design-dimensions/Size/ResponsiveSizeConfigModel';
+import {ResponsiveVisibilityConfigModel} from '../design-dimensions/Visibility/ResponsiveVisibilityConfigModel';
 
 @Injectable({
   providedIn: 'root'
@@ -61,8 +68,9 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('', ActionType.SetRenderProperty))?.subscribe(res => {
+      debugger
       if (res) {
-        const action = this.setProperty(res.effect.action, res.data)
+        const action = this.setProperty(res.effect.action, res.data, res.source)
         if (action) {
           this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
         }
@@ -148,7 +156,7 @@ export class UiActionsService {
       }).forEach(propSubj => {
         switch (propSubj.propName) {
           case PropertyName.outputData:
-            if(propSubj.componentName === 'edit-product-multiselect') debugger
+            if (propSubj.componentName === 'edit-product-multiselect') debugger
             propSubj.propValue.next(cd.outputData)
             break
           case PropertyName.conceptBlueprint:
@@ -188,7 +196,7 @@ export class UiActionsService {
     return false
   }
 
-  private setProperty(action: Action, data?: any) {
+  private setProperty(action: Action, data?: any, source?: ComponentNameType) {
     // todo je zou hier kunnen bepalen als het om visible property gaat dat je in dit geval ook de
     //      nodige clientdata gaat opkuisen => dan hoef je hier in de componenten zelf geen rekening mee te houden wat sowieso beter is!
     //      strategie:
@@ -203,23 +211,41 @@ export class UiActionsService {
         this.clientDataService.destroy(ch.name)
       })
     }
-    let val
+    let val: string | boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
       val = ((action.value as ActionValueModel).value as Function)(this.stateService)
     }
     if (!val) val = (action.value as ActionValueModel).value
-    debugger
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
+
+    // todo aanpassen aan calculated by engine property
     this.renderPropertiesService.getStatePropertySubjects().find(prop => {
       if (prop.componentName === action.target && action.value instanceof ActionValueModel)
         return prop.propName === PropertyName.data
       return false
     })?.propValue.next(data)
-    this.renderPropertiesService.getStatePropertySubjects().find(prop => {
-      if (prop.componentName === action.target && action.value instanceof ActionValueModel)
-        return prop.propName === action.value.name
-      return false
-    })?.propValue.next(val)
+
+    if (action.target === NoValueType.CALCULATED_BY_ENGINE && source) {
+      this.renderPropertiesService.getStatePropertySubjects().filter(prop => {
+        const desc = this.configService.getAllDecendants(source).map(d => {
+          return d.name
+        })
+        if (desc.includes(prop.componentName) && action.value instanceof ActionValueModel) {
+          return prop.propName === action.value.name
+        }
+        return false
+      }).forEach(p => {
+        p.propValue.next(val)
+      })
+    } else {
+      this.renderPropertiesService.getStatePropertySubjects().find(prop => {
+        if (prop.componentName === action.target && action.value instanceof ActionValueModel) {
+          return prop.propName === action.value.name
+        }
+        return false
+      })?.propValue.next(val)
+      return true
+    }
     return true
   }
 

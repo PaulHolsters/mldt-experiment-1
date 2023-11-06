@@ -60,7 +60,8 @@ export class EventsService{
     }
     // todo fix: de source is hier de dialogComponent maar voor Hode Component maakt dat maar half uit
     this.configService.getEffectsForEvent(trigger,source).forEach(effect=>{
-      this.actionsService.triggerAction(effect,data,target)
+      if(typeof source === 'string') this.actionsService.triggerAction(effect,data,target,source)
+      else this.actionsService.triggerAction(effect,data,target)
     })
   }
 }

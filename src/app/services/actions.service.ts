@@ -18,7 +18,9 @@ export class ActionsService{
   public bindToAction(action:Action):Observable<{
     // todo data is een kakofonie: eventueel binden vanuit de service naar acties met hetzelfde datatype voor data?
        effect: Effect,
-    data: FrontendDataType|Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string|ServerDataRequestType, target:EventTarget|undefined
+    data: FrontendDataType|Blueprint|[ComponentNameType,DataRecord|List]|ClientData|string|ServerDataRequestType,
+    target:EventTarget|undefined,
+    source?:ComponentNameType
 }|undefined>|undefined{
     return this.actionSubjects?.find(actionSubject => {
       return actionSubject.service === action.service && actionSubject.method === action.serviceMethod
@@ -38,11 +40,11 @@ export class ActionsService{
     })
     this.bindToActionsEmitter.next(undefined)
   }
-  public triggerAction(effect: Effect,data?:any,target?:EventTarget):void{
+  public triggerAction(effect: Effect,data?:any,target?:EventTarget,source?:ComponentNameType):void{
     this.actionSubjects?.find(subj => {
       // todo wat als er twee acties zijn met hetzelfde type en subtype? => filter ook op id en event indien nodig, of zie dat je ze allemaal uitvoert!
       return subj.service === effect.action.service && subj.method === effect.action.serviceMethod
-    })?.subj.next({effect:effect,data:data,target:target})
+    })?.subj.next({effect:effect,data:data,target:target,source:source})
   }
   constructor(private configService:ConfigService) {
   }
