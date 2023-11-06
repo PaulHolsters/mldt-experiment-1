@@ -17,6 +17,7 @@ export abstract class SystemEffects {
       ),
       new Effect(
         new Trigger(TriggerType.ComponentHide, NoValueType.NO_VALUE_ALLOWED),
+        // todo clear values of all controls!!
         new Action('clear_values_of_children',ActionType.SetRenderProperty,
           NoValueType.CALCULATED_BY_ENGINE,
           NoValueType.NO_VALUE_ALLOWED,

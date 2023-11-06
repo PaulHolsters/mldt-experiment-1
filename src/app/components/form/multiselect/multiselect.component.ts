@@ -16,7 +16,6 @@ export class MultiselectComponent extends AbstractComponent implements OnInit{
   selectedOptions:DataRecord[]|undefined
   options:List|undefined
   ngOnInit(): void {
-    debugger
     this.props = MultiSelect.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
@@ -47,8 +46,14 @@ export class MultiselectComponent extends AbstractComponent implements OnInit{
       this.setPropValue(PropertyName.selectedOptions,res)
       this.selectedOptions = this.getPropValue(PropertyName.selectedOptions)
     })
+    this.storeService.bindToStateProperty(this.name,PropertyName.reset)?.subscribe(res=>{
+      if(res) this.reset()
+    })
   }
 
+  reset(){
+    this.selectedOptions = []
+  }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
       this.multiselect?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')

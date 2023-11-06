@@ -22,6 +22,7 @@ export abstract class MultiSelect extends Component{
   public static holdSpace: boolean|null=null
   public static data: any|null=null
   public static outputData:List|null=null
+  public static reset:boolean|null = null
   public static conceptBlueprint:Blueprint|null=null
   public static dataLink: string[] | null=null
   public static dirty: boolean | null=null

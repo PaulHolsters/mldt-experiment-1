@@ -32,6 +32,9 @@ export class InputNumberComponent extends AbstractComponent implements OnInit {
     this.setPropValue(PropertyName.width,'100%')
     return false
   }
+  reset(){
+    this.value = undefined
+  }
 
   ngOnInit(): void {
     this.storeService.bindToStateProperty(this.name,PropertyName.outputData)?.subscribe(res=>{
@@ -39,13 +42,16 @@ export class InputNumberComponent extends AbstractComponent implements OnInit {
         this.value = res
       }
     })
+    this.storeService.bindToStateProperty(this.name,PropertyName.reset)?.subscribe(res=>{
+      if(res) this.reset()
+    })
     this.props = NumberInput.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         this.setPropValue(k,res)
       })
     })
-    // todo je moet een subscribe gebruiken omdat je niet anders kan
+
 
   }
 

@@ -29,6 +29,12 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
         this.setPropValue(k,res)
       })
     })
+    this.storeService.bindToStateProperty(this.name,PropertyName.reset)?.subscribe(res=>{
+      if(res) this.reset()
+    })
+  }
+  reset(){
+    this.setPropValue(PropertyName.outputData,null)
   }
   getValue():string{
     const data = this.getPropValue(PropertyName.outputData)
