@@ -14,4 +14,5 @@ export enum TriggerType {
   ListOfDataNeeded,
   InstanceNeeded,
   AllInstancesNeeded,
+  ComponentHide,
 }

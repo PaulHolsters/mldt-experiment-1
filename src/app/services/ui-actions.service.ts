@@ -85,6 +85,7 @@ export class UiActionsService {
       }
     })
   }
+
   private updateDataRelatedProps(res: {
     effect: Effect,
     data: Blueprint | [ComponentNameType, DataRecord | (DataRecord | null)[]] | ClientData | string | ServerDataRequestType | DataRecord | List,
@@ -93,18 +94,18 @@ export class UiActionsService {
     if (isClientData(res.data)) {
       const dl = this.configService.getConfigFromRoot(res.data.name)
       if (dl) {
-        const target = this.configService.effects.map(e=>{
+        const target = this.configService.effects.map(e => {
           return e.action.target
-        }).find(t=>{
-          return typeof t !== 'string' && t.controls.map(c=>{
+        }).find(t => {
+          return typeof t !== 'string' && t.controls.map(c => {
             return c.target
           }).includes(dl.name)
         })
-        if(isFormTargetType(target)){
-          const field = target.controls.find(f=>{
+        if (isFormTargetType(target)) {
+          const field = target.controls.find(f => {
             return f.target === dl.name
           })?.field
-          if(field){
+          if (field) {
             const value = res.data.blueprint.getBlueprintValueForDataLink(field)
             const input: {
               [key: string]: any
@@ -137,15 +138,17 @@ export class UiActionsService {
     res: {
       effect: Effect,
       data: Blueprint | [ComponentNameType, DataRecord | List] | ClientData | string | ServerDataRequestType | DataRecord | List,
-      target: EventTarget | undefined }
+      target: EventTarget | undefined
+    }
   ) {
-    if(isClientData(res.data)){
+    if (isClientData(res.data)) {
       const cd = res.data
       this.renderPropertiesService.getStatePropertySubjects().filter(ps => {
-        return  ps.componentName === cd.name
+        return ps.componentName === cd.name
       }).forEach(propSubj => {
         switch (propSubj.propName) {
           case PropertyName.outputData:
+            if(propSubj.componentName === 'edit-product-multiselect') debugger
             propSubj.propValue.next(cd.outputData)
             break
           case PropertyName.conceptBlueprint:
@@ -191,12 +194,21 @@ export class UiActionsService {
     //      strategie:
     //      1. je haalt uit action het target
     //      2. je gaat alle children na van deze target en verwijdert indien nodig de overeenkomstige clientdata en gebruikt daarbij indien nodig het form target
-
+    if (typeof action.target === 'string'
+      && action.value instanceof ActionValueModel
+      && action.value.name === PropertyName.visible
+      && action.value.value === false) {
+      const children = this.configService.getAllDecendants(action.target)
+      children.forEach(ch => {
+        this.clientDataService.destroy(ch.name)
+      })
+    }
     let val
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
       val = ((action.value as ActionValueModel).value as Function)(this.stateService)
     }
     if (!val) val = (action.value as ActionValueModel).value
+    debugger
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
     this.renderPropertiesService.getStatePropertySubjects().find(prop => {
       if (prop.componentName === action.target && action.value instanceof ActionValueModel)

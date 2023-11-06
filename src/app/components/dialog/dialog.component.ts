@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Component as AbstractComponent} from "../Component"
 import {Dialog} from "../../componentclasses/Dialog";
+import {TriggerType} from "../../enums/triggerTypes.enum";
 
 @Component({
   selector: 'm-dialog',
@@ -20,7 +21,11 @@ export class DialogComponent extends AbstractComponent implements OnInit {
     this.storeService.bindToStateProperty(this.name, 'visible')?.subscribe(res => {
       this.visible = res as boolean
     })
+  }
 
+  clearClientData(){
+    this.clientDataService.destroy(this.name)
+    this.trigger(TriggerType.ComponentHide)
   }
 
 }

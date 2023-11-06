@@ -122,7 +122,8 @@ export class ClientDataService {
     })
   }
 
-  public updateClientData(searchValue: ActionIdType | ComponentNameType | FormTargetType, data: Blueprint | OutputData) {
+  public updateClientData(searchValue: ActionIdType | ComponentNameType | FormTargetType,
+                          data: Blueprint | OutputData) {
     if(typeof searchValue !== 'string'){
       searchValue.controls.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
@@ -231,7 +232,6 @@ export class ClientDataService {
   //***********************************     data manipulation methods         ***************************************************************/
 
   destroy(name: string) {
-    // todo verwijder elke control in het overeenkomstige targets object
     const target = this.configService.effects.map(e=>{
       return e.action.target
     }).find(t=>{
@@ -239,17 +239,34 @@ export class ClientDataService {
         return c.target
       }).includes(name)
     })
-    if(isFormTargetType(target)){
-      target.controls.forEach(c=>{
-        this._clientData.splice(this._clientData.findIndex(v=>{
-          return v.name === c.target
-        }),1)
-      })
-      this._clientData.splice(this._clientData.findIndex(v=>{
-        return v.name === target.submit
-      }),1)
+    debugger
+    if(!isFormTargetType(target)){
+        const children = this.configService.getAllDecendants(name)
+        children.forEach(ch=>{
+          const index = this._clientData.findIndex(v=>{
+            return v.name === ch.name
+          })
+          if(index>=0){
+            this._clientData.splice(index,1)
+          }
+        })
       debugger
-    } else throw new Error('no clientdata found to be destroyed')
+    } else {
+      target.controls.forEach(c=>{
+        const index = this._clientData.findIndex(v=>{
+          return v.name === c.target
+        })
+        if(index){
+          this._clientData.splice(index,1)
+        }
+      })
+      const index = this._clientData.findIndex(v=>{
+        return v.name === target.submit
+      })
+      if(index){
+        this._clientData.splice(index,1)
+      }
+    }
   }
 }
 

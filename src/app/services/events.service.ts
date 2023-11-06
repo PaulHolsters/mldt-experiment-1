@@ -58,6 +58,7 @@ export class EventsService{
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
     }
+    // todo fix: de source is hier de dialogComponent maar voor Hode Component maakt dat maar half uit
     this.configService.getEffectsForEvent(trigger,source).forEach(effect=>{
       this.actionsService.triggerAction(effect,data,target)
     })

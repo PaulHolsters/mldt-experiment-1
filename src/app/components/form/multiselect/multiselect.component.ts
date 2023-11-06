@@ -15,7 +15,6 @@ export class MultiselectComponent extends AbstractComponent implements OnInit{
   @ViewChild('multiselect') multiselect: ElementRef | undefined
   selectedOptions:DataRecord[]|undefined
   options:List|undefined
-  // todo implement ngOndestroy and destroy associated clientData
   ngOnInit(): void {
     debugger
     this.props = MultiSelect.getProperties()
@@ -44,7 +43,7 @@ export class MultiselectComponent extends AbstractComponent implements OnInit{
         this.setPropValue(k,res)
       })
     })
-    this.storeService.bindToStateProperty(this.name,PropertyName.selectedOptions)?.subscribe(res=>{
+    this.storeService.bindToStateProperty(this.name,PropertyName.outputData)?.subscribe(res=>{
       this.setPropValue(PropertyName.selectedOptions,res)
       this.selectedOptions = this.getPropValue(PropertyName.selectedOptions)
     })

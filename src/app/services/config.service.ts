@@ -53,6 +53,9 @@ export class ConfigService {
     return this.appConfig.userConfig.effects.filter((effect) => {
       return effect.trigger.name === trigger && effect.trigger.source === source
     }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
+      if(trigger===TriggerType.ComponentHide){
+        return effect.trigger.name === trigger
+      }
       return effect.trigger.name === trigger && effect.trigger.source === source
     }))
   }
@@ -161,7 +164,7 @@ export class ConfigService {
       return this.convertToComponentModelTypes(this.appConfig?.userConfig)
     }*/
 
-  private getAllChildren(c: ComponentModelType,screenSize?:ScreenSize) {
+  getAllChildren(c: ComponentModelType,screenSize?:ScreenSize) {
     const getAllDirectChildrenViaDDChildren = function (c: ComponentModelType): ComponentModelType[] {
       if(c.children) return c.children
       else return []
@@ -201,6 +204,19 @@ export class ConfigService {
       return arr
     }
     return getAllDirectChildrenViaDDChildren(c).concat(getAllDirectChildrenViaDDContentInjection(c,screenSize))
+  }
+
+  getAllDecendants(name:string):ComponentModelType[]{
+    const comp = this.getConfigFromRoot(name)
+    if(!comp) throw new Error('no component config found with name '+name)
+    const children = this.getAllChildren(comp)
+    const childrenFound = []
+    while(children.length>0){
+      const child = children.pop() as ComponentModelType
+      children.unshift(...this.getAllChildren(child))
+      childrenFound.push(child)
+    }
+    return childrenFound
   }
 
   getAllComponents(screenSize?: ScreenSize): ComponentModelType[] {

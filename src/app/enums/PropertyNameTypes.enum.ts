@@ -120,6 +120,7 @@ export enum PropertyName {
   buttonLayout = 'buttonLayout',
   optionValue = 'optionValue',
   placeholder = 'placeholder',
+  reset = 'reset',
 
 
 

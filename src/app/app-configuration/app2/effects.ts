@@ -52,7 +52,7 @@ export const effects: Effect[] = [
     new Action('set_edit-product-dialog_visible',
       ActionType.SetRenderProperty,
       'update-product-dialog',
-      undefined,
+      NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.visible, true))
   ),
   new Effect(

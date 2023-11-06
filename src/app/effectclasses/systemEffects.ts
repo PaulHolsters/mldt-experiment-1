@@ -4,6 +4,9 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import {Action} from "./Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ServiceType} from "../enums/serviceTypes.enum";
+import {NoValueType} from "../enums/NoValueTypes.enum";
+import {ActionValueModel} from "../design-dimensions/ActionValueModel";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
 
 export abstract class SystemEffects {
   public static getSystemEffects():Effect[]{
@@ -11,6 +14,13 @@ export abstract class SystemEffects {
       new Effect(
         new Trigger(TriggerType.RootComponentReady, 'content-container'),
         new Action('create_store',ActionType.CreateStore,undefined,undefined)
+      ),
+      new Effect(
+        new Trigger(TriggerType.ComponentHide, NoValueType.NO_VALUE_ALLOWED),
+        new Action('clear_values_of_children',ActionType.SetRenderProperty,
+          NoValueType.CALCULATED_BY_ENGINE,
+          NoValueType.NO_VALUE_ALLOWED,
+          new ActionValueModel(PropertyName.reset, true))
       ),
       new Effect(
       new Trigger(TriggerType.ActionFinished, 'create_store'),

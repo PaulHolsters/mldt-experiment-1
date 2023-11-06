@@ -1,4 +1,4 @@
-<p-dialog header="{{getPropValue(PropertyName.header) ? '':getPropValue(PropertyName.header)}}" [(visible)]="visible">
+<p-dialog header="{{getPropValue(PropertyName.header) ? '':getPropValue(PropertyName.header)}}" [(visible)]="visible" (onHide)="clearClientData()">
   <m-anchor [component]="getPropValue(PropertyName.content)" [data]="getPropValue(PropertyName.data)"></m-anchor>
 </p-dialog>
 <!--
