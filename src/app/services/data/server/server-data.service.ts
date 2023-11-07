@@ -263,7 +263,6 @@ export class ServerDataService {
         if(!clientData) throw new Error('No valid clientData found')
         this.mutationService.updateRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
-            debugger
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
         })

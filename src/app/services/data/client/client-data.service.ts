@@ -152,7 +152,6 @@ export class ClientDataService {
         if(isFormTargetType(target)){
           const instance = this.getClientDataInstanceForComponent(target.submit)
           if(instance){
-            // todo welk veld moet er nu geüpdated worden ?
             const fieldToUpdate = target.controls.find(c=>{
               return c.target === searchValue
             })?.field
@@ -239,7 +238,6 @@ export class ClientDataService {
         return c.target
       }).includes(name)
     })
-    debugger
     if(!isFormTargetType(target)){
         const children = this.configService.getAllDecendants(name)
         children.forEach(ch=>{
@@ -250,7 +248,6 @@ export class ClientDataService {
             this._clientData.splice(index,1)
           }
         })
-      debugger
     } else {
       target.controls.forEach(c=>{
         const index = this._clientData.findIndex(v=>{

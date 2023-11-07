@@ -156,7 +156,6 @@ export class UiActionsService {
       }).forEach(propSubj => {
         switch (propSubj.propName) {
           case PropertyName.outputData:
-            if (propSubj.componentName === 'edit-product-multiselect') debugger
             propSubj.propValue.next(cd.outputData)
             break
           case PropertyName.conceptBlueprint:
@@ -197,11 +196,6 @@ export class UiActionsService {
   }
 
   private setProperty(action: Action, data?: any, source?: ComponentNameType) {
-    // todo je zou hier kunnen bepalen als het om visible property gaat dat je in dit geval ook de
-    //      nodige clientdata gaat opkuisen => dan hoef je hier in de componenten zelf geen rekening mee te houden wat sowieso beter is!
-    //      strategie:
-    //      1. je haalt uit action het target
-    //      2. je gaat alle children na van deze target en verwijdert indien nodig de overeenkomstige clientdata en gebruikt daarbij indien nodig het form target
     if (typeof action.target === 'string'
       && action.value instanceof ActionValueModel
       && action.value.name === PropertyName.visible
@@ -218,7 +212,6 @@ export class UiActionsService {
     if (!val) val = (action.value as ActionValueModel).value
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen
 
-    // todo aanpassen aan calculated by engine property
     this.renderPropertiesService.getStatePropertySubjects().find(prop => {
       if (prop.componentName === action.target && action.value instanceof ActionValueModel)
         return prop.propName === PropertyName.data
