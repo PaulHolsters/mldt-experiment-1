@@ -10,7 +10,7 @@ export class ResponsiveStructuralMenubarConfigModel
   public laptop:MenubarStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   public tablet:MenubarStructuralConfigModel  | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
   public portraitTablet:MenubarStructuralConfigModel | NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
-  constructor(public smartphone: MenubarStructuralConfigModel) {
+  constructor(public smartphone: MenubarStructuralConfigModel=new MenubarStructuralConfigModel()) {
     super()
   }
   setSmartphone(smartphone:MenubarStructuralConfigModel){

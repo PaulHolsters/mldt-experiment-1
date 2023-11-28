@@ -9,6 +9,17 @@ import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
 import {DataRecord} from "../../types/union-types";
 import {NoValueType} from "../../enums/NoValueTypes.enum";
 
+// todo hoe zou je dit met no-code kunnen realiseren? maw een duplicatie aan methods ivm data structuren in de frontend
+
+// todo datalink toestaan voor waarden in de config zodat een waarde in de data gebruikt kan worden
+//      voor eender welke renderproperty in de frontend
+// todo de idee van metadata zou ik voorlopig zo laten, in principe kan je een businesstype gewoon van alle gewenste velden voorzien
+//      bovendien kan je ook in de frontend config een custom label gebruiken
+// todo een businesstypes bibliotheek: zinvol?
+// todo van Mouldit een open source framework maken? maw een edgeQL backend met lichte JS verpakking maar vooral focus op
+//      speeding up frontend development : voordeel : je kan custom functions schrijven en er later een no-code over plakken?
+//
+// const res = object => getFieldValue('fieldname') // ongeacht hoe deep genest ook: getField, getFieldName
 const customFunction = (stateService: StateService): any[] => {
   const cl = stateService.getValue('table', PropertyName.currentDataList)
   const cc = stateService.getValue('filter-dialog', PropertyName.data)
