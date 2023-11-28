@@ -1,29 +1,24 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {Observable} from "rxjs";
-import {RenderPropertiesService} from "../../services/renderProperties.service";
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {TriggerType} from "../../enums/triggerTypes.enum";
+import {Component as AbstractComponent} from "../Component";
+import {Menubar} from "../../componentclasses/Menubar";
+import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 @Component({
   selector: 'm-menubar',
   templateUrl: './menubar.component.html',
   styleUrls: ['./menubar.component.css']
 })
-export class MenubarComponent implements OnInit,AfterViewInit {
-  @Input() name = ''
-  @Input() data:any|undefined
-  @ViewChild('NumberInput') menubar:ElementRef|undefined
-  menuItems$:Observable<any>|undefined
-  start$:Observable<any>|undefined
-  end$:Observable<any>|undefined
-  calcHeight$: Observable<any>|undefined
-  calcWidth$: Observable<any>|undefined
-  width:string|undefined
-  height:string|undefined
-  constructor(private storeService: RenderPropertiesService, private cd: ChangeDetectorRef) { }
+export class MenubarComponent extends AbstractComponent implements OnInit,AfterViewInit {
+  @ViewChild('button') menubar:ElementRef|undefined
   ngOnInit(): void {
-    this.menuItems$ = this.storeService.bindToStateProperty(this.name,'menuItems')
-    this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
-    this.calcHeight$ = this.storeService.bindToStateProperty(this.name,'calcHeight')
-    this.start$ = this.storeService.bindToStateProperty(this.name,'start')
-    this.end$ = this.storeService.bindToStateProperty(this.name,'end')
+    this.props = Menubar.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        if(k==='width') debugger
+        this.setPropValue(k,res)
+      })
+    })
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()
@@ -31,19 +26,19 @@ export class MenubarComponent implements OnInit,AfterViewInit {
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
       this.menubar?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
-      this.height = undefined
+      this.setPropValue(PropertyName.height,undefined)
       return true
     }
-    this.height = '100%'
+    this.setPropValue(PropertyName.height,'100%')
     return false
   }
   setCalculatedWidth(val:any):boolean{
     if(typeof val === 'string'){
       this.menubar?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
-      this.width = undefined
+      this.setPropValue(PropertyName.width,undefined)
       return true
     }
-    this.width = '100%'
+    this.setPropValue(PropertyName.width,'100%')
     return false
   }
 }

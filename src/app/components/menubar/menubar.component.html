@@ -1,12 +1,12 @@
-<p-menubar [model]="menuItems$|async"
-           [class.calcHeight]="setCalculatedHeight(calcHeight$|async)"
-           [class.calcWidth]="setCalculatedWidth(calcWidth$|async)"
-           [style.height]="height"
-           [style.width]="width">
+<p-menubar [model]="getPropValue(PropertyName.menuItems)"
+           [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+           [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+           [style.height]="getPropValue(PropertyName.height)"
+           [style.width]="getPropValue(PropertyName.width)">
   <ng-template pTemplate="start">
-    <m-anchor [component]="start$|async"></m-anchor>
+    <m-anchor [component]="getPropValue(PropertyName.start)"></m-anchor>
   </ng-template>
   <ng-template pTemplate="end">
-    <m-anchor [component]="end$|async"></m-anchor>
+    <m-anchor [component]="getPropValue(PropertyName.end)"></m-anchor>
   </ng-template>
 </p-menubar>

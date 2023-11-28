@@ -1,7 +1,7 @@
 import {AfterContentChecked, Component, ElementRef,  OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {TriggerType} from "../../enums/triggerTypes.enum";
-import {RootComponent} from "../../app-configuration/app2/rootComponent"
+import {RootComponent} from "../../app-configuration/Netflix/body"
 import {Component as AbstractComponent} from "../Component"
 import {Container} from "../../componentclasses/Container";
 
@@ -90,6 +90,10 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     return this.storeService.bindToStateProperty(componentName, 'grow') as Observable<number>
   }
   bindToStateProperty(componentName: string, property: string): Observable<string> {
+    // todo doordat dit in de ui wordt opgeroepen wordt dit meerdere keren gedaan wat nooit goed kan zijn => je moet dus loggen als controllervars
+    this.storeService.bindToStateProperty(componentName, property)?.subscribe(res=>{
+      if(componentName==='menu' && property==='width') debugger
+    })
     return this.storeService.bindToStateProperty(componentName, property) as Observable<string>
   }
 }

@@ -121,7 +121,7 @@ export enum PropertyName {
   optionValue = 'optionValue',
   placeholder = 'placeholder',
   reset = 'reset',
-
-
-
+  menuItems = 'menuItems',
+  start = 'start',
+  end = 'end'
 }

@@ -14,6 +14,7 @@ import {Paginator} from "../componentclasses/Paginator";
 import {ConfirmPopup} from "../componentclasses/ConfirmPopup";
 import {NumberInput} from "../componentclasses/NumberInput";
 import {MultiSelect} from "../componentclasses/MultiSelect";
+import {Menubar} from "../componentclasses/Menubar";
 @Injectable({
   providedIn: 'root'
 })
@@ -68,6 +69,8 @@ export class StateService {
         return Paginator.getProperties()
       case ComponentType.ConfirmPopup:
         return ConfirmPopup.getProperties()
+      case ComponentType.Menubar:
+        return Menubar.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }

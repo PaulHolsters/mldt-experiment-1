@@ -57,11 +57,14 @@ export class ResponsiveBehaviourService implements OnInit{
         }
       }
       if (newState.childProps) {
+        // todo newState.childProps.width bevat wel degelijk de juiste waarde van 100%
+        //      de code bevat dus wellicht fouten of de waarde wordt niet naar de juiste componenten doorgestuurd
         for (let [k, v] of Object.entries(newState.childProps)) {
           let parent = this.configService.getConfigFromRoot(componentName)
           if (parent?.children) {
             (parent.children as ComponentModelType[]).forEach(childComp => {
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
+                if(subj.componentName==='menu' && subj.propName==='width' && k==='width') debugger
                 return subj.componentName === childComp.name && subj.propName === k
               })?.propValue.next(v)
             })
@@ -202,6 +205,7 @@ export class ResponsiveBehaviourService implements OnInit{
       this.setRBSState(component.name, component.structural.getStructuralRenderProperties(screenSize))
     }
     if (component.componentSpecificLayout){
+      debugger
       this.setRBSState(component.name, component.componentSpecificLayout.getRenderProperties(screenSize))
     }
     if (component.children && component.children.length > 0) {

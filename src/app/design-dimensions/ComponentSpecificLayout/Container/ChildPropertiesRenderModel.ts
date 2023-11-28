@@ -13,9 +13,6 @@ export class ChildPropertiesRenderModel {
   public visible: boolean | null = null
   public holdSpace: boolean | null = null
   constructor(
-/*    public horizontalScrolling:boolean=false,
-    public verticalScrolling:boolean=false,
-    public scroll:boolean=false*/
   ) {
   }
 }

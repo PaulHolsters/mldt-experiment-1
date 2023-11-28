@@ -1,1 +1,1 @@
-export const footer = new
+
