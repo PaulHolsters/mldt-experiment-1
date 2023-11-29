@@ -80,7 +80,8 @@ import {ConfirmationService, MessageService} from "primeng/api";
     DialogComponent,
     IconComponent,
     PaginatorComponent,
-    ConfirmPopupComponent
+    ConfirmPopupComponent,
+    ContainerComponent
   ],
     imports: [
         BrowserModule,

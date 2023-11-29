@@ -8,8 +8,13 @@ import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
-import {ComponentModelType, RenderModelType} from "../types/union-types";
+import {ComponentModelType, isNoValueType, RenderModelType} from "../types/union-types";
 import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Container} from "../components/container/Container";
+import {
+  ChildPropertiesConfigModel
+} from "../design-dimensions/ComponentSpecificLayout/Container/ChildPropertiesConfigModel";
 
 @Injectable({
   providedIn: 'root'
@@ -77,9 +82,30 @@ export class ResponsiveBehaviourService implements OnInit{
       })?.propValue.next(newState)
     } else{
       for (let [k, v] of Object.entries(newState)) {
+        if(!v){
+          const config = this.configService.getParentConfigFromRoot(componentName)
+          if(config instanceof Container && !isNoValueType(config.componentSpecificLayout.childConfig)){
+            const rps = config.componentSpecificLayout.childConfig.size.getSizeRenderProperties(this.screenSize)
+            if(Reflect.has(rps,k) && !Reflect.get(rps,k)){
+              this.renderPropertiesService.getStatePropertySubjects().find(subj => {
+                if(subj.componentName==='menu' && subj.propName==='width' && k==='width') debugger
+                return subj.componentName === componentName && subj.propName === k
+              })?.propValue.next(v)
+            }
+            const rpv = config.componentSpecificLayout.childConfig.visibility.getVisibilityRenderProperties(this.screenSize)
+            if(Reflect.has(rpv,k) && !Reflect.get(rpv,k)){
+              this.renderPropertiesService.getStatePropertySubjects().find(subj => {
+                if(subj.componentName==='menu' && subj.propName==='width' && k==='width') debugger
+                return subj.componentName === componentName && subj.propName === k
+              })?.propValue.next(v)
+            }
+          }
+        } else{
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
+            if(subj.componentName==='menu' && subj.propName==='width' && k==='width') debugger
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
+        }
       }
     }
   }

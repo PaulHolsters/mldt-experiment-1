@@ -44,7 +44,7 @@
       TODO
           Bij form in config moet overflow nog opgezet worden
       TODO
-          Werk bindToStateProperty call weg => dangerous
+          Werk bindToStateProperty call weg => heeft nooit gewerkt!
       -->
 <!--      *ngIf="(getPropValue(PropertyName.dataAttribute) && !getPropValue(PropertyName.dataAttribute)['floatLabel'])
       ||child.type !== componentType.Label
@@ -52,22 +52,20 @@
       <div
         [class.visibilityHidden]="
       (child.type !== ComponentType.Container) &&
-      !(bindToStateProperty(child.name,'visible') | async)
-      && (bindToStateProperty(child.name,'holdSpace') | async) "
-
+      !(bindToStateProperty(child.name,PropertyName.visible)|async)
+      && (bindToStateProperty(child.name,PropertyName.holdSpace)|async)"
         [class.displayNone]="(child.type !== ComponentType.Container)
-      &&!(bindToStateProperty(child.name,'visible') | async)
-      && !(bindToStateProperty(child.name,'holdSpace') | async)"
-
-        [style.height]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,'height') | async) : ''"
-        [style.width]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,'width') | async) : ''"
-        [class.align-self-stretch]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'alignSelfStretch')|async)"
-        [class.overflow-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowHidden')|async)"
-        [class.overflow-x-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowXHidden')|async)"
-        [class.overflow-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowAuto')|async)"
-        [class.overflow-x-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowXAuto')|async)"
-        [class.overflow-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowScroll')|async)"
-        [class.overflow-x-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,'overflowXScroll')|async)"
+      &&!(bindToStateProperty(child.name,PropertyName.visible)
+      && !(bindToStateProperty(child.name,PropertyName.holdSpace)|async))"
+        [style.height]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,PropertyName.height)|async) : ''"
+        [style.width]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,PropertyName.width)|async) : ''"
+        [class.align-self-stretch]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.alignItemsStretch)|async) "
+        [class.overflow-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowHidden)|async)"
+        [class.overflow-x-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXHidden)|async)"
+        [class.overflow-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowAuto)|async) "
+        [class.overflow-x-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXAuto)|async)"
+        [class.overflow-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowScroll)|async)"
+        [class.overflow-x-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXScroll)|async)"
         [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

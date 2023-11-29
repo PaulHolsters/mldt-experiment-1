@@ -11,13 +11,13 @@ import {menu} from "./menu";
 
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'));
-// todo de child configuration werkt niet => implementeren
-(mainContainer.componentSpecificLayout
+/*(mainContainer.componentSpecificLayout
   .setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig as ChildPropertiesConfigModel).size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage));
+  .childConfig as ChildPropertiesConfigModel).size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage));*/
 mainContainer.setChildren([
   menu
 ])
+
 export const RootComponent = new AppConfig({
   components: [
     mainContainer
