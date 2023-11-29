@@ -15,6 +15,7 @@ import {ConfirmPopup} from "../componentclasses/ConfirmPopup";
 import {NumberInput} from "../componentclasses/NumberInput";
 import {MultiSelect} from "../componentclasses/MultiSelect";
 import {Menubar} from "../componentclasses/Menubar";
+import {Toolbar} from "../componentclasses/Toolbar";
 @Injectable({
   providedIn: 'root'
 })
@@ -71,6 +72,8 @@ export class StateService {
         return ConfirmPopup.getProperties()
       case ComponentType.Menubar:
         return Menubar.getProperties()
+      case ComponentType.Toolbar:
+        return Toolbar.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }

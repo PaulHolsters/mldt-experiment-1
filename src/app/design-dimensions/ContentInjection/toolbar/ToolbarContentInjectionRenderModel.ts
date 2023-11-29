@@ -1,8 +1,8 @@
-import {ComponentModel} from "../../ComponentModel";
 import {ComponentModelType} from "../../../types/union-types";
 
-export class MenubarContentInjectionRenderModel {
+export class ToolbarContentInjectionRenderModel {
   public start: ComponentModelType|null=null
+  public center: ComponentModelType|null=null
   public end: ComponentModelType|null=null
   constructor() {
   }

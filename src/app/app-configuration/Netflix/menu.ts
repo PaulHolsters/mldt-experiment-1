@@ -21,4 +21,4 @@ menu.structural.smartphone.menuItems =
         label: 'Admin'
       },
 ]
-menu.size.smartphone.width = new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage)
+//menu.size.smartphone.width = new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage)

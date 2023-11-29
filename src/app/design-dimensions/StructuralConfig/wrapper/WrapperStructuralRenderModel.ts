@@ -1,9 +1,7 @@
-import {ComponentModel} from "../../ComponentModel";
-import {ComponentModelType} from "../../../types/union-types";
+import {MenuItem} from "primeng/api";
 
-export class MenubarContentInjectionRenderModel {
-  public start: ComponentModelType|null=null
-  public end: ComponentModelType|null=null
+export class WrapperStructuralRenderModel {
+  public menuItems: MenuItem[]|null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {

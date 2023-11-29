@@ -178,6 +178,7 @@ import {ConfigService} from "../services/config.service";
 import {NumberInput} from "../components/form/input-number/NumberInput";
 import {Form} from "../components/form/Form";
 import {Menubar} from "../components/menubar/Menubar";
+import {Toolbar} from "../components/toolbar/Toolbar";
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -290,7 +291,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 
 
-export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar
 
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>

@@ -264,6 +264,11 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
                             *ngSwitchCase="ComponentType.Menubar"
                             [name]="child.name"></m-menubar>
+        <m-toolbar          [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"
+                            *ngSwitchCase="ComponentType.Toolbar"
+                            [name]="child.name"></m-toolbar>
         <m-logo          [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === undefined? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== undefined ? 0 : ((getGrowVal(child.name)|async)))]"

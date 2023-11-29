@@ -123,5 +123,6 @@ export enum PropertyName {
   reset = 'reset',
   menuItems = 'menuItems',
   start = 'start',
-  end = 'end'
+  end = 'end',
+  center = 'center',
 }

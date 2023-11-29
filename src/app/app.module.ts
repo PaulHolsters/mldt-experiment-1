@@ -48,6 +48,7 @@ import {PaginatorModule} from "primeng/paginator";
 import { ConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ConfirmationService, MessageService} from "primeng/api";
+import {ToolbarModule} from "primeng/toolbar";
 
 @NgModule({
   declarations: [
@@ -83,26 +84,27 @@ import {ConfirmationService, MessageService} from "primeng/api";
     ConfirmPopupComponent,
     ContainerComponent
   ],
-    imports: [
-        BrowserModule,
-        CardModule,
-        ButtonModule,
-        MenubarModule,
-        InputTextModule,
-        ImageModule,
-        FormsModule,
-        GraphQLModule,
-        HttpClientModule,
-        KeyFilterModule,
-        InputNumberModule,
-        RadioButtonModule,
-        MultiSelectModule,
-        BrowserAnimationsModule,
-        TableModule,
-        DialogModule,
-        PaginatorModule,
-        ConfirmPopupModule
-    ],
+  imports: [
+    BrowserModule,
+    CardModule,
+    ButtonModule,
+    MenubarModule,
+    InputTextModule,
+    ImageModule,
+    FormsModule,
+    GraphQLModule,
+    HttpClientModule,
+    KeyFilterModule,
+    InputNumberModule,
+    RadioButtonModule,
+    MultiSelectModule,
+    BrowserAnimationsModule,
+    TableModule,
+    DialogModule,
+    PaginatorModule,
+    ConfirmPopupModule,
+    ToolbarModule
+  ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent]
 })

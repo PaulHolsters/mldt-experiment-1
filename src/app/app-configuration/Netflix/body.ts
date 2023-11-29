@@ -8,14 +8,23 @@ import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 import AppConfig from "../../services/appConfig";
 import {effects} from "../app2/effects";
 import {menu} from "./menu";
+import {footer} from "./footer";
+import {
+  ColumnLayoutConfigModel
+} from "../../design-dimensions/ComponentSpecificLayout/Container/ColumnLayoutConfigModel";
+import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
 
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'));
-/*(mainContainer.componentSpecificLayout
+(mainContainer.componentSpecificLayout
   .setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig as ChildPropertiesConfigModel).size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage));*/
+  .childConfig as ChildPropertiesConfigModel).size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage));
+(mainContainer.componentSpecificLayout.smartphone
+  .setLayout(new ColumnLayoutConfigModel()).layout as ColumnLayoutConfigModel)
+  .setVerticalLayoutOfChildren(VerticalColumnLayoutConfigType.Between);
 mainContainer.setChildren([
-  menu
+  menu,
+  footer
 ])
 
 export const RootComponent = new AppConfig({

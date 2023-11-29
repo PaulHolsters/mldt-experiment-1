@@ -9,12 +9,11 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
   styleUrls: ['./menubar.component.css']
 })
 export class MenubarComponent extends AbstractComponent implements OnInit,AfterViewInit {
-  @ViewChild('button') menubar:ElementRef|undefined
+  @ViewChild('menubar') menubar:ElementRef|undefined
   ngOnInit(): void {
     this.props = Menubar.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        if(k==='width') debugger
         this.setPropValue(k,res)
       })
     })

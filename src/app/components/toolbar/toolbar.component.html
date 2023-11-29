@@ -1,1 +1,14 @@
-<p>toolbar works!</p>
+<p-toolbar [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+           [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+           [style.height]="getPropValue(PropertyName.height)"
+           [style.width]="getPropValue(PropertyName.width)">
+  <ng-template pTemplate="start">
+    <m-anchor [component]="getPropValue(PropertyName.start)"></m-anchor>
+  </ng-template>
+  <ng-template pTemplate="center">
+    <m-anchor [component]="getPropValue(PropertyName.center)"></m-anchor>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <m-anchor [component]="getPropValue(PropertyName.end)"></m-anchor>
+  </ng-template>
+</p-toolbar>

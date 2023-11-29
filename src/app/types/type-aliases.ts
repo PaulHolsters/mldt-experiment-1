@@ -16,6 +16,7 @@ export type DataLink = string[]
 export type BlueprintStr = string
 export type FrontendDataType = [ComponentNameType, DataRecord | List]
 export type TypeName = string
+export type HtmlType = string
 export const isTypeName = function isTypeName(data: unknown): data is TypeName {
   return typeof data === 'string' && data.endsWith('Data') && data.length > 5
 }
