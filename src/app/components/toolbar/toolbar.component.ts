@@ -3,6 +3,7 @@ import {Component as AbstractComponent} from "../Component";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Toolbar} from "../../componentclasses/Toolbar";
+import {Element} from "@angular/compiler";
 
 @Component({
   selector: 'm-toolbar',
@@ -10,7 +11,7 @@ import {Toolbar} from "../../componentclasses/Toolbar";
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent extends AbstractComponent implements OnInit,AfterViewInit {
-  @ViewChild('toolbar') toolbar:ElementRef|undefined
+  @ViewChild('toolbar') toolbar:any|undefined
 
   ngOnInit(): void {
     this.props = Toolbar.getProperties()
@@ -19,10 +20,11 @@ export class ToolbarComponent extends AbstractComponent implements OnInit,AfterV
         this.setPropValue(k,res)
       })
     })
-    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()
+    this.toolbar.el.nativeElement.children[0].style.height = '100%'
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

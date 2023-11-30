@@ -17,10 +17,11 @@ export class MenubarComponent extends AbstractComponent implements OnInit,AfterV
         this.setPropValue(k,res)
       })
     })
-    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)
+    this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()
+    this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.menubar)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

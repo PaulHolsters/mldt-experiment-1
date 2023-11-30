@@ -24,6 +24,9 @@ export class Trigger {
       case TriggerType.ClientDataUpdated:
         this.sourceType = SourceType.System
         break
+      case TriggerType.ComponentInitialized:
+        this.sourceType = SourceType.Component
+        break
       case TriggerType.ComponentReady:
         this.sourceType = SourceType.Component
         break

@@ -68,7 +68,6 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('', ActionType.SetRenderProperty))?.subscribe(res => {
-      debugger
       if (res) {
         const action = this.setProperty(res.effect.action, res.data, res.source)
         if (action) {
@@ -207,7 +206,7 @@ export class UiActionsService {
     }
     let val: string | boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
-      val = ((action.value as ActionValueModel).value as Function)(this.stateService)
+      val = ((action.value as ActionValueModel).value as Function)(this.stateService,data)
     }
     if (!val) val = (action.value as ActionValueModel).value
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen

@@ -192,6 +192,7 @@ export class ServerDataService {
           self.queryService.getAllRecords(concept, blueprint).subscribe(errorOrResult=>{
             const data = ServerData.getData(errorOrResult)
             if(data && data.dataMultiple){
+              debugger
               const dataC:List = data.dataMultiple
               if(isOutPutData(dataC)){
                 self.clientDataService.updateClientData(res.effect.action.target,dataC)

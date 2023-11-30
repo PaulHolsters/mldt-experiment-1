@@ -15,4 +15,5 @@ export enum TriggerType {
   InstanceNeeded,
   AllInstancesNeeded,
   ComponentHide,
+  ComponentInitialized,
 }

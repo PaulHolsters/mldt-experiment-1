@@ -1,7 +1,7 @@
 <p-toolbar [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
            [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
            [style.height]="getPropValue(PropertyName.height)"
-           [style.width]="getPropValue(PropertyName.width)">
+           [style.width]="getPropValue(PropertyName.width)" #toolbar>
   <ng-template pTemplate="start">
     <m-anchor [component]="getPropValue(PropertyName.start)"></m-anchor>
   </ng-template>

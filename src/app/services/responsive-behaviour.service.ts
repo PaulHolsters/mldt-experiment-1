@@ -69,7 +69,6 @@ export class ResponsiveBehaviourService implements OnInit{
           if (parent?.children) {
             (parent.children as ComponentModelType[]).forEach(childComp => {
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-                if(subj.componentName==='menu' && subj.propName==='width' && k==='width') debugger
                 return subj.componentName === childComp.name && subj.propName === k
               })?.propValue.next(v)
             })
@@ -88,21 +87,18 @@ export class ResponsiveBehaviourService implements OnInit{
             const rps = config.componentSpecificLayout.childConfig.size.getSizeRenderProperties(this.screenSize)
             if(Reflect.has(rps,k) && !Reflect.get(rps,k)){
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-                if(subj.componentName==='menu' && subj.propName==='width' && k==='width') debugger
                 return subj.componentName === componentName && subj.propName === k
               })?.propValue.next(v)
             }
             const rpv = config.componentSpecificLayout.childConfig.visibility.getVisibilityRenderProperties(this.screenSize)
             if(Reflect.has(rpv,k) && !Reflect.get(rpv,k)){
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-                if(subj.componentName==='menu' && subj.propName==='width' && k==='width') debugger
                 return subj.componentName === componentName && subj.propName === k
               })?.propValue.next(v)
             }
           }
         } else{
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-            if(subj.componentName==='menu' && subj.propName==='width' && k==='width') debugger
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
         }
@@ -231,7 +227,6 @@ export class ResponsiveBehaviourService implements OnInit{
       this.setRBSState(component.name, component.structural.getStructuralRenderProperties(screenSize))
     }
     if (component.componentSpecificLayout){
-      debugger
       this.setRBSState(component.name, component.componentSpecificLayout.getRenderProperties(screenSize))
     }
     if (component.children && component.children.length > 0) {

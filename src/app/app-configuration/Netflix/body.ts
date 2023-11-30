@@ -6,7 +6,7 @@ import {
 import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
 import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 import AppConfig from "../../services/appConfig";
-import {effects} from "../app2/effects";
+import {effects} from "./effects";
 import {menu} from "./menu";
 import {footer} from "./footer";
 import {
