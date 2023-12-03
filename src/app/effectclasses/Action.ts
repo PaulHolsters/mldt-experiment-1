@@ -26,11 +26,11 @@ export class Action {
       =NoValueType.NO_VALUE_ALLOWED
   ) {
     switch (type){
-      case ActionType.CreateInstance:
+/*      case ActionType.CreateInstance:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.CreateInstance
         this.targetType = TargetType.Server
-        break
+        break*/
       case ActionType.SetGlobalResponsiveBehaviour:
         this.service = ServiceType.RBSService
         this.serviceMethod = ServiceMethodType.SetResponsiveBehaviour
@@ -71,7 +71,7 @@ export class Action {
         this.serviceMethod = ServiceMethodType.UpdateDataRelatedProperties
         this.targetType = TargetType.Client
         break
-      case ActionType.GetInstance:
+/*      case ActionType.GetInstance:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.GetInstance
         this.targetType = TargetType.Server
@@ -85,23 +85,23 @@ export class Action {
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.GetBluePrint
         this.targetType = TargetType.Server
-        break
+        break*/
       case ActionType.GetClientData:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.GetClientData
         this.targetType = TargetType.Client
         break
-      case ActionType.CreateInstances:
+/*      case ActionType.CreateInstances:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.CreateInstances
         this.targetType = TargetType.Server
-        break
+        break*/
       case ActionType.DeleteClientData:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.DeleteClientData
         this.targetType = TargetType.Client
         break
-      case ActionType.DeleteInstances:
+/*      case ActionType.DeleteInstances:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.DeleteInstances
         this.targetType = TargetType.Server
@@ -110,13 +110,13 @@ export class Action {
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.DeleteInstance
         this.targetType = TargetType.Server
-        break
+        break*/
       case ActionType.SetConfirmation:
         this.service = ServiceType.UIService
         this.serviceMethod = ServiceMethodType.SetConfirmation
         this.targetType = TargetType.Client
         break
-      case ActionType.UpdateInstance:
+/*      case ActionType.UpdateInstance:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.UpdateInstance
         this.targetType = TargetType.Server
@@ -125,7 +125,7 @@ export class Action {
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.UpdateInstances
         this.targetType = TargetType.Server
-        break
+        break*/
       case ActionType.UpdateDataProperties:
         this.service = ServiceType.UIService
         this.serviceMethod = ServiceMethodType.UpdateDataProperties
@@ -135,6 +135,11 @@ export class Action {
         this.service = ServiceType.UIService
         this.serviceMethod = ServiceMethodType.SetConfigValueAndRebuild
         this.targetType = TargetType.Client
+        break
+      case ActionType.ExecuteServerAction:
+        this.service = ServiceType.DataService
+        this.serviceMethod = ServiceMethodType.ExecuteServerAction
+        this.targetType = TargetType.Server
         break
       default:
         throw new Error('The action is not implemented yet '+this.type)

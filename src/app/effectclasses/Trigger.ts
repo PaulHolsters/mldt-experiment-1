@@ -8,7 +8,7 @@ export class Trigger {
   public readonly sourceType:SourceType
   public constructor(
     public name:TriggerType,
-    public source:ComponentNameType|ActionIdType|ServiceType,
+    public source:ComponentNameType|ActionIdType|ServiceType|[ComponentNameType,string],
     public id:TriggerIdType|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
   ) {
     switch (name){
@@ -55,6 +55,9 @@ export class Trigger {
         this.sourceType = SourceType.System
         break
       case TriggerType.ComponentHide:
+        this.sourceType = SourceType.Component
+        break
+      case TriggerType.MenuItemSelected:
         this.sourceType = SourceType.Component
         break
       default:

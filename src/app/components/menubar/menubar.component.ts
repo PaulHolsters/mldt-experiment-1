@@ -3,6 +3,8 @@ import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Component as AbstractComponent} from "../Component";
 import {Menubar} from "../../componentclasses/Menubar";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
+import {MenuItem} from "primeng/api";
+
 @Component({
   selector: 'm-menubar',
   templateUrl: './menubar.component.html',
@@ -10,6 +12,7 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 })
 export class MenubarComponent extends AbstractComponent implements OnInit,AfterViewInit {
   @ViewChild('menubar') menubar:ElementRef|undefined
+  selectedItem:string|undefined
   ngOnInit(): void {
     this.props = Menubar.getProperties()
     this.props.forEach((v,k)=>{
@@ -18,6 +21,16 @@ export class MenubarComponent extends AbstractComponent implements OnInit,AfterV
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
+  }
+  onClick(event:any){
+    const selectedItem = event.target?.innerText?.trim()
+    const items = (this.getPropValue(PropertyName.menuItems) as MenuItem[]).map(item=>{
+      return item.label
+    })
+    if(selectedItem && selectedItem.length>0 && items.includes(selectedItem) && this.selectedItem!==selectedItem){
+      this.selectedItem = selectedItem
+      this.eventsService.triggerEvent(TriggerType.MenuItemSelected, [this.name,this.selectedItem as string],undefined,event)
+    }
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()

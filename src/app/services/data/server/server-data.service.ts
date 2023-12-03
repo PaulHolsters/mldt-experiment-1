@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
+import {catchError, map, Subject} from "rxjs";
 import {ActionsService} from "../../actions.service";
 import {ConfigService} from "../../config.service";
 import {ActionType} from "../../../enums/actionTypes.enum";
@@ -11,21 +11,14 @@ import {MutationService} from "./mutations/mutation.service";
 import {
   ActionIdType,
   ComponentNameType,
-  ConceptNameType,
   FormTargetType,
-  isServerDataRequestType
 } from "../../../types/type-aliases";
-import {Effect} from "../../../effectclasses/Effect";
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
-import {ServerData} from "./ServerData";
 import {
-  DataRecord,
-  extractConcept,
-  isOutPutData, List,
   ServerData as ServerDataType
 } from "../../../types/union-types";
-import {ClientData} from "../client/ClientData";
+import {HttpClient} from "@angular/common/http";
 
 // todo fix
 @Injectable({
@@ -37,22 +30,32 @@ export class ServerDataService {
   //  todo a way to order data (sort)
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
 
+
   constructor(private configService:ConfigService,
               private apollo: Apollo,
               private actionsService:ActionsService,
               private clientDataService:ClientDataService,
               private queryService:QueryService,
-              private mutationService:MutationService
+              private mutationService:MutationService,
+              private http: HttpClient
   ) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
   }
   public bindActions(){
+    this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
+      if(res){
+        this.http.post('http://localhost:5000/' + res.effect.action.id,undefined).subscribe(res=>{
+          debugger
+        })
+      }
+
+    })
 
     //********************     queries     ****************************/
 
-    this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
+/*    this.actionsService.bindToAction(new Action('',ActionType.GetBluePrint))?.subscribe(async res => {
       if (res && ((res.effect.action.conceptName && res.effect.action.target)||isServerDataRequestType(res.data))) {
         let concept:string|undefined
         let target:string|FormTargetType|undefined
@@ -229,11 +232,11 @@ export class ServerDataService {
           })
         }
       }
-    })
+    })*/
 
     //********************     mutations     ****************************/
 
-    this.actionsService.bindToAction(new Action('',ActionType.DeleteInstance))?.subscribe(res => {
+/*    this.actionsService.bindToAction(new Action('',ActionType.DeleteInstance))?.subscribe(res => {
       // todo werk data als any weg
       if (res &&  res.data instanceof ClientData) {
         // todo verder uitwerken bv verwijderen van client data
@@ -248,13 +251,13 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.CreateInstance))?.subscribe(res=>{
       if(res){
         // todo gebruik target want dit bevat alle nodige fields , alleen is het zo dat een actie niet per se een target moet hebben!
-/*        const clientData = this.clientDataService.getClientDataInstancesForId(res.effect.action.id)
+/!*        const clientData = this.clientDataService.getClientDataInstancesForId(res.effect.action.id)
         if(!clientData||clientData.length===0) throw new Error('No valid clientData found')
         this.mutationService.createRecordOrHandleError(clientData).subscribe(errorOrResult=>{
           if (errorOrResult) {
             this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
           }
-        })*/
+        })*!/
       }
     })
 
@@ -268,7 +271,7 @@ export class ServerDataService {
           }
         })
       }
-    })
+    })*/
 
     //********************     Helpers     ****************************/
     function createClientData(self:ServerDataService,

@@ -52,7 +52,7 @@ export class UiActionsService {
 
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.SetLocalConfigurationValueAndRebuild))?.subscribe(res => {
-      if (res) {
+      if (res && res.effect.action instanceof Action) {
         const action = this.setConfigValueAndRebuild(res.effect.action)
         if (action) {
           this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -60,7 +60,7 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('', ActionType.SetConfirmation))?.subscribe(res => {
-      if (res && res.target && res.target instanceof EventTarget) {
+      if (res && res.target && res.target instanceof EventTarget && res.effect.action instanceof Action) {
         const action = this.setConfirmation(res.effect.action, res.data, res.target)
         if (action) {
           this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -68,7 +68,7 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('', ActionType.SetRenderProperty))?.subscribe(res => {
-      if (res) {
+      if (res && res.effect.action instanceof Action && !(res.source instanceof Array)) {
         const action = this.setProperty(res.effect.action, res.data, res.source)
         if (action) {
           this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -161,10 +161,11 @@ export class UiActionsService {
             propSubj.propValue.next(cd.blueprint)
             break
           case PropertyName.dataLink:
-            const concept = cd ? this.configService.getActions(cd.id)?.conceptName : undefined
-            if (isDataLink(concept, this.configService)) {
-              propSubj.propValue.next(concept)
-            }
+            const action = this.configService.getActions(cd.id)
+              const concept = cd && action instanceof Action ? action.conceptName : undefined
+              if (isDataLink(concept, this.configService)) {
+                propSubj.propValue.next(concept)
+              }
             break
         }
       })

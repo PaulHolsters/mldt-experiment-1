@@ -3,6 +3,7 @@
            [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
            [style.height]="getPropValue(PropertyName.height)"
            [style.width]="getPropValue(PropertyName.width)"
+           (click)="onClick($event)"
 #menubar>
   <ng-template pTemplate="start">
     <m-anchor [component]="getPropValue(PropertyName.start)"></m-anchor>

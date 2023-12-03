@@ -51,7 +51,7 @@ export class ClientDataService {
 
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.UseInstanceFromServer))?.subscribe(res => {
-      if (res && isFrontendDataType(res.data, this.configService) && !isNoValueType(res.effect.action.target)) {
+      if (res && res.effect.action instanceof Action && isFrontendDataType(res.data, this.configService) && !isNoValueType(res.effect.action.target)) {
         let concept: ConceptNameType | undefined
         let objectId: string | undefined
         if (isDataRecord(res.data[1])) {

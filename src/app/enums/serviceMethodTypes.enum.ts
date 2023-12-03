@@ -23,4 +23,5 @@ export enum ServiceMethodType {
   UseInstanceFromFrontend,
   UseInstancesFromServer,
   UseInstancesFromFrontend,
+  ExecuteServerAction,
 }

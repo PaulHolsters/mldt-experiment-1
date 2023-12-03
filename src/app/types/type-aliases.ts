@@ -2,6 +2,7 @@ import {DataRecord, isDataRecord, isList, isNoValueType, List} from "./union-typ
 import {ConfigService} from "../services/config.service";
 import {ExtraColumnModel} from "../design-dimensions/ContentInjection/table/ExtraColumnModel";
 import {ActionType} from "../enums/actionTypes.enum";
+import {Action} from "../effectclasses/Action";
 
 export type ConceptNameType = string
 export type ComponentNameType = string
@@ -49,9 +50,11 @@ export const isServerDataRequestType = function isServerDataRequestType(data: un
 }
 export const isConceptName = function isConceptName(data: unknown, config: ConfigService): data is ConceptNameType {
   if (typeof data !== 'string' && !(data instanceof Array)) return false
-  if (isNoValueType(data)) return false
-  return config.effects.map(eff => {
-    return eff.action.conceptName
+  if (isNoValueType(data)) return false;
+  return config.effects.filter(eff=>{
+    return eff.action instanceof Action;
+  }).map(eff => {
+    return (eff.action as Action).conceptName
   }).includes(data)
 }
 export const isDataLink = function isDataLink(data: unknown, config: ConfigService): data is DataLink {

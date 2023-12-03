@@ -7,6 +7,8 @@ import {StateService} from "../../services/state.service";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
 import {Trigger} from "../../effectclasses/Trigger";
+import {ServerAction} from "../../effectclasses/ServerAction";
+
 const setFooterHeight = (stateService: StateService, data: any): string => {
   return getComputedStyle(data.el.nativeElement).height // 50px
 }
@@ -19,7 +21,11 @@ export const effects: Effect[] = [
       ActionType.SetRenderProperty,
       'footer',
       NoValueType.NO_VALUE_ALLOWED,
-      new ActionValueModel(PropertyName.height,setFooterHeight)))
+      new ActionValueModel(PropertyName.height,setFooterHeight))),
+  new Effect(
+    new Trigger(TriggerType.MenuItemSelected,['menu','films']),
+    new ServerAction('getAllMovies','')
+  )
 ]
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property

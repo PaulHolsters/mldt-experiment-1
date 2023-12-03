@@ -10,6 +10,7 @@ import {UiActionsService} from "./ui-actions.service";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ClientDataService} from "./data/client/client-data.service";
 import {ActionType} from "../enums/actionTypes.enum";
+import {ComponentNameType} from "../types/type-aliases";
 
 @Injectable({
   providedIn: 'root'
@@ -52,14 +53,14 @@ export class EventsService{
       this.triggerEvent(res.trigger,res.source)
     })
   }
-  public triggerEvent(trigger:TriggerType,source:string|ServiceType,data?:any,target?:EventTarget){
+  public triggerEvent(trigger:TriggerType,source:string|[ComponentNameType,string]|ServiceType,data?:any,target?:EventTarget){
     // todo werk any weg op termijn hier
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
     }
     this.configService.getEffectsForEvent(trigger,source).forEach(effect=>{
-      if(typeof source === 'string') this.actionsService.triggerAction(effect,data,target,source)
+      if(typeof source === 'string'||source instanceof Array) this.actionsService.triggerAction(effect,data,target,source)
       else this.actionsService.triggerAction(effect,data,target)
     })
   }

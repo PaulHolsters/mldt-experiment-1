@@ -16,4 +16,5 @@ export enum TriggerType {
   AllInstancesNeeded,
   ComponentHide,
   ComponentInitialized,
+  MenuItemSelected,
 }

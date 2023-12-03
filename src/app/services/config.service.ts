@@ -10,6 +10,7 @@ import {ScreenSize} from "../enums/screenSizes.enum";
 import {NoValueType} from "../enums/NoValueTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
 import {Action} from "../effectclasses/Action";
+import {ServerAction} from "../effectclasses/ServerAction";
 
 @Injectable({
   providedIn: 'root'
@@ -49,15 +50,34 @@ export class ConfigService {
     }))
   }
 
-  public getEffectsForEvent(trigger: TriggerType, source: string | ServiceType): Effect[] {
-    return this.appConfig.userConfig.effects.filter((effect) => {
-      return effect.trigger.name === trigger && effect.trigger.source === source
-    }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
-      if(trigger===TriggerType.ComponentHide){
-        return effect.trigger.name === trigger
-      }
-      return effect.trigger.name === trigger && effect.trigger.source === source
-    }))
+  public getEffectsForEvent(trigger: TriggerType, source: string | string[] | ServiceType): Effect[] {
+    if (source instanceof Array) {
+      return this.appConfig.userConfig.effects.filter((effect) => {
+        return (
+          effect.trigger.source instanceof Array
+          && effect.trigger.name === trigger
+          && effect.trigger.source[0] === source[0]
+          && effect.trigger.source[1].toLowerCase() === source[1].toLowerCase())
+      }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
+        if (trigger === TriggerType.ComponentHide) {
+          return effect.trigger.name === trigger
+        }
+        return (
+          effect.trigger.source instanceof Array
+          && effect.trigger.name === trigger
+          && effect.trigger.source[0] === source[0]
+          && effect.trigger.source[1].toLowerCase() === source[1].toLowerCase())
+      }))
+    } else {
+      return this.appConfig.userConfig.effects.filter((effect) => {
+        return effect.trigger.name === trigger && effect.trigger.source === source
+      }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
+        if (trigger === TriggerType.ComponentHide) {
+          return effect.trigger.name === trigger
+        }
+        return effect.trigger.name === trigger && effect.trigger.source === source
+      }))
+    }
   }
 
   /*
@@ -72,9 +92,9 @@ export class ConfigService {
     if (component.name === nameComponent) return component
     if (!component.children && !component.contentInjection) return undefined
     const children = this.getAllChildren(component)
-    while(children.length>0){
+    while (children.length > 0) {
       const child = children.pop() as ComponentModelType
-      if(child.name === nameComponent) return child
+      if (child.name === nameComponent) return child
       children.unshift(...this.getAllChildren(child))
     }
     return undefined
@@ -164,54 +184,54 @@ export class ConfigService {
       return this.convertToComponentModelTypes(this.appConfig?.userConfig)
     }*/
 
-  getAllChildren(c: ComponentModelType,screenSize?:ScreenSize) {
+  getAllChildren(c: ComponentModelType, screenSize?: ScreenSize) {
     const getAllDirectChildrenViaDDChildren = function (c: ComponentModelType): ComponentModelType[] {
-      if(c.children) return c.children
+      if (c.children) return c.children
       else return []
     }
-    const getAllDirectChildrenViaDDContentInjection = function (c: ComponentModelType,screenSize?:ScreenSize): ComponentModelType[] {
-      let arr:ComponentModelType[] = []
-      if(c.contentInjection){
+    const getAllDirectChildrenViaDDContentInjection = function (c: ComponentModelType, screenSize?: ScreenSize): ComponentModelType[] {
+      let arr: ComponentModelType[] = []
+      if (c.contentInjection) {
         const injection: {
           [key: string]: any
         } | undefined = c.contentInjection
-        if(screenSize){
-          let lastScreenSize:ScreenSize = screenSize
+        if (screenSize) {
+          let lastScreenSize: ScreenSize = screenSize
           while (lastScreenSize >= 0) {
-            if(injection[ScreenSize[lastScreenSize]]===NoValueType.CALCULATED_BY_ENGINE){
+            if (injection[ScreenSize[lastScreenSize]] === NoValueType.CALCULATED_BY_ENGINE) {
               lastScreenSize--
-            } else{
+            } else {
               arr = injection[ScreenSize[lastScreenSize]].getComponents()
-              lastScreenSize=-1
+              lastScreenSize = -1
             }
           }
-        } else{
+        } else {
           arr = arr.concat(c.contentInjection.smartphone.getComponents())
-          if(!isNoValueType(c.contentInjection.portraitTablet)){
+          if (!isNoValueType(c.contentInjection.portraitTablet)) {
             arr = arr.concat(c.contentInjection.portraitTablet.getComponents())
           }
-          if(!isNoValueType(c.contentInjection.tablet)){
+          if (!isNoValueType(c.contentInjection.tablet)) {
             arr = arr.concat(c.contentInjection.tablet.getComponents())
           }
-          if(!isNoValueType(c.contentInjection.laptop)){
+          if (!isNoValueType(c.contentInjection.laptop)) {
             arr = arr.concat(c.contentInjection.laptop.getComponents())
           }
-          if(!isNoValueType(c.contentInjection.highResolution)){
+          if (!isNoValueType(c.contentInjection.highResolution)) {
             arr = arr.concat(c.contentInjection.highResolution.getComponents())
           }
         }
       }
       return arr
     }
-    return getAllDirectChildrenViaDDChildren(c).concat(getAllDirectChildrenViaDDContentInjection(c,screenSize))
+    return getAllDirectChildrenViaDDChildren(c).concat(getAllDirectChildrenViaDDContentInjection(c, screenSize))
   }
 
-  getAllDecendants(name:string):ComponentModelType[]{
+  getAllDecendants(name: string): ComponentModelType[] {
     const comp = this.getConfigFromRoot(name)
-    if(!comp) throw new Error('no component config found with name '+name)
+    if (!comp) throw new Error('no component config found with name ' + name)
     const children = this.getAllChildren(comp)
     const childrenFound = []
-    while(children.length>0){
+    while (children.length > 0) {
       const child = children.pop() as ComponentModelType
       children.unshift(...this.getAllChildren(child))
       childrenFound.push(child)
@@ -224,21 +244,21 @@ export class ConfigService {
     const components = [...this.appConfig.userConfig.components]
     let root
     if (components.length === 1) {
-      root = Object.assign({},components[0])
+      root = Object.assign({}, components[0])
     } else throw new Error('Er mag maar 1 root component zijn')
-    const directChildren = this.getAllChildren(root,screenSize)
+    const directChildren = this.getAllChildren(root, screenSize)
     allComponents.push(root)
     while (directChildren.length > 0) {
       const child = directChildren.pop() as ComponentModelType
-      const children = this.getAllChildren(child,screenSize)
+      const children = this.getAllChildren(child, screenSize)
       allComponents.push(child)
       directChildren.unshift(...children)
     }
     return allComponents
   }
 
-  getActions(id: ActionIdType | undefined):Action|undefined {
-    return this.effects.find(e=>{
+  getActions(id: ActionIdType | undefined): Action | ServerAction | undefined {
+    return this.effects.find(e => {
       return e.action.id === id
     })?.action
   }

@@ -35,14 +35,14 @@ export abstract class SystemEffects {
         new Trigger(TriggerType.ClientDataUpdated,ServiceType.DataService),
         new Action('update_data_render_properties',ActionType.UpdateDataProperties)
       ),
-      new Effect(
+/*      new Effect(
         new Trigger(TriggerType.InstanceNeeded, ServiceType.DataService),
         new Action('get_data_instance',ActionType.GetInstance)
       ),
       new Effect(
         new Trigger(TriggerType.AllInstancesNeeded, ServiceType.DataService),
         new Action('get_all_data_instances',ActionType.GetAllInstances)
-      )
+      )*/
     ]
   }
 }
