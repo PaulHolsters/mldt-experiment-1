@@ -1,56 +1,42 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {ConfigService} from "../../services/config.service";
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from "@angular/platform-browser";
+import {Component as AbstractComponent} from "../Component";
+import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 
 @Component({
   selector: 'm-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent implements OnInit,AfterViewInit {
-  position:string|undefined
-  dimension:string|undefined
-  layout:string|undefined
-  responsiveness:string|undefined
-  styleObject:{}={}
-  headerText:string|undefined
-  subheaderText:string|undefined
-  content:string|undefined
+export class CardComponent extends AbstractComponent implements OnInit,AfterViewInit {
+  @ViewChild('card') card:ElementRef|undefined
 
-  @Input() data:any|undefined
-
-  headerTemplate: {element:string,attr:{
-      src: string|undefined,alt:string|undefined,text:string|undefined,html:string|undefined
-    }}|undefined
-  constructor(private dataService: ConfigService, private sanitizer: DomSanitizer) {
-/*    const data = dataService.getCardData();
-    this.headerText = data.headerText
-    this.subheaderText = data.subheaderText
-    this.content = data.content
-    if(data.headerTemplate){
-      this.headerTemplate = {...data.headerTemplate}
-    }*/
-  }
-
-  getHTML(){
+/*  getHTML(){
     if(this.headerTemplate?.attr.html)
     return this.sanitizer.bypassSecurityTrustHtml(this.headerTemplate?.attr.html)
     return ''
-  }
-
+  }*/
   ngOnInit(): void {
 
   }
-
-  getStyle(){
-    switch (this.dimension){
-      case '':
-
-        break
-      // default moet er niks gebeuren
+  setCalculatedHeight(val:any):boolean{
+    if(typeof val === 'string'){
+      this.card?.nativeElement.style?.setProperty('--heightVal','calc('+val+')')
+      this.setPropValue(PropertyName.height,undefined)
+      return true
     }
+    this.setPropValue(PropertyName.height,'100%')
+    return false
   }
-
+  setCalculatedWidth(val:any):boolean{
+    if(typeof val === 'string'){
+      this.card?.nativeElement.style?.setProperty('--widthVal','calc('+val+')')
+      this.setPropValue(PropertyName.width,undefined)
+      return true
+    }
+    this.setPropValue(PropertyName.width,'100%')
+    return false
+  }
   ngAfterViewInit(): void {
 
   }

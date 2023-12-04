@@ -125,4 +125,7 @@ export enum PropertyName {
   start = 'start',
   end = 'end',
   center = 'center',
+  repeater='repeater',
+  title='title',
+  subtitle='subtitle',
 }

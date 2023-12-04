@@ -179,6 +179,9 @@ import {NumberInput} from "../components/form/input-number/NumberInput";
 import {Form} from "../components/form/Form";
 import {Menubar} from "../components/menubar/Menubar";
 import {Toolbar} from "../components/toolbar/Toolbar";
+import {Card} from "../components/card/Card";
+
+// todo deze union types moeten opnieuw aangevuld worden
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
@@ -291,7 +294,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
 
 
 
-export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar|Card
 
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>

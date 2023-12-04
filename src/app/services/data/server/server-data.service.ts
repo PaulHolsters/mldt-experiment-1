@@ -47,7 +47,7 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
       if(res){
         this.http.post('http://localhost:5000/' + res.effect.action.id,undefined).subscribe(res=>{
-          debugger
+          createClientData(this,null,res.effect.action.id,'')
         })
       }
 

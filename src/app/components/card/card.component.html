@@ -1,26 +1,14 @@
-<!--
-de standaardbreedte is blijkbaar 96vw of iets daaromtrent of 100% met wat padding die tot de standaard stijl behoort
--->
-<p-card [style]="getStyle()">
-  <ng-template pTemplate="header">
-    <ng-container *ngIf="headerTemplate">
-      <ng-container [ngSwitch]="headerTemplate.element">
-        <ng-container *ngSwitchCase="'img'">
-          <img src="{{headerTemplate.attr.src}}" alt="{{headerTemplate.attr.alt}}">
-        </ng-container>
-        <ng-container *ngSwitchCase="'button'">
-          <button>{{headerTemplate.attr.text}}</button>
-        </ng-container>
-        <ng-container *ngSwitchCase="'mixed'">
-          <div [innerHTML]="getHTML()"></div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'custom'">
-        </ng-container>
-      </ng-container>
-    </ng-container>
+<p-card header="{{getPropValue(PropertyName.title)}}" subheader="{{getPropValue(PropertyName.subtitle)}}"
+        [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
+        [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+        [style.height]="getPropValue(PropertyName.height)"
+        [style.width]="getPropValue(PropertyName.width)"
+>
+  <ng-template *ngIf="getPropValue(PropertyName.header)" pTemplate="header">
+    <m-anchor [component]="getPropValue(PropertyName.header)"></m-anchor>
   </ng-template>
-  {{content}}
-  <ng-template pTemplate="footer">
-<!--    {{footerTemplate}}-->
+  <m-anchor [component]="getPropValue(PropertyName.content)"></m-anchor>
+  <ng-template *ngIf="getPropValue(PropertyName.footer)" pTemplate="footer">
+    <m-anchor [component]="getPropValue(PropertyName.footer)"></m-anchor>
   </ng-template>
 </p-card>

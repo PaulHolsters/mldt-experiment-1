@@ -74,14 +74,27 @@
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
         [class.flex]="(child.type === ComponentType.Form)"
         [ngSwitch]="child.type">
-
-        <m-block       [class]="['flex',
+        <div *ngIf="bindToStateProperty(child.name,PropertyName.repeater)|async; then repeatChild else singleChild"></div>
+        <ng-template #repeatChild>
+          <ng-container *ngFor="let r of child.repeater">
+            <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-                       [style.height]="'100%'"
-                       [style.width]="'100%'"
-                       *ngSwitchCase="ComponentType.Block"
-                       [name]="child.name"></m-block>
+                           [style.height]="'100%'"
+                           [style.width]="'100%'"
+                           *ngSwitchCase="ComponentType.Block"
+                           [name]="child.name"></m-block>
+          </ng-container>
+        </ng-template>
+        <ng-template #singleChild>
+          <m-block       [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
+                         [style.height]="'100%'"
+                         [style.width]="'100%'"
+                         *ngSwitchCase="ComponentType.Block"
+                         [name]="child.name"></m-block>
+        </ng-template>
         <m-confirm-popup       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"

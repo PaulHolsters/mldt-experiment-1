@@ -74,6 +74,8 @@ export class StateService {
         return Menubar.getProperties()
       case ComponentType.Toolbar:
         return Toolbar.getProperties()
+      case ComponentType.Card:
+        return Toolbar.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }
