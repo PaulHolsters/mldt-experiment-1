@@ -76,7 +76,7 @@
         [ngSwitch]="child.type">
         <div *ngIf="bindToStateProperty(child.name,PropertyName.repeater)|async; then repeatChild else singleChild"></div>
         <ng-template #repeatChild>
-          <ng-container *ngFor="let r of child.repeater">
+          <ng-container *ngFor="let data of getPropValue(PropertyName.outputData)">
             <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"

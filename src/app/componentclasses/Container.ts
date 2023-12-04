@@ -1,6 +1,7 @@
 import {Component} from "./Component";
 import {BackgroundColorType} from "../enums/backgroundColorType.enum";
 import {ComponentModel} from "../design-dimensions/ComponentModel";
+import {Blueprint} from "../services/data/client/Blueprint";
 
 export abstract class Container extends Component{
   public static children:ComponentModel[]|null=null
@@ -41,9 +42,7 @@ export abstract class Container extends Component{
   public static alignItemsStretch:boolean|null=null
   public static grow:number|null=null
   public static shrink:number|null=null
-
   public static display: string|null=null
-
   public static data: any|null=null
-
+  public static outputData:string|null=null
 }

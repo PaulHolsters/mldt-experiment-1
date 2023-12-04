@@ -16,6 +16,8 @@ import {
 import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {
+  DataRecord, isDataRecord, isList,
+  List,
   ServerData as ServerDataType
 } from "../../../types/union-types";
 import {HttpClient} from "@angular/common/http";
@@ -46,8 +48,12 @@ export class ServerDataService {
   public bindActions(){
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
       if(res){
-        this.http.post('http://localhost:5000/' + res.effect.action.id,undefined).subscribe(res=>{
-          createClientData(this,null,res.effect.action.id,'')
+        const action = res.effect.action
+        this.http.post('http://localhost:5000/' + action.id,undefined).subscribe(res=>{
+          if(isList(res)||isDataRecord(res)){
+            createClientData(this,null,action.id,action.target,undefined,res)
+          }
+          debugger
         })
       }
 
@@ -279,20 +285,13 @@ export class ServerDataService {
                               actionId:ActionIdType,
                               name:ComponentNameType |FormTargetType,
                               errorMessages:string[]|undefined,
-                              data:ServerDataType|undefined){
-      // in eerste instantie is data undefined
-      let outputData
-      if(data?.dataMultiple){
-        outputData = data?.dataMultiple
-      } else if(data?.dataSingle){
-        outputData = data?.dataSingle
-      }
+                              data:List | DataRecord |undefined){
       if(blueprintStr){
         self.clientDataService.createClientData(
           actionId,
           name,
           new Blueprint(blueprintStr),
-          outputData,
+          data,
           errorMessages
         )
       }

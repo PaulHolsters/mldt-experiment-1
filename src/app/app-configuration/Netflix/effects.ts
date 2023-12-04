@@ -24,7 +24,7 @@ export const effects: Effect[] = [
       new ActionValueModel(PropertyName.height,setFooterHeight))),
   new Effect(
     new Trigger(TriggerType.MenuItemSelected,['menu','films']),
-    new ServerAction('getAllMovies','')
+    new ServerAction('getAllMovies','content')
   )
 ]
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden

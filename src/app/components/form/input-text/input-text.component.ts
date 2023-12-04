@@ -42,18 +42,18 @@ export class InputTextComponent extends AbstractComponent implements OnInit {
     if(data && this.getPropValue(PropertyName.dataLink) instanceof Array){
       const dataLink = [...this.getPropValue(PropertyName.dataLink)]
       dataLink.shift()
-      let key:string
-      let trail:Object = data
+      let head:string
+      let tail:Object = data
       while(dataLink.length>0){
-        key = dataLink.shift()
-        const e = Object.entries(trail).find(ent=>{
-          return ent[0]===key
+        head = dataLink.shift()
+        const e = Object.entries(tail).find(ent=>{
+          return ent[0]===head
         })
         if(e){
           if(typeof e[1]==='string' && dataLink.length===0){
             return e[1]
           } else if(typeof e[1]==='object'){
-            trail = e[1]
+            tail = e[1]
           }
         }
       }
