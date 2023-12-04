@@ -3,7 +3,6 @@ import {ComponentModelType, isNoValueType} from "../../../types/union-types";
 
 export class CardContentInjectionConfigModel {
   constructor( public content: ComponentModelType|NoValueType.NO_VALUE_YET=NoValueType.NO_VALUE_YET,
-               public title:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED,
                public header: ComponentModelType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED,
                public footer: ComponentModelType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED) {
   }
@@ -11,10 +10,7 @@ export class CardContentInjectionConfigModel {
     this.content=content
     return this
   }
-  setTitle(title:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED){
-    this.title=title
-    return this
-  }
+
   setHeader(header: ComponentModelType|NoValueType.NO_VALUE_NEEDED){
     this.header=header
     return this

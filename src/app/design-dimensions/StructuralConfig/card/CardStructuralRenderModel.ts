@@ -1,8 +1,8 @@
-import {ComponentModelType} from "../../../types/union-types";
-export class CardContentInjectionRenderModel {
-  public header: ComponentModelType|null=null
-  public content: ComponentModelType|null=null
-  public footer: ComponentModelType|null=null
+import {MenuItem} from "primeng/api";
+
+export class CardStructuralRenderModel {
+  public title:string|null=null
+  public subtitle:string|null=null
   constructor() {
   }
   public setProperty(propName: string, value: string): void {
