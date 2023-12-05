@@ -17,6 +17,8 @@ import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ClientDataService} from "../services/data/client/client-data.service";
 import {ConfigService} from "../services/config.service";
+import {DataRecord, isDataRecord, List, OutputData, RenderPropertyType} from "../types/union-types";
+import {DataLink} from "../types/type-aliases";
 @Directive()
 export class Component{
   @Input() public name!:string
@@ -48,6 +50,24 @@ export class Component{
   protected readonly TextDecorationType = TextDecorationType
   getPropValue(key:string,index?:number){
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
+  }
+  getData(data:DataRecord,link:DataLink){
+      let head:string
+      let tail:OutputData = data
+      while(link.length>0){
+        head = link.shift() as string
+        if(link.length>0 && !(isDataRecord(tail))) throw new Error('bad datalink config')
+        if(isDataRecord(tail)){
+          const entry:[string,(DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])]|undefined
+            = Object.entries(tail).find(ent=>{
+            return ent[0]===head
+          })
+          if(entry){
+            tail = entry[1]
+          }
+        }
+      }
+    return tail
   }
   trigger(trigger: TriggerType,nativeEvent?:any){
     this.eventsService.triggerEvent(trigger,this.name,this.data,nativeEvent?.target)

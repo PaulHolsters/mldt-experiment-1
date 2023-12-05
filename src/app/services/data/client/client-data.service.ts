@@ -171,8 +171,11 @@ export class ClientDataService {
     data?: List | DataRecord | undefined,
     errorMessages?: string[] | undefined
   ) {
-    if(data){
-      // todo zodat repeater werkt
+    if(isComponentName(componentName,this.configService) && data){
+      this._clientData.push(new ClientData(actionId, componentName, data, errorMessages))
+      const cd = this.getClientDataInstanceForComponent(componentName)
+      debugger
+      if (cd) this.clientDataUpdated.next(cd)
     }
 /*    if (blueprint) {
       for (let [k, v] of blueprint.properties.properties) {

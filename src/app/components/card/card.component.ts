@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {DomSanitizer} from "@angular/platform-browser";
 import {Component as AbstractComponent} from "../Component";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
@@ -12,22 +12,38 @@ import {Card} from "../../componentclasses/Card";
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent extends AbstractComponent implements OnInit,AfterViewInit {
+export class CardComponent extends AbstractComponent implements OnInit,AfterViewInit,OnChanges {
   @ViewChild('card') card:ElementRef|undefined
-
 /*  getHTML(){
     if(this.headerTemplate?.attr.html)
     return this.sanitizer.bypassSecurityTrustHtml(this.headerTemplate?.attr.html)
     return ''
   }*/
+  title:string|undefined
+  subtitle:string|undefined
   ngOnInit(): void {
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        if(k===PropertyName.title) console.log(res)
         this.setPropValue(k,res)
+        if(k===PropertyName.title && (res===undefined || typeof res === 'string')) this.title = res
+        if(k===PropertyName.subtitle && (res===undefined || typeof res === 'string')) this.subtitle = res
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    // todo data komt eerst binnen
+
+    if (this.getPropValue(PropertyName.title)) {
+      const title = this.getData(this.data, this.getPropValue(PropertyName.title))
+      if (typeof title === 'string' || title === undefined) this.title = title
+    }
+    if (this.getPropValue(PropertyName.subtitle)) {
+      const subtitle = this.getData(this.data, this.getPropValue(PropertyName.subtitle))
+      if (typeof subtitle === 'string' || subtitle === undefined) this.subtitle = subtitle
+    }
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
@@ -50,7 +66,4 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
   ngAfterViewInit(): void {
 
   }
-
-
-
 }

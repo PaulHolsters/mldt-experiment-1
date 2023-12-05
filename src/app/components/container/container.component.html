@@ -83,7 +83,9 @@
                            [style.height]="'100%'"
                            [style.width]="'100%'"
                            *ngSwitchCase="ComponentType.Card"
-                           [name]="child.name"></m-card>
+                           [name]="child.name"
+                            [data]="data"
+            ></m-card>
           </ng-container>
         </ng-template>
         <ng-template #singleChild>

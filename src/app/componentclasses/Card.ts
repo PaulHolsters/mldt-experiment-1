@@ -3,6 +3,7 @@ import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {ComponentModelType} from "../types/union-types";
 
 export abstract class Card extends Component{
+  public static repeater:boolean|null=null
   public static grow: number|null| ParentConfigType.grow = null
   public static shrink: number|null| ParentConfigType.shrink = null
   public static visible: boolean|null=null
@@ -16,4 +17,5 @@ export abstract class Card extends Component{
   public static header:ComponentModelType|null=null
   public static content:ComponentModelType|null=null
   public static footer:ComponentModelType|null=null
+  public static data: any|null=null
 }
