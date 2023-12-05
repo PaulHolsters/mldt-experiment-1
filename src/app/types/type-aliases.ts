@@ -9,12 +9,10 @@ export type ComponentNameType = string
 export type ActionIdType = string
 export type TriggerIdType = string
 export type EffectIdType = string
-export type BlueprintType = Map<string, [string, [BlueprintType, DataRecord[] | DataRecord] | string[]] | string>
 export type ObjectIdType = string
 export type ConditionType = string
 export type LabelType = { label: string, value: string }
 export type DataLink = string[]
-export type BlueprintStr = string
 export type FrontendDataType = [ComponentNameType, DataRecord | List]
 export type TypeName = string
 export type HtmlType = string
@@ -67,8 +65,6 @@ export const isExtraColumnModelArray = function isExtraColumnModelArray(data: un
     return !(it instanceof ExtraColumnModel)
   }).length === 0
 }
-
-
 export const isComponentName = function isComponentName(data: unknown, config: ConfigService): data is ComponentNameType {
   if (typeof data !== 'string') return false
   if (isNoValueType(data)) return false

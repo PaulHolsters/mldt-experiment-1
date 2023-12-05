@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Action} from "../../../effectclasses/Action";
 import {ActionType} from "../../../enums/actionTypes.enum";
-import {Blueprint} from "./Blueprint";
 import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {ActionsService} from "../../actions.service";
 import {Subject} from "rxjs";
@@ -14,14 +13,11 @@ import {
   isFrontendDataType, ServerDataRequestType
 } from "../../../types/type-aliases";
 import {ConfigService} from "../../config.service";
-import {QueryService} from "../server/queries/query.service";
-import {ServerData} from "../server/ServerData";
 import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {
   DataRecord,
-  extractConcept, isDataRecord,  isNoValueType, List,
-  OutputData
+  extractConcept, isDataRecord, isNoValueType, List, OutputData, ServerData
 } from "../../../types/union-types";
 
 @Injectable({
@@ -37,7 +33,6 @@ export class ClientDataService {
 
   constructor(private actionsService: ActionsService,
               private configService: ConfigService,
-              private queryService: QueryService,
               private stateService: StateService,
               private renderPropertiesService: RenderPropertiesService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
@@ -56,7 +51,7 @@ export class ClientDataService {
         let objectId: string | undefined
         if (isDataRecord(res.data[1])) {
           if (isNoValueType(res.effect.action.conceptName)) {
-            concept = extractConcept(res.data[1].__typename,this.configService)
+           // concept = extractConcept(res.data[1].__typename,this.configService)
           } else {
             concept = extractConcept(res.effect.action.conceptName,this.configService)
           }
@@ -67,7 +62,7 @@ export class ClientDataService {
           })
           if (!record) throw new Error('no valid record found')
           if (isNoValueType(res.effect.action.conceptName)) {
-            concept = extractConcept(record.__typename,this.configService)
+          //  concept = extractConcept(record.__typename,this.configService)
           } else {
             concept = extractConcept(res.effect.action.conceptName,this.configService)
           }
@@ -92,7 +87,7 @@ export class ClientDataService {
         const cd = this.getClientDataInstanceForComponent(res.data[0])
         if (!cd) throw new Error('When you use frontend data entirely some parent component from which it came ' +
           'must still exist => configure useInstanceFromServer action instead')
-        this.createClientData(res.effect.action.id, res.effect.action.target, cd.blueprint, res.data[1], [])
+       // this.createClientData(res.effect.action.id, res.effect.action.target, cd.blueprint, res.data[1], [])
       }
     })
 
@@ -123,7 +118,7 @@ export class ClientDataService {
   }
 
   public updateClientData(searchValue: ActionIdType | ComponentNameType | FormTargetType,
-                          data: Blueprint | OutputData) {
+                          data: OutputData) {
     if(typeof searchValue !== 'string'){
       searchValue.controls.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
@@ -173,11 +168,13 @@ export class ClientDataService {
   public createClientData(
     actionId: ActionIdType,
     componentName: ComponentNameType | FormTargetType,
-    blueprint: Blueprint,
     data?: List | DataRecord | undefined,
     errorMessages?: string[] | undefined
   ) {
-    if (blueprint) {
+    if(data){
+
+    }
+/*    if (blueprint) {
       for (let [k, v] of blueprint.properties.properties) {
         if (v instanceof Array && v.length === 2 && typeof v[0] === 'string' && v[1] instanceof Array && v[1].length === 2 && v[1][0] instanceof Blueprint) {
           switch (v[0]) {
@@ -210,8 +207,10 @@ export class ClientDataService {
           if (cd) this.clientDataUpdated.next(cd)
         })
         if(isDataRecord(data)){
+          // todo vreemd hier is geen clientdataUpdatedEvent
           this._clientData.push(new ClientData(actionId, componentName.submit, blueprint, data, errorMessages))
         } else{
+          // todo vreemd hier is geen clientdataUpdatedEvent
           this._clientData.push(new ClientData(actionId, componentName.submit, blueprint, undefined, errorMessages))
         }
       } else if (isComponentName(componentName, this.configService)) {
@@ -219,13 +218,7 @@ export class ClientDataService {
         const cd = this.getClientDataInstanceForComponent(componentName)
         if (cd) this.clientDataUpdated.next(cd)
       } else throw new Error('When there are several targets data should be of type datarecord')
-    }
-  }
-  public getOutputDataForUIComponent(name: ComponentNameType): OutputData | undefined {
-    const cd = this.clientData.find(cd => {
-      return cd.name === name
-    })
-    return cd?.outputData
+    }*/
   }
 
   //***********************************     data manipulation methods         ***************************************************************/

@@ -174,7 +174,7 @@ state: [
     },
     {
       name: 'test-click-action',
-      type: ComponentType.Button,
+      type: ComponentType.Text,
       position: new ResponsiveLayoutOverrideConfigModel({
         childLayout: {}
       }, {

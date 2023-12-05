@@ -2,7 +2,6 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {RadioButtonGroupDataInputConfigModel} from "./RadioButtonGroupDataInputConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {RadioButtonGroupDataInputRenderModel} from "./RadioButtonGroupDataInputRenderModel";
-import {BlueprintValue} from "../../../types/union-types";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveDataInputRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataInputConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataInputConfigModel>{
@@ -36,8 +35,7 @@ export class ResponsiveDataInputRadioButtonGroupConfigModel extends ResponsiveCo
   getInstance(){
     return 'content-injection'
   }
-  public getDataInputRenderProperties(screenSize: number,
-                                      data:BlueprintValue|undefined=undefined): RadioButtonGroupDataInputRenderModel {
+  public getDataInputRenderProperties(screenSize: number): RadioButtonGroupDataInputRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataInputRenderModel()
     Object.entries(config).forEach(([k,v])=>{

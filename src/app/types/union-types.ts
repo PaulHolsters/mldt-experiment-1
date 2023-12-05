@@ -160,8 +160,6 @@ import {
   MenubarContentInjectionRenderModel
 } from "../design-dimensions/ContentInjection/menubar/MenubarContentInjectionRenderModel";
 import {
-  BlueprintStr,
-  BlueprintType,
   ConceptNameType,
   DataLink, isConceptName, isDataLink,
   isTypeName,
@@ -180,6 +178,7 @@ import {Form} from "../components/form/Form";
 import {Menubar} from "../components/menubar/Menubar";
 import {Toolbar} from "../components/toolbar/Toolbar";
 import {Card} from "../components/card/Card";
+import {Data} from "@angular/router";
 
 // todo deze union types moeten opnieuw aangevuld worden
 
@@ -292,43 +291,34 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
   ResponsiveTableLayoutConfigModel|never
 
-
-
 export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar|Card
-
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
 } & {
-  id: ObjectIdType;
-  __typename: string;
+  id: ObjectIdType
 }
-
-export type List = (DataRecord|null)[]
+export type List = Array<DataRecord>
 export type RenderPropertyType = boolean|number|Date|string
 export type RenderPropertyTypeList<K> =
   K extends boolean ? boolean[] :
   K extends string ? string[] :
   K extends Date ? Date[] :
   K extends number ? number[]: never
-
-export type OutputData = (
-  List|
-  DataRecord|
-  RenderPropertyTypeList<RenderPropertyType> |
-  RenderPropertyType)
-export const isOutPutData = function isOutputData(data:unknown): data is OutputData{
-  return isList(data)||isDataRecord(data)||(typeof data === 'string')||(typeof data === 'number')||(typeof data === 'boolean')
-  ||(typeof data === 'string')||data instanceof Date
+export type ServerData = List|DataRecord
+export type OutputData = List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
+export const isDataRecord = function isDataRecord(data:unknown):data is DataRecord{
+  // todo voeg controle toe betreffende de andere properties rekening houdende met het feit dat hier geen restricties
+  //      bestaan op hoe diep je kan nesten
+  return data!==null && typeof data === 'object' && !(data instanceof Array) && 'id' in data
+}
+export const isList = function isList(data:unknown):data is List{
+  return (data instanceof Array) && (data.length===0 || isDataRecord(data[0]))
+}
+export const isClientData = function isClientData(data:any):data is ClientData{
+  return data instanceof ClientData
 }
 
-export type ServerData = (
-  {
-    dataMultiple:List|null,
-    dataSingle:DataRecord|null,
-    blueprint:BlueprintStr|null,
-    numberOfNesting:number|null
-  }
-  )&{ __brand: 'server data'}
+
 
 export type ActionValueType = 'list'|
   'object'|
@@ -339,7 +329,6 @@ export type ActionValueType = 'list'|
   Function|
   boolean|
   undefined
-
 export const extractConcept = function extractConcept(concept:TypeName|ConceptNameType|undefined|DataLink,config:ConfigService):ConceptNameType|undefined{
   if(isTypeName(concept)){
     return concept.substring(0,concept.indexOf('Data'))
@@ -348,28 +337,6 @@ export const extractConcept = function extractConcept(concept:TypeName|ConceptNa
   if(!concept) return concept
   if(concept.length===0) return undefined
   return concept[0]
-}
-export const isServerData = function isServerData(data:unknown):data is ServerData{
-  if(typeof data !== 'object' || (data === null || data instanceof Array)) return false
-  if(
-    data.hasOwnProperty('dataMultiple')&&
-    data.hasOwnProperty('dataSingle')&&
-    data.hasOwnProperty('blueprint')&&
-    data.hasOwnProperty('numberOfNesting')) {
-    const dataRef:{
-      [key: string]: any
-    }|undefined = data
-    if (!isList(dataRef['dataMultiple']) || dataRef['dataMultiple'] !== null) return false
-    if (!isDataRecord(dataRef['dataSingle']) || dataRef['dataSingle'] !== null) return false
-    if (typeof dataRef['blueprint'] !== 'string' && dataRef['blueprint'] !== null) return false
-    if (typeof dataRef['numberOfNesting'] !== 'number' && dataRef['numberOfNesting'] !== null) return false
-  }
-  return true
-}
-export const isList = function isList(data:unknown):data is List{
-  if(data instanceof Array && data.length===0) return true
-  return data instanceof Array && (typeof data[0] === 'string' || data[0] === null ||
-    (typeof data[0] === 'object' && !(data[0] instanceof Array) && 'id' in data[0] && '__typename' in data[0]))
 }
 export const isNoValueType = function isNoValueType(data:unknown):data is NoValueType{
   return (
@@ -382,22 +349,4 @@ export const isNoValueType = function isNoValueType(data:unknown):data is NoValu
     data === NoValueType.NO_VALUE_YET
 }
 
-export const isDataRecord = function isDataRecord(data:unknown):data is DataRecord{
-  return data!==null && typeof data === 'object' && !(data instanceof Array) && 'id' in data && '__typename' in data
-}
-
-export const isClientData = function isClientData(data:any):data is ClientData{
-  return data instanceof ClientData
-}
-export const isBlueprintValue=function isBlueprintValue(data:any): data is BlueprintValue{
-  if(typeof data === 'string' && ['string','number','Date','boolean'].includes(data)) return true
-  if(data instanceof Array && data.length===2){
-    if(data[0]==='enum' && data[1] instanceof Array) return true
-    return (data[0] === 'object' || data[0] === 'list') && data[1][0] instanceof Blueprint
-  }
-  return false
-}
-export type UIData = OutputData
-
-export type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecord]]|['list',[Blueprint,List]]
 

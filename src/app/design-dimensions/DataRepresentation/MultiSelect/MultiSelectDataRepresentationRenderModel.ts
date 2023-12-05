@@ -1,4 +1,4 @@
-import {BlueprintValue, isNoValueType} from "../../../types/union-types";
+import { isNoValueType} from "../../../types/union-types";
 
 export class MultiSelectDataRepresentationRenderModel {
   public optionLabel:string|null=null
@@ -12,8 +12,9 @@ export class MultiSelectDataRepresentationRenderModel {
     }
   }
   //type BlueprintValue = RenderPropertyType|['enum',string[]]|['object',[Blueprint,DataRecord]]|['list',[Blueprint,List]]
-  setDBIValues(data: BlueprintValue) {
-    if (!this.optionLabel && data instanceof Array && data[0]==='list') {
+  setDBIValues(data: any) {
+    // todo rewrite DBI values method!
+/*    if (!this.optionLabel && data instanceof Array && data[0]==='list') {
        const arr = Array.from(data[1][0].properties.properties.keys()).filter(k=>{
          return k!=='id'
        })
@@ -24,6 +25,6 @@ export class MultiSelectDataRepresentationRenderModel {
     }
     if (!this.placeholder && this.optionLabel) {
       this.placeholder = 'Select a '+this.optionLabel
-    }
+    }*/
   }
 }

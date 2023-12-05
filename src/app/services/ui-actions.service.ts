@@ -113,7 +113,8 @@ export class UiActionsService {
             return f.target === dl.name
           })?.field
           if (field) {
-            const value = res.data.blueprint.getBlueprintValueForDataLink(field)
+            // todo rewrite als je een bepaald stuk eruit wilt halen
+/*            const value = res.data.blueprint.getBlueprintValueForDataLink(field)
             const input: {
               [key: string]: any
             } | undefined
@@ -133,8 +134,11 @@ export class UiActionsService {
               if (repres && prop.propName in repres) {
                 prop.propValue.next(repres[prop.propName])
               }
-            })
+            })*/
           }
+        } else{
+          // a normal component as target
+          // dit zal dan wellicht enkel gaan over data representation
         }
       }
     }
@@ -158,7 +162,7 @@ export class UiActionsService {
             propSubj.propValue.next(cd.outputData)
             break
           case PropertyName.conceptBlueprint:
-            propSubj.propValue.next(cd.blueprint)
+            //propSubj.propValue.next(cd.blueprint)
             break
           case PropertyName.dataLink:
             const action = this.configService.getActions(cd.id)

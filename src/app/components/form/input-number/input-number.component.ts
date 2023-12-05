@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {InputNumber} from "primeng/inputnumber";
-import {isOutPutData} from "../../../types/union-types";
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {NumberInput} from "../../../componentclasses/NumberInput";
@@ -60,7 +59,6 @@ export class InputNumberComponent extends AbstractComponent implements OnInit {
     const text2 = text.substring(text.indexOf('<input ')+7)
     const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
     const value = Number(text3.substring(0,text3.indexOf('">')))
-    if(isOutPutData(value))
     this.clientDataService.updateClientData(this.name, value)
   }
 

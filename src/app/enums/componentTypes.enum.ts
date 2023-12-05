@@ -23,4 +23,5 @@ export enum ComponentType {
   TableFooter,
   ConfirmPopup,
   Toolbar,
+  Text,
 }

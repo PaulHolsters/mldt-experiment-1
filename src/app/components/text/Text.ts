@@ -4,29 +4,27 @@ import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
-import {ClientDataConfigModel} from "../../design-dimensions/ClientData/ClientDataConfigModel";
 import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
+import {ComponentModelType} from "../../types/union-types";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {
-  ResponsiveContentInjectionMenubarConfigModel
-} from "../../design-dimensions/ContentInjection/menubar/ResponsiveContentInjectionMenubarConfigModel";
-import {
-  ResponsiveStructuralMenubarConfigModel
-} from "../../design-dimensions/StructuralConfig/menubar/ResponsiveStructuralMenubarConfigModel";
-import {
-  MenubarContentInjectionConfigModel
-} from "../../design-dimensions/ContentInjection/menubar/MenubarContentInjectionConfigModel";
-export class Wrapper extends ComponentModel implements ComponentI<
+  ResponsiveStructuralTextConfigModel
+} from "../../design-dimensions/StructuralConfig/Text/ResponsiveStructuralTextConfigModel";
+export class Text extends ComponentModel implements ComponentI<
   undefined,
-  WrapperStructuralConfigType,
+  ResponsiveStructuralTextConfigModel,
   undefined,
   undefined,
   undefined,
   undefined>{
+  constructor(name:string) {
+    super()
+    this.name = name
+  }
   name:string
-  type=ComponentType.Toolbar
+  type=ComponentType.Text
   spacing = new ResponsiveSpacingConfigModel()
   setSpacing(spacing:ResponsiveSpacingConfigModel){
     this.spacing = spacing
@@ -52,31 +50,24 @@ export class Wrapper extends ComponentModel implements ComponentI<
     this.individualLayout=il
     return this
   }
-  clientData: ClientDataConfigModel|undefined
-  setClientData(cd:ClientDataConfigModel|undefined){
-    this.clientData=cd
+
+  setStructural(str: ResponsiveStructuralTextConfigModel): ComponentModelType {
+    this.structural = str
     return this
   }
-  dataRepresentation:undefined
-  setDataRepresentation:undefined
-  contentInjection:undefined
-  setContentInjection:undefined
-  styling=undefined
-  setStyling=undefined
+  structural= new ResponsiveStructuralTextConfigModel()
+  setStyling:undefined
+  styling:undefined
+  componentSpecificLayout: undefined
+  contentInjection: undefined
+  dataRepresentation: undefined
+  setComponentSpecificLayout: undefined
+  setContentInjection: undefined
+  setDataRepresentation: undefined
+  clientData = undefined
+  setClientData = undefined
   dataInput = undefined
   setDataInput = undefined
   children=undefined
   setChildren=undefined
-  layout=undefined
-  setLayout=undefined
-  componentSpecificLayout=undefined
-  setComponentSpecificLayout=undefined
-  setStructural:undefined
-  structural:undefined
-  constructor(name:string) {
-    super()
-    this.name = name
-  }
-
-
 }

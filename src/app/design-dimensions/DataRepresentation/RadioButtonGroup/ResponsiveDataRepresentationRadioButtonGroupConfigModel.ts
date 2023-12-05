@@ -2,7 +2,6 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {RadioButtonGroupDataRepresentationConfigModel} from "./RadioButtonGroupDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {RadioButtonGroupDataRepresentationRenderModel} from "./RadioButtonGroupDataRepresentationRenderModel";
-import {BlueprintValue} from "../../../types/union-types";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
 export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends ResponsiveConfigModel<RadioButtonGroupDataRepresentationConfigModel>
   implements ResponsiveConfigModelI<RadioButtonGroupDataRepresentationConfigModel>{
@@ -37,11 +36,12 @@ export class ResponsiveDataRepresentationRadioButtonGroupConfigModel extends Res
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number,
-                                               data:BlueprintValue|undefined=undefined)
+                                               data:any|undefined=undefined)
     : RadioButtonGroupDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new RadioButtonGroupDataRepresentationRenderModel()
     if(data){
+      // todo rewrite!
       renderInstance?.setDBIValues(data)
     } else{
       Object.entries(config).forEach(([k,v])=>{

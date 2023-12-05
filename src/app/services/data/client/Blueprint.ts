@@ -1,6 +1,6 @@
-import {ConceptNameType, DataLink} from "../../../types/type-aliases";
+import {ConceptNameType} from "../../../types/type-aliases";
 import {Properties} from "./Properties";
-import {BlueprintValue, DataRecord, isBlueprintValue} from "../../../types/union-types";
+import {DataRecord} from "../../../types/union-types";
 export class Blueprint {
   public readonly properties:Properties
   public readonly conceptName:ConceptNameType
@@ -19,29 +19,5 @@ export class Blueprint {
   private getPropsFromObj(blueprintObj:string):string{
     if(blueprintObj.indexOf('props:')===-1) throw new Error('blueprint string does not contain a props property')
     return blueprintObj.substring(blueprintObj.indexOf('props:')+6,blueprintObj.lastIndexOf(']')+1).trim()
-  }
-  public getBlueprintValueForDataLink(link:string|string[]):BlueprintValue{
-    let val
-    if(typeof link === 'string'){
-      if(this.properties.properties.has(link)){
-        val = this.properties.properties.get(link)
-      }
-    } else{
-      let key:string
-      if(link.length>=1){
-        key = link.pop() as string
-        if(this.properties.properties.has(key)){
-          val = this.properties.properties.get(key)
-        }
-      }
-      while(val instanceof Array && val.length === 2 && val[1][0] instanceof Blueprint && link.length>=1){
-        key = link.pop() as string
-        if(val[1][0].properties.properties.has(key)){
-          val = val[1][0].properties.properties.get(key)
-        }
-      }
-    }
-    if(isBlueprintValue(val)) return val
-    throw new Error('bad config')
   }
 }

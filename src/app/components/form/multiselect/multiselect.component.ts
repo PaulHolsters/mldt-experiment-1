@@ -2,7 +2,7 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {MultiSelect} from "../../../componentclasses/MultiSelect";
-import {DataRecord, isList, isOutPutData, List} from "../../../types/union-types";
+import {DataRecord, isList, List} from "../../../types/union-types";
 import {Blueprint} from "../../../services/data/client/Blueprint";
 import {isFormTargetType} from "../../../types/type-aliases";
 
@@ -74,9 +74,7 @@ export class MultiselectComponent extends AbstractComponent implements OnInit{
   }
 
   updateData() {
-    if(this.name && isOutPutData(this.selectedOptions)){
-      this.clientDataService.updateClientData(this.name, this.selectedOptions)
-    }
-
+    if(this.selectedOptions)
+    this.clientDataService.updateClientData(this.name, this.selectedOptions)
   }
 }

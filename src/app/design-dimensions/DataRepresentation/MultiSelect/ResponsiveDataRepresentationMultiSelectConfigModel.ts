@@ -2,7 +2,6 @@ import {ResponsiveConfigModel} from "../../ResponsiveConfigModel";
 import {MultiSelectDataRepresentationConfigModel} from "./MultiSelectDataRepresentationConfigModel";
 import {ResponsiveConfigModelI} from "../../../Interfaces/ResponsiveConfigModelI";
 import {MultiSelectDataRepresentationRenderModel} from "./MultiSelectDataRepresentationRenderModel";
-import {BlueprintValue} from "../../../types/union-types";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class ResponsiveDataRepresentationMultiSelectConfigModel extends ResponsiveConfigModel<MultiSelectDataRepresentationConfigModel>
@@ -38,7 +37,7 @@ export class ResponsiveDataRepresentationMultiSelectConfigModel extends Responsi
     return 'content-injection'
   }
   public getDataRepresentationRenderProperties(screenSize: number,
-                                               data:BlueprintValue|undefined=undefined)
+                                               data:any|undefined=undefined)
     : MultiSelectDataRepresentationRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new MultiSelectDataRepresentationRenderModel()

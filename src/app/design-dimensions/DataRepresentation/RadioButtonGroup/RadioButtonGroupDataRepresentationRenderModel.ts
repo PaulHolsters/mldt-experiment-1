@@ -1,7 +1,6 @@
 import {FunctionType} from "../../../enums/functionTypes.enum";
 import {LabelType} from "../../../types/type-aliases";
 import utilFunctions from "../../../utils/utilFunctions";
-import {BlueprintValue} from "../../../types/union-types";
 
 export class RadioButtonGroupDataRepresentationRenderModel {
   public pipe: FunctionType[] | null=null
@@ -37,8 +36,9 @@ export class RadioButtonGroupDataRepresentationRenderModel {
     return valCopy
   }
 
-  setDBIValues(data: BlueprintValue) {
-    if(data instanceof Array && data[0]==='enum'){
+  setDBIValues(data: any) {
+    // todo rewrite dbi values method
+/*    if(data instanceof Array && data[0]==='enum'){
       this.values = data[1].map(enumVal => {
           return {label: utilFunctions.createSpaces(utilFunctions.capitalizeFirst(enumVal)), value: enumVal}
       })
@@ -47,7 +47,7 @@ export class RadioButtonGroupDataRepresentationRenderModel {
           return this.calculatePipeValue(val, this.pipe as Array<FunctionType>)
         })
       }
-    }
+    }*/
   }
 
 }

@@ -6,8 +6,6 @@ import {ActionType} from "../../../enums/actionTypes.enum";
 import {Action} from "../../../effectclasses/Action";
 import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
-import {QueryService} from "./queries/query.service";
-import {MutationService} from "./mutations/mutation.service";
 import {
   ActionIdType,
   ComponentNameType,
@@ -37,21 +35,32 @@ export class ServerDataService {
               private apollo: Apollo,
               private actionsService:ActionsService,
               private clientDataService:ClientDataService,
-              private queryService:QueryService,
-              private mutationService:MutationService,
               private http: HttpClient
   ) {
     this.actionsService.bindToActionsEmitter.subscribe(res=>{
       this.bindActions()
     })
   }
+
   public bindActions(){
+    function createClientData(self:ServerDataService,
+                              actionId:ActionIdType,
+                              name:ComponentNameType |FormTargetType,
+                              errorMessages:string[]|undefined,
+                              data:List | DataRecord |undefined){
+      self.clientDataService.createClientData(
+        actionId,
+        name,
+        data,
+        errorMessages
+      )
+    }
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
       if(res){
         const action = res.effect.action
         this.http.post('http://localhost:5000/' + action.id,undefined).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
-            createClientData(this,null,action.id,action.target,undefined,res)
+            createClientData(this,action.id,action.target,undefined,res)
           }
           debugger
         })
@@ -280,21 +289,6 @@ export class ServerDataService {
     })*/
 
     //********************     Helpers     ****************************/
-    function createClientData(self:ServerDataService,
-                              blueprintStr:string|null,
-                              actionId:ActionIdType,
-                              name:ComponentNameType |FormTargetType,
-                              errorMessages:string[]|undefined,
-                              data:List | DataRecord |undefined){
-      if(blueprintStr){
-        self.clientDataService.createClientData(
-          actionId,
-          name,
-          new Blueprint(blueprintStr),
-          data,
-          errorMessages
-        )
-      }
-    }
+
   }
 }
