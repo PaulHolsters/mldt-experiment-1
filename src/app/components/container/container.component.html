@@ -76,7 +76,7 @@
         [ngSwitch]="child.type">
         <div *ngIf="bindToStateProperty(child.name,PropertyName.repeater)|async; then repeatChild else singleChild"></div>
         <ng-template #repeatChild>
-          <ng-container *ngFor="let data of getPropValue(PropertyName.outputData)">
+          <ng-container *ngFor="let dataC of getPropValue(PropertyName.outputData)">
             <m-card      [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -84,7 +84,7 @@
                            [style.width]="'100%'"
                            *ngSwitchCase="ComponentType.Card"
                            [name]="child.name"
-                            [data]="data"
+                            [data]="dataC"
             ></m-card>
           </ng-container>
         </ng-template>

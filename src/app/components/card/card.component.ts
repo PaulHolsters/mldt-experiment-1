@@ -25,10 +25,26 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        if(k===PropertyName.title) console.log(res)
+        if(k===PropertyName.title) console.log(res,this.data)
+        if(res instanceof Array && res.length===0){
+          console.log(this.configService.getConfigFromRoot(this.name))
+        }
         this.setPropValue(k,res)
-        if(k===PropertyName.title && (res===undefined || typeof res === 'string')) this.title = res
-        if(k===PropertyName.subtitle && (res===undefined || typeof res === 'string')) this.subtitle = res
+        if(k===PropertyName.title){
+          if (this.getPropValue(PropertyName.title) instanceof Array) {
+            const title = this.getData(this.data, this.getPropValue(PropertyName.title))
+            if (typeof title === 'string' || title === undefined) this.title = title
+          } else{
+            if(res===undefined || typeof res === 'string') this.title = res
+          }
+        } else if(k===PropertyName.subtitle){
+          if (this.getPropValue(PropertyName.subtitle) instanceof Array) {
+            const subtitle = this.getData(this.data, this.getPropValue(PropertyName.subtitle))
+            if (typeof subtitle === 'string' || subtitle === undefined) this.subtitle = subtitle
+          } else{
+            if(res===undefined || typeof res === 'string') this.subtitle = res
+          }
+        }
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
@@ -36,14 +52,6 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
   ngOnChanges(changes: SimpleChanges): void {
     // todo data komt eerst binnen
 
-    if (this.getPropValue(PropertyName.title)) {
-      const title = this.getData(this.data, this.getPropValue(PropertyName.title))
-      if (typeof title === 'string' || title === undefined) this.title = title
-    }
-    if (this.getPropValue(PropertyName.subtitle)) {
-      const subtitle = this.getData(this.data, this.getPropValue(PropertyName.subtitle))
-      if (typeof subtitle === 'string' || subtitle === undefined) this.subtitle = subtitle
-    }
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

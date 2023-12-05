@@ -54,9 +54,10 @@ export class Component{
   getData(data:DataRecord,link:DataLink){
       let head:string
       let tail:OutputData = data
-      while(link.length>0){
-        head = link.shift() as string
-        if(link.length>0 && !(isDataRecord(tail))) throw new Error('bad datalink config')
+      const dl = [...link]
+      while(dl.length>0){
+        head = dl.shift() as string
+        if(dl.length>0 && !(isDataRecord(tail))) throw new Error('bad datalink config')
         if(isDataRecord(tail)){
           const entry:[string,(DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])]|undefined
             = Object.entries(tail).find(ent=>{
