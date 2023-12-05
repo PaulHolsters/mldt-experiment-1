@@ -2,6 +2,10 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {DomSanitizer} from "@angular/platform-browser";
 import {Component as AbstractComponent} from "../Component";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
+import {Menubar} from "../../componentclasses/Menubar";
+import {TriggerType} from "../../enums/triggerTypes.enum";
+import {CardStructuralConfigModel} from "../../design-dimensions/StructuralConfig/card/CardStructuralConfigModel";
+import {Card} from "../../componentclasses/Card";
 
 @Component({
   selector: 'm-card',
@@ -17,7 +21,13 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     return ''
   }*/
   ngOnInit(): void {
-
+    this.props = Card.getProperties()
+    this.props.forEach((v,k)=>{
+      this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        this.setPropValue(k,res)
+      })
+    })
+    this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

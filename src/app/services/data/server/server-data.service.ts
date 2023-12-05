@@ -11,12 +11,10 @@ import {
   ComponentNameType,
   FormTargetType,
 } from "../../../types/type-aliases";
-import {Blueprint} from "../client/Blueprint";
 import {ClientDataService} from "../client/client-data.service";
 import {
   DataRecord, isDataRecord, isList,
   List,
-  ServerData as ServerDataType
 } from "../../../types/union-types";
 import {HttpClient} from "@angular/common/http";
 
@@ -60,6 +58,7 @@ export class ServerDataService {
         const action = res.effect.action
         this.http.post('http://localhost:5000/' + action.id,undefined).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
+            debugger
             createClientData(this,action.id,action.target,undefined,res)
           }
           debugger

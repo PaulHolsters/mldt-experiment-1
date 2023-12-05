@@ -24,9 +24,16 @@ import {
 import {
   CardContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/card/CardContentInjectionConfigModel";
+import {
+  ResponsiveStructuralButtonConfigModel
+} from "../../design-dimensions/StructuralConfig/button/ResponsiveStructuralButtonConfigModel";
+import {ComponentModelType} from "../../types/union-types";
+import {
+  ResponsiveStructuralCardConfigModel
+} from "../../design-dimensions/StructuralConfig/card/ResponsiveStructuralCardConfigModel";
 export class Card extends ComponentModel implements ComponentI<
   ResponsiveContentInjectionCardConfigModel,
-  undefined,
+  ResponsiveStructuralCardConfigModel,
   undefined,
   undefined,
   undefined,
@@ -87,6 +94,9 @@ export class Card extends ComponentModel implements ComponentI<
 
   componentSpecificLayout=undefined
   setComponentSpecificLayout=undefined
-  setStructural:undefined
-  structural:undefined
+  setStructural(str: ResponsiveStructuralCardConfigModel): ComponentModelType {
+    this.structural = str
+    return this
+  }
+  structural= new ResponsiveStructuralCardConfigModel()
 }

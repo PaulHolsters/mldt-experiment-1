@@ -13,6 +13,7 @@ import {
   ColumnLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ColumnLayoutConfigModel";
 import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
+import {content} from "./content";
 
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'));
@@ -24,6 +25,7 @@ mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 
   .setVerticalLayoutOfChildren(VerticalColumnLayoutConfigType.Between);
 mainContainer.setChildren([
   menu,
+  content,
   footer
 ])
 

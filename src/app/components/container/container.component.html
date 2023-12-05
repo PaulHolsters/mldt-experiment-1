@@ -77,6 +77,26 @@
         <div *ngIf="bindToStateProperty(child.name,PropertyName.repeater)|async; then repeatChild else singleChild"></div>
         <ng-template #repeatChild>
           <ng-container *ngFor="let data of getPropValue(PropertyName.outputData)">
+            <m-card      [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
+                           [style.height]="'100%'"
+                           [style.width]="'100%'"
+                           *ngSwitchCase="ComponentType.Card"
+                           [name]="child.name"></m-card>
+          </ng-container>
+        </ng-template>
+        <ng-template #singleChild>
+          <m-card      [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
+                         [style.height]="'100%'"
+                         [style.width]="'100%'"
+                         *ngSwitchCase="ComponentType.Card"
+                         [name]="child.name"></m-card>
+        </ng-template>
+        <ng-template #repeatChild>
+          <ng-container *ngFor="let data of getPropValue(PropertyName.outputData)">
             <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
