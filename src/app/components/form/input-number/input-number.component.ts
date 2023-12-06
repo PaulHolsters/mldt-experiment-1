@@ -3,6 +3,7 @@ import {InputNumber} from "primeng/inputnumber";
 import {Component as AbstractComponent} from "../../Component";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {NumberInput} from "../../../componentclasses/NumberInput";
+import {isRenderPropertyType} from "../../../types/union-types";
 
 @Component({
   selector: 'm-input-number',
@@ -59,6 +60,7 @@ export class InputNumberComponent extends AbstractComponent implements OnInit {
     const text2 = text.substring(text.indexOf('<input ')+7)
     const text3 = text2.substring(text2.indexOf('aria-valuenow')+15)
     const value = Number(text3.substring(0,text3.indexOf('">')))
+    if(isRenderPropertyType(value))
     this.clientDataService.updateClientData(this.name, value)
   }
 

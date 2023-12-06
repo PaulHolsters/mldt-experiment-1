@@ -62,7 +62,7 @@ export class Component{
           const entry:[string,(DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])]|undefined
             = Object.entries(tail).find(ent=>{
             return ent[0]===head
-          })
+          }) as [string,(DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])]|undefined
           if(entry){
             tail = entry[1]
           }

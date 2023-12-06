@@ -6,6 +6,7 @@ import {Menubar} from "../../componentclasses/Menubar";
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {CardStructuralConfigModel} from "../../design-dimensions/StructuralConfig/card/CardStructuralConfigModel";
 import {Card} from "../../componentclasses/Card";
+import {isRenderPropertyType, RenderPropertyType} from "../../types/union-types";
 
 @Component({
   selector: 'm-card',
@@ -19,13 +20,14 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     return this.sanitizer.bypassSecurityTrustHtml(this.headerTemplate?.attr.html)
     return ''
   }*/
-  title:string|undefined
-  subtitle:string|undefined
+  title:RenderPropertyType|undefined
+  subtitle:RenderPropertyType|undefined
   ngOnInit(): void {
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         if(k===PropertyName.title) console.log(res,this.data)
+        if(k===PropertyName.subtitle) console.log(res,this.data)
         if(res instanceof Array && res.length===0){
           console.log(this.configService.getConfigFromRoot(this.name))
         }
@@ -33,16 +35,16 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
         if(k===PropertyName.title){
           if (this.getPropValue(PropertyName.title) instanceof Array) {
             const title = this.getData(this.data, this.getPropValue(PropertyName.title))
-            if (typeof title === 'string' || title === undefined) this.title = title
+            if (isRenderPropertyType(title)) this.title = title
           } else{
-            if(res===undefined || typeof res === 'string') this.title = res
+            if(isRenderPropertyType(res)) this.title = res
           }
         } else if(k===PropertyName.subtitle){
           if (this.getPropValue(PropertyName.subtitle) instanceof Array) {
-            const subtitle = this.getData(this.data, this.getPropValue(PropertyName.subtitle))
-            if (typeof subtitle === 'string' || subtitle === undefined) this.subtitle = subtitle
+            const subtitle = (this.getData(this.data, this.getPropValue(PropertyName.subtitle)))
+            if(isRenderPropertyType(subtitle)) this.subtitle = subtitle
           } else{
-            if(res===undefined || typeof res === 'string') this.subtitle = res
+            if(isRenderPropertyType(res)) this.subtitle = res
           }
         }
       })

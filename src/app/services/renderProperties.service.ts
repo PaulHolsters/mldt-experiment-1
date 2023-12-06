@@ -61,7 +61,6 @@ export class RenderPropertiesService implements OnInit {
     this.configService.getAllComponents().forEach(c => {
       this.createProps(c)
     })
-    debugger
   }
   public bindToStateProperty(componentName: string, propName: string):
     Observable<

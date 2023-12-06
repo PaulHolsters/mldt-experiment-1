@@ -6,9 +6,6 @@ import {Component as AbstractComponent} from "../Component"
 import {Container} from "../../componentclasses/Container";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {ComponentNameType} from "../../types/type-aliases";
-import {ComponentModelType, OutputData, RenderModelType} from "../../types/union-types";
-import {ComponentType} from "../../enums/componentTypes.enum";
-import {CalculationModel} from "../../design-dimensions/CalculationModel";
 
 @Component({
   selector: 'm-container',
@@ -70,7 +67,6 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     this.props.forEach((v, k) => {
       this.storeService.bindToStateProperty(this.name, k)?.subscribe(res => {
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
-        if(k===PropertyName.outputData) debugger
         this.setPropValue(k, res)
 /*        if (k === PropertyName.children && res) {
           // todo technisch gezien zou het aantal children gedurende de duur van de applicatie door een action kunnen wijzigen

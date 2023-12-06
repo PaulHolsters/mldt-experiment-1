@@ -306,7 +306,12 @@ export type DataRecord= {
   id: ObjectIdType
 }
 export type List = Array<DataRecord>
-export type RenderPropertyType = boolean|number|Date|string
+export type RenderPropertyType = (boolean|number|Date|string)& {
+  branded_type: 'renderpropertype'
+}
+export const isRenderPropertyType = function isRenderPropertyType(data:unknown):data is RenderPropertyType{
+  return typeof data === 'string' || typeof data === 'number' || data instanceof Date ||typeof data === 'boolean'
+}
 export type RenderPropertyTypeList<K> =
   K extends boolean ? boolean[] :
   K extends string ? string[] :

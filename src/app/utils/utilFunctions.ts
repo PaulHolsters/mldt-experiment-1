@@ -56,5 +56,8 @@ export default  {
       return false
     }
     return val1===val2
+  },
+  not: function(v:boolean):boolean{
+    return !v
   }
 }

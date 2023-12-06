@@ -174,7 +174,6 @@ export class ClientDataService {
     if(isComponentName(componentName,this.configService) && data){
       this._clientData.push(new ClientData(actionId, componentName, data, errorMessages))
       const cd = this.getClientDataInstanceForComponent(componentName)
-      debugger
       if (cd) this.clientDataUpdated.next(cd)
     }
 /*    if (blueprint) {

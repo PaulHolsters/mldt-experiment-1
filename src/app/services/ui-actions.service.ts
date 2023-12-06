@@ -153,7 +153,6 @@ export class UiActionsService {
     }
   ) {
     if (isClientData(res.data)) {
-      debugger
       const cd = res.data
       this.renderPropertiesService.getStatePropertySubjects().filter(ps => {
         return ps.componentName === cd.name
