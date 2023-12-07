@@ -1,25 +1,12 @@
-import {
-  ResponsiveDataInputTextInputConfigModel
-} from "../../../design-dimensions/DataInput/TextInput/ResponsiveDataInputTextInputConfigModel";
-import {
-  ResponsiveDataRepresentationTextInputConfigModel
-} from "../../../design-dimensions/DataRepresentation/TextInput/ResponsiveDataRepresentationTextInputConfigModel";
 import {ComponentType} from "../../../enums/componentTypes.enum";
 import {ResponsiveVisibilityConfigModel} from "../../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
-import {ComponentModel} from "../../../design-dimensions/ComponentModel";
 import {ResponsiveOverflowConfigModel} from "../../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ComponentI} from "../../../Interfaces/ComponentI";
 import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
 import {ResponsiveSizeConfigModel} from "../../../design-dimensions/Size/ResponsiveSizeConfigModel";
-import {
-  TextInputDataRepresentationConfigModel
-} from "../../../design-dimensions/DataRepresentation/TextInput/TextInputDataRepresentationConfigModel";
-import {
-  TextInputDataInputConfigModel
-} from "../../../design-dimensions/DataInput/TextInput/TextInputDataInputConfigModel";
 import {
   ResponsiveDataInputNumberInputConfigModel
 } from "../../../design-dimensions/DataInput/NumberInput/ResponsiveDataInputNumberInputConfigModel";
@@ -32,7 +19,7 @@ import {
 import {
   NumberInputDataInputConfigModel
 } from "../../../design-dimensions/DataInput/NumberInput/NumberInputDataInputConfigModel";
-export class NumberInput extends ComponentModel implements ComponentI<
+export class NumberInput implements ComponentI<
   undefined,
   undefined,
   undefined,
@@ -40,7 +27,6 @@ export class NumberInput extends ComponentModel implements ComponentI<
   ResponsiveDataInputNumberInputConfigModel,
   ResponsiveDataRepresentationNumberInputConfigModel>{
   constructor(name:string) {
-    super()
     this.name = name
   }
   name:string

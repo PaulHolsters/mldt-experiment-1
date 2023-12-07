@@ -1,6 +1,5 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
@@ -12,7 +11,7 @@ import {
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
 import {ComponentModelType} from "../../types/union-types";
 import {ComponentType} from "../../enums/componentTypes.enum";
-export class Container extends ComponentModel implements ComponentI<undefined,undefined,undefined,ResponsiveContainerChildLayoutConfigModel,undefined,undefined>{
+export class Container implements ComponentI<undefined,undefined,undefined,ResponsiveContainerChildLayoutConfigModel,undefined,undefined>{
   // todo add conditional typing : prop required => set required too
   // todo zorg dat de set method onmiddellijk een bepaald scherm kan targetten
   name:string
@@ -43,7 +42,6 @@ export class Container extends ComponentModel implements ComponentI<undefined,un
     return this
   }
   constructor(name:string) {
-    super()
     this.name = name
   }
   clientData= undefined

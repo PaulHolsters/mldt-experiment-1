@@ -1,4 +1,3 @@
-import {ComponentModel} from "../../../design-dimensions/ComponentModel";
 import {ComponentI} from "../../../Interfaces/ComponentI";
 import {ResponsiveSpacingConfigModel} from "../../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
 import {ResponsiveVisibilityConfigModel} from "../../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
@@ -17,7 +16,7 @@ import {
 import {ClientDataConfigModel} from "../../../design-dimensions/ClientData/ClientDataConfigModel";
 import {ComponentType} from "../../../enums/componentTypes.enum";
 
-export class RadioButtonGroup extends ComponentModel
+export class RadioButtonGroup
   implements ComponentI<undefined,undefined,undefined,undefined,
     ResponsiveDataInputRadioButtonGroupConfigModel,ResponsiveDataRepresentationRadioButtonGroupConfigModel>{
   // todo add conditional typing : prop required => set required too
@@ -47,7 +46,6 @@ export class RadioButtonGroup extends ComponentModel
     return this
   }
   constructor(name:string) {
-    super()
     this.name = name
   }
   clientData: ClientDataConfigModel|undefined

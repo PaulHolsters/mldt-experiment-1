@@ -1,6 +1,5 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
@@ -15,7 +14,7 @@ import {
 } from "../../design-dimensions/Styling/button/ResponsiveStylingButtonConfigModel";
 import {ComponentModelType} from "../../types/union-types";
 import {ComponentType} from "../../enums/componentTypes.enum";
-export class Button extends ComponentModel implements ComponentI<
+export class Button implements ComponentI<
   undefined,
   ResponsiveStructuralButtonConfigModel,
   ResponsiveStylingButtonConfigModel,
@@ -23,7 +22,6 @@ export class Button extends ComponentModel implements ComponentI<
   undefined,
   undefined>{
   constructor(name:string) {
-    super()
     this.name = name
   }
   name:string

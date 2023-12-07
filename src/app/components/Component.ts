@@ -19,6 +19,12 @@ import {ClientDataService} from "../services/data/client/client-data.service";
 import {ConfigService} from "../services/config.service";
 import {DataRecord, isDataRecord, List, OutputData, RenderPropertyType} from "../types/union-types";
 import {DataLink} from "../types/type-aliases";
+import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
+import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
+import {
+  ResponsiveContainerChildLayoutConfigModel
+} from "../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
+import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 @Directive()
 export class Component{
   @Input() public name!:string
@@ -48,6 +54,7 @@ export class Component{
   protected readonly FontStyleType = FontStyleType
   protected readonly TextColorType = TextColorType
   protected readonly TextDecorationType = TextDecorationType
+
   getPropValue(key:string,index?:number){
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
   }

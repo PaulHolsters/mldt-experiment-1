@@ -1,6 +1,5 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
@@ -26,7 +25,7 @@ import {
 } from "../../design-dimensions/ComponentSpecificLayout/Table/ResponsiveTableLayoutConfigModel";
 import {ComponentModelType} from "../../types/union-types";
 import {ComponentType} from "../../enums/componentTypes.enum";
-export class Table extends ComponentModel implements ComponentI<
+export class Table implements ComponentI<
   ResponsiveContentInjectionTableConfigModel,
   ResponsiveStructuralTableConfigModel,
   ResponsiveStylingTableConfigModel,
@@ -87,7 +86,6 @@ export class Table extends ComponentModel implements ComponentI<
   layout=undefined
   setLayout=undefined
   constructor(name:string) {
-    super()
     this.name = name
   }
 

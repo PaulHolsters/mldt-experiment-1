@@ -7,7 +7,6 @@ import {
 import {ComponentType} from "../../../enums/componentTypes.enum";
 import {ResponsiveVisibilityConfigModel} from "../../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
-import {ComponentModel} from "../../../design-dimensions/ComponentModel";
 import {ResponsiveOverflowConfigModel} from "../../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ComponentI} from "../../../Interfaces/ComponentI";
 import {
@@ -20,7 +19,7 @@ import {
 import {
   TextInputDataInputConfigModel
 } from "../../../design-dimensions/DataInput/TextInput/TextInputDataInputConfigModel";
-export class TextInput extends ComponentModel implements ComponentI<
+export class TextInput implements ComponentI<
   undefined,
   undefined,
   undefined,
@@ -28,7 +27,6 @@ export class TextInput extends ComponentModel implements ComponentI<
   ResponsiveDataInputTextInputConfigModel,
   ResponsiveDataRepresentationTextInputConfigModel>{
   constructor(name:string) {
-    super()
     this.name = name
   }
   name:string

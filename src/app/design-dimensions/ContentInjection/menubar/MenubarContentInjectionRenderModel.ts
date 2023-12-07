@@ -1,4 +1,3 @@
-import {ComponentModel} from "../../ComponentModel";
 import {ComponentModelType} from "../../../types/union-types";
 
 export class MenubarContentInjectionRenderModel {

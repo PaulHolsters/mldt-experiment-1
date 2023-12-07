@@ -1,6 +1,5 @@
 import {Component} from "./Component";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
-import {MenuItem} from "primeng/api";
 import {ComponentModelType} from "../types/union-types";
 
 export abstract class Toolbar extends Component{

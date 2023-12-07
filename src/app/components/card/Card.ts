@@ -1,6 +1,5 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
@@ -10,28 +9,16 @@ import {
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {
-  ResponsiveContentInjectionMenubarConfigModel
-} from "../../design-dimensions/ContentInjection/menubar/ResponsiveContentInjectionMenubarConfigModel";
-import {
-  ResponsiveStructuralMenubarConfigModel
-} from "../../design-dimensions/StructuralConfig/menubar/ResponsiveStructuralMenubarConfigModel";
-import {
-  MenubarContentInjectionConfigModel
-} from "../../design-dimensions/ContentInjection/menubar/MenubarContentInjectionConfigModel";
-import {
   ResponsiveContentInjectionCardConfigModel
 } from "../../design-dimensions/ContentInjection/card/ResponsiveContentInjectionCardConfigModel";
 import {
   CardContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/card/CardContentInjectionConfigModel";
-import {
-  ResponsiveStructuralButtonConfigModel
-} from "../../design-dimensions/StructuralConfig/button/ResponsiveStructuralButtonConfigModel";
 import {ComponentModelType} from "../../types/union-types";
 import {
   ResponsiveStructuralCardConfigModel
 } from "../../design-dimensions/StructuralConfig/card/ResponsiveStructuralCardConfigModel";
-export class Card extends ComponentModel implements ComponentI<
+export class Card implements ComponentI<
   ResponsiveContentInjectionCardConfigModel,
   ResponsiveStructuralCardConfigModel,
   undefined,
@@ -88,10 +75,8 @@ export class Card extends ComponentModel implements ComponentI<
   layout=undefined
   setLayout=undefined
   constructor(name:string) {
-    super()
     this.name = name
   }
-
   componentSpecificLayout=undefined
   setComponentSpecificLayout=undefined
   setStructural(str: ResponsiveStructuralCardConfigModel): ComponentModelType {

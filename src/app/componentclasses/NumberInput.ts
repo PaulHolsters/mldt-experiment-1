@@ -1,5 +1,4 @@
 import {Component} from "./Component";
-import {ElementRef} from "@angular/core";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 export abstract class NumberInput extends Component{

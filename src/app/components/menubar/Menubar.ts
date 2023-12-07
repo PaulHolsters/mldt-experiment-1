@@ -1,6 +1,5 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
@@ -18,7 +17,7 @@ import {
 import {
   MenubarContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/menubar/MenubarContentInjectionConfigModel";
-export class Menubar extends ComponentModel implements ComponentI<
+export class Menubar implements ComponentI<
   ResponsiveContentInjectionMenubarConfigModel,
   ResponsiveStructuralMenubarConfigModel,
   undefined,
@@ -75,7 +74,6 @@ export class Menubar extends ComponentModel implements ComponentI<
   layout=undefined
   setLayout=undefined
   constructor(name:string) {
-    super()
     this.name = name
   }
 

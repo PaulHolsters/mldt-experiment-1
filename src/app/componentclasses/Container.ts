@@ -1,10 +1,9 @@
 import {Component} from "./Component";
 import {BackgroundColorType} from "../enums/backgroundColorType.enum";
-import {ComponentModel} from "../design-dimensions/ComponentModel";
-import {Blueprint} from "../services/data/client/Blueprint";
+import {ComponentModelType} from "../types/union-types";
 
 export abstract class Container extends Component{
-  public static children:ComponentModel[]|null=null
+  public static children:ComponentModelType[]|null=null
   public static row:boolean|null=null
   public static column:boolean|null=null
   public static wrap:boolean|null=null

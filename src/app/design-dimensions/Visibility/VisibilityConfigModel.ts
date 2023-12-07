@@ -1,8 +1,9 @@
-export class VisibilityConfigModel {
+import {ComponentConfigModel} from "../ComponentConfigModel";
+
+
+export class VisibilityConfigModel extends ComponentConfigModel{
   public visible: boolean = true
   public holdSpace: boolean = false
-  constructor() {
-  }
   public setVisible(visible: boolean){
     this.visible=visible
     return this

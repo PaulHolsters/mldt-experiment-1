@@ -18,7 +18,7 @@ Alle UI componenten die je kan gebruiken zitten in deze folder. Voorlopig zijn d
 Deze zitten nog niet in een aparte map, ook omdat deze zaken nog erg aan verandering onderhevig zijn. Wel zijn er momenteel twee belangrijke services geïmplementeerd: de store en de responsive behaviour service. In de config service zit het javascript configuratie object. Met dit object configureer je de Mouldit frontend bij elkaar. In het app.component.html bestand zit dan ook maar 1 component, namelijk een container component die als start dient voor je applicatie. Voor de duidelijkheid hieronder een voorbeeld van het configuratieobject:
 
     contentContainer: {
-      components: ComponentModel[],
+      components: ComponentConfigModel[],
       actions: ActionModel[]
     } = {
       components: [
@@ -222,13 +222,13 @@ Een voorbeeld:
 Elk onderdeel (zie Models) wordt geconfigureerd d.m.v. een property in het configuratieObject. De naam van de variabele speelt geen rol zolang deze (voorlopig) van het volgende type is:
 
     contentContainer: {
-      components: ComponentModel[],
+      components: ComponentConfigModel[],
       actions: ActionModel[]
     } 
     
 Hier is contentContainer de naam van de variabele en daarachter heb je het TypeScript type. De modellen waarvan sprake vind je in de models folder terug. Omdat "actions" nog onder constructie is, behandelen we hierna enkel components.
 ### Components - Responsive Behaviour
-In het ComponentModel vind je de verschillende properties die je nodig hebt voor je configuratie. Deze properties moet je configureren zodanig dat Mouldit weet hoe het de component moet renderen en dit op elk mogelijk formaat van scherm. Dit systeem wordt het *Responsive Behaviour System* genoemd. Je gebruikt het model at hand en creëert een nieuw object met als parameter eveneens het juiste model en dit voor elk type scherm. Dat zijn er momenteel vijf:
+In het ComponentConfigModel vind je de verschillende properties die je nodig hebt voor je configuratie. Deze properties moet je configureren zodanig dat Mouldit weet hoe het de component moet renderen en dit op elk mogelijk formaat van scherm. Dit systeem wordt het *Responsive Behaviour System* genoemd. Je gebruikt het model at hand en creëert een nieuw object met als parameter eveneens het juiste model en dit voor elk type scherm. Dat zijn er momenteel vijf:
 - smartphone (max-width: 480px)
 - portrait-tablet (min-width: 481px, max-width: 799px)
 - tablet (min-width: 800px, max-width: 1024px)
@@ -294,4 +294,4 @@ Een block is wat de naam suggereert. Een block met een achtergrond kleur naar ke
 Deze component is bedoeld om te gebruiken voor het logo van je firma. Het aanvaard de url van een bestand en verder ofwel een breedte ofwel een hoogte (zodat de verhouding niet in de war gaat). Uiteraard is dit allemaal nog zeer rudimentair en eerder bedoeld als een manier om zaken uit te proberen. Dit is dus verre van de definitieve versie.
 ### Multiselect
 Dit is binnen Mouldit een cruciale component. Dit is (voorlopig) de enige component die toelaat om er andere componenten in onder te brengen. Positie en dimensie van deze child components kan je dan configureren via de childLayout property binnen het *RBS*. Uiteraard kan je deze component zelf ook nog configureren binnen het *RBS*. Het is de bedoeling om op termijn toe te laten dat je een Multiselect kan onderbrengen binnen een parent Multiselect alsook de Multiselect te gebruiken als een "ankerpunt" binnen een bestaande component waar je via de configuratie kinderen in kan injecteren. Dit laatste lijkt mij een absoluut noodzakelijke feature indien je een waarlijk customizable frontend wilt kunnen maken met Mouldit.  
-Een Multiselect heeft een *children* property. De mogelijke waarde van deze property is ofwel een array met strings waar de strings de namen zijn van de childcomponents. Ofwel komt hier de volledige configuratie van elk kind. Elk kind is dan het het *ComponentModel* type. Een mix is (voorlopig) niet mogelijk. Voorlopig kan je maar één diep nesten in deze property. Dat wil zeggen dat als je een Multiselect binnen een Multiselect wil nesten dat je dan verplicht bent om met een array van strings te werken.
+Een Multiselect heeft een *children* property. De mogelijke waarde van deze property is ofwel een array met strings waar de strings de namen zijn van de childcomponents. Ofwel komt hier de volledige configuratie van elk kind. Elk kind is dan het het *ComponentConfigModel* type. Een mix is (voorlopig) niet mogelijk. Voorlopig kan je maar één diep nesten in deze property. Dat wil zeggen dat als je een Multiselect binnen een Multiselect wil nesten dat je dan verplicht bent om met een array van strings te werken.

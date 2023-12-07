@@ -1,7 +1,6 @@
 import {ComponentType} from "../../enums/componentTypes.enum";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {
@@ -9,19 +8,13 @@ import {
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {
-  ResponsiveContentInjectionDialogConfigModel
-} from "../../design-dimensions/ContentInjection/dialog/ResponsiveContentInjectionDialogConfigModel";
-import {
-  DialogContentInjectionConfigModel
-} from "../../design-dimensions/ContentInjection/dialog/DialogContentInjectionConfigModel";
-import {
   ResponsiveContentInjectionFormConfigModel
 } from "../../design-dimensions/ContentInjection/form/ResponsiveContentInjectionFormConfigModel";
 import {
   FormContentInjectionConfigModel
 } from "../../design-dimensions/ContentInjection/form/FormContentInjectionConfigModel";
 
-export class Form extends ComponentModel implements ComponentI<
+export class Form implements ComponentI<
   ResponsiveContentInjectionFormConfigModel,
   undefined,
   undefined,
@@ -29,7 +22,6 @@ export class Form extends ComponentModel implements ComponentI<
   undefined,
   undefined>{
   constructor(name:string) {
-    super()
     this.name = name
   }
   name:string

@@ -22,7 +22,7 @@ import {ClientDataService} from "./data/client/client-data.service";
 import {Effect} from "../effectclasses/Effect";
 import {Blueprint} from "./data/client/Blueprint";
 import {ClientData} from "./data/client/ClientData";
-import {DataRecord, isClientData, List} from "../types/union-types";
+import {ComponentModelType, DataRecord, isClientData, List} from "../types/union-types";
 import {NoValueType} from "../enums/NoValueTypes.enum";
 import {
   ResponsiveContainerChildLayoutConfigModel
@@ -180,6 +180,12 @@ export class UiActionsService {
     }
     return true
   }
+  private replace(key:string|undefined,config:ComponentModelType,value:ResponsiveSizeConfigModel
+    |ResponsiveOverflowConfigModel|ResponsiveContainerChildLayoutConfigModel|ResponsiveVisibilityConfigModel|undefined){
+    if(key){
+      Reflect.set(config,key,value)
+    }
+  }
 
   private setConfigValueAndRebuild(action: Action) {
     // todo verwijder alle clientdata
@@ -187,10 +193,10 @@ export class UiActionsService {
     if (currentAppConfig && typeof action.target === 'string') {
       let config = this.configService.getConfigFromRoot(action.target)
       if (!config) throw new Error('action was not configured correctly')
-      if (config.replace && (action.value instanceof ActionValueModel)) {
+      if ((action.value instanceof ActionValueModel)) {
         // ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel
         if (action.value.value !== 'list' && action.value.value !== 'object' && typeof action.value.value !== 'function' && typeof action.value.value !== 'boolean')
-          config.replace(action.value.name, action.value.value)
+          this.replace(action.value.name,config, action.value.value)
         this.configService.saveConfig(currentAppConfig)
         this.RBS.rebuildUI()
         return true

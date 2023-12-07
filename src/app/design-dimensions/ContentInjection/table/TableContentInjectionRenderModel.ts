@@ -1,14 +1,13 @@
-import {ComponentModel} from "../../ComponentModel";
 import {TableColumnModel} from "../../StructuralConfig/table/TableColumnModel";
 import {PropertyName} from "../../../enums/PropertyNameTypes.enum";
 import {isExtraColumnModelArray} from "../../../types/type-aliases";
-import {isNoValueType} from "../../../types/union-types";
+import {ComponentModelType, isNoValueType} from "../../../types/union-types";
 
 export class TableContentInjectionRenderModel {
-  public columnHeaderComponents: ComponentModel[]|null=null
-  public footer: ComponentModel|null=null
-  public caption: ComponentModel|null=null
-  public extraColumns:(TableColumnModel & {component:ComponentModel})[]|null=null
+  public columnHeaderComponents: ComponentModelType[]|null=null
+  public footer: ComponentModelType|null=null
+  public caption: ComponentModelType|null=null
+  public extraColumns:(TableColumnModel & {component:ComponentModelType})[]|null=null
   constructor() {
   }
   public setProperty(propName: string, value: unknown): void {

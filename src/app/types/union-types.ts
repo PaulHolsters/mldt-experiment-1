@@ -178,12 +178,15 @@ import {Form} from "../components/form/Form";
 import {Menubar} from "../components/menubar/Menubar";
 import {Toolbar} from "../components/toolbar/Toolbar";
 import {Card} from "../components/card/Card";
-import {Data} from "@angular/router";
 import {
   ResponsiveStructuralCardConfigModel
 } from "../design-dimensions/StructuralConfig/card/ResponsiveStructuralCardConfigModel";
 import {CardStructuralConfigModel} from "../design-dimensions/StructuralConfig/card/CardStructuralConfigModel";
 import {CardStructuralRenderModel} from "../design-dimensions/StructuralConfig/card/CardStructuralRenderModel";
+import {
+  ResponsiveStructuralTextConfigModel
+} from "../design-dimensions/StructuralConfig/Text/ResponsiveStructuralTextConfigModel";
+import {Text} from "../components/text/Text";
 
 // todo deze union types moeten opnieuw aangevuld worden
 
@@ -281,7 +284,9 @@ export type ResponsiveStructuralConfigModelType =
   ResponsiveStructuralMenubarConfigModel|
   ResponsiveStructuralIconConfigModel|
   ResponsiveStructuralImageConfigModel|
-  ResponsiveStructuralCardConfigModel|never
+  ResponsiveStructuralCardConfigModel|
+  ResponsiveStructuralTextConfigModel|
+  never
 export type ResponsiveDataRepresentationConfigModelType =
   ResponsiveDataRepresentationMultiSelectConfigModel|
   ResponsiveDataRepresentationRadioButtonGroupConfigModel|
@@ -299,7 +304,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
   ResponsiveTableLayoutConfigModel|never
 
-export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar|Card
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar|Card|Text
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
 } & {

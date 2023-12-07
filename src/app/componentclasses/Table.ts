@@ -1,17 +1,16 @@
 import {Component} from "./Component";
 import {ResponsiveTableLayoutType} from "../enums/responsiveTableLayoutType.enum";
 import {Blueprint} from "../services/data/client/Blueprint";
-import {ComponentModel} from "../design-dimensions/ComponentModel";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {TableColumnModel} from "../design-dimensions/StructuralConfig/table/TableColumnModel";
-import {DataRecord} from "../types/union-types";
+import {ComponentModelType, DataRecord} from "../types/union-types";
 
 export abstract class Table extends Component{
   public static currentColumn:{field:string,header:string|undefined,sort:boolean|undefined,filter:boolean|undefined}|null=null
   public static textWhenEmpty:string|null=null
-  public static caption:ComponentModel|null=null
-  public static footer:ComponentModel|null=null
-  public static columnHeaderComponents:ComponentModel|null=null
+  public static caption:ComponentModelType|null=null
+  public static footer:ComponentModelType|null=null
+  public static columnHeaderComponents:ComponentModelType|null=null
   public static responsiveTableLayout:ResponsiveTableLayoutType|null=null
   public static paginator:boolean|null=null
   public static tableBreakpoint:number|null=null
@@ -23,7 +22,7 @@ export abstract class Table extends Component{
   public static visible: boolean|null=null
   public static holdSpace: boolean|null=null
   public static columns:TableColumnModel[]|null=null
-  public static extraColumns:(TableColumnModel & {component:ComponentModel})[]|null=null
+  public static extraColumns:(TableColumnModel & {component:ComponentModelType})[]|null=null
 
   public static outputData:DataRecord[]|null=null
   public static conceptBlueprint:Blueprint|null=null

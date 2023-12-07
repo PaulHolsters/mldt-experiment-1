@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RenderPropertiesService} from "../../services/renderProperties.service";
 import {Effect} from "../../effectclasses/Effect";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
+import {ComponentModelType} from "../../types/union-types";
 
 @Component({
   selector: 'm-app-template',
@@ -10,7 +10,7 @@ import {ComponentModel} from "../../design-dimensions/ComponentModel";
 })
 export class AppTemplateComponent implements OnInit {
   // voorlopig wordt de statische data via deze component opgeladen naar de verschillende content componenten: obsolete?
-  @Input() data:{components:ComponentModel[],actions:Effect[]}|undefined
+  @Input() data:{components:ComponentModelType[],actions:Effect[]}|undefined
 /*  dataButton:{
     label?:string,
     icon?:string,

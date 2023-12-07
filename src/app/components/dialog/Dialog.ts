@@ -1,6 +1,5 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
@@ -18,7 +17,7 @@ import {
   ResponsiveStructuralDialogConfigModel
 } from "../../design-dimensions/StructuralConfig/dialog/ResponsiveStructuralDialogConfigModel";
 import {DialogStructuralConfigModel} from "../../design-dimensions/StructuralConfig/dialog/DialogStructuralConfigModel";
-export class Dialog extends ComponentModel implements ComponentI<
+export class Dialog implements ComponentI<
   ResponsiveContentInjectionDialogConfigModel,
   ResponsiveStructuralDialogConfigModel,
   undefined,
@@ -26,7 +25,6 @@ export class Dialog extends ComponentModel implements ComponentI<
   undefined,
   undefined>{
   constructor(name:string) {
-    super()
     this.name = name
   }
   name:string

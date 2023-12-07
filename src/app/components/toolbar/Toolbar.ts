@@ -1,6 +1,5 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
@@ -9,16 +8,7 @@ import {
   ResponsiveIndividualLayoutConfigModel
 } from "../../design-dimensions/IndividualLayout/ResponsiveIndividualLayoutConfigModel";
 import {ComponentType} from "../../enums/componentTypes.enum";
-import {
-  ResponsiveContentInjectionMenubarConfigModel
-} from "../../design-dimensions/ContentInjection/menubar/ResponsiveContentInjectionMenubarConfigModel";
-import {
-  ResponsiveStructuralMenubarConfigModel
-} from "../../design-dimensions/StructuralConfig/menubar/ResponsiveStructuralMenubarConfigModel";
-import {
-  MenubarContentInjectionConfigModel
-} from "../../design-dimensions/ContentInjection/menubar/MenubarContentInjectionConfigModel";
-export class Toolbar extends ComponentModel implements ComponentI<
+export class Toolbar implements ComponentI<
   undefined,
   undefined,
   undefined,
@@ -74,7 +64,6 @@ export class Toolbar extends ComponentModel implements ComponentI<
   setStructural:undefined
   structural:undefined
   constructor(name:string) {
-    super()
     this.name = name
   }
 

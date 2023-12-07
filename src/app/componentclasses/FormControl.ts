@@ -1,9 +1,9 @@
 import {Component} from "./Component";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
-import {ComponentModel} from "../design-dimensions/ComponentModel";
+import {ComponentModelType} from "../types/union-types";
 
 export abstract class FormControl extends Component{
-  public static content:ComponentModel|undefined
+  public static content:ComponentModelType|undefined
   public static calcHeight:string|undefined
   public static calcWidth:string|undefined
   public static width:string|undefined

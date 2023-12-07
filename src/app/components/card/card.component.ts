@@ -31,6 +31,13 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
         if(res instanceof Array && res.length===0){
           console.log(this.configService.getConfigFromRoot(this.name))
         }
+        // todo wat je moet doen is de setPropValue method aanpassen wanneer propsByData binnenkomt
+        //      zo heeft de frontend altijd de correcte data
+        //      propsByData werkt op basis van outputData die het ophaalt
+        //      ook als er niets inzit in output data dan worden lege waarde meegeven aan de overeenkomstige props
+        //      beter dan outputdata neem je best clientdata => outputdata, dat is altijd de laatste waarde
+        //      dus ook omgekeerd, als Outputdata binnenkomt wordt de waarde van propsByData gecontroleerd
+        //      en de overeenkomstige props worden zo van een neiuwe waarde voorzien
         this.setPropValue(k,res)
         if(k===PropertyName.title){
           if (this.getPropValue(PropertyName.title) instanceof Array) {

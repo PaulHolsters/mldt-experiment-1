@@ -1,6 +1,5 @@
 import {ComponentI} from "../../Interfaces/ComponentI";
 import {ResponsiveVisibilityConfigModel} from "../../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ComponentModel} from "../../design-dimensions/ComponentModel";
 import {ResponsiveSizeConfigModel} from "../../design-dimensions/Size/ResponsiveSizeConfigModel";
 import {ResponsiveOverflowConfigModel} from "../../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
 import {ResponsiveSpacingConfigModel} from "../../design-dimensions/Spacing/ResponsiveSpacingConfigModel";
@@ -15,7 +14,7 @@ import {IconType} from "../../enums/iconType.enum";
 import {IconStructuralConfigModel} from "../../design-dimensions/StructuralConfig/icon/IconStructuralConfigModel";
 import {ComponentModelType} from "../../types/union-types";
 import {ComponentType} from "../../enums/componentTypes.enum";
-export class Icon extends ComponentModel implements ComponentI<
+export class Icon implements ComponentI<
   undefined,
   ResponsiveStructuralIconConfigModel,
   undefined,
@@ -62,7 +61,6 @@ export class Icon extends ComponentModel implements ComponentI<
   layout=undefined
   setLayout=undefined
   constructor(name:string,icon:IconType) {
-    super()
     this.name = name
     this.structural = new ResponsiveStructuralIconConfigModel(new IconStructuralConfigModel(icon))
   }
