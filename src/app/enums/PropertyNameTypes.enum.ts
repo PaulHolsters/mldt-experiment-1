@@ -1,3 +1,5 @@
+import {Datalink} from "../design-dimensions/datalink";
+
 export enum PropertyName {
   visible='visible',
   currentDataList='currentDataList',
@@ -128,4 +130,5 @@ export enum PropertyName {
   repeater='repeater',
   title='title',
   subtitle='subtitle',
+  propsByData='propsByData'
 }

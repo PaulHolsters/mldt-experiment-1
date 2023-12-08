@@ -6,6 +6,8 @@ import {LabelType} from "../enums/labelType.enum";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {BorderModel} from "../design-dimensions/BorderModel";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 export abstract class Label extends Component{
   public static width:string|undefined
   public static height:string|undefined
@@ -27,4 +29,5 @@ export abstract class Label extends Component{
 
   public static conceptBlueprint:Blueprint|undefined
   public static dataLink:string[]|undefined
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 }

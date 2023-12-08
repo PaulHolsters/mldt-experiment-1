@@ -1,5 +1,7 @@
 import {Component} from "./Component";
 import {Blueprint} from "../services/data/client/Blueprint";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 
 export abstract class RadioButton extends Component{
 
@@ -18,5 +20,6 @@ export abstract class RadioButton extends Component{
   public static dirty: boolean | undefined
   public static invalid: boolean | undefined
   public static disabled: boolean | undefined
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 
 }

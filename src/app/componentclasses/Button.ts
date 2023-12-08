@@ -1,5 +1,7 @@
 import {Component} from "./Component";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 
 export abstract class Button extends Component{
   public static icon:string|null=null
@@ -22,5 +24,6 @@ export abstract class Button extends Component{
 
   public static data: any|null=null
   public static hardCodedData: any|null=null
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 
 }

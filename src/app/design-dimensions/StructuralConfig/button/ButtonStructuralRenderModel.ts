@@ -1,9 +1,8 @@
 import {IconConfigModel} from "./IconConfigModel";
-export class ButtonStructuralRenderModel {
+import {ComponentStructuralRenderModel} from "../ComponentStructuralRenderModel";
+export class ButtonStructuralRenderModel extends ComponentStructuralRenderModel{
   public label:string|null=null
   public icon:IconConfigModel|null=null
-  constructor() {
-  }
   public setProperty(propName: string, value: any|undefined): void {
     if (Reflect.has(this, propName)){
       Reflect.set(this, propName, value)

@@ -2,6 +2,8 @@ import {Component} from "./Component";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {MenuItem} from "primeng/api";
 import {ComponentModelType} from "../types/union-types";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 
 export abstract class Menubar extends Component{
   public static grow: number|null| ParentConfigType.grow = null
@@ -15,4 +17,5 @@ export abstract class Menubar extends Component{
   public static menuItems:MenuItem[]|null = null
   public static start:ComponentModelType|null=null
   public static end:ComponentModelType|null=null
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 }

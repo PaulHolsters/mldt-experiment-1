@@ -1,6 +1,8 @@
 import {Component} from "./Component";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {BorderModel} from "../design-dimensions/BorderModel";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 
 export abstract class Paginator extends Component {
   public static rowsPerPageOptions: number[] | undefined
@@ -25,4 +27,5 @@ export abstract class Paginator extends Component {
   public static border: BorderModel|undefined
 
   public static data: any | undefined
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 }

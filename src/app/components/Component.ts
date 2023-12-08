@@ -19,12 +19,7 @@ import {ClientDataService} from "../services/data/client/client-data.service";
 import {ConfigService} from "../services/config.service";
 import {DataRecord, isDataRecord, List, OutputData, RenderPropertyType} from "../types/union-types";
 import {DataLink} from "../types/type-aliases";
-import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
-import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {
-  ResponsiveContainerChildLayoutConfigModel
-} from "../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
+import {Datalink} from "../design-dimensions/datalink";
 @Directive()
 export class Component{
   @Input() public name!:string
@@ -81,9 +76,29 @@ export class Component{
     this.eventsService.triggerEvent(trigger,this.name,this.data,nativeEvent?.target)
   }
   setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
+    // todo add more typesafety
     if(this.props){
       if(!utilFunctions.areEqual(this.props.get(key),value)){
-        this.props.set(key,value)
+        if(key===PropertyName.propsByData){
+          if(this.getPropValue(key) instanceof Array){
+            const newArr = this.getPropValue(key) as Array<[PropertyName,Datalink,Function[]]>
+            (value as Array<[PropertyName,Datalink,Function[]]>).forEach((v: [PropertyName,Datalink,Function[]])=>{
+              const existing = newArr.findIndex(val=>{
+                return val[0] === v[0]
+              })
+              if(existing===-1){
+                newArr.push(v)
+              } else{
+                newArr.splice(existing,1,v)
+              }
+            })
+          } else{
+            this.props.set(key,value)
+          }
+          // todo adjust proeprties mentioned in propsByData using outputData
+        } else if(key===PropertyName.outputData){
+          // todo add outptdata and adjust properties mentioned in propsByData
+        } else this.props.set(key,value)
         this.stateService.syncData(this.name,{key:key,value:value})
         if(setProps){
           setProps.forEach(p=>{

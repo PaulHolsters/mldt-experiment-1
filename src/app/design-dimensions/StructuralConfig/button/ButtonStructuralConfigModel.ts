@@ -1,12 +1,11 @@
 import {IconConfigModel} from "./IconConfigModel";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
+import {ComponentStructuralConfigModel} from "../ComponentStructuralConfigModel";
 
-export class ButtonStructuralConfigModel {
+export class ButtonStructuralConfigModel extends ComponentStructuralConfigModel{
   public label:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   public icon:IconConfigModel|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   public disabled: boolean = false
-  constructor(){
-  }
   setLabel(label:string|NoValueType.NO_VALUE_NEEDED){
     this.label=label
     return this

@@ -4,6 +4,8 @@ import {Blueprint} from "../services/data/client/Blueprint";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {TableColumnModel} from "../design-dimensions/StructuralConfig/table/TableColumnModel";
 import {ComponentModelType, DataRecord} from "../types/union-types";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 
 export abstract class Table extends Component{
   public static currentColumn:{field:string,header:string|undefined,sort:boolean|undefined,filter:boolean|undefined}|null=null
@@ -29,5 +31,6 @@ export abstract class Table extends Component{
 
   public static data: any|null=null
   public static currentDataList:DataRecord[]|null=null
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 
 }

@@ -1,6 +1,8 @@
 import {Component} from "./Component";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {ComponentModelType} from "../types/union-types";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 
 export abstract class FormControl extends Component{
   public static content:ComponentModelType|undefined
@@ -14,4 +16,5 @@ export abstract class FormControl extends Component{
   public static holdSpace: boolean|undefined
 
   public static data: any|undefined
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 }

@@ -1,6 +1,8 @@
 import {Component} from "./Component";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 export abstract class NumberInput extends Component{
   public static advisoryText:string|null=null
   public static label:string|null=null
@@ -42,4 +44,5 @@ export abstract class NumberInput extends Component{
   public static reset:boolean|null = null
   public static conceptBlueprint:Blueprint|null=null
   public static dataLink: string[] | null=null
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 }

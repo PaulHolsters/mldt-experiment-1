@@ -15,6 +15,9 @@ import {Container} from "../components/container/Container";
 import {
   ChildPropertiesConfigModel
 } from "../design-dimensions/ComponentSpecificLayout/Container/ChildPropertiesConfigModel";
+import {ComponentStructuralRenderModel} from "../design-dimensions/StructuralConfig/ComponentStructuralRenderModel";
+import {CardStructuralRenderModel} from "../design-dimensions/StructuralConfig/card/CardStructuralRenderModel";
+import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +56,7 @@ export class ResponsiveBehaviourService implements OnInit{
   public setRBSState(componentName: string,
                      newState: RenderModelType|
                        (ComponentModelType[])): void {
+    if(newState instanceof CardStructuralRenderModel ||newState instanceof VisibilityRenderModel) debugger
     if (newState instanceof ChildLayoutRenderModel) {
       if (newState.parentProps) {
         for (let [k, v] of Object.entries(newState.parentProps)) {

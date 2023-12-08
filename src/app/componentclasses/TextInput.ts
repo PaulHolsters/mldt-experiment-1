@@ -3,6 +3,8 @@ import {IconType} from "../enums/iconType.enum";
 import {IconPositionType} from "../enums/iconPositionType.enum";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
 export abstract class TextInput extends Component{
   public static width:string|null=null
   public static height:string|null=null
@@ -32,6 +34,7 @@ export abstract class TextInput extends Component{
   public static reset:boolean|null = null
   public static conceptBlueprint:Blueprint|null=null
   public static dataLink: string[] | null=null
+  public static propsByData:[PropertyName,Datalink,Function[]]|null=null
 
   public static value: string | null=null
 }
