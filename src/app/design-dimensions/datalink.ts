@@ -1,4 +1,4 @@
 export class Datalink{
-  constructor(public dataChunk:string) {
+  constructor(public dataChunk:string|string[]) {
   }
 }

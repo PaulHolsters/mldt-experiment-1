@@ -1,4 +1,4 @@
-<p-card header="{{title}}" subheader="{{subtitle}}"
+<p-card header="{{getPropValue(PropertyName.title)}}" subheader="{{getPropValue(PropertyName.subtitle)}}"
         [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
         [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
         [style.height]="getPropValue(PropertyName.height)"

@@ -56,7 +56,6 @@ export class ResponsiveBehaviourService implements OnInit{
   public setRBSState(componentName: string,
                      newState: RenderModelType|
                        (ComponentModelType[])): void {
-    if(newState instanceof CardStructuralRenderModel ||newState instanceof VisibilityRenderModel) debugger
     if (newState instanceof ChildLayoutRenderModel) {
       if (newState.parentProps) {
         for (let [k, v] of Object.entries(newState.parentProps)) {

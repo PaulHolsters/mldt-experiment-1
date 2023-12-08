@@ -20,24 +20,27 @@ import {ConfigService} from "../services/config.service";
 import {DataRecord, isDataRecord, List, OutputData, RenderPropertyType} from "../types/union-types";
 import {DataLink} from "../types/type-aliases";
 import {Datalink} from "../design-dimensions/datalink";
+
 @Directive()
-export class Component{
-  @Input() public name!:string
-  @Input() data:any|undefined
+export class Component {
+  @Input() public name!: string
+  @Input() data: any | undefined
+
   constructor(
-    protected element:ElementRef,
+    protected element: ElementRef,
     protected cd: ChangeDetectorRef,
-    protected stateService:StateService,
-    protected storeService:RenderPropertiesService,
-    protected eventsService:EventsService,
-    protected clientDataService:ClientDataService,
-    protected stylesService:StylesService,
+    protected stateService: StateService,
+    protected storeService: RenderPropertiesService,
+    protected eventsService: EventsService,
+    protected clientDataService: ClientDataService,
+    protected stylesService: StylesService,
     protected confirmationService: ConfirmationService,
     protected configService: ConfigService,
     protected messageService: MessageService) {
 
   }
-  protected props:Map<string,any>|undefined
+
+  protected props: Map<string, any> | undefined
   protected readonly TriggerType = TriggerType
   protected readonly PropertyName = PropertyName
   protected readonly ComponentType = ComponentType
@@ -50,70 +53,82 @@ export class Component{
   protected readonly TextColorType = TextColorType
   protected readonly TextDecorationType = TextDecorationType
 
-  getPropValue(key:string,index?:number){
+  getPropValue(key: string, index?: number) {
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
   }
-  getData(data:DataRecord,link:DataLink){
-      let head:string
-      let tail:OutputData = data
-      const dl = [...link]
-      while(dl.length>0){
-        head = dl.shift() as string
-        if(dl.length>0 && !(isDataRecord(tail))) throw new Error('bad datalink config')
-        if(isDataRecord(tail)){
-          const entry:[string,(DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])]|undefined
-            = Object.entries(tail).find(ent=>{
-            return ent[0]===head
-          }) as [string,(DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])]|undefined
-          if(entry){
-            tail = entry[1]
-          }
+
+  getData(data: DataRecord, link: Datalink, pipe?: Function[]) {
+    let head: string
+    let tail: OutputData = data
+    const dl: string[] = [];
+    if (link.dataChunk instanceof Array) {
+      dl.push(...link.dataChunk)
+    } else dl.push(link.dataChunk);
+    while (dl.length > 0) {
+      head = dl.shift() as string
+      if (dl.length > 0 && !(isDataRecord(tail))) throw new Error('bad datalink config')
+      if (isDataRecord(tail)) {
+        const entry: [string, (DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])] | undefined
+          = Object.entries(tail).find(ent => {
+          return ent[0] === head
+        }) as [string, (DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])] | undefined
+        if (entry) {
+          tail = entry[1]
         }
       }
-    return tail
+    }
+    if (!pipe) return tail
+    return pipe.reduce((prev,curr)=>{
+      return curr(prev)
+    },tail)
   }
-  trigger(trigger: TriggerType,nativeEvent?:any){
-    this.eventsService.triggerEvent(trigger,this.name,this.data,nativeEvent?.target)
+
+  trigger(trigger: TriggerType, nativeEvent?: any) {
+    this.eventsService.triggerEvent(trigger, this.name, this.data, nativeEvent?.target)
   }
-  setPropValue(key:string,value:any,setProps?:string[],useProps?:{prop:string,use:string}[]){
+
+  setPropValue(key: string, value: any, setProps?: string[], useProps?: { prop: string, use: string }[]) {
     // todo add more typesafety
-    if(this.props){
-      if(!utilFunctions.areEqual(this.props.get(key),value)){
-        if(key===PropertyName.propsByData){
-          if(this.getPropValue(key) instanceof Array){
-            const newArr = this.getPropValue(key) as Array<[PropertyName,Datalink,Function[]]>
-            (value as Array<[PropertyName,Datalink,Function[]]>).forEach((v: [PropertyName,Datalink,Function[]])=>{
-              const existing = newArr.findIndex(val=>{
+    if (this.props) {
+      if (!utilFunctions.areEqual(this.props.get(key), value)) {
+        if (key === PropertyName.propsByData) {
+          debugger
+          if (this.getPropValue(key) instanceof Array) {
+            const newArr = this.getPropValue(key) as Array<[PropertyName, Datalink, Function[]]>
+            (value as Array<[PropertyName, Datalink, Function[]]>).forEach((v: [PropertyName, Datalink, Function[]]) => {
+              const existing = newArr.findIndex(val => {
                 return val[0] === v[0]
               })
-              if(existing===-1){
+              if (existing === -1) {
                 newArr.push(v)
-              } else{
-                newArr.splice(existing,1,v)
+              } else {
+                newArr.splice(existing, 1, v)
               }
             })
-          } else{
-            this.props.set(key,value)
+          } else {
+            this.props.set(key, value)
           }
-          // todo adjust proeprties mentioned in propsByData using outputData
-        } else if(key===PropertyName.outputData){
-          // todo add outptdata and adjust properties mentioned in propsByData
-        } else this.props.set(key,value)
-        this.stateService.syncData(this.name,{key:key,value:value})
-        if(setProps){
-          setProps.forEach(p=>{
-            if(this.props && typeof value === 'object' && value.hasOwnProperty(p) && !utilFunctions.areEqual(this.props.get(p),value[p])){
-              this.props.set(p,value[p])
-              this.stateService.syncData(this.name,{key:p,value:this.getPropValue(p)})
+          if (this.getPropValue(key) instanceof Array) {
+            (this.getPropValue(key) as Array<[PropertyName, Datalink, Function[]]>).forEach(p => {
+              this.props?.set(p[0], this.getData(this.data,p[1],p[2]))
+            })
+          }
+        }  else this.props.set(key, value)
+        this.stateService.syncData(this.name, {key: key, value: value})
+        if (setProps) {
+          setProps.forEach(p => {
+            if (this.props && typeof value === 'object' && value.hasOwnProperty(p) && !utilFunctions.areEqual(this.props.get(p), value[p])) {
+              this.props.set(p, value[p])
+              this.stateService.syncData(this.name, {key: p, value: this.getPropValue(p)})
             }
           })
         }
-        if(useProps){
-          useProps.forEach(p=>{
-            if(this.props && typeof value === 'object'
-              && !utilFunctions.areEqual(this.props.get(p.prop),this.props.get(p.use))){
-              this.props.set(p.prop,this.props.get(p.use))
-              this.stateService.syncData(this.name,{key:p.prop,value:this.getPropValue(p.prop)})
+        if (useProps) {
+          useProps.forEach(p => {
+            if (this.props && typeof value === 'object'
+              && !utilFunctions.areEqual(this.props.get(p.prop), this.props.get(p.use))) {
+              this.props.set(p.prop, this.props.get(p.use))
+              this.stateService.syncData(this.name, {key: p.prop, value: this.getPropValue(p.prop)})
             }
           })
         }

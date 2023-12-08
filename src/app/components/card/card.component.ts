@@ -7,6 +7,7 @@ import {TriggerType} from "../../enums/triggerTypes.enum";
 import {CardStructuralConfigModel} from "../../design-dimensions/StructuralConfig/card/CardStructuralConfigModel";
 import {Card} from "../../componentclasses/Card";
 import {isRenderPropertyType, RenderPropertyType} from "../../types/union-types";
+import {Datalink} from "../../design-dimensions/datalink";
 
 @Component({
   selector: 'm-card',
@@ -20,8 +21,6 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     return this.sanitizer.bypassSecurityTrustHtml(this.headerTemplate?.attr.html)
     return ''
   }*/
-  title:RenderPropertyType|undefined
-  subtitle:RenderPropertyType|undefined
   ngOnInit(): void {
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
@@ -31,16 +30,10 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
         if(res instanceof Array && res.length===0){
           console.log(this.configService.getConfigFromRoot(this.name))
         }
-
-        // todo wat je moet doen is de setPropValue method aanpassen wanneer propsByData binnenkomt
-        //      zo heeft de frontend altijd de correcte data
-        //      propsByData werkt op basis van outputData die het ophaalt
-        //      ook als er niets inzit in output data dan worden lege waarde meegeven aan de overeenkomstige props
-        //      beter dan outputdata neem je best clientdata => outputdata, dat is altijd de laatste waarde
-        //      dus ook omgekeerd, als Outputdata binnenkomt wordt de waarde van propsByData gecontroleerd
-        //      en de overeenkomstige props worden zo van een neiuwe waarde voorzien
+        if(k===PropertyName.propsByData) debugger
+        // op het moment dat je propsByValue zet is die nog niet gezet
         this.setPropValue(k,res)
-        if(k===PropertyName.title){
+/*        if(k===PropertyName.title){
           if (this.getPropValue(PropertyName.title) instanceof Array) {
             const title = this.getData(this.data, this.getPropValue(PropertyName.title))
             if (isRenderPropertyType(title)) this.title = title
@@ -54,14 +47,18 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
           } else{
             if(isRenderPropertyType(res)) this.subtitle = res
           }
-        }
+        }*/
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
   }
   ngOnChanges(changes: SimpleChanges): void {
-    // todo data komt eerst binnen
-
+    debugger
+      if (this.getPropValue(PropertyName.propsByData) instanceof Array){
+        (this.getPropValue(PropertyName.propsByData) as Array<[PropertyName, Datalink, Function[]]>).forEach(p => {
+          this.props?.set(p[0], this.getData(this.data,p[1],p[2]))
+        })
+      }
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){
