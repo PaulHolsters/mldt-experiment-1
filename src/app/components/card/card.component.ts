@@ -24,6 +24,7 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
   ngOnInit(): void {
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
+      if(k===PropertyName.propsByData) debugger
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         this.setPropValue(k,res)
       })

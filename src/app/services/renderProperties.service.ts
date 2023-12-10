@@ -1,5 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
 import {ActionsService} from "./actions.service";
 import {ConfigService} from "./config.service";
 import {StateService} from "./state.service";
@@ -11,6 +11,7 @@ import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubje
 import {CalculationModel} from "../design-dimensions/CalculationModel";
 import {ComponentModelType, OutputData, RenderModelType} from "../types/union-types";
 import {ComponentType} from "../enums/componentTypes.enum";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -48,13 +49,24 @@ export class RenderPropertiesService implements OnInit {
   }
   private createProps(component: ComponentModelType) {
     this.stateService.getProperties(component.type)?.forEach((v, k) => {
-      const propSubj = new BehaviorSubject<any | undefined>(v)
-      this.statePropertySubjects.push({
-        componentName: component.name,
-        propName: k,
-        propValue: propSubj,
-        prop$: propSubj.asObservable()
-      })
+      if(k===PropertyName.propsByData){
+        const propSubj = new ReplaySubject<any | undefined>(2)
+        this.statePropertySubjects.push({
+          componentName: component.name,
+          propName: k,
+          propValue: propSubj,
+          prop$: propSubj.asObservable()
+        })
+      } else{
+        const propSubj = new BehaviorSubject<any | undefined>(v)
+        this.statePropertySubjects.push({
+          componentName: component.name,
+          propName: k,
+          propValue: propSubj,
+          prop$: propSubj.asObservable()
+        })
+      }
+
     })
   }
   private createStore() {

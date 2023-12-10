@@ -43,12 +43,17 @@
       <!--
       TODO
           Bij form in config moet overflow nog opgezet worden
+
       TODO
-          Werk bindToStateProperty call weg => heeft nooit gewerkt!
+          bindToStateProperty visible en holdspace zorgen ervoor dat visibility regelen op basis van
+          data zelfs wanneer je het zou implementeren vermoedelijk overschreven zal worden ?
+          MAW het beste zou zijn indien de uiteindelijke waarde niet naar de frontend gestuurd wordt maar rechtsreeks de observables
+          voor deze properties van een nieuwe waarde voorziet
       -->
 <!--      *ngIf="(getPropValue(PropertyName.dataAttribute) && !getPropValue(PropertyName.dataAttribute)['floatLabel'])
       ||child.type !== componentType.Label
       ||(child.type === componentType.Label && !getPropValue(PropertyName.dataAttribute))"-->
+
       <div
         [class.visibilityHidden]="
       (child.type !== ComponentType.Container) &&

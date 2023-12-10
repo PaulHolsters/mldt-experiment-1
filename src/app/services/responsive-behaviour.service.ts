@@ -106,10 +106,10 @@ export class ResponsiveBehaviourService implements OnInit{
         } else{
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
             // todo fix bug: blijkbaar wordt alleen de laatste waarde doorgegeven
-            if(componentName==='add' && subj.componentName===componentName
+/*            if(componentName==='add' && subj.componentName===componentName
               && subj.propName===PropertyName.propsByData && newState instanceof ButtonStructuralRenderModel) debugger
             if(componentName==='add' && subj.componentName===componentName
-              && subj.propName===PropertyName.propsByData && newState instanceof VisibilityRenderModel) debugger
+              && subj.propName===PropertyName.propsByData && newState instanceof VisibilityRenderModel) debugger*/
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
         }
