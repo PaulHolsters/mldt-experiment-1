@@ -90,22 +90,28 @@ export class Component {
   setPropValue(key: string, value: any, setProps?: string[], useProps?: { prop: string, use: string }[]) {
     // todo add more typesafety
     if (this.props) {
+      if(this.name === 'add') debugger
       if (!utilFunctions.areEqual(this.props.get(key), value)) {
+        if(this.name === 'add') debugger
         if (key === PropertyName.propsByData) {
-          debugger
           if (this.getPropValue(key) instanceof Array) {
+            if(this.name === 'add') debugger
             const newArr = this.getPropValue(key) as Array<[PropertyName, Datalink, Function[]]>
             (value as Array<[PropertyName, Datalink, Function[]]>).forEach((v: [PropertyName, Datalink, Function[]]) => {
               const existing = newArr.findIndex(val => {
                 return val[0] === v[0]
               })
               if (existing === -1) {
+                if(this.name === 'add') debugger
                 newArr.push(v)
               } else {
+                if(this.name === 'add') debugger
                 newArr.splice(existing, 1, v)
               }
             })
+            if(this.name === 'add') debugger
           } else {
+            if(this.name === 'add') debugger
             this.props.set(key, value)
           }
           if (this.getPropValue(key) instanceof Array) {

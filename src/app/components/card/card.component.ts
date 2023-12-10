@@ -25,35 +25,12 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        if(k===PropertyName.title) console.log(res,this.data)
-        if(k===PropertyName.subtitle) console.log(res,this.data)
-        if(res instanceof Array && res.length===0){
-          console.log(this.configService.getConfigFromRoot(this.name))
-        }
-        if(k===PropertyName.propsByData) debugger
-        // op het moment dat je propsByValue zet is die nog niet gezet
         this.setPropValue(k,res)
-/*        if(k===PropertyName.title){
-          if (this.getPropValue(PropertyName.title) instanceof Array) {
-            const title = this.getData(this.data, this.getPropValue(PropertyName.title))
-            if (isRenderPropertyType(title)) this.title = title
-          } else{
-            if(isRenderPropertyType(res)) this.title = res
-          }
-        } else if(k===PropertyName.subtitle){
-          if (this.getPropValue(PropertyName.subtitle) instanceof Array) {
-            const subtitle = (this.getData(this.data, this.getPropValue(PropertyName.subtitle)))
-            if(isRenderPropertyType(subtitle)) this.subtitle = subtitle
-          } else{
-            if(isRenderPropertyType(res)) this.subtitle = res
-          }
-        }*/
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
   }
   ngOnChanges(changes: SimpleChanges): void {
-    debugger
       if (this.getPropValue(PropertyName.propsByData) instanceof Array){
         (this.getPropValue(PropertyName.propsByData) as Array<[PropertyName, Datalink, Function[]]>).forEach(p => {
           this.props?.set(p[0], this.getData(this.data,p[1],p[2]))

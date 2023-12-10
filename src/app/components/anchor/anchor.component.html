@@ -20,6 +20,6 @@
     <m-dialog *ngSwitchCase="ComponentType.Dialog" [name]="component.name"></m-dialog>
     <m-form *ngSwitchCase="ComponentType.Form" [name]="component.name"></m-form>
     <m-paginator *ngSwitchCase="ComponentType.Paginator" [name]="component.name"></m-paginator>
-    <m-container *ngSwitchCase="ComponentType.Container" [name]="component.name"></m-container>
+    <m-container *ngSwitchCase="ComponentType.Container" [name]="component.name" [data]="data"></m-container>
   </div>
 </ng-container>

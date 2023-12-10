@@ -97,6 +97,9 @@
                          *ngSwitchCase="ComponentType.Card"
                          [name]="child.name"></m-card>
         </ng-template>
+        <m-container *ngSwitchCase="ComponentType.Container" [name]="child.name"  [class]="[
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"></m-container>
         <ng-template #repeatChild>
           <ng-container *ngFor="let data of getPropValue(PropertyName.outputData)">
             <m-block       [class]="['flex',
@@ -268,7 +271,9 @@
                         [style.height]="'100%'"
                         [style.width]="'100%'"
                         *ngSwitchCase="ComponentType.Button"
-                        [name]="child.name"></m-button>
+                        [name]="child.name"
+                        [data]="data"
+        ></m-button>
         <m-dialog       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -345,9 +350,6 @@
                             [style.width]="'100%'"
           ></m-paginator>
         </ng-container>
-        <m-container *ngSwitchCase="ComponentType.Container" [name]="child.name"  [class]="[
-         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
-         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"></m-container>
       </div>
     </ng-container>
   </ng-container>

@@ -9,7 +9,7 @@ export const content = new Container('content')
 const card = new Card('movie')
 card.structural.smartphone
   .setPropertyByData(PropertyName.title,new Datalink('title'))
-  // .setPropertyByData(PropertyName.subtitle,new Datalink('subtitle'))
+  .setPropertyByData(PropertyName.subtitle,new Datalink('release_year'))
 const btnContainer = new Container('btn-container')
 const inList = new Datalink('isInList')
 const add = new Button('add')

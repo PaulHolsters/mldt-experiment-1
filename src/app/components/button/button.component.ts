@@ -1,23 +1,28 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {TriggerType} from 'src/app/enums/triggerTypes.enum';
 import {Component as AbstractComponent} from "../Component"
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Button} from "../../componentclasses/Button";
 import {PaddingType} from "../../enums/paddingType.enum";
 import {MarginType} from "../../enums/marginType.enum";
+import {Datalink} from "../../design-dimensions/datalink";
 
 @Component({
   selector: 'm-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css']
 })
-export class ButtonComponent extends AbstractComponent implements OnInit,AfterViewInit {
+export class ButtonComponent extends AbstractComponent implements OnInit,AfterViewInit,OnChanges {
   @ViewChild('button') button:ElementRef|undefined
   // @Input() condition:Function|boolean|undefined
   ngOnInit(): void {
     this.props = Button.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
+        if(k===PropertyName.propsByData){
+          console.log(this.name,res)
+          debugger
+        }
         this.setPropValue(k,res)
       })
     })
@@ -48,5 +53,12 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
     padding:PaddingType|undefined,
     margin:MarginType|undefined):Object|undefined{
       return this.stylesService.getStyleClasses(padding,margin,undefined, undefined)
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.getPropValue(PropertyName.propsByData) instanceof Array){
+      (this.getPropValue(PropertyName.propsByData) as Array<[PropertyName, Datalink, Function[]]>).forEach(p => {
+        this.props?.set(p[0], this.getData(this.data,p[1],p[2]))
+      })
+    }
   }
 }

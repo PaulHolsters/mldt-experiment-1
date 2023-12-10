@@ -1,6 +1,5 @@
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
 import {ComponentStructuralConfigModel} from "../ComponentStructuralConfigModel";
-import {DataLink} from "../../../types/type-aliases";
 export class CardStructuralConfigModel extends ComponentStructuralConfigModel{
   public title:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   public subtitle:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED

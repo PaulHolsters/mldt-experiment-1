@@ -1,4 +1,3 @@
-import {MenuItem} from "primeng/api";
 import {ComponentStructuralRenderModel} from "../ComponentStructuralRenderModel";
 
 export class CardStructuralRenderModel extends ComponentStructuralRenderModel{

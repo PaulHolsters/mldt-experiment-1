@@ -9,6 +9,6 @@
   </ng-template>
   <m-anchor [component]="getPropValue(PropertyName.content)"></m-anchor>
   <ng-template *ngIf="getPropValue(PropertyName.footer)" pTemplate="footer">
-    <m-anchor [component]="getPropValue(PropertyName.footer)"></m-anchor>
+    <m-anchor [component]="getPropValue(PropertyName.footer)" [data]="data"></m-anchor>
   </ng-template>
 </p-card>
