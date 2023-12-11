@@ -8,13 +8,14 @@ import {CardStructuralConfigModel} from "../../design-dimensions/StructuralConfi
 import {Card} from "../../componentclasses/Card";
 import {isRenderPropertyType, RenderPropertyType} from "../../types/union-types";
 import {Datalink} from "../../design-dimensions/datalink";
+import {ServiceType} from "../../enums/serviceTypes.enum";
 
 @Component({
   selector: 'm-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent extends AbstractComponent implements OnInit,AfterViewInit,OnChanges {
+export class CardComponent extends AbstractComponent implements OnInit,AfterViewInit {
   @ViewChild('card') card:ElementRef|undefined
 /*  getHTML(){
     if(this.headerTemplate?.attr.html)
@@ -26,6 +27,8 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         this.setPropValue(k,res)
+        if(k===PropertyName.propsByData && this.data)
+          this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService,[ this.name,[res,this.data]])
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)

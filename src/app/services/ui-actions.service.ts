@@ -12,7 +12,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {
   ActionIdType,
-  ComponentNameType,
+  ComponentNameType, isComponentName,
   isDataLink,
   isFormTargetType,
   ServerDataRequestType
@@ -30,6 +30,7 @@ import {
 import {ResponsiveOverflowConfigModel} from '../design-dimensions/Overflow/ResponsiveOverflowConfigModel';
 import {ResponsiveSizeConfigModel} from '../design-dimensions/Size/ResponsiveSizeConfigModel';
 import {ResponsiveVisibilityConfigModel} from '../design-dimensions/Visibility/ResponsiveVisibilityConfigModel';
+import {Datalink} from "../design-dimensions/datalink";
 
 @Injectable({
   providedIn: 'root'
@@ -154,12 +155,23 @@ export class UiActionsService {
   }
   private updateDataDependedProps(res: {
     effect: Effect,
-    data: Blueprint | [ComponentNameType, DataRecord |List] | ClientData | string | ServerDataRequestType | DataRecord | List,
+    data: Blueprint | [ComponentNameType, DataRecord |List] | [ComponentNameType, [Array<[PropertyName, Datalink, Function[]]>,DataRecord]]
+      | ClientData | string | ServerDataRequestType | DataRecord | List,
     target: EventTarget | undefined
   }) {
-    if(res.data instanceof Array && res.data.length===2){
-      // todo get config of component + children en resend new data if needed
+    if(
+      res.data instanceof Array
+      && res.data.length===2
+      && isComponentName(res.data[0],this.configService)
+      && res.data[1] instanceof Array && res.data[1][0].length>0){
+      const comp = this.configService.getConfigFromRoot(res.data[0])
+      if(comp){
+        const allChildren = this.configService.getAllChildren(comp,this.RBS.screenSize)
+        allChildren.push(comp)
+        allChildren.forEach(c=>{
 
+        })
+      }
     }
     return true
   }

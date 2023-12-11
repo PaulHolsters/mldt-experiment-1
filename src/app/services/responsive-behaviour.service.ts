@@ -59,7 +59,6 @@ export class ResponsiveBehaviourService implements OnInit{
   public setRBSState(componentName: string,
                      newState: RenderModelType|
                        (ComponentModelType[])): void {
-    if(componentName==='add' && newState instanceof VisibilityRenderModel) debugger
     if (newState instanceof ChildLayoutRenderModel) {
       if (newState.parentProps) {
         for (let [k, v] of Object.entries(newState.parentProps)) {
@@ -106,10 +105,6 @@ export class ResponsiveBehaviourService implements OnInit{
           }
         } else{
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-/*            if(componentName==='add' && subj.componentName===componentName
-              && subj.propName===PropertyName.propsByData && newState instanceof ButtonStructuralRenderModel) debugger
-            if(componentName==='add' && subj.componentName===componentName
-              && subj.propName===PropertyName.propsByData && newState instanceof VisibilityRenderModel) debugger*/
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
       }

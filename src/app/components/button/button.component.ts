@@ -5,14 +5,14 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {Button} from "../../componentclasses/Button";
 import {PaddingType} from "../../enums/paddingType.enum";
 import {MarginType} from "../../enums/marginType.enum";
-import {Datalink} from "../../design-dimensions/datalink";
+import {ServiceType} from "../../enums/serviceTypes.enum";
 
 @Component({
   selector: 'm-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css']
 })
-export class ButtonComponent extends AbstractComponent implements OnInit,AfterViewInit,OnChanges {
+export class ButtonComponent extends AbstractComponent implements OnInit,AfterViewInit {
   @ViewChild('button') button:ElementRef|undefined
   // @Input() condition:Function|boolean|undefined
   ngOnInit(): void {
@@ -20,6 +20,8 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         this.setPropValue(k,res)
+        if(k===PropertyName.propsByData && this.data)
+          this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService,[ this.name,[res,this.data]])
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name)

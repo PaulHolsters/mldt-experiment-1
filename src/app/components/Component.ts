@@ -2,7 +2,7 @@ import utilFunctions from "../utils/utilFunctions";
 import {StateService} from "../services/state.service";
 import {RenderPropertiesService} from "../services/renderProperties.service";
 import {EventsService} from "../services/events.service";
-import {ChangeDetectorRef, Directive, ElementRef, Input, OnChanges, SimpleChanges} from "@angular/core";
+import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
 import {StylesService} from "../services/styles.service";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
@@ -22,7 +22,7 @@ import {Datalink} from "../design-dimensions/datalink";
 import {ServiceType} from "../enums/serviceTypes.enum";
 
 @Directive()
-export class Component implements OnChanges{
+export class Component{
   @Input() public name!: string
   @Input() data: any | undefined
 
@@ -37,7 +37,6 @@ export class Component implements OnChanges{
     protected confirmationService: ConfirmationService,
     protected configService: ConfigService,
     protected messageService: MessageService) {
-
   }
 
   protected props: Map<string, any> | undefined
@@ -85,16 +84,6 @@ export class Component implements OnChanges{
 
   trigger(trigger: TriggerType, nativeEvent?: any) {
     this.eventsService.triggerEvent(trigger, this.name, this.data, nativeEvent?.target)
-  }
-  ngOnChanges(changes: SimpleChanges){
-    /*    if (this.getPropValue(PropertyName.propsByData) instanceof Array){
-      (this.getPropValue(PropertyName.propsByData) as Array<[PropertyName, Datalink, Function[]]>).forEach(p => {
-        this.props?.set(p[0], this.getData(this.data,p[1],p[2]))
-      })
-    }*/
-    if(this.data){
-      this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService,[this.name,this.data])
-    }
   }
 
   setPropValue(key: string, value: any, setProps?: string[], useProps?: { prop: string, use: string }[]) {
