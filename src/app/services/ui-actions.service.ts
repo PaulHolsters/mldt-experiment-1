@@ -22,7 +22,15 @@ import {ClientDataService} from "./data/client/client-data.service";
 import {Effect} from "../effectclasses/Effect";
 import {Blueprint} from "./data/client/Blueprint";
 import {ClientData} from "./data/client/ClientData";
-import {ComponentModelType, DataRecord, isClientData, List} from "../types/union-types";
+import {
+  ComponentModelType,
+  DataRecord,
+  isClientData,
+  isDataRecord,
+  List,
+  OutputData,
+  RenderPropertyType
+} from "../types/union-types";
 import {NoValueType} from "../enums/NoValueTypes.enum";
 import {
   ResponsiveContainerChildLayoutConfigModel
@@ -123,29 +131,29 @@ export class UiActionsService {
           })?.field
           if (field) {
             // todo rewrite als je een bepaald stuk eruit wilt halen
-/*            const value = res.data.blueprint.getBlueprintValueForDataLink(field)
-            const input: {
-              [key: string]: any
-            } | undefined
-              = dl.dataInput?.getDataInputRenderProperties(this.RBS.screenSize,
-              value)
-            const repres: {
-              [key: string]: any
-            } | undefined
-              = dl.dataRepresentation?.getDataRepresentationRenderProperties(this.RBS.screenSize,
-              value)
-            this.renderPropertiesService.getStatePropertySubjects().filter(sp => {
-              return sp.componentName === dl.name
-            }).forEach(prop => {
-              if (input && prop.propName in input) {
-                prop.propValue.next(input[prop.propName])
-              }
-              if (repres && prop.propName in repres) {
-                prop.propValue.next(repres[prop.propName])
-              }
-            })*/
+            /*            const value = res.data.blueprint.getBlueprintValueForDataLink(field)
+                        const input: {
+                          [key: string]: any
+                        } | undefined
+                          = dl.dataInput?.getDataInputRenderProperties(this.RBS.screenSize,
+                          value)
+                        const repres: {
+                          [key: string]: any
+                        } | undefined
+                          = dl.dataRepresentation?.getDataRepresentationRenderProperties(this.RBS.screenSize,
+                          value)
+                        this.renderPropertiesService.getStatePropertySubjects().filter(sp => {
+                          return sp.componentName === dl.name
+                        }).forEach(prop => {
+                          if (input && prop.propName in input) {
+                            prop.propValue.next(input[prop.propName])
+                          }
+                          if (repres && prop.propName in repres) {
+                            prop.propValue.next(repres[prop.propName])
+                          }
+                        })*/
           }
-        } else{
+        } else {
           // a normal component as target
           // dit zal dan wellicht enkel gaan over data representation
         }
@@ -155,25 +163,69 @@ export class UiActionsService {
   }
   private updateDataDependedProps(res: {
     effect: Effect,
-    data: Blueprint | [ComponentNameType, DataRecord |List] | [ComponentNameType, [Array<[PropertyName, Datalink, Function[]]>,DataRecord]]
+    data: Blueprint | [ComponentNameType, DataRecord | List] | [ComponentNameType, [Array<[PropertyName, Datalink, Function[]]>, DataRecord]]
       | ClientData | string | ServerDataRequestType | DataRecord | List,
     target: EventTarget | undefined
   }) {
-    if(
+    if (
       res.data instanceof Array
-      && res.data.length===2
-      && isComponentName(res.data[0],this.configService)
-      && res.data[1] instanceof Array && res.data[1][0].length>0){
-      const comp = this.configService.getConfigFromRoot(res.data[0])
-      if(comp){
-        const allChildren = this.configService.getAllChildren(comp,this.RBS.screenSize)
-        allChildren.push(comp)
-        allChildren.forEach(c=>{
-
+      && res.data.length === 2
+      && isComponentName(res.data[0], this.configService)
+      && res.data[1] instanceof Array && res.data[1][0] instanceof Array && res.data[1][0].length > 0) {
+      // wat je moet beseffen is dat elke component zelf om de data transformatie vraagt, je hoeft dus geen children te gaan opzoeken
+      const arr = [...res.data[1][0]]
+      const compName = res.data[0]
+      const data = res.data[1][1]
+      let existingDataByProps = this.stateService.getValue(compName, PropertyName.propsByData) as (Array<[PropertyName, Datalink, Function[]]> | undefined)
+      if (!existingDataByProps) existingDataByProps = [];
+      arr.forEach((v) => {
+        const existing = (existingDataByProps as Array<[PropertyName, Datalink, Function[]]>).findIndex(val => {
+          return val[0] === v[0]
         })
-      }
+        if (existing === -1) {
+          // de array aanpassen past wegens reference ook de onderliggende waarde in de props map aan
+          (existingDataByProps as Array<[PropertyName, Datalink, Function[]]>).push(v)
+        } else {
+          // todo testen of deze tak degelijk werkt
+          (existingDataByProps as Array<[PropertyName, Datalink, Function[]]>).splice(existing, 1, v)
+        }
+      })
+      existingDataByProps.forEach(p => {
+        // send new data to frontend component
+        // per property in de nieuwe array en stuur ook de nieuwe array
+          this.renderPropertiesService.getStatePropertySubjects().find(prop => {
+            return prop.componentName === compName && prop.propName === p[0]
+          })?.propValue.next((p[0], this.getData(data, p[1], p[2])))
+      })
+      this.renderPropertiesService.getStatePropertySubject(compName,PropertyName.propsByData)?.propValue.next(existingDataByProps)
     }
     return true
+  }
+
+  private getData(data: DataRecord, link: Datalink, pipe?: Function[]) {
+    let head: string
+    let tail: OutputData = data
+    const dl: string[] = [];
+    if (link.dataChunk instanceof Array) {
+      dl.push(...link.dataChunk)
+    } else dl.push(link.dataChunk);
+    while (dl.length > 0) {
+      head = dl.shift() as string
+      if (dl.length > 0 && !(isDataRecord(tail))) throw new Error('bad datalink config')
+      if (isDataRecord(tail)) {
+        const entry: [string, (DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])] | undefined
+          = Object.entries(tail).find(ent => {
+          return ent[0] === head
+        }) as [string, (DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])] | undefined
+        if (entry) {
+          tail = entry[1]
+        }
+      }
+    }
+    if (!pipe) return tail
+    return pipe.reduce((prev, curr) => {
+      return curr(prev)
+    }, tail)
   }
 
   private outputData(
@@ -197,10 +249,10 @@ export class UiActionsService {
             break
           case PropertyName.dataLink:
             const action = this.configService.getActions(cd.id)
-              const concept = cd && action instanceof Action ? action.conceptName : undefined
-              if (isDataLink(concept, this.configService)) {
-                propSubj.propValue.next(concept)
-              }
+            const concept = cd && action instanceof Action ? action.conceptName : undefined
+            if (isDataLink(concept, this.configService)) {
+              propSubj.propValue.next(concept)
+            }
             break
         }
       })
@@ -211,10 +263,11 @@ export class UiActionsService {
     }
     return true
   }
-  private replace(key:string|undefined,config:ComponentModelType,value:ResponsiveSizeConfigModel
-    |ResponsiveOverflowConfigModel|ResponsiveContainerChildLayoutConfigModel|ResponsiveVisibilityConfigModel|undefined){
-    if(key){
-      Reflect.set(config,key,value)
+
+  private replace(key: string | undefined, config: ComponentModelType, value: ResponsiveSizeConfigModel
+    | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined) {
+    if (key) {
+      Reflect.set(config, key, value)
     }
   }
 
@@ -227,7 +280,7 @@ export class UiActionsService {
       if ((action.value instanceof ActionValueModel)) {
         // ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel
         if (action.value.value !== 'list' && action.value.value !== 'object' && typeof action.value.value !== 'function' && typeof action.value.value !== 'boolean')
-          this.replace(action.value.name,config, action.value.value)
+          this.replace(action.value.name, config, action.value.value)
         this.configService.saveConfig(currentAppConfig)
         this.RBS.rebuildUI()
         return true
@@ -248,7 +301,7 @@ export class UiActionsService {
     }
     let val: string | boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
-      val = ((action.value as ActionValueModel).value as Function)(this.stateService,data)
+      val = ((action.value as ActionValueModel).value as Function)(this.stateService, data)
     }
     if (!val) val = (action.value as ActionValueModel).value
     // todo maak methode waarmee je een reeks aan property-values naar een component kan sturen

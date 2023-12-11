@@ -1,3 +1,5 @@
+import {isPropsByDataType} from "../types/type-aliases";
+
 export default  {
   isCss: function (val:string):boolean{
     const valTrimmed = val.trim()
@@ -31,6 +33,23 @@ export default  {
     return text.replace(/_/g,' ')
   },
   areEqual: function(val1:any,val2:any):boolean{
+    // todo wanneer het gaat om propsByData te vergelijken werkt het niet
+    if(isPropsByDataType(val1)&&isPropsByDataType(val2)){
+      const v1 = [...val1]
+      const v2 = [...val2]
+      v1.filter(vl1=>{
+        const v2prop = v2.find(vl2=>{
+          return vl2[0] === vl1[0]
+        })
+        if(!v2prop) return false
+        if(vl1[1] instanceof Array){
+
+        } else{
+          return v2prop[1].dataChunk
+        }
+
+      })
+    }
     if(val1 instanceof Array && val2 instanceof Array){
       if(val1.length!==val2.length) return false
       const val1Filtered:any[] = val1.filter(v1=>{

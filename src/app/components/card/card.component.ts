@@ -27,8 +27,6 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         this.setPropValue(k,res)
-        if(k===PropertyName.propsByData && this.data)
-          this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService,[ this.name,[res,this.data]])
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)

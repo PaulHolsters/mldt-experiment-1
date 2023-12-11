@@ -3,6 +3,9 @@ import {ConfigService} from "../services/config.service";
 import {ExtraColumnModel} from "../design-dimensions/ContentInjection/table/ExtraColumnModel";
 import {ActionType} from "../enums/actionTypes.enum";
 import {Action} from "../effectclasses/Action";
+import {PropertyName} from "../enums/PropertyNameTypes.enum";
+import {Datalink} from "../design-dimensions/datalink";
+import {config} from "rxjs";
 
 export type ConceptNameType = string
 export type ComponentNameType = string
@@ -16,6 +19,15 @@ export type DataLink = string[]
 export type FrontendDataType = [ComponentNameType, DataRecord | List]
 export type TypeName = string
 export type HtmlType = string
+export type PropsByDataType = Array<[PropertyName, Datalink, Function[]]>
+export const isPropsByDataType = function isPropsByDataType(data:unknown): data is PropsByDataType{
+  if(data instanceof Array){
+    return data.filter(d=>{
+      return d.length!==3||typeof d[0] !== 'string'||!(d[1] instanceof Datalink)||(d[2] && !(d[2] instanceof Array))
+    }).length === 0
+  }
+  return false
+}
 export const isTypeName = function isTypeName(data: unknown): data is TypeName {
   return typeof data === 'string' && data.endsWith('Data') && data.length > 5
 }

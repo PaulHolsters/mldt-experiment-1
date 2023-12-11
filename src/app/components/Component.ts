@@ -22,7 +22,7 @@ import {Datalink} from "../design-dimensions/datalink";
 import {ServiceType} from "../enums/serviceTypes.enum";
 
 @Directive()
-export class Component{
+export class Component {
   @Input() public name!: string
   @Input() data: any | undefined
 
@@ -56,31 +56,6 @@ export class Component{
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
   }
 
-  getData(data: DataRecord, link: Datalink, pipe?: Function[]) {
-    let head: string
-    let tail: OutputData = data
-    const dl: string[] = [];
-    if (link.dataChunk instanceof Array) {
-      dl.push(...link.dataChunk)
-    } else dl.push(link.dataChunk);
-    while (dl.length > 0) {
-      head = dl.shift() as string
-      if (dl.length > 0 && !(isDataRecord(tail))) throw new Error('bad datalink config')
-      if (isDataRecord(tail)) {
-        const entry: [string, (DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])] | undefined
-          = Object.entries(tail).find(ent => {
-          return ent[0] === head
-        }) as [string, (DataRecord | List | RenderPropertyType | string[] | number[] | boolean[] | Date[])] | undefined
-        if (entry) {
-          tail = entry[1]
-        }
-      }
-    }
-    if (!pipe) return tail
-    return pipe.reduce((prev,curr)=>{
-      return curr(prev)
-    },tail)
-  }
 
   trigger(trigger: TriggerType, nativeEvent?: any) {
     this.eventsService.triggerEvent(trigger, this.name, this.data, nativeEvent?.target)
@@ -90,31 +65,10 @@ export class Component{
     // todo add more typesafety
     if (this.props) {
       if (!utilFunctions.areEqual(this.props.get(key), value)) {
-        if (key === PropertyName.propsByData) {
-          // todo serverActionFinished => target or children has propsByData? => fill in with observables
-          if (this.getPropValue(key) instanceof Array) {
-            const newArr = this.getPropValue(key) as Array<[PropertyName, Datalink, Function[]]>
-            (value as Array<[PropertyName, Datalink, Function[]]>).forEach((v: [PropertyName, Datalink, Function[]]) => {
-              const existing = newArr.findIndex(val => {
-                return val[0] === v[0]
-              })
-              if (existing === -1) {
-                // de array aanpassen past wegens reference ook de onderliggende waarde in de props map aan
-                newArr.push(v)
-              } else {
-                // todo testen of deze tak degelijk werkt
-                newArr.splice(existing, 1, v)
-              }
-            })
-          } else {
-            this.props.set(key, value)
-          }
-          if (this.getPropValue(key) instanceof Array) {
-            (this.getPropValue(key) as Array<[PropertyName, Datalink, Function[]]>).forEach(p => {
-              this.props?.set(p[0], this.getData(this.data,p[1],p[2]))
-            })
-          }
-        }  else this.props.set(key, value)
+        if (key === PropertyName.propsByData && this.data)
+          this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService, [this.name, [value, this.data]])
+        if(this.name === 'add' && key === PropertyName.propsByData)debugger
+        this.props.set(key, value)
         this.stateService.syncData(this.name, {key: key, value: value})
         if (setProps) {
           setProps.forEach(p => {
