@@ -71,6 +71,11 @@ export class Action {
         this.serviceMethod = ServiceMethodType.UpdateDataRelatedProperties
         this.targetType = TargetType.Client
         break
+      case ActionType.UpdateDataDependedProperties:
+        this.service = ServiceType.UIService
+        this.serviceMethod = ServiceMethodType.UpdateDataDependedProperties
+        this.targetType = TargetType.Client
+        break
 /*      case ActionType.GetInstance:
         this.service = ServiceType.DataService
         this.serviceMethod = ServiceMethodType.GetInstance

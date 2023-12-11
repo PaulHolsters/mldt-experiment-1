@@ -91,6 +91,14 @@ export class UiActionsService {
         }
       }
     })
+    this.actionsService.bindToAction(new Action('', ActionType.UpdateDataDependedProperties))?.subscribe(res => {
+      if (res) {
+        const action = this.updateDataDependedProps(res)
+        if (action) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+        }
+      }
+    })
   }
 
   private updateDataRelatedProps(res: {
@@ -141,6 +149,17 @@ export class UiActionsService {
           // dit zal dan wellicht enkel gaan over data representation
         }
       }
+    }
+    return true
+  }
+  private updateDataDependedProps(res: {
+    effect: Effect,
+    data: Blueprint | [ComponentNameType, DataRecord |List] | ClientData | string | ServerDataRequestType | DataRecord | List,
+    target: EventTarget | undefined
+  }) {
+    if(res.data instanceof Array && res.data.length===2){
+      // todo get config of component + children en resend new data if needed
+
     }
     return true
   }

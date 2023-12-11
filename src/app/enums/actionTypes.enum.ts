@@ -17,4 +17,5 @@ export enum ActionType {
   DeleteClientData,
   UpdateDataRelatedProperties,
   ExecuteServerAction,
+  UpdateDataDependedProperties,
 }

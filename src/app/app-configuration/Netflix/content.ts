@@ -12,8 +12,11 @@ card.structural.smartphone
   .setPropertyByData(PropertyName.subtitle,new Datalink('release_year'))
 const btnContainer = new Container('btn-container')
 const inList = new Datalink('isInList')
+// bij het aanmaken van een button staat de default config voor visible op true
 const add = new Button('add')
 add.structural.smartphone.label = 'voeg toe'
+// dit zal de default waarde voor visible vervolgens gaan vervangen door een waarde
+// bepaald door data en deze data wordt door de not functie gejaagd
 add.visibility.smartphone.setPropertyByData(PropertyName.visible,inList,[UtilFunctions.not])
 const remove = new Button('remove')
 remove.structural.smartphone.label = 'verwijder'

@@ -24,19 +24,11 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
   ngOnInit(): void {
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
-      if(k===PropertyName.propsByData) debugger
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         this.setPropValue(k,res)
       })
     })
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-      if (this.getPropValue(PropertyName.propsByData) instanceof Array){
-        (this.getPropValue(PropertyName.propsByData) as Array<[PropertyName, Datalink, Function[]]>).forEach(p => {
-          this.props?.set(p[0], this.getData(this.data,p[1],p[2]))
-        })
-      }
   }
   setCalculatedHeight(val:any):boolean{
     if(typeof val === 'string'){

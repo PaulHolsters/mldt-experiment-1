@@ -20,6 +20,7 @@ import {CardStructuralRenderModel} from "../design-dimensions/StructuralConfig/c
 import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
 import {ButtonStructuralConfigModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralConfigModel";
 import {ButtonStructuralRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralRenderModel";
+import {Datalink} from "../design-dimensions/datalink";
 
 @Injectable({
   providedIn: 'root'
@@ -105,17 +106,15 @@ export class ResponsiveBehaviourService implements OnInit{
           }
         } else{
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-            // todo fix bug: blijkbaar wordt alleen de laatste waarde doorgegeven
 /*            if(componentName==='add' && subj.componentName===componentName
               && subj.propName===PropertyName.propsByData && newState instanceof ButtonStructuralRenderModel) debugger
             if(componentName==='add' && subj.componentName===componentName
               && subj.propName===PropertyName.propsByData && newState instanceof VisibilityRenderModel) debugger*/
             return subj.componentName === componentName && subj.propName === k
           })?.propValue.next(v)
-        }
       }
     }
-  }
+  }}
   ngOnInit(): void {
   }
   private setResponsiveBehaviour() {

@@ -19,10 +19,6 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
     this.props = Button.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
-        if(k===PropertyName.propsByData){
-          console.log(this.name,res)
-          debugger
-        }
         this.setPropValue(k,res)
       })
     })
@@ -53,12 +49,5 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
     padding:PaddingType|undefined,
     margin:MarginType|undefined):Object|undefined{
       return this.stylesService.getStyleClasses(padding,margin,undefined, undefined)
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.getPropValue(PropertyName.propsByData) instanceof Array){
-      (this.getPropValue(PropertyName.propsByData) as Array<[PropertyName, Datalink, Function[]]>).forEach(p => {
-        this.props?.set(p[0], this.getData(this.data,p[1],p[2]))
-      })
-    }
   }
 }

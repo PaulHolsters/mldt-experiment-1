@@ -17,4 +17,5 @@ export enum TriggerType {
   ComponentHide,
   ComponentInitialized,
   MenuItemSelected,
+  DataPropertyInitialized,
 }

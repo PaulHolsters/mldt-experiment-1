@@ -60,6 +60,9 @@ export class Trigger {
       case TriggerType.MenuItemSelected:
         this.sourceType = SourceType.Component
         break
+      case TriggerType.DataPropertyInitialized:
+        this.sourceType = SourceType.System
+        break
       default:
         throw new Error('The trigger is not implemented yet: '+name)
     }
