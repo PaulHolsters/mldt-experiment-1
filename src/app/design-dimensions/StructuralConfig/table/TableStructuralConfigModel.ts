@@ -1,7 +1,8 @@
 import {TableColumnModel} from "./TableColumnModel";
 import {NoValueType} from "../../../enums/NoValueTypes.enum";
+import {ComponentStructuralConfigModel} from "../ComponentStructuralConfigModel";
 
-export class TableStructuralConfigModel {
+export class TableStructuralConfigModel extends ComponentStructuralConfigModel{
   public textWhenEmpty:string|NoValueType.NO_VALUE_NEEDED='No records found'
   public paginator:boolean=true
   public columns:TableColumnModel[]|NoValueType.CALCULATED_BY_ENGINE=NoValueType.CALCULATED_BY_ENGINE
@@ -13,8 +14,6 @@ export class TableStructuralConfigModel {
   public showPageLinks:boolean=true
   public first:number=0
   public totalRecords:number=0
-  constructor() {
-  }
   setTextWhenEmpty(textWhenEmpty:string|NoValueType.NO_VALUE_NEEDED):TableStructuralConfigModel{
     this.textWhenEmpty = textWhenEmpty
     return this

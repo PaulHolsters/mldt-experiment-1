@@ -47,6 +47,9 @@ export class RenderPropertiesService implements OnInit {
       return ps.componentName === compName && ps.propName === propName
     })
   }
+  // todo maak het mogelijk om ad hoc extra stateproperty subjects bij te maken
+  //      die werken op een index
+  //      en dan zou alles weer mieten werken
   private createProps(component: ComponentModelType) {
     this.stateService.getProperties(component.type)?.forEach((v, k) => {
       if(k===PropertyName.propsByData){
@@ -74,6 +77,7 @@ export class RenderPropertiesService implements OnInit {
       this.createProps(c)
     })
   }
+  // todo laat toe dat je ook kan binden met een bepaalde index + name
   public bindToStateProperty(componentName: string, propName: string):
     Observable<
       RenderModelType|
@@ -84,6 +88,7 @@ export class RenderPropertiesService implements OnInit {
     undefined {
     // todo create a union type to denote this
     return this.statePropertySubjects.find(state => {
+      // todo hier zoek je dan ook op index
       return state.componentName === componentName && state.propName === propName
     })?.prop$
   }

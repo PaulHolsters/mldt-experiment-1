@@ -17,9 +17,8 @@ import {TextDecorationType} from "../enums/textDecorationType.enum";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ClientDataService} from "../services/data/client/client-data.service";
 import {ConfigService} from "../services/config.service";
-import {DataRecord, isDataRecord, List, OutputData, RenderPropertyType} from "../types/union-types";
-import {Datalink} from "../design-dimensions/datalink";
 import {ServiceType} from "../enums/serviceTypes.enum";
+import {ResponsiveBehaviourService} from "../services/responsive-behaviour.service";
 
 @Directive()
 export class Component {
@@ -36,7 +35,8 @@ export class Component {
     protected stylesService: StylesService,
     protected confirmationService: ConfirmationService,
     protected configService: ConfigService,
-    protected messageService: MessageService) {
+    protected messageService: MessageService,
+    protected rbs:ResponsiveBehaviourService) {
   }
 
   protected props: Map<string, any> | undefined

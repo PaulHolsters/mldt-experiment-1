@@ -232,6 +232,7 @@ export class ResponsiveBehaviourService implements OnInit{
       this.setRBSState(component.name, contentInjection)
     }
   }
+  // todo add a method waarmee je de waarde voor een bepaalde indexConfig kan geven
   public setComponentStates( screenSize: ScreenSize) {
     this.configService.getAllComponents(this.screenSize).forEach(c=>{
       this.setState(c, screenSize)

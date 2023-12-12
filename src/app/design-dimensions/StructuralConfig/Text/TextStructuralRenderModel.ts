@@ -1,8 +1,7 @@
+import {ComponentStructuralRenderModel} from "../ComponentStructuralRenderModel";
 
-export class TextStructuralRenderModel {
+export class TextStructuralRenderModel extends ComponentStructuralRenderModel{
   public text:string|null=null
-  constructor() {
-  }
   public setProperty(propName: string, value: any|undefined): void {
     if (Reflect.has(this, propName)){
       Reflect.set(this, propName, value)
