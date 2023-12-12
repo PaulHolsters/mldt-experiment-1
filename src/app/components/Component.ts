@@ -65,9 +65,9 @@ export class Component {
     // todo add more typesafety
     if (this.props) {
       if (!utilFunctions.areEqual(this.props.get(key), value)) {
-        if (key === PropertyName.propsByData && this.data)
+        if (key === PropertyName.propsByData && this.data){
           this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService, [this.name, [value, this.data]])
-        if(this.name === 'add' && key === PropertyName.propsByData)debugger
+        }
         this.props.set(key, value)
         this.stateService.syncData(this.name, {key: key, value: value})
         if (setProps) {

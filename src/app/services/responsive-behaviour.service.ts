@@ -10,17 +10,7 @@ import {TriggerType} from "../enums/triggerTypes.enum";
 import {ActionIdType} from "../types/type-aliases";
 import {ComponentModelType, isNoValueType, RenderModelType} from "../types/union-types";
 import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
-import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Container} from "../components/container/Container";
-import {
-  ChildPropertiesConfigModel
-} from "../design-dimensions/ComponentSpecificLayout/Container/ChildPropertiesConfigModel";
-import {ComponentStructuralRenderModel} from "../design-dimensions/StructuralConfig/ComponentStructuralRenderModel";
-import {CardStructuralRenderModel} from "../design-dimensions/StructuralConfig/card/CardStructuralRenderModel";
-import {VisibilityRenderModel} from "../design-dimensions/Visibility/VisibilityRenderModel";
-import {ButtonStructuralConfigModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralConfigModel";
-import {ButtonStructuralRenderModel} from "../design-dimensions/StructuralConfig/button/ButtonStructuralRenderModel";
-import {Datalink} from "../design-dimensions/datalink";
 
 @Injectable({
   providedIn: 'root'

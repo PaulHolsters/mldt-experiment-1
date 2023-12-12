@@ -67,6 +67,11 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     this.props.forEach((v, k) => {
       this.storeService.bindToStateProperty(this.name, k)?.subscribe(res => {
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
+        if(res instanceof Array && k===PropertyName.outputData){
+          // todo reset config for repeated children and its grandchildren
+          //      rerun sending propertyvalues based on this config (RBS)
+
+        }
         this.setPropValue(k, res)
 /*        if (k === PropertyName.children && res) {
           // todo technisch gezien zou het aantal children gedurende de duur van de applicatie door een action kunnen wijzigen

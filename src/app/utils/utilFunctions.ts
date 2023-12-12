@@ -1,4 +1,5 @@
-import {isPropsByDataType} from "../types/type-aliases";
+import {DataDependedPropType, isPropsByDataType, PropsByDataType} from "../types/type-aliases";
+import UtilFunctions from "./utilFunctions";
 
 export default  {
   isCss: function (val:string):boolean{
@@ -35,20 +36,23 @@ export default  {
   areEqual: function(val1:any,val2:any):boolean{
     // todo wanneer het gaat om propsByData te vergelijken werkt het niet
     if(isPropsByDataType(val1)&&isPropsByDataType(val2)){
-      const v1 = [...val1]
-      const v2 = [...val2]
-      v1.filter(vl1=>{
-        const v2prop = v2.find(vl2=>{
-          return vl2[0] === vl1[0]
-        })
-        if(!v2prop) return false
-        if(vl1[1] instanceof Array){
-
-        } else{
-          return v2prop[1].dataChunk
-        }
-
+      function itemsEqual(i1:DataDependedPropType,i2:DataDependedPropType):boolean{
+        if(!UtilFunctions.areEqual(i1[0],i2[0]))return false
+        if(!UtilFunctions.areEqual(i1[1].dataChunk,i2[1].dataChunk))return false
+        return UtilFunctions.areEqual(i1[2], i2[2])
+      }
+      const unEqualElV1 = val1.find(v1=>{
+        return val2.find(el=>{
+          return itemsEqual(el,v1)
+        })===undefined
       })
+      if(unEqualElV1) return false
+      const unEqualElV2 = val2.find(v2=>{
+        return val1.find(el=>{
+          return itemsEqual(el,v2)
+        })===undefined
+      })
+      return !unEqualElV2
     }
     if(val1 instanceof Array && val2 instanceof Array){
       if(val1.length!==val2.length) return false
@@ -73,6 +77,9 @@ export default  {
         }) === undefined
       }
       return false
+    }
+    if(typeof val1==='function' && typeof val2==='function'){
+      return val1.name === val2.name
     }
     return val1===val2
   },

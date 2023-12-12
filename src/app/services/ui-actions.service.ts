@@ -195,9 +195,10 @@ export class UiActionsService {
         // per property in de nieuwe array en stuur ook de nieuwe array
           this.renderPropertiesService.getStatePropertySubjects().find(prop => {
             return prop.componentName === compName && prop.propName === p[0]
-          })?.propValue.next((p[0], this.getData(data, p[1], p[2])))
+          })?.propValue.next((this.getData(data, p[1], p[2])))
       })
-      this.renderPropertiesService.getStatePropertySubject(compName,PropertyName.propsByData)?.propValue.next(existingDataByProps)
+/*  todo uiteindelijk moet de nieuwe data qua propsByData wel verstuurd worden
+        this.renderPropertiesService.getStatePropertySubject(compName,PropertyName.propsByData)?.propValue.next(existingDataByProps)*/
     }
     return true
   }

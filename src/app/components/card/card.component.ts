@@ -25,6 +25,7 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
   ngOnInit(): void {
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
+      // todo de reden waarom er niets getoond wordt is omdat je nu bind aan een config met een naam dit niet bestaat
       this.storeService.bindToStateProperty(this.name,k)?.subscribe(res=>{
         this.setPropValue(k,res)
       })
