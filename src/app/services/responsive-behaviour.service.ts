@@ -7,7 +7,7 @@ import {Subject} from "rxjs";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType} from "../types/type-aliases";
 import {ComponentModelType, isNoValueType, RenderModelType} from "../types/union-types";
 import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
 import {Container} from "../components/container/Container";
@@ -48,12 +48,13 @@ export class ResponsiveBehaviourService implements OnInit{
   }
   public setRBSState(componentName: string,
                      newState: RenderModelType|
-                       (ComponentModelType[])): void {
+                       (ComponentModelType[]),
+                     index?:number): void {
     if (newState instanceof ChildLayoutRenderModel) {
       if (newState.parentProps) {
         for (let [k, v] of Object.entries(newState.parentProps)) {
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-            return subj.componentName === componentName && subj.propName === k
+            return subj.componentName === componentName && subj.propName === k && subj.index===index
           })?.propValue.next(v)
         }
       }
@@ -65,7 +66,7 @@ export class ResponsiveBehaviourService implements OnInit{
           if (parent?.children) {
             (parent.children as ComponentModelType[]).forEach(childComp => {
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-                return subj.componentName === childComp.name && subj.propName === k
+                return subj.componentName === childComp.name && subj.propName === k && subj.index===index
               })?.propValue.next(v)
             })
           }
@@ -73,7 +74,7 @@ export class ResponsiveBehaviourService implements OnInit{
       }
     } else if(newState instanceof Array){
       this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-        return subj.componentName === componentName && subj.propName === 'children'
+        return subj.componentName === componentName && subj.propName === 'children' && subj.index===index
       })?.propValue.next(newState)
     } else{
       for (let [k, v] of Object.entries(newState)) {
@@ -83,19 +84,19 @@ export class ResponsiveBehaviourService implements OnInit{
             const rps = config.componentSpecificLayout.childConfig.size.getSizeRenderProperties(this.screenSize)
             if(Reflect.has(rps,k) && !Reflect.get(rps,k)){
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-                return subj.componentName === componentName && subj.propName === k
+                return subj.componentName === componentName && subj.propName === k && subj.index===index
               })?.propValue.next(v)
             }
             const rpv = config.componentSpecificLayout.childConfig.visibility.getVisibilityRenderProperties(this.screenSize)
             if(Reflect.has(rpv,k) && !Reflect.get(rpv,k)){
               this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-                return subj.componentName === componentName && subj.propName === k
+                return subj.componentName === componentName && subj.propName === k && subj.index===index
               })?.propValue.next(v)
             }
           }
         } else{
           this.renderPropertiesService.getStatePropertySubjects().find(subj => {
-            return subj.componentName === componentName && subj.propName === k
+            return subj.componentName === componentName && subj.propName === k && subj.index===index
           })?.propValue.next(v)
       }
     }
@@ -204,35 +205,34 @@ export class ResponsiveBehaviourService implements OnInit{
       this.setComponentStates(ScreenSize.highResolution)
     }
   }
-  private setState(component: ComponentModelType, screenSize: ScreenSize) {
+  private setState(component: ComponentModelType, screenSize: ScreenSize,index?:number) {
     // todo data related props worden geupdate in andere service en moeten er hier dus uit
     // alle config is aanwezig!
-    this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize))
-    this.setRBSState(component.name, component.size.getSizeRenderProperties(screenSize))
-    this.setRBSState(component.name, component.individualLayout.getIndividualLayoutRenderProperties(screenSize))
+    this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize),index)
+    this.setRBSState(component.name, component.size.getSizeRenderProperties(screenSize),index)
+    this.setRBSState(component.name, component.individualLayout.getIndividualLayoutRenderProperties(screenSize),index)
     // todo this.setRBSState(component.name, component.overflow.getOverflowRenderProperties(screenSize))
     // todo  if (component.styling) this.setRBSState(component.name, component.styling.getStylingRenderProperties(screenSize))
     if(component.dataRepresentation) {
-      this.setRBSState(component.name, component.dataRepresentation.getDataRepresentationRenderProperties(screenSize))
+      this.setRBSState(component.name, component.dataRepresentation.getDataRepresentationRenderProperties(screenSize),index)
     }
     if(component.dataInput){
-      this.setRBSState(component.name, component.dataInput.getDataInputRenderProperties(screenSize))
+      this.setRBSState(component.name, component.dataInput.getDataInputRenderProperties(screenSize),index)
     }
     if(component.structural) {
-      this.setRBSState(component.name, component.structural.getStructuralRenderProperties(screenSize))
+      this.setRBSState(component.name, component.structural.getStructuralRenderProperties(screenSize),index)
     }
     if (component.componentSpecificLayout){
-      this.setRBSState(component.name, component.componentSpecificLayout.getRenderProperties(screenSize))
+      this.setRBSState(component.name, component.componentSpecificLayout.getRenderProperties(screenSize),index)
     }
     if (component.children && component.children.length > 0) {
-      this.setRBSState(component.name, component.children)
+      this.setRBSState(component.name, component.children,index)
     }
     if (component.contentInjection){
       const contentInjection = component.contentInjection.getContentInjectionRenderProperties(screenSize)
-      this.setRBSState(component.name, contentInjection)
+      this.setRBSState(component.name, contentInjection,index)
     }
   }
-  // todo add a method waarmee je de waarde voor een bepaalde indexConfig kan geven
   public setComponentStates( screenSize: ScreenSize) {
     this.configService.getAllComponents(this.screenSize).forEach(c=>{
       this.setState(c, screenSize)

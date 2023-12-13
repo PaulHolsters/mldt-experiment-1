@@ -18,4 +18,5 @@ export enum TriggerType {
   ComponentInitialized,
   MenuItemSelected,
   DataPropertyInitialized,
+  IndexUpdated,
 }

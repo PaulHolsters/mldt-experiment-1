@@ -2,7 +2,7 @@ import utilFunctions from "../utils/utilFunctions";
 import {StateService} from "../services/state.service";
 import {RenderPropertiesService} from "../services/renderProperties.service";
 import {EventsService} from "../services/events.service";
-import {ChangeDetectorRef, Directive, ElementRef, Input} from "@angular/core";
+import {ChangeDetectorRef, Directive, ElementRef, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {StylesService} from "../services/styles.service";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
@@ -21,10 +21,10 @@ import {ServiceType} from "../enums/serviceTypes.enum";
 import {ResponsiveBehaviourService} from "../services/responsive-behaviour.service";
 
 @Directive()
-export class Component {
+export class Component implements OnChanges{
   @Input() public name!: string
+  @Input() public index: number|undefined
   @Input() data: any | undefined
-
   constructor(
     protected element: ElementRef,
     protected cd: ChangeDetectorRef,
@@ -38,7 +38,6 @@ export class Component {
     protected messageService: MessageService,
     protected rbs:ResponsiveBehaviourService) {
   }
-
   protected props: Map<string, any> | undefined
   protected readonly TriggerType = TriggerType
   protected readonly PropertyName = PropertyName
@@ -51,30 +50,28 @@ export class Component {
   protected readonly FontStyleType = FontStyleType
   protected readonly TextColorType = TextColorType
   protected readonly TextDecorationType = TextDecorationType
-
   getPropValue(key: string, index?: number) {
     return typeof index === 'number' && this.props?.get(key) ? this.props?.get(key)[index] : this.props?.get(key)
   }
-
-
   trigger(trigger: TriggerType, nativeEvent?: any) {
     this.eventsService.triggerEvent(trigger, this.name, this.data, nativeEvent?.target)
   }
-
   setPropValue(key: string, value: any, setProps?: string[], useProps?: { prop: string, use: string }[]) {
     // todo add more typesafety
     if (this.props) {
       if (!utilFunctions.areEqual(this.props.get(key), value)) {
         if (key === PropertyName.propsByData && this.data){
+          // dit gebeurt sowieso na index updated omdat propsByData niet binnenkomt zolang properties vor de index niet gemaakt zijn
+          // en de index is een input property dus die is er voor wat dan ook
           this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService, [this.name, [value, this.data]])
         }
         this.props.set(key, value)
-        this.stateService.syncData(this.name, {key: key, value: value})
+        this.stateService.syncData(this.name, {key: key, value: value},this.index)
         if (setProps) {
           setProps.forEach(p => {
             if (this.props && typeof value === 'object' && value.hasOwnProperty(p) && !utilFunctions.areEqual(this.props.get(p), value[p])) {
               this.props.set(p, value[p])
-              this.stateService.syncData(this.name, {key: p, value: this.getPropValue(p)})
+              this.stateService.syncData(this.name, {key: p, value: this.getPropValue(p)},this.index)
             }
           })
         }
@@ -83,11 +80,16 @@ export class Component {
             if (this.props && typeof value === 'object'
               && !utilFunctions.areEqual(this.props.get(p.prop), this.props.get(p.use))) {
               this.props.set(p.prop, this.props.get(p.use))
-              this.stateService.syncData(this.name, {key: p.prop, value: this.getPropValue(p.prop)})
+              this.stateService.syncData(this.name, {key: p.prop, value: this.getPropValue(p.prop)},this.index)
             }
           })
         }
       }
     }
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.index) this.eventsService.triggerEvent(TriggerType.IndexUpdated,ServiceType.DataService,[this.name,this.index])
+  }
+
 }

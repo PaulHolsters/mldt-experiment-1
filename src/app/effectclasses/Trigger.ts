@@ -63,6 +63,9 @@ export class Trigger {
       case TriggerType.DataPropertyInitialized:
         this.sourceType = SourceType.System
         break
+      case TriggerType.IndexUpdated:
+        this.sourceType = SourceType.System
+        break
       default:
         throw new Error('The trigger is not implemented yet: '+name)
     }

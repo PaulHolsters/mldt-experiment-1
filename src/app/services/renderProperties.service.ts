@@ -47,29 +47,16 @@ export class RenderPropertiesService implements OnInit {
       return ps.componentName === compName && ps.propName === propName
     })
   }
-  // todo maak het mogelijk om ad hoc extra stateproperty subjects bij te maken
-  //      die werken op een index
-  //      en dan zou alles weer mieten werken
-  private createProps(component: ComponentModelType) {
+  public createProps(component: ComponentModelType,index?:number) {
     this.stateService.getProperties(component.type)?.forEach((v, k) => {
-      if(k===PropertyName.propsByData){
-        const propSubj = new ReplaySubject<any | undefined>(2)
-        this.statePropertySubjects.push({
-          componentName: component.name,
-          propName: k,
-          propValue: propSubj,
-          prop$: propSubj.asObservable()
-        })
-      } else{
         const propSubj = new BehaviorSubject<any | undefined>(v)
-        this.statePropertySubjects.push({
-          componentName: component.name,
-          propName: k,
-          propValue: propSubj,
-          prop$: propSubj.asObservable()
-        })
-      }
-
+      this.statePropertySubjects.push({
+        componentName: component.name,
+        propName: k,
+        index:index,
+        propValue: propSubj,
+        prop$: propSubj.asObservable()
+      })
     })
   }
   private createStore() {
@@ -78,7 +65,7 @@ export class RenderPropertiesService implements OnInit {
     })
   }
   // todo laat toe dat je ook kan binden met een bepaalde index + name
-  public bindToStateProperty(componentName: string, propName: string):
+  public bindToStateProperty(componentName: string, propName: string,index?:number):
     Observable<
       RenderModelType|
       OutputData|
@@ -89,7 +76,7 @@ export class RenderPropertiesService implements OnInit {
     // todo create a union type to denote this
     return this.statePropertySubjects.find(state => {
       // todo hier zoek je dan ook op index
-      return state.componentName === componentName && state.propName === propName
+      return state.componentName === componentName && state.propName === propName && state.index===index
     })?.prop$
   }
 

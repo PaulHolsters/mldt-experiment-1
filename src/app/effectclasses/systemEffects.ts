@@ -39,6 +39,10 @@ export abstract class SystemEffects {
         new Trigger(TriggerType.DataPropertyInitialized,ServiceType.DataService),
         new Action('update_data_depended_render_properties',ActionType.UpdateDataDependedProperties)
       ),
+      new Effect(
+        new Trigger(TriggerType.IndexUpdated,ServiceType.DataService),
+        new Action('set_up_indexed_component',ActionType.setUpIndexedComponent)
+      ),
 /*      new Effect(
         new Trigger(TriggerType.InstanceNeeded, ServiceType.DataService),
         new Action('get_data_instance',ActionType.GetInstance)

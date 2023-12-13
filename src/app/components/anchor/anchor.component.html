@@ -11,15 +11,15 @@
     [style.width]="bindToStateProperty(component.name, PropertyName.width) | async"
     [style.display]="bindToStateProperty(component.name, PropertyName.display) | async"
     [ngSwitch]="component.type">
-    <m-block *ngSwitchCase="ComponentType.Block" [name]="component.name"></m-block>
-    <m-button *ngSwitchCase="ComponentType.Button" [name]="component.name" [data]="data"></m-button>
+    <m-block *ngSwitchCase="ComponentType.Block" [name]="component.name" ></m-block>
+    <m-button *ngSwitchCase="ComponentType.Button" [name]="component.name" [data]="data" [index]="index"></m-button>
     <m-icon *ngSwitchCase="ComponentType.Icon" [name]="component.name"></m-icon>
     <m-image *ngSwitchCase="ComponentType.Image" [name]="component.name"></m-image>
     <m-image2 *ngSwitchCase="ComponentType.Image2" [name]="component.name"></m-image2>
-    <m-menubar *ngSwitchCase="ComponentType.Menubar" [name]="component.name"></m-menubar>
-    <m-dialog *ngSwitchCase="ComponentType.Dialog" [name]="component.name"></m-dialog>
-    <m-form *ngSwitchCase="ComponentType.Form" [name]="component.name"></m-form>
+    <m-menubar *ngSwitchCase="ComponentType.Menubar" [name]="component.name" [index]="index"></m-menubar>
+    <m-dialog *ngSwitchCase="ComponentType.Dialog" [name]="component.name" [index]="index"></m-dialog>
+    <m-form *ngSwitchCase="ComponentType.Form" [name]="component.name" [index]="index"></m-form>
     <m-paginator *ngSwitchCase="ComponentType.Paginator" [name]="component.name"></m-paginator>
-    <m-container *ngSwitchCase="ComponentType.Container" [name]="component.name" [data]="data"></m-container>
+    <m-container *ngSwitchCase="ComponentType.Container" [name]="component.name" [data]="data" [index]="index"></m-container>
   </div>
 </ng-container>

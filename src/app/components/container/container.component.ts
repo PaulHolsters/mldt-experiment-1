@@ -65,7 +65,7 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
     this.props = Container.getProperties()
     this.props.forEach((v, k) => {
-      this.storeService.bindToStateProperty(this.name, k)?.subscribe(res => {
+      this.storeService.bindToStateProperty(this.name, k,this.index)?.subscribe(res => {
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!
         // todo
         /*

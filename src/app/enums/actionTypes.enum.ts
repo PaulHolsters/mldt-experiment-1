@@ -18,4 +18,5 @@ export enum ActionType {
   UpdateDataRelatedProperties,
   ExecuteServerAction,
   UpdateDataDependedProperties,
+  SetUpIndexedComponent,
 }

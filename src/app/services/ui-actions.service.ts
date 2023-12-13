@@ -108,6 +108,14 @@ export class UiActionsService {
         }
       }
     })
+    this.actionsService.bindToAction(new Action('', ActionType.SetUpIndexedComponent))?.subscribe(res => {
+      if (res) {
+        const action = this.setUpIndexedComponent(res)
+        if (action) {
+          this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
+        }
+      }
+    })
   }
 
   private updateDataRelatedProps(res: {
@@ -200,6 +208,16 @@ export class UiActionsService {
 /*  todo uiteindelijk moet de nieuwe data qua propsByData wel verstuurd worden
         this.renderPropertiesService.getStatePropertySubject(compName,PropertyName.propsByData)?.propValue.next(existingDataByProps)*/
     }
+    return true
+  }
+  private setUpIndexedComponent(res: {
+    effect: Effect,
+    data: Blueprint | [ComponentNameType, DataRecord | List] | [ComponentNameType, [Array<[PropertyName, Datalink, Function[]]>, DataRecord]]
+      | ClientData | string | ServerDataRequestType | DataRecord | List,
+    target: EventTarget | undefined
+  }) {
+    // todo
+
     return true
   }
 

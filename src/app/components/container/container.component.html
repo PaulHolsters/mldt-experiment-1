@@ -88,7 +88,8 @@
                            [style.height]="'100%'"
                            [style.width]="'100%'"
                            *ngSwitchCase="ComponentType.Card"
-                           [name]="child.name+'_'+(i+1)"
+                           [name]="child.name"
+                            [index]="i"
                             [data]="dataC"
             ></m-card>
           </ng-container>
@@ -100,13 +101,14 @@
                          [style.height]="'100%'"
                          [style.width]="'100%'"
                          *ngSwitchCase="ComponentType.Card"
-                         [name]="child.name"></m-card>
+                         [name]="child.name"
+                       [index]="index"></m-card>
         </ng-template>
         <m-container *ngSwitchCase="ComponentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"></m-container>
         <ng-template #repeatChild>
-          <ng-container *ngFor="let data of getPropValue(PropertyName.outputData)">
+          <ng-container *ngFor="let data of getPropValue(PropertyName.outputData); let i = index">
             <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -278,6 +280,7 @@
                         *ngSwitchCase="ComponentType.Button"
                         [name]="child.name"
                         [data]="data"
+                        [index]="index"
         ></m-button>
         <m-dialog       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),

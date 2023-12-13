@@ -39,7 +39,7 @@ export class StateService {
   *       Dat is iets dat de component beslist. Als dit een functionaliteit is die de component wil aanbieden dan moeten deze frontend
   *       wijzigingen in de updateData method komen.
   * */
-  private componentData:{name:string,properties:Map<string,any>}[] = []
+  private componentData:{name:string,index:number|undefined,properties:Map<string,any>}[] = []
   // todo werk any weg
   constructor(private configService:ConfigService) {
   }
@@ -89,27 +89,27 @@ export class StateService {
       throw new Error('Er bestaat geen component met deze naam '+name)
     } else return this.getProperties(ComponentType.Container)
   }
-  public syncData(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
+  public syncData(name:string,data:{key:string,value:any}|{key:string,value:any}[],index?:number){
     let compModel  = this.configService.getConfigFromRoot(name)
     if(compModel){
       const obj = this.componentData.find(obj=>{
         return obj.name===name
       })
       if(!obj){
-        const newObj = {name:name,properties:this.createMap(name)}
+        const newObj = {name:name,index:index,properties:this.createMap(name)}
         this.componentData.push(newObj)
       }
       this.updateMap(name,data)
     }
   }
-  public getValue(name:string,propName:string):any{
+  public getValue(name:string,propName:string,index?:number):any{
     return this.componentData.find(c=>{
-      return c.name === name
+      return c.name === name && c.index===index
     })?.properties.get(propName)
   }
-  private updateMap(name:string,data:{key:string,value:any}|{key:string,value:any}[]){
+  private updateMap(name:string,data:{key:string,value:any}|{key:string,value:any}[],index?:number){
     const obj = this.componentData.find(cd=>{
-      return cd.name===name
+      return cd.name===name && cd.index===index
     })
     if(data instanceof Array){
       data.forEach(data=>{

@@ -25,4 +25,5 @@ export enum ServiceMethodType {
   UseInstancesFromFrontend,
   ExecuteServerAction,
   UpdateDataDependedProperties,
+  SetUpIndexedComponent,
 }
