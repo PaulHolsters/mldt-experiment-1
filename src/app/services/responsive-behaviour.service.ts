@@ -46,7 +46,7 @@ export class ResponsiveBehaviourService implements OnInit{
       }
     })
   }
-  public setRBSState(componentName: string,
+  private setRBSState(componentName: string,
                      newState: RenderModelType|
                        (ComponentModelType[]),
                      index?:number): void {
@@ -205,7 +205,7 @@ export class ResponsiveBehaviourService implements OnInit{
       this.setComponentStates(ScreenSize.highResolution)
     }
   }
-  private setState(component: ComponentModelType, screenSize: ScreenSize,index?:number) {
+  public setState(component: ComponentModelType, screenSize: ScreenSize,index?:number) {
     // todo data related props worden geupdate in andere service en moeten er hier dus uit
     // alle config is aanwezig!
     this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize),index)

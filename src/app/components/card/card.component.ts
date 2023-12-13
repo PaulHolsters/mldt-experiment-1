@@ -1,21 +1,15 @@
-import {AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {DomSanitizer} from "@angular/platform-browser";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../Component";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
-import {Menubar} from "../../componentclasses/Menubar";
 import {TriggerType} from "../../enums/triggerTypes.enum";
-import {CardStructuralConfigModel} from "../../design-dimensions/StructuralConfig/card/CardStructuralConfigModel";
 import {Card} from "../../componentclasses/Card";
-import {isRenderPropertyType, RenderPropertyType} from "../../types/union-types";
-import {Datalink} from "../../design-dimensions/datalink";
-import {ServiceType} from "../../enums/serviceTypes.enum";
 
 @Component({
   selector: 'm-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent extends AbstractComponent implements OnInit,AfterViewInit {
+export class CardComponent extends AbstractComponent implements OnInit {
   @ViewChild('card') card:ElementRef|undefined
 /*  getHTML(){
     if(this.headerTemplate?.attr.html)
@@ -25,7 +19,6 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
   ngOnInit(): void {
     this.props = Card.getProperties()
     this.props.forEach((v,k)=>{
-      // todo de reden waarom er niets getoond wordt is omdat je nu bind aan een config met een naam dit niet bestaat
       this.storeService.bindToStateProperty(this.name,k,this.index)?.subscribe(res=>{
         this.setPropValue(k,res)
       })
@@ -49,8 +42,5 @@ export class CardComponent extends AbstractComponent implements OnInit,AfterView
     }
     this.setPropValue(PropertyName.width,'100%')
     return false
-  }
-  ngAfterViewInit(): void {
-
   }
 }

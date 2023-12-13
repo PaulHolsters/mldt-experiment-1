@@ -117,7 +117,6 @@ export class UiActionsService {
       }
     })
   }
-
   private updateDataRelatedProps(res: {
     effect: Effect,
     data: Blueprint | [ComponentNameType, DataRecord | (DataRecord | null)[]] | ClientData | string | ServerDataRequestType | DataRecord | List,
@@ -171,20 +170,34 @@ export class UiActionsService {
   }
   private updateDataDependedProps(res: {
     effect: Effect,
-    data: Blueprint | [ComponentNameType, DataRecord | List] | [ComponentNameType, [Array<[PropertyName, Datalink, Function[]]>, DataRecord]]
+    data: Blueprint | [ComponentNameType, DataRecord | List] | [ComponentNameType|[ComponentNameType,number], [Array<[PropertyName, Datalink, Function[]]>, DataRecord]]
       | ClientData | string | ServerDataRequestType | DataRecord | List,
     target: EventTarget | undefined
   }) {
     if (
       res.data instanceof Array
       && res.data.length === 2
-      && isComponentName(res.data[0], this.configService)
+      && (isComponentName(res.data[0], this.configService)||(
+        res.data[0] instanceof Array && res.data[0].length===2
+      && isComponentName(res.data[0][0],this.configService) && typeof res.data[0][1] === 'number'
+      ))
       && res.data[1] instanceof Array && res.data[1][0] instanceof Array && res.data[1][0].length > 0) {
+
+      let compName:ComponentNameType
+      let index:number|undefined
+      if(isComponentName(res.data[0], this.configService)){
+        compName = res.data[0]
+      }
+      else{
+        compName = res.data[0][0]
+        index = res.data[0][1]
+      }
+      debugger
       // wat je moet beseffen is dat elke component zelf om de data transformatie vraagt, je hoeft dus geen children te gaan opzoeken
       const arr = [...res.data[1][0]]
-      const compName = res.data[0]
       const data = res.data[1][1]
-      let existingDataByProps = this.stateService.getValue(compName, PropertyName.propsByData) as (Array<[PropertyName, Datalink, Function[]]> | undefined)
+      let existingDataByProps
+        = this.stateService.getValue(compName, PropertyName.propsByData,index) as (Array<[PropertyName, Datalink, Function[]]> | undefined)
       if (!existingDataByProps) existingDataByProps = [];
       arr.forEach((v) => {
         const existing = (existingDataByProps as Array<[PropertyName, Datalink, Function[]]>).findIndex(val => {
@@ -202,11 +215,12 @@ export class UiActionsService {
         // send new data to frontend component
         // per property in de nieuwe array en stuur ook de nieuwe array
           this.renderPropertiesService.getStatePropertySubjects().find(prop => {
-            return prop.componentName === compName && prop.propName === p[0]
+            return prop.componentName === compName && prop.propName === p[0] && prop.index === index
           })?.propValue.next((this.getData(data, p[1], p[2])))
       })
-/*  todo uiteindelijk moet de nieuwe data qua propsByData wel verstuurd worden
-        this.renderPropertiesService.getStatePropertySubject(compName,PropertyName.propsByData)?.propValue.next(existingDataByProps)*/
+    /*  todo uiteindelijk moet de nieuwe data qua propsByData wel verstuurd worden
+          this.renderPropertiesService.getStatePropertySubject(compName,PropertyName.propsByData)?.propValue.next(existingDataByProps)
+    */
     }
     return true
   }
@@ -216,8 +230,14 @@ export class UiActionsService {
       | ClientData | string | ServerDataRequestType | DataRecord | List,
     target: EventTarget | undefined
   }) {
-    // todo
-
+    if(res.data instanceof Array && isComponentName(res.data[0],this.configService) && typeof res.data[1]==='number'){
+      const compConfig = this.configService.getConfigFromRoot(res.data[0])
+      if(compConfig){
+        this.renderPropertiesService.createProps(compConfig,res.data[1])
+        this.RBS.setState(compConfig,this.RBS.screenSize,res.data[1])
+        if(res.data[0]==='add') debugger
+      }
+    }
     return true
   }
 

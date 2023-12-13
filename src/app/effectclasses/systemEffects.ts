@@ -41,7 +41,7 @@ export abstract class SystemEffects {
       ),
       new Effect(
         new Trigger(TriggerType.IndexUpdated,ServiceType.DataService),
-        new Action('set_up_indexed_component',ActionType.setUpIndexedComponent)
+        new Action('set_up_indexed_component',ActionType.SetUpIndexedComponent)
       ),
 /*      new Effect(
         new Trigger(TriggerType.InstanceNeeded, ServiceType.DataService),

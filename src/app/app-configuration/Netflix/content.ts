@@ -25,4 +25,3 @@ btnContainer.setChildren([add,remove])
 card.contentInjection.smartphone.footer = btnContainer
 card.structural.smartphone.repeater = true
 content.setChildren([card])
-

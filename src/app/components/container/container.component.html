@@ -104,9 +104,20 @@
                          [name]="child.name"
                        [index]="index"></m-card>
         </ng-template>
+        <m-button       [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
+                        [style.height]="'100%'"
+                        [style.width]="'100%'"
+                        *ngSwitchCase="ComponentType.Button"
+                        [name]="child.name"
+                        [data]="data"
+                        [index]="index"
+        ></m-button>
         <m-container *ngSwitchCase="ComponentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
-         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"></m-container>
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]">
+        </m-container>
         <ng-template #repeatChild>
           <ng-container *ngFor="let data of getPropValue(PropertyName.outputData); let i = index">
             <m-block       [class]="['flex',
@@ -272,16 +283,6 @@
            'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
           ></m-radio>
         </ng-container>
-        <m-button       [class]="['flex',
-         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
-         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-                        [style.height]="'100%'"
-                        [style.width]="'100%'"
-                        *ngSwitchCase="ComponentType.Button"
-                        [name]="child.name"
-                        [data]="data"
-                        [index]="index"
-        ></m-button>
         <m-dialog       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
