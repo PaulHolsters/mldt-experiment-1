@@ -192,23 +192,11 @@ export class UiActionsService {
         index = res.data[0][1]
       }
       // wat je moet beseffen is dat elke component zelf om de data transformatie vraagt, je hoeft dus geen children te gaan opzoeken
-      const arr = [...res.data[1][0]]
+
       const data = res.data[1][1]
-      let existingDataByProps
+      let existingDataByProps // dit is dan al onmiddellijk de nieuwe
         = this.stateService.getValue(compName, PropertyName.propsByData,index) as (Array<[PropertyName, Datalink, Function[]]> | undefined)
       if (!existingDataByProps) existingDataByProps = [];
-      arr.forEach((v) => {
-        const existing = (existingDataByProps as Array<[PropertyName, Datalink, Function[]]>).findIndex(val => {
-          return val[0] === v[0]
-        })
-        if (existing === -1) {
-          // de array aanpassen past wegens reference ook de onderliggende waarde in de props map aan
-          (existingDataByProps as Array<[PropertyName, Datalink, Function[]]>).push(v)
-        } else {
-          // todo testen of deze tak degelijk werkt
-          (existingDataByProps as Array<[PropertyName, Datalink, Function[]]>).splice(existing, 1, v)
-        }
-      })
       existingDataByProps.forEach(p => {
         // send new data to frontend component
         // per property in de nieuwe array en stuur ook de nieuwe array
@@ -216,9 +204,6 @@ export class UiActionsService {
             return prop.componentName === compName && prop.propName === p[0] && prop.index === index
           })?.propValue.next((this.getData(data, p[1], p[2])))
       })
-    /*  todo uiteindelijk moet de nieuwe data qua propsByData wel verstuurd worden
-          this.renderPropertiesService.getStatePropertySubject(compName,PropertyName.propsByData)?.propValue.next(existingDataByProps)
-    */
     }
     return true
   }

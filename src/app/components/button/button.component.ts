@@ -19,7 +19,6 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
     this.props = Button.getProperties()
     this.props.forEach((v,k)=>{
       this.storeService.bindToStateProperty(this.name,k,this.index)?.subscribe(res=>{
-        if(k===PropertyName.visible && this.name==='add') debugger
         this.setPropValue(k,res)
       })
     })

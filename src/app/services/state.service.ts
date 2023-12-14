@@ -93,13 +93,13 @@ export class StateService {
     let compModel  = this.configService.getConfigFromRoot(name)
     if(compModel){
       const obj = this.componentData.find(obj=>{
-        return obj.name===name
+        return obj.name===name && obj.index === index
       })
       if(!obj){
         const newObj = {name:name,index:index,properties:this.createMap(name)}
         this.componentData.push(newObj)
       }
-      this.updateMap(name,data)
+      this.updateMap(name,data,index)
     }
   }
   public getValue(name:string,propName:string,index?:number):any{
