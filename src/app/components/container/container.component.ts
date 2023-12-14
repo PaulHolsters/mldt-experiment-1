@@ -160,6 +160,7 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
   }
 
     bindToStateProperty(componentName: string, property: string): Observable<string> {
+    // todo de fout zit in het feit dat je hier geen index gebruikt
       return this.storeService.bindToStateProperty(componentName, property) as Observable<string>
     }
 /*  getChildProp(componentName: string, property: PropertyName): string | undefined {

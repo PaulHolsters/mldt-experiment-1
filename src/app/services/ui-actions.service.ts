@@ -182,7 +182,6 @@ export class UiActionsService {
       && isComponentName(res.data[0][0],this.configService) && typeof res.data[0][1] === 'number'
       ))
       && res.data[1] instanceof Array && res.data[1][0] instanceof Array && res.data[1][0].length > 0) {
-
       let compName:ComponentNameType
       let index:number|undefined
       if(isComponentName(res.data[0], this.configService)){
@@ -192,7 +191,6 @@ export class UiActionsService {
         compName = res.data[0][0]
         index = res.data[0][1]
       }
-      debugger
       // wat je moet beseffen is dat elke component zelf om de data transformatie vraagt, je hoeft dus geen children te gaan opzoeken
       const arr = [...res.data[1][0]]
       const data = res.data[1][1]
@@ -235,7 +233,6 @@ export class UiActionsService {
       if(compConfig){
         this.renderPropertiesService.createProps(compConfig,res.data[1])
         this.RBS.setState(compConfig,this.RBS.screenSize,res.data[1])
-        if(res.data[0]==='add') debugger
       }
     }
     return true

@@ -43,7 +43,6 @@ export class ResponsiveStructuralCardConfigModel
     Object.entries(config).forEach(([k, v]) => {
       if (v) renderInstance.setProperty(k, v)
     })
-    debugger
     return renderInstance
   }
 }

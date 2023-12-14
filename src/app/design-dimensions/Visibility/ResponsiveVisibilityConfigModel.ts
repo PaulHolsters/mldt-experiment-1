@@ -39,7 +39,6 @@ implements ResponsiveConfigModelI<VisibilityConfigModel>{
     Object.entries(configModel).forEach(([k, v]) => {
       compPropsObj.setProperty(k, v)
     })
-    debugger
     return compPropsObj
   }
 }

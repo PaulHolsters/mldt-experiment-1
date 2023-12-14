@@ -17,10 +17,9 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
   // @Input() condition:Function|boolean|undefined
   ngOnInit(): void {
     this.props = Button.getProperties()
-    console.log(this.name,this.index)
     this.props.forEach((v,k)=>{
-
       this.storeService.bindToStateProperty(this.name,k,this.index)?.subscribe(res=>{
+        if(k===PropertyName.visible && this.name==='add') debugger
         this.setPropValue(k,res)
       })
     })

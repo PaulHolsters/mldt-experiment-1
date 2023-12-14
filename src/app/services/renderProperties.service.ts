@@ -18,13 +18,16 @@ import {PropertyName} from "../enums/PropertyNameTypes.enum";
 })
 export class RenderPropertiesService implements OnInit {
   public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: ActionIdType }>()
+
   constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {
       this.bindActions()
     })
   }
+
   ngOnInit(): void {
   }
+
   public bindActions() {
     this.actionsService.bindToAction(new Action('', ActionType.CreateStore))?.subscribe(res => {
       if (res) {
@@ -33,42 +36,61 @@ export class RenderPropertiesService implements OnInit {
       }
     })
   }
+
   private statePropertySubjects: StatePropertySubjectModel[] = []
+
   public getStatePropertySubjects(): StatePropertySubjectModel[] {
     return this.statePropertySubjects.slice()
   }
+
   public hasStateProperty(compName: string, propName: string): boolean {
     return this.statePropertySubjects.find(propSubj => {
       return propSubj.propName === propName && propSubj.componentName === compName
     }) !== undefined
   }
+
   public getStatePropertySubject(compName: string, propName: string): StatePropertySubjectModel | undefined {
     return this.statePropertySubjects.find(ps => {
       return ps.componentName === compName && ps.propName === propName
     })
   }
-  public createProps(component: ComponentModelType,index?:number) {
+
+  public createProps(component: ComponentModelType, index?: number) {
     this.stateService.getProperties(component.type)?.forEach((v, k) => {
+      if (k === PropertyName.propsByData) {
+        // todo de buffer size moet gelijk zijn aan het aantal design dimensions voor het desbetreffende type
+        const propSubj = new ReplaySubject<any | undefined>(10)
+        this.statePropertySubjects.push({
+          componentName: component.name,
+          propName: k,
+          index: index,
+          propValue: propSubj,
+          prop$: propSubj.asObservable()
+        })
+      } else {
         const propSubj = new BehaviorSubject<any | undefined>(v)
-      this.statePropertySubjects.push({
-        componentName: component.name,
-        propName: k,
-        index:index,
-        propValue: propSubj,
-        prop$: propSubj.asObservable()
-      })
+        this.statePropertySubjects.push({
+          componentName: component.name,
+          propName: k,
+          index: index,
+          propValue: propSubj,
+          prop$: propSubj.asObservable()
+        })
+      }
     })
   }
+
   private createStore() {
     this.configService.getAllComponents().forEach(c => {
       this.createProps(c)
     })
   }
+
   // todo laat toe dat je ook kan binden met een bepaalde index + name
-  public bindToStateProperty(componentName: string, propName: string,index?:number):
+  public bindToStateProperty(componentName: string, propName: string, index?: number):
     Observable<
-      RenderModelType|
-      OutputData|
+      RenderModelType |
+      OutputData |
       CalculationModel |
       ComponentModelType |
       ComponentModelType[]> |
@@ -76,7 +98,7 @@ export class RenderPropertiesService implements OnInit {
     // todo create a union type to denote this
     return this.statePropertySubjects.find(state => {
       // todo hier zoek je dan ook op index
-      return state.componentName === componentName && state.propName === propName && state.index===index
+      return state.componentName === componentName && state.propName === propName && state.index === index
     })?.prop$
   }
 

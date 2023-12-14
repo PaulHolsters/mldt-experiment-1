@@ -59,17 +59,9 @@ export class Component implements OnChanges{
   setPropValue(key: string, value: any, setProps?: string[], useProps?: { prop: string, use: string }[]) {
     // todo add more typesafety
     if (this.props) {
-      // todo fix bug: propsByData voor buttons zijn leeg qua array
-      //             OMDAT er twee keer iets gevuurd wordt een volle en een lege
-      //             ECHTER een behavioursubject geeft enkel de laatste waarde
-      //              OPLOSSING: ReplaySubject
-      if(this.name==='add' && key === PropertyName.propsByData) debugger
       if (!utilFunctions.areEqual(this.props.get(key), value)) {
         if (key === PropertyName.propsByData && this.data){
-          // dit gebeurt sowieso na index updated omdat propsByData niet binnenkomt zolang properties vor de index niet gemaakt zijn
-          // en de index is een input property dus die is er voor wat dan ook
           if(typeof this.index === 'number'){
-            if(this.name==='add') debugger
             this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService, [[this.name,this.index], [value, this.data]])
           } else{
             this.eventsService.triggerEvent(TriggerType.DataPropertyInitialized, ServiceType.DataService, [this.name, [value, this.data]])
