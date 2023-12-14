@@ -57,29 +57,29 @@
       <div
         [class.visibilityHidden]="
       (child.type !== ComponentType.Container) &&
-      !(bindToStateProperty(child.name,PropertyName.visible)|async)
-      && (bindToStateProperty(child.name,PropertyName.holdSpace)|async)"
+      !(bindToStateProperty(child.name,PropertyName.visible,index)|async)
+      && (bindToStateProperty(child.name,PropertyName.holdSpace,index)|async)"
 
         [class.displayNone]="(child.type !== ComponentType.Container)
-      &&!(bindToStateProperty(child.name,PropertyName.visible)
-      && !(bindToStateProperty(child.name,PropertyName.holdSpace)|async))"
+      &&!((bindToStateProperty(child.name,PropertyName.visible,index)|async)
+      && !(bindToStateProperty(child.name,PropertyName.holdSpace,index)|async))"
 
-        [style.height]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,PropertyName.height)|async) : ''"
-        [style.width]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,PropertyName.width)|async) : ''"
+        [style.height]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,PropertyName.height,index)|async) : ''"
+        [style.width]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,PropertyName.width,index)|async) : ''"
 
-        [class.align-self-stretch]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.alignItemsStretch)|async) "
-        [class.overflow-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowHidden)|async)"
-        [class.overflow-x-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXHidden)|async)"
-        [class.overflow-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowAuto)|async) "
-        [class.overflow-x-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXAuto)|async)"
-        [class.overflow-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowScroll)|async)"
-        [class.overflow-x-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXScroll)|async)"
+        [class.align-self-stretch]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.alignItemsStretch,index)|async) "
+        [class.overflow-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowHidden,index)|async)"
+        [class.overflow-x-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXHidden,index)|async)"
+        [class.overflow-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowAuto,index)|async) "
+        [class.overflow-x-auto]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXAuto,index)|async)"
+        [class.overflow-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowScroll,index)|async)"
+        [class.overflow-x-scroll]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXScroll,index)|async)"
         [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
         [class.flex]="(child.type === ComponentType.Form)"
         [ngSwitch]="child.type">
-        <div *ngIf="bindToStateProperty(child.name,PropertyName.repeater)|async; then repeatChild else singleChild"></div>
+        <div *ngIf="bindToStateProperty(child.name,PropertyName.repeater,index)|async; then repeatChild else singleChild"></div>
         <ng-template #repeatChild>
           <ng-container *ngFor="let dataC of getPropValue(PropertyName.outputData); let i = index">
             <m-card      [class]="['flex',

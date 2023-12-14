@@ -159,9 +159,17 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     return this.storeService.bindToStateProperty(componentName, 'grow') as Observable<number>
   }
 
-    bindToStateProperty(componentName: string, property: string): Observable<string> {
+    bindToStateProperty(componentName: string, property: string,index:number|undefined): Observable<string> {
     // todo de fout zit in het feit dat je hier geen index gebruikt
-      return this.storeService.bindToStateProperty(componentName, property) as Observable<string>
+      if(componentName==='add' && property===PropertyName.visible){
+        const ind = index
+        this.storeService.bindToStateProperty(componentName, property,index)?.subscribe(
+          res=>{
+            debugger
+          }
+        )
+      }
+      return this.storeService.bindToStateProperty(componentName, property,index) as Observable<string>
     }
 /*  getChildProp(componentName: string, property: PropertyName): string | undefined {
     return this.childProps.get(componentName)?.get(property)
