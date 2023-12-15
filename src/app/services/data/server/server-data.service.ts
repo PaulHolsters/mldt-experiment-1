@@ -56,7 +56,11 @@ export class ServerDataService {
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
       if(res){
         const action = res.effect.action
-        this.http.post('http://localhost:5000/' + action.id,undefined).subscribe(res=>{
+        let body: {id:string}|undefined
+        if(isDataRecord(res.data)){
+          body = {id:res.data.id}
+        }
+        this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
             createClientData(this,action.id,action.target,undefined,res)
           }

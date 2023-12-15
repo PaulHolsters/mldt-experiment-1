@@ -2,14 +2,14 @@
   <div
     [class.visibilityHidden]="
       (component.type !== ComponentType.Container) &&
-      !(bindToStateProperty(component.name,PropertyName.visible) | async)
-      && (bindToStateProperty(component.name,PropertyName.holdSpace) | async) "
+      !(bindToStateProperty(component.name,PropertyName.visible,index) | async)
+      && (bindToStateProperty(component.name,PropertyName.holdSpace,index) | async) "
     [class.displayNone]="(component.type !== ComponentType.Container)
-      &&!(bindToStateProperty(component.name,PropertyName.visible) | async)
-      && !(bindToStateProperty(component.name,PropertyName.holdSpace) | async)"
-    [style.height]="bindToStateProperty(component.name, PropertyName.height) | async"
-    [style.width]="bindToStateProperty(component.name, PropertyName.width) | async"
-    [style.display]="bindToStateProperty(component.name, PropertyName.display) | async"
+      &&!(bindToStateProperty(component.name,PropertyName.visible,index) | async)
+      && !(bindToStateProperty(component.name,PropertyName.holdSpace,index) | async)"
+    [style.height]="bindToStateProperty(component.name, PropertyName.height,index) | async"
+    [style.width]="bindToStateProperty(component.name, PropertyName.width,index) | async"
+    [style.display]="bindToStateProperty(component.name, PropertyName.display,index) | async"
     [ngSwitch]="component.type">
     <m-block *ngSwitchCase="ComponentType.Block" [name]="component.name" ></m-block>
     <m-button *ngSwitchCase="ComponentType.Button" [name]="component.name" [data]="data" [index]="index"></m-button>

@@ -14,7 +14,7 @@ export class AnchorComponent extends AbstractComponent implements OnInit,AfterCo
   }
   ngAfterContentChecked(){
   }
-  bindToStateProperty(componentName: string, property: string): Observable<string> {
-    return this.storeService.bindToStateProperty(componentName, property) as Observable<string>
+  bindToStateProperty(componentName: string, property: string,index:number|undefined): Observable<string> {
+    return this.storeService.bindToStateProperty(componentName, property,index) as Observable<string>
   }
 }

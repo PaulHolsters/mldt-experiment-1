@@ -25,7 +25,11 @@ export const effects: Effect[] = [
   new Effect(
     new Trigger(TriggerType.MenuItemSelected,['menu','films']),
     new ServerAction('getAllMovies','content')
-  )
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentClicked,'remove'),
+    new ServerAction('removeMovieFromList','content')
+  ),
 ]
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property

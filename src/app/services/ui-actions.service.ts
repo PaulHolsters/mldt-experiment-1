@@ -222,7 +222,6 @@ export class UiActionsService {
     }
     return true
   }
-
   private getData(data: DataRecord, link: Datalink, pipe?: Function[]) {
     let head: string
     let tail: OutputData = data
@@ -248,7 +247,6 @@ export class UiActionsService {
       return curr(prev)
     }, tail)
   }
-
   private outputData(
     res: {
       effect: Effect,
@@ -284,7 +282,6 @@ export class UiActionsService {
     }
     return true
   }
-
   private replace(key: string | undefined, config: ComponentModelType, value: ResponsiveSizeConfigModel
     | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined) {
     if (key) {
