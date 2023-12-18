@@ -8,7 +8,8 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
 import {Trigger} from "../../effectclasses/Trigger";
 import {ServerAction} from "../../effectclasses/ServerAction";
-
+// todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
+//  zoals deze compute property
 const setFooterHeight = (stateService: StateService, data: any): string => {
   return getComputedStyle(data.el.nativeElement).height // 50px
 }
@@ -30,6 +31,6 @@ export const effects: Effect[] = [
     new Trigger(TriggerType.ComponentClicked,'remove'),
     new ServerAction('removeMovieFromList','content')
   ),
+  // todo: zorg ervoor dat client data wordt geupdated wanneer het response terug komt zodat de juiste card wordt geupdate
 ]
-// todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
-//  zoals deze compute property
+

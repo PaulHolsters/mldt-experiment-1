@@ -55,6 +55,7 @@ export class ServerDataService {
     }
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
       if(res){
+        debugger
         const action = res.effect.action
         let body: {id:string}|undefined
         if(isDataRecord(res.data)){
@@ -62,6 +63,7 @@ export class ServerDataService {
         }
         this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
+            debugger
             createClientData(this,action.id,action.target,undefined,res)
           }
         })
