@@ -136,6 +136,7 @@ export class ClientDataService {
       const instance = this.getClientDataInstanceForComponent(searchValue)
       if (instance) {
         instance.update(data)
+        // todo if data is datarecord and instance is list => don't send new value!
         this.clientDataUpdated.next(instance)
         const target = this.configService.effects.map(e=>{
           return e.action.target
@@ -172,6 +173,7 @@ export class ClientDataService {
     errorMessages?: string[] | undefined
   ) {
     if(isComponentName(componentName,this.configService) && data){
+      // todo maak ook de children en grandchildren when repeated components
       this._clientData.push(new ClientData(actionId, componentName, data, errorMessages))
       const cd = this.getClientDataInstanceForComponent(componentName)
       if (cd) this.clientDataUpdated.next(cd)
@@ -259,6 +261,10 @@ export class ClientDataService {
         this._clientData.splice(index,1)
       }
     }
+  }
+
+  createOrUpdateClientData(actionId: ActionIdType, name: ComponentNameType | FormTargetType, data: List | DataRecord | undefined, errorMessages: string[] | undefined) {
+
   }
 }
 

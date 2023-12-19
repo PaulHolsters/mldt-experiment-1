@@ -187,6 +187,7 @@ import {
   ResponsiveStructuralTextConfigModel
 } from "../design-dimensions/StructuralConfig/Text/ResponsiveStructuralTextConfigModel";
 import {Text} from "../components/text/Text";
+import {Data} from "@angular/router";
 
 // todo deze union types moeten opnieuw aangevuld worden
 
