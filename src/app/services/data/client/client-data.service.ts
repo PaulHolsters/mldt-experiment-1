@@ -17,7 +17,7 @@ import {StateService} from "../../state.service";
 import {RenderPropertiesService} from "../../renderProperties.service";
 import {
   DataRecord,
-  extractConcept, isDataRecord, isNoValueType, List, OutputData, ServerData
+  extractConcept, isDataRecord, isList, isNoValueType, List, OutputData, ServerData
 } from "../../../types/union-types";
 
 @Injectable({
@@ -119,6 +119,7 @@ export class ClientDataService {
 
   public updateClientData(searchValue: ActionIdType | ComponentNameType | FormTargetType,
                           data: OutputData) {
+    // todo 1 data record, vervang het juiste id door een nieuw record en output de nieuwe output data op de gewone manier
     if(typeof searchValue !== 'string'){
       searchValue.controls.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
@@ -133,6 +134,7 @@ export class ClientDataService {
         this.clientDataUpdated.next(instance)
       } else throw new Error('Client data instance does not exist')
     } else if(isComponentName(searchValue, this.configService)){
+      // todo check of het deze tak is
       const instance = this.getClientDataInstanceForComponent(searchValue)
       if (instance) {
         instance.update(data)
@@ -263,8 +265,21 @@ export class ClientDataService {
     }
   }
 
-  createOrUpdateClientData(actionId: ActionIdType, name: ComponentNameType | FormTargetType, data: List | DataRecord | undefined, errorMessages: string[] | undefined) {
-
+  createOrUpdateClientData(
+    actionId: ActionIdType,
+    name: ComponentNameType | FormTargetType,
+    data: List | DataRecord | undefined,
+    errorMessages: string[] | undefined) {
+    if(isDataRecord(data) && isComponentName(name,this.configService)){
+      const cd = this.getClientDataInstanceForComponent(name)
+      if(cd){
+        this.updateClientData(name,data)
+      } else{
+        this.createClientData(actionId,name,data,errorMessages)
+      }
+    } else if(isList(data) && isComponentName(name,this.configService)){
+      this.createClientData(actionId,name,data,errorMessages)
+    }
   }
 }
 

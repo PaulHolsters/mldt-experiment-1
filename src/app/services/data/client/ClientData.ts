@@ -1,7 +1,7 @@
 import {ActionIdType, ComponentNameType} from "../../../types/type-aliases";
 import {
   DataRecord,
-  isDataRecord, List, OutputData, ServerData,
+  isDataRecord, isList, List, OutputData, ServerData,
 } from "../../../types/union-types";
 
 export class ClientData {
@@ -16,6 +16,10 @@ export class ClientData {
         this.outputData = data[field]
       } else if(field && isDataRecord(this.outputData)){
         this.outputData[field] = data
+      }else if(isDataRecord(data) && isList(this.outputData)){
+        this.outputData.splice(this.outputData.findIndex(od=>{
+          return od.id === data.id
+        }),1,{...data})
       }else{
         this.outputData = data
       }

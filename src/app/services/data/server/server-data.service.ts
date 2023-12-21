@@ -55,7 +55,6 @@ export class ServerDataService {
     }
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
       if(res){
-        debugger
         const action = res.effect.action
         let body: {id:string}|undefined
         if(isDataRecord(res.data)){
