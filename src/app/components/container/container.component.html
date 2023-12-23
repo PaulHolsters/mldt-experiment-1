@@ -92,6 +92,16 @@
                             [index]="i"
                             [data]="dataC"
             ></m-card>
+            <m-dialog       [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
+                            [style.height]="'100%'"
+                            [style.width]="'100%'"
+                            *ngSwitchCase="ComponentType.Dialog"
+                            [name]="child.name"
+                            [index]="i"
+                            [data]="dataC"
+            ></m-dialog>
           </ng-container>
         </ng-template>
         <ng-template #singleChild>
@@ -103,7 +113,17 @@
                          *ngSwitchCase="ComponentType.Card"
                          [name]="child.name"
                        [index]="index"></m-card>
+          <m-dialog       [class]="['flex',
+         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
+                          [style.height]="'100%'"
+                          [style.width]="'100%'"
+                          *ngSwitchCase="ComponentType.Dialog"
+                          [name]="child.name"
+                          [index]="index"
+          ></m-dialog>
         </ng-template>
+
         <m-button       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -118,18 +138,6 @@
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]">
         </m-container>
-        <ng-template #repeatChild>
-          <ng-container *ngFor="let data of getPropValue(PropertyName.outputData); let i = index">
-            <m-block       [class]="['flex',
-         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
-         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-                           [style.height]="'100%'"
-                           [style.width]="'100%'"
-                           *ngSwitchCase="ComponentType.Block"
-                           [name]="child.name"></m-block>
-          </ng-container>
-        </ng-template>
-        <ng-template #singleChild>
           <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -137,7 +145,6 @@
                          [style.width]="'100%'"
                          *ngSwitchCase="ComponentType.Block"
                          [name]="child.name"></m-block>
-        </ng-template>
         <m-confirm-popup       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
@@ -283,13 +290,6 @@
            'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
           ></m-radio>
         </ng-container>
-        <m-dialog       [class]="['flex',
-         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
-         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
-                        [style.height]="'100%'"
-                        [style.width]="'100%'"
-                        *ngSwitchCase="ComponentType.Dialog"
-                        [name]="child.name"></m-dialog>
         <m-icon       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"

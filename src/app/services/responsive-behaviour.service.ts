@@ -78,7 +78,7 @@ export class ResponsiveBehaviourService implements OnInit{
       })?.propValue.next(newState)
     } else{
       for (let [k, v] of Object.entries(newState)) {
-        if(!v){
+        if(v===null){
           const config = this.configService.getParentConfigFromRoot(componentName)
           if(config instanceof Container && !isNoValueType(config.componentSpecificLayout.childConfig)){
             const rps = config.componentSpecificLayout.childConfig.size.getSizeRenderProperties(this.screenSize)

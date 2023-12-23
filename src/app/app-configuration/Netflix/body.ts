@@ -14,6 +14,7 @@ import {
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ColumnLayoutConfigModel";
 import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
 import {content} from "./content";
+import {movieDetailsDialog} from "./movie-details-dialog";
 
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'));
@@ -26,7 +27,8 @@ mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 
 mainContainer.setChildren([
   menu,
   content,
-  footer
+  footer,
+ // movieDetailsDialog
 ])
 
 export const RootComponent = new AppConfig({

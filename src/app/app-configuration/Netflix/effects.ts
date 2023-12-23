@@ -31,6 +31,15 @@ export const effects: Effect[] = [
     new Trigger(TriggerType.ComponentClicked,'remove'),
     new ServerAction('removeMovieFromList','content')
   ),
+  new Effect(
+    new Trigger(TriggerType.ComponentClicked,'add'),
+    new ServerAction('addMovieToList','content')
+  ),
+/*  new Effect(
+    new Trigger(TriggerType.ComponentClicked,'movie'),
+    new Action('showMovieDetails',ActionType.SetRenderProperty,'movie-details-dialog',NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.visible, true))
+  ),*/
   // todo: zorg ervoor dat client data wordt geupdated wanneer het response terug komt zodat de juiste card wordt geupdate
 ]
 

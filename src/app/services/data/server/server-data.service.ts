@@ -62,13 +62,10 @@ export class ServerDataService {
         }
         this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
-            // todo oplossing: gewoon normale target en alles rerenderen , later meer gespecialiseerde oplossing implementeren
-            //      = nice-to-have niet essentieel, vervolgens zien hoe form implementatie loopt
             createOrUpdateClientData(this,action.id, action.target,undefined,res)
           }
         })
       }
-
     })
 
     //********************     queries     ****************************/
