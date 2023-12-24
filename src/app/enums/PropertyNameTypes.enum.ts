@@ -130,5 +130,6 @@ export enum PropertyName {
   repeater='repeater',
   title='title',
   subtitle='subtitle',
-  propsByData='propsByData'
+  propsByData='propsByData',
+  cursor='cursor',
 }

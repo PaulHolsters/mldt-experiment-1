@@ -336,9 +336,6 @@ export const isList = function isList(data:unknown):data is List{
 export const isClientData = function isClientData(data:any):data is ClientData{
   return data instanceof ClientData
 }
-
-
-
 export type ActionValueType = 'list'|
   'object'|
   ResponsiveSizeConfigModel |
@@ -346,7 +343,7 @@ export type ActionValueType = 'list'|
   ResponsiveContainerChildLayoutConfigModel |
   ResponsiveVisibilityConfigModel |
   Function|
-  boolean|
+  boolean|string|
   undefined
 export const extractConcept = function extractConcept(concept:TypeName|ConceptNameType|undefined|DataLink,config:ConfigService):ConceptNameType|undefined{
   if(isTypeName(concept)){

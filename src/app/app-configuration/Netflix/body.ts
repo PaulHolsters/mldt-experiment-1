@@ -1,39 +1,51 @@
 import {Container} from "../../components/container/Container";
 import {CalculatedSizeConfigModel} from "../../design-dimensions/Size/CalculatedSizeConfigModel";
+import AppConfig from "../../services/appConfig";
+import {effects} from "./effects";
+import {movieDetailsDialog} from "./movie-details-dialog";
+import {menu} from "./menu";
+import {content} from "./content";
+import {footer} from "./footer";
+import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
+import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 import {
   ChildPropertiesConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ChildPropertiesConfigModel";
-import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
-import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
-import AppConfig from "../../services/appConfig";
-import {effects} from "./effects";
-import {menu} from "./menu";
-import {footer} from "./footer";
 import {
   ColumnLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ColumnLayoutConfigModel";
 import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
-import {content} from "./content";
-import {movieDetailsDialog} from "./movie-details-dialog";
 
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'));
-(mainContainer.componentSpecificLayout
-  .setChildConfig(new ChildPropertiesConfigModel())
-  .childConfig as ChildPropertiesConfigModel).size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage));
 (mainContainer.componentSpecificLayout.smartphone
   .setLayout(new ColumnLayoutConfigModel()).layout as ColumnLayoutConfigModel)
-  .setVerticalLayoutOfChildren(VerticalColumnLayoutConfigType.Between);
-mainContainer.setChildren([
+  .setVerticalLayoutOfChildren(VerticalColumnLayoutConfigType.Top)
+  .setWrap(false)
+const templateContainer = new Container('template');
+templateContainer.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage));
+templateContainer.size.smartphone.setHeight(new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage));
+(templateContainer.componentSpecificLayout.smartphone
+  .setLayout(new ColumnLayoutConfigModel()).layout as ColumnLayoutConfigModel)
+  .setVerticalLayoutOfChildren(VerticalColumnLayoutConfigType.Between)
+  .setWrap(false)
+templateContainer.componentSpecificLayout.childConfig = new ChildPropertiesConfigModel()
+templateContainer.componentSpecificLayout.childConfig.size.smartphone.setWidth(new NonCalculatedSizeConfigModel(100,SizeUnitConfigType.Percentage))
+templateContainer.setChildren([
   menu,
   content,
-  footer,
- // movieDetailsDialog
+  footer
+])
+mainContainer.setChildren([
+  templateContainer,
+  movieDetailsDialog
 ])
 
+// todo de template container heeft 100% width maar de omvattende divs van deze container niet waardoor het niet werkt
 export const RootComponent = new AppConfig({
   components: [
     mainContainer
+    // todo zie dat je dit soort component buiten de gewone content krijgt : maw zie dat je root + kan doen
   ],
   effects: effects
 })

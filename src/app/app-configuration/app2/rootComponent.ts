@@ -22,7 +22,7 @@ mainContainer.componentSpecificLayout.smartphone.setLayout(new ColumnLayoutConfi
   .setChildConfig(new ChildPropertiesConfigModel())
   .childConfig as ChildPropertiesConfigModel).size?.smartphone.setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage));
 ((mainContainer.componentSpecificLayout.childConfig as ChildPropertiesConfigModel).size?.setTablet(new SizeConfigModel()).tablet as SizeConfigModel)
-  .setWidth(new NonCalculatedSizeConfigModel(50, SizeUnitConfigType.Percentage))
+  .setWidth(new NonCalculatedSizeConfigModel(100, SizeUnitConfigType.Percentage))
 mainContainer.setChildren([
   mainTable,
   dialog

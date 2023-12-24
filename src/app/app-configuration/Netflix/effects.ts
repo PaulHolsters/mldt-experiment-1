@@ -35,11 +35,16 @@ export const effects: Effect[] = [
     new Trigger(TriggerType.ComponentClicked,'add'),
     new ServerAction('addMovieToList','content')
   ),
-/*  new Effect(
+  // todo de footer blijft niet staan als de dialog zichtbaar wordt
+  new Effect(
     new Trigger(TriggerType.ComponentClicked,'movie'),
     new Action('showMovieDetails',ActionType.SetRenderProperty,'movie-details-dialog',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.visible, true))
-  ),*/
-  // todo: zorg ervoor dat client data wordt geupdated wanneer het response terug komt zodat de juiste card wordt geupdate
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentHovered,'movie'),
+    new Action('showPointer',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.cursor, 'pointer'))
+  ),
 ]
 

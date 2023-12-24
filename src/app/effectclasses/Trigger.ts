@@ -66,6 +66,9 @@ export class Trigger {
       case TriggerType.IndexUpdated:
         this.sourceType = SourceType.System
         break
+      case TriggerType.ComponentHovered:
+        this.sourceType = SourceType.Component
+        break
       default:
         throw new Error('The trigger is not implemented yet: '+name)
     }

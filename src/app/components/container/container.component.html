@@ -29,6 +29,7 @@
   [class.displayNone]="!getPropValue(PropertyName.visible) && !getPropValue(PropertyName.holdSpace)"
 
   [class.visibilityHidden]="!getPropValue(PropertyName.visible) && getPropValue(PropertyName.holdSpace)"
+
   [style.height]="getPropValue(PropertyName.height)"
   [style.width]="getPropValue(PropertyName.width)"
   [class.bg-primary]="getPropValue(PropertyName.backgroundColorPrimary)"
@@ -53,7 +54,11 @@
 <!--      *ngIf="(getPropValue(PropertyName.dataAttribute) && !getPropValue(PropertyName.dataAttribute)['floatLabel'])
       ||child.type !== componentType.Label
       ||(child.type === componentType.Label && !getPropValue(PropertyName.dataAttribute))"-->
-
+      <!-- todo dit is de omvattende div waar geen juiste dimensies aan worden gegeven indien het child een container is
+            dit heb ik weggedaan maar het ziet er risky uit
+            (child.type !== ComponentType.Container) ? : ''
+           todo moeten de andere is container checks dan ook niet gewoon weg?
+      -->
       <div
         [class.visibilityHidden]="
       (child.type !== ComponentType.Container) &&
@@ -64,9 +69,8 @@
       &&!((bindToStateProperty(child.name,PropertyName.visible,index)|async)
       && !(bindToStateProperty(child.name,PropertyName.holdSpace,index)|async))"
 
-        [style.height]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,PropertyName.height,index)|async) : ''"
-        [style.width]="(child.type !== ComponentType.Container) ? (bindToStateProperty(child.name,PropertyName.width,index)|async) : ''"
-
+        [style.height]="(bindToStateProperty(child.name,PropertyName.height,index)|async)"
+        [style.width]="(bindToStateProperty(child.name,PropertyName.width,index)|async)"
         [class.align-self-stretch]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.alignItemsStretch,index)|async) "
         [class.overflow-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowHidden,index)|async)"
         [class.overflow-x-hidden]="(child.type !== ComponentType.Container) && (bindToStateProperty(child.name,PropertyName.overflowXHidden,index)|async)"
@@ -136,7 +140,8 @@
         ></m-button>
         <m-container *ngSwitchCase="ComponentType.Container" [name]="child.name"  [class]="[
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
-         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]">
+         'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
+        >
         </m-container>
           <m-block       [class]="['flex',
          'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),

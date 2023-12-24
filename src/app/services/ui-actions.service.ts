@@ -283,7 +283,7 @@ export class UiActionsService {
     return true
   }
   private replace(key: string | undefined, config: ComponentModelType, value: ResponsiveSizeConfigModel
-    | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined) {
+    | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel|string | undefined) {
     if (key) {
       Reflect.set(config, key, value)
     }
