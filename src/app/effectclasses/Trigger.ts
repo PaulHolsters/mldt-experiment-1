@@ -10,6 +10,7 @@ export class Trigger {
     public name:TriggerType,
     public source:ComponentNameType|ActionIdType|ServiceType|[ComponentNameType,string],
     public id:TriggerIdType|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
+    public condition:Function|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   ) {
     switch (name){
       case TriggerType.ComponentClicked:

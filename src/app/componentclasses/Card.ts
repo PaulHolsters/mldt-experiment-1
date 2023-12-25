@@ -3,6 +3,7 @@ import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {ComponentModelType} from "../types/union-types";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Datalink} from "../design-dimensions/datalink";
+import {CursorValues} from "../enums/cursorValues.enum";
 
 export abstract class Card extends Component{
   public static repeater:boolean|null=null
@@ -21,4 +22,5 @@ export abstract class Card extends Component{
   public static footer:ComponentModelType|null=null
   public static data: any|null=null
   public static propsByData:[PropertyName,Datalink,Function[]]|null=null
+  public static cursor:CursorValues|null=null
 }

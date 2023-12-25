@@ -2,6 +2,7 @@ import {Component} from "./Component";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Datalink} from "../design-dimensions/datalink";
+import {CursorValues} from "../enums/cursorValues.enum";
 
 export abstract class Icon extends Component{
   public static icon:string|null=null
@@ -21,5 +22,6 @@ export abstract class Icon extends Component{
   public static data: any|null=null
   public static hardCodedData: any|null=null
   public static propsByData:[PropertyName,Datalink,Function[]]|null=null
+  public static cursor:CursorValues|null=null
 
 }

@@ -40,12 +40,9 @@ mainContainer.setChildren([
   templateContainer,
   movieDetailsDialog
 ])
-
-// todo de template container heeft 100% width maar de omvattende divs van deze container niet waardoor het niet werkt
 export const RootComponent = new AppConfig({
   components: [
     mainContainer
-    // todo zie dat je dit soort component buiten de gewone content krijgt : maw zie dat je root + kan doen
   ],
   effects: effects
 })

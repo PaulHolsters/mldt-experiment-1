@@ -11,6 +11,8 @@ import {ServiceType} from "../enums/serviceTypes.enum";
 import {ClientDataService} from "./data/client/client-data.service";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ComponentNameType} from "../types/type-aliases";
+import {StateService} from "./state.service";
+import {isNoValueType} from "../types/union-types";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,8 @@ export class EventsService{
               private clientDataService:ClientDataService,
               private RBSService:ResponsiveBehaviourService,
               private storeService:RenderPropertiesService,
-              private UIActionsService:UiActionsService) {
+              private UIActionsService:UiActionsService,
+              private stateService:StateService) {
 
     this.serverDataService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
@@ -53,15 +56,36 @@ export class EventsService{
       this.triggerEvent(res.trigger,res.source)
     })
   }
-  public triggerEvent(trigger:TriggerType,source:string|[ComponentNameType,string]|ServiceType,data?:any,target?:EventTarget){
+  public triggerEvent(trigger:TriggerType,source:string|[ComponentNameType,string|(number|undefined)]|ServiceType,data?:any,target?:EventTarget){
     // todo werk any weg op termijn hier
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
       this.actionsService.createActionSubjects()
     }
     this.configService.getEffectsForEvent(trigger,source).forEach(effect=>{
-      if(typeof source === 'string'||source instanceof Array) this.actionsService.triggerAction(effect,data,target,source)
-      else this.actionsService.triggerAction(effect,data,target)
+      if(
+        typeof source === 'string'
+        ||(source instanceof Array
+        && source.length===2
+        && typeof source[0]==='string'
+        && typeof source[1]==='string')){
+        // todo voorlopig enkel condities op de trigger, later ook de action zelf
+        if(isNoValueType(effect.trigger.condition) || (effect.trigger.condition(this.stateService,source))){
+          this.actionsService.triggerAction(effect,data,target,(source as (string|[string,string])))
+          const index = source instanceof Array && source.length===2 && typeof source[1] === 'number'? source[1]: undefined
+          if(!isNoValueType(effect.id) && !this.stateService.hasEffect([effect.id,index])){
+            this.stateService.runningEffects.push([effect.id,index])
+          }
+        }
+      } else if(isNoValueType(effect.trigger.condition) ||
+        (source instanceof Array && source.length===2 && (typeof source[1] === 'number'|| source[1]===undefined)
+        && effect.trigger.condition(this.stateService,source))){
+        this.actionsService.triggerAction(effect,data,target)
+        const index = source instanceof Array && source.length===2 && typeof source[1] === 'number'? source[1]: undefined
+        if(!isNoValueType(effect.id) && !this.stateService.hasEffect([effect.id,index])){
+          this.stateService.runningEffects.push([effect.id,index])
+        }
+      }
     })
   }
 }

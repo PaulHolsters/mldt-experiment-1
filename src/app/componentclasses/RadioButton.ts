@@ -2,6 +2,7 @@ import {Component} from "./Component";
 import {Blueprint} from "../services/data/client/Blueprint";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Datalink} from "../design-dimensions/datalink";
+import {CursorValues} from "../enums/cursorValues.enum";
 
 export abstract class RadioButton extends Component{
 
@@ -21,5 +22,6 @@ export abstract class RadioButton extends Component{
   public static invalid: boolean | undefined
   public static disabled: boolean | undefined
   public static propsByData:[PropertyName,Datalink,Function[]]|null=null
+  public static cursor:CursorValues|null=null
 
 }

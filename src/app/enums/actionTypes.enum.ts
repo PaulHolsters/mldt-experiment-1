@@ -19,4 +19,5 @@ export enum ActionType {
   ExecuteServerAction,
   UpdateDataDependedProperties,
   SetUpIndexedComponent,
+  TerminateRunningEffect,
 }

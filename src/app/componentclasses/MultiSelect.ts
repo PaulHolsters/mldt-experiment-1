@@ -4,6 +4,7 @@ import {List} from "../types/union-types";
 import {ParentConfigType} from "../enums/ParentConfigTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Datalink} from "../design-dimensions/datalink";
+import {CursorValues} from "../enums/cursorValues.enum";
 // todo zoek een manier om af te dwingen dat de properties die hier gebruikt worden
 //      ook aanwezig zijn in de modellen en dit op een consistente manier
 
@@ -31,5 +32,6 @@ export abstract class MultiSelect extends Component{
   public static invalid: boolean | null=null
   public static disabled: boolean | null=null
   public static propsByData:[PropertyName,Datalink,Function[]]|null=null
+  public static cursor:CursorValues|null=null
 
 }

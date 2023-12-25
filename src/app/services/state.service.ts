@@ -17,6 +17,16 @@ import {MultiSelect} from "../componentclasses/MultiSelect";
 import {Menubar} from "../componentclasses/Menubar";
 import {Toolbar} from "../componentclasses/Toolbar";
 import {Card} from "../componentclasses/Card";
+import {EffectIdType} from "../types/type-aliases";
+import {TriggerType} from "../enums/triggerTypes.enum";
+import {ServiceType} from "../enums/serviceTypes.enum";
+import {ActionType} from "../enums/actionTypes.enum";
+import {ActionsService} from "./actions.service";
+import {ServerDataService} from "./data/server/server-data.service";
+import {ClientDataService} from "./data/client/client-data.service";
+import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
+import {RenderPropertiesService} from "./renderProperties.service";
+import {UiActionsService} from "./ui-actions.service";
 @Injectable({
   providedIn: 'root'
 })
@@ -41,8 +51,30 @@ export class StateService {
   * */
   private componentData:{name:string,index:number|undefined,properties:Map<string,any>}[] = []
   // todo werk any weg
-  constructor(private configService:ConfigService) {
+
+  constructor(private configService:ConfigService,
+              private serverDataService:ServerDataService,
+              private clientDataService:ClientDataService,
+              private RBSService:ResponsiveBehaviourService,
+              private storeService:RenderPropertiesService,
+              private UIActionsService:UiActionsService,) {
+    this.serverDataService.actionFinished.subscribe(res =>{
+      // todo handle running effects array
+    })
+    this.clientDataService.actionFinished.subscribe(res =>{
+      // todo handle running effects array
+    })
+    this.UIActionsService.actionFinished.subscribe(res =>{
+      // todo handle running effects array
+    })
+    this.RBSService.actionFinished.subscribe(res =>{
+      // todo handle running effects array
+    })
+    this.storeService.actionFinished.subscribe(res =>{
+      // todo handle running effects array
+    })
   }
+
   public getProperties(type:ComponentType){
     switch (type) {
       case ComponentType.Table:
@@ -121,4 +153,12 @@ export class StateService {
         obj.properties.set(data.key,data.value)
     }
   }
+
+  public hasEffect(param: [EffectIdType,number|undefined]) {
+    return this.runningEffects.find(e=>{
+      return e[0]===param[0] && e[1]===param[1]
+    }) !== undefined
+  }
+
+  public runningEffects: [EffectIdType,number|undefined][] = []
 }

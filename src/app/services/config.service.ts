@@ -8,7 +8,7 @@ import {SystemEffects} from "../effectclasses/systemEffects";
 import {ComponentModelType, isNoValueType} from "../types/union-types";
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {NoValueType} from "../enums/NoValueTypes.enum";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType} from "../types/type-aliases";
 import {Action} from "../effectclasses/Action";
 import {ServerAction} from "../effectclasses/ServerAction";
 
@@ -49,15 +49,15 @@ export class ConfigService {
       return effect.trigger.name === trigger
     }))
   }
-
-  public getEffectsForEvent(trigger: TriggerType, source: string | string[] | ServiceType): Effect[] {
-    if (source instanceof Array) {
+  public getEffectsForEvent(trigger: TriggerType, source:string|[ComponentNameType,string|(number|undefined)]|ServiceType): Effect[] {
+    if (source instanceof Array && typeof source[1]==='string') {
+      const sec = source[1]
       return this.appConfig.userConfig.effects.filter((effect) => {
         return (
           effect.trigger.source instanceof Array
           && effect.trigger.name === trigger
           && effect.trigger.source[0] === source[0]
-          && effect.trigger.source[1].toLowerCase() === source[1].toLowerCase())
+          && effect.trigger.source[1].toLowerCase() === sec.toLowerCase())
       }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
         if (trigger === TriggerType.ComponentHide) {
           return effect.trigger.name === trigger
@@ -66,17 +66,29 @@ export class ConfigService {
           effect.trigger.source instanceof Array
           && effect.trigger.name === trigger
           && effect.trigger.source[0] === source[0]
-          && effect.trigger.source[1].toLowerCase() === source[1].toLowerCase())
+          && effect.trigger.source[1].toLowerCase() === sec.toLowerCase())
       }))
     } else {
-      return this.appConfig.userConfig.effects.filter((effect) => {
-        return effect.trigger.name === trigger && effect.trigger.source === source
-      }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
-        if (trigger === TriggerType.ComponentHide) {
-          return effect.trigger.name === trigger
-        }
-        return effect.trigger.name === trigger && effect.trigger.source === source
-      }))
+      // todo filer component name out of it
+      if(!(source instanceof Array)){
+        return this.appConfig.userConfig.effects.filter((effect) => {
+          return effect.trigger.name === trigger && effect.trigger.source === source
+        }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
+          if (trigger === TriggerType.ComponentHide) {
+            return effect.trigger.name === trigger
+          }
+          return effect.trigger.name === trigger && effect.trigger.source === source
+        }))
+      } else{
+        return this.appConfig.userConfig.effects.filter((effect) => {
+          return effect.trigger.name === trigger && effect.trigger.source === source[0]
+        }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
+          if (trigger === TriggerType.ComponentHide) {
+            return effect.trigger.name === trigger
+          }
+          return effect.trigger.name === trigger && effect.trigger.source === source[0]
+        }))
+      }
     }
   }
 

@@ -4,6 +4,7 @@ import {MenuItem} from "primeng/api";
 import {ComponentModelType} from "../types/union-types";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Datalink} from "../design-dimensions/datalink";
+import {CursorValues} from "../enums/cursorValues.enum";
 
 export abstract class Menubar extends Component{
   public static grow: number|null| ParentConfigType.grow = null
@@ -18,4 +19,5 @@ export abstract class Menubar extends Component{
   public static start:ComponentModelType|null=null
   public static end:ComponentModelType|null=null
   public static propsByData:[PropertyName,Datalink,Function[]]|null=null
+  public static cursor:CursorValues|null=null
 }

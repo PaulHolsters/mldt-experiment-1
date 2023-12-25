@@ -13,6 +13,11 @@ import {ServerAction} from "../../effectclasses/ServerAction";
 const setFooterHeight = (stateService: StateService, data: any): string => {
   return getComputedStyle(data.el.nativeElement).height // 50px
 }
+const allowDetails = (stateService: StateService,data:any):boolean =>{
+  debugger
+  return !(stateService.hasEffect(['removing movie from my list',data[1]])
+    || stateService.hasEffect(['adding movie to my list',data[1]]))
+}
 export const effects: Effect[] = [
   new Effect(
     new Trigger(TriggerType.ComponentReady,'menu'),
@@ -29,17 +34,20 @@ export const effects: Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'remove'),
-    new ServerAction('removeMovieFromList','content')
+    new ServerAction('removeMovieFromList','content'),
+    'removing movie from my list'
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'add'),
-    new ServerAction('addMovieToList','content')
+    new ServerAction('addMovieToList','content'),
+    'adding movie to my list'
   ),
-  // todo de footer blijft niet staan als de dialog zichtbaar wordt
   new Effect(
-    new Trigger(TriggerType.ComponentClicked,'movie'),
+    new Trigger(TriggerType.ComponentClicked,'movie','movie-card-clicked',allowDetails),
     new Action('showMovieDetails',ActionType.SetRenderProperty,'movie-details-dialog',NoValueType.NO_VALUE_ALLOWED,
-      new ActionValueModel(PropertyName.visible, true))
+      new ActionValueModel(PropertyName.visible, true)),
+    // todo dit is eerder NOT NEEDED ipv NOT ALLOWED
+    NoValueType.NO_VALUE_ALLOWED
   ),
   new Effect(
     new Trigger(TriggerType.ComponentHovered,'movie'),

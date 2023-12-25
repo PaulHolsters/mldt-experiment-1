@@ -43,6 +43,10 @@ export abstract class SystemEffects {
         new Trigger(TriggerType.IndexUpdated,ServiceType.DataService),
         new Action('set_up_indexed_component',ActionType.SetUpIndexedComponent)
       ),
+      new Effect(
+        new Trigger(TriggerType.ActionFinished,ServiceType.AnyService),
+        new Action('terminate_running_effect',ActionType.TerminateRunningEffect)
+      ),
 /*      new Effect(
         new Trigger(TriggerType.InstanceNeeded, ServiceType.DataService),
         new Action('get_data_instance',ActionType.GetInstance)

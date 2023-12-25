@@ -37,6 +37,8 @@
   [class.bg-orange-400]="getPropValue(PropertyName.backgroundColorDanger)"
   [class.calcHeight]="setCalculatedHeight(getPropValue(PropertyName.calcHeight))"
   [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
+
+  [style.cursor]="getPropValue(PropertyName.cursor)"
 #container>
   <ng-content></ng-content>
   <ng-container *ngIf="getPropValue(PropertyName.children)">

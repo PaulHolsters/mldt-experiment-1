@@ -19,7 +19,6 @@ import {ClientDataService} from "../services/data/client/client-data.service";
 import {ConfigService} from "../services/config.service";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ResponsiveBehaviourService} from "../services/responsive-behaviour.service";
-import {Datalink} from "../design-dimensions/datalink";
 import {PropsByDataType} from "../types/type-aliases";
 
 @Directive()
@@ -60,7 +59,10 @@ export class Component implements OnChanges {
   }
 
   trigger(trigger: TriggerType, nativeEvent?: any) {
-    this.eventsService.triggerEvent(trigger, this.name, this.data, nativeEvent?.target)
+    // todo controleer hier of je uberhaupt mag triggeren
+    //      nadeel: als de card click eerst komt dan wordt deze toch uitgevoerd
+    if(trigger===TriggerType.ComponentClicked) debugger
+    this.eventsService.triggerEvent(trigger, [this.name,this.index], this.data, nativeEvent?.target)
   }
 
   setPropValue(key: string, value: any, setProps?: string[], useProps?: { prop: string, use: string }[]) {
