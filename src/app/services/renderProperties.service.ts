@@ -6,7 +6,7 @@ import {StateService} from "./state.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType} from "../types/type-aliases";
+import {ActionIdType, EffectIdType} from "../types/type-aliases";
 import {StatePropertySubjectModel} from "../design-dimensions/StatePropertySubject";
 import {CalculationModel} from "../design-dimensions/CalculationModel";
 import {ComponentModelType, OutputData, RenderModelType} from "../types/union-types";
@@ -17,7 +17,7 @@ import {PropertyName} from "../enums/PropertyNameTypes.enum";
   providedIn: 'root'
 })
 export class RenderPropertiesService implements OnInit {
-  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: ActionIdType }>()
+  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: [EffectIdType,number|undefined]|ActionIdType }>()
 
   constructor(private actionsService: ActionsService, private configService: ConfigService, private stateService: StateService) {
     this.actionsService.bindToActionsEmitter.subscribe(res => {

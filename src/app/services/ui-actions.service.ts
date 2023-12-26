@@ -12,7 +12,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {
   ActionIdType,
-  ComponentNameType, isComponentName,
+  ComponentNameType, EffectIdType, isComponentName,
   isDataLink,
   isFormTargetType,
   ServerDataRequestType
@@ -44,7 +44,7 @@ import {Datalink} from "../design-dimensions/datalink";
   providedIn: 'root'
 })
 export class UiActionsService {
-  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: ActionIdType }>()
+  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: [EffectIdType,number|undefined]|ActionIdType }>()
 
   constructor(
     private renderPropertiesService: RenderPropertiesService,

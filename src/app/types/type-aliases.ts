@@ -21,6 +21,10 @@ export type TypeName = string
 export type HtmlType = string
 export type PropsByDataType = Array<DataDependedPropType>
 export type DataDependedPropType = [PropertyName, Datalink, Function[]]
+export type EffectAsSource = [EffectIdType,number|undefined]
+export const isEffectAsSource = function isEffectAsSource(){
+  // todo
+}
 export const isPropsByDataType = function isPropsByDataType(data:unknown): data is PropsByDataType{
   if(data instanceof Array){
     return data.filter(d=>{

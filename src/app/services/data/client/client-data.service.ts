@@ -8,7 +8,7 @@ import {ClientData} from "./ClientData";
 import {
   ActionIdType,
   ComponentNameType,
-  ConceptNameType, FormTargetType, isActionIdType,
+  ConceptNameType, EffectIdType, FormTargetType, isActionIdType,
   isComponentName, isFormTargetType,
   isFrontendDataType, ServerDataRequestType
 } from "../../../types/type-aliases";
@@ -26,7 +26,7 @@ import {
 export class ClientDataService {
   // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
   public clientDataUpdated = new Subject<ClientData>()
-  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: ActionIdType }>()
+  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: [EffectIdType,number|undefined]|ActionIdType }>()
   public startDataServerAction = new Subject<ServerDataRequestType>()
 
   private _clientData: ClientData[] = []

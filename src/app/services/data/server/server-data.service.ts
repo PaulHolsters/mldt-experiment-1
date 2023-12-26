@@ -8,7 +8,7 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {
   ActionIdType,
-  ComponentNameType,
+  ComponentNameType, EffectIdType,
   FormTargetType,
 } from "../../../types/type-aliases";
 import {ClientDataService} from "../client/client-data.service";
@@ -26,9 +26,7 @@ export class ServerDataService {
   //  todo een taal bedenken voor extra calculated fields based on related data and concepts
   //  todo a way to filter data
   //  todo a way to order data (sort)
-  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
-
-
+  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType}>()
   constructor(private configService:ConfigService,
               private apollo: Apollo,
               private actionsService:ActionsService,

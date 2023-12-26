@@ -7,7 +7,7 @@ import {Subject} from "rxjs";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
-import {ActionIdType, ComponentNameType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, EffectIdType} from "../types/type-aliases";
 import {ComponentModelType, isNoValueType, RenderModelType} from "../types/union-types";
 import {ChildLayoutRenderModel} from "../design-dimensions/ComponentSpecificLayout/Container/ChildLayoutRenderModel";
 import {Container} from "../components/container/Container";
@@ -17,7 +17,7 @@ import {Container} from "../components/container/Container";
 })
 export class ResponsiveBehaviourService implements OnInit{
   private screensize:ScreenSize=ScreenSize.smartphone
-  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:ActionIdType}>()
+  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType}>()
   public get screenSize(){
     return this.screensize
   }

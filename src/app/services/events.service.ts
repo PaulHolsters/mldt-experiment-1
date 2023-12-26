@@ -27,10 +27,13 @@ export class EventsService{
               private UIActionsService:UiActionsService,
               private stateService:StateService) {
     this.serverDataService.actionFinished.subscribe(res =>{
-      // todo handle running effect
+      if(typeof res!=='string'){
+
+      }
       this.triggerEvent(res.trigger,res.source)
     })
     this.clientDataService.clientDataUpdated.subscribe(res =>{
+      debugger
       this.triggerEvent(TriggerType.ClientDataUpdated, ServiceType.DataService,res)
     })
     this.clientDataService.actionFinished.subscribe(res =>{
