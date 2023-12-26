@@ -151,6 +151,11 @@ export class Action {
         this.serviceMethod = ServiceMethodType.ExecuteServerAction
         this.targetType = TargetType.Server
         break
+      case ActionType.TerminateRunningEffect:
+        this.service = ServiceType.StateService
+        this.serviceMethod = ServiceMethodType.DeleteEffect
+        this.targetType = TargetType.Client
+        break
       default:
         throw new Error('The action is not implemented yet '+this.type)
         // todo add typescript switch completion

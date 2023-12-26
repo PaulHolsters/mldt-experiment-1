@@ -4,5 +4,6 @@ export enum ServiceType {
   RBSService,
   ActionsService,
   RenderPropertiesService,
-  AnyService
+  AnyService,
+  StateService,
 }

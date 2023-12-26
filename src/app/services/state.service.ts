@@ -52,27 +52,7 @@ export class StateService {
   private componentData:{name:string,index:number|undefined,properties:Map<string,any>}[] = []
   // todo werk any weg
 
-  constructor(private configService:ConfigService,
-              private serverDataService:ServerDataService,
-              private clientDataService:ClientDataService,
-              private RBSService:ResponsiveBehaviourService,
-              private storeService:RenderPropertiesService,
-              private UIActionsService:UiActionsService,) {
-    this.serverDataService.actionFinished.subscribe(res =>{
-      // todo handle running effects array
-    })
-    this.clientDataService.actionFinished.subscribe(res =>{
-      // todo handle running effects array
-    })
-    this.UIActionsService.actionFinished.subscribe(res =>{
-      // todo handle running effects array
-    })
-    this.RBSService.actionFinished.subscribe(res =>{
-      // todo handle running effects array
-    })
-    this.storeService.actionFinished.subscribe(res =>{
-      // todo handle running effects array
-    })
+  constructor(private configService:ConfigService) {
   }
 
   public getProperties(type:ComponentType){
@@ -153,12 +133,4 @@ export class StateService {
         obj.properties.set(data.key,data.value)
     }
   }
-
-  public hasEffect(param: [EffectIdType,number|undefined]) {
-    return this.runningEffects.find(e=>{
-      return e[0]===param[0] && e[1]===param[1]
-    }) !== undefined
-  }
-
-  public runningEffects: [EffectIdType,number|undefined][] = []
 }

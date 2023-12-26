@@ -10,7 +10,7 @@ import {UiActionsService} from "./ui-actions.service";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ClientDataService} from "./data/client/client-data.service";
 import {ActionType} from "../enums/actionTypes.enum";
-import {ComponentNameType} from "../types/type-aliases";
+import {ComponentNameType, EffectIdType} from "../types/type-aliases";
 import {StateService} from "./state.service";
 import {isNoValueType} from "../types/union-types";
 
@@ -26,14 +26,15 @@ export class EventsService{
               private storeService:RenderPropertiesService,
               private UIActionsService:UiActionsService,
               private stateService:StateService) {
-
     this.serverDataService.actionFinished.subscribe(res =>{
+      // todo handle running effect
       this.triggerEvent(res.trigger,res.source)
     })
     this.clientDataService.clientDataUpdated.subscribe(res =>{
       this.triggerEvent(TriggerType.ClientDataUpdated, ServiceType.DataService,res)
     })
     this.clientDataService.actionFinished.subscribe(res =>{
+      // todo handle running effect
       this.triggerEvent(res.trigger,res.source)
     })
     this.clientDataService.startDataServerAction.subscribe(res =>{
@@ -47,15 +48,25 @@ export class EventsService{
       }
     })
     this.UIActionsService.actionFinished.subscribe(res =>{
+      // todo handle running effect
       this.triggerEvent(res.trigger,res.source)
     })
     this.RBSService.actionFinished.subscribe(res =>{
+      // todo handle running effect
       this.triggerEvent(res.trigger,res.source)
     })
     this.storeService.actionFinished.subscribe(res =>{
+      // todo handle running effect
       this.triggerEvent(res.trigger,res.source)
     })
   }
+  public hasEffect(param: [EffectIdType,number|undefined]) {
+    return this.runningEffects.find(e=>{
+      return e[0]===param[0] && e[1]===param[1]
+    }) !== undefined
+  }
+
+  private runningEffects: [EffectIdType,number|undefined][] = []
   public triggerEvent(trigger:TriggerType,source:string|[ComponentNameType,string|(number|undefined)]|ServiceType,data?:any,target?:EventTarget){
     // todo werk any weg op termijn hier
     if(data && data instanceof AppConfig){
@@ -70,20 +81,20 @@ export class EventsService{
         && typeof source[0]==='string'
         && typeof source[1]==='string')){
         // todo voorlopig enkel condities op de trigger, later ook de action zelf
-        if(isNoValueType(effect.trigger.condition) || (effect.trigger.condition(this.stateService,source))){
+        if(isNoValueType(effect.trigger.condition) || (effect.trigger.condition(this,source))){
           this.actionsService.triggerAction(effect,data,target,(source as (string|[string,string])))
           const index = source instanceof Array && source.length===2 && typeof source[1] === 'number'? source[1]: undefined
-          if(!isNoValueType(effect.id) && !this.stateService.hasEffect([effect.id,index])){
-            this.stateService.runningEffects.push([effect.id,index])
+          if(!isNoValueType(effect.id) && !this.hasEffect([effect.id,index])){
+            this.runningEffects.push([effect.id,index])
           }
         }
       } else if(isNoValueType(effect.trigger.condition) ||
         (source instanceof Array && source.length===2 && (typeof source[1] === 'number'|| source[1]===undefined)
-        && effect.trigger.condition(this.stateService,source))){
+        && effect.trigger.condition(this,source))){
         this.actionsService.triggerAction(effect,data,target)
         const index = source instanceof Array && source.length===2 && typeof source[1] === 'number'? source[1]: undefined
-        if(!isNoValueType(effect.id) && !this.stateService.hasEffect([effect.id,index])){
-          this.stateService.runningEffects.push([effect.id,index])
+        if(!isNoValueType(effect.id) && !this.hasEffect([effect.id,index])){
+          this.runningEffects.push([effect.id,index])
         }
       }
     })

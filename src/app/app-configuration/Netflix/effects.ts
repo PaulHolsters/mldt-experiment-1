@@ -8,15 +8,15 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
 import {Trigger} from "../../effectclasses/Trigger";
 import {ServerAction} from "../../effectclasses/ServerAction";
+import {EventsService} from "../../services/events.service";
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property
 const setFooterHeight = (stateService: StateService, data: any): string => {
   return getComputedStyle(data.el.nativeElement).height // 50px
 }
-const allowDetails = (stateService: StateService,data:any):boolean =>{
-  debugger
-  return !(stateService.hasEffect(['removing movie from my list',data[1]])
-    || stateService.hasEffect(['adding movie to my list',data[1]]))
+const allowDetails = (eventService: EventsService,data:any):boolean =>{
+  return !(eventService.hasEffect(['removing movie from my list',data[1]])
+    || eventService.hasEffect(['adding movie to my list',data[1]]))
 }
 export const effects: Effect[] = [
   new Effect(
