@@ -52,6 +52,7 @@ export class ServerDataService {
       )
     }
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
+      // todo bij elke bindToAction moet je EffectAsSource vastellen en doorgeven ???
       if(res){
         const action = res.effect.action
         let body: {id:string}|undefined
@@ -60,6 +61,7 @@ export class ServerDataService {
         }
         this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
+            // todo controleer dat deze methode het effect aflevert na beëindiging
             createOrUpdateClientData(this,action.id, action.target,undefined,res)
           }
         })

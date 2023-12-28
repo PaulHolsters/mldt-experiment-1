@@ -8,7 +8,12 @@ import {NoValueType} from "../enums/NoValueTypes.enum";
 export interface ActionSubjectModel {
   service:ServiceType,
   method:ServiceMethodType,
-  subj:Subject<{effect:Effect,data:any,target:EventTarget|undefined, source?:ComponentNameType|[ComponentNameType,string]}|undefined>
-  action$:Observable<{effect:Effect,data:any,target:EventTarget|undefined,source?:ComponentNameType|[ComponentNameType,string]}|undefined>,
+  subj:Subject<{
+    effect:Effect,
+    data:any,
+    target:EventTarget|undefined,
+    source?: ComponentNameType|[ComponentNameType,string]|[ComponentNameType,number|undefined]}|undefined
+  >
+  action$:Observable<{effect:Effect,data:any,target:EventTarget|undefined,source?:ComponentNameType|[ComponentNameType,string]|[ComponentNameType,number|undefined]}|undefined>,
   executionId?:ActionIdType
 }

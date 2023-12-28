@@ -39,6 +39,7 @@ export const effects: Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'add'),
+    // todo de vraag die zich stelt is : wanneer is een actie eigenlijk "finished"?
     new ServerAction('addMovieToList','content'),
     'adding movie to my list'
   ),
@@ -49,10 +50,10 @@ export const effects: Effect[] = [
     // todo dit is eerder NOT NEEDED ipv NOT ALLOWED
     NoValueType.NO_VALUE_ALLOWED
   ),
-  new Effect(
+/*  new Effect(
     new Trigger(TriggerType.ComponentHovered,'movie'),
     new Action('showPointer',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.cursor, 'pointer'))
-  ),
+  ),*/
 ]
 

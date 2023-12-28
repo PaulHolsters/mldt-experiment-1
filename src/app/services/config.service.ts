@@ -274,6 +274,12 @@ export class ConfigService {
       return e.action.id === id
     })?.action
   }
+
+  effectIdExists(data: string) {
+    return this.effects.find(e=>{
+      return e.id === data
+    }) !== undefined
+  }
 }
 
 function keyof(arg0: string) {

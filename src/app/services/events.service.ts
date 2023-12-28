@@ -10,7 +10,7 @@ import {UiActionsService} from "./ui-actions.service";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ClientDataService} from "./data/client/client-data.service";
 import {ActionType} from "../enums/actionTypes.enum";
-import {ComponentNameType, EffectIdType} from "../types/type-aliases";
+import {ComponentNameType, EffectIdType, isEffectAsSource} from "../types/type-aliases";
 import {StateService} from "./state.service";
 import {isNoValueType} from "../types/union-types";
 
@@ -26,19 +26,45 @@ export class EventsService{
               private storeService:RenderPropertiesService,
               private UIActionsService:UiActionsService,
               private stateService:StateService) {
-    this.serverDataService.actionFinished.subscribe(res =>{
-      if(typeof res!=='string'){
 
+    this.UIActionsService.actionFinished.subscribe(res =>{
+      // todo er wordt een effect as source aangemaakt maar geen verstuurd na actie => gewoon versturen zit in res.effect.source[1] en res.effect.id
+      if(isEffectAsSource(res,this.configService)){
+        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
       }
       this.triggerEvent(res.trigger,res.source)
     })
-    this.clientDataService.clientDataUpdated.subscribe(res =>{
-      debugger
-      this.triggerEvent(TriggerType.ClientDataUpdated, ServiceType.DataService,res)
-    })
-    this.clientDataService.actionFinished.subscribe(res =>{
-      // todo handle running effect
+
+    this.RBSService.actionFinished.subscribe(res =>{
+      if(isEffectAsSource(res,this.configService)){
+        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
+      }
       this.triggerEvent(res.trigger,res.source)
+    })
+
+    this.storeService.actionFinished.subscribe(res =>{
+      if(isEffectAsSource(res,this.configService)){
+        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
+      }
+      this.triggerEvent(res.trigger,res.source)
+    })
+
+    this.serverDataService.actionFinished.subscribe(res =>{
+      if(isEffectAsSource(res,this.configService)){
+        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
+      }
+      this.triggerEvent(res.trigger,res.source)
+    })
+
+    this.clientDataService.actionFinished.subscribe(res =>{
+      if(isEffectAsSource(res,this.configService)){
+        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
+      }
+      this.triggerEvent(res.trigger,res.source)
+    })
+
+    this.clientDataService.clientDataUpdated.subscribe(res =>{
+      this.triggerEvent(TriggerType.ClientDataUpdated, ServiceType.DataService,res)
     })
     this.clientDataService.startDataServerAction.subscribe(res =>{
       switch (res.action){
@@ -50,18 +76,6 @@ export class EventsService{
           break
       }
     })
-    this.UIActionsService.actionFinished.subscribe(res =>{
-      // todo handle running effect
-      this.triggerEvent(res.trigger,res.source)
-    })
-    this.RBSService.actionFinished.subscribe(res =>{
-      // todo handle running effect
-      this.triggerEvent(res.trigger,res.source)
-    })
-    this.storeService.actionFinished.subscribe(res =>{
-      // todo handle running effect
-      this.triggerEvent(res.trigger,res.source)
-    })
   }
   public hasEffect(param: [EffectIdType,number|undefined]) {
     return this.runningEffects.find(e=>{
@@ -70,7 +84,7 @@ export class EventsService{
   }
 
   private runningEffects: [EffectIdType,number|undefined][] = []
-  public triggerEvent(trigger:TriggerType,source:string|[ComponentNameType,string|(number|undefined)]|ServiceType,data?:any,target?:EventTarget){
+  public triggerEvent(trigger:TriggerType,source:ComponentNameType|[ComponentNameType,string]|[ComponentNameType,(number|undefined)]|ServiceType,data?:any,target?:EventTarget){
     // todo werk any weg op termijn hier
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
@@ -94,7 +108,12 @@ export class EventsService{
       } else if(isNoValueType(effect.trigger.condition) ||
         (source instanceof Array && source.length===2 && (typeof source[1] === 'number'|| source[1]===undefined)
         && effect.trigger.condition(this,source))){
-        this.actionsService.triggerAction(effect,data,target)
+        // todo het is wellicht deze die getriggered wordt en die bevat geen source => zet source er gewoon bij
+        if(typeof source === 'number'){
+          this.actionsService.triggerAction(effect,data,target)
+        }else {
+          this.actionsService.triggerAction(effect,data,target,source)
+        }
         const index = source instanceof Array && source.length===2 && typeof source[1] === 'number'? source[1]: undefined
         if(!isNoValueType(effect.id) && !this.hasEffect([effect.id,index])){
           this.runningEffects.push([effect.id,index])
