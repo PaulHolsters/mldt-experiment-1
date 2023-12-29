@@ -12,7 +12,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {
   ActionIdType,
-  ComponentNameType, EffectIdType, isComponentName,
+  ComponentNameType, EffectAsSource, EffectIdType, isComponentName,
   isDataLink,
   isFormTargetType,
   ServerDataRequestType
@@ -119,11 +119,11 @@ export class UiActionsService {
   }
   private updateDataRelatedProps(res: {
     effect: Effect,
-    data: Blueprint | [ComponentNameType, DataRecord | (DataRecord | null)[]] | ClientData | string | ServerDataRequestType | DataRecord | List,
+    data: {clientData:ClientData,effectAsSource:EffectAsSource|undefined}|undefined,
     target: EventTarget | undefined
   }) {
-    if (isClientData(res.data)) {
-      const dl = this.configService.getConfigFromRoot(res.data.name)
+    if (res.data) {
+      const dl = this.configService.getConfigFromRoot(res.data.clientData.name)
       if (dl) {
         const target = this.configService.effects.map(e => {
           return e.action.target
@@ -250,12 +250,12 @@ export class UiActionsService {
   private outputData(
     res: {
       effect: Effect,
-      data: Blueprint | [ComponentNameType, DataRecord | List] | ClientData | string | ServerDataRequestType | DataRecord | List,
+      data: {clientData:ClientData,effectAsSource:EffectAsSource|undefined}|undefined,
       target: EventTarget | undefined
     }
   ) {
-    if (isClientData(res.data)) {
-      const cd = res.data
+    if (res.data) {
+      const cd = res.data.clientData
       this.renderPropertiesService.getStatePropertySubjects().filter(ps => {
         return ps.componentName === cd.name
       }).forEach(propSubj => {

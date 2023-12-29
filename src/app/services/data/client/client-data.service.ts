@@ -25,8 +25,8 @@ import {
 })
 export class ClientDataService {
   // je hebt dus een aantal events die heel typisch zijn voor een bepaalde service
-  public clientDataUpdated = new Subject<ClientData>()
-  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: [EffectIdType,number|undefined]|ActionIdType }>()
+  public clientDataUpdated = new Subject<{clientData:ClientData,effectAsSource:EffectAsSource|undefined}>()
+  public actionFinished = new Subject<{ trigger: TriggerType.ActionFinished, source: EffectAsSource|ActionIdType }>()
   public startDataServerAction = new Subject<ServerDataRequestType>()
 
   private _clientData: ClientData[] = []
@@ -118,20 +118,20 @@ export class ClientDataService {
   }
 
   public updateClientData(searchValue: ActionIdType | ComponentNameType | FormTargetType,
-                          data: OutputData) {
+                          data: OutputData,effectAsSource?:EffectAsSource|undefined) {
     // todo 1 data record, vervang het juiste id door een nieuw record en output de nieuwe output data op de gewone manier
     if(typeof searchValue !== 'string'){
       searchValue.controls.forEach(t=>{
         const instance = this.getClientDataInstanceForComponent(t.target)
         if (instance) {
           instance.update(data,t.field)
-          this.clientDataUpdated.next(instance)
+          this.clientDataUpdated.next({clientData:instance,effectAsSource:effectAsSource})
         } else throw new Error('Client data instance does not exist')
       })
       const instance = this.getClientDataInstanceForComponent(searchValue.submit)
       if (instance) {
         instance.update(data)
-        this.clientDataUpdated.next(instance)
+        this.clientDataUpdated.next({clientData:instance,effectAsSource:effectAsSource})
       } else throw new Error('Client data instance does not exist')
     } else if(isComponentName(searchValue, this.configService)){
       // todo check of het deze tak is
@@ -139,7 +139,7 @@ export class ClientDataService {
       if (instance) {
         instance.update(data)
         // todo if data is datarecord and instance is list => don't send new value!
-        this.clientDataUpdated.next(instance)
+        this.clientDataUpdated.next({clientData:instance,effectAsSource:effectAsSource})
         const target = this.configService.effects.map(e=>{
           return e.action.target
         }).find(t=>{
@@ -155,7 +155,7 @@ export class ClientDataService {
             })?.field
             if(!fieldToUpdate) throw new Error('Field to update is missing')
             instance.update(data,fieldToUpdate)
-            this.clientDataUpdated.next(instance)
+            this.clientDataUpdated.next({clientData:instance,effectAsSource:effectAsSource})
           } else throw new Error('Client data instance for submit control does not exist')
         }
       } else throw new Error('Client data instance does not exist')
@@ -163,7 +163,7 @@ export class ClientDataService {
       const instances = this.getClientDataInstancesForId(searchValue)
       instances?.forEach(i=>{
         i.update(data)
-        this.clientDataUpdated.next(i)
+        this.clientDataUpdated.next({clientData:i,effectAsSource:effectAsSource})
       })
     } else throw new Error('id for fetching clientdata is not valid')
   }
@@ -172,13 +172,14 @@ export class ClientDataService {
     actionId: ActionIdType,
     componentName: ComponentNameType | FormTargetType,
     data?: List | DataRecord | undefined,
-    errorMessages?: string[] | undefined
+    errorMessages?: string[] | undefined,
+    effectAsSource?:EffectAsSource|undefined
   ) {
     if(isComponentName(componentName,this.configService) && data){
       // todo maak ook de children en grandchildren when repeated components
       this._clientData.push(new ClientData(actionId, componentName, data, errorMessages))
       const cd = this.getClientDataInstanceForComponent(componentName)
-      if (cd) this.clientDataUpdated.next(cd)
+      if (cd) this.clientDataUpdated.next({clientData:cd,effectAsSource:effectAsSource})
     }
 /*    if (blueprint) {
       for (let [k, v] of blueprint.properties.properties) {

@@ -68,6 +68,7 @@ export class ServerDataService {
         if(isDataRecord(res.data)){
           body = {id:res.data.id}
         }
+        debugger
         this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
             // todo controleer dat deze methode het effect aflevert na beëindiging

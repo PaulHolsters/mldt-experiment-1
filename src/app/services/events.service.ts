@@ -28,44 +28,37 @@ export class EventsService{
               private stateService:StateService) {
 
     this.UIActionsService.actionFinished.subscribe(res =>{
-      // todo er wordt een effect as source aangemaakt maar geen verstuurd na actie => gewoon versturen zit in res.effect.source[1] en res.effect.id
-      if(isEffectAsSource(res,this.configService)){
-        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
-      }
       this.triggerEvent(res.trigger,res.source)
     })
 
     this.RBSService.actionFinished.subscribe(res =>{
-      if(isEffectAsSource(res,this.configService)){
-        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
-      }
       this.triggerEvent(res.trigger,res.source)
     })
 
     this.storeService.actionFinished.subscribe(res =>{
-      if(isEffectAsSource(res,this.configService)){
-        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
-      }
       this.triggerEvent(res.trigger,res.source)
     })
 
     this.serverDataService.actionFinished.subscribe(res =>{
-      if(isEffectAsSource(res,this.configService)){
-        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
-      }
       this.triggerEvent(res.trigger,res.source)
     })
 
     this.clientDataService.actionFinished.subscribe(res =>{
-      if(isEffectAsSource(res,this.configService)){
-        this.runningEffects.splice(this.runningEffects.map(e=>e[0]).indexOf(res[0]),1)
-      }
       this.triggerEvent(res.trigger,res.source)
     })
 
     this.clientDataService.clientDataUpdated.subscribe(res =>{
+      debugger
+      if(res.effectAsSource){
+        debugger
+        const index = this.runningEffects.indexOf(res.effectAsSource)
+        this.runningEffects.splice(index,1)
+      }
+      debugger
+      // todo
       this.triggerEvent(TriggerType.ClientDataUpdated, ServiceType.DataService,res)
     })
+
     this.clientDataService.startDataServerAction.subscribe(res =>{
       switch (res.action){
         case ActionType.GetInstance:

@@ -30,7 +30,7 @@ export const isEffectAsSource = function isEffectAsSource(data:unknown,config:Co
   return data instanceof Array && data.length === 2 && isEffectIdType(data[0],config) && (typeof data[1] === 'number' || data[1]=== undefined)
 }
 export const isEffectIdType = function isEffectIdType(data:unknown,config:ConfigService):data is EffectIdType{
-  return typeof data === 'string' && config.effectIdExists(data)
+  return typeof data === 'string' && !isNoValueType(data) && config.effectIdExists(data)
 }
 export const isPropsByDataType = function isPropsByDataType(data:unknown): data is PropsByDataType{
   if(data instanceof Array){
