@@ -8,8 +8,8 @@ import {TriggerType} from "../../../enums/triggerTypes.enum";
 import {Apollo} from "apollo-angular";
 import {
   ActionIdType,
-  ComponentNameType, EffectIdType,
-  FormTargetType,
+  ComponentNameType, EffectAsSource, EffectIdType,
+  FormTargetType, isComponentAsSource, isEffectIdType,
 } from "../../../types/type-aliases";
 import {ClientDataService} from "../client/client-data.service";
 import {
@@ -43,17 +43,26 @@ export class ServerDataService {
                               actionId:ActionIdType,
                               name:ComponentNameType |FormTargetType,
                               errorMessages:string[]|undefined,
-                              data:List | DataRecord |undefined){
+                              data:List | DataRecord |undefined,
+                              effectAsSource:EffectAsSource|undefined){
       self.clientDataService.createOrUpdateClientData(
         actionId,
         name,
         data,
-        errorMessages
+        errorMessages,
+        effectAsSource
       )
     }
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
-      // todo bij elke bindToAction moet je EffectAsSource vastellen en doorgeven ???
       if(res){
+        let effectAsSource:EffectAsSource|undefined = undefined
+        if(isEffectIdType(res.effect.id,this.configService)){
+          let source:number|undefined=undefined
+          if(isComponentAsSource(res.source,this.configService)){
+            source = res.source[1]
+          }
+          effectAsSource = [res.effect.id,source]
+        }
         const action = res.effect.action
         let body: {id:string}|undefined
         if(isDataRecord(res.data)){
@@ -62,7 +71,7 @@ export class ServerDataService {
         this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
             // todo controleer dat deze methode het effect aflevert na beëindiging
-            createOrUpdateClientData(this,action.id, action.target,undefined,res)
+            createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
           }
         })
       }

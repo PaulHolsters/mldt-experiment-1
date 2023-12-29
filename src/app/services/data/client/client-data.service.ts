@@ -8,7 +8,7 @@ import {ClientData} from "./ClientData";
 import {
   ActionIdType,
   ComponentNameType,
-  ConceptNameType, EffectIdType, FormTargetType, isActionIdType,
+  ConceptNameType, EffectAsSource, EffectIdType, FormTargetType, isActionIdType,
   isComponentName, isFormTargetType,
   isFrontendDataType, ServerDataRequestType
 } from "../../../types/type-aliases";
@@ -269,16 +269,17 @@ export class ClientDataService {
     actionId: ActionIdType,
     name: ComponentNameType | FormTargetType,
     data: List | DataRecord | undefined,
-    errorMessages: string[] | undefined) {
+    errorMessages: string[] | undefined,
+    effectAsSource:EffectAsSource|undefined) {
     if(isDataRecord(data) && isComponentName(name,this.configService)){
       const cd = this.getClientDataInstanceForComponent(name)
       if(cd){
-        this.updateClientData(name,data)
+        this.updateClientData(name,data,effectAsSource)
       } else{
-        this.createClientData(actionId,name,data,errorMessages)
+        this.createClientData(actionId,name,data,errorMessages,effectAsSource)
       }
     } else if(isList(data) && isComponentName(name,this.configService)){
-      this.createClientData(actionId,name,data,errorMessages)
+      this.createClientData(actionId,name,data,errorMessages,effectAsSource)
     }
   }
 }

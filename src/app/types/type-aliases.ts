@@ -22,6 +22,10 @@ export type HtmlType = string
 export type PropsByDataType = Array<DataDependedPropType>
 export type DataDependedPropType = [PropertyName, Datalink, Function[]]
 export type EffectAsSource = [EffectIdType,number|undefined]
+export type ComponentAsSource = [ComponentNameType,number|undefined]
+export const isComponentAsSource = function isComponentAsSource(data:unknown,config:ConfigService): data is ComponentAsSource{
+  return data instanceof Array && data.length===2 && isComponentName(data[0],config) && (data[1]===undefined||typeof data[1]==='number')
+}
 export const isEffectAsSource = function isEffectAsSource(data:unknown,config:ConfigService):data is EffectAsSource{
   return data instanceof Array && data.length === 2 && isEffectIdType(data[0],config) && (typeof data[1] === 'number' || data[1]=== undefined)
 }
