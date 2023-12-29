@@ -77,7 +77,8 @@ export class UiActionsService {
       }
     })
     this.actionsService.bindToAction(new Action('', ActionType.SetRenderProperty))?.subscribe(res => {
-      if (res && res.effect.action instanceof Action && !(res.source instanceof Array)) {
+      // todo fix bug: res lijkt niet aan de voorwaarde te voldoen => res.source is een array
+      if (res && res.effect.action instanceof Action) {
         const action = this.setProperty(res.effect.action, res.data, res.source)
         if (action) {
           this.actionFinished.next({trigger: TriggerType.ActionFinished, source: res.effect.action.id})
@@ -307,7 +308,7 @@ export class UiActionsService {
     return false
   }
 
-  private setProperty(action: Action, data?: any, source?: ComponentNameType) {
+  private setProperty(action: Action, data?: any, source?: string | [string, number | undefined] | [string, string] | undefined) {
     if (typeof action.target === 'string'
       && action.value instanceof ActionValueModel
       && action.value.name === PropertyName.visible
@@ -331,8 +332,14 @@ export class UiActionsService {
     })?.propValue.next(data)
 
     if (action.target === NoValueType.CALCULATED_BY_ENGINE && source) {
+      let name:string
+      if(source instanceof Array){
+        name = source[0]
+      } else {
+        name = source
+      }
       this.renderPropertiesService.getStatePropertySubjects().filter(prop => {
-        const desc = this.configService.getAllDecendants(source).map(d => {
+        const desc = this.configService.getAllDecendants(name).map(d => {
           return d.name
         })
         if (desc.includes(prop.componentName) && action.value instanceof ActionValueModel) {

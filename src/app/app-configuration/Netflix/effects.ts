@@ -15,6 +15,7 @@ const setFooterHeight = (stateService: StateService, data: any): string => {
   return getComputedStyle(data.el.nativeElement).height // 50px
 }
 const allowDetails = (eventService: EventsService,data:any):boolean =>{
+  debugger
   return !(eventService.hasEffect(['removing movie from my list',data[1]])
     || eventService.hasEffect(['adding movie to my list',data[1]]))
 }
