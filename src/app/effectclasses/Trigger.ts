@@ -9,9 +9,10 @@ export class Trigger {
   public constructor(
     public name:TriggerType,
     public source:ComponentNameType|ActionIdType|ServiceType|[ComponentNameType,string],
-    public id:TriggerIdType|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
+    public id:TriggerIdType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED,
     public condition:Function|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
   ) {
+    // todo andere no value types voor id en condition zijn toegelaten omdat dit string types zijn
     switch (name){
       case TriggerType.ComponentClicked:
         this.sourceType = SourceType.Component

@@ -8,9 +8,8 @@ export class Effect {
   public constructor(
     public trigger:Trigger,
     public action:Action|ServerAction,
-    public id:EffectIdType|NoValueType.NO_VALUE_ALLOWED=NoValueType.NO_VALUE_ALLOWED,
+    public id:EffectIdType|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED,
   ) {
-
-
+    // todo andere no value types zijn toegelaten omdat dit string types zijn
   }
 }
