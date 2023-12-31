@@ -14,7 +14,6 @@ import {ServiceType} from "../../enums/serviceTypes.enum";
 })
 export class ButtonComponent extends AbstractComponent implements OnInit,AfterViewInit {
   @ViewChild('button') button:ElementRef|undefined
-  // @Input() condition:Function|boolean|undefined
   ngOnInit(): void {
     this.props = Button.getProperties()
     this.props.forEach((v,k)=>{

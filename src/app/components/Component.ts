@@ -59,9 +59,6 @@ export class Component implements OnChanges {
   }
 
   trigger(trigger: TriggerType, nativeEvent?: any) {
-    // todo controleer hier of je uberhaupt mag triggeren
-    //      nadeel: als de card click eerst komt dan wordt deze toch uitgevoerd
-    if(trigger===TriggerType.ComponentClicked) debugger
     this.eventsService.triggerEvent(trigger, [this.name,this.index], this.data, nativeEvent?.target)
   }
 

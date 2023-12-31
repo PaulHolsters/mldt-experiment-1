@@ -48,14 +48,10 @@ export class EventsService{
     })
 
     this.clientDataService.clientDataUpdated.subscribe(res =>{
-      debugger
       if(res.effectAsSource){
-        debugger
         const index = this.runningEffects.indexOf(res.effectAsSource)
         this.runningEffects.splice(index,1)
       }
-      debugger
-      // todo
       this.triggerEvent(TriggerType.ClientDataUpdated, ServiceType.DataService,res)
     })
 
