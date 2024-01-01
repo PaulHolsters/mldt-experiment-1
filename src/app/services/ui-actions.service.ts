@@ -12,7 +12,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {
   ActionIdType,
-  ComponentNameType, EffectAsSource, EffectIdType, isComponentName,
+  ComponentNameType, EffectAsSource, EffectIdType, isComponentAsSource, isComponentName,
   isDataLink,
   isFormTargetType,
   ServerDataRequestType
@@ -352,7 +352,15 @@ export class UiActionsService {
     } else {
       this.renderPropertiesService.getStatePropertySubjects().find(prop => {
         if (prop.componentName === action.target && action.value instanceof ActionValueModel) {
-          return prop.propName === action.value.name
+          if(isComponentAsSource(source,this.configService)){
+            if(action.target === source[0]){
+              return prop.propName === action.value.name && prop.index === source[1]
+            } else{
+              return prop.propName === action.value.name
+            }
+          } else{
+            return prop.propName === action.value.name
+          }
         }
         return false
       })?.propValue.next(val)

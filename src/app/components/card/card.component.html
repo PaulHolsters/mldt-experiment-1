@@ -4,7 +4,8 @@
         [style.height]="getPropValue(PropertyName.height)"
         [style.width]="getPropValue(PropertyName.width)"
         (click)="trigger(TriggerType.ComponentClicked,$event)"
-        (mouseenter)="trigger(TriggerType.ComponentHovered,$event)"
+        (mouseenter)="trigger(TriggerType.ComponentEntered,$event)"
+        (mouseleave)="trigger(TriggerType.ComponentLeft,$event)"
         [style.cursor]="getPropValue(PropertyName.cursor)"
 >
   <ng-template *ngIf="getPropValue(PropertyName.header)" pTemplate="header">
@@ -15,4 +16,3 @@
     <m-anchor [component]="getPropValue(PropertyName.footer)" [data]="data" [index]="index"></m-anchor>
   </ng-template>
 </p-card>
-<!-- todo implementeren property "cursor" ook in DD -->

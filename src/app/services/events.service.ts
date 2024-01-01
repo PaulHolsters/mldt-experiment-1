@@ -10,7 +10,7 @@ import {UiActionsService} from "./ui-actions.service";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ClientDataService} from "./data/client/client-data.service";
 import {ActionType} from "../enums/actionTypes.enum";
-import {ComponentNameType, EffectIdType, isEffectAsSource} from "../types/type-aliases";
+import {ComponentNameType, EffectIdType} from "../types/type-aliases";
 import {StateService} from "./state.service";
 import {isNoValueType} from "../types/union-types";
 
@@ -101,6 +101,7 @@ export class EventsService{
         if(typeof source === 'number'){
           this.actionsService.triggerAction(effect,data,target)
         }else {
+          if(trigger===TriggerType.ComponentClicked) debugger
           this.actionsService.triggerAction(effect,data,target,source)
         }
         const index = source instanceof Array && source.length===2 && typeof source[1] === 'number'? source[1]: undefined

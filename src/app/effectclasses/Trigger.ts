@@ -68,7 +68,10 @@ export class Trigger {
       case TriggerType.IndexUpdated:
         this.sourceType = SourceType.System
         break
-      case TriggerType.ComponentHovered:
+      case TriggerType.ComponentLeft:
+        this.sourceType = SourceType.Component
+        break
+      case TriggerType.ComponentEntered:
         this.sourceType = SourceType.Component
         break
       default:

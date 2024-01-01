@@ -9,6 +9,7 @@ import {ActionValueModel} from "../../design-dimensions/ActionValueModel";
 import {Trigger} from "../../effectclasses/Trigger";
 import {ServerAction} from "../../effectclasses/ServerAction";
 import {EventsService} from "../../services/events.service";
+import {CursorValues} from "../../enums/cursorValues.enum";
 
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property
@@ -40,7 +41,6 @@ export const effects: Effect[] = [
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'add'),
-    // todo de vraag die zich stelt is : wanneer is een actie eigenlijk "finished"?
     new ServerAction('addMovieToList','content'),
     'adding movie to my list'
   ),
@@ -50,11 +50,9 @@ export const effects: Effect[] = [
       new ActionValueModel(PropertyName.visible, true)),
     NoValueType.NO_VALUE_NEEDED
   ),
-  // todo krijg dit aan de praat
-  new Effect(
-    new Trigger(TriggerType.ComponentHovered,'movie'),
+/*  new Effect(
+    new Trigger(TriggerType.ComponentEntered,'movie'),
     new Action('showPointer',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
-      new ActionValueModel(PropertyName.cursor, 'pointer'))
-  ),
+      new ActionValueModel(PropertyName.cursor, CursorValues.Pointer))
+  ),*/
 ]
-
