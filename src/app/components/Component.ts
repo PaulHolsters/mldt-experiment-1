@@ -3,7 +3,6 @@ import {StateService} from "../services/state.service";
 import {RenderPropertiesService} from "../services/renderProperties.service";
 import {EventsService} from "../services/events.service";
 import {ChangeDetectorRef, Directive, ElementRef, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {StylesService} from "../services/styles.service";
 import {TriggerType} from "../enums/triggerTypes.enum";
 import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {ComponentType} from "../enums/componentTypes.enum";
@@ -34,7 +33,6 @@ export class Component implements OnChanges {
     protected storeService: RenderPropertiesService,
     protected eventsService: EventsService,
     protected clientDataService: ClientDataService,
-    protected stylesService: StylesService,
     protected confirmationService: ConfirmationService,
     protected configService: ConfigService,
     protected messageService: MessageService,

@@ -44,9 +44,4 @@ export class ButtonComponent extends AbstractComponent implements OnInit,AfterVi
   ngAfterViewInit(): void {
     this.cd.detectChanges()
   }
-  getStyleClasses(
-    padding:PaddingType|undefined,
-    margin:MarginType|undefined):Object|undefined{
-      return this.stylesService.getStyleClasses(padding,margin,undefined, undefined)
-  }
 }

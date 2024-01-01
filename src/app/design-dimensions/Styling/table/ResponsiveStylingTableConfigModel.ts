@@ -36,7 +36,7 @@ export class ResponsiveStylingTableConfigModel
   getInstance() {
     return 'table'
   }
-  public getTableStructuralRenderProperties(screenSize: number): TableStylingRenderModel {
+  public getStylingRenderProperties(screenSize: number): TableStylingRenderModel {
     const configModel = this.getConfigModel(screenSize)
     const renderInstance = new TableStylingRenderModel()
     Object.entries(configModel).forEach(([k, v]) => {

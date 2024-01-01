@@ -1,8 +1,10 @@
 import {ComponentStructuralConfigModel} from "../ComponentStructuralConfigModel";
+import {NoValueType} from "../../../enums/NoValueTypes.enum";
 
 export class DialogStructuralConfigModel extends ComponentStructuralConfigModel{
-  // todo default toevoegen
-  constructor(public header:string='Your dialog needs a header') {
+  public header:string|NoValueType.NO_VALUE_NEEDED=NoValueType.NO_VALUE_NEEDED
+  public blockUI:boolean=true
+  constructor() {
     super()
   }
 }

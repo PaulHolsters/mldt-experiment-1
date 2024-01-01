@@ -3,9 +3,6 @@ import {Component as AbstractComponent} from "../Component"
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Paginator} from "../../componentclasses/Paginator";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
-import {PaddingType} from "../../enums/paddingType.enum";
-import {MarginType} from "../../enums/marginType.enum";
-import {BorderModel} from "../../design-dimensions/BorderModel";
 
 @Component({
   selector: 'm-paginator',
@@ -47,12 +44,6 @@ export class PaginatorComponent extends AbstractComponent implements OnInit,Afte
     }
     this.setPropValue(PropertyName.width,'100%')
     return false
-  }
-  getStyleClasses(
-    padding:PaddingType|undefined,
-    margin:MarginType|undefined,
-    border:BorderModel|undefined):Object|undefined{
-    return this.stylesService.getStyleClasses(padding,margin,border, undefined)
   }
   ngAfterViewInit(){
     this.setCalculatedHeight(this.getPropValue(PropertyName.calcHeight))

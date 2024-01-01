@@ -18,10 +18,11 @@ import {ComponentModelType} from "../../types/union-types";
 import {
   ResponsiveStructuralCardConfigModel
 } from "../../design-dimensions/StructuralConfig/card/ResponsiveStructuralCardConfigModel";
+import {ResponsiveStylingCardConfigModel} from "../../design-dimensions/Styling/card/ResponsiveStylingCardConfigModel";
 export class Card implements ComponentI<
   ResponsiveContentInjectionCardConfigModel,
   ResponsiveStructuralCardConfigModel,
-  undefined,
+  ResponsiveStylingCardConfigModel,
   undefined,
   undefined,
   undefined>{
@@ -66,8 +67,11 @@ export class Card implements ComponentI<
     this.contentInjection=ci
     return this
   }
-  styling=undefined
-  setStyling=undefined
+  styling=new ResponsiveStylingCardConfigModel()
+  setStyling(st:ResponsiveStylingCardConfigModel){
+    this.styling = st
+    return this
+  }
   dataInput = undefined
   setDataInput = undefined
   children=undefined

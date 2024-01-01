@@ -101,7 +101,6 @@ export class EventsService{
         if(typeof source === 'number'){
           this.actionsService.triggerAction(effect,data,target)
         }else {
-          if(trigger===TriggerType.ComponentClicked) debugger
           this.actionsService.triggerAction(effect,data,target,source)
         }
         const index = source instanceof Array && source.length===2 && typeof source[1] === 'number'? source[1]: undefined

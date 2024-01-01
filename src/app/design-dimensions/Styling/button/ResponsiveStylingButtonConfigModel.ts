@@ -38,7 +38,7 @@ export class ResponsiveStylingButtonConfigModel
   getInstance() {
     return 'table'
   }
-  public getButtonStructuralRenderProperties(screenSize: number): ButtonStylingRenderModel {
+  public getStylingRenderProperties(screenSize: number): ButtonStylingRenderModel {
     const config = this.getConfigModel(screenSize)
     const renderInstance = new ButtonStylingRenderModel()
     Object.entries(config).forEach(([k, v]) => {

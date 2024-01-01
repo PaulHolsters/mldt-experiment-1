@@ -132,4 +132,6 @@ export enum PropertyName {
   subtitle='subtitle',
   propsByData='propsByData',
   cursor='cursor',
+  blockUI='blockUI',
+  backgroundColor ='backgroundColor',
 }

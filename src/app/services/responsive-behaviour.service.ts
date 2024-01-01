@@ -211,6 +211,9 @@ export class ResponsiveBehaviourService implements OnInit{
     this.setRBSState(component.name, component.visibility.getVisibilityRenderProperties(screenSize),index)
     this.setRBSState(component.name, component.size.getSizeRenderProperties(screenSize),index)
     this.setRBSState(component.name, component.individualLayout.getIndividualLayoutRenderProperties(screenSize),index)
+    if(component.styling){
+      this.setRBSState(component.name, component.styling.getStylingRenderProperties(screenSize),index)
+    }
     // todo this.setRBSState(component.name, component.overflow.getOverflowRenderProperties(screenSize))
     // todo  if (component.styling) this.setRBSState(component.name, component.styling.getStylingRenderProperties(screenSize))
     if(component.dataRepresentation) {

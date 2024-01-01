@@ -1,8 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {RenderPropertiesService} from "../../services/renderProperties.service";
-import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
-import {StylesService} from "../../services/styles.service";
 
 @Component({
   selector: 'm-block',
@@ -18,7 +16,7 @@ export class BlockComponent implements OnInit, AfterViewInit {
   calcWidth$: Observable<any>|undefined
   width:string|undefined
   height:string|undefined
-  constructor(private storeService:RenderPropertiesService, private cd: ChangeDetectorRef, private stylesService:StylesService) { }
+  constructor(private storeService:RenderPropertiesService, private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
     this.backgroundColor$ = this.storeService.bindToStateProperty(this.name,'backgroundColor')
     this.calcWidth$ = this.storeService.bindToStateProperty(this.name,'calcWidth')
@@ -42,9 +40,6 @@ export class BlockComponent implements OnInit, AfterViewInit {
     }
     this.width = '100%'
     return false
-  }
-  getStyleClasses(backgroundColor:BackgroundColorType){
-    return Object.assign({},this.stylesService.getBackgroundColor(backgroundColor))
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()

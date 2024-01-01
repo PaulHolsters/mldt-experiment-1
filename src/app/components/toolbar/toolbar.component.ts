@@ -1,9 +1,8 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component,  OnInit, ViewChild} from '@angular/core';
 import {Component as AbstractComponent} from "../Component";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Toolbar} from "../../componentclasses/Toolbar";
-import {Element} from "@angular/compiler";
 
 @Component({
   selector: 'm-toolbar',

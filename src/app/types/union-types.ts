@@ -111,7 +111,6 @@ import {Button} from "../components/button/Button";
 import {Icon} from "../components/icon/Icon";
 import {RadioButtonGroup} from "../components/form/radio-button/RadioButtonGroup";
 import {Multiselect} from "../components/form/multiselect/Multiselect";
-import {Blueprint} from "../services/data/client/Blueprint";
 import {ClientData} from "../services/data/client/ClientData";
 import {
   TableContentInjectionRenderModel
@@ -186,8 +185,9 @@ import {CardStructuralRenderModel} from "../design-dimensions/StructuralConfig/c
 import {
   ResponsiveStructuralTextConfigModel
 } from "../design-dimensions/StructuralConfig/Text/ResponsiveStructuralTextConfigModel";
-import {Text} from "../components/text/Text";
-import {Data} from "@angular/router";
+import {CardStylingConfigModel} from "../design-dimensions/Styling/card/CardStylingConfigModel";
+import {CardStylingRenderModel} from "../design-dimensions/Styling/card/CardStylingRenderModel";
+import {ResponsiveStylingCardConfigModel} from "../design-dimensions/Styling/card/ResponsiveStylingCardConfigModel";
 
 // todo deze union types moeten opnieuw aangevuld worden
 
@@ -218,7 +218,7 @@ export type StructuralConfigModelType =
   CardStructuralConfigModel|never
 export type StylingConfigModelType =
   ButtonStylingConfigModel|
-  TableStylingConfigModel|never
+  TableStylingConfigModel|CardStylingConfigModel|never
 
 export type ConfigModelType =
   ContentInjectionConfigModelType|
@@ -259,6 +259,7 @@ export type StructuralRenderModelType =
   TableStructuralRenderModel|
   CardStructuralRenderModel|never
 export type StylingRenderModelType =
+  CardStylingRenderModel|
   ButtonStylingRenderModel|
   TableStylingRenderModel|never
 
@@ -276,7 +277,7 @@ export type RenderModelType =
   VisibilityRenderModel|never
 
 export type ResponsiveStylingConfigModelType =
-  ResponsiveStylingTableConfigModel|ResponsiveStylingButtonConfigModel|never
+  ResponsiveStylingTableConfigModel|ResponsiveStylingButtonConfigModel|ResponsiveStylingCardConfigModel|never
 export type ResponsiveStructuralConfigModelType =
   ResponsiveStructuralTableConfigModel|
   ResponsiveStructuralButtonConfigModel|
@@ -305,7 +306,7 @@ export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
   ResponsiveTableLayoutConfigModel|never
 
-export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar|Card|Text
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar|Card
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
 } & {

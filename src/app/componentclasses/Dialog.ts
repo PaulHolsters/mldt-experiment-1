@@ -14,6 +14,7 @@ export abstract class Dialog extends Component{
   public static grow: number| ParentConfigType.grow|null=null
   public static shrink: number| ParentConfigType.shrink|null=null
   public static holdSpace: boolean|null=null
+  public static blockUI:boolean|null=null
 
   public static data: any|null=null
   public static propsByData:[PropertyName,Datalink,Function[]]|null=null

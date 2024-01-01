@@ -49,13 +49,6 @@ export class LabelComponent extends AbstractComponent implements OnInit {
     this.setPropValue(PropertyName.width,'100%')
     return false
   }
-  getStyleClasses(padding:PaddingType|undefined,margin:MarginType|undefined,
-                  border:BorderModel|undefined,backgroundColor:BackgroundColorType|undefined):Object|undefined{
-    if(padding && margin && border && backgroundColor)
-    return Object.assign({},this.stylesService.getPadding(padding),this.stylesService.getMargin(margin),
-      this.stylesService.getBorder(border),this.stylesService.getBackgroundColor(backgroundColor))
-    return undefined
-  }
 
   getText(){
     const blueprint = this.getPropValue(PropertyName.conceptBlueprint) as Blueprint|undefined

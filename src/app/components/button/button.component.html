@@ -11,9 +11,6 @@
   [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
   [style.height]="getPropValue(PropertyName.height)"
   [style.width]="getPropValue(PropertyName.width)"
-  [ngClass]="getStyleClasses(
-  undefined,
-  getPropValue(PropertyName.margin))"
   #button
   (click)="trigger(TriggerType.ComponentClicked,$event)">
 </p-button>
@@ -24,15 +21,9 @@
 {{getPropValue(PropertyName.buttonAppearance)}}
 {{getPropValue(PropertyName.buttonForm)}}
 {{getPropValue(PropertyName.buttonMeaning)}}"
-          [ngClass]="getStyleClasses(
-  undefined,
-  getPropValue(PropertyName.margin))"
           (click)="trigger(TriggerType.ComponentClicked,$event)"></p-button>
 <p-button *ngIf="!getPropValue(PropertyName.label) && getPropValue(PropertyName.icon)"
           icon="{{getPropValue(PropertyName.icon)['icon']}}"
-          [ngClass]="getStyleClasses(
- undefined,
-  getPropValue(PropertyName.margin))"
           styleClass="
 {{getPropValue(PropertyName.buttonSize)}}
 {{getPropValue(PropertyName.buttonAppearance)}}
@@ -46,9 +37,6 @@
   [class.calcWidth]="setCalculatedWidth(getPropValue(PropertyName.calcWidth))"
   [style.height]="getPropValue(PropertyName.height)"
   [style.width]="getPropValue(PropertyName.width)"
-  [ngClass]="getStyleClasses(
-  undefined,
-  getPropValue(PropertyName.margin))"
   styleClass="
 {{getPropValue(PropertyName.buttonSize)}}
 {{getPropValue(PropertyName.buttonAppearance)}}

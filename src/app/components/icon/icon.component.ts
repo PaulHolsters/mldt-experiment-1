@@ -43,9 +43,4 @@ export class IconComponent extends AbstractComponent implements OnInit,AfterView
   ngAfterViewInit(): void {
     this.cd.detectChanges()
   }
-  getStyleClasses(
-    padding:PaddingType|undefined,
-    margin:MarginType|undefined):Object|undefined{
-    return this.stylesService.getStyleClasses(padding,margin,undefined, undefined)
-  }
 }
