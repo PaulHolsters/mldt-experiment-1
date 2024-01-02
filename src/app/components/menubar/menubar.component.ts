@@ -34,6 +34,10 @@ export class MenubarComponent extends AbstractComponent implements OnInit,AfterV
   }
   ngAfterViewInit(): void {
     this.cd.detectChanges()
+    // hier wordt het element zelf meegegeven zodat dit bv in een custom function kan gebruikt worden te samen
+    // met de DOM JS functie getComputedStyle(this.menubar.el.nativeElement)
+    // todo implementeer dit in het algemeen voor alle componenten
+    // todo en dan kan je dit ook meteen doen voor setCalculatedHeight en Width
     this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.menubar)
   }
   setCalculatedHeight(val:any):boolean{

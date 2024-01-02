@@ -1,16 +1,27 @@
-.calcHeight{
-  height:var(--heightVal)
-}
-.calcWidth{
-  width:var(--widthVal)
-}
-.visibilityHidden{
-  visibility: hidden;
-}
-.displayNone{
-  display: none;
-}
-:host {
+m-card {
   --heightVal: 0;
   --widthVal: 0;
+  --backgroundColor:null;
 }
+m-card > .calcHeight {
+    height: var(--heightVal);
+  }
+
+m-card > .calcWidth {
+    width: var(--widthVal);
+  }
+
+m-card > .visibilityHidden {
+    visibility: hidden;
+  }
+
+m-card > .displayNone {
+    display: none;
+}
+
+m-card > p-card > .p-card {
+  background-color: var(--backgroundColor);
+}
+
+
+
