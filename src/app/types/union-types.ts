@@ -344,7 +344,7 @@ export type ActionValueType = 'list'|
   ResponsiveContainerChildLayoutConfigModel |
   ResponsiveVisibilityConfigModel |
   Function|
-  boolean|string|
+  boolean|string|number|
   undefined
 export const extractConcept = function extractConcept(concept:TypeName|ConceptNameType|undefined|DataLink,config:ConfigService):ConceptNameType|undefined{
   if(isTypeName(concept)){

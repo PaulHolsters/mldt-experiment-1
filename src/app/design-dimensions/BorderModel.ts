@@ -7,7 +7,7 @@ export class BorderModel {
   isComponent?:boolean = false
   constructor(
     public radius:BorderRadiusType=BorderRadiusType.No_rounding,
-    public color:BorderColorType=BorderColorType.Border_Color_Transparant,
+    //public color:BorderColorType=BorderColorType.Border_Color_Transparant,
     public style:BorderStyleType=BorderStyleType.Solid,
     public globalWidth:
       BorderWidthType.No_width|

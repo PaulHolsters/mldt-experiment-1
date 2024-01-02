@@ -2,6 +2,8 @@ m-card {
   --heightVal: 0;
   --widthVal: 0;
   --backgroundColor:null;
+  --borderColor:null;
+  --borderWidth:null;
 }
 m-card > .calcHeight {
     height: var(--heightVal);
@@ -19,9 +21,17 @@ m-card > .displayNone {
     display: none;
 }
 
-m-card > p-card > .p-card {
+m-card > p-card > .background {
   background-color: var(--backgroundColor);
 }
 
+m-card > p-card > .borderColor {
+  border-color: var(--borderColor);
+}
+
+m-card > p-card > .borderWidth {
+  border-width: var(--borderWidth);
+  border-style: solid;
+}
 
 

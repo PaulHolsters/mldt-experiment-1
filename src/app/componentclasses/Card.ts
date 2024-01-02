@@ -5,6 +5,8 @@ import {PropertyName} from "../enums/PropertyNameTypes.enum";
 import {Datalink} from "../design-dimensions/datalink";
 import {CursorValues} from "../enums/cursorValues.enum";
 import {BackgroundColorType} from "../enums/backgroundColorType.enum";
+import {BorderColorType} from "../enums/borderColorType.enum";
+import {BorderWidthType} from "../enums/borderWidthType.enum";
 
 export abstract class Card extends Component{
   public static repeater:boolean|null=null
@@ -25,4 +27,6 @@ export abstract class Card extends Component{
   public static propsByData:[PropertyName,Datalink,Function[]]|null=null
   public static cursor:CursorValues|null=null
   public static backgroundColor:BackgroundColorType|null=null
+  public static borderColor:BorderColorType|null=null
+  public static borderWidth:BorderWidthType|null=null
 }

@@ -134,4 +134,6 @@ export enum PropertyName {
   cursor='cursor',
   blockUI='blockUI',
   backgroundColor ='backgroundColor',
+  borderColor = 'borderColor',
+  borderWidth = 'borderWidth',
 }

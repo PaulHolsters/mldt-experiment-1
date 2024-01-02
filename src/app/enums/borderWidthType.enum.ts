@@ -1,9 +1,9 @@
 export enum BorderWidthType {
   No_width=1,
-  Width_1,
-  Width_2,
-  Width_3,
-  No_left_right_width,
+  Width_1='1px',
+  Width_2='2px',
+  Width_3='3px',
+  No_left_right_width=2,
   Left_right_width_1,
   Left_right_width_2,
   Left_right_width_3,

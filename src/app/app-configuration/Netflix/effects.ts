@@ -11,6 +11,8 @@ import {ServerAction} from "../../effectclasses/ServerAction";
 import {EventsService} from "../../services/events.service";
 import {CursorValues} from "../../enums/cursorValues.enum";
 import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
+import {BorderColorType} from "../../enums/borderColorType.enum";
+import {BorderWidthType} from "../../enums/borderWidthType.enum";
 
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property
@@ -54,6 +56,31 @@ export const effects: Effect[] = [
   new Effect(
     new Trigger(TriggerType.ComponentEntered,'movie'),
     new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
-      new ActionValueModel(PropertyName.backgroundColor, BackgroundColorType.Primary))
+      new ActionValueModel(PropertyName.backgroundColor, BackgroundColorType.Highlight))
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentEntered,'movie'),
+    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.borderColor, BorderColorType.Primary))
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentEntered,'movie'),
+    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.borderWidth, BorderWidthType.Width_2))
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentLeft,'movie'),
+    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.backgroundColor, BackgroundColorType.Default))
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentLeft,'movie'),
+    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.borderColor, BorderColorType.Default))
+  ),
+  new Effect(
+    new Trigger(TriggerType.ComponentLeft,'movie'),
+    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.borderWidth, BorderWidthType.No_width))
   ),
 ]

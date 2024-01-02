@@ -284,7 +284,7 @@ export class UiActionsService {
     return true
   }
   private replace(key: string | undefined, config: ComponentModelType, value: ResponsiveSizeConfigModel
-    | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel|string | undefined) {
+    | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel|string |number| undefined) {
     if (key) {
       Reflect.set(config, key, value)
     }
@@ -318,7 +318,7 @@ export class UiActionsService {
         this.clientDataService.destroy(ch.name)
       })
     }
-    let val: string | boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
+    let val: string |number| boolean | Function | ResponsiveSizeConfigModel | ResponsiveOverflowConfigModel | ResponsiveContainerChildLayoutConfigModel | ResponsiveVisibilityConfigModel | undefined
     if (typeof ((action.value as ActionValueModel).value) === 'function') {
       val = ((action.value as ActionValueModel).value as Function)(this.stateService, data)
     }
