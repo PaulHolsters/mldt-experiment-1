@@ -23,9 +23,6 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class ServerDataService {
-  //  todo een taal bedenken voor extra calculated fields based on related data and concepts
-  //  todo a way to filter data
-  //  todo a way to order data (sort)
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType}>()
   constructor(private configService:ConfigService,
               private apollo: Apollo,
@@ -68,9 +65,15 @@ export class ServerDataService {
         if(isDataRecord(res.data)){
           body = {id:res.data.id}
         }
+        // effects worden vanaf nu in de backend geprogrammeerd en vervolgens wordt er bij opstart van de frontend
+        //  een start-up call gedaan voor het verkrijgen van de nodige data, waaronder dus de action Id's en bijhorend concept
+        //  bij deze concepten zitten alle attributen met hun validatie; op basis van deze validatie regels kunnen forms en
+        //  form-controls zich dan automatisch goed zetten. Hierdoor moet de gebruiker enkel backend validatie mee te geven
+        //  in de frontendconfiguratie moet je dan enkel nog aangeven of je foute ingave wil blokkeren dan wel een warning geven
+        //  of bij submit de nodige frontend errors tonen. Het voordeel is dat je geen server request moet sturen voor validatie
+        //  m.a.w. de juiste keuze zal dan wellicht altijd zijn om de validatie volledig in de frontend af te handelen.
         this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
           if(isList(res)||isDataRecord(res)){
-            // todo controleer dat deze methode het effect aflevert na beëindiging
             createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
           }
         })
@@ -121,7 +124,9 @@ export class ServerDataService {
           })
         }
       }
-    })
+    })*/
+
+    /*
 
     this.actionsService.bindToAction(new Action('',ActionType.GetInstance))?.subscribe(async res => {
       function getRecord(
